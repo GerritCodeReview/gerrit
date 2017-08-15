@@ -114,6 +114,31 @@ switch to the online process.
   link:#pgm-reindex[offline reindex]. (In fact, one of the migration steps is a
   full reindex, so it can't possibly take less time.)
 
+[[trial-migration]]
+==== Trial mode
+
+The offline migration tool also supports "trial mode", where changes are
+migrated to NoteDb and read from NoteDb at runtime, but their primary storage
+location is still ReviewDb, and data is kept in sync between the two locations.
+
+To run the offline migration in trial mode, add `--trial` to
+`migrate-to-note-db`:
+----
+  java -jar gerrit.war migrate-to-note-db --trial /path/to/site
+----
+
+There are several use cases for trial mode:
+
+* Help test early releases of the migration tool for bugs with lower risk.
+* Try out new NoteDb-only features like
+  link:rest-api-changes.txt#get-hashtags[hashtags] without running the full
+  migration.
+
+To continue with the full migration after running the trial migration, use
+either the online or offline migration steps as normal. To revert to
+ReviewDb-only, remove `noteDb.changes.read` and `noteDb.changes.write` from
+`gerrit.config` and restart Gerrit.
+
 == Configuration
 
 The migration process works by setting a configuration option in `gerrit.config`

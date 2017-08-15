@@ -74,10 +74,9 @@ public class MigrateToNoteDb extends SiteProgram {
     name = "--trial",
     usage =
         "trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as"
-            + " the source of truth",
-    handler = ExplicitBooleanOptionHandler.class
+            + " the source of truth"
   )
-  private boolean trial = true; // TODO(dborowitz): Default to false in 3.0.
+  private boolean trial;
 
   @Option(
     name = "--sequence-gap",

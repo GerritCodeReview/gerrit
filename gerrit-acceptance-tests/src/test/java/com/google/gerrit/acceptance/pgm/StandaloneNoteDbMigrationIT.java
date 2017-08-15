@@ -76,7 +76,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     setUpOneChange();
 
-    migrate();
+    migrate("--trial");
     assertNotesMigrationState(NotesMigrationState.READ_WRITE_NO_SEQUENCE);
 
     try (ServerContext ctx = startServer()) {
@@ -104,7 +104,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     setUpOneChange();
 
-    migrate("--trial", "false");
+    migrate();
     assertNotesMigrationState(NotesMigrationState.NOTE_DB);
 
     try (ServerContext ctx = startServer()) {
@@ -142,7 +142,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     status.save();
     assertServerStartupFails();
 
-    migrate("--trial", "false");
+    migrate();
     assertNotesMigrationState(NotesMigrationState.NOTE_DB);
 
     status = new GerritIndexStatus(sitePaths);

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70fe0331_46ee49ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T18:17:50Z",
+      "side": 1,
+      "message": "It is very much a WIP (many things do not work), but I can share it with you. As this is such a big change, I\u0027m trying to start with polishing the smaller parts and then grow outwards.\n\nThis will end up being several additional CLs.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/119970/6",
+      "parentUuid": "7a6a5eff_d91756f5",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f47632a_5de3e8f2",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a7bc99a_87f214aa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T18:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f47632a_5de3e8f2",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4642e0a0_d1578bb5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T18:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af589124_99528628",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ffa2f22_b012a244",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.html",
         "patchSetId": 5
@@ -85,6 +157,24 @@
       "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d131d57_57bd0cdc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T18:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ffa2f22_b012a244",
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

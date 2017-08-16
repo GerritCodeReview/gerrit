@@ -128,6 +128,6 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
   public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Topic")
-        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_TOPIC_NAME));
+        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_TOPIC_NAME));
   }
 }

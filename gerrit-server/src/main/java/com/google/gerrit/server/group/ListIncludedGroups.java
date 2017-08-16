@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -51,14 +52,13 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
   @Override
   public List<GroupInfo> apply(GroupResource rsrc) throws MethodNotAllowedException, OrmException {
-    if (rsrc.toAccountGroup() == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal group =
+        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
     Collection<AccountGroup.UUID> includedGroupUuids =
-        groupIncludeCache.subgroupsOf(rsrc.toAccountGroup().getGroupUUID());
+        groupIncludeCache.subgroupsOf(group.getGroupUUID());
     for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
       try {
         GroupControl i = controlFactory.controlFor(includedGroupUuid);
@@ -69,7 +69,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         log.warn(
             String.format(
                 "Group %s no longer available, included into %s",
-                includedGroupUuid, rsrc.getGroup().getName()));
+                includedGroupUuid, group.getName()));
         continue;
       }
     }

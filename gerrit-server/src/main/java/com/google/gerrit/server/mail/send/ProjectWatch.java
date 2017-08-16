@@ -16,7 +16,6 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.index.query.Predicate;
@@ -175,12 +174,12 @@ public class ProjectWatch {
         continue;
       }
 
-      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
-      if (ig == null) {
+      if (!(group instanceof GroupDescription.Internal)) {
         // Non-internal groups cannot be expanded by the server.
         continue;
       }
 
+      GroupDescription.Internal ig = (GroupDescription.Internal) group;
       try {
         args.groups.getMembers(db, ig.getGroupUUID()).forEach(matching.accounts::add);
       } catch (NoSuchGroupException e) {

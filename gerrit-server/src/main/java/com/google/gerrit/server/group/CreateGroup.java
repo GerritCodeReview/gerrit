@@ -166,8 +166,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private AccountGroup.Id owner(GroupInput input) throws UnprocessableEntityException {
     if (input.ownerId != null) {
-      GroupDescription.Basic d = groups.parseInternal(Url.decode(input.ownerId));
-      return GroupDescriptions.toAccountGroup(d).getId();
+      GroupDescription.Internal d = groups.parseInternal(Url.decode(input.ownerId));
+      return d.getId();
     }
     return null;
   }

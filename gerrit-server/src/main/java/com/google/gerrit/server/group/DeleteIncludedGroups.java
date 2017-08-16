@@ -54,10 +54,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
           ResourceNotFoundException {
-    AccountGroup internalGroup = resource.toAccountGroup();
-    if (internalGroup == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal internalGroup =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();

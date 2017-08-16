@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8be95a54_9cf7ed9c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T21:52:07Z",
+      "side": 1,
+      "message": "\u003e This function detaches an instance\nEssentially, this is an event listener triggered with direct function call.\n_handleInstanceDetached is probably the best, but wordy description.\n\n\u003e This should be a public method\nGood point, but instance of this class is also provided to plugin so this shouldn\u0027t be private.\nNot sure what\u0027s the best here, let me think about alternatives.",
+      "parentUuid": "8a190843_8dad854d",
+      "range": {
+        "startLine": 61,
+        "startChar": 22,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "73fe485881a37dcb8dbe8f7d72366b09afd86a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a07dea4f_082c551d",
         "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
         "patchSetId": 1
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "953e4d32_26e4417e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T21:52:07Z",
+      "side": 1,
+      "message": "Ack\nWhatever we end up doing with the detached handler, I\u0027ll do here too.",
+      "parentUuid": "b22b5bc4_e98d7979",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "73fe485881a37dcb8dbe8f7d72366b09afd86a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9035ae1a_26c29d9b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -107,6 +155,30 @@
       "writtenOn": "2017-08-16T20:30:26Z",
       "side": 1,
       "message": "this name is confusing to me, as it does more than retrieve an existing DOM hook.",
+      "range": {
+        "startLine": 105,
+        "startChar": 19,
+        "endLine": 105,
+        "endChar": 29
+      },
+      "revId": "73fe485881a37dcb8dbe8f7d72366b09afd86a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8515bc_dc0b09d0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T21:52:07Z",
+      "side": 1,
+      "message": "getOrCreateDomHook is proper, but a bit wordy name.\nI\u0027m open to ideas.",
+      "parentUuid": "9035ae1a_26c29d9b",
       "range": {
         "startLine": 105,
         "startChar": 19,

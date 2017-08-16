@@ -32,6 +32,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.util.concurrent.Runnables;
@@ -59,6 +60,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -324,12 +326,15 @@ public class ExternalIdsUpdate {
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId extId : extIds) {
-                insert(o.rw(), o.ins(), o.noteMap(), extId);
+                ExternalId insertedExtId = insert(o.rw(), o.ins(), o.noteMap(), extId);
+                updatedExtIds.onUpdate(insertedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onCreate(u.oldRev(), u.newRev(), extIds);
-    evictAccounts(extIds);
+    externalIdCache.onCreate(u.oldRev(), u.newRev(), u.updatedExtIds().getUpdated());
+    evictAccounts(u);
   }
 
   /**
@@ -351,12 +356,15 @@ public class ExternalIdsUpdate {
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId extId : extIds) {
-                upsert(o.rw(), o.ins(), o.noteMap(), extId);
+                ExternalId updatedExtId = upsert(o.rw(), o.ins(), o.noteMap(), extId);
+                updatedExtIds.onUpdate(updatedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onUpdate(u.oldRev(), u.newRev(), extIds);
-    evictAccounts(extIds);
+    externalIdCache.onUpdate(u.oldRev(), u.newRev(), u.updatedExtIds().getUpdated());
+    evictAccounts(u);
   }
 
   /**
@@ -381,12 +389,15 @@ public class ExternalIdsUpdate {
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId extId : extIds) {
-                remove(o.rw(), o.noteMap(), extId);
+                ExternalId removedExtId = remove(o.rw(), o.noteMap(), extId);
+                updatedExtIds.onRemove(removedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onRemove(u.oldRev(), u.newRev(), extIds);
-    evictAccounts(extIds);
+    externalIdCache.onRemove(u.oldRev(), u.newRev(), u.updatedExtIds().getRemoved());
+    evictAccounts(u);
   }
 
   /**
@@ -411,11 +422,14 @@ public class ExternalIdsUpdate {
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId.Key extIdKey : extIdKeys) {
-                remove(o.rw(), o.noteMap(), extIdKey, accountId);
+                ExternalId removedExtId = remove(o.rw(), o.noteMap(), extIdKey, accountId);
+                updatedExtIds.onRemove(removedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onRemoveByKeys(u.oldRev(), u.newRev(), accountId, extIdKeys);
+    externalIdCache.onRemove(u.oldRev(), u.newRev(), u.updatedExtIds().getRemoved());
     evictAccount(accountId);
   }
 
@@ -426,19 +440,18 @@ public class ExternalIdsUpdate {
    */
   public void deleteByKeys(Collection<ExternalId.Key> extIdKeys)
       throws IOException, ConfigInvalidException, OrmException {
-    Set<ExternalId> deletedExtIds = new HashSet<>();
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId.Key extIdKey : extIdKeys) {
                 ExternalId extId = remove(o.rw(), o.noteMap(), extIdKey, null);
-                if (extId != null) {
-                  deletedExtIds.add(extId);
-                }
+                updatedExtIds.onRemove(extId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onRemoveByKeys(u.oldRev(), u.newRev(), extIdKeys);
-    evictAccounts(deletedExtIds);
+    externalIdCache.onRemove(u.oldRev(), u.newRev(), u.updatedExtIds().getRemoved());
+    evictAccounts(u);
   }
 
   /** Deletes all external IDs of the specified account. */
@@ -466,15 +479,24 @@ public class ExternalIdsUpdate {
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId.Key extIdKey : toDelete) {
-                remove(o.rw(), o.noteMap(), extIdKey, accountId);
+                ExternalId removedExtId = remove(o.rw(), o.noteMap(), extIdKey, accountId);
+                updatedExtIds.onRemove(removedExtId);
               }
 
               for (ExternalId extId : toAdd) {
-                insert(o.rw(), o.ins(), o.noteMap(), extId);
+                ExternalId insertedExtId = insert(o.rw(), o.ins(), o.noteMap(), extId);
+                updatedExtIds.onUpdate(insertedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onReplaceByKeys(u.oldRev(), u.newRev(), accountId, toDelete, toAdd);
+    externalIdCache.onReplace(
+        u.oldRev(),
+        u.newRev(),
+        accountId,
+        u.updatedExtIds().getRemoved(),
+        u.updatedExtIds().getUpdated());
     evictAccount(accountId);
   }
 
@@ -490,23 +512,24 @@ public class ExternalIdsUpdate {
    */
   public void replaceByKeys(Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
       throws IOException, ConfigInvalidException, OrmException {
-    Set<ExternalId> deletedExtIds = new HashSet<>();
     RefsMetaExternalIdsUpdate u =
         updateNoteMap(
             o -> {
+              UpdatedExternalIds updatedExtIds = new UpdatedExternalIds();
               for (ExternalId.Key extIdKey : toDelete) {
-                ExternalId extId = remove(o.rw(), o.noteMap(), extIdKey, null);
-                if (extId != null) {
-                  deletedExtIds.add(extId);
-                }
+                ExternalId removedExtId = remove(o.rw(), o.noteMap(), extIdKey, null);
+                updatedExtIds.onRemove(removedExtId);
               }
 
               for (ExternalId extId : toAdd) {
-                insert(o.rw(), o.ins(), o.noteMap(), extId);
+                ExternalId insertedExtId = insert(o.rw(), o.ins(), o.noteMap(), extId);
+                updatedExtIds.onUpdate(insertedExtId);
               }
+              return updatedExtIds;
             });
-    externalIdCache.onReplaceByKeys(u.oldRev(), u.newRev(), toDelete, toAdd);
-    evictAccounts(Streams.concat(deletedExtIds.stream(), toAdd.stream()).collect(toSet()));
+    externalIdCache.onReplace(
+        u.oldRev(), u.newRev(), u.updatedExtIds().getRemoved(), u.updatedExtIds().getUpdated());
+    evictAccounts(u);
   }
 
   /**
@@ -579,13 +602,13 @@ public class ExternalIdsUpdate {
    *
    * <p>If the external ID already exists, the insert fails with {@link OrmDuplicateKeyException}.
    */
-  public static void insert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
+  public static ExternalId insert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws OrmDuplicateKeyException, ConfigInvalidException, IOException {
     if (noteMap.contains(extId.key().sha1())) {
       throw new OrmDuplicateKeyException(
           String.format("external id %s already exists", extId.key().get()));
     }
-    upsert(rw, ins, noteMap, extId);
+    return upsert(rw, ins, noteMap, extId);
   }
 
   /**
@@ -593,7 +616,7 @@ public class ExternalIdsUpdate {
    *
    * <p>If the external ID already exists it is overwritten.
    */
-  public static void upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
+  public static ExternalId upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     Config c = new Config();
@@ -609,8 +632,9 @@ public class ExternalIdsUpdate {
     }
     extId.writeToConfig(c);
     byte[] raw = c.toText().getBytes(UTF_8);
-    ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
-    noteMap.set(noteId, dataBlob);
+    ObjectId noteData = ins.insert(OBJ_BLOB, raw);
+    noteMap.set(noteId, noteData);
+    return ExternalId.create(extId, noteData);
   }
 
   /**
@@ -619,22 +643,23 @@ public class ExternalIdsUpdate {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
-  public static void remove(RevWalk rw, NoteMap noteMap, ExternalId extId)
+  public static ExternalId remove(RevWalk rw, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     if (!noteMap.contains(noteId)) {
-      return;
+      return null;
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    ExternalId actualExtId = ExternalId.parse(noteId.name(), raw);
+    ObjectId noteData = noteMap.get(noteId);
+    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    ExternalId actualExtId = ExternalId.parse(noteId.name(), raw, noteData);
     checkState(
         extId.equals(actualExtId),
         "external id %s should be removed, but it's not matching the actual external id %s",
         extId.toString(),
         actualExtId.toString());
     noteMap.remove(noteId);
+    return actualExtId;
   }
 
   /**
@@ -653,9 +678,9 @@ public class ExternalIdsUpdate {
       return null;
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    ExternalId extId = ExternalId.parse(noteId.name(), raw);
+    ObjectId noteData = noteMap.get(noteId);
+    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    ExternalId extId = ExternalId.parse(noteId.name(), raw, noteData);
     if (expectedAccountId != null) {
       checkState(
           expectedAccountId.equals(extId.accountId()),
@@ -669,7 +694,7 @@ public class ExternalIdsUpdate {
     return extId;
   }
 
-  private RefsMetaExternalIdsUpdate updateNoteMap(MyConsumer<OpenRepo> update)
+  private RefsMetaExternalIdsUpdate updateNoteMap(ExternalIdUpdater updater)
       throws IOException, ConfigInvalidException, OrmException {
     try {
       return retryer.call(
@@ -682,9 +707,10 @@ public class ExternalIdsUpdate {
 
               try (RevWalk rw = new RevWalk(repo)) {
                 NoteMap noteMap = readNoteMap(rw, rev);
-                update.accept(OpenRepo.create(repo, rw, ins, noteMap));
+                UpdatedExternalIds updatedExtIds =
+                    updater.update(OpenRepo.create(repo, rw, ins, noteMap));
 
-                return commit(repo, rw, ins, rev, noteMap);
+                return commit(repo, rw, ins, rev, noteMap, updatedExtIds);
               }
             }
           });
@@ -699,11 +725,16 @@ public class ExternalIdsUpdate {
   }
 
   private RefsMetaExternalIdsUpdate commit(
-      Repository repo, RevWalk rw, ObjectInserter ins, ObjectId rev, NoteMap noteMap)
+      Repository repo,
+      RevWalk rw,
+      ObjectInserter ins,
+      ObjectId rev,
+      NoteMap noteMap,
+      UpdatedExternalIds updatedExtIds)
       throws IOException {
     ObjectId newRev = commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, committerIdent, authorIdent);
     updateCount.increment();
-    return RefsMetaExternalIdsUpdate.create(rev, newRev);
+    return RefsMetaExternalIdsUpdate.create(rev, newRev, updatedExtIds);
   }
 
   /** Commits updates to the external IDs. */
@@ -775,19 +806,18 @@ public class ExternalIdsUpdate {
     }
   }
 
-  private void evictAccounts(Collection<ExternalId> extIds) throws IOException {
-    if (accountCache == null) {
-      return;
-    }
-
-    for (Account.Id id : extIds.stream().map(ExternalId::accountId).collect(toSet())) {
-      accountCache.evict(id);
+  private void evictAccounts(RefsMetaExternalIdsUpdate u) throws IOException {
+    if (accountCache != null) {
+      for (Account.Id id : u.updatedExtIds().all().map(ExternalId::accountId).collect(toSet())) {
+        accountCache.evict(id);
+      }
     }
   }
 
   @FunctionalInterface
-  private static interface MyConsumer<T> {
-    void accept(T t) throws IOException, ConfigInvalidException, OrmException;
+  private static interface ExternalIdUpdater {
+    UpdatedExternalIds update(OpenRepo openRepo)
+        throws IOException, ConfigInvalidException, OrmException;
   }
 
   @AutoValue
@@ -808,12 +838,45 @@ public class ExternalIdsUpdate {
   @VisibleForTesting
   @AutoValue
   public abstract static class RefsMetaExternalIdsUpdate {
-    static RefsMetaExternalIdsUpdate create(ObjectId oldRev, ObjectId newRev) {
-      return new AutoValue_ExternalIdsUpdate_RefsMetaExternalIdsUpdate(oldRev, newRev);
+    static RefsMetaExternalIdsUpdate create(
+        ObjectId oldRev, ObjectId newRev, UpdatedExternalIds updatedExtIds) {
+      return new AutoValue_ExternalIdsUpdate_RefsMetaExternalIdsUpdate(
+          oldRev, newRev, updatedExtIds);
     }
 
     abstract ObjectId oldRev();
 
     abstract ObjectId newRev();
+
+    abstract UpdatedExternalIds updatedExtIds();
+  }
+
+  public static class UpdatedExternalIds {
+    private Set<ExternalId> updated = new HashSet<>();
+    private Set<ExternalId> removed = new HashSet<>();
+
+    public void onUpdate(ExternalId extId) {
+      if (extId != null) {
+        updated.add(extId);
+      }
+    }
+
+    public void onRemove(ExternalId extId) {
+      if (extId != null) {
+        removed.add(extId);
+      }
+    }
+
+    public Set<ExternalId> getUpdated() {
+      return ImmutableSet.copyOf(updated);
+    }
+
+    public Set<ExternalId> getRemoved() {
+      return ImmutableSet.copyOf(removed);
+    }
+
+    public Stream<ExternalId> all() {
+      return Streams.concat(removed.stream(), updated.stream());
+    }
   }
 }

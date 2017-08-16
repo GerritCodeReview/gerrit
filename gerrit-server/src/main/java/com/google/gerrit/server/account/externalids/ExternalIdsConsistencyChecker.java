@@ -84,7 +84,7 @@ public class ExternalIdsConsistencyChecker {
                 .open(note.getData(), OBJ_BLOB)
                 .getCachedBytes(ExternalIdReader.MAX_NOTE_SZ);
         try {
-          ExternalId extId = ExternalId.parse(note.getName(), raw);
+          ExternalId extId = ExternalId.parse(note.getName(), raw, note.getData());
           problems.addAll(validateExternalId(extId));
 
           if (extId.email() != null) {

@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "09567a08_2b43001c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-16T12:42:50Z",
+      "side": 1,
+      "message": "No, there\u0027s no need to do it in this change.",
+      "parentUuid": "08003156_7d47e55d",
+      "range": {
+        "startLine": 180,
+        "startChar": 6,
+        "endLine": 180,
+        "endChar": 41
+      },
+      "revId": "3d6060eee1b5ba2b31de2bcb774fae6f35ae3dfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e81e72_c2dc3b63",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
         "patchSetId": 2

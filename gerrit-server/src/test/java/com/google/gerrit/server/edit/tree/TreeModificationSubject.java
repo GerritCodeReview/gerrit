@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
-import com.google.gerrit.truth.ListSubject;
+import com.google.gerrit.testutil.truth.ListSubject;
 import java.util.List;
 
 public class TreeModificationSubject extends Subject<TreeModificationSubject, TreeModification> {

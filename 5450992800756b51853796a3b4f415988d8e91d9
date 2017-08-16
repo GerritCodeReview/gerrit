@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502826140 -0400\nnonce AHIDc+Oy2RQ3AQ4Dfn0VH7feF9Qr3o2xwMIBcJ+/SUnnJgjkV58H9EK6t8Xf+ZsETzBS0bHRd3Vn\n\n0000000000000000000000000000000000000000 ae845689597459fd5b352cfee8b20737e95229f6 refs/for/master%topic\u003dnotedb-2.15-prep,r\u003ddavid.ostrovsky@gmail.com,r\u003ddpursehouse@collab.net,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZk06cAAoJEF/XxZqaEoiMyEsP/ApzQLqGxKA3TAdCsbkkRvPf\nML+dRUKHSOu2ESb/ESGyuIXOGqyyfrjvodpYrasubx7EryXNQEm+BzbINQ4gqzOR\nKM0AmqhzM792X4GNbyT3ohQHlEEPWYcXkFaArcHQJc8EsZmQm6iiQmiaI7rsQnIn\nrMk1bXmojmGnZ0NAkq1m/GEr0bFAbgi9Otnf4kJpjK/leeZUsLYBYqKIdkmhpbIE\nPl0rz291ix6oUMFNMClyUV3Pzc0MWRGTG/6eMxwAvdMNhdpPwnOQaerNFwxCmCkA\n6LGO0x9PKfMdX90ap8T5inJUnrRTwYGSsF1ZAUhUsNl+K/ei3M0HSkqv/GhM5mXz\n1YSfR17zgdgMJO/K7UhDjQUrsVwocUxyJOxWQ+S9yB/+ssgx+pFkoGc4mgULLdxC\n7/n1JMIB1o7bQE8FpcjmoaeE0/+9+/K+QcVygTDfbHs9tcx3/pnYOt4Mr7hujnuQ\nUZ2yjY1sjiz14PAUZ/U01akGPxgUIRCk1o5nC1M6S75YcapPnTAR1meq/9VW/tNQ\n7F26D8dsZUc7UhJiazR1O7tAP0nqSmH4m56J8YtFq2oGFXVShubspbA5V5sfvf8M\nhg1Y6FUz+QktFj6hE6ON+5q8DDyTHsMhOskxwUXCteYKdQ/Vl0B5dWpkt5x06n+t\n9L4KD8xgLISHUh2TGYQB\n\u003dLZjn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d64c2e22_db98b638",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "suggestion:\nrequires manual steps for it to be migrated",
+      "range": {
+        "startLine": 58,
+        "startChar": 21,
+        "endLine": 58,
+        "endChar": 50
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e98b04_58f1c378",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "suggestion:\nIMM passing the flag manually would be the road less traveled (and gerrit.sh is modifiable).\nI think switching the order in which these alternatives are suggested and cut some unnecessary lines would make this an easier read.\n\n    To start the online migration, set the noteDb.changes.autoMigrate option in\n    `gerrit.config` to true and restart Gerrit:\n    ----\n    [noteDb \"changes\"]\n      autoMigrate \u003d true\n    ----\n\n    Alternatively, pass the `--migrate-to-note-db` flag to\n    `gerrit.war daemon`:\n    ----\n      java -jar gerrit.war daemon -d /path/to/site --migrate-to-note-db\n    ----",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 4
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a699f55f_465f87b6",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "3.x?",
+      "range": {
+        "startLine": 88,
+        "startChar": 49,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8997c1bd_1be804e2",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "nit:\nwill not be available",
+      "range": {
+        "startLine": 88,
+        "startChar": 25,
+        "endLine": 88,
+        "endChar": 38
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55d6e5c_f879a8a8",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "nit:\nboth 2.x and 3.0",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edba9cc_2c8e06e3",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T06:29:17Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 151,
+        "startChar": 42,
+        "endLine": 151,
+        "endChar": 52
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

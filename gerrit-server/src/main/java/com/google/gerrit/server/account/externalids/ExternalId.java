@@ -122,7 +122,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId create(String scheme, String id, Account.Id accountId) {
-    return new AutoValue_ExternalId(Key.create(scheme, id), accountId, null, null);
+    return new AutoValue_ExternalId(Key.create(scheme, id), accountId, null, null, null);
   }
 
   public static ExternalId create(
@@ -141,7 +141,7 @@ public abstract class ExternalId implements Serializable {
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
     return new AutoValue_ExternalId(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword));
+        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
   }
 
   public static ExternalId createWithPassword(
@@ -162,7 +162,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId createWithEmail(Key key, Account.Id accountId, @Nullable String email) {
-    return new AutoValue_ExternalId(key, accountId, Strings.emptyToNull(email), null);
+    return new AutoValue_ExternalId(key, accountId, Strings.emptyToNull(email), null, null);
   }
 
   public static ExternalId createEmail(Account.Id accountId, String email) {
@@ -183,7 +183,8 @@ public abstract class ExternalId implements Serializable {
    *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
    * </pre>
    */
-  public static ExternalId parse(String noteId, byte[] raw) throws ConfigInvalidException {
+  public static ExternalId parse(String noteId, ObjectId blobId, byte[] raw)
+      throws ConfigInvalidException {
     Config externalIdConfig = new Config();
     try {
       externalIdConfig.fromText(new String(raw, UTF_8));
@@ -222,7 +223,8 @@ public abstract class ExternalId implements Serializable {
         externalIdKey,
         new Account.Id(accountId),
         Strings.emptyToNull(email),
-        Strings.emptyToNull(password));
+        Strings.emptyToNull(password),
+        blobId);
   }
 
   private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)
@@ -269,6 +271,8 @@ public abstract class ExternalId implements Serializable {
   public abstract @Nullable String email();
 
   public abstract @Nullable String password();
+
+  public abstract @Nullable ObjectId blobId();
 
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);

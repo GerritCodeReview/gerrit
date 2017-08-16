@@ -72,7 +72,7 @@ public class Schema_148 extends SchemaVersion {
                 .open(note.getData(), OBJ_BLOB)
                 .getCachedBytes(ExternalIdReader.MAX_NOTE_SZ);
         try {
-          ExternalId extId = ExternalId.parse(note.getName(), raw);
+          ExternalId extId = ExternalId.parse(note.getName(), note.getData(), raw);
 
           if (needsUpdate(extId)) {
             ExternalIdsUpdate.upsert(rw, ins, noteMap, extId);

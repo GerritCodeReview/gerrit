@@ -626,9 +626,9 @@ public class ExternalIdsUpdate {
       return;
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    ExternalId actualExtId = ExternalId.parse(noteId.name(), raw);
+    ObjectId noteData = noteMap.get(noteId);
+    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    ExternalId actualExtId = ExternalId.parse(noteId.name(), noteData, raw);
     checkState(
         extId.equals(actualExtId),
         "external id %s should be removed, but it's not matching the actual external id %s",
@@ -653,9 +653,9 @@ public class ExternalIdsUpdate {
       return null;
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    ExternalId extId = ExternalId.parse(noteId.name(), raw);
+    ObjectId noteData = noteMap.get(noteId);
+    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    ExternalId extId = ExternalId.parse(noteId.name(), noteData, raw);
     if (expectedAccountId != null) {
       checkState(
           expectedAccountId.equals(extId.accountId()),

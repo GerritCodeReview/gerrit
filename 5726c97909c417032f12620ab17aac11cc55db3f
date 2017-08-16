@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b681aa7e_5514ee09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-16T16:53:33Z",
+      "side": 1,
+      "message": "Tiny performance reasons: \u0027\u0026\u0026\u0027 is cheaper than constructing a predicate in our own predicate tree and evaluating it.\n\nThough, I have to admit that I certainly feel the temptation of using \u0027and\u0027 for the sake of seeing predicates in action :)",
+      "parentUuid": "4119f50e_59b48a42",
+      "range": {
+        "startLine": 98,
+        "startChar": 27,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "5726c97909c417032f12620ab17aac11cc55db3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a14da4e3_38e8f1da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-16T16:37:52Z",
       "side": 1,
       "message": "In the previous code this was the first condition in the || expression. Is there a reason to move it?",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "5726c97909c417032f12620ab17aac11cc55db3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b3f7acb_ccc57612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-16T16:53:33Z",
+      "side": 1,
+      "message": "Basically because we save calling BooleanCondition.valueOf(), because the first parameter can be implicitly converted from boolean to BooleanCondtion.",
+      "parentUuid": "a14da4e3_38e8f1da",
       "range": {
         "startLine": 99,
         "startChar": 8,

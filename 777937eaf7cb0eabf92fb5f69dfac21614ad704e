@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "de097c33_2204b7fb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T17:11:28Z",
+      "side": 1,
+      "message": "\u003e Putting it into a separate page was suggested by Becky\n\nSorry, I missed this comment in the other change.\n\nThe reasons I\u0027d prefer not creating a new commands tab are:\n* The new URL (\",commands\" in this case) would not be backwards compatible with the GWT UI.\n* The page with only two or three buttons is rather sparse. I don\u0027t know of any other buttons we\u0027re planning to put in there, but the regular project detail page seems like the right place to me for now.\n\nThis doesn\u0027t need to block this change, though.",
+      "parentUuid": "d6e9cced_5ab22644",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32e13ad4_515f7a00",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
         "patchSetId": 26

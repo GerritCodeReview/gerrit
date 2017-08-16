@@ -3286,8 +3286,8 @@ Common examples:
 === Section noteDb
 
 NoteDb is the next generation of Gerrit storage backend, currently powering
-`googlesource.com`. It is not (yet) recommended for general use, but if you want
-to learn more, see the link:dev-note-db.html[developer documentation].
+`googlesource.com`. For more information, including how to migrate your data,
+see the link:note-db.html[documentation].
 
 [[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
 +
@@ -3301,6 +3301,26 @@ configuration parameter controls the size of the account ID batch that
 each process retrieves at once.
 +
 By default, 1.
+
+[[noteDb.retryMaxWait]]noteDb.retryMaxWait::
++
+Maximum time to wait between attempts to retry update operations when one
+attempt fails due to contention (aka lock failure) on the underlying ref
+storage. Operations are retried with exponential backoff, plus some random
+jitter, until the interval reaches this limit. After that, retries continue to
+occur after a fixed timeout (plus jitter), up to
+link:#noteDb.retryTimeout[`noteDb.retryTimeout`].
++
+Defaults to 5 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.
+
+[[noteDb.retryTimeout]]noteDb.retryTimeout::
++
+Total timeout for retrying update operations when one attempt fails due to
+contention (aka lock failure) on the underlying ref storage.
++
+Defaults to 20 seconds; unit suffixes are supported, and assumes milliseconds if
+not specified.
 
 [[oauth]]
 === Section oauth

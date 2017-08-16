@@ -66,6 +66,7 @@
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
+. link:note-db.html[NoteDb]
 
 == Developer
 . Getting Started
@@ -82,7 +83,6 @@
 .. link:dev-stars.html[Starring Changes]
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
-. link:dev-note-db.html[NoteDb]
 
 == Maintainer
 . link:dev-release.html[Making a Gerrit Release]

@@ -3287,7 +3287,7 @@ Common examples:
 
 NoteDb is the next generation of Gerrit storage backend, currently powering
 `googlesource.com`. For more information, including how to migrate your data,
-see the link:dev-note-db.html[documentation].
+see the link:note-db.html[documentation].
 
 [[notedb.accounts.sequenceBatchSize]]notedb.accounts.sequenceBatchSize::
 +

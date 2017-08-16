@@ -60,7 +60,7 @@ class InitExperimental implements InitStep {
     ui.message(
         "Use NoteDb for change metadata?\n"
             + "  See documentation:\n"
-            + "  https://gerrit-review.googlesource.com/Documentation/dev-note-db.html\n");
+            + "  https://gerrit-review.googlesource.com/Documentation/note-db.html\n");
     if (!ui.yesno(false, "Enable")) {
       return;
     }

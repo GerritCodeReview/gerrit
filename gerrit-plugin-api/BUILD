@@ -15,7 +15,7 @@ EXPORTS = [
     "//gerrit-gwtexpui:server",
     "//gerrit-server:metrics",
     "//gerrit-reviewdb:server",
-    "//gerrit-server:prolog-common",
+    "//prolog:gerrit-prolog-common",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",

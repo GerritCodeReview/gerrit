@@ -52,6 +52,24 @@
       "revId": "b43e9957b392af4341ecbb190904993454e68646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a04cdf3_b550343c",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-16T15:45:37Z",
+      "side": 1,
+      "message": "If you want Bazel to do things in parallel, the unit of parallelism is the rule. So if you want Bazel to test N directories in parallel, you need N rules.\n\nNow, how to create those N rules? You can use a list comprehension like you have here. Or, you could create a custom rule (macro) in Skylark--but that is strictly syntactic sugar, it would be generating the exact same set of N sh_test rules as you have here.\n\nSomething like:\n\n # rules.bzl\n def polygerrit_template_tests(name, dirs\u003dNone):\n   dirs \u003d dirs or []\n   for dir in dirs:\n     sh_test(\n         name \u003d name + \"_\" + dir,\n         args \u003d [dir],\n         ...\n     )\n\n # BUILD\n polygerrit_template_tests(name \u003d \"template_test\", dirs \u003d [\"change\", \"change-list\", ...])\n\nBut I don\u0027t personally think that\u0027s a huge readability win compared to what you have here, especially if you don\u0027t expect there to be multiple usages of polygerrit_template_tests.",
+      "parentUuid": "6038ca48_47456f6a",
+      "revId": "b43e9957b392af4341ecbb190904993454e68646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

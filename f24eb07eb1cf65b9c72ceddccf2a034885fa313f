@@ -22,6 +22,30 @@
       "revId": "f24eb07eb1cf65b9c72ceddccf2a034885fa313f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a19053_86708e02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-16T15:00:06Z",
+      "side": 1,
+      "message": "How can you be so fast? :)",
+      "parentUuid": "5d926b41_d0f649b0",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "f24eb07eb1cf65b9c72ceddccf2a034885fa313f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -11,7 +11,7 @@ SRCS = glob(
 PROVIDED = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
-    "//gerrit-extension-api:api",
+    "//java/com/google/gerrit/extensions:api",
     "//gerrit-httpd:httpd",
     "//gerrit-index:index",
     "//gerrit-lucene:lucene",

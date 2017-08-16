@@ -307,6 +307,30 @@
       "revId": "efabd112803370138bbb5e64256581106dbc2052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2415837b_cfecbc32",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T21:29:41Z",
+      "side": 1,
+      "message": "Right. since it\u0027s being used to compute _hideSettings, maybe instead it should be... (see other comment)",
+      "parentUuid": "5cea0f17_c1baec6a",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 40
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

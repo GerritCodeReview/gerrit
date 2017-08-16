@@ -61,10 +61,9 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   public GroupInfo apply(GroupResource resource, Input input)
       throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
           BadRequestException, UnprocessableEntityException, OrmException, IOException {
-    AccountGroup accountGroup = resource.toAccountGroup();
-    if (accountGroup == null) {
-      throw new MethodNotAllowedException();
-    } else if (!resource.getControl().isOwner()) {
+    GroupDescription.Internal internalGroup =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
@@ -73,8 +72,8 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
     }
 
     GroupDescription.Basic owner = groupsCollection.parse(input.owner);
-    if (!accountGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
-      AccountGroup.UUID groupUuid = resource.getGroupUUID();
+    if (!internalGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
+      AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
       try {
         groupsUpdateProvider
             .get()

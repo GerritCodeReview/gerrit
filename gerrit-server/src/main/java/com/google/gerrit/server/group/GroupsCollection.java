@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -142,12 +141,13 @@ public class GroupsCollection
    * @throws UnprocessableEntityException thrown if the group ID cannot be resolved, if the group is
    *     not visible to the calling user or if it's an external group
    */
-  public GroupDescription.Basic parseInternal(String id) throws UnprocessableEntityException {
+  public GroupDescription.Internal parseInternal(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parse(id);
-    if (GroupDescriptions.toAccountGroup(group) == null) {
-      throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));
+    if (group instanceof GroupDescription.Internal) {
+      return (GroupDescription.Internal) group;
     }
-    return group;
+
+    throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));
   }
 
   /**

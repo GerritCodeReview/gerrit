@@ -19,7 +19,6 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -37,8 +36,7 @@ import java.util.EnumSet;
 public class GroupJson {
   public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {
     GroupOptionsInfo options = new GroupOptionsInfo();
-    AccountGroup ag = GroupDescriptions.toAccountGroup(group);
-    if (ag != null && ag.isVisibleToAll()) {
+    if (isInternalGroup(group) && ((GroupDescription.Internal) group).isVisibleToAll()) {
       options.visibleToAll = true;
     }
     return options;
@@ -96,25 +94,30 @@ public class GroupJson {
     info.url = Strings.emptyToNull(group.getUrl());
     info.options = createOptions(group);
 
-    AccountGroup g = GroupDescriptions.toAccountGroup(group);
-    if (g != null) {
-      info.description = Strings.emptyToNull(g.getDescription());
-      info.groupId = g.getId().get();
-      if (g.getOwnerGroupUUID() != null) {
-        info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
-        GroupDescription.Basic o = groupBackend.get(g.getOwnerGroupUUID());
+    if (isInternalGroup(group)) {
+      GroupDescription.Internal internalGroup = (GroupDescription.Internal) group;
+      info.description = Strings.emptyToNull(internalGroup.getDescription());
+      info.groupId = internalGroup.getId().get();
+      AccountGroup.UUID ownerGroupUUID = internalGroup.getOwnerGroupUUID();
+      if (ownerGroupUUID != null) {
+        info.ownerId = Url.encode(ownerGroupUUID.get());
+        GroupDescription.Basic o = groupBackend.get(ownerGroupUUID);
         if (o != null) {
           info.owner = o.getName();
         }
       }
-      info.createdOn = g.getCreatedOn();
+      info.createdOn = internalGroup.getCreatedOn();
     }
 
     return info;
   }
 
+  private static boolean isInternalGroup(GroupDescription.Basic group) {
+    return group instanceof GroupDescription.Internal;
+  }
+
   private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info) throws OrmException {
-    if (rsrc.toAccountGroup() == null) {
+    if (!rsrc.isInternalGroup()) {
       return info;
     }
     try {

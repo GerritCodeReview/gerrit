@@ -46,8 +46,7 @@ public class GroupInfo {
     url = a.getUrl();
 
     if (a instanceof GroupDescription.Internal) {
-      AccountGroup group = ((GroupDescription.Internal) a).getAccountGroup();
-      description = group.getDescription();
+      description = ((GroupDescription.Internal) a).getDescription();
     }
   }
 

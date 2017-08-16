@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -61,11 +62,9 @@ public class ListMembers implements RestReadView<GroupResource> {
   @Override
   public List<AccountInfo> apply(GroupResource resource)
       throws MethodNotAllowedException, OrmException {
-    if (resource.toAccountGroup() == null) {
-      throw new MethodNotAllowedException();
-    }
-
-    return apply(resource.getGroupUUID());
+    GroupDescription.Internal group =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    return apply(group.getGroupUUID());
   }
 
   public List<AccountInfo> apply(AccountGroup group) throws OrmException {

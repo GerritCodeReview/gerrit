@@ -47,25 +47,10 @@
       page.base(base);
     }
 
-    /**
-     * While resolving Issue 6708, the need for some way to upgrade obsolete
-     * URLs in-place without page reloads became evident.
-     *
-     * This function aims to update the app params and the URL when the URL is
-     * found to be obsolete.
-     */
-    const upgradeUrl = params => {
-      const url = generateUrl(params);
-      if (url !== window.location.pathname) {
-        page.redirect(url);
-        app.params = params;
-      }
-    };
-
     const restAPI = document.createElement('gr-rest-api-interface');
     const reporting = getReporting();
 
-    Gerrit.Nav.setup(url => { page.show(url); }, generateUrl, upgradeUrl);
+    Gerrit.Nav.setup(url => { page.show(url); }, generateUrl);
 
     /**
      * Given a set of params without a project, gets the project from the rest
@@ -79,6 +64,7 @@
       restAPI.getFromProjectLookup(params.changeNum).then(project => {
         params.project = project;
         normalizePatchRangeParams(params);
+        page.redirect(generateUrl(params));
       });
     };
 
@@ -99,9 +85,7 @@
     });
 
     function loadUser(ctx, next) {
-      restAPI.getLoggedIn().then(() => {
-        next();
-      });
+      restAPI.getLoggedIn().then(() => { next(); });
     }
 
     // Routes.
@@ -441,11 +425,22 @@
       page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
     });
 
+    /**
+     * Normalizes the params object, and determines if the URL needs to be
+     * modified to fit the proper schema.
+     *
+     * @param {*} params
+     * @return {boolean} whether or not the URL needs to be upgraded.
+     */
     const normalizePatchRangeParams = params => {
+      let needsRedirect = false;
       if (params.basePatchNum &&
           patchNumEquals(params.basePatchNum, params.patchNum)) {
+        needsRedirect = true;
         params.basePatchNum = null;
       } else if (params.basePatchNum && !params.patchNum) {
+        // Regexes set basePatchNum instead of patchNum when only one is
+        // specified. Redirect is not needed in this case.
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
       }
@@ -453,11 +448,13 @@
       // TODO(kaspern): Remove this normalization when GWT UI is gone.
       if (patchNumEquals(params.basePatchNum, 0)) {
         params.basePatchNum = EDIT_NAME;
+        needsRedirect = true;
       }
       if (patchNumEquals(params.patchNum, 0)) {
         params.patchNum = EDIT_NAME;
+        needsRedirect = true;
       }
-      upgradeUrl(params);
+      return needsRedirect;
     };
 
     // Matches
@@ -477,9 +474,13 @@
             view: ctx.params[8] ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
             hash: ctx.hash,
           };
-          normalizePatchRangeParams(params);
-          app.params = params;
-          restAPI.setInProjectLookup(params.changeNum, params.project);
+          const needsRedirect = normalizePatchRangeParams(params);
+          if (needsRedirect) {
+            page.redirect(generateUrl(params));
+          } else {
+            app.params = params;
+            restAPI.setInProjectLookup(params.changeNum, params.project);
+          }
         });
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].

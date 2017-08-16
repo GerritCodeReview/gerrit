@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96417d41_30fc94d6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/conditions/BooleanCondition.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-16T14:41:51Z",
+      "side": 1,
+      "message": "If we ever make index queries (and adding things to the index) available through the extension API it might make sense to port com.google.gerrit.server.query.Predicate here and remove this to share more code. But for now this seems good.\n\nNote to readers: We can\u0027t use Java 8\u0027s Predicate implementation because it doesn\u0027t support #getChildren for the fact that it uses Lambdas for compound predicates like \u0027or\u0027 and \u0027and\u0027.",
+      "revId": "b903190d8412a5fa5df6ef2e90d6425dccd7693f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

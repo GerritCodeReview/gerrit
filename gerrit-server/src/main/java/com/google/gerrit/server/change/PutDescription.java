@@ -131,6 +131,6 @@ public class PutDescription
   public UiAction.Description getDescription(RevisionResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Description")
-        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_DESCRIPTION));
+        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_DESCRIPTION));
   }
 }

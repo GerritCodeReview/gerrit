@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78d4475a_44591ddb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-16T16:45:35Z",
+      "side": 1,
+      "message": "Do callers need the ability to call multiple can* methods on the same instance? If not, maybe it would make more sense to just make this a @Singleton with a method that takes the RefControl?",
+      "revId": "48c3e35797d684396070f65a233d04439b0251c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a330f159_7d71b7e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-16T16:45:35Z",
+      "side": 1,
+      "message": "If we\u0027re ultimately trying to get rid of RefControl, we would presumably be passing in the user/project/ref manually, right? Should we start doing that sooner rather than later?\n\nYou could also consider passing Branch.NameKey instead of (Project.NameKey, String). Probably not worth it if it causes more boilerplate at callers.",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 87
+      },
+      "revId": "48c3e35797d684396070f65a233d04439b0251c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

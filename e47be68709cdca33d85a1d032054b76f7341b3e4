@@ -23,6 +23,30 @@
       "revId": "e47be68709cdca33d85a1d032054b76f7341b3e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c83b68b3_01b235e1",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-16T13:00:50Z",
+      "side": 1,
+      "message": "Yes, it was required to get the reviewers plugin to compile in https://gerrit-review.googlesource.com/c/119650",
+      "parentUuid": "ad5e36b4_bb084757",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "e47be68709cdca33d85a1d032054b76f7341b3e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

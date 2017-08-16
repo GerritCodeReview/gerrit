@@ -24,8 +24,7 @@ java_library(
         "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//gerrit-sshd:sshd",
-        "//gerrit-test-util:test_util",
-        "//prolog:common",
+        "//javatests/com/google/gerrit/extensions:test-util-extensions",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",
@@ -44,5 +43,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/mina:sshd",
+        "//prolog:common",
     ],
 )

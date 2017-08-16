@@ -1,18 +1,15 @@
 load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")
-load("//tools/bzl:junit.bzl", "junit_tests")
 
-SRC = "src/main/java/com/google/gerrit/extensions/"
+SRCS = glob(["**/*.java"])
 
-SRCS = glob([SRC + "**/*.java"])
-
-EXT_API_SRCS = glob([SRC + "client/*.java"])
+EXT_API_SRCS = glob(["client/*.java"])
 
 gwt_module(
     name = "client",
     srcs = EXT_API_SRCS,
-    gwt_xml = SRC + "Extensions.gwt.xml",
+    gwt_xml = "Extensions.gwt.xml",
     visibility = ["//visibility:public"],
 )
 
@@ -39,24 +36,13 @@ java_library(
 #TODO(davido): There is no provided_deps argument to java_library rule
 java_library(
     name = "api",
-    srcs = glob([SRC + "**/*.java"]),
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-common:annotations",
         "//lib:guava",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-    ],
-)
-
-junit_tests(
-    name = "api_tests",
-    srcs = glob(["src/test/java/**/*Test.java"]),
-    deps = [
-        ":api",
-        "//javatests/com/google/gerrit/testutil/extensions",
-        "//lib:truth",
-        "//lib/guice",
     ],
 )
 

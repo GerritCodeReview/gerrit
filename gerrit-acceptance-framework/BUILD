@@ -5,7 +5,7 @@ SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
 PROVIDED = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
-    "//gerrit-extension-api:api",
+    "//java/com/google/gerrit/extensions:api",
     "//gerrit-httpd:httpd",
     "//gerrit-index:index",
     "//gerrit-lucene:lucene",

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
@@ -240,8 +241,9 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         .setLabel("Revert")
         .setTitle("Revert the change")
         .setVisible(
-            change.getStatus() == Change.Status.MERGED
-                && permissionBackend.user(user).ref(change.getDest()).testOrFalse(CREATE_CHANGE));
+            and(
+                change.getStatus() == Change.Status.MERGED,
+                permissionBackend.user(user).ref(change.getDest()).testCond(CREATE_CHANGE)));
   }
 
   private class NotifyOp implements BatchUpdateOp {

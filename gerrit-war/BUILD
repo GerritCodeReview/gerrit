@@ -19,7 +19,6 @@ java_library(
         "//gerrit-pgm:util",
         "//gerrit-reviewdb:server",
         "//gerrit-server:module",
-        "//gerrit-server:prolog-common",
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-sshd:sshd",
@@ -30,6 +29,7 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
+        "//prolog:gerrit-prolog-common",
     ],
 )
 

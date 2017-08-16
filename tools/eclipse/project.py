@@ -154,7 +154,7 @@ def gen_classpath(ext):
       src.add(m.group(1))
       # Exceptions: both source and lib
       if p.endswith('libquery_parser.jar') or \
-         p.endswith('libprolog-common.jar'):
+         p.endswith('prolog/libcommon.jar'):
         lib.add(p)
       # JGit dependency from external repository
       if 'gerrit-' not in p and 'jgit' in p:

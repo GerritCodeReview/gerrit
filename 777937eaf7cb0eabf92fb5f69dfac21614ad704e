@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "6e3b52d3_dc7a4b09",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T15:24:26Z",
+      "side": 1,
+      "message": "Yeah, this was my suggestion. My feeling is that they were very out of place in the GWT UI and I was hoping a separate change would help with that. If you think that is still better, I will do the work in moving them back, as Paladox has already switched it once.",
+      "parentUuid": "333da3fa_10fadfc6",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32e13ad4_515f7a00",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
         "patchSetId": 26

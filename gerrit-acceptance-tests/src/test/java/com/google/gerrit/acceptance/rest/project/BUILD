@@ -17,8 +17,8 @@ java_library(
         "RefAssert.java",
     ],
     deps = [
-        "//gerrit-extension-api:api",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:truth",
     ],
 )
@@ -29,9 +29,9 @@ java_library(
         "ProjectAssert.java",
     ],
     deps = [
-        "//gerrit-extension-api:api",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:gwtorm",
         "//lib:truth",
     ],

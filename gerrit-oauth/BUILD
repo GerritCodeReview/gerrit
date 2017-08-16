@@ -11,10 +11,10 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-common:annotations",
-        "//gerrit-extension-api:api",
         "//gerrit-httpd:httpd",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtorm",

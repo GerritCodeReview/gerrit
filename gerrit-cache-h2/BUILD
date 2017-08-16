@@ -6,8 +6,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-common:server",
-        "//gerrit-extension-api:api",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:h2",
         "//lib/guice",

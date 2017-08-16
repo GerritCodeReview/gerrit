@@ -32,7 +32,7 @@ junit_tests(
     deps = [
         ":ui_module",
         "//gerrit-common:client",
-        "//gerrit-extension-api:client",
+        "//java/com/google/gerrit/extensions:client",
         "//lib:junit",
         "//lib:truth",
         "//lib/gwt:dev",

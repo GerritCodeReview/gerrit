@@ -4,7 +4,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-extension-api:api",
+        "//java/com/google/gerrit/extensions:api",
         "//javatests/com/google/gerrit/testutil/truth",
         "//lib:truth",
     ],

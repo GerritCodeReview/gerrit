@@ -259,6 +259,30 @@
       "revId": "efabd112803370138bbb5e64256581106dbc2052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f43509_8ca3d516",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T21:13:54Z",
+      "side": 1,
+      "message": "Not sure if you saw the second comment. Copying again:\n\nIt seems like these things should not be combined. this._getSettingsPath(pluginName); should probably be called on ready or something like that.. Also, it seems like it can use _generateSettingsUrl itself since it\u0027s using the same string.\n\n_getSettingsPath is also not a descriptive name. It should be something like _determineSettings",
+      "parentUuid": "12a068de_ddbabe73",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 40
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

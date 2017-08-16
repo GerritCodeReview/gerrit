@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
@@ -215,11 +216,13 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         .setLabel("Move Change")
         .setTitle("Move change to a different branch")
         .setVisible(
-            change.getStatus().isOpen()
-                && permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testOrFalse(CREATE_CHANGE)
-                && rsrc.permissions().database(dbProvider).testOrFalse(ABANDON));
+            and(
+                change.getStatus().isOpen(),
+                and(
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE),
+                    rsrc.permissions().database(dbProvider).testCond(ABANDON))));
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "118c008e_84020825",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T05:46:32Z",
+      "side": 1,
+      "message": "Right, let me open an issue with the steps to reproduce the problem, so that we have full traceability.",
+      "parentUuid": "e33d313c_3ae85150",
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5aa06e7_5aa1bcb4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-16T05:08:23Z",
       "side": 1,
       "message": "Use java.nio.charset.StandardCharsets.UTF_8.name(), import it statically, and use UTF_8.name(). That\u0027s what we dare doing in other places, where decode() is used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 63,
+        "endLine": 41,
+        "endChar": 71
+      },
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1304e92_09ebf361",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T05:46:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d5aa06e7_5aa1bcb4",
       "range": {
         "startLine": 41,
         "startChar": 63,

@@ -16,9 +16,9 @@ package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
-import static com.google.gerrit.extensions.restapi.BinaryResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testutil.extensions.common.EditInfoSubject.assertThat;
+import static com.google.gerrit.testutil.extensions.restapi.BinaryResultSubject.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;

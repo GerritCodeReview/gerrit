@@ -1,5 +1,5 @@
 java_library(
-    name = "test-util-truth",
+    name = "truth",
     testonly = 1,
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],

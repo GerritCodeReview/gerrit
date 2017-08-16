@@ -1,11 +1,11 @@
 java_library(
-    name = "test-util-extensions",
+    name = "extensions",
     testonly = 1,
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-extension-api:api",
-        "//javatests/com/google/gerrit/truth:test-util-truth",
+        "//javatests/com/google/gerrit/testutil/truth",
         "//lib:truth",
     ],
 )

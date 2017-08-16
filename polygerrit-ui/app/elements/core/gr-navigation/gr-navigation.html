@@ -123,28 +123,31 @@ limitations under the License.
       },
 
       /**
-       * @param {string} project The name of the project.
+       * @param {!string} project The name of the project.
+       * @param {boolean=} opt_openOnly When true, only search open changes in
+       *     the project.
        * @return {string}
        */
-      getUrlForProject(project) {
+      getUrlForProject(project, opt_openOnly) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           project,
+          statuses: opt_openOnly ? ['open'] : [],
         });
       },
 
       /**
        * @param {string} branch The name of the branch.
        * @param {string} project The name of the project.
-       * @param {string} status The status to search.
+       * @param {string=} opt_status The status to search.
        * @return {string}
        */
-      getUrlForBranch(branch, project, status) {
+      getUrlForBranch(branch, project, opt_status) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           branch,
           project,
-          statuses: [status],
+          statuses: opt_status ? [opt_status] : undefined,
         });
       },
 

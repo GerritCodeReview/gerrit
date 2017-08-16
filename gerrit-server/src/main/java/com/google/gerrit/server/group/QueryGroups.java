@@ -23,11 +23,11 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -119,7 +119,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     }
 
     if (limit != 0) {
-      queryProcessor.setLimit(limit);
+      queryProcessor.setUserProvidedLimit(limit);
     }
 
     try {

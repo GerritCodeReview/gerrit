@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.gerrit.server.index.SchemaUtil.schema;
+import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated

@@ -58,6 +58,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -119,7 +120,7 @@ public abstract class SubmitStrategy {
     final RebaseChangeOp.Factory rebaseFactory;
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
     final TagCache tagCache;
-    final InternalChangeQuery internalChangeQuery;
+    final Provider<InternalChangeQuery> queryProvider;
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -159,7 +160,7 @@ public abstract class SubmitStrategy {
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
-        InternalChangeQuery internalChangeQuery,
+        Provider<InternalChangeQuery> queryProvider,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -188,7 +189,7 @@ public abstract class SubmitStrategy {
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
-      this.internalChangeQuery = internalChangeQuery;
+      this.queryProvider = queryProvider;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
@@ -214,12 +215,7 @@ public abstract class SubmitStrategy {
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag, incoming);
       this.rebaseSorter =
           new RebaseSorter(
-              rw,
-              mergeTip.getInitialTip(),
-              alreadyAccepted,
-              canMergeFlag,
-              internalChangeQuery,
-              incoming);
+              rw, mergeTip.getInitialTip(), alreadyAccepted, canMergeFlag, queryProvider, incoming);
       this.mergeUtil = mergeUtilFactory.create(project);
       this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
     }

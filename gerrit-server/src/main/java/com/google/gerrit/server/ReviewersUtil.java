@@ -25,6 +25,8 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -41,8 +43,6 @@ import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
@@ -109,7 +109,7 @@ public class ReviewersUtil {
 
   private final AccountLoader accountLoader;
   private final AccountQueryBuilder accountQueryBuilder;
-  private final AccountQueryProcessor accountQueryProcessor;
+  private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
   private final Provider<CurrentUser> currentUser;
@@ -120,7 +120,7 @@ public class ReviewersUtil {
   ReviewersUtil(
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder accountQueryBuilder,
-      AccountQueryProcessor accountQueryProcessor,
+      Provider<AccountQueryProcessor> queryProvider,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser,
@@ -130,7 +130,7 @@ public class ReviewersUtil {
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountQueryBuilder = accountQueryBuilder;
-    this.accountQueryProcessor = accountQueryProcessor;
+    this.queryProvider = queryProvider;
     this.currentUser = currentUser;
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
@@ -199,8 +199,9 @@ public class ReviewersUtil {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       try {
         QueryResult<AccountState> result =
-            accountQueryProcessor
-                .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
+            queryProvider
+                .get()
+                .setUserProvidedLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
                 .query(
                     AccountPredicates.andActive(
                         accountQueryBuilder.defaultQuery(suggestReviewers.getQuery())));

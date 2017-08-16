@@ -21,6 +21,7 @@ import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,7 @@ public class RebaseSorter {
   private final RevFlag canMergeFlag;
   private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
-  private final InternalChangeQuery internalChangeQuery;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final Set<CodeReviewCommit> incoming;
 
   public RebaseSorter(
@@ -49,13 +50,13 @@ public class RebaseSorter {
       RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
-      InternalChangeQuery internalChangeQuery,
+      Provider<InternalChangeQuery> queryProvider,
       Set<CodeReviewCommit> incoming) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
-    this.internalChangeQuery = internalChangeQuery;
+    this.queryProvider = queryProvider;
     this.incoming = incoming;
   }
 
@@ -116,7 +117,7 @@ public class RebaseSorter {
       }
 
       // check if the commit associated change is merged in the same branch
-      List<ChangeData> changes = internalChangeQuery.byCommit(commit);
+      List<ChangeData> changes = queryProvider.get().byCommit(commit);
       for (ChangeData change : changes) {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)) {

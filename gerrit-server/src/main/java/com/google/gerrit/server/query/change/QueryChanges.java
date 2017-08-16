@@ -25,10 +25,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     usage = "Maximum number of results to return"
   )
   public void setLimit(int limit) {
-    imp.setLimit(limit);
+    imp.setUserProvidedLimit(limit);
   }
 
   @Option(name = "-o", usage = "Output options per change")

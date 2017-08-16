@@ -9,11 +9,14 @@ GERRIT_GLOBAL_MODULE_SRC = [
     "src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
 ]
 
+# Non-recursive glob; dropwizard implementation is in a subpackage.
+METRICS_SRCS = glob(["src/main/java/com/google/gerrit/metrics/*.java"])
+
 RECEIVE_SRCS = glob(["src/main/java/com/google/gerrit/server/git/receive/**/*.java"])
 
 SRCS = glob(
     ["src/main/java/**/*.java"],
-    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + RECEIVE_SRCS,
+    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + METRICS_SRCS + RECEIVE_SRCS,
 )
 
 RESOURCES = glob(["src/main/resources/**/*"])
@@ -44,11 +47,12 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
+        ":metrics",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-extension-api:api",
+        "//gerrit-index:index",
+        "//gerrit-index:query_exception",
         "//gerrit-patch-commonsnet:commons-net",
         "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
@@ -73,7 +77,6 @@ java_library(
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib:velocity",
-        "//lib/antlr:java_runtime",
         "//lib/auto:auto-value",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
@@ -147,7 +150,20 @@ java_library(
     ],
 )
 
+# TODO(dborowitz): Move to a different top-level directory to avoid inbound
+# dependencies on gerrit-server.
+java_library(
+    name = "metrics",
+    srcs = METRICS_SRCS,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-extension-api:api",
+        "//lib:guava",
+    ],
+)
+
 TESTUTIL_DEPS = [
+    ":metrics",
     ":module",
     ":server",
     "//gerrit-common:annotations",
@@ -155,6 +171,7 @@ TESTUTIL_DEPS = [
     "//gerrit-cache-h2:cache-h2",
     "//gerrit-extension-api:api",
     "//gerrit-gpg:gpg",
+    "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-reviewdb:server",
     "//lib:gwtorm",
@@ -266,9 +283,6 @@ java_library(
     deps = TESTUTIL_DEPS + [
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
-        "//lib/antlr:java_runtime",
     ],
 )
 
@@ -280,9 +294,6 @@ junit_tests(
     deps = TESTUTIL_DEPS + [
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
-        "//lib/antlr:java_runtime",
     ],
 )
 
@@ -299,7 +310,7 @@ junit_tests(
         ":custom-truth-subjects",
         ":prolog-common",
         ":testutil",
-        "//gerrit-antlr:query_exception",
+        "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
         "//gerrit-test-util:test_util",
         "//lib:args4j",

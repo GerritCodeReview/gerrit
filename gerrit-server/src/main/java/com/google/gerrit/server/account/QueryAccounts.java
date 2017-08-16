@@ -22,13 +22,13 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
@@ -71,7 +71,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     usage = "maximum number of users to return"
   )
   public void setLimit(int n) {
-    queryProcessor.setLimit(n);
+    queryProcessor.setUserProvidedLimit(n);
 
     if (n < 0) {
       suggestLimit = 10;
@@ -177,7 +177,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       Predicate<AccountState> queryPred;
       if (suggest) {
         queryPred = queryBuilder.defaultQuery(query);
-        queryProcessor.setLimit(suggestLimit);
+        queryProcessor.setUserProvidedLimit(suggestLimit);
       } else {
         queryPred = queryBuilder.parse(query);
       }

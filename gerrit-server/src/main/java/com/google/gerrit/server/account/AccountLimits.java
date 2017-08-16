@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -87,6 +88,15 @@ public class AccountLimits {
       return QueueProvider.QueueType.BATCH;
     }
     return QueueProvider.QueueType.INTERACTIVE;
+  }
+
+  /**
+   * Get the limit on a {@link QueryProcessor} for a given user.
+   *
+   * @return limit according to {@link GlobalCapability#QUERY_LIMIT}.
+   */
+  public int getQueryLimit() {
+    return getRange(GlobalCapability.QUERY_LIMIT).getMax();
   }
 
   /** @return true if the user has a permission rule specifying the range. */

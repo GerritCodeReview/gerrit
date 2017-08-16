@@ -15,6 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.RangeUtil;
+import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -22,11 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.query.OrPredicate;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.util.LabelVote;
-import com.google.gerrit.server.util.RangeUtil;
-import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,3 +1,5 @@
+package(default_visibility = ["//gerrit-index:__pkg__"])
+
 [java_library(
     name = n,
     data = ["//lib:LICENSE-antlr"],
@@ -17,7 +19,7 @@ java_library(
 java_binary(
     name = "antlr-tool",
     main_class = "org.antlr.Tool",
-    visibility = ["//gerrit-antlr:__pkg__"],
+    visibility = ["//gerrit-index:__pkg__"],
     runtime_deps = [":tool"],
 )
 

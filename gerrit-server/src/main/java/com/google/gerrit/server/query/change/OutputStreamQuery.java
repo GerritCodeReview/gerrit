@@ -19,6 +19,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,8 +36,6 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.QueryResult;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -59,7 +59,12 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Change query implementation that outputs to a stream in the style of an SSH command. */
+/**
+ * Change query implementation that outputs to a stream in the style of an SSH command.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class OutputStreamQuery {
   private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
 
@@ -120,7 +125,7 @@ public class OutputStreamQuery {
   }
 
   void setLimit(int n) {
-    queryProcessor.setLimit(n);
+    queryProcessor.setUserProvidedLimit(n);
   }
 
   public void setStart(int n) {

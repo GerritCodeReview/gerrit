@@ -20,12 +20,12 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gerrit.server.query.InternalQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -34,6 +34,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Query wrapper for the account index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class InternalAccountQuery extends InternalQuery<AccountState> {
   private static final Logger log = LoggerFactory.getLogger(InternalAccountQuery.class);
 

@@ -17,21 +17,28 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
 
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.query.AndSource;
+import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryProcessor;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.server.query.AndSource;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+/**
+ * Query processor for the account index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   private final AccountControl.Factory accountControlFactory;
 
@@ -46,20 +53,19 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   protected AccountQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      Metrics metrics,
+      MetricMaker metricMaker,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory) {
     super(
-        userProvider,
-        limitsFactory,
-        metrics,
+        metricMaker,
         AccountSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
-        FIELD_LIMIT);
+        FIELD_LIMIT,
+        () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.accountControlFactory = accountControlFactory;
   }
 

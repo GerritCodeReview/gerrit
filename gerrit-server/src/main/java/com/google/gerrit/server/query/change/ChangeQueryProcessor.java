@@ -19,12 +19,15 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryProcessor;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -32,14 +35,18 @@ import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Query processor for the change index.
+ *
+ * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
+ * holding on to a single instance.
+ */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     implements PluginDefinedAttributesFactory {
   /**
@@ -53,6 +60,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   }
 
   private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
@@ -69,7 +77,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   ChangeQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      Metrics metrics,
+      MetricMaker metricMaker,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
@@ -79,15 +87,15 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend) {
     super(
-        userProvider,
-        limitsFactory,
-        metrics,
+        metricMaker,
         ChangeSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,
         rewriter,
-        FIELD_LIMIT);
+        FIELD_LIMIT,
+        () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.db = db;
+    this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;

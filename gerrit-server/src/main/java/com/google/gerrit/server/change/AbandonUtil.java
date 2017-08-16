@@ -16,17 +16,18 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
   private final ChangeCleanupConfig cfg;
-  private final ChangeQueryProcessor queryProcessor;
+  private final Provider<ChangeQueryProcessor> queryProvider;
   private final ChangeQueryBuilder queryBuilder;
   private final Abandon abandon;
   private final InternalUser internalUser;
@@ -49,11 +50,11 @@ public class AbandonUtil {
   AbandonUtil(
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
-      ChangeQueryProcessor queryProcessor,
+      Provider<ChangeQueryProcessor> queryProvider,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
-    this.queryProcessor = queryProcessor;
+    this.queryProvider = queryProvider;
     this.queryBuilder = queryBuilder;
     this.abandon = abandon;
     internalUser = internalUserFactory.create();
@@ -72,7 +73,7 @@ public class AbandonUtil {
       }
 
       List<ChangeData> changesToAbandon =
-          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(query)).entities();
+          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
       ImmutableListMultimap.Builder<Project.NameKey, ChangeControl> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
@@ -110,7 +111,11 @@ public class AbandonUtil {
     for (ChangeControl cc : changeControls) {
       String newQuery = query + " change:" + cc.getId();
       List<ChangeData> changesToAbandon =
-          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(newQuery)).entities();
+          queryProvider
+              .get()
+              .enforceVisibility(false)
+              .query(queryBuilder.parse(newQuery))
+              .entities();
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cc);
       } else {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -39,6 +41,6 @@ public class DeletePrivateByPost extends DeletePrivate implements UiAction<Chang
     return new UiAction.Description()
         .setLabel("Unmark private")
         .setTitle("Unmark change as private")
-        .setVisible(rsrc.getChange().isPrivate() && canDeletePrivate(rsrc));
+        .setVisible(and(rsrc.getChange().isPrivate(), canDeletePrivate(rsrc)));
   }
 }

@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
+
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -56,7 +59,7 @@ public class DeletePrivate
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
-    if (!canDeletePrivate(rsrc)) {
+    if (!canDeletePrivate(rsrc).value()) {
       throw new AuthException("not allowed to unmark private");
     }
 
@@ -78,9 +81,10 @@ public class DeletePrivate
     return Response.none();
   }
 
-  protected boolean canDeletePrivate(ChangeResource rsrc) {
+  protected BooleanCondition canDeletePrivate(ChangeResource rsrc) {
     PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
-    return user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
-        || (rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED);
+    return or(
+        rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED,
+        user.testCond(GlobalPermission.ADMINISTRATE_SERVER));
   }
 }

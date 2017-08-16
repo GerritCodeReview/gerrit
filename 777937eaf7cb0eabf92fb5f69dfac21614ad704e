@@ -220,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "a3881c59_5581cc72",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T21:19:44Z",
+      "side": 1,
+      "message": "Yep, we also have some incompatible problems with the filter and offset. We can change this later if it does not fit. GWTUI is being removed soon anyways :).",
+      "parentUuid": "de097c33_2204b7fb",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32e13ad4_515f7a00",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
         "patchSetId": 26

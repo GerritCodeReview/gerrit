@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
+
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -57,7 +61,7 @@ public class PostPrivate
   public Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
-    if (!canSetPrivate(rsrc)) {
+    if (!canSetPrivate(rsrc).value()) {
       throw new AuthException("not allowed to mark private");
     }
 
@@ -85,12 +89,13 @@ public class PostPrivate
     return new UiAction.Description()
         .setLabel("Mark private")
         .setTitle("Mark change as private")
-        .setVisible(!change.isPrivate() && canSetPrivate(rsrc));
+        .setVisible(and(!change.isPrivate(), canSetPrivate(rsrc)));
   }
 
-  private boolean canSetPrivate(ChangeResource rsrc) {
+  private BooleanCondition canSetPrivate(ChangeResource rsrc) {
     PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
-    return user.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
-        || (rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED);
+    return or(
+        rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED,
+        user.testCond(GlobalPermission.ADMINISTRATE_SERVER));
   }
 }

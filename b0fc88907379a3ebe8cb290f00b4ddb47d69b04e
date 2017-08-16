@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9cafcfcd_3c7dfa31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T07:33:40Z",
+      "side": 1,
+      "message": "The problem happens when signing-in for the very first time using PolyGerrit.\nThe login URL is: https://gerrit-review.googlesource.com/login/%2Fq%2Fstatus%3Aopen\n\nIn the HttpLoginServlet after the first login, if the user is new, is redirected to the registration page. However, if the canonicalWebUrl in gerrit.config is empty, it gets computed from the incoming HTTP request.\n\nSee: HttpLoginServlet.java:148.\nGoing to reproduce it with a sequence of user-driven operations to trigger the problem.\n\nI\u0027ve experienced the problem when doing the final redirection of OAuth (when used in HTTP mode with the GitHub plugin\u0027s Servlet) and saw the wrong canonical URL computed.",
+      "parentUuid": "118c008e_84020825",
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5aa06e7_5aa1bcb4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
         "patchSetId": 1

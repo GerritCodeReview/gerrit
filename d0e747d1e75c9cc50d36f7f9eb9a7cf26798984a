@@ -22,6 +22,30 @@
       "revId": "d0e747d1e75c9cc50d36f7f9eb9a7cf26798984a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92211f54_dc20d904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-16T11:37:59Z",
+      "side": 1,
+      "message": "Done (commit message is now different)",
+      "parentUuid": "3231b67b_b7778f1a",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "d0e747d1e75c9cc50d36f7f9eb9a7cf26798984a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

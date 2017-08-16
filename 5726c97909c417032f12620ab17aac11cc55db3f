@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4119f50e_59b48a42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-16T16:37:52Z",
+      "side": 1,
+      "message": "why not use \u0027and\u0027 here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 27,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "5726c97909c417032f12620ab17aac11cc55db3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a14da4e3_38e8f1da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostPrivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-16T16:37:52Z",
+      "side": 1,
+      "message": "In the previous code this was the first condition in the || expression. Is there a reason to move it?",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "5726c97909c417032f12620ab17aac11cc55db3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

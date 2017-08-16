@@ -283,6 +283,30 @@
       "revId": "efabd112803370138bbb5e64256581106dbc2052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cea0f17_c1baec6a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T21:23:26Z",
+      "side": 1,
+      "message": "But calling this on ready would not allow us to check for each plugin passed in the dom-if.",
+      "parentUuid": "d3f43509_8ca3d516",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 40
+      },
+      "revId": "efabd112803370138bbb5e64256581106dbc2052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe562da9_7180db5e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T12:51:26Z",
+      "side": 1,
+      "message": "Nope, see:\nhttps://docs.oracle.com/javase/8/docs/api/java/net/URLDecoder.html",
+      "parentUuid": "e0799a5a_6adb7dbc",
+      "range": {
+        "startLine": 43,
+        "startChar": 63,
+        "endLine": 43,
+        "endChar": 75
+      },
+      "revId": "8f259b394aa68af96dc6ff9ff9cb27ba1e78de19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31af6a1c_8fedef68",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-16T12:49:12Z",
       "side": 1,
       "message": "nit: unnecessary blank line",
+      "revId": "8f259b394aa68af96dc6ff9ff9cb27ba1e78de19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0308603_3ba9f734",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T12:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31af6a1c_8fedef68",
       "revId": "8f259b394aa68af96dc6ff9ff9cb27ba1e78de19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6f2fccdb_322302c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T10:46:45Z",
+      "side": 1,
+      "message": "I\u0027ve opened an issue with the steps to reproduce the problem:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7036",
+      "parentUuid": "9cafcfcd_3c7dfa31",
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5aa06e7_5aa1bcb4",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
         "patchSetId": 1
@@ -89,6 +107,30 @@
       "writtenOn": "2017-08-16T05:46:32Z",
       "side": 1,
       "message": "Ack",
+      "parentUuid": "d5aa06e7_5aa1bcb4",
+      "range": {
+        "startLine": 41,
+        "startChar": 63,
+        "endLine": 41,
+        "endChar": 71
+      },
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1a46dea_26bb99a5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T10:46:45Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "d5aa06e7_5aa1bcb4",
       "range": {
         "startLine": 41,

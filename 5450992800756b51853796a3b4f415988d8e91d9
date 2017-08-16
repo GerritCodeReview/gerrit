@@ -138,6 +138,29 @@
       "revId": "5450992800756b51853796a3b4f415988d8e91d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f9fbb0_2857a370",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-16T07:23:40Z",
+      "side": 1,
+      "message": "Should these be moved to config-gerrit.txt and then we only link to that section from here?",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aff678d_e457eea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Nit:\n\n s/doing/navigating to/",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0576cd1d_9423da35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Nit:\n\n can\u0027t",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e335dd93_ed91e360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "We can link to issue 5232:\n\n Feature: Issue 5232",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61588933_d73f41d8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Why are these added as a separate \"Commands\" page? Since it\u0027s only a couple of buttons, why not include them at the bottom of the project detail page, like the GWT UI does?",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e13ad4_515f7a00",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Because the topic is optional, please add\n\n Enter topic for new change (optional)\n\nso that it doesn\u0027t appear to be required.\n\nWe might also consider omitting the topic from this dialog. It\u0027s not an option in the create change dialog in the GWT UI and I suspect most users would wish to set the change\u0027s topic only after some code has been added to it.",
+      "range": {
+        "startLine": 67,
+        "startChar": 30,
+        "endLine": 67,
+        "endChar": 56
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac8510c_97f771e6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "What\u0027s the need for this check? Since this dialog opens from the project settings, can\u0027t we always just use this.projectName?",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dede3629_6478b05a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Because the subject is required, I\u0027d prefer if we disable the [Create] button until all the required params like this one are required.\n\nThat way, we don\u0027t need to fill in the required params like this. (And this text already appears as the placeholder anyway.)",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4542fa73_badeff08",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Instead of constructing the URL and passing it to page.show here, you can import gr-navigation.html and from here call\n\n Gerrit.Nav.navigateToChange(changeCreated);",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc09d8f5_8d6cfa58",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Please move this into a constant. Something like\n\n const REF_PREFIX \u003d \u0027refs/heads/\u0027;",
+      "range": {
+        "startLine": 80,
+        "startChar": 27,
+        "endLine": 80,
+        "endChar": 40
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9526066a_585eac96",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Nit: s/2016/2017/",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96d25c03_e1e14a0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Instead of passing the object in here, please separate them into individual params (at least for the required options).\n\nSince, according to [1], `project`, `branch` and `subject` are required, this could be:\n\n/**\n * @param {!string} project\n * @param {!string} branch\n * @param {!string} subject\n * @param {?{\n *   is_private: (boolean|undefined),\n *   work_in_progress: (boolean|undefined),\n...\n * }} opt_params\n * @return {Promise}\n */\ncreateChange(project, branch, subject, opt_params) {\n  ...\n},\n\nThat way we can document the parameters in the JSDoc.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-input",
+      "range": {
+        "startLine": 1180,
+        "startChar": 4,
+        "endLine": 1180,
+        "endChar": 38
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d0e22a7_7b1df3f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T00:36:27Z",
+      "side": 1,
+      "message": "Nit: this can be one line.\n\n .then(response \u003d\u003e this.getResponseObject(response));",
+      "range": {
+        "startLine": 1182,
+        "startChar": 10,
+        "endLine": 1184,
+        "endChar": 12
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

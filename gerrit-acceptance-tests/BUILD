@@ -24,7 +24,7 @@ java_library(
         "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//gerrit-sshd:sshd",
-        "//gerrit-test-util:test_util",
+        "//java/com/google/gerrit/extensions",
         "//lib:args4j",
         "//lib:gson",
         "//lib:guava-retrying",

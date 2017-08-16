@@ -216,7 +216,7 @@ java_library(
     deps = [
         ":server",
         "//gerrit-extension-api:api",
-        "//gerrit-test-util:test_util",
+        "//java/com/google/gerrit/truth",
         "//lib:truth",
     ],
 )
@@ -299,7 +299,7 @@ junit_tests(
         ":testutil",
         "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
-        "//gerrit-test-util:test_util",
+        "//java/com/google/gerrit/extensions",
         "//lib:args4j",
         "//lib:grappa",
         "//lib:gson",

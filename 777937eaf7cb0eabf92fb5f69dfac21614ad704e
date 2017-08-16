@@ -283,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "33a8771f_4a55526e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:32:24Z",
+      "side": 1,
+      "message": "I will try disabling the button instead.",
+      "parentUuid": "dede3629_6478b05a",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4542fa73_badeff08",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 26

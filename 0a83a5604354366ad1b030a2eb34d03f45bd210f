@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e184ba9a_85429a19",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T23:03:35Z",
+      "side": 1,
+      "message": "It still double-sets the params here.",
+      "revId": "0a83a5604354366ad1b030a2eb34d03f45bd210f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -220,7 +220,7 @@ java_library(
     deps = [
         ":server",
         "//gerrit-extension-api:api",
-        "//javatests/com/google/gerrit/truth:test-util-truth",
+        "//javatests/com/google/gerrit/testutil/truth",
         "//lib:truth",
     ],
 )
@@ -303,7 +303,7 @@ junit_tests(
         ":testutil",
         "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
-        "//javatests/com/google/gerrit/extensions:test-util-extensions",
+        "//javatests/com/google/gerrit/testutil/extensions:extensions",
         "//lib:args4j",
         "//lib:grappa",
         "//lib:gson",

@@ -123,6 +123,6 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Assignee")
-        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_ASSIGNEE));
+        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_ASSIGNEE));
   }
 }

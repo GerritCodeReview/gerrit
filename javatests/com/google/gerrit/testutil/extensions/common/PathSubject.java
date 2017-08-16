@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.testutil.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 

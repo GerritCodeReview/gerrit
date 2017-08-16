@@ -41,7 +41,6 @@ java_library2(
         "//gerrit-pgm:daemon",
         "//gerrit-pgm:http-jetty",
         "//gerrit-pgm:util-nodep",
-        "//gerrit-server:prolog-common",
         "//gerrit-server:testutil",
         "//lib:jimfs",
         "//lib:truth",
@@ -54,6 +53,7 @@ java_library2(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:impl_log4j",
         "//lib/log:log4j",
+        "//prolog:gerrit-prolog-common",
     ],
     visibility = ["//visibility:public"],
     deps = PROVIDED + [

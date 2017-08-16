@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502724030 -0400\nnonce AHIDc+OcnbUmJLgKPojV65jFBJ3dnm+xTEjvCWhGl0X/jhipmGhtDEkWMW+N/IR2yuY6KcswWFhu\n\n0000000000000000000000000000000000000000 f861ae68ea47922fa1aabb5856039f4ec6d27a34 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZkb++AAoJEF/XxZqaEoiMIEMP/RNLIgNDVD9gE+m4AQn9v/sK\nIqUN05aEqtOwMAIDQl4hwnaGXesiMObHwNUSClsMD7wLwclwW3CzmCb986eGItBC\nZB4rdaPiqFA+Iu1hebt8wRKbjpdsCDGIkV7ey/4kYtEhp+51L4LtFn7zDYztU2Td\n7tTB8EpJNnJF/ynrPbYhuhaKv9GjLqFIU/X45Xa5zJwCzG+ygsGwu1MMn0KOtBf1\niQvBjxA9S3sukj54cOHeS9Yy5dmiBxlX9LkL7qXpVep6quhokiK/tt4OtkNHSs0j\n7WCD94nooygZM+vFb6gEm7onFogYvClHdYtDouXYfjuzElBFsJoYTTqnZY5Mds5g\nTObPmJL4GK0Vw+GQ4g/xUvlsRH9+v3aVa3PZDQFX+53a1wnXMEoiZF2MMPFSF4i6\nUXrznF/FqupkWRuFP+lgMxDByZ5vwhlvaB5+5JMU9tcaXdQ5sE0zdPMqDyS3y2R6\nfxwqdR3CT81Ml1MqV5qnI5bPyIVHUd4EJfTxdSM9yIThtJRVuHBN2djCBhl71ACR\nIHqzPYVnH0qUiRZSLVicK3XTO2utSVlbqLqw83gasruGNtRMcSOq3Ng9AINyD8DJ\ngsIGkPcD/KvzY77m7YY1pYgBmwxjNoFM9iI/JwFSVzpWivvz4Ktj41T9Hec3C6cG\n4RqeYXzM5hjGqLssnlex\n\u003dBSl8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e37fb1ea_d14da5f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountLimits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-16T11:31:30Z",
+      "side": 1,
+      "message": "I think it\u0027s a bit strange to have this method inside a class named \u0027Factory\u0027. I was also wondering whether it wouldn\u0027t be possible to inject the userProvider here instead of in each calling class (and add a setter to overwrite it if necessary).\n\nMy suggestions are:\n- Get rid of this factory.\n- Inject a provider of the user into AccountLimits.\n- Add a setUser() method which replaces the injected provider by \"() -\u003e user\".\n- Move getQueryLimit(), which aggregates getRange() and getMax(), to AccountLimits.\n- Inject a provider of AccountsLimits wherever Factory is currently used.\n\nAlternatively, I would at least move this method (without the create() call) to AccountLimits and add a create(Provider\u003cCurrentUser\u003e) method to Factory.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 28
+      },
+      "revId": "debc105a31583439da611603f2eb5edb2423cf5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

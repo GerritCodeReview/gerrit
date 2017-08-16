@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -56,10 +57,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
           IOException, ConfigInvalidException, ResourceNotFoundException {
-    AccountGroup internalGroup = resource.toAccountGroup();
-    if (internalGroup == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal internalGroup =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();

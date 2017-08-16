@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb3a15d1_dda1f833",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T21:55:00Z",
+      "side": 1,
+      "message": "Can we use sandbox instead? that way don\u0027t have to teardown. 😊",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 18
+      },
+      "revId": "1e14abe0018a52343855b4b63db4afc05e1c733d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5114ca1d_8c19849b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 22
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T21:55:00Z",
+      "side": 1,
+      "message": "Nit: please remove extra space.",
+      "revId": "1e14abe0018a52343855b4b63db4afc05e1c733d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

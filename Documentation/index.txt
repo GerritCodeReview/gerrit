@@ -12,7 +12,7 @@
 == Guides
 . link:intro-user.html[User Guide]
 . link:intro-project-owner.html[Project Owner Guide]
-. link:http://source.android.com/submit-patches/workflow[Default Android Workflow] (external)
+. link:https://source.android.com/source/developing[Default Android Workflow] (external)
 
 == Tutorials
 . Web

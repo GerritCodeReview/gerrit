@@ -1,10 +1,9 @@
 java_library(
-    name = "test_util",
+    name = "truth",
     testonly = 1,
-    srcs = glob(["src/main/java/**/*.java"]),
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-extension-api:api",
         "//lib:truth",
     ],
 )

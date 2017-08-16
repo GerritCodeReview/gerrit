@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "d6e9cced_5ab22644",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T15:30:42Z",
+      "side": 1,
+      "message": "I can reopen my other change if we doint want this in a separate tab :)",
+      "parentUuid": "6e3b52d3_dc7a4b09",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32e13ad4_515f7a00",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
         "patchSetId": 26

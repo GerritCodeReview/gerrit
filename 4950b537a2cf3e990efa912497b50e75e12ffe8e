@@ -22,6 +22,30 @@
       "revId": "4950b537a2cf3e990efa912497b50e75e12ffe8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea0285c_55c0cbbc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-16T09:17:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "223ab6fa_20226851",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "4950b537a2cf3e990efa912497b50e75e12ffe8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

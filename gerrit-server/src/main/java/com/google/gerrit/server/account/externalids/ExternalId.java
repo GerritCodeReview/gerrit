@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -122,7 +123,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId create(String scheme, String id, Account.Id accountId) {
-    return new AutoValue_ExternalId(Key.create(scheme, id), accountId, null, null);
+    return create(Key.create(scheme, id), accountId, null, null);
   }
 
   public static ExternalId create(
@@ -140,8 +141,8 @@ public abstract class ExternalId implements Serializable {
 
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
-    return new AutoValue_ExternalId(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword));
+    return create(
+        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
   }
 
   public static ExternalId createWithPassword(
@@ -162,11 +163,26 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId createWithEmail(Key key, Account.Id accountId, @Nullable String email) {
-    return new AutoValue_ExternalId(key, accountId, Strings.emptyToNull(email), null);
+    return create(key, accountId, Strings.emptyToNull(email), null);
   }
 
   public static ExternalId createEmail(Account.Id accountId, String email) {
     return createWithEmail(SCHEME_MAILTO, email, accountId, checkNotNull(email));
+  }
+
+  static ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
+    return new AutoValue_ExternalId(
+        extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
+  }
+
+  static ExternalId create(
+      Key key,
+      Account.Id accountId,
+      @Nullable String email,
+      @Nullable String hashedPassword,
+      @Nullable ObjectId blobId) {
+    return new AutoValue_ExternalId(
+        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
   }
 
   /**
@@ -183,7 +199,10 @@ public abstract class ExternalId implements Serializable {
    *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
    * </pre>
    */
-  public static ExternalId parse(String noteId, byte[] raw) throws ConfigInvalidException {
+  public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId)
+      throws ConfigInvalidException {
+    checkNotNull(blobId);
+
     Config externalIdConfig = new Config();
     try {
       externalIdConfig.fromText(new String(raw, UTF_8));
@@ -218,11 +237,12 @@ public abstract class ExternalId implements Serializable {
         externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, PASSWORD_KEY);
     int accountId = readAccountId(noteId, externalIdConfig, externalIdKeyStr);
 
-    return new AutoValue_ExternalId(
+    return create(
         externalIdKey,
         new Account.Id(accountId),
         Strings.emptyToNull(email),
-        Strings.emptyToNull(password));
+        Strings.emptyToNull(password),
+        blobId);
   }
 
   private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)
@@ -270,8 +290,27 @@ public abstract class ExternalId implements Serializable {
 
   public abstract @Nullable String password();
 
+  public abstract @Nullable ObjectId blobId();
+
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof ExternalId)) {
+      return false;
+    }
+    ExternalId o = (ExternalId) obj;
+    return Objects.equals(key(), o.key())
+        && Objects.equals(accountId(), o.accountId())
+        && Objects.equals(email(), o.email())
+        && Objects.equals(password(), o.password());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key(), accountId(), email(), password());
   }
 
   /**

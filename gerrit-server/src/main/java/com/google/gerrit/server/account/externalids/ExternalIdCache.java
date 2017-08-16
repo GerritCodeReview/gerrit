@@ -44,21 +44,6 @@ interface ExternalIdCache {
       Collection<ExternalId> toAdd)
       throws IOException;
 
-  void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException;
-
-  void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException;
-
   void onReplace(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
@@ -67,17 +52,6 @@ interface ExternalIdCache {
       throws IOException;
 
   void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
-      throws IOException;
-
-  void onRemoveByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> extIdKeys)
-      throws IOException;
-
-  void onRemoveByKeys(
-      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
       throws IOException;
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
@@ -100,12 +74,6 @@ interface ExternalIdCache {
   default void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId extId)
       throws IOException {
     onRemove(oldNotesRev, newNotesRev, Collections.singleton(extId));
-  }
-
-  default void onRemoveByKey(
-      ObjectId oldNotesRev, ObjectId newNotesRev, Account.Id accountId, ExternalId.Key extIdKey)
-      throws IOException {
-    onRemoveByKeys(oldNotesRev, newNotesRev, accountId, Collections.singleton(extIdKey));
   }
 
   default void onUpdate(ObjectId oldNotesRev, ObjectId newNotesRev, ExternalId updatedExtId)

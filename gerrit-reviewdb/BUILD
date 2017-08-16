@@ -15,7 +15,7 @@ gwt_module(
     gwt_xml = SRC + "ReviewDB.gwt.xml",
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-extension-api:client",
+        "//java/com/google/gerrit/extensions:client",
         "//lib:gwtorm_client",
         "//lib:gwtorm_client_src",
     ],
@@ -27,7 +27,7 @@ java_library(
     resources = glob(["src/main/resources/**/*"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-extension-api:api",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtorm",
     ],

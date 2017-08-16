@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55ff2be8_5b6e416d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T23:52:46Z",
+      "side": 1,
+      "message": "This should be issue 7027. Issue 6969 is a totally separate issue related to 404s.",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "5b506ba5bb94e42e161eb3cbc167f9aff01cae9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

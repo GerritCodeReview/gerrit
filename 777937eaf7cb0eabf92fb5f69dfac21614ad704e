@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "333da3fa_10fadfc6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T07:43:30Z",
+      "side": 1,
+      "message": "Putting it into a seperate page was suggested by Becky in https://gerrit-review.googlesource.com/#/c/gerrit/+/117290/",
+      "parentUuid": "61588933_d73f41d8",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32e13ad4_515f7a00",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
         "patchSetId": 26

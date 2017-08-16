@@ -1,6 +1,11 @@
 const fs = require('fs');
 const twinkie = require('fried-twinkie');
 
+/**
+ * For the purposes of template type checking, externs should be added for
+ * anything set on the window object. Note that sub-properties of these
+ * declared properties are considered something separate.
+ */
 const EXTERN_NAMES = [
   'Gerrit',
   'GrAnnotation',

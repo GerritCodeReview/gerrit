@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a6a5eff_d91756f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T18:01:49Z",
+      "side": 1,
+      "message": "Do we have some upcoming dependent changes with the two ancestor components? \n\nIt\u0027s a little hard to evaluate this component without being able to try it out or see it used in code.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f47632a_5de3e8f2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T18:01:49Z",
+      "side": 1,
+      "message": "I recommend avoiding negative assertions in CSS rules since they can complicate specificity.\n\nConsider reformulating as two rulesets using positive assertions:\n\n#undoBtn,\n#force,\n#deletedContainer,\n#mainContainer.deleted {\n  display: none;\n}\n#undoBtn.modified,\n#force.force,\n#deletedContainer.deleted {\n  display: block;\n}",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af589124_99528628",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T18:01:49Z",
+      "side": 1,
+      "message": "Nit:\n\n #mainContainer.deleted {",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffa2f22_b012a244",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-16T18:01:49Z",
+      "side": 1,
+      "message": "Nit: line exceeds 80 chars.",
+      "revId": "392c0fa170867a9e0154aa54215d91152dff02af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

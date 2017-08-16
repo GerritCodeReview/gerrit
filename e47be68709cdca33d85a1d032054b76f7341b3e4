@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502886116 -0400\nnonce AHIDc+MeHeINedsD1Hx0PjlVE33HraKEPFiC2IstWGl+ZzCPe+Tr1Tx2/9F9kCNQHpKePYUy1ZK6\n\n0000000000000000000000000000000000000000 7b126ee4f82c08d4731948af518d7f5cc4ab8f15 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZlDjkAAoJEF/XxZqaEoiMovIQAKfQakutWFDF+C/aqzAJ415p\nSy2eKvzjkTSWp2ANBn2Nw01MIgiBRm5njjpWKQJjeoKF7PH1YxhgOzYLZ269iuCc\nEiSR7bvMihr3R8gRk4ZB8PENYToB9BP3GQexrLAFe41olF48IuGn0BI4+LtwB9yf\n2/R1WSxeOnHouey/XUvYZXfbUuRCVBkpQvxrksutxaTyhZ8tjYBZ7dsj6FV7+1s7\na2JsVs2YUaMfmMJyhXz3lJtuKERK9EeA/bVtRiebRRIXbfZBkP227l9BIa7E86Oe\neflqLdHDpPJHPSh/hbGmu8pS7dO+tSIBGFsVcLsxc0EI/RHDbDi7r5RLeF605h/0\nJj5ZhrKCL8F8LZimGc3AnSCXVLGV6yHlrd0+xyBGHF6c46CzR6HPU9aBvUaHGtlc\n4I+WJ87YE/yUMpGuByR0Rz3iFm1snkLAvFQojsFHBwFc+uev0GgfATV2/itK3k1P\nd4ZXqcugUuXcLzpYzc16PYltfMnSUjzIDXiSRoFVWj7DlB6W33JWquUW1BlhVvsu\nR1ncpZctHGRNc1gESHeFgHlcOvTlF2F3bUSsS3CYRPFSQaLjkc8w7oRQ9P3bZhI5\nw+O0excWotRUnDB12B5QGnBMiW+88Sux2c2M+9f7/NEBjY/5xpoJLIlgqpSX/qEj\nMz9IWkvxJ1f9+8zNHmos\n\u003d4JcD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5e36b4_bb084757",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-16T12:50:23Z",
+      "side": 1,
+      "message": "Is there a specific reason, this dependency was added in patch set 10?",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "e47be68709cdca33d85a1d032054b76f7341b3e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

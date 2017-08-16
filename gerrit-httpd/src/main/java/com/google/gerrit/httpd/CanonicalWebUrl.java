@@ -14,9 +14,13 @@
 
 package com.google.gerrit.httpd;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {
@@ -35,10 +39,15 @@ public class CanonicalWebUrl {
 
   static String computeFromRequest(HttpServletRequest req) {
     StringBuffer url = req.getRequestURL();
-    url.setLength(url.length() - req.getServletPath().length());
-    if (url.charAt(url.length() - 1) != '/') {
-      url.append('/');
+    try {
+      url = new StringBuffer(URLDecoder.decode(url.toString(), UTF_8.name()));
+      url.setLength(url.length() - req.getServletPath().length());
+      if (url.charAt(url.length() - 1) != '/') {
+        url.append('/');
+      }
+      return url.toString();
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("Unsupported encoding for request URL " + url, e);
     }
-    return url.toString();
   }
 }

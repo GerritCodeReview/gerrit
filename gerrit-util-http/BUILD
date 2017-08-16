@@ -15,7 +15,7 @@ java_library(
     srcs = TESTUTIL_SRCS,
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-extension-api:api",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:servlet-api-3_1",
         "//lib/httpcomponents:httpclient",

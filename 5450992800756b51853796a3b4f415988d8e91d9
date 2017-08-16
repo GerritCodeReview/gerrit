@@ -161,6 +161,30 @@
       "revId": "5450992800756b51853796a3b4f415988d8e91d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9def5b4_6c43ddb7",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-16T07:32:36Z",
+      "side": 1,
+      "message": "Never mind, I see you already did this in the follow-up change.",
+      "parentUuid": "47f9fbb0_2857a370",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "5450992800756b51853796a3b4f415988d8e91d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

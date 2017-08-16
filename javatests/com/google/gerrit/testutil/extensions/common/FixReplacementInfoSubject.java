@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.testutil.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -21,7 +21,8 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-import com.google.gerrit.extensions.client.RangeSubject;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.testutil.extensions.client.RangeSubject;
 
 public class FixReplacementInfoSubject
     extends Subject<FixReplacementInfoSubject, FixReplacementInfo> {

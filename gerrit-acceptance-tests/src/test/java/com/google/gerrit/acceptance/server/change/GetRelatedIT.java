@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
+import static com.google.gerrit.testutil.extensions.common.EditInfoSubject.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;

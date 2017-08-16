@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.client;
 
-import static com.google.gerrit.extensions.client.RangeSubject.assertThat;
+import static com.google.gerrit.testutil.extensions.client.RangeSubject.assertThat;
 
 import org.junit.Test;
 

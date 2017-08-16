@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
@@ -156,7 +158,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
         .setLabel("Restore")
         .setTitle("Restore the change")
         .setVisible(
-            rsrc.getChange().getStatus() == Status.ABANDONED
-                && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.RESTORE));
+            and(
+                rsrc.getChange().getStatus() == Status.ABANDONED,
+                rsrc.permissions().database(dbProvider).testCond(ChangePermission.RESTORE)));
   }
 }

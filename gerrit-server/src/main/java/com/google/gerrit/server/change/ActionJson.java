@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -36,6 +35,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,7 +162,7 @@ public class ActionJson {
       return out;
     }
 
-    FluentIterable<UiAction.Description> descs =
+    Iterable<UiAction.Description> descs =
         uiActions.from(changeViews, changeResourceFactory.create(ctl));
 
     // The followup action is a client-side only operation that does not
@@ -174,7 +174,7 @@ public class ActionJson {
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");
       descr.setTitle("Create follow-up change");
       descr.setLabel("Follow-Up");
-      descs = descs.append(descr);
+      descs = Iterables.concat(descs, Collections.singleton(descr));
     }
 
     ACTION:

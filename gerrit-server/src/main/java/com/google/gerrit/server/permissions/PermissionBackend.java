@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -78,7 +79,7 @@ import org.slf4j.LoggerFactory;
  *   public UiAction.Description getDescription(ChangeResource rsrc) {
  *     return new UiAction.Description()
  *       .setLabel("Submit")
- *       .setVisible(rsrc.permissions().testOrFalse(ChangePermission.SUBMIT));
+ *       .setVisible(rsrc.permissions().testCond(ChangePermission.SUBMIT));
  * }
  * </pre>
  */
@@ -92,6 +93,24 @@ public abstract class PermissionBackend {
   /** @return lightweight factory scoped to answer for the specified user. */
   public <U extends CurrentUser> WithUser user(Provider<U> user) {
     return user(checkNotNull(user, "Provider<CurrentUser>").get());
+  }
+
+  /**
+   * Bulk evaluate a collection of {@link PermissionBackendCondition} for view handling.
+   *
+   * <p>Overridden implementations should call {@link PermissionBackendCondition#set(boolean)} to
+   * cache the result of {@code testOrFalse} in the condition for later evaluation. Caching the
+   * result will bypass the usual invocation of {@code testOrFalse}.
+   *
+   * <p>{@code conds} may contain duplicate entries (such as same user, resource, permission
+   * triplet). When duplicates exist, implementations should set a result into all instances to
+   * ensure {@code testOrFalse} does not get invoked during evaluation of the containing condition.
+   *
+   * @param conds conditions to consider.
+   */
+  public void bulkEvaluateTest(Collection<PermissionBackendCondition> conds) {
+    // Do nothing by default. The default implementation of PermissionBackendCondition
+    // delegates to the appropriate testOrFalse method in PermissionBackend.
   }
 
   /** PermissionBackend with an optional per-request ReviewDb handle. */
@@ -198,6 +217,10 @@ public abstract class PermissionBackend {
       }
     }
 
+    public BooleanCondition testCond(GlobalOrPluginPermission perm) {
+      return new PermissionBackendCondition.WithUser(this, perm);
+    }
+
     /**
      * Filter a set of projects using {@code check(perm)}.
      *
@@ -265,6 +288,10 @@ public abstract class PermissionBackend {
         return false;
       }
     }
+
+    public BooleanCondition testCond(ProjectPermission perm) {
+      return new PermissionBackendCondition.ForProject(this, perm);
+    }
   }
 
   /** PermissionBackend scoped to a user, project and reference. */
@@ -313,6 +340,10 @@ public abstract class PermissionBackend {
         return false;
       }
     }
+
+    public BooleanCondition testCond(RefPermission perm) {
+      return new PermissionBackendCondition.ForRef(this, perm);
+    }
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */
@@ -352,6 +383,10 @@ public abstract class PermissionBackend {
         logger.warn("Cannot test " + perm + "; assuming false", e);
         return false;
       }
+    }
+
+    public BooleanCondition testCond(ChangePermissionOrLabel perm) {
+      return new PermissionBackendCondition.ForChange(this, perm);
     }
 
     /**

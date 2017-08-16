@@ -7,7 +7,6 @@ java_library(
     deps = [
         "//gerrit-cache-h2:cache-h2",
         "//gerrit-elasticsearch:elasticsearch",
-        "//gerrit-extension-api:api",
         "//gerrit-gpg:gpg",
         "//gerrit-httpd:httpd",
         "//gerrit-lucene:lucene",
@@ -22,6 +21,7 @@ java_library(
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-sshd:sshd",
+        "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",

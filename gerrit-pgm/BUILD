@@ -11,7 +11,7 @@ INIT_API_SRCS = glob([SRCS + "init/api/*.java"])
 BASE_JETTY_DEPS = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
-    "//gerrit-extension-api:api",
+    "//java/com/google/gerrit/extensions:api",
     "//gerrit-gwtexpui:linker_server",
     "//gerrit-gwtexpui:server",
     "//gerrit-httpd:httpd",

@@ -7,7 +7,7 @@ java_library(
         # We want all these deps to be provided_deps
         "//gerrit-common:annotations",
         "//gerrit-common:server",
-        "//gerrit-extension-api:api",
+        "//java/com/google/gerrit/extensions:api",
         "//gerrit-gwtexpui:server",
         "//gerrit-httpd:httpd",
         "//gerrit-reviewdb:server",

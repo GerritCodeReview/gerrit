@@ -22,7 +22,7 @@ java_library2(
     resources = glob(["src/main/**/*"]),
     deps = DEPS + [
         "//gerrit-common:libclient-src.jar",
-        "//gerrit-extension-api:libclient-src.jar",
+        "//java/com/google/gerrit/extensions:libclient-src.jar",
         "//gerrit-gwtexpui:libClippy-src.jar",
         "//gerrit-gwtexpui:libGlobalKey-src.jar",
         "//gerrit-gwtexpui:libProgress-src.jar",

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
@@ -191,8 +193,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         .setLabel("Abandon")
         .setTitle("Abandon the change")
         .setVisible(
-            change.getStatus().isOpen()
-                && change.getStatus() != Change.Status.DRAFT
-                && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.ABANDON));
+            and(
+                change.getStatus().isOpen() && change.getStatus() != Change.Status.DRAFT,
+                rsrc.permissions().database(dbProvider).testCond(ChangePermission.ABANDON)));
   }
 }

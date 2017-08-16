@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f93e274_58a2fb0f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T22:03:34Z",
+      "side": 1,
+      "message": "Whenever you use float, a kitten cries somewhere.",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "157734c1_67801048",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T22:03:34Z",
+      "side": 1,
+      "message": "http://imgur.com/a/UEnPn",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "275610f3_56765e9f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T22:03:34Z",
+      "side": 1,
+      "message": "Consider creating enum for possible permission values.\nAlso, permission values.",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e4ed1f_79ff8ca1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-08-16T22:03:34Z",
+      "side": 1,
+      "message": "Is this one used?",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

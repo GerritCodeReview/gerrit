@@ -173,6 +173,7 @@ def gen_classpath(ext):
     if m:
       gwt_src.add(m.group(1))
 
+  classpathentry('src', 'javatests', out='eclipse-out/test')
   for s in sorted(src):
     out = None
 

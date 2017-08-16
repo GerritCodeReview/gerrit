@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1502826140 -0400\nnonce AHIDc+Oy2RQ3AQ4Dfn0VH7feF9Qr3o2xwMIBcJ+/SUnnJgjkV58H9EK6t8Xf+ZsETzBS0bHRd3Vn\n\n0000000000000000000000000000000000000000 ae845689597459fd5b352cfee8b20737e95229f6 refs/for/master%topic\u003dnotedb-2.15-prep,r\u003ddavid.ostrovsky@gmail.com,r\u003ddpursehouse@collab.net,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZk06cAAoJEF/XxZqaEoiMyEsP/ApzQLqGxKA3TAdCsbkkRvPf\nML+dRUKHSOu2ESb/ESGyuIXOGqyyfrjvodpYrasubx7EryXNQEm+BzbINQ4gqzOR\nKM0AmqhzM792X4GNbyT3ohQHlEEPWYcXkFaArcHQJc8EsZmQm6iiQmiaI7rsQnIn\nrMk1bXmojmGnZ0NAkq1m/GEr0bFAbgi9Otnf4kJpjK/leeZUsLYBYqKIdkmhpbIE\nPl0rz291ix6oUMFNMClyUV3Pzc0MWRGTG/6eMxwAvdMNhdpPwnOQaerNFwxCmCkA\n6LGO0x9PKfMdX90ap8T5inJUnrRTwYGSsF1ZAUhUsNl+K/ei3M0HSkqv/GhM5mXz\n1YSfR17zgdgMJO/K7UhDjQUrsVwocUxyJOxWQ+S9yB/+ssgx+pFkoGc4mgULLdxC\n7/n1JMIB1o7bQE8FpcjmoaeE0/+9+/K+QcVygTDfbHs9tcx3/pnYOt4Mr7hujnuQ\nUZ2yjY1sjiz14PAUZ/U01akGPxgUIRCk1o5nC1M6S75YcapPnTAR1meq/9VW/tNQ\n7F26D8dsZUc7UhJiazR1O7tAP0nqSmH4m56J8YtFq2oGFXVShubspbA5V5sfvf8M\nhg1Y6FUz+QktFj6hE6ON+5q8DDyTHsMhOskxwUXCteYKdQ/Vl0B5dWpkt5x06n+t\n9L4KD8xgLISHUh2TGYQB\n\u003dLZjn\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "237d442a_c46e70d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-16T07:18:49Z",
+      "side": 1,
+      "message": "NoteDb backend is now so stable that",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "ac5512f8b324417a495a76a7ee9b6c731f88ad41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

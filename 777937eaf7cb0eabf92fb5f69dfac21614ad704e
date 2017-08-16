@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2677ecbb_de95a9b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2aff678d_e457eea9",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0576cd1d_9423da35",
         "filename": "/COMMIT_MSG",
         "patchSetId": 26
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e1044293_196d6b32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0576cd1d_9423da35",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e335dd93_ed91e360",
         "filename": "/COMMIT_MSG",
         "patchSetId": 26
@@ -59,6 +107,24 @@
       "writtenOn": "2017-08-16T00:36:27Z",
       "side": 1,
       "message": "We can link to issue 5232:\n\n Feature: Issue 5232",
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "659f55ca_83b3d81c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e335dd93_ed91e360",
       "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -123,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "e85b14f9_12fe709d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Oh, this is an option in GWTUI.",
+      "parentUuid": "32e13ad4_515f7a00",
+      "range": {
+        "startLine": 67,
+        "startChar": 30,
+        "endLine": 67,
+        "endChar": 56
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dac8510c_97f771e6",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 26
@@ -134,6 +224,30 @@
       "writtenOn": "2017-08-16T00:36:27Z",
       "side": 1,
       "message": "What\u0027s the need for this check? Since this dialog opens from the project settings, can\u0027t we always just use this.projectName?",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "527b807e_0eea47b2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Ah  yep, i can get rid of this check, thanks, done.",
+      "parentUuid": "dac8510c_97f771e6",
       "range": {
         "startLine": 63,
         "startChar": 6,
@@ -192,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "2f94bd23_9a01b237",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4542fa73_badeff08",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 67
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc09d8f5_8d6cfa58",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 26
@@ -203,6 +341,30 @@
       "writtenOn": "2017-08-16T00:36:27Z",
       "side": 1,
       "message": "Please move this into a constant. Something like\n\n const REF_PREFIX \u003d \u0027refs/heads/\u0027;",
+      "range": {
+        "startLine": 80,
+        "startChar": 27,
+        "endLine": 80,
+        "endChar": 40
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d34c00_58d73337",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cc09d8f5_8d6cfa58",
       "range": {
         "startLine": 80,
         "startChar": 27,
@@ -238,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "c9fdc187_4b1bbe2d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9526066a_585eac96",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96d25c03_e1e14a0b",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 26
@@ -261,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "0e89bf28_b133db02",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "96d25c03_e1e14a0b",
+      "range": {
+        "startLine": 1180,
+        "startChar": 4,
+        "endLine": 1180,
+        "endChar": 38
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d0e22a7_7b1df3f3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 26
@@ -272,6 +482,30 @@
       "writtenOn": "2017-08-16T00:36:27Z",
       "side": 1,
       "message": "Nit: this can be one line.\n\n .then(response \u003d\u003e this.getResponseObject(response));",
+      "range": {
+        "startLine": 1182,
+        "startChar": 10,
+        "endLine": 1184,
+        "endChar": 12
+      },
+      "revId": "777937eaf7cb0eabf92fb5f69dfac21614ad704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff239c0b_38fdffa4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T08:31:24Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7d0e22a7_7b1df3f3",
       "range": {
         "startLine": 1182,
         "startChar": 10,

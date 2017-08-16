@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c57f8db_ebdcb08d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T20:39:45Z",
+      "side": 1,
+      "message": "I know this is simple, but should still add basic tests.",
+      "revId": "38135e6570fcacf7402d7838ffa73fb6f5775fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8f3268_89282a2a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T20:39:45Z",
+      "side": 1,
+      "message": "I know this is small, but for the purposes of template testing, it would be better if this was in a separate javascript file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "38135e6570fcacf7402d7838ffa73fb6f5775fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aacc2619_75e32225",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-16T20:39:45Z",
+      "side": 1,
+      "message": "Nit: should indent another 2 spaces.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 8
+      },
+      "revId": "38135e6570fcacf7402d7838ffa73fb6f5775fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

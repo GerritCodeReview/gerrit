@@ -67,6 +67,6 @@ public class PostHashtags
   public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Hashtags")
-        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_HASHTAGS));
+        .setVisible(rsrc.permissions().testCond(ChangePermission.EDIT_HASHTAGS));
   }
 }

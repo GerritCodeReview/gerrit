@@ -1,4 +1,3 @@
-load("//lib/prolog:prolog.bzl", "prolog_cafe_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 CONSTANTS_SRC = [
@@ -25,13 +24,6 @@ java_library(
     name = "constants",
     srcs = CONSTANTS_SRC,
     visibility = ["//visibility:public"],
-)
-
-prolog_cafe_library(
-    name = "prolog-common",
-    srcs = ["src/main/prolog/gerrit_common.pl"],
-    visibility = ["//visibility:public"],
-    deps = [":server"],
 )
 
 # Giant kitchen-sink target.
@@ -228,7 +220,7 @@ java_library(
     deps = [
         ":server",
         "//gerrit-extension-api:api",
-        "//gerrit-test-util:test_util",
+        "//javatests/com/google/gerrit/truth:test-util-truth",
         "//lib:truth",
     ],
 )
@@ -264,7 +256,7 @@ junit_tests(
     srcs = PROLOG_TESTS,
     resources = glob(["src/test/resources/com/google/gerrit/rules/**/*"]),
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
+        "//prolog:common",
         ":prolog_test_case",
         ":testutil",
         "//lib/prolog:runtime",
@@ -281,7 +273,7 @@ java_library(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
+        "//prolog:common",
         ":testutil",
     ],
 )
@@ -292,7 +284,7 @@ junit_tests(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":prolog-common",
+        "//prolog:common",
         ":testutil",
     ],
 )
@@ -308,11 +300,11 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":custom-truth-subjects",
-        ":prolog-common",
+        "//prolog:common",
         ":testutil",
         "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
-        "//gerrit-test-util:test_util",
+        "//javatests/com/google/gerrit/extensions:test-util-extensions",
         "//lib:args4j",
         "//lib:grappa",
         "//lib:gson",

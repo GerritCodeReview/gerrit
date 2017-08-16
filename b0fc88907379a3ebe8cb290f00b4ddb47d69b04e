@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e33d313c_3ae85150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-16T05:08:23Z",
+      "side": 1,
+      "message": "I cannot reproduce the problem. I commented out this line in gerrit.config:\n\n  canonicalWebUrl \u003d http://localhost:8080\n\nBut now, I\u0027m still not entering the piece of code you changed, because if (requestProvider !\u003d null) condition is always false on HttpCanonicalWebUrlProvider.java:47. What am I missing?",
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5aa06e7_5aa1bcb4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CanonicalWebUrl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-16T05:08:23Z",
+      "side": 1,
+      "message": "Use java.nio.charset.StandardCharsets.UTF_8.name(), import it statically, and use UTF_8.name(). That\u0027s what we dare doing in other places, where decode() is used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 63,
+        "endLine": 41,
+        "endChar": 71
+      },
+      "revId": "b0fc88907379a3ebe8cb290f00b4ddb47d69b04e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

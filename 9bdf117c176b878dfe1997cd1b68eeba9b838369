@@ -34,6 +34,24 @@
       "revId": "9bdf117c176b878dfe1997cd1b68eeba9b838369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33fee988_9d28c8a0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-16T21:24:19Z",
+      "side": 1,
+      "message": "Your welcome :)",
+      "parentUuid": "dea78ceb_4fedc1da",
+      "revId": "9bdf117c176b878dfe1997cd1b68eeba9b838369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -406,7 +406,7 @@
           return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
         }
         // These defaults should match the defaults in
-        // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+        // jcg/gerrit/extensions/client/DiffPreferencesInfo.java
         // NOTE: There are some settings that don't apply to PolyGerrit
         // (Render mode being at least one of them).
         return Promise.resolve({

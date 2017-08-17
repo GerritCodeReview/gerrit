@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
@@ -31,6 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
@@ -176,7 +178,8 @@ public abstract class ExternalId implements Serializable {
         extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
   }
 
-  static ExternalId create(
+  @VisibleForTesting
+  public static ExternalId create(
       Key key,
       Account.Id accountId,
       @Nullable String email,
@@ -303,6 +306,15 @@ public abstract class ExternalId implements Serializable {
 
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
+  }
+
+  public byte[] toByteArray() {
+    checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
+    byte[] b = new byte[2 * Constants.OBJECT_ID_STRING_LENGTH + 1];
+    key().sha1().copyTo(b, 0);
+    b[Constants.OBJECT_ID_STRING_LENGTH] = ':';
+    blobId().copyTo(b, Constants.OBJECT_ID_STRING_LENGTH + 1);
+    return b;
   }
 
   /**

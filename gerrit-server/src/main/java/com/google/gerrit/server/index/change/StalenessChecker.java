@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -35,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.RefState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -47,8 +47,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -218,43 +216,6 @@ public class StalenessChecker {
     } catch (IOException e) {
       log.warn(String.format("error checking staleness of %s in %s", id, project), e);
       return true;
-    }
-  }
-
-  @AutoValue
-  public abstract static class RefState {
-    static RefState create(String ref, String sha) {
-      return new AutoValue_StalenessChecker_RefState(ref, ObjectId.fromString(sha));
-    }
-
-    static RefState create(String ref, @Nullable ObjectId id) {
-      return new AutoValue_StalenessChecker_RefState(ref, firstNonNull(id, ObjectId.zeroId()));
-    }
-
-    static RefState of(Ref ref) {
-      return new AutoValue_StalenessChecker_RefState(ref.getName(), ref.getObjectId());
-    }
-
-    byte[] toByteArray(Project.NameKey project) {
-      byte[] a = (project.toString() + ':' + ref() + ':').getBytes(UTF_8);
-      byte[] b = new byte[a.length + Constants.OBJECT_ID_STRING_LENGTH];
-      System.arraycopy(a, 0, b, 0, a.length);
-      id().copyTo(b, a.length);
-      return b;
-    }
-
-    private static void check(boolean condition, String str) {
-      checkArgument(condition, "invalid RefState: %s", str);
-    }
-
-    abstract String ref();
-
-    abstract ObjectId id();
-
-    private boolean match(Repository repo) throws IOException {
-      Ref ref = repo.exactRef(ref());
-      ObjectId expected = ref != null ? ref.getObjectId() : ObjectId.zeroId();
-      return id().equals(expected);
     }
   }
 

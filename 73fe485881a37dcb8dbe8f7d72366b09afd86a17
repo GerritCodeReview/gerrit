@@ -188,6 +188,30 @@
       "revId": "73fe485881a37dcb8dbe8f7d72366b09afd86a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f31cb784_570b8aa2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T17:16:33Z",
+      "side": 1,
+      "message": "I\u0027d prefer getOrCreateDomHook to getDomHook.\n\nMaybe if you want something shorter getOrCreateHook?",
+      "parentUuid": "aa8515bc_dc0b09d0",
+      "range": {
+        "startLine": 105,
+        "startChar": 19,
+        "endLine": 105,
+        "endChar": 29
+      },
+      "revId": "73fe485881a37dcb8dbe8f7d72366b09afd86a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -58,7 +58,6 @@ import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.schema.DataSourceType;
-import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -203,7 +202,7 @@ public class InMemoryModule extends FactoryModule {
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
-    install(new H2AccountPatchReviewStore.InMemoryModule());
+    install(new InMemoryAccountPatchReviewStore.Module());
 
     bind(AllAccountsIndexer.class).toProvider(Providers.of(null));
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));

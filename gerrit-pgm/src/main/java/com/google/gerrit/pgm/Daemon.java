@@ -78,7 +78,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
-import com.google.gerrit.server.schema.H2AccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
@@ -94,6 +93,7 @@ import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import com.google.gerrit.testutil.InMemoryAccountPatchReviewStore;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -377,7 +377,7 @@ public class Daemon extends SiteProgram {
     modules.add(new EventBroker.Module());
     modules.add(
         test
-            ? new H2AccountPatchReviewStore.InMemoryModule()
+            ? new InMemoryAccountPatchReviewStore.Module()
             : new JdbcAccountPatchReviewStore.Module(config));
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());

@@ -15,8 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -25,25 +23,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.eclipse.jgit.lib.Config;
 
 public class Schema_127 extends SchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;
 
-  private final SitePaths sitePaths;
-  private final Config cfg;
+  private final JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore;
 
   @Inject
-  Schema_127(Provider<Schema_126> prior, SitePaths sitePaths, @GerritServerConfig Config cfg) {
+  Schema_127(Provider<Schema_126> prior, JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore) {
     super(prior);
-    this.sitePaths = sitePaths;
-    this.cfg = cfg;
+    this.jdbcAccountPatchReviewStore = jdbcAccountPatchReviewStore;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    JdbcAccountPatchReviewStore jdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, sitePaths);
     jdbcAccountPatchReviewStore.dropTableIfExists();
     jdbcAccountPatchReviewStore.createTableIfNotExists();
     try (Connection con = jdbcAccountPatchReviewStore.getConnection();

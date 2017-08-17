@@ -18,7 +18,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.inject.Injector;
@@ -47,13 +46,12 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    SitePaths sitePaths = new SitePaths(getSitePath());
     Config fakeCfg = new Config();
     if (!Strings.isNullOrEmpty(sourceUrl)) {
       fakeCfg.setString("accountPatchReviewDb", null, "url", sourceUrl);
     }
     JdbcAccountPatchReviewStore sourceJdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(fakeCfg, sitePaths);
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(fakeCfg);
 
     Injector dbInjector = createDbInjector(DataSourceProvider.Context.SINGLE_USER);
     Config cfg = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
@@ -64,7 +62,7 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     }
     System.out.println("target Url: " + targetUrl);
     JdbcAccountPatchReviewStore targetJdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, sitePaths);
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg);
     targetJdbcAccountPatchReviewStore.createTableIfNotExists();
 
     if (!isTargetTableEmpty(targetJdbcAccountPatchReviewStore)) {

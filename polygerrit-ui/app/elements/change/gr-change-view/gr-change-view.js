@@ -453,6 +453,10 @@
         return;
       }
 
+      // If the patch changed, and was not set to undefined/undefined, we need
+      // not reload all resources -- only the commit info and the file list.
+      // If the patch range was set to undefined/undefined, the user is looking
+      // to refresh the whole view.
       const patchChanged = this._patchRange &&
           (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
           (this._patchRange.patchNum !== value.patchNum ||
@@ -462,27 +466,24 @@
         this._initialLoadComplete = false;
       }
 
-      const patchRange = {
-        patchNum: value.patchNum,
-        basePatchNum: value.basePatchNum || 'PARENT',
-      };
+      const patchNum = value.patchNum ||
+          this.computeLatestPatchNum(this._allPatchSets);
+
+      const basePatchNum = value.basePatchNum || 'PARENT';
+
+      this._patchRange = {patchNum, basePatchNum};
 
       if (this._initialLoadComplete && patchChanged) {
-        if (patchRange.patchNum == null) {
-          patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
-        }
-        this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
             change: this._change,
-            patchNum: patchRange.patchNum,
+            patchNum,
           });
         });
         return;
       }
 
       this._changeNum = value.changeNum;
-      this._patchRange = patchRange;
       this.$.relatedChanges.clear();
 
       this._reload().then(() => {

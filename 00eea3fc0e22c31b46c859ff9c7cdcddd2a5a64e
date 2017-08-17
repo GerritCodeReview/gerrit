@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b21eb22a_fd7002a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-17T15:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf0f0a08_773f7d5a",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1fba8e5f_645de544",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2017-08-17T14:30:38Z",
       "side": 1,
       "message": "What does null mean? That it was created in code and hasn\u0027t been stored in git yet?",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2240367_f91fd086",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-17T15:34:00Z",
+      "side": 1,
+      "message": "Yes. Added a comment.\n\nDone.",
+      "parentUuid": "1fba8e5f_645de544",
       "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "e2924996_531062b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-17T15:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d306c32_2a4b455e",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fa2522e_0956ef07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
         "patchSetId": 2
@@ -77,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "dad1bf43_a8ef37db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-17T15:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fa2522e_0956ef07",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0851e7f1_8e45771f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdReader.java",
         "patchSetId": 2
@@ -88,6 +166,30 @@
       "writtenOn": "2017-08-17T14:30:38Z",
       "side": 1,
       "message": "Nit: \"data\" sounds like it should be a byte[], maybe \"noteId\"?\n\nOh, I see that this is based on Note#getData(). That is IMHO a bad name, but I guess I don\u0027t mind if you are consistent with that.",
+      "range": {
+        "startLine": 189,
+        "startChar": 13,
+        "endLine": 189,
+        "endChar": 21
+      },
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac3fc49_4aa56f90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-17T15:34:00Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s to be consistent with Note#getData(). I would leave this name for now since the name \"noteId\" is already used.",
+      "parentUuid": "0851e7f1_8e45771f",
       "range": {
         "startLine": 189,
         "startChar": 13,

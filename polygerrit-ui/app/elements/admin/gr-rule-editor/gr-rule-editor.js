@@ -140,12 +140,12 @@
 
     _handleRemoveRule() {
       this._deleted = true;
-      this.rule.deleted = true;
+      this.set('rule.value.deleted', true);
     },
 
     _handleUndoRemove() {
       this._deleted = false;
-      delete this.rule.deleted;
+      delete this.rule.value.deleted;
     },
 
     _handleUndoChange() {

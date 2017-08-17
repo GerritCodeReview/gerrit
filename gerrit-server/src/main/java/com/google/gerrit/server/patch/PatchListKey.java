@@ -34,6 +34,8 @@ import org.eclipse.jgit.lib.ObjectId;
 public class PatchListKey implements Serializable {
   public static final long serialVersionUID = 28L;
 
+  // TODO(aliceks): Get rid of this enum and the parameter in the PatchListKey as we only use one of
+  // its values.
   public enum Algorithm {
     PURE_TREE_DIFF,
     OPTIMIZED_DIFF

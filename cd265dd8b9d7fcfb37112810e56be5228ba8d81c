@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13c1e3e1_c84ef6e5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-plugin-popup_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-17T23:01:07Z",
+      "side": 1,
+      "message": "This is an incorrectly named test.",
+      "range": {
+        "startLine": 62,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "cd265dd8b9d7fcfb37112810e56be5228ba8d81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2401161_1c40ecfc",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-17T23:01:07Z",
+      "side": 1,
+      "message": "Does this constructor need a JSDoc?",
+      "revId": "cd265dd8b9d7fcfb37112810e56be5228ba8d81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aa09a20_0806755e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-17T23:01:07Z",
+      "side": 1,
+      "message": "This function could use some comments.",
+      "revId": "cd265dd8b9d7fcfb37112810e56be5228ba8d81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

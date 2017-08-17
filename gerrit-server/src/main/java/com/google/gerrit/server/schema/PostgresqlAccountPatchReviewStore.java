@@ -14,21 +14,18 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.SQLException;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostgresqlAccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
   @Inject
-  PostgresqlAccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
-    super(cfg, sitePaths);
+  PostgresqlAccountPatchReviewStore(AccountPatchReviewDataSourceProvider provider) {
+    super(provider);
   }
 
   @Override

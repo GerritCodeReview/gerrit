@@ -14,21 +14,18 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.SQLException;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
   @Inject
-  H2AccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
-    super(cfg, sitePaths);
+  protected H2AccountPatchReviewStore(AccountPatchReviewDataSourceProvider provider) {
+    super(provider);
   }
 
   @Override
@@ -37,7 +34,6 @@ public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
       case 23001: // UNIQUE CONSTRAINT VIOLATION
       case 23505: // DUPLICATE_KEY_1
         return new OrmDuplicateKeyException("account_patch_reviews", err);
-
       default:
         if (err.getCause() == null && err.getNextException() != null) {
           err.initCause(err.getNextException());

@@ -22,8 +22,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import java.sql.Connection;
@@ -34,7 +32,6 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +69,7 @@ public abstract class JdbcAccountPatchReviewStore
         throw new IllegalArgumentException(
             "unsupported driver type for account patch reviews db: " + url);
       }
+      bind(AccountPatchReviewDataSourceProvider.class);
       DynamicItem.bind(binder(), AccountPatchReviewStore.class).to(impl);
       listener().to(impl);
     }
@@ -79,60 +77,31 @@ public abstract class JdbcAccountPatchReviewStore
 
   private final DataSource ds;
 
-  public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
-      Config cfg, SitePaths sitePaths) {
-    String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
-    if (url == null || url.contains(H2_DB)) {
-      return new H2AccountPatchReviewStore(cfg, sitePaths);
-    }
-    if (url.contains(POSTGRESQL)) {
-      return new PostgresqlAccountPatchReviewStore(cfg, sitePaths);
-    }
-    if (url.contains(MYSQL)) {
-      return new MysqlAccountPatchReviewStore(cfg, sitePaths);
-    }
-    if (url.contains(MARIADB)) {
-      return new MariaDBAccountPatchReviewStore(cfg, sitePaths);
-    }
-    throw new IllegalArgumentException(
-        "unsupported driver type for account patch reviews db: " + url);
-  }
+  //  public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(Config cfg) {
+  //
+  //    String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
+  //    if (url == null || url.contains(H2_DB)) {
+  //      return new H2AccountPatchReviewStore(cfg);
+  //    }
+  //    if (url.contains(POSTGRESQL)) {
+  //      return new PostgresqlAccountPatchReviewStore(cfg);
+  //    }
+  //    if (url.contains(MYSQL)) {
+  //      return new MysqlAccountPatchReviewStore(cfg);
+  //    }
+  //    if (url.contains(MARIADB)) {
+  //      return new MariaDBAccountPatchReviewStore(cfg);
+  //    }
+  //    throw new IllegalArgumentException(
+  //        "unsupported driver type for account patch reviews db: " + url);
+  //  }
 
-  protected JdbcAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
-    this.ds = createDataSource(getUrl(cfg, sitePaths));
+  protected JdbcAccountPatchReviewStore(AccountPatchReviewDataSourceProvider provider) {
+    this.ds = provider.get();
   }
 
   protected JdbcAccountPatchReviewStore(DataSource ds) {
     this.ds = ds;
-  }
-
-  private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
-    String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
-    if (url == null) {
-      return H2.createUrl(sitePaths.db_dir.resolve("account_patch_reviews"));
-    }
-    return url;
-  }
-
-  protected static DataSource createDataSource(String url) {
-    BasicDataSource datasource = new BasicDataSource();
-    if (url.contains(POSTGRESQL)) {
-      datasource.setDriverClassName("org.postgresql.Driver");
-    } else if (url.contains(H2_DB)) {
-      datasource.setDriverClassName("org.h2.Driver");
-    } else if (url.contains(MYSQL)) {
-      datasource.setDriverClassName("com.mysql.jdbc.Driver");
-    } else if (url.contains(MARIADB)) {
-      datasource.setDriverClassName("org.mariadb.jdbc.Driver");
-    }
-    datasource.setUrl(url);
-    datasource.setMaxActive(50);
-    datasource.setMinIdle(4);
-    datasource.setMaxIdle(16);
-    long evictIdleTimeMs = 1000 * 60;
-    datasource.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
-    datasource.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
-    return datasource;
   }
 
   @Override

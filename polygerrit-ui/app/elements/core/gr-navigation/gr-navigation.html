@@ -78,14 +78,6 @@ limitations under the License.
       _generateUrl: uninitialized,
 
       /**
-       * Handler for when a legacy URL can be upgraded. Router implementations
-       * may implement as a no-op if route upgrades are not needed.
-       *
-       * @type {Function}
-       */
-      _upgradeUrl: uninitialized,
-
-      /**
        * @param {number=} patchNum
        * @param {number|string=} basePatchNum
        */
@@ -99,18 +91,15 @@ limitations under the License.
        * Setup router implementation.
        * @param {Function} navigate
        * @param {Function} generateUrl
-       * @param {Function} upgradeUrl
        */
-      setup(navigate, generateUrl, upgradeUrl) {
+      setup(navigate, generateUrl) {
         this._navigate = navigate;
         this._generateUrl = generateUrl;
-        this._upgradeUrl = upgradeUrl;
       },
 
       destroy() {
         this._navigate = uninitialized;
         this._generateUrl = uninitialized;
-        this._upgradeUrl = uninitialized;
       },
 
       /**
@@ -283,10 +272,6 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
-      },
-
-      upgradeUrl(params) {
-        this._upgradeUrl(params);
       },
     };
   })(window);

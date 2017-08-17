@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "605824a5_a612b605",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T23:52:13Z",
+      "side": 1,
+      "message": "Technically, since this will probably need to be defined as an extern (if it\u0027s referenced), it won\u0027t, though it wouldn\u0027t hurt and it would be helpful for once we can start referencing these eventually.",
+      "parentUuid": "f2401161_1c40ecfc",
+      "revId": "cd265dd8b9d7fcfb37112810e56be5228ba8d81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3aa09a20_0806755e",
         "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.js",
         "patchSetId": 6

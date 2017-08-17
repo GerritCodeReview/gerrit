@@ -111,6 +111,7 @@ public class AccountsOnInit {
           throw new IOException(
               String.format("Failed to update ref %s: %s", refName, result.name()));
         }
+        account.setMetaId(id.name());
       }
     }
   }

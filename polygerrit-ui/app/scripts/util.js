@@ -58,6 +58,5 @@
     // Character is an ellipsis.
     return '\u2026/' + pathPieces[pathPieces.length - 1];
   };
-
   window.util = util;
 })(window);

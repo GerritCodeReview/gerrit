@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.TimeUtil;
@@ -21,6 +23,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -189,27 +192,29 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     PatchSet patchSet = resource.getPatchSet();
     Change change = resource.getChange();
     Branch.NameKey dest = change.getDest();
-    boolean visible =
-        change.getStatus().isOpen()
-            && resource.isCurrent()
-            && resource.permissions().database(dbProvider).testOrFalse(ChangePermission.REBASE);
-    boolean enabled = true;
+    boolean visible = change.getStatus().isOpen() && resource.isCurrent();
+    boolean enabled = false;
 
     if (visible) {
       try (Repository repo = repoManager.openRepository(dest.getParentKey());
           RevWalk rw = new RevWalk(repo)) {
         visible = hasOneParent(rw, resource.getPatchSet());
-        enabled = rebaseUtil.canRebase(patchSet, dest, repo, rw);
+        if (visible) {
+          enabled = rebaseUtil.canRebase(patchSet, dest, repo, rw);
+        }
       } catch (IOException e) {
         log.error("Failed to check if patch set can be rebased: " + resource.getPatchSet(), e);
         visible = false;
       }
     }
+
+    BooleanCondition permissionCond =
+        resource.permissions().database(dbProvider).testCond(ChangePermission.REBASE);
     return new UiAction.Description()
         .setLabel("Rebase")
         .setTitle("Rebase onto tip of branch or parent change")
-        .setVisible(visible)
-        .setEnabled(enabled);
+        .setVisible(and(visible, permissionCond))
+        .setEnabled(and(enabled, permissionCond));
   }
 
   public static class CurrentRevision

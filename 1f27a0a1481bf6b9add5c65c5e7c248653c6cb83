@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11446855_446176ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T15:05:31Z",
+      "side": 1,
+      "message": "I think it wouldn\u0027t be too hard to refactor here such that you don\u0027t have to modify diffEntries:\n\n* Make getEditsDueToRebasePerFilePath return both (List\u003cDiffEntry\u003e, Multimap\u003c...\u003e) as an @AutoValue.\n* Pass df, aTree, bTree into getEdits...",
+      "revId": "1f27a0a1481bf6b9add5c65c5e7c248653c6cb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5afa47ce_ff4bba4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T15:05:31Z",
+      "side": 1,
+      "message": "Even if you don\u0027t go through with the refactoring I suggested above, I think you can move this assignment up to immediately after diffEntries is declared. Then it\u0027s clearer from the control flow that nothing is using the unmodified diffEntries list between when it\u0027s created and when it\u0027s mutated by getEditsDueToRebasePerFilePath",
+      "range": {
+        "startLine": 202,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 39
+      },
+      "revId": "1f27a0a1481bf6b9add5c65c5e7c248653c6cb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a93e5299_6ff682c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T15:05:31Z",
+      "side": 1,
+      "message": "This is probably a premature optimization, but since I\u0027m already thinking about optimizations and garbage this morning...\n\nOne problem with flatMap is it will allocate a new Stream for each PatchListEntry in these two lists. If you wrote this as an iterative for loop, you would just have calls to Set#add, without having to allocate Streams.",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 39
+      },
+      "revId": "1f27a0a1481bf6b9add5c65c5e7c248653c6cb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4087f73f_591a6451",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T15:05:31Z",
+      "side": 1,
+      "message": "Maybe leave a comment here that we are intentionally using stub values for the editsDueToRebase and size arguments, since they are expensive to commute and not needed by the caller.",
+      "revId": "1f27a0a1481bf6b9add5c65c5e7c248653c6cb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

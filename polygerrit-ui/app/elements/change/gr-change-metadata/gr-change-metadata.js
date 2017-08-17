@@ -252,7 +252,7 @@
       const labelName = target.labelName;
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
-          this.$.restAPI.deleteVote(this.change.id, accountID, labelName)
+          this.$.restAPI.deleteVote(this.change._number, accountID, labelName)
           .then(response => {
             if (!response.ok) { return response; }
             const label = this.change.labels[labelName];

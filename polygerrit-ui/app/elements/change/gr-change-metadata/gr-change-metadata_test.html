@@ -286,7 +286,7 @@ limitations under the License.
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
-          _number: 'the number',
+          _number: 42,
           change_id: 'the id',
           actions: [],
           topic: 'the topic',
@@ -324,14 +324,16 @@ limitations under the License.
       });
 
       test('deletes votes', done => {
-        sandbox.stub(element.$.restAPI, 'deleteVote')
+        const deleteStub = sandbox.stub(element.$.restAPI, 'deleteVote')
             .returns(Promise.resolve({ok: true}));
+
         const spliceStub = sandbox.stub(element, 'splice', (path, index,
             length) => {
           assert.deepEqual(path, ['change.labels', 'test', 'all']);
           assert.equal(index, 0);
           assert.equal(length, 1);
           assert.notOk(element.change.labels.test.recommended);
+          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
           spliceStub.restore();
           done();
         });
@@ -356,7 +358,7 @@ limitations under the License.
         const topicChangedSpy = sandbox.spy();
         element.addEventListener('topic-changed', topicChangedSpy);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            'the number', newTopic));
+            42, newTopic));
         return element.$.restAPI.setChangeTopic.lastCall.returnValue
             .then(() => {
               assert.equal(element.change.topic, newTopic);
@@ -372,7 +374,7 @@ limitations under the License.
         element.addEventListener('topic-changed', topicChangedSpy);
         MockInteractions.tap(remove);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
-            'the number', null));
+            42, null));
         return element.$.restAPI.setChangeTopic.lastCall.returnValue
             .then(() => {
               assert.equal(element.change.topic, '');
@@ -391,7 +393,7 @@ limitations under the License.
             Promise.resolve(newHashtag));
         element._handleHashtagChanged({}, 'new hashtag');
         assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
-            'the number', {add: ['new hashtag']}));
+            42, {add: ['new hashtag']}));
         return element.$.restAPI.setChangeHashtag.lastCall.returnValue
             .then(() => {
               assert.equal(element.change.hashtags, newHashtag);

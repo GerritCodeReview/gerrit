@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6acec2c1_260ee3a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T17:05:22Z",
+      "side": 1,
+      "message": "Updated to use flexbox by adding an additional div.",
+      "parentUuid": "07a7dbc6_7ee918a8",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "157734c1_67801048",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 8

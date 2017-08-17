@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "381602a6_9c5468c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T16:56:43Z",
+      "side": 0,
+      "message": "I suspect the key edit here is that this `computeLatestPatchNum` has been moved out of the `_initialLoadComplete` test. Is that right?",
+      "range": {
+        "startLine": 471,
+        "startChar": 8,
+        "endLine": 473,
+        "endChar": 9
+      },
+      "revId": "08eeabe6a88681a3022adb084c2e4183830026a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

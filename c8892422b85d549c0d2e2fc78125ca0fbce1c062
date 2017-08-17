@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62c86ef4_d152546e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T16:56:43Z",
+      "side": 1,
+      "message": "Does \"erroneously not populated\" mean erroneously set to undefined? Do you know where the undefined was coming from?",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "c8892422b85d549c0d2e2fc78125ca0fbce1c062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a90e9a6_b2cf6698",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T16:56:43Z",
+      "side": 1,
+      "message": "This isn\u0027t a valid patchNum, is it? Can we return something like 42 or \u0027edit\u0027?",
+      "range": {
+        "startLine": 656,
+        "startChar": 62,
+        "endLine": 656,
+        "endChar": 66
+      },
+      "revId": "c8892422b85d549c0d2e2fc78125ca0fbce1c062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

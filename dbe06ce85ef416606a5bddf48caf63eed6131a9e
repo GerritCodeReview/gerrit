@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0e074c7_acf4b0a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T21:31:37Z",
+      "side": 1,
+      "message": "\u003e It might be reasonable to just take the user to a 404 [..]\n\nThat\u0027s pretty much what it does. The boolean yielded from `_waitForChangeReachable` isn\u0027t really used, so, if, after n attempts it still doesn\u0027t see it, at least the user will get the correct URL -- essentially falling back to the current behavior.\n\n(It also might succeed this last time.)",
+      "parentUuid": "ced3750d_6091bb4b",
+      "revId": "dbe06ce85ef416606a5bddf48caf63eed6131a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc7b506e_64620f9b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-17T00:14:35Z",
       "side": 1,
       "message": "In the failure case, this will toast the user five separate times, right?\n\nShould we do anything about that?",
+      "range": {
+        "startLine": 1037,
+        "startChar": 8,
+        "endLine": 1052,
+        "endChar": 10
+      },
+      "revId": "dbe06ce85ef416606a5bddf48caf63eed6131a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a823feb_b89286a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T21:31:37Z",
+      "side": 1,
+      "message": "Good point. I\u0027m going to look for a good way to prevent this.",
+      "parentUuid": "cc7b506e_64620f9b",
       "range": {
         "startLine": 1037,
         "startChar": 8,

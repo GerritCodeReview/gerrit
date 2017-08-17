@@ -59,5 +59,19 @@
     return '\u2026/' + pathPieces[pathPieces.length - 1];
   };
 
+  util.toSortedArray = function(obj) {
+    return util.toArray(obj).sort((a, b) => {
+      return a.id > b.id;
+    });
+  };
+
+  util.toArray= function(obj) {
+    return Object.keys(obj).map( key => {
+      return {
+        id: key,
+        value: obj[key],
+      };
+    });
+  },
   window.util = util;
 })(window);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee50b16_bb70eea9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-17T20:41:41Z",
+      "side": 1,
+      "message": "This should be equivalent, but the idiomatic way to do this would be\n\n assert.isTrue(deleteStub.calledWithExactly(42, 1, \u0027test\u0027));",
+      "range": {
+        "startLine": 336,
+        "startChar": 10,
+        "endLine": 336,
+        "endChar": 70
+      },
+      "revId": "91893694785f1382b6237d73624d3734a3fb02f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

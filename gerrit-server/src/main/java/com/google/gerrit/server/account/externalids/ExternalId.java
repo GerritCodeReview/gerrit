@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
@@ -305,10 +306,20 @@ public abstract class ExternalId implements Serializable {
     return key().isScheme(scheme);
   }
 
+  public byte[] toByteArray() {
+    checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
+    byte[] b = new byte[2 * Constants.OBJECT_ID_STRING_LENGTH + 1];
+    key().sha1().copyTo(b, 0);
+    System.arraycopy(":".getBytes(UTF_8), 0, b, Constants.OBJECT_ID_STRING_LENGTH, 1);
+    blobId().copyTo(b, Constants.OBJECT_ID_STRING_LENGTH + 1);
+    return b;
+  }
+
   /**
-   * For checking if two external IDs are equals the blobId is excluded and external IDs that have
-   * different blob IDs but identical other fields are considered equal. This way an external ID
-   * that was loaded from Git can be equal with an external ID that was created from code.
+   * For checking if two external IDs are equals the blobId is excluded and
+   * external IDs that have different blob IDs but identical other fields are
+   * considered equal. This way an external ID that was loaded from Git can be
+   * equal with an external ID that was created from code.
    */
   @Override
   public boolean equals(Object obj) {

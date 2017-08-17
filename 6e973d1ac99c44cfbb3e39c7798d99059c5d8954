@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a778994f_b89df20d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T04:16:24Z",
+      "side": 1,
+      "message": "Do you have a better suggestion for when there are a bunch of things aligned left, and one aligned right?",
+      "parentUuid": "8f93e274_58a2fb0f",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "157734c1_67801048",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-16T22:03:34Z",
       "side": 1,
       "message": "http://imgur.com/a/UEnPn",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a07e70b_d4ff6d6e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T04:16:24Z",
+      "side": 1,
+      "message": "Ack 😊",
+      "parentUuid": "157734c1_67801048",
       "range": {
         "startLine": 34,
         "startChar": 13,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ad1aaab4_d5dbabaf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T04:16:24Z",
+      "side": 1,
+      "message": "I (will) actually have that in a later change. What do you think would be a good way to share this? This particular element doesn\u0027t care unless it\u0027s one of a few types.\n\npreview: https://gerrit-review.googlesource.com/c/gerrit/+/119970/8",
+      "parentUuid": "275610f3_56765e9f",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8e4ed1f_79ff8ca1",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 8
@@ -73,6 +133,24 @@
       "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08248f4b_a9aaa9e7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-17T04:16:24Z",
+      "side": 1,
+      "message": "Don\u0027t think it is anymore... removing.",
+      "parentUuid": "c8e4ed1f_79ff8ca1",
+      "revId": "6e973d1ac99c44cfbb3e39c7798d99059c5d8954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

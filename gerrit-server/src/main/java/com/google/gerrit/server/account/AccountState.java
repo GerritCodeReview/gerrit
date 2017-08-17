@@ -29,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AllUsersName;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
 
+  private final AllUsersName allUsersName;
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<ExternalId> externalIds;
@@ -50,15 +52,21 @@ public class AccountState {
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
+      AllUsersName allUsersName,
       Account account,
       Set<AccountGroup.UUID> actualGroups,
       Collection<ExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    this.allUsersName = allUsersName;
     this.account = account;
     this.internalGroups = actualGroups;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.account.setUserName(getUserName(externalIds));
+  }
+
+  public AllUsersName getAllUsersNameForIndexing() {
+    return allUsersName;
   }
 
   /** Get the cached account metadata. */

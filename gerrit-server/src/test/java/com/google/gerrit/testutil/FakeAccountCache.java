@@ -20,6 +20,8 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +80,11 @@ public class FakeAccountCache implements AccountCache {
   }
 
   private static AccountState newState(Account account) {
-    return new AccountState(account, ImmutableSet.of(), ImmutableSet.of(), new HashMap<>());
+    return new AccountState(
+        new AllUsersName(AllUsersNameProvider.DEFAULT),
+        account,
+        ImmutableSet.of(),
+        ImmutableSet.of(),
+        new HashMap<>());
   }
 }

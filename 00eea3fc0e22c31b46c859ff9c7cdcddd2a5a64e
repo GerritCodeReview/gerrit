@@ -1,4 +1,102 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1502960142 +0200\nnonce AHIDc+OSWdcK1tMZxfboM9YxWkJDeXLEjwCFdjdoxUbwuHidCb6wQoCZ3YNgw98cMOhwUj5+ClbI\n\n0000000000000000000000000000000000000000 00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZlVoOAAoJEFG1/Zeg0O9RKeAH/1009m0yuGg0slABkO/Fw7DZ\nomwpQWqBhtHAlBFZhSLdeEfVvdTIzFGBd08/H4/iDzGvVdMjrumn1hKuuBKrSHrk\nxCBYD5mgiNaRBlbYqKx77nb8guma4QPbNko5Yd2o7cUo3H50hLmO7SpyQRGt10G2\nmrwUVUzgwnxOHuzCtSysq3XNoEEQdbDhFhbU3NIhaZYQD9HSDuUizURPxJaA49Fa\nbD2nCK8Amksxd15+eXkF4LGOWNzvorf/lQwSFZx/jB5VHRI6PNMtRc/jCioW2+/g\nZmtkK3Z8mjtQtqu3aBIYj4UUvtj9jgJqxaXLgFHlGuR2tpITsi9dnXOZPSZY5go\u003d\n\u003dYl+s\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf0f0a08_773f7d5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T14:30:38Z",
+      "side": 1,
+      "message": "sufficient",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fba8e5f_645de544",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T14:30:38Z",
+      "side": 1,
+      "message": "What does null mean? That it was created in code and hasn\u0027t been stored in git yet?",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d306c32_2a4b455e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T14:30:38Z",
+      "side": 1,
+      "message": "Please explicitly comment that blobId is intentionally excluded, and IDs that have different blob IDs but identical other fields should be considered equal.",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa2522e_0956ef07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T14:30:38Z",
+      "side": 1,
+      "message": "Maybe make this a public method on ExternalId, to avoid duplication?",
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0851e7f1_8e45771f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/externalids/ExternalIdReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-17T14:30:38Z",
+      "side": 1,
+      "message": "Nit: \"data\" sounds like it should be a byte[], maybe \"noteId\"?\n\nOh, I see that this is based on Note#getData(). That is IMHO a bad name, but I guess I don\u0027t mind if you are consistent with that.",
+      "range": {
+        "startLine": 189,
+        "startChar": 13,
+        "endLine": 189,
+        "endChar": 21
+      },
+      "revId": "00eea3fc0e22c31b46c859ff9c7cdcddd2a5a64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

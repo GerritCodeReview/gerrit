@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
 /**
@@ -142,6 +144,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       Config cfg = readConfig(ACCOUNT_CONFIG);
 
       account = parse(cfg);
+      account.setMetaId(revision.name());
     }
 
     isLoaded = true;
@@ -162,6 +165,13 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
     account.setStatus(get(cfg, KEY_STATUS));
     return account;
+  }
+
+  @Override
+  public RevCommit commit(MetaDataUpdate update) throws IOException {
+    RevCommit c = super.commit(update);
+    account.setMetaId(c.name());
+    return c;
   }
 
   @Override

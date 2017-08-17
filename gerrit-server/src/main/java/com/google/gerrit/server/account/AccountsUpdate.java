@@ -265,6 +265,7 @@ public class AccountsUpdate {
     if (account != null) {
       consumers.stream().forEach(c -> c.accept(account));
       commit(accountConfig);
+      return account;
     } else if (reviewDbAccount != null) {
       // user branch doesn't exist yet
       accountConfig.setAccount(reviewDbAccount);

@@ -183,6 +183,12 @@ public final class Account {
   /** <i>stored in git, used for caching</i> the user's preferences. */
   private GeneralPreferencesInfo generalPreferences;
 
+  /**
+   * ID of the user branch from which the account was read, {@code null} if the account was read
+   * from ReviewDb.
+   */
+  private String metaId;
+
   protected Account() {}
 
   /**
@@ -280,6 +286,14 @@ public final class Account {
 
   public void setGeneralPreferences(GeneralPreferencesInfo p) {
     generalPreferences = p;
+  }
+
+  public String getMetaId() {
+    return metaId;
+  }
+
+  public void setMetaId(String metaId) {
+    this.metaId = metaId;
   }
 
   public boolean isActive() {

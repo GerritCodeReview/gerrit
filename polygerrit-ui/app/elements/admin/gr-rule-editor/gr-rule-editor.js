@@ -72,6 +72,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.AccessBehavior,
+    ],
+
     observers: [
       '_handleValueChange(rule.value.*)',
     ],
@@ -91,7 +95,8 @@
     },
 
     _computeForce(permission) {
-      return 'push' === permission || 'editTopicName' === permission;
+      return this.permissionValues.push.id === permission ||
+          this.permissionValues.editTopicName.id === permission;
     },
 
     _computeForceClass(permission) {
@@ -103,9 +108,9 @@
     },
 
     _computeForceOptions(permission) {
-      if (permission === 'push') {
+      if (permission === this.permissionValues.push.id) {
         return FORCE_PUSH_OPTIONS;
-      } else if (permission === 'editTopicName') {
+      } else if (permission === this.permissionValues.editTopicName.id) {
         return FORCE_EDIT_OPTIONS;
       }
       return [];
@@ -140,12 +145,12 @@
 
     _handleRemoveRule() {
       this._deleted = true;
-      this.rule.deleted = true;
+      this.set('rule.value.deleted', true);
     },
 
     _handleUndoRemove() {
       this._deleted = false;
-      delete this.rule.deleted;
+      delete this.rule.value.deleted;
     },
 
     _handleUndoChange() {

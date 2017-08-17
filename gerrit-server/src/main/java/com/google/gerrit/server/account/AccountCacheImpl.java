@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -76,15 +77,18 @@ public class AccountCacheImpl implements AccountCache {
     };
   }
 
+  private final AllUsersName allUsersName;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
   private final LoadingCache<String, Optional<Account.Id>> byName;
   private final Provider<AccountIndexer> indexer;
 
   @Inject
   AccountCacheImpl(
+      AllUsersName allUsersName,
       @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
       @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
       Provider<AccountIndexer> indexer) {
+    this.allUsersName = allUsersName;
     this.byId = byId;
     this.byName = byUsername;
     this.indexer = indexer;
@@ -142,16 +146,21 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
-  private static AccountState missing(Account.Id accountId) {
+  private AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
     return new AccountState(
-        account, anon, Collections.emptySet(), new HashMap<ProjectWatchKey, Set<NotifyType>>());
+        allUsersName,
+        account,
+        anon,
+        Collections.emptySet(),
+        new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AllUsersName allUsersName;
     private final Accounts accounts;
     private final GroupCache groupCache;
     private final Groups groups;
@@ -163,6 +172,7 @@ public class AccountCacheImpl implements AccountCache {
     @Inject
     ByIdLoader(
         SchemaFactory<ReviewDb> sf,
+        AllUsersName allUsersName,
         Accounts accounts,
         GroupCache groupCache,
         Groups groups,
@@ -170,8 +180,9 @@ public class AccountCacheImpl implements AccountCache {
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
         Provider<WatchConfig.Accessor> watchConfig,
         ExternalIds externalIds) {
-      this.accounts = accounts;
       this.schema = sf;
+      this.allUsersName = allUsersName;
+      this.accounts = accounts;
       this.groupCache = groupCache;
       this.groups = groups;
       this.loader = loader;
@@ -219,6 +230,7 @@ public class AccountCacheImpl implements AccountCache {
 
       return Optional.of(
           new AccountState(
+              allUsersName,
               account,
               internalGroups,
               externalIds.byAccount(who),

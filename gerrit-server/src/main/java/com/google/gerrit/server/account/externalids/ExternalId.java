@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
@@ -303,6 +304,15 @@ public abstract class ExternalId implements Serializable {
 
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
+  }
+
+  public byte[] toByteArray() {
+    checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
+    byte[] b = new byte[2 * Constants.OBJECT_ID_STRING_LENGTH + 1];
+    key().sha1().copyTo(b, 0);
+    b[Constants.OBJECT_ID_STRING_LENGTH] = ':';
+    blobId().copyTo(b, Constants.OBJECT_ID_STRING_LENGTH + 1);
+    return b;
   }
 
   /**

@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.change.StalenessChecker.RefState;
+import com.google.gerrit.server.index.RefState;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testutil.GerritBaseTests;

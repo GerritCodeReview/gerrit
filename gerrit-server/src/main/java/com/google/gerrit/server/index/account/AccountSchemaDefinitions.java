@@ -34,7 +34,10 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           AccountField.USERNAME,
           AccountField.WATCHED_PROJECT);
 
-  static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
+  @Deprecated static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
+
+  static final Schema<AccountState> V6 =
+      schema(V5, AccountField.REF_STATE, AccountField.EXTERNAL_ID_STATE);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

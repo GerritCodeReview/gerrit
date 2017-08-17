@@ -154,7 +154,7 @@
       if (method !== 'GET') {
         options.method = 'POST';
         params.push(`$m=${method}`);
-        if (!contentType) {
+        if (!contentType && options.body) {
           contentType = 'application/json';
         }
       }

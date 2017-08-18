@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a2fc9d1_94f2fff3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001b3912_dfefc2a9",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60e900dc_1e99d46f",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb33157e_1759a405",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e900dc_1e99d46f",
+      "range": {
+        "startLine": 135,
+        "startChar": 33,
+        "endLine": 135,
+        "endChar": 34
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "004f0306_731add6c",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Decided to go with a behavior. Additionally, this was able to accomplish defining permission values as per Viktar\u0027s comment in a previous CL:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/119911/8/polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js#77\n\nDoing this in the Rest API would be more complicated because the object to array takes place at various levels of a single API response. It would also need to be translated back in order to POST changes.",
+      "parentUuid": "fc5b60aa_7ad05b65",
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f557a921_653be65a",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 8
@@ -106,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "f31ad97c_a843c964",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f557a921_653be65a",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "669a7d4b_0fd1585a",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 8
@@ -126,6 +216,30 @@
       "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "632ead21_9a268d0b",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "669a7d4b_0fd1585a",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -172,6 +286,30 @@
       "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "192486ac_3893b1ad",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:43:27Z",
+      "side": 1,
+      "message": "Yep, remnant from copying it over from an element.",
+      "parentUuid": "9743f5e2_b8849681",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 75,
+        "endChar": 4
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

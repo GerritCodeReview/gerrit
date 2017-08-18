@@ -15,15 +15,20 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -148,9 +153,38 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(uuid.get()).orElse(null);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup group %s by name", uuid.get()), e);
+      log.warn(String.format("Cannot lookup group %s by uuid", uuid.get()), e);
       return null;
     }
+  }
+
+  @Override
+  public Optional<InternalGroup> getInternalGroup(AccountGroup.UUID groupUuid) {
+    if (groupUuid == null) {
+      return Optional.empty();
+    }
+
+    Optional<AccountGroup> accountGroup = Optional.empty();
+    try {
+      accountGroup = byUUID.get(groupUuid.get());
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup group %s by uuid", groupUuid.get()), e);
+    }
+
+    if (!accountGroup.isPresent()) {
+      return Optional.empty();
+    }
+
+    try (ReviewDb db = schema.open()) {
+      ImmutableSet<Account.Id> members = groups.getMembers(db, groupUuid).collect(toImmutableSet());
+      ImmutableSet<AccountGroup.UUID> includes =
+          groups.getIncludes(db, groupUuid).collect(toImmutableSet());
+      return accountGroup.map(group -> InternalGroup.create(group, members, includes));
+    } catch (OrmException | NoSuchGroupException e) {
+      log.warn(
+          String.format("Cannot lookup members or sub-groups of group %s", groupUuid.get()), e);
+    }
+    return Optional.empty();
   }
 
   @Override

@@ -62,6 +62,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
@@ -83,8 +84,11 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -179,6 +183,48 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.resolve("master")).isEqualTo(c);
+    }
+  }
+
+  @Test
+  public void pushInitialCommitForRefsMetaConfigBranch() throws Exception {
+    // delete refs/meta/config
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
+      u.setForceUpdate(true);
+      u.setExpectedOldObjectId(repo.resolve(RefNames.REFS_CONFIG));
+      assertThat(u.delete(rw)).isEqualTo(Result.FORCED);
+    }
+
+    RevCommit c =
+        testRepo
+            .commit()
+            .message("Initial commit")
+            .author(admin.getIdent())
+            .committer(admin.getIdent())
+            .insertChangeId()
+            .create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    String r = "refs/for/" + RefNames.REFS_CONFIG;
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    ChangeInfo change = gApi.changes().id(id).info();
+    assertThat(change.branch).isEqualTo(RefNames.REFS_CONFIG);
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve(RefNames.REFS_CONFIG)).isNull();
+    }
+
+    gApi.changes().id(change.id).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id).current().submit();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve(RefNames.REFS_CONFIG)).isEqualTo(c);
     }
   }
 

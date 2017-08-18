@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupField;
@@ -48,6 +49,14 @@ public class GroupPredicates {
 
   public static Predicate<InternalGroup> isVisibleToAll() {
     return new GroupPredicate(GroupField.IS_VISIBLE_TO_ALL, "1");
+  }
+
+  public static Predicate<InternalGroup> member(Account.Id memberId) {
+    return new GroupPredicate(GroupField.MEMBER, memberId.toString());
+  }
+
+  public static Predicate<InternalGroup> subgroup(AccountGroup.UUID subgroupUuid) {
+    return new GroupPredicate(GroupField.SUBGROUP, subgroupUuid.get());
   }
 
   static class GroupPredicate extends IndexPredicate<InternalGroup> {

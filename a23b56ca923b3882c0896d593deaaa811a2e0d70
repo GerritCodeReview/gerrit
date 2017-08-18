@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ed1bbcd_e2229439",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T17:50:50Z",
+      "side": 1,
+      "message": "This logic mirrors that of `_computeShowUploader`, so if we upgrade that method to use `null`, (see my comment below) then we can avoid duplicating this logic (and we\u0027d only need to test it once.\n\nSomething like,\n\n_computeShowUploaderHide(change) {\n  return this._computeShowUploader(change) ? \u0027\u0027 : \u0027hideDisplay\u0027;\n},",
+      "range": {
+        "startLine": 348,
+        "startChar": 7,
+        "endLine": 360,
+        "endChar": 16
+      },
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6fa29e6_f2d3ab92",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T17:50:50Z",
+      "side": 1,
+      "message": "Why does it return an empty string in this case?\n\nIn the affirmative case on l.376 it returns an account object, so it looks like this case and the case in l.373 should return `null`.",
+      "range": {
+        "startLine": 366,
+        "startChar": 15,
+        "endLine": 366,
+        "endChar": 17
+      },
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52cfc3d8_efcfab10",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T17:50:50Z",
+      "side": 1,
+      "message": "There are three code paths in this method, but this test only checks one of them. All three should be covered in the test.",
+      "range": {
+        "startLine": 212,
+        "startChar": 31,
+        "endLine": 212,
+        "endChar": 51
+      },
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6573fc3_e31306ac",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T17:50:50Z",
+      "side": 1,
+      "message": "This looks unnecessary. There\u0027s already an entry on l.54.",
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1503077723 -0400\nnonce AHIDc+MrDnGUK9vqi3ld39KhliSpFTNZNqF4itGA0gs90Qv23Xfbvg9HhGJNP7XFmYfAj5ZXRRBD\n\n0000000000000000000000000000000000000000 8b43252d440c2b4686c70ea01dfef3c6d8507071 refs/for/master%topic\u003dchange-notes-iterator,r\u003daliceks,r\u003dsasa.zivkov@sap.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZlyVbAAoJEF/XxZqaEoiMdasP/3WxEClTS2C1Tc/NlYG8Hz2D\nFlBqMWHQ0laGjJNWHEoadkF+547PnW25zBUyvcM1VE0H8ohXrxMS4ORrOw9SiiFa\nVu2Lw57JUeeNdvylUmr15xlVgLzWjhWSRl3Fl87sU0N8GELPFZwTLTdM1cTQldAB\nETN0EeLY17xB4+C2afSJXUHv8L17dPvTTw1dLtU7R6XuHzI2mxPVmQoiv4pKzCUv\ngB5HB1MzJIMEbHXBKSs7r5p7u11hA3ZAubJbdSITu4K90jngzDAL4eoAc+RxsEor\nR8YcHL4MIBwa9vFc8xOh/QqZ++TMpObAjPxf/L0ngu+/APxJHZQqL2XhKp/2BrAC\nHea41e4NVOCPXLc1MWwMCbKJ6XF4CywJXfie9rlIevsqs4YvUsPM+Mxyts43LDNV\nLcaGr2TIj1x3Jt+2Zr2LnVRJXQ46WmPyPVNqU3DJK1DZDv856eojVzZvRPGT/w1d\nbAMhPh6JOjEuSfpBgfbhhdW85c6Uq7S3qAkxJn4JXU7nIQ4U1G6dVB5Lwgj/zts9\ntdb/E7cucX5yy5uylDys0n3Dg4QteQ17IJNdY2E50O0UHZ0T5MeZ68gcVF6c3kTP\n85wTUCbagp91fDsVc3ZR5RUKVdSuBYmg8PqxiMKw5rjUDbUeN2VZ1ukbirQJu18e\nvlvZ41wJpXp0kl+G44QQ\n\u003dZNdb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "21db31df_6e9289ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-18T18:00:16Z",
+      "side": 1,
+      "message": "Note that we were already doing this bad thing on line 231 in the base. Even if the lazy iterator thing doesn\u0027t pan out, I think this change is still an improvement on its own.",
+      "revId": "3ea322e74a60e225e5d6bd30b865a67d1ad350f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

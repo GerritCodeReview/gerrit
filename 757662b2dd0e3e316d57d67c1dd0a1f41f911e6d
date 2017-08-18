@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b4afacf_6e3198dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-18T07:48:54Z",
+      "side": 1,
+      "message": "Maybe add a comment here, saying that this method should be kept although it is unused. Otherwise somebody might notice that it\u0027s unused and remove it.",
+      "revId": "757662b2dd0e3e316d57d67c1dd0a1f41f911e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

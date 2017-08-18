@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "37061687_b7748a47",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-18T13:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a5d88e_fd2d16e5",
+      "revId": "c9fe3d20f8aee30007f08274b9ab62d6bc735d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "909ab67a_25629fb2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
         "patchSetId": 1

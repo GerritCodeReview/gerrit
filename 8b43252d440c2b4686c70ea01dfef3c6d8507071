@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1503077723 -0400\nnonce AHIDc+MrDnGUK9vqi3ld39KhliSpFTNZNqF4itGA0gs90Qv23Xfbvg9HhGJNP7XFmYfAj5ZXRRBD\n\n0000000000000000000000000000000000000000 8b43252d440c2b4686c70ea01dfef3c6d8507071 refs/for/master%topic\u003dchange-notes-iterator,r\u003daliceks,r\u003dsasa.zivkov@sap.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZlyVbAAoJEF/XxZqaEoiMdasP/3WxEClTS2C1Tc/NlYG8Hz2D\nFlBqMWHQ0laGjJNWHEoadkF+547PnW25zBUyvcM1VE0H8ohXrxMS4ORrOw9SiiFa\nVu2Lw57JUeeNdvylUmr15xlVgLzWjhWSRl3Fl87sU0N8GELPFZwTLTdM1cTQldAB\nETN0EeLY17xB4+C2afSJXUHv8L17dPvTTw1dLtU7R6XuHzI2mxPVmQoiv4pKzCUv\ngB5HB1MzJIMEbHXBKSs7r5p7u11hA3ZAubJbdSITu4K90jngzDAL4eoAc+RxsEor\nR8YcHL4MIBwa9vFc8xOh/QqZ++TMpObAjPxf/L0ngu+/APxJHZQqL2XhKp/2BrAC\nHea41e4NVOCPXLc1MWwMCbKJ6XF4CywJXfie9rlIevsqs4YvUsPM+Mxyts43LDNV\nLcaGr2TIj1x3Jt+2Zr2LnVRJXQ46WmPyPVNqU3DJK1DZDv856eojVzZvRPGT/w1d\nbAMhPh6JOjEuSfpBgfbhhdW85c6Uq7S3qAkxJn4JXU7nIQ4U1G6dVB5Lwgj/zts9\ntdb/E7cucX5yy5uylDys0n3Dg4QteQ17IJNdY2E50O0UHZ0T5MeZ68gcVF6c3kTP\n85wTUCbagp91fDsVc3ZR5RUKVdSuBYmg8PqxiMKw5rjUDbUeN2VZ1ukbirQJu18e\nvlvZ41wJpXp0kl+G44QQ\n\u003dZNdb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a490f667_59fc3e14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-18T17:57:56Z",
+      "side": 1,
+      "message": "Not sure if this is workable. We absolutely do want to continue the iterator if there was a problem just loading a single change. The issue is that the exception might have been thrown due to something other than loading a single change e.g. loading a batch of 30 in the ReviewDb case.\n\nI wonder if we might be better off returning a more complex value from this iterator, possibly including a description of an error encountered and the ID, but not actually throwing an exception.\n\nI\u0027ll think about this and come back to it on Monday.",
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

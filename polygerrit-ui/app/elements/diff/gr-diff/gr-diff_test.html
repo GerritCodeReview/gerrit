@@ -746,7 +746,7 @@ limitations under the License.
         });
       });
 
-      test.only('addDraftAtLine on an edit', done => {
+      test('addDraftAtLine on an edit', done => {
         element.patchRange.basePatchNum = element.EDIT_NAME;
         sandbox.stub(element, '_selectLine');
         sandbox.stub(element, '_createComment');

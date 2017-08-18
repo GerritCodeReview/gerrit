@@ -26,6 +26,7 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -122,6 +123,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
    * @throws OrmException if query cannot be parsed
    */
   public List<AccountState> byPreferredEmail(String email) throws OrmException {
+    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+      return query(AccountPredicates.preferredEmailExact(email));
+    }
+
     return query(AccountPredicates.preferredEmail(email))
         .stream()
         .filter(a -> a.getAccount().getPreferredEmail().equals(email))
@@ -138,6 +143,21 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
    */
   public Multimap<String, AccountState> byPreferredEmail(String... emails) throws OrmException {
     List<String> emailList = Arrays.asList(emails);
+
+    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+      List<List<AccountState>> r =
+          query(
+              emailList
+                  .stream()
+                  .map(e -> AccountPredicates.preferredEmailExact(e))
+                  .collect(toList()));
+      Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+      for (int i = 0; i < emailList.size(); i++) {
+        accountsByEmail.putAll(emailList.get(i), r.get(i));
+      }
+      return accountsByEmail;
+    }
+
     List<List<AccountState>> r =
         query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
     Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();

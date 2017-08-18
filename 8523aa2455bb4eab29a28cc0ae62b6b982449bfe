@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1503041596 +0200\nnonce AHIDc+Pld+NouB6x4VOE6ulrXkB1/a4+btR/VfozXCrkQNrpsTErJTWbb/a1U5F/rTREJEAkyAkX\n\n0000000000000000000000000000000000000000 a6fa0117affeed2169fbb377159686bd15286d5f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZlpg8AAoJEFG1/Zeg0O9RyXQIAK7kLmTUPCqR5qF8H/t+zvqF\n0MdU/3x8vMbHdFktx2/iZg7X7+7aVKtWdOUFzpbv6hvagTAr5AbPWahpJlAClybM\nyj0DuPxi/ihcyMDVqC0ajAz/Gtj+sv8jOp9fSOSO4hU2WrwxaG66q8yFLTEkepIY\n/R1OyLJBF2Q2st8Uw7dyP4s9+WYbgAOb/B7tJPER4In9rORMkAaJl4DOR7b86fyw\nPkV6WhXI1/A5TB3aNfnNACraqfrBR9qs/KSg6WB1LrTPg9iXZQ/bkHRpDpGHwAKc\nTMaY8pTa9+ME2SUN1pbkj50GrWhSYczOSv+n/Fvfiz9MyrKoNryXNHbjxch25/U\u003d\n\u003d7ExZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "18237dcd_73ff8d26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-18T13:29:33Z",
+      "side": 1,
+      "message": "There is a performance risk if the caller passes a short, common prefix (like a single character), then we return a large number of results that are all filtered out. What are the chances of that happening in current and future codepaths?\n\nIf it\u0027s low enough,then this is ok. If it\u0027s higher (e.g. the email arg might be user-provided), then we probably need to add an exact match field to the index. On the plus side, you\u0027re already bumping the schema version in this series :)",
+      "revId": "8523aa2455bb4eab29a28cc0ae62b6b982449bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

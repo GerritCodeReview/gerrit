@@ -1430,7 +1430,9 @@ class ReceiveCommits {
       logDebug("Handling {}", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
-    if (!rp.getAdvertisedRefs().containsKey(ref) && !ref.equals(readHEAD(repo))) {
+    if (!rp.getAdvertisedRefs().containsKey(ref)
+        && !ref.equals(readHEAD(repo))
+        && !ref.equals(RefNames.REFS_CONFIG)) {
       logDebug("Ref {} not found", ref);
       if (ref.startsWith(Constants.R_HEADS)) {
         String n = ref.substring(Constants.R_HEADS.length());

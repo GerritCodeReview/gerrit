@@ -173,6 +173,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.resolve("master")).isNull();
     }
+
+    gApi.changes().id(change.id).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id).current().submit();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve("master")).isEqualTo(c);
+    }
   }
 
   @Test

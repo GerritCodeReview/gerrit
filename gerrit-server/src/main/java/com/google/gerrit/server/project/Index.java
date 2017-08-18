@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -31,23 +30,24 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.PrintWriter;
+import org.eclipse.jgit.util.io.NullOutputStream;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class Index implements RestModifyView<ProjectResource, ProjectInput> {
 
-  private final AllChangesIndexer allChangesIndexer;
+  private final Provider<AllChangesIndexer> allChangesIndexerProvider;
   private final ChangeIndexer indexer;
   private final ListeningExecutorService executor;
 
   @Inject
   Index(
-      AllChangesIndexer allChangesIndexer,
+      Provider<AllChangesIndexer> allChangesIndexerProvider,
       ChangeIndexer indexer,
       @IndexExecutor(BATCH) ListeningExecutorService executor) {
-    this.allChangesIndexer = allChangesIndexer;
+    this.allChangesIndexerProvider = allChangesIndexerProvider;
     this.indexer = indexer;
     this.executor = executor;
   }
@@ -58,8 +58,9 @@ public class Index implements RestModifyView<ProjectResource, ProjectInput> {
     Task mpt =
         new MultiProgressMonitor(ByteStreams.nullOutputStream(), "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
-    PrintWriter pw = new PrintWriter(CharStreams.nullWriter());
-    executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt, pw));
+    AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
+    allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);
+    executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
     return Response.accepted("Project " + project + " submitted for reindexing");
   }
 }

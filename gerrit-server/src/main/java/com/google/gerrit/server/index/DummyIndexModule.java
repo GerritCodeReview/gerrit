@@ -17,8 +17,8 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
@@ -43,7 +43,7 @@ public class DummyIndexModule extends AbstractModule {
 
   private static class DummyGroupIndexFactory implements GroupIndex.Factory {
     @Override
-    public GroupIndex create(Schema<AccountGroup> schema) {
+    public GroupIndex create(Schema<InternalGroup> schema) {
       throw new UnsupportedOperationException();
     }
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -100,16 +102,16 @@ public class SchemaCreator {
     admin = newGroup(db, "Administrators");
     admin.setDescription("Gerrit Site Administrators");
     GroupsUpdate.addNewGroup(db, admin);
-    index(admin);
+    index(InternalGroup.create(admin, ImmutableSet.of(), ImmutableSet.of()));
 
     batch = newGroup(db, "Non-Interactive Users");
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
     GroupsUpdate.addNewGroup(db, batch);
-    index(batch);
+    index(InternalGroup.create(batch, ImmutableSet.of(), ImmutableSet.of()));
   }
 
-  private void index(AccountGroup group) throws IOException {
+  private void index(InternalGroup group) throws IOException {
     for (GroupIndex groupIndex : indexCollection.getWriteIndexes()) {
       groupIndex.replace(group);
     }

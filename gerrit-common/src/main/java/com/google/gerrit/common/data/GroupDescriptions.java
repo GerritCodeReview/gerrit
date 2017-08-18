@@ -51,6 +51,7 @@ public class GroupDescriptions {
       }
 
       @Override
+      @Nullable
       public String getDescription() {
         return group.getDescription();
       }

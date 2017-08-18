@@ -223,8 +223,6 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
               .get()
               .byPreferredEmail(email)
               .stream()
-              // the index query also matches prefixes, filter those out
-              .filter(a -> email.equalsIgnoreCase(a.getAccount().getPreferredEmail()))
               .map(AccountState::getAccount)
               .findFirst();
       return match.isPresent() ? auth(match.get()) : null;

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b056848_fb73900e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-18T11:30:28Z",
+      "side": 1,
+      "message": "I think there is an easy way to test at least whether this object can be put into the PatchList cache and retrieved again. In a test class, we can inject the cache via\n\n @Named(FILE_NAME) Cache\u003cPatchListKey, PatchList\u003e patchListCache\n\nFurthermore, we can create a LargeObjectTomstone and put it in the cache for a specific key. Afterwards, we can retrieve the cached value for that key and make sure that it\u0027s a LargeObjectTombstone.",
+      "range": {
+        "startLine": 195,
+        "startChar": 16,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d123ed07_c0838da2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-18T11:30:28Z",
+      "side": 1,
+      "message": "The order is typically the other way around: first the Javadoc, then the annotations. IntelliJ doesn\u0027t recognize the Javadoc comment this way. I don\u0027t know about other tools but we should probably switch the order.",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 7
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56119be8_45ab0b32",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 3
@@ -22,6 +68,29 @@
       "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15bfa3_37dcae2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-18T11:30:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t make any sense. I thought the reason for overriding the method is to not cause an NPE in PatchListWeigher for instances of LargeObjectTombstone.",
+      "range": {
+        "startLine": 202,
+        "startChar": 61,
+        "endLine": 203,
+        "endChar": 24
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

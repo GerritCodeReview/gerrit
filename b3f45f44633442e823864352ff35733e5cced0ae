@@ -266,6 +266,30 @@
     },
     {
       "key": {
+        "uuid": "ac8daa6a_1cffdaa9",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T21:47:46Z",
+      "side": 1,
+      "message": "I looked into changing this, and decided to stick with \u0027id\u0027, because it got confusing when comparing group suggestions to existing groups, since the rest API uses ID there: http://imgur.com/a/XefXk",
+      "parentUuid": "9c6620ea_fae6ffed",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 10
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9743f5e2_b8849681",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 8

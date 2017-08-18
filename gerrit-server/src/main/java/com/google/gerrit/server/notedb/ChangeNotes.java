@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
@@ -72,7 +71,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -218,11 +216,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     /**
      * Instantiate ChangeNotes for a change that has been loaded by a batch read from the database.
      */
-    private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change) throws OrmException {
+    ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change) throws OrmException {
       checkState(
           !args.migration.readChanges(),
           "do not call createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
       return new ChangeNotes(args, change).load();
+    }
+
+    ChangeNotes createFromChangeOnlyWithProperNoteDbState(Change change) {
+      return new ChangeNotes(args, change);
     }
 
     public List<ChangeNotes> create(ReviewDb db, Collection<Change.Id> changeIds)
@@ -286,8 +288,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = args.repoManager.openRepository(project)) {
-            List<ChangeNotes> changes = scanNoteDb(repo, db, project);
-            for (ChangeNotes cn : changes) {
+            ChangeNotesIterator it = scanNoteDb(repo, db, project);
+            while (it.hasNext()) {
+              ChangeNotes cn = it.next();
               if (predicate.test(cn)) {
                 m.put(project, cn);
               }
@@ -305,67 +308,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return ImmutableListMultimap.copyOf(m);
     }
 
-    public List<ChangeNotes> scan(Repository repo, ReviewDb db, Project.NameKey project)
-        throws OrmException, IOException {
-      if (!args.migration.readChanges()) {
-        return scanDb(repo, db);
-      }
-
-      return scanNoteDb(repo, db, project);
+    public ChangeNotesIterator scan(Repository repo, ReviewDb db, Project.NameKey project) {
+      return args.migration.readChanges()
+          ? scanNoteDb(repo, db, project)
+          : new ReviewDbChangeNotesIterator(this, repo, db);
     }
 
-    private List<ChangeNotes> scanDb(Repository repo, ReviewDb db)
-        throws OrmException, IOException {
-      // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
-      // ref. Not all changes might exist: some patch set refs might have been written where the
-      // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
-      // call below, which is intended.
-      Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
-      List<ChangeNotes> notes = new ArrayList<>(ids.size());
-
-      // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
-      for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-        for (Change change : ReviewDbUtil.unwrapDb(db).changes().get(batch)) {
-          notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
-        }
-      }
-      return notes;
-    }
-
-    private List<ChangeNotes> scanNoteDb(Repository repo, ReviewDb db, Project.NameKey project)
-        throws OrmException, IOException {
-      ScanResult sr = scanChangeIds(repo);
-      List<ChangeNotes> changeNotes = new ArrayList<>(sr.fromPatchSetRefs().size());
-
-      PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
-      for (Change.Id id : sr.all()) {
-        Change change = readOneReviewDbChange(db, id);
-        if (change == null) {
-          if (!sr.fromMetaRefs().contains(id)) {
-            // Stray patch set refs can happen due to normal error conditions, e.g. failed push
-            // processing, so aren't worth even a warning.
-            continue;
-          }
-          if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-            // If changes should exist in ReviewDb, it's worth warning about a meta ref with no
-            // corresponding ReviewDb data.
-            log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
-            continue;
-          }
-          // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
-          change = newNoteDbOnlyChange(project, id);
-        } else if (!change.getProject().equals(project)) {
-          log.error(
-              "skipping change {} found in project {} because ReviewDb change has project {}",
-              id,
-              project,
-              change.getProject());
-          continue;
-        }
-        log.debug("adding change {} found in project {}", id, project);
-        changeNotes.add(new ChangeNotes(args, change).load());
-      }
-      return changeNotes;
+    private NoteDbChangeNotesIterator scanNoteDb(
+        Repository repo, ReviewDb db, Project.NameKey project) {
+      return new NoteDbChangeNotesIterator(
+          this, repo, db, project, args.migration.changePrimaryStorage());
     }
 
     @AutoValue
@@ -379,7 +331,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
     }
 
-    private static ScanResult scanChangeIds(Repository repo) throws IOException {
+    static ScanResult scanChangeIds(Repository repo) throws IOException {
       ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
       ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
       for (Ref r : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {

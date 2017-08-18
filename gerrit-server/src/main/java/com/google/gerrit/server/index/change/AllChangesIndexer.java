@@ -34,6 +34,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotesIterator;
+import com.google.gerrit.server.notedb.ChangeNotesIterator.NextChangeNotesException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -41,6 +43,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -218,20 +221,28 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
-        // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
-        // we don't have concrete proof that improving packfile locality would help.
-        // TODO(dborowitz): This is still very memory inefficient in the NoteDb case, as it preloads
-        // all ChangeNotes into memory.
-        for (ChangeNotes notes : notesFactory.scan(repo, db, project)) {
+        // but the goal is to invalidate that cache as infrequently as we possibly can.
+        ChangeNotesIterator it = notesFactory.scan(repo, db, project);
+        while (true) {
+          ChangeNotes notes = null;
           try {
+            notes = it.next();
             indexer.index(changeDataFactory.create(db, notes));
             done.update(1);
             verboseWriter.println("Reindexed change " + notes.getChangeId());
+          } catch (NoSuchElementException e) {
+            break;
           } catch (RejectedExecutionException e) {
             // Server shutdown, don't spam the logs.
             failSilently();
+          } catch (NextChangeNotesException e) {
+            fail("Failed to index change " + e.getId(), true, e);
           } catch (Exception e) {
-            fail("Failed to index change " + notes.getChangeId(), true, e);
+            String msg =
+                notes != null
+                    ? "Failed to index change " + notes.getChangeId()
+                    : "Failed to index unknown change";
+            fail(msg, true, e);
           }
         }
       }

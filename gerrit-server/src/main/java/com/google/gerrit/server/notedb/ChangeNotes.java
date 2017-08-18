@@ -341,13 +341,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       for (Change.Id id : sr.all()) {
         Change change = readOneReviewDbChange(db, id);
         if (change == null) {
+          if (!sr.fromMetaRefs().contains(id)) {
+            // Stray patch set refs can happen due to normal error conditions, e.g. failed push
+            // processing, so aren't worth even a warning.
+            continue;
+          }
           if (defaultStorage == PrimaryStorage.REVIEW_DB) {
             // If changes should exist in ReviewDb, it's worth warning about a meta ref with no
-            // corresponding ReviewDb data. But stray patch set refs can happen due to normal error
-            // conditions, e.g. failed push processing, so aren't worth even a warning.
-            if (sr.fromMetaRefs().contains(id)) {
-              log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
-            }
+            // corresponding ReviewDb data.
+            log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
             continue;
           }
           // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.

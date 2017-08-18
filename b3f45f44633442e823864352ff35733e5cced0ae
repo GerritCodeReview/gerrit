@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f309446f_9bb533c0",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T19:39:07Z",
+      "side": 1,
+      "message": "Note: this is going to be used by at least two other elements also, as there are a few instances in which we have to convert from an object to an array to render items in a dom-repeat.",
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

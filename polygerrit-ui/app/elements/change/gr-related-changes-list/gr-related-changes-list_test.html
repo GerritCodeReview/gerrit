@@ -231,6 +231,36 @@ limitations under the License.
           change1, change2).indexOf('thisChange'), -1);
     });
 
+    suite('_getConflicts resolves undefined', () => {
+      let element;
+
+      setup(() => {
+        element = fixture('basic');
+
+        sandbox.stub(element, '_getRelatedChanges', () => {
+          return Promise.resolve({changes: []});
+        });
+        sandbox.stub(element, '_getSubmittedTogether',
+            () => { return Promise.resolve(); });
+        sandbox.stub(element, '_getCherryPicks',
+            () => { return Promise.resolve(); });
+        sandbox.stub(element, '_getConflicts',
+            () => { return Promise.resolve(); });
+      });
+
+      test('_conflicts are an empty array', () => {
+        element.patchNum = 7;
+        element.change = {
+          change_id: 123,
+          status: 'NEW',
+          mergeable: true,
+        };
+        element.reload();
+        assert.deepEqual(element._conflicts, []);
+      });
+    });
+
+
     suite('get conflicts tests', () => {
       let element;
       let conflictsStub;

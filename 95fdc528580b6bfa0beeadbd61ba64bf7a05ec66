@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56119be8_45ab0b32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-18T11:28:35Z",
+      "side": 1,
+      "message": "can rely on?",
+      "range": {
+        "startLine": 202,
+        "startChar": 61,
+        "endLine": 202,
+        "endChar": 68
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,7 +17,9 @@ package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.server.patch.DiffSummaryLoader.toDiffSummary;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
@@ -190,9 +193,20 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   /** Used to cache negative results in {@code fileCache}. */
-  private class LargeObjectTombstone extends PatchList {
+  @VisibleForTesting
+  public static class LargeObjectTombstone extends PatchList {
     private static final long serialVersionUID = 1L;
 
-    private LargeObjectTombstone() {}
+    @VisibleForTesting
+    public LargeObjectTombstone() {}
+
+    /**
+     * Return an empty list to prevent {@link NullPointerException}s inside of {@link
+     * PatchListWeigher}.
+     */
+    @Override
+    public List<PatchListEntry> getPatches() {
+      return ImmutableList.of();
+    }
   }
 }

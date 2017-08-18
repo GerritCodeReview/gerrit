@@ -100,6 +100,30 @@
       "revId": "c9fe3d20f8aee30007f08274b9ab62d6bc735d09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4116fd19_d6361de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-18T14:06:21Z",
+      "side": 1,
+      "message": "\u003e This change is trying to fix the case where you have a normal project where HEAD points to master and the refs/meta/config branch is missing.\n\nI see. So the use case is, you start out with an empty repo, and you eventually plan to populate both refs/meta/config and master, but you just want to populate refs/meta/config _first_. That makes sense.",
+      "parentUuid": "5983df6c_a3182c54",
+      "range": {
+        "startLine": 139,
+        "startChar": 34,
+        "endLine": 139,
+        "endChar": 57
+      },
+      "revId": "c9fe3d20f8aee30007f08274b9ab62d6bc735d09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -384,7 +384,11 @@ public class StreamEventsApiListener
                     refName);
               }
             });
-    dispatcher.get().postEvent(refName, event);
+    try {
+      dispatcher.get().postEvent(refName, event);
+    } catch (PermissionBackendException e) {
+      log.error("error while posting event", e);
+    }
   }
 
   @Override

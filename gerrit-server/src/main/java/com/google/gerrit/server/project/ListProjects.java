@@ -46,6 +46,7 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
@@ -594,16 +595,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private List<Ref> getBranchRefs(Project.NameKey projectName, ProjectControl projectControl) {
     Ref[] result = new Ref[showBranch.size()];
     try (Repository git = repoManager.openRepository(projectName)) {
+      PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (ref != null
-                && ref.getObjectId() != null
-                && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())
-            || (all && projectControl.isOwner())) {
+        if (all && projectControl.isOwner()) {
           result[i] = ref;
+        } else if (ref != null && ref.getObjectId() != null) {
+          try {
+            perm.ref(ref.getLeaf().getName()).check(RefPermission.READ);
+            result[i] = ref;
+          } catch (AuthException e) {
+            continue;
+          }
         }
       }
-    } catch (IOException ioe) {
+    } catch (IOException | PermissionBackendException e) {
       // Fall through and return what is available.
     }
     return Arrays.asList(result);

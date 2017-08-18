@@ -129,6 +129,24 @@
       "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eeea034_8ca013c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-18T07:34:23Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/120511",
+      "parentUuid": "8526b6ee_866edfb6",
+      "revId": "937478bdfaf7db767cc1c552f549ca45f0d087e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

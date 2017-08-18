@@ -126,6 +126,7 @@ sh_test(
 )
 
 DIRECTORIES = [
+    "admin",
     "change",
     "change-list",
     "core",

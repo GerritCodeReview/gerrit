@@ -27,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
 
 /** Class to access accounts by email. */
 @Singleton
@@ -61,15 +60,9 @@ public class Emails {
    * @see #getAccountsFor(String...)
    */
   public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
-    List<AccountState> byPreferredEmail = queryProvider.get().byPreferredEmail(email);
     return Streams.concat(
             externalIds.byEmail(email).stream().map(e -> e.accountId()),
-            byPreferredEmail
-                .stream()
-                // the index query also matches prefixes and emails with other case,
-                // filter those out
-                .filter(a -> email.equals(a.getAccount().getPreferredEmail()))
-                .map(a -> a.getAccount().getId()))
+            queryProvider.get().byPreferredEmail(email).stream().map(a -> a.getAccount().getId()))
         .collect(toImmutableSet());
   }
 
@@ -91,9 +84,6 @@ public class Emails {
         .byPreferredEmail(emails)
         .entries()
         .stream()
-        // the index query also matches prefixes and emails with other case,
-        // filter those out
-        .filter(e -> e.getKey().equals(e.getValue().getAccount().getPreferredEmail()))
         .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().getId()));
     return builder.build();
   }

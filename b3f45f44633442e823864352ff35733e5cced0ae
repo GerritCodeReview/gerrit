@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "001b3912_dfefc2a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Instead of filtering to splices here, can you just do it in the binding?\n\nobservers: [\n  \u0027_handleRulesChanged(_rules.splices)\u0027,\n],",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e900dc_1e99d46f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Nit: remove space.",
+      "range": {
+        "startLine": 135,
+        "startChar": 33,
+        "endLine": 135,
+        "endChar": 34
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f309446f_9bb533c0",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 8
@@ -13,6 +59,116 @@
       "writtenOn": "2017-08-18T19:39:07Z",
       "side": 1,
       "message": "Note: this is going to be used by at least two other elements also, as there are a few instances in which we have to convert from an object to an array to render items in a dom-repeat.",
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5b60aa_7ad05b65",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Not a blocker, but I\u0027m just brainstorming some ways to avoid adding to utils:\n\n* Can it be in a behavior for dealing with permissions objects?\n* Can it be performed by the REST API interface when it has loaded the permission so that we always handle the data in this format from the beginning.\n* I like avoiding code duplication, but this is also quite small, and duplicating this wouldn\u0027t be the worst duplication, maybe?",
+      "parentUuid": "f309446f_9bb533c0",
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f557a921_653be65a",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Nit: insert space.",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "669a7d4b_0fd1585a",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Nit: remove space.",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c6620ea_fae6ffed",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Optional nit: maybe call it `key` rather than `id`?",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 10
+      },
+      "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9743f5e2_b8849681",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T20:21:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this end in a semicolon?",
+      "range": {
+        "startLine": 75,
+        "startChar": 3,
+        "endLine": 75,
+        "endChar": 4
+      },
       "revId": "b3f45f44633442e823864352ff35733e5cced0ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

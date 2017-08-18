@@ -31,6 +31,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, IOException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
@@ -94,7 +95,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(SubgroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-            ResourceNotFoundException {
+            ResourceNotFoundException, IOException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

@@ -142,7 +142,7 @@ final class CreateGroupCommand extends SshCommand {
     addMembers.apply(rsrc, input);
   }
 
-  private void addSubgroups(GroupResource rsrc) throws RestApiException, OrmException {
+  private void addSubgroups(GroupResource rsrc) throws RestApiException, OrmException, IOException {
     AddSubgroups.Input input =
         AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.group;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.integer;
@@ -22,6 +23,8 @@ import static com.google.gerrit.index.FieldDef.timestamp;
 
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
 
@@ -58,4 +61,15 @@ public class GroupField {
   /** Whether the group is visible to all users. */
   public static final FieldDef<InternalGroup, String> IS_VISIBLE_TO_ALL =
       exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
+
+  public static final FieldDef<InternalGroup, Iterable<Integer>> MEMBERS =
+      integer("members")
+          .buildRepeatable(
+              g -> g.getMembers().stream().map(Account.Id::get).collect(toImmutableList()));
+
+  public static final FieldDef<InternalGroup, Iterable<String>> SUBGROUPS =
+      exact("subgroups")
+          .buildRepeatable(
+              g ->
+                  g.getSubgroups().stream().map(AccountGroup.UUID::get).collect(toImmutableList()));
 }

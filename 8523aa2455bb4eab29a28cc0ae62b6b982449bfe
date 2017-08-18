@@ -17,6 +17,24 @@
       "revId": "8523aa2455bb4eab29a28cc0ae62b6b982449bfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b353fd99_4064eac3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-18T13:30:07Z",
+      "side": 1,
+      "message": "Oh, I just noticed you added the field in the next commit, so nevermind, this is fine.",
+      "parentUuid": "18237dcd_73ff8d26",
+      "revId": "8523aa2455bb4eab29a28cc0ae62b6b982449bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

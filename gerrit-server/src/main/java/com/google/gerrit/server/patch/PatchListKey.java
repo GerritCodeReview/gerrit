@@ -71,6 +71,11 @@ public class PatchListKey implements Serializable {
     return new PatchListKey(otherCommitId, newId, whitespace, Algorithm.OPTIMIZED_DIFF);
   }
 
+  public static PatchListKey againstCommitWithPureTreeDiff(
+      AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
+    return new PatchListKey(otherCommitId, newId, whitespace, Algorithm.PURE_TREE_DIFF);
+  }
+
   /**
    * Old patch-set ID
    *

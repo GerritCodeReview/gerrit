@@ -34,6 +34,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -86,7 +87,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, IOException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
@@ -126,7 +127,8 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException {
+        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
+            IOException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id);
       try {

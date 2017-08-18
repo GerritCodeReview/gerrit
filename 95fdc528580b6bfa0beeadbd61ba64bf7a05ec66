@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e99a3a6_2d6dcb30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-18T12:04:11Z",
+      "side": 1,
+      "message": "Good point, thanks! I implemented it that way. Though it does come at the cost of making LargeObjectTombstone public. I annotated it with @VisibleForTesting to overcome that.",
+      "parentUuid": "2b056848_fb73900e",
+      "range": {
+        "startLine": 195,
+        "startChar": 16,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d123ed07_c0838da2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b552f2b2_0aa8b8cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-18T12:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d123ed07_c0838da2",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 7
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -115,6 +163,30 @@
       "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f217d2_c2b6c058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-18T12:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d15bfa3_37dcae2a",
+      "range": {
+        "startLine": 202,
+        "startChar": 61,
+        "endLine": 203,
+        "endChar": 24
+      },
+      "revId": "95fdc528580b6bfa0beeadbd61ba64bf7a05ec66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

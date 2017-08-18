@@ -37,6 +37,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";
   public static final String FIELD_PREFERRED_EMAIL = "preferredemail";
+  public static final String FIELD_PREFERRED_EMAIL_EXACT = "preferredemail_exact";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 

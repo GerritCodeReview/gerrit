@@ -16,14 +16,18 @@ package com.google.gerrit.server.query.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.QueryRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -39,7 +43,10 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
+import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -99,6 +106,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Inject @ServerInitiated protected Provider<GroupsUpdate> groupsUpdateProvider;
 
+  @Inject protected GroupIndexCollection indexes;
+
   protected LifecycleManager lifecycle;
   protected Injector injector;
   protected ReviewDb db;
@@ -121,7 +130,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     db = schemaFactory.open();
     schemaCreator.create(db);
 
-    Account.Id userId = createAccount("user", "User", "user@example.com", true);
+    Account.Id userId =
+        createAccountOutsideRequestContext("user", "User", "user@example.com", true);
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
     currentUserInfo = gApi.accounts().id(userId.get()).get();
@@ -162,7 +172,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (lifecycle != null) {
       lifecycle.stop();
     }
-    requestContext.setContext(null);
+    if (requestContext != null) {
+      requestContext.setContext(null);
+    }
     if (db != null) {
       db.close();
     }
@@ -247,6 +259,58 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byMember() throws Exception {
+    if (getSchemaVersion() < 4) {
+      assertMissingField(GroupField.MEMBER);
+      assertFailingQuery(
+          "member:someName", "'member' operator is not supported by group index version");
+      return;
+    }
+
+    AccountInfo user1 = createAccount("user1", "User1", "user1@example.com");
+    AccountInfo user2 = createAccount("user2", "User2", "user2@example.com");
+
+    GroupInfo group1 = createGroup(name("group1"), user1);
+    GroupInfo group2 = createGroup(name("group2"), user2);
+    GroupInfo group3 = createGroup(name("group3"), user1);
+
+    assertQuery("member:" + user1.name, group1, group3);
+    assertQuery("member:" + user1.email, group1, group3);
+
+    gApi.groups().id(group3.id).removeMembers(user1.username);
+    gApi.groups().id(group2.id).addMembers(user1.username);
+
+    assertQuery("member:" + user1.name, group1, group2);
+  }
+
+  @Test
+  public void bySubgroups() throws Exception {
+    if (getSchemaVersion() < 4) {
+      assertMissingField(GroupField.SUBGROUP);
+      assertFailingQuery(
+          "subgroup:someGroupName", "'subgroup' operator is not supported by group index version");
+      return;
+    }
+
+    GroupInfo superParentGroup = createGroup(name("superParentGroup"));
+    GroupInfo parentGroup1 = createGroup(name("parentGroup1"));
+    GroupInfo parentGroup2 = createGroup(name("parentGroup2"));
+    GroupInfo subGroup = createGroup(name("subGroup"));
+
+    gApi.groups().id(superParentGroup.id).addGroups(parentGroup1.id, parentGroup2.id);
+    gApi.groups().id(parentGroup1.id).addGroups(subGroup.id);
+    gApi.groups().id(parentGroup2.id).addGroups(subGroup.id);
+
+    assertQuery("subgroup:" + subGroup.id, parentGroup1, parentGroup2);
+    assertQuery("subgroup:" + parentGroup1.id, superParentGroup);
+
+    gApi.groups().id(superParentGroup.id).addGroups(subGroup.id);
+    gApi.groups().id(parentGroup1.id).removeGroups(subGroup.id);
+
+    assertQuery("subgroup:" + subGroup.id, superParentGroup, parentGroup2);
+  }
+
+  @Test
   public void byDefaultField() throws Exception {
     GroupInfo group1 = createGroup(name("foo-group"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -313,8 +377,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     assertQuery("description:" + newDescription, group1);
   }
 
-  private Account.Id createAccount(String username, String fullName, String email, boolean active)
-      throws Exception {
+  private Account.Id createAccountOutsideRequestContext(
+      String username, String fullName, String email, boolean active) throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
       Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
       if (email != null) {
@@ -331,6 +395,16 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
               });
       return id;
     }
+  }
+
+  protected AccountInfo createAccount(String username, String fullName, String email)
+      throws Exception {
+    String uniqueName = name(username);
+    AccountInput accountInput = new AccountInput();
+    accountInput.username = uniqueName;
+    accountInput.name = fullName;
+    accountInput.email = email;
+    return gApi.accounts().create(accountInput).get();
   }
 
   protected GroupInfo createGroup(String name, AccountInfo... members) throws Exception {
@@ -451,5 +525,28 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     }
 
     return name + "_" + getSanitizedMethodName();
+  }
+
+  protected void assertMissingField(FieldDef<InternalGroup, ?> field) {
+    assertThat(getSchema().hasField(field))
+        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+        .isFalse();
+  }
+
+  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<InternalGroup> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

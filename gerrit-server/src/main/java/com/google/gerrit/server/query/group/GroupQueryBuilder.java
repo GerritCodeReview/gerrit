@@ -14,22 +14,36 @@
 
 package com.google.gerrit.server.query.group;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */
 public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
@@ -44,13 +58,24 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
 
   public static class Arguments {
+    final Provider<ReviewDb> db;
+    final GroupIndex groupIndex;
     final GroupCache groupCache;
     final GroupBackend groupBackend;
+    final AccountResolver accountResolver;
 
     @Inject
-    Arguments(GroupCache groupCache, GroupBackend groupBackend) {
+    Arguments(
+        Provider<ReviewDb> db,
+        GroupIndexCollection groupIndexCollection,
+        GroupCache groupCache,
+        GroupBackend groupBackend,
+        AccountResolver accountResolver) {
+      this.db = db;
+      this.groupIndex = groupIndexCollection.getSearchIndex();
       this.groupCache = groupCache;
       this.groupBackend = groupBackend;
+      this.accountResolver = accountResolver;
     }
   }
 
@@ -91,15 +116,8 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   @Operator
   public Predicate<InternalGroup> owner(String owner) throws QueryParseException {
-    Optional<InternalGroup> group = args.groupCache.get(new AccountGroup.UUID(owner));
-    if (group.isPresent()) {
-      return GroupPredicates.owner(group.get().getGroupUUID());
-    }
-    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, owner);
-    if (g == null) {
-      throw error("Group " + owner + " not found");
-    }
-    return GroupPredicates.owner(g.getUUID());
+    AccountGroup.UUID groupUuid = parseGroup(owner);
+    return GroupPredicates.owner(groupUuid);
   }
 
   @Operator
@@ -129,11 +147,66 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   }
 
   @Operator
+  public Predicate<InternalGroup> member(String query)
+      throws QueryParseException, OrmException, ConfigInvalidException, IOException {
+    if (isFieldAbsentFromIndex(GroupField.MEMBERS)) {
+      throw getExceptionForUnsupportedOperator("member");
+    }
+
+    Set<Account.Id> accounts = parseAccount(query);
+    List<Predicate<InternalGroup>> predicates =
+        accounts.stream().map(GroupPredicates::member).collect(toImmutableList());
+    return Predicate.or(predicates);
+  }
+
+  @Operator
+  public Predicate<InternalGroup> subgroup(String query)
+      throws QueryParseException, OrmException, ConfigInvalidException, IOException {
+    if (isFieldAbsentFromIndex(GroupField.SUBGROUPS)) {
+      throw getExceptionForUnsupportedOperator("subgroup");
+    }
+
+    AccountGroup.UUID groupUuid = parseGroup(query);
+    return GroupPredicates.subgroup(groupUuid);
+  }
+
+  @Operator
   public Predicate<InternalGroup> limit(String query) throws QueryParseException {
     Integer limit = Ints.tryParse(query);
     if (limit == null) {
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
+  }
+
+  private boolean isFieldAbsentFromIndex(FieldDef<InternalGroup, ?> field) {
+    return !args.groupIndex.getSchema().hasField(field);
+  }
+
+  private static QueryParseException getExceptionForUnsupportedOperator(String operatorName) {
+    return new QueryParseException(
+        String.format("'%s' operator is not supported by group index version", operatorName));
+  }
+
+  private Set<Account.Id> parseAccount(String nameOrEmail)
+      throws QueryParseException, OrmException, IOException, ConfigInvalidException {
+    Set<Account.Id> foundAccounts = args.accountResolver.findAll(args.db.get(), nameOrEmail);
+    if (foundAccounts.isEmpty()) {
+      throw error("User " + nameOrEmail + " not found");
+    }
+    return foundAccounts;
+  }
+
+  private AccountGroup.UUID parseGroup(String groupNameOrUuid) throws QueryParseException {
+    Optional<InternalGroup> group = args.groupCache.get(new AccountGroup.UUID(groupNameOrUuid));
+    if (group.isPresent()) {
+      return group.get().getGroupUUID();
+    }
+    GroupReference groupReference =
+        GroupBackends.findBestSuggestion(args.groupBackend, groupNameOrUuid);
+    if (groupReference == null) {
+      throw error("Group " + groupNameOrUuid + " not found");
+    }
+    return groupReference.getUUID();
   }
 }

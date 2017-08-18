@@ -90,6 +90,9 @@ public class AccountField {
                 return preferredEmail != null ? preferredEmail.toLowerCase() : null;
               });
 
+  public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
+      exact("preferredemail_exact").build(a -> a.getAccount().getPreferredEmail());
+
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
       timestamp("registered").build(a -> a.getAccount().getRegisteredOn());
 

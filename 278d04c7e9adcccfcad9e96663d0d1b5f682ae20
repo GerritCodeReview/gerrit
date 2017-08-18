@@ -128,6 +128,24 @@
       "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ab5a666_bf8f7133",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T22:58:09Z",
+      "side": 1,
+      "message": "Switched back to this, because it was not calling _computeGroupsWithRules on this._rules when _rules.splices was passed in.",
+      "parentUuid": "d02c261c_e63308ef",
+      "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

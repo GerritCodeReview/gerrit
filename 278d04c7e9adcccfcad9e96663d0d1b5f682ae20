@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0bcf1ae_28d20633",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T22:24:24Z",
+      "side": 1,
+      "message": "Yeah, it should be read only. it is intended to be shared, as a future change will use these to determine dropdown options, and it is also being used as an enum-like object in the rule editor (in this change).",
+      "parentUuid": "d0c2c04c_003a99f1",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e3f2be2_430cced8",
         "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior_test.html",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5f00e2cb_2675028f",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T22:24:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3f2be2_430cced8",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6513d0a_cf144e88",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
         "patchSetId": 10
@@ -59,6 +107,24 @@
       "writtenOn": "2017-08-18T21:58:02Z",
       "side": 1,
       "message": "Optional: now that it\u0027s simpler, it looks like this can be a regular computed expression on `_groupsWithRules`. Something like ..\n\n_groupsWithRules: {\n  type: Object,\n  computed: \u0027_computeGroupsWithRules(_rules.splices)\u0027,\n},\n\n.. up to you.",
+      "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d02c261c_e63308ef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-18T22:24:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6513d0a_cf144e88",
       "revId": "278d04c7e9adcccfcad9e96663d0d1b5f682ae20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

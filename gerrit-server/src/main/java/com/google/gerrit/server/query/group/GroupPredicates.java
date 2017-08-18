@@ -18,43 +18,44 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupField;
 import java.util.Locale;
 
 public class GroupPredicates {
-  public static Predicate<AccountGroup> uuid(AccountGroup.UUID uuid) {
+  public static Predicate<InternalGroup> uuid(AccountGroup.UUID uuid) {
     return new GroupPredicate(GroupField.UUID, GroupQueryBuilder.FIELD_UUID, uuid.get());
   }
 
-  public static Predicate<AccountGroup> description(String description) {
+  public static Predicate<InternalGroup> description(String description) {
     return new GroupPredicate(
         GroupField.DESCRIPTION, GroupQueryBuilder.FIELD_DESCRIPTION, description);
   }
 
-  public static Predicate<AccountGroup> inname(String name) {
+  public static Predicate<InternalGroup> inname(String name) {
     return new GroupPredicate(
         GroupField.NAME_PART, GroupQueryBuilder.FIELD_INNAME, name.toLowerCase(Locale.US));
   }
 
-  public static Predicate<AccountGroup> name(String name) {
+  public static Predicate<InternalGroup> name(String name) {
     return new GroupPredicate(GroupField.NAME, GroupQueryBuilder.FIELD_NAME, name);
   }
 
-  public static Predicate<AccountGroup> owner(AccountGroup.UUID ownerUuid) {
+  public static Predicate<InternalGroup> owner(AccountGroup.UUID ownerUuid) {
     return new GroupPredicate(
         GroupField.OWNER_UUID, GroupQueryBuilder.FIELD_OWNER, ownerUuid.get());
   }
 
-  public static Predicate<AccountGroup> isVisibleToAll() {
+  public static Predicate<InternalGroup> isVisibleToAll() {
     return new GroupPredicate(GroupField.IS_VISIBLE_TO_ALL, "1");
   }
 
-  static class GroupPredicate extends IndexPredicate<AccountGroup> {
-    GroupPredicate(FieldDef<AccountGroup, ?> def, String value) {
+  static class GroupPredicate extends IndexPredicate<InternalGroup> {
+    GroupPredicate(FieldDef<InternalGroup, ?> def, String value) {
       super(def, value);
     }
 
-    GroupPredicate(FieldDef<AccountGroup, ?> def, String name, String value) {
+    GroupPredicate(FieldDef<InternalGroup, ?> def, String name, String value) {
       super(def, name, value);
     }
   }

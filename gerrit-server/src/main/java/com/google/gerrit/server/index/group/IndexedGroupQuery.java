@@ -21,12 +21,15 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 
-public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, AccountGroup>
-    implements DataSource<AccountGroup> {
+public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>
+    implements DataSource<InternalGroup> {
 
   public IndexedGroupQuery(
-      Index<AccountGroup.UUID, AccountGroup> index, Predicate<AccountGroup> pred, QueryOptions opts)
+      Index<AccountGroup.UUID, InternalGroup> index,
+      Predicate<InternalGroup> pred,
+      QueryOptions opts)
       throws QueryParseException {
     super(index, pred, opts.convertForBackend());
   }

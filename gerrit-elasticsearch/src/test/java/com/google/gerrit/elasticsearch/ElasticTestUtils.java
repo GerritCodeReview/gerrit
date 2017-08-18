@@ -27,8 +27,8 @@ import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
 import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
 import com.google.gerrit.elasticsearch.ElasticGroupIndex.GroupMapping;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -146,7 +146,7 @@ final class ElasticTestUtils {
         .execute()
         .actionGet();
 
-    Schema<AccountGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
+    Schema<InternalGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
     GroupMapping groupMapping = new GroupMapping(groupSchema);
     nodeInfo
         .node

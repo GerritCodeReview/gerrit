@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 public class GroupIndexerImpl implements GroupIndexer {
   public interface Factory {
@@ -63,8 +65,13 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   @Override
   public void index(AccountGroup.UUID uuid) throws IOException {
-    for (Index<?, AccountGroup> i : getWriteIndexes()) {
-      i.replace(groupCache.get(uuid));
+    for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
+      Optional<InternalGroup> internalGroup = groupCache.getInternalGroup(uuid);
+      if (internalGroup.isPresent()) {
+        i.replace(internalGroup.get());
+      } else {
+        i.delete(uuid);
+      }
     }
     fireGroupIndexedEvent(uuid.get());
   }

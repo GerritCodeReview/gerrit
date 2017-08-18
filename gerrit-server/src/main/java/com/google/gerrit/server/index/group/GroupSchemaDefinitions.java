@@ -32,7 +32,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
           GroupField.OWNER_UUID,
           GroupField.UUID);
 
-  static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
+  @Deprecated static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
+
+  static final Schema<InternalGroup> V4 = schema(V3, GroupField.MEMBERS, GroupField.SUBGROUPS);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

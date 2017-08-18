@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -221,24 +222,28 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
         // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
         // we don't have concrete proof that improving packfile locality would help.
-        // TODO(dborowitz): This is still very memory inefficient in the NoteDb case, as it preloads
-        // all ChangeNotes into memory.
-        for (ChangeNotes notes : notesFactory.scan(repo, db, project)) {
-          try {
-            indexer.index(changeDataFactory.create(db, notes));
-            done.update(1);
-            verboseWriter.println("Reindexed change " + notes.getChangeId());
-          } catch (RejectedExecutionException e) {
-            // Server shutdown, don't spam the logs.
-            failSilently();
-          } catch (Exception e) {
-            fail("Failed to index change " + notes.getChangeId(), true, e);
-          }
-        }
+        notesFactory.scan(repo, db, project).forEach(r -> index(db, r));
       } catch (RepositoryNotFoundException rnfe) {
         log.error(rnfe.getMessage());
       }
       return null;
+    }
+
+    private void index(ReviewDb db, ChangeNotesResult r) {
+      if (r.error().isPresent()) {
+        fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
+        return;
+      }
+      try {
+        indexer.index(changeDataFactory.create(db, r.notes()));
+        done.update(1);
+        verboseWriter.println("Reindexed change " + r.id());
+      } catch (RejectedExecutionException e) {
+        // Server shutdown, don't spam the logs.
+        failSilently();
+      } catch (Exception e) {
+        fail("Failed to index change " + r.id(), true, e);
+      }
     }
 
     private void fail(String error, boolean failed, Exception e) {

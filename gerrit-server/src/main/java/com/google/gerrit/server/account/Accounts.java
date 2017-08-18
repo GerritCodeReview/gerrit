@@ -57,7 +57,7 @@ public class Accounts {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       OutgoingEmailValidator emailValidator) {
-    this.readFromGit = cfg.getBoolean("user", null, "readAccountsFromGit", false);
+    this.readFromGit = cfg.getBoolean("user", null, "readAccountsFromGit", true);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -288,7 +289,14 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Project.NameKey project = projectCtl.getProject().getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      for (ChangeNotes cn : changeNotesFactory.scan(git, db.get(), project)) {
+      // TODO(dborowitz): Only hide specific changes that failed to load; this should allow us to
+      // avoid this ugly foreach loop.
+      for (ChangeNotesResult r :
+          (Iterable<ChangeNotesResult>) changeNotesFactory.scan(git, db.get(), project)::iterator) {
+        if (r.error().isPresent()) {
+          throw new OrmException(r.error().get());
+        }
+        ChangeNotes cn = r.notes();
         if (permissionBackend.user(user).change(cn).database(db).test(ChangePermission.READ)) {
           visibleChanges.put(cn.getChangeId(), cn.getChange().getDest());
         }

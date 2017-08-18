@@ -26,11 +26,12 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import java.util.List;
 
 /** Parses a query string meant to be applied to group objects. */
-public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
+public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   public static final String FIELD_UUID = "uuid";
   public static final String FIELD_DESCRIPTION = "description";
   public static final String FIELD_INNAME = "inname";
@@ -38,7 +39,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_LIMIT = "limit";
 
-  private static final QueryBuilder.Definition<AccountGroup, GroupQueryBuilder> mydef =
+  private static final QueryBuilder.Definition<InternalGroup, GroupQueryBuilder> mydef =
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
 
   public static class Arguments {
@@ -61,12 +62,12 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> uuid(String uuid) {
+  public Predicate<InternalGroup> uuid(String uuid) {
     return GroupPredicates.uuid(new AccountGroup.UUID(uuid));
   }
 
   @Operator
-  public Predicate<AccountGroup> description(String description) throws QueryParseException {
+  public Predicate<InternalGroup> description(String description) throws QueryParseException {
     if (Strings.isNullOrEmpty(description)) {
       throw error("description operator requires a value");
     }
@@ -75,7 +76,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> inname(String namePart) {
+  public Predicate<InternalGroup> inname(String namePart) {
     if (namePart.isEmpty()) {
       return name(namePart);
     }
@@ -83,12 +84,12 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> name(String name) {
+  public Predicate<InternalGroup> name(String name) {
     return GroupPredicates.name(name);
   }
 
   @Operator
-  public Predicate<AccountGroup> owner(String owner) throws QueryParseException {
+  public Predicate<InternalGroup> owner(String owner) throws QueryParseException {
     AccountGroup group = args.groupCache.get(new AccountGroup.UUID(owner));
     if (group != null) {
       return GroupPredicates.owner(group.getGroupUUID());
@@ -101,7 +102,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> is(String value) throws QueryParseException {
+  public Predicate<InternalGroup> is(String value) throws QueryParseException {
     if ("visibletoall".equalsIgnoreCase(value)) {
       return GroupPredicates.isVisibleToAll();
     }
@@ -109,9 +110,9 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Override
-  protected Predicate<AccountGroup> defaultField(String query) throws QueryParseException {
+  protected Predicate<InternalGroup> defaultField(String query) throws QueryParseException {
     // Adapt the capacity of this list when adding more default predicates.
-    List<Predicate<AccountGroup>> preds = Lists.newArrayListWithCapacity(5);
+    List<Predicate<InternalGroup>> preds = Lists.newArrayListWithCapacity(5);
     preds.add(uuid(query));
     preds.add(name(query));
     preds.add(inname(query));
@@ -127,7 +128,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> limit(String query) throws QueryParseException {
+  public Predicate<InternalGroup> limit(String query) throws QueryParseException {
     Integer limit = Ints.tryParse(query);
     if (limit == null) {
       throw error("Invalid limit: " + query);

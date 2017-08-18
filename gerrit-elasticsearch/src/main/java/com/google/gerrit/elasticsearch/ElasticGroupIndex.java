@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -48,6 +49,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -55,12 +57,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
+public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
   static class GroupMapping {
     MappingProperties groups;
 
-    GroupMapping(Schema<AccountGroup> schema) {
+    GroupMapping(Schema<InternalGroup> schema) {
       this.groups = ElasticMapping.createMapping(schema);
     }
   }
@@ -79,14 +81,14 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       JestClientBuilder clientBuilder,
-      @Assisted Schema<AccountGroup> schema) {
+      @Assisted Schema<InternalGroup> schema) {
     super(cfg, sitePaths, schema, clientBuilder, GROUPS_PREFIX);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
   }
 
   @Override
-  public void replace(AccountGroup group) throws IOException {
+  public void replace(InternalGroup group) throws IOException {
     Bulk bulk =
         new Bulk.Builder()
             .defaultIndex(indexName)
@@ -104,7 +106,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   }
 
   @Override
-  public DataSource<AccountGroup> getSource(Predicate<AccountGroup> p, QueryOptions opts)
+  public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
     return new QuerySource(p, opts);
   }
@@ -121,15 +123,15 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   }
 
   @Override
-  protected String getId(AccountGroup group) {
+  protected String getId(InternalGroup group) {
     return group.getGroupUUID().get();
   }
 
-  private class QuerySource implements DataSource<AccountGroup> {
+  private class QuerySource implements DataSource<InternalGroup> {
     private final Search search;
     private final Set<String> fields;
 
-    QuerySource(Predicate<AccountGroup> p, QueryOptions opts) throws QueryParseException {
+    QuerySource(Predicate<InternalGroup> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.groupFields(opts);
       SearchSourceBuilder searchSource =
@@ -156,9 +158,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
     }
 
     @Override
-    public ResultSet<AccountGroup> read() throws OrmException {
+    public ResultSet<InternalGroup> read() throws OrmException {
       try {
-        List<AccountGroup> results = Collections.emptyList();
+        List<InternalGroup> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
           JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
@@ -166,21 +168,22 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              results.add(toAccountGroup(json.get(i)));
+              Optional<InternalGroup> internalGroup = toInternalGroup(json.get(i));
+              internalGroup.ifPresent(results::add);
             }
           }
         } else {
           log.error(result.getErrorMessage());
         }
-        final List<AccountGroup> r = Collections.unmodifiableList(results);
-        return new ResultSet<AccountGroup>() {
+        final List<InternalGroup> r = Collections.unmodifiableList(results);
+        return new ResultSet<InternalGroup>() {
           @Override
-          public Iterator<AccountGroup> iterator() {
+          public Iterator<InternalGroup> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<AccountGroup> toList() {
+          public List<InternalGroup> toList() {
             return r;
           }
 
@@ -199,7 +202,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       return search.toString();
     }
 
-    private AccountGroup toAccountGroup(JsonElement json) {
+    private Optional<InternalGroup> toInternalGroup(JsonElement json) {
       JsonElement source = json.getAsJsonObject().get("_source");
       if (source == null) {
         source = json.getAsJsonObject().get("fields");
@@ -210,7 +213,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
               source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
       // Use the GroupCache rather than depending on any stored fields in the
       // document (of which there shouldn't be any).
-      return groupCache.get().get(uuid);
+      return groupCache.get().getInternalGroup(uuid);
     }
   }
 }

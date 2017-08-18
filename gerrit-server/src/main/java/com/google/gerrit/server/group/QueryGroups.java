@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -25,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
@@ -123,13 +121,13 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     }
 
     try {
-      QueryResult<AccountGroup> result = queryProcessor.query(queryBuilder.parse(query));
-      List<AccountGroup> groups = result.entities();
+      QueryResult<InternalGroup> result = queryProcessor.query(queryBuilder.parse(query));
+      List<InternalGroup> groups = result.entities();
 
       ArrayList<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groups.size());
       json.addOptions(options);
-      for (AccountGroup group : groups) {
-        groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));
+      for (InternalGroup group : groups) {
+        groupInfos.add(json.format(new InternalGroupDescription(group)));
       }
       if (!groupInfos.isEmpty() && result.more()) {
         groupInfos.get(groupInfos.size() - 1)._moreGroups = true;

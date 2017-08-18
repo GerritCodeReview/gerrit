@@ -48,6 +48,7 @@ public class GroupDescription {
 
     AccountGroup.Id getId();
 
+    @Nullable
     String getDescription();
 
     AccountGroup.UUID getOwnerGroupUUID();

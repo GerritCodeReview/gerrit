@@ -23,10 +23,10 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
@@ -39,7 +39,7 @@ import com.google.inject.Provider;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
-public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
+public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   private final Provider<CurrentUser> userProvider;
   private final GroupControl.GenericFactory groupControlFactory;
 
@@ -72,7 +72,7 @@ public class GroupQueryProcessor extends QueryProcessor<AccountGroup> {
   }
 
   @Override
-  protected Predicate<AccountGroup> enforceVisibility(Predicate<AccountGroup> pred) {
+  protected Predicate<InternalGroup> enforceVisibility(Predicate<InternalGroup> pred) {
     return new AndSource<>(
         pred, new GroupIsVisibleToPredicate(groupControlFactory, userProvider.get()), start);
   }

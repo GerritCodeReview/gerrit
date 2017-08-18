@@ -17,7 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import java.io.IOException;
+import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
@@ -31,6 +33,15 @@ public interface GroupCache {
    */
   @Nullable
   AccountGroup get(AccountGroup.UUID uuid);
+
+  /**
+   * Looks up an internal group by its UUID.
+   *
+   * @param groupUuid the UUID of the internal group
+   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
+   *     group with this UUID exists on this server or an error occurred during lookup
+   */
+  Optional<InternalGroup> getInternalGroup(AccountGroup.UUID groupUuid);
 
   /** @return sorted list of groups. */
   ImmutableList<AccountGroup> all();

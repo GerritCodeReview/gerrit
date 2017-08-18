@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -34,6 +35,7 @@ import com.google.inject.Singleton;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -43,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGroup, GroupIndex> {
+public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGroup, GroupIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
 
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -96,7 +98,12 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, AccountGrou
                   if (oldGroup != null) {
                     groupCache.evict(oldGroup);
                   }
-                  index.replace(groupCache.get(uuid));
+                  Optional<InternalGroup> internalGroup = groupCache.getInternalGroup(uuid);
+                  if (internalGroup.isPresent()) {
+                    index.replace(internalGroup.get());
+                  } else {
+                    index.delete(uuid);
+                  }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
                 } catch (Exception e) {

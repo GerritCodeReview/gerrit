@@ -20,12 +20,12 @@ import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GroupIndexRewriter implements IndexRewriter<AccountGroup> {
+public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {
   private final GroupIndexCollection indexes;
 
   @Inject
@@ -34,7 +34,7 @@ public class GroupIndexRewriter implements IndexRewriter<AccountGroup> {
   }
 
   @Override
-  public Predicate<AccountGroup> rewrite(Predicate<AccountGroup> in, QueryOptions opts)
+  public Predicate<InternalGroup> rewrite(Predicate<InternalGroup> in, QueryOptions opts)
       throws QueryParseException {
     GroupIndex index = indexes.getSearchIndex();
     checkNotNull(index, "no active search index configured for groups");

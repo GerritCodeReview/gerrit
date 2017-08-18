@@ -46,6 +46,30 @@
       "revId": "0c04562e3f6f674c7ea5408b3e6415f6dc65fe86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daab0810_aa11d4fc",
+        "filename": "polygerrit-ui/app/.eslintrc.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-18T23:20:48Z",
+      "side": 1,
+      "message": "You know eslint config syntax better than I, but would something like ..\n\n \"files\": [\"*_test.html\" ],\n\n.. work? (Based on https://eslint.org/docs/user-guide/configuring#example-configuration )\n\nProbably not. I\u0027m just making stuff up based on a cursory scan of the docs.",
+      "parentUuid": "58387284_8ba2cb3c",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "0c04562e3f6f674c7ea5408b3e6415f6dc65fe86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

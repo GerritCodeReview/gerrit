@@ -14,10 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -30,31 +26,9 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
-  @VisibleForTesting
-  public static class InMemoryModule extends LifecycleModule {
-    @Override
-    protected void configure() {
-      H2AccountPatchReviewStore inMemoryStore = new H2AccountPatchReviewStore();
-      DynamicItem.bind(binder(), AccountPatchReviewStore.class).toInstance(inMemoryStore);
-      listener().toInstance(inMemoryStore);
-    }
-  }
-
   @Inject
   H2AccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     super(cfg, sitePaths);
-  }
-
-  /**
-   * Creates an in-memory H2 database to store the reviewed flags. This should be used for tests
-   * only.
-   */
-  @VisibleForTesting
-  private H2AccountPatchReviewStore() {
-    // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is
-    // lost at the moment the last connection is closed. This option keeps the
-    // content as long as the vm lives.
-    super(createDataSource("jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1"));
   }
 
   @Override

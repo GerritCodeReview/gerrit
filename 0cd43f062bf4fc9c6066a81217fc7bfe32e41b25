@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f66d72_772af53d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-19T00:12:17Z",
+      "side": 1,
+      "message": "I wonder if this could be part of fetchRawJSON instead of fetchJSON (since fetchJSON calls fetchRawJSON)? Or are there times where we wouldn\u0027t want this?",
+      "range": {
+        "startLine": 813,
+        "startChar": 13,
+        "endLine": 820,
+        "endChar": 15
+      },
+      "revId": "0cd43f062bf4fc9c6066a81217fc7bfe32e41b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -808,16 +808,25 @@
               if (response && response.status === 304) {
                 return Promise.resolve(
                     this._etags.getCachedPayload(urlWithParams));
-              } else {
-                const payloadPromise = response ?
-                    this.getResponseObject(response) :
-                    Promise.resolve();
-                payloadPromise.then(payload => {
-                  this._etags.collect(urlWithParams, response, payload);
-                  this._maybeInsertInLookup(payload);
-                });
-                return payloadPromise;
               }
+
+              if (response && !response.ok) {
+                if (opt_errFn) {
+                  opt_errFn.call(null, response);
+                } else {
+                  this.fire('server-error', {response});
+                }
+                return;
+              }
+
+              const payloadPromise = response ?
+                  this.getResponseObject(response) :
+                  Promise.resolve();
+              payloadPromise.then(payload => {
+                this._etags.collect(urlWithParams, response, payload);
+                this._maybeInsertInLookup(payload);
+              });
+              return payloadPromise;
             });
       });
     },

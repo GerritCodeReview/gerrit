@@ -43,6 +43,17 @@
     ],
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
     "no-console": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExpressionStatement > CallExpression > MemberExpression[object.name='test'][property.name='only']",
+        "message": "Remove test.only."
+      },
+      {
+        "selector": "ExpressionStatement > CallExpression > MemberExpression[object.name='suite'][property.name='only']",
+        "message": "Remove suite.only."
+      }
+    ],
     "no-undef": "off",
     "no-useless-escape": "off",
     "no-var": "error",

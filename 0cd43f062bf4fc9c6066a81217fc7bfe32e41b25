@@ -22,6 +22,30 @@
       "revId": "0cd43f062bf4fc9c6066a81217fc7bfe32e41b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24759381_36a85b6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-19T00:17:39Z",
+      "side": 1,
+      "message": "Good question. What you describe is the approach I used in my earlier two attempts.\n\n`_fetchRawJSON` actually says in the JSDoc that it doesn\u0027t do error checking, so we should be careful when it\u0027s called (and use it rarely).\n\nThis approach is simpler in that it keeps the current API and breaks fewer tests which depended (rightly or wrongly) on `_fetchRawJSON` not intercepting errors.\n\nAltogether I feel we need more tests to encode what REST API interface methods do with HTTP failures.",
+      "parentUuid": "36f66d72_772af53d",
+      "range": {
+        "startLine": 813,
+        "startChar": 13,
+        "endLine": 820,
+        "endChar": 15
+      },
+      "revId": "0cd43f062bf4fc9c6066a81217fc7bfe32e41b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

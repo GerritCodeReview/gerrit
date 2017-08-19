@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b53b34b_a099b89e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-19T00:02:50Z",
+      "side": 1,
+      "message": "This seems like an odd way to assert an empty array, what about\n\n assert.isEmpty(element.conflicts.length);",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 49
+      },
+      "revId": "de2cfc456534e73d935d6c9f483b47b368b2b4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

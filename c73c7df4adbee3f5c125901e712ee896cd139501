@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1d995f5_d67f5b72",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-19T00:02:50Z",
+      "side": 1,
+      "message": "Optional: when declaring an arrow function, you may omit the return if you also omit the curly braces.\n\nAlso, if the stub return value doesn\u0027t depend on the args, you can also use `.returns` to avoid all the syntax of declaring a function.\n\nsandbox.stub(element, \u0027_getSubmittedTogether\u0027)\n  .returns(Promise.resolve()); });",
+      "range": {
+        "startLine": 244,
+        "startChar": 12,
+        "endLine": 244,
+        "endChar": 47
+      },
+      "revId": "c73c7df4adbee3f5c125901e712ee896cd139501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

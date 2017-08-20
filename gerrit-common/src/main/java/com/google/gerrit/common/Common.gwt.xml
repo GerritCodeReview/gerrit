@@ -17,5 +17,7 @@
   <inherits name='com.google.gerrit.reviewdb.ReviewDB' />
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name="com.google.gwt.logging.Logging"/>
-  <source path='common' />
+  <source path="">
+    <include name='**/*.java'/>
+  </source>
 </module>

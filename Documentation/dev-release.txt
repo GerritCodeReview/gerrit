@@ -89,22 +89,14 @@ To create a Gerrit release the following steps have to be done:
 . link:#merge-stable[Merge `stable` into `master`]
 
 
-[[update-versions]]
-=== Update Versions and Create Release Tag
+[[update-version]]
+=== Update Version and Create Release Tag
 
 Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
 file must be updated, e.g. change it from `2.5-SNAPSHOT` to `2.5`.
 
-In addition the version must be updated in a number of pom.xml files.
-
-To do this run the `./tools/version.py` script and provide the new
-version as parameter, e.g.:
-
-----
-  ./tools/version.py 2.5
-----
-
-Commit the changes and create a signed release tag on the new commit:
+Commit the change in `version.bzl` and create a signed release tag on the
+new commit:
 
 ----
   git tag -s -m "v2.5" v2.5
@@ -147,9 +139,8 @@ Verify the versions:
 link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
 configuration] for deploying to Maven Central
 
-* Make sure that the version is updated in the `version.bzl` file and in
-the `pom.xml` files as described in the link:#update-versions[Update
-Versions and Create Release Tag] section.
+* Make sure that the version is updated in the `version.bzl` file as described
+in the link:#update-version[Update Version and Create Release Tag] section.
 
 * Push the WAR to Maven Central:
 +

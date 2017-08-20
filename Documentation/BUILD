@@ -19,14 +19,14 @@ filegroup(
 
 genrule(
     name = "prettify_min_css",
-    srcs = ["//gerrit-prettify:src/main/resources/com/google/gerrit/prettify/client/prettify.css"],
+    srcs = ["//resources/com/google/gerrit/prettify:client/prettify.css"],
     outs = ["prettify.min.css"],
     cmd = "cp $< $@",
 )
 
 genrule(
     name = "prettify_min_js",
-    srcs = ["//gerrit-prettify:src/main/resources/com/google/gerrit/prettify/client/prettify.js"],
+    srcs = ["//resources/com/google/gerrit/prettify:client/prettify.js"],
     outs = ["prettify.min.js"],
     cmd = "cp $< $@",
 )

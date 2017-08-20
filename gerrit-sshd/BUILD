@@ -11,7 +11,7 @@ java_library(
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//gerrit-lucene:lucene",
-        "//gerrit-patch-jgit:server",
+        "//java/org/eclipse/jgit:server",
         "//gerrit-reviewdb:server",
         "//gerrit-server:metrics",
         "//gerrit-server:receive",

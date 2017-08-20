@@ -8,7 +8,7 @@ java_library(
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//java/com/google/gerrit/extensions:api",
-        "//gerrit-gwtexpui:server",
+        "//java/com/google/gwtexpui/server",
         "//gerrit-httpd:httpd",
         "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",

@@ -4,11 +4,11 @@ load("//tools/bzl:gwt.bzl", "gwt_module")
 
 EXPORTED_DEPS = [
     "//gerrit-common:client",
-    "//gerrit-gwtexpui:Clippy",
-    "//gerrit-gwtexpui:GlobalKey",
-    "//gerrit-gwtexpui:Progress",
-    "//gerrit-gwtexpui:SafeHtml",
-    "//gerrit-gwtexpui:UserAgent",
+    "//java/com/google/gwtexpui/clippy",
+    "//java/com/google/gwtexpui/globalkey",
+    "//java/com/google/gwtexpui/progress",
+    "//java/com/google/gwtexpui/safehtml",
+    "//java/com/google/gwtexpui/user:agent",
 ]
 
 DEPS = ["//lib/gwt:user-neverlink"]

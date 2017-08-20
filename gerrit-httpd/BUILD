@@ -18,8 +18,6 @@ java_library(
     deps = [
         "//gerrit-common:annotations",
         "//gerrit-common:server",
-        "//gerrit-gwtexpui:linker_server",
-        "//gerrit-gwtexpui:server",
         "//gerrit-index:query_exception",
         "//gerrit-launcher:launcher",
         "//gerrit-prettify:server",
@@ -30,6 +28,8 @@ java_library(
         "//gerrit-util-http:http",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gwtexpui/linker:server",
+        "//java/com/google/gwtexpui/server",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:gson",

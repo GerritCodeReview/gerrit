@@ -175,6 +175,7 @@ def gen_classpath(ext):
 
   classpathentry('src', 'java')
   classpathentry('src', 'javatests', out='eclipse-out/test')
+  classpathentry('src', 'resources')
   for s in sorted(src):
     out = None
 

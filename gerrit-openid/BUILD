@@ -10,7 +10,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//gerrit-gwtexpui:server",
         "//gerrit-httpd:httpd",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//lib:guava",
         "//lib:gwtorm",

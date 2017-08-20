@@ -31,7 +31,7 @@ java_library2(
         "//java/com/google/gwtexpui/safehtml:libsafehtml-src.jar",
         "//java/com/google/gwtexpui/user:libagent-src.jar",
         "//gerrit-gwtui-common:libclient-src.jar",
-        "//gerrit-prettify:libclient-src.jar",
+        "//java/com/google/gerrit/prettify:libclient-src.jar",
         "//java/com/google/gerrit/reviewdb:libclient-src.jar",
         "//lib/gwt:dev-neverlink",
     ],

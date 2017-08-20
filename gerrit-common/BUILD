@@ -31,7 +31,7 @@ gwt_module(
         "//lib/joda:joda-time",
         "//lib/log:api",
     ],
-    gwt_xml = SRC + "Common.gwt.xml",
+    gwt_xml = SRC + "common/Common.gwt.xml",
     visibility = ["//visibility:public"],
 )
 

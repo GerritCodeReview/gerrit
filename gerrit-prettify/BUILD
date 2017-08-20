@@ -8,9 +8,9 @@ gwt_module(
         SRC + "common/**/*.java",
     ]),
     exported_deps = [
-        "//gerrit-gwtexpui:SafeHtml",
         "//java/com/google/gerrit/extensions:client",
         "//java/com/google/gerrit/reviewdb:client",
+        "//java/com/google/gwtexpui/safehtml",
         "//java/org/eclipse/jgit:Edit",
         "//java/org/eclipse/jgit:client",
         "//lib:gwtjsonrpc",

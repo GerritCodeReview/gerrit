@@ -16,7 +16,7 @@ PROVIDED = [
     "//gerrit-index:index",
     "//gerrit-lucene:lucene",
     "//gerrit-pgm:init",
-    "//gerrit-reviewdb:server",
+    "//java/com/google/gerrit/reviewdb:server",
     "//gerrit-server:metrics",
     "//gerrit-server:receive",
     "//gerrit-server:server",

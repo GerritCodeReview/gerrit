@@ -9,10 +9,10 @@ gwt_module(
     ]),
     exported_deps = [
         "//gerrit-gwtexpui:SafeHtml",
-        "//gerrit-patch-jgit:Edit",
-        "//gerrit-patch-jgit:client",
         "//gerrit-reviewdb:client",
         "//java/com/google/gerrit/extensions:client",
+        "//java/org/eclipse/jgit:Edit",
+        "//java/org/eclipse/jgit:client",
         "//lib:gwtjsonrpc",
         "//lib:gwtjsonrpc_src",
     ],
@@ -26,8 +26,8 @@ java_library(
     srcs = glob([SRC + "common/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-patch-jgit:server",
         "//gerrit-reviewdb:server",
+        "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib/jgit/org.eclipse.jgit:jgit",

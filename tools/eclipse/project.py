@@ -276,7 +276,7 @@ try:
     makedirs(path.join(ROOT, gwt_working_dir))
 
   try:
-    check_call(['bazel', 'build', MAIN, GWT, '//gerrit-patch-jgit:libEdit-src.jar'])
+    check_call(['bazel', 'build', MAIN, GWT, '//java/org/eclipse/jgit:libEdit-src.jar'])
   except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:

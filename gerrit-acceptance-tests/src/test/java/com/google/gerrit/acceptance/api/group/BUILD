@@ -14,9 +14,9 @@ java_library(
     name = "util",
     srcs = ["GroupAssert.java"],
     deps = [
-        "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/reviewdb:server",
         "//lib:gwtorm",
         "//lib:truth",
     ],

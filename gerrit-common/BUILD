@@ -45,8 +45,8 @@ java_library(
     deps = [
         ":annotations",
         "//gerrit-prettify:server",
-        "//gerrit-reviewdb:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/reviewdb:server",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:gwtjsonrpc",

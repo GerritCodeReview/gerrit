@@ -1,11 +1,11 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
-  <artifactId>gerrit-acceptance-framework</artifactId>
-  <version>2.15-SNAPSHOT</version>
+  <artifactId>gerrit</artifactId>
+  <version>1</version> <!-- Do not edit; see version.bzl. -->
   <packaging>jar</packaging>
-  <name>Gerrit Code Review - Acceptance Test Framework</name>
-  <description>Framework for Gerrit's acceptance tests</description>
+  <name>Gerrit Code Review - Extension API</name>
+  <description>API for Gerrit Extensions</description>
   <url>https://www.gerritcodereview.com/</url>
 
   <licenses>

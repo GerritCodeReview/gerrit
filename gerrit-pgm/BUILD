@@ -28,7 +28,7 @@ BASE_JETTY_DEPS = [
 ]
 
 DEPS = BASE_JETTY_DEPS + [
-    "//gerrit-reviewdb:server",
+    "//java/com/google/gerrit/reviewdb:server",
     "//gerrit-server:metrics",
     "//gerrit-server:module",
     "//gerrit-server:receive",
@@ -105,7 +105,7 @@ java_library(
     deps = JETTY_DEPS + BASE_JETTY_DEPS + [
         # We want all these deps to be provided_deps
         "//gerrit-launcher:launcher",
-        "//gerrit-reviewdb:client",
+        "//java/com/google/gerrit/reviewdb:client",
         "//lib:servlet-api-3_1",
     ],
 )

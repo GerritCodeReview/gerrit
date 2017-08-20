@@ -30,7 +30,7 @@ gwt_module(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
-    gwt_xml = SRC + "Common.gwt.xml",
+    gwt_xml = SRC + "common/Common.gwt.xml",
     visibility = ["//visibility:public"],
 )
 

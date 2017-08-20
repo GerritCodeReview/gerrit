@@ -32,7 +32,7 @@ java_library2(
         "//gerrit-gwtexpui:libUserAgent-src.jar",
         "//gerrit-gwtui-common:libclient-src.jar",
         "//gerrit-prettify:libclient-src.jar",
-        "//gerrit-reviewdb:libclient-src.jar",
+        "//java/com/google/gerrit/reviewdb:libclient-src.jar",
         "//lib/gwt:dev-neverlink",
     ],
 )
@@ -67,7 +67,7 @@ java_doc(
         "//lib/gwt:dev",
         "//gerrit-gwtui-common:client-lib",
         "//gerrit-common:client",
-        "//gerrit-reviewdb:client",
+        "//java/com/google/gerrit/reviewdb:client",
     ],
     pkgs = [
         "com.google.gerrit.plugin",

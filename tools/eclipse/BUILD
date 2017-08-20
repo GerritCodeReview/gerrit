@@ -13,7 +13,6 @@ TEST_DEPS = [
     "//gerrit-httpd:httpd_tests",
     "//gerrit-index:index_tests",
     "//javatests/org/eclipse/jgit:jgit_patch_tests",
-    "//gerrit-reviewdb:client_tests",
     "//gerrit-server:server_tests",
 ]
 

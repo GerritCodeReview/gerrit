@@ -20,7 +20,7 @@ EXPORTS = [
     "//java/com/google/gerrit/extensions:api",
     "//gerrit-gwtexpui:server",
     "//gerrit-server:metrics",
-    "//gerrit-reviewdb:server",
+    "//java/com/google/gerrit/reviewdb:server",
     "//prolog:common",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
@@ -93,6 +93,7 @@ java_binary(
         "//gerrit-server:libserver-src.jar",
         "//gerrit-sshd:libsshd-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
+        "//java/com/google/gerrit/reviewdb:libserver-src.jar",
     ],
 )
 
@@ -107,7 +108,7 @@ java_doc(
         "//gerrit-common:server",
         "//java/com/google/gerrit/extensions:api",
         "//gerrit-gwtexpui:server",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
     ],
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",

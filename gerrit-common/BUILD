@@ -22,8 +22,8 @@ gwt_module(
     name = "client",
     srcs = glob([SRC + "common/**/*.java"]),
     exported_deps = [
-        "//gerrit-prettify:client",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/prettify:client",
         "//lib:guava",
         "//lib:gwtorm_client",
         "//lib:servlet-api-3_1",
@@ -44,8 +44,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
-        "//gerrit-prettify:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",

@@ -12,7 +12,7 @@ EXPORTS = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//java/com/google/gerrit/extensions:api",
-    "//gerrit-gwtexpui:server",
+    "//java/com/google/gwtexpui/server",
     "//gerrit-server:metrics",
     "//java/com/google/gerrit/reviewdb:server",
     "//prolog:gerrit-prolog-common",
@@ -78,7 +78,6 @@ java_binary(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//gerrit-common:libannotations-src.jar",
-        "//gerrit-gwtexpui:libserver-src.jar",
         "//gerrit-httpd:libhttpd-src.jar",
         "//gerrit-index:libquery_exception-src.jar",
         "//gerrit-index:libquery_parser-src.jar",
@@ -87,6 +86,7 @@ java_binary(
         "//gerrit-sshd:libsshd-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
+        "//java/com/google/gwtexpui/server:libserver-src.jar",
     ],
 )
 
@@ -100,7 +100,7 @@ java_doc(
         "//gerrit-common:annotations",
         "//gerrit-common:server",
         "//java/com/google/gerrit/extensions:api",
-        "//gerrit-gwtexpui:server",
+        "//java/com/google/gwtexpui/server",
         "//java/com/google/gerrit/reviewdb:server",
     ],
     pkgs = ["com.google.gerrit"],

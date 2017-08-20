@@ -12,7 +12,7 @@ java_library(
     deps = [
         "//gerrit-common:annotations",
         "//gerrit-httpd:httpd",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",

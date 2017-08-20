@@ -9,7 +9,7 @@ java_library(
     deps = [
         "//gerrit-index:index",
         "//gerrit-index:query_exception",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//lib:guava",
         "//lib:gwtorm",
@@ -30,7 +30,7 @@ java_library(
         "//gerrit-common:server",
         "//gerrit-index:index",
         "//gerrit-index:query_exception",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",

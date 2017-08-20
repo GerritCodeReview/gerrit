@@ -12,7 +12,7 @@ java_library(
         "//gerrit-common:server",
         "//gerrit-lucene:lucene",
         "//java/org/eclipse/jgit:server",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:metrics",
         "//gerrit-server:receive",
         "//gerrit-server:server",

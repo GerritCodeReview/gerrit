@@ -16,7 +16,7 @@ java_library(
         "//gerrit-pgm:init",
         "//gerrit-pgm:init-api",
         "//gerrit-pgm:util",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:module",
         "//gerrit-server:receive",
         "//gerrit-server:server",

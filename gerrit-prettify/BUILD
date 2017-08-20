@@ -11,8 +11,8 @@ gwt_module(
         "//gerrit-gwtexpui:SafeHtml",
         "//java/org/eclipse/jgit:Edit",
         "//java/org/eclipse/jgit:client",
-        "//gerrit-reviewdb:client",
         "//java/com/google/gerrit/extensions:client",
+        "//java/com/google/gerrit/reviewdb:client",
         "//lib:gwtjsonrpc",
         "//lib:gwtjsonrpc_src",
     ],
@@ -27,7 +27,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/org/eclipse/jgit:server",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib/jgit/org.eclipse.jgit:jgit",

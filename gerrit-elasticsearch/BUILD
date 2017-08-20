@@ -5,7 +5,7 @@ java_library(
     deps = [
         "//gerrit-index:index",
         "//gerrit-index:query_exception",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",
@@ -36,7 +36,7 @@ java_library(
     deps = [
         ":elasticsearch",
         "//gerrit-index:index",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",

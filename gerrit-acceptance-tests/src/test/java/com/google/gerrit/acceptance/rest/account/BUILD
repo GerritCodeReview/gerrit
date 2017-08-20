@@ -17,7 +17,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-acceptance-tests:lib",
-        "//gerrit-reviewdb:server",
+        "//java/com/google/gerrit/reviewdb:server",
         "//lib:gwtorm",
         "//lib:junit",
     ],

@@ -15,7 +15,7 @@
 -->
 <module>
   <inherits name='org.eclipse.jgit.JGit'/>
-  <inherits name='com.google.gerrit.Common'/>
+  <inherits name='com.google.gerrit.common.Common'/>
   <inherits name='com.google.gerrit.extensions.Extensions'/>
   <inherits name='com.google.gerrit.prettify.PrettyFormatter'/>
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>

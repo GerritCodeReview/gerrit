@@ -44,10 +44,10 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
-        "//gerrit-patch-jgit:server",
         "//gerrit-prettify:server",
         "//gerrit-reviewdb:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",

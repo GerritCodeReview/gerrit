@@ -19,6 +19,10 @@ from os import path, environ
 from subprocess import check_output
 from sys import stderr
 
+
+def mvn():
+  return ['mvn', '--file', path.join(root, 'pom.xml'), '-DgroupId=com.google.gerrit']
+
 opts = OptionParser()
 opts.add_option('--repository', help='maven repository id')
 opts.add_option('--url', help='maven repository url')
@@ -37,14 +41,12 @@ while not path.exists(path.join(root, 'WORKSPACE')):
   root = path.dirname(root)
 
 if 'install' == args.a:
-  cmd = [
-    'mvn',
+  cmd = mvn() + [
     'install:install-file',
     '-Dversion=%s' % args.v,
   ]
 elif 'deploy' == args.a:
-  cmd = [
-    'mvn',
+  cmd = mvn() + [
     'gpg:sign-and-deploy-file',
     '-DrepositoryId=%s' % args.repository,
     '-Durl=%s' % args.url,
@@ -56,7 +58,7 @@ else:
 for spec in args.s:
   artifact, packaging_type, src = spec.split(':')
   exe = cmd + [
-    '-DpomFile=%s' % path.join(root, '%s/pom.xml' % artifact),
+    '-DartifactId=%s' % artifact,
     '-Dpackaging=%s' % packaging_type,
     '-Dfile=%s' % src,
   ]

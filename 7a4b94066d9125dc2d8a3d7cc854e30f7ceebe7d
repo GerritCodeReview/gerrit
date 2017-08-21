@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "420e4bf5_fed9b887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T18:06:51Z",
+      "side": 1,
+      "message": "Sorry, one more thing, let\u0027s link to issue 4660 here.",
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8a1c81a_dd707820",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 33

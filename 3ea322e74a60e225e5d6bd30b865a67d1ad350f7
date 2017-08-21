@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "76f5bc96_b8071622",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T09:52:15Z",
+      "side": 1,
+      "message": "Simplify?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "3ea322e74a60e225e5d6bd30b865a67d1ad350f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21db31df_6e9289ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

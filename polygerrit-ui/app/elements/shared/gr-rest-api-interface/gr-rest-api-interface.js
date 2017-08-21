@@ -257,7 +257,8 @@
 
     getGroupConfig(group) {
       const encodeName = encodeURIComponent(group);
-      return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
+      return this.send('GET', `/groups/${encodeName}/detail`)
+          .then(response => this.getResponseObject(response));
     },
 
     /**

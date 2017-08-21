@@ -152,5 +152,23 @@ limitations under the License.
         done();
       });
     });
+
+    test('_hideItem returns true for admin', () => {
+      const admin = true;
+      const owner = false;
+      assert.equal(element._hideItem(owner, admin), '');
+    });
+
+    test('_hideItem returns false for admin and owner', () => {
+      const admin = false;
+      const owner = false;
+      assert.equal(element._hideItem(owner, admin), 'hideItem');
+    });
+
+    test('_hideItem returns true for owner', () => {
+      const admin = false;
+      const owner = true;
+      assert.equal(element._hideItem(owner, admin), '');
+    });
   });
 </script>

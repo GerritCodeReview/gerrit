@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cfcf9f70_b33f819e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T17:13:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0ec4ee0b_b9df63b0",
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33a0901e_da31a7f7",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 32
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-21T16:56:14Z",
       "side": 1,
       "message": "This test accounts for the case when it returns `null` because the owner and uploader are the same, but not in the case where the current revision is not available. (Line 354 of gr-change-metadata.js)\n\nPlease add a test for this case too.",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 69
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1242d3f4_6555a65c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T17:13:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "33a0901e_da31a7f7",
       "range": {
         "startLine": 192,
         "startChar": 9,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "80c63430_da607edb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T17:13:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86f49906_2907d5c4",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 67
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3cd937c5_5b76bfdf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 32
@@ -76,6 +142,30 @@
       "writtenOn": "2017-08-21T16:56:14Z",
       "side": 1,
       "message": "Since this only compares strings, `deepEqual` isn\u0027t needed. You can just use `equal`. Same for l.258.",
+      "range": {
+        "startLine": 235,
+        "startChar": 13,
+        "endLine": 235,
+        "endChar": 22
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0347b2_fc9e55aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T17:13:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3cd937c5_5b76bfdf",
       "range": {
         "startLine": 235,
         "startChar": 13,

@@ -94,6 +94,30 @@
       "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0f9f7b5_cd53765b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T22:40:48Z",
+      "side": 1,
+      "message": "\u003e we haven\u0027t pledged to follow this suitcss convention schema at all.\n\nWe have in some docs, but only to a limited extent in practice.\n\n\u003e but I tend to put more stock in local conventions than project wide ones if they seem deliberate\n\nThe preponderance of class names even within this component are in camel case. My opinion is that camel case is most consistent both locally as well as globally.",
+      "parentUuid": "83ac12c8_ce856340",
+      "range": {
+        "startLine": 698,
+        "startChar": 25,
+        "endLine": 698,
+        "endChar": 27
+      },
+      "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

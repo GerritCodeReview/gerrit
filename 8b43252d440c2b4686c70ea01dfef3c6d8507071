@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "217c0dda_6031570c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-21T13:45:01Z",
+      "side": 1,
+      "message": "Ok, I will see what I can do to convert this to a Stream\u003cSomeComplexValue\u003e. Thanks for the perspective.",
+      "parentUuid": "320180fb_230a7d7c",
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bafd5f28_c80afde7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeNotesIterator.java",
         "patchSetId": 1

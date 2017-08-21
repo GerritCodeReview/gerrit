@@ -180,7 +180,11 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
     in.owners.add(
         Integer.toString(
-            groupCache.get(new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
+            groupCache
+                .get(new AccountGroup.NameKey("Administrators"))
+                .orElse(null)
+                .getId()
+                .get())); // by ID
     gApi.projects().create(in);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
@@ -282,7 +286,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {
-    return groupCache.get(new AccountGroup.NameKey(groupName)).getGroupUUID();
+    return groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null).getGroupUUID();
   }
 
   private void assertHead(String projectName, String expectedRef) throws Exception {

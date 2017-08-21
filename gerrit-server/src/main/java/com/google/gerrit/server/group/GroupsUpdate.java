@@ -135,7 +135,7 @@ public class GroupsUpdate {
       throws OrmException, IOException {
     addNewGroup(db, group);
     addNewGroupMembers(db, group, memberIds);
-    groupCache.onCreateGroup(group.getNameKey());
+    groupCache.onCreateGroup(group);
   }
 
   /**
@@ -221,8 +221,8 @@ public class GroupsUpdate {
 
     db.accountGroupNames().deleteKeys(ImmutableList.of(oldName));
 
+    groupCache.evictAfterRename(oldName);
     groupCache.evict(group);
-    groupCache.evictAfterRename(oldName, newName);
 
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =

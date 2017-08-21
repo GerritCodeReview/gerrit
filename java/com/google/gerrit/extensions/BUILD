@@ -39,7 +39,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-common:annotations",
+        "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

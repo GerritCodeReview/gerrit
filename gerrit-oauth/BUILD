@@ -10,9 +10,9 @@ java_library(
     resources = RESOURCES,
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-common:annotations",
         "//gerrit-httpd:httpd",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:gson",

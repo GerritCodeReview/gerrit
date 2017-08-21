@@ -44,8 +44,8 @@ java_library(
     deps = [
         ":query_exception",
         ":query_parser",
-        "//gerrit-common:annotations",
         "//gerrit-server:metrics",
+        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:gwtjsonrpc",

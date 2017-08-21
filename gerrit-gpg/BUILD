@@ -1,7 +1,7 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 DEPS = [
-    "//gerrit-common:server",
+    "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/reviewdb:server",
     "//gerrit-server:server",

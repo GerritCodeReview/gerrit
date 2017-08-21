@@ -46,6 +46,30 @@
       "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db493b39_8b82cdb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T22:28:45Z",
+      "side": 1,
+      "message": "Alright well, since you bring that up, I blamed that original line and, funnily enough, I was confused by it the first time [1].\n\nWe certainly don\u0027t tend to use this style of \"Modifier\" consistently, and I\u0027m not 100% sure that `patchInfo--edit` is a modifier of patchInfo. (Is it?) But because there is a reason behind it, I guess it can stay.\n\nNot opposed to changing them both either. :-)\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/84590/1/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html#140",
+      "parentUuid": "6a89c2f7_08f20c02",
+      "range": {
+        "startLine": 698,
+        "startChar": 25,
+        "endLine": 698,
+        "endChar": 27
+      },
+      "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

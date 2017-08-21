@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.common;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.events.Event;

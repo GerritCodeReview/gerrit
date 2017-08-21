@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.Version;
+import com.google.gerrit.server.common.Version;
 import com.google.gerrit.server.plugins.Plugin;
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;

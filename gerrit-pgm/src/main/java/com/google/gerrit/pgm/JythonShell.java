@@ -142,7 +142,7 @@ public class JythonShell {
         new Object[] {
           getDefaultBanner()
               + " running for Gerrit "
-              + com.google.gerrit.common.Version.getVersion(),
+              + com.google.gerrit.server.common.Version.getVersion(),
           null,
         });
   }

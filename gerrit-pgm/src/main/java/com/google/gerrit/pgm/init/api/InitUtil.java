@@ -68,7 +68,7 @@ public class InitUtil {
   }
 
   public static String version() {
-    return com.google.gerrit.common.Version.getVersion();
+    return com.google.gerrit.server.common.Version.getVersion();
   }
 
   public static String username() {

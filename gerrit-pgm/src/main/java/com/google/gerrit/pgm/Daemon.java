@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.common.EventBroker;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
@@ -54,6 +53,7 @@ import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
+import com.google.gerrit.server.common.EventBroker;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -362,7 +362,7 @@ public class Daemon extends SiteProgram {
   }
 
   private String myVersion() {
-    return com.google.gerrit.common.Version.getVersion();
+    return com.google.gerrit.server.common.Version.getVersion();
   }
 
   private Injector createCfgInjector() {

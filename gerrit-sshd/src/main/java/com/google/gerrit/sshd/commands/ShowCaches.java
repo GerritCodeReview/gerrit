@@ -20,11 +20,11 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.common.Version;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetSummary;
 import com.google.gerrit.server.config.GetSummary.JvmSummaryInfo;

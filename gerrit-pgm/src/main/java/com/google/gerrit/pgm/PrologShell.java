@@ -66,7 +66,7 @@ public class PrologShell extends AbstractProgram {
   private void banner() {
     System.err.format(
         "Gerrit Code Review %s - Interactive Prolog Shell",
-        com.google.gerrit.common.Version.getVersion());
+        com.google.gerrit.server.common.Version.getVersion());
     System.err.println();
     System.err.println(
         "(type Ctrl-D or \"halt.\" to exit, \"['path/to/file.pl'].\" to load a file)");

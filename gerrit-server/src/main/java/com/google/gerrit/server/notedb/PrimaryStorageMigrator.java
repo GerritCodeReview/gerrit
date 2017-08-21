@@ -400,7 +400,7 @@ public class PrimaryStorageMigrator {
     rebuilder.rebuildReviewDb(db(), project, id);
     setPrimaryStorageReviewDb(id, newMetaId);
     releaseReadOnlyLeaseInNoteDb(project, id);
-    log.info("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+    //log.info("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
   }
 
   private ObjectId setReadOnlyInNoteDb(Project.NameKey project, Change.Id id)

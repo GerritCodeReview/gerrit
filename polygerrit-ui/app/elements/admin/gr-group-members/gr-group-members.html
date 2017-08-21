@@ -84,14 +84,14 @@ limitations under the License.
                     text="{{_groupMemberSearch}}"
                     query="[[_queryMembers]]"
                     placeholder="Name Or Email"
-                    hidden$="[[!_groupOwner]]">
+                    hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                 </gr-autocomplete>
               </span>
               <gr-button
                   id="saveGroupMember"
                   on-tap="_handleSavingGroupMember"
                   disabled="[[!_groupMemberSearch]]"
-                  hidden$="[[!_groupOwner]]">
+                  hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                 Add
               </gr-button>
               <div class="gr-form-styles">
@@ -99,7 +99,8 @@ limitations under the License.
                   <tr class="headerRow">
                     <th class="nameHeader">Name</th>
                     <th class="emailAddressHeader">Email Address</th>
-                    <th class="deleteHeader" hidden$="[[!_groupOwner]]">
+                    <th class="deleteHeader"
+                        hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                       Delete Member
                     </th>
                   </tr>
@@ -110,7 +111,7 @@ limitations under the License.
                           <a href$="[[_memberUrl(item)]]">[[item.name]]</a>
                         </td>
                         <td>[[item.email]]</td>
-                        <td hidden$="[[!_groupOwner]]">
+                        <td hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]">
                           <gr-button
                               class="deleteButton"
                               on-tap="_handleDeleteMember">
@@ -133,14 +134,14 @@ limitations under the License.
                     text="{{_includedGroupSearch}}"
                     query="[[_queryIncludedGroup]]"
                     placeholder="Group Name"
-                    hidden$="[[!_groupOwner]]">
+                    hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                 </gr-autocomplete>
               </span>
               <gr-button
                   id="saveIncludedGroups"
                   on-tap="_handleSavingIncludedGroups"
                   disabled="[[!_includedGroupSearch]]"
-                  hidden$="[[!_groupOwner]]">
+                  hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                 Add
               </gr-button>
               <div class="gr-form-styles">
@@ -148,7 +149,8 @@ limitations under the License.
                   <tr class="headerRow">
                     <th class="groupNameHeader">Group Name</th>
                     <th class="descriptionHeader">Description</th>
-                    <th class="deleteIncludedHeader" hidden$="[[!_groupOwner]]">
+                    <th class="deleteIncludedHeader"
+                        hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]" hidden>
                       Delete Included Group
                     </th>
                   </tr>
@@ -161,7 +163,7 @@ limitations under the License.
                           </a>
                         </td>
                         <td>[[item.description]]</td>
-                        <td hidden$="[[!_groupOwner]]">
+                        <td hidden$="[[_disable(_groupName, _groups, _isAdmin, _groupOwner)]]">
                           <gr-button
                               class="deleteIncludedGroupButton"
                               on-tap="_handleDeleteIncludedGroup">

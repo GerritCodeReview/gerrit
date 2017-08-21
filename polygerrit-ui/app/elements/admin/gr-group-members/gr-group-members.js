@@ -27,6 +27,7 @@
         type: Boolean,
         value: true,
       },
+      _groups: Object,
       _groupName: String,
       _groupMembers: Object,
       _includedGroups: Object,
@@ -48,6 +49,10 @@
         type: Boolean,
         value: false,
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -66,9 +71,23 @@
 
       const promises = [];
 
+      this.$.restAPI.getAccountGroups().then(groups => {
+        this._groups = groups.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+      });
+
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
             this._groupName = config.name;
+            promises.push(this.$.restAPI.getAccountGroups().then(groups => {
+              this._groups = groups.sort((a, b) => {
+                return a.name.localeCompare(b.name);
+              });
+            }));
+            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+              this._isAdmin = isAdmin;
+            }));
             promises.push(this.$.restAPI.getIsGroupOwner(config.name)
                 .then(isOwner => { this._groupOwner = isOwner; }));
             promises.push(this.$.restAPI.getGroupMembers(config.name).then(
@@ -234,6 +253,19 @@
             }
             return groups;
           });
+    },
+
+    _disable(group, groups, admin, owner) {
+      if (admin || owner) {
+        return false;
+      }
+      for (let i = 0; i < groups.length; i++) {
+        if (groups[i].name === group) {
+          return false;
+        }
+      }
+
+      return true;
     },
   });
 })();

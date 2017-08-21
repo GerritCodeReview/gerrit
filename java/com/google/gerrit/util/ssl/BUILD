@@ -1,5 +1,5 @@
 java_library(
     name = "ssl",
-    srcs = glob(["src/main/java/**/*.java"]),
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
 )

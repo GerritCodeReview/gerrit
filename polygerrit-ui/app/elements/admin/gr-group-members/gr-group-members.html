@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -107,7 +108,7 @@ limitations under the License.
                     <template is="dom-repeat" items="[[_groupMembers]]">
                       <tr>
                         <td class="nameColumn">
-                          <a href$="[[_memberUrl(item)]]">[[item.name]]</a>
+                          <gr-account-link account="[[item]]"></gr-account-link>
                         </td>
                         <td>[[item.email]]</td>
                         <td hidden$="[[!_groupOwner]]">

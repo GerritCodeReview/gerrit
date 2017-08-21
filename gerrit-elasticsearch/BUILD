@@ -3,10 +3,10 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-index:index",
-        "//gerrit-index:query_exception",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:gson",
         "//lib:guava",
@@ -35,9 +35,9 @@ java_library(
     srcs = glob(["src/test/java/**/ElasticTestUtils.java"]),
     deps = [
         ":elasticsearch",
-        "//gerrit-index:index",
         "//gerrit-server:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:gson",
         "//lib:guava",

@@ -775,7 +775,7 @@ limitations under the License.
       });
     });
 
-    test.only('_getChangeDetail calls errFn on 500', () => {
+    test('_getChangeDetail calls errFn on 500', () => {
       const errFn = sinon.stub();
       sandbox.stub(element, '_fetchRawJSON')
           .returns(Promise.resolve({ok: false, status: 500}));

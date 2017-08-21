@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5f8c88d4_f9ed432a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T18:07:41Z",
+      "side": 1,
+      "message": "This paragraph should be wrapped to 72 chars.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "420e4bf5_fed9b887",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33

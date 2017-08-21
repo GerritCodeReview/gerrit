@@ -244,6 +244,7 @@ public class ChangeControl {
 
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(ReviewDb db) throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
     return (isOwner() || getRefControl().canPublishDrafts()) && isVisible(db);
   }
 
@@ -453,6 +454,7 @@ public class ChangeControl {
   }
 
   public boolean isDraftVisible(ReviewDb db, ChangeData cd) throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
     return isOwner()
         || isReviewer(db, cd)
         || getRefControl().canViewDrafts()

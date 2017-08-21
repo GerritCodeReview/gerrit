@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -324,7 +325,8 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addNonGlobalCapabilityToGlobalCapabilities() throws Exception {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
@@ -353,7 +355,8 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void removeGlobalCapabilityAsAdmin() throws Exception {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();

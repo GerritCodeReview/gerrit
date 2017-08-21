@@ -982,7 +982,8 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
     grant(project, ref, permission, force, adminGroup.getGroupUUID());
   }
 

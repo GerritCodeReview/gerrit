@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
@@ -257,13 +258,14 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getGroup() throws Exception {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
     testGetGroup(adminGroup.getId().get(), adminGroup);
   }
 
-  private void testGetGroup(Object id, AccountGroup expectedGroup) throws Exception {
+  private void testGetGroup(Object id, InternalGroup expectedGroup) throws Exception {
     GroupInfo group = gApi.groups().id(id.toString()).get();
     assertGroupInfo(expectedGroup, group);
   }
@@ -559,7 +561,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
-    AccountGroup adminGroup = getFromCache("Administrators");
+    InternalGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
     assertThat(groups).hasSize(1);
     assertThat(groups).containsKey("Administrators");
@@ -683,8 +685,8 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(group).includedGroups()).isEmpty();
   }
 
-  private AccountGroup getFromCache(String name) throws Exception {
-    return groupCache.get(new AccountGroup.NameKey(name));
+  private InternalGroup getFromCache(String name) throws Exception {
+    return groupCache.get(new AccountGroup.NameKey(name)).orElse(null);
   }
 
   private void setCreatedOnToNull(AccountGroup.UUID groupUuid) throws Exception {

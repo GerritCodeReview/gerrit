@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd4f52c_6e4bb9bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 36
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T19:08:05Z",
+      "side": 1,
+      "message": "Nit: this line is indented too far.",
+      "range": {
+        "startLine": 360,
+        "startChar": 6,
+        "endLine": 360,
+        "endChar": 11
+      },
+      "revId": "b22d26b8031449df09184c402763c92b4258442f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

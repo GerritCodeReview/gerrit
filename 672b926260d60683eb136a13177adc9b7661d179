@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec4ee0b_b9df63b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T16:56:14Z",
+      "side": 1,
+      "message": "Tiny nit: this line should be indented one more space.",
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a0901e_da31a7f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T16:56:14Z",
+      "side": 1,
+      "message": "This test accounts for the case when it returns `null` because the owner and uploader are the same, but not in the case where the current revision is not available. (Line 354 of gr-change-metadata.js)\n\nPlease add a test for this case too.",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 192,
+        "endChar": 69
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f49906_2907d5c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T16:56:14Z",
+      "side": 1,
+      "message": "Deep equality with `null` seems weird because `null` has no properties. To assert that something is `null` or `undefined`, you can use `assert.isNotOk`\n\n assert.isNotOk(element._computeShowUploader(change));",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 67
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd937c5_5b76bfdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T16:56:14Z",
+      "side": 1,
+      "message": "Since this only compares strings, `deepEqual` isn\u0027t needed. You can just use `equal`. Same for l.258.",
+      "range": {
+        "startLine": 235,
+        "startChar": 13,
+        "endLine": 235,
+        "endChar": 22
+      },
+      "revId": "672b926260d60683eb136a13177adc9b7661d179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

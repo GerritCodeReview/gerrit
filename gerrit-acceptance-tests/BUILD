@@ -8,8 +8,6 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "//gerrit-acceptance-framework:lib",
-        "//gerrit-common:annotations",
-        "//gerrit-common:server",
         "//gerrit-gpg:testutil",
         "//gerrit-httpd:httpd",
         "//gerrit-launcher:launcher",
@@ -22,6 +20,8 @@ java_library(
         "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//gerrit-sshd:sshd",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//javatests/com/google/gerrit/testutil/extensions",

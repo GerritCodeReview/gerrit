@@ -26,11 +26,11 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":query_builder",
-        "//gerrit-common:annotations",
-        "//gerrit-common:server",
         "//gerrit-index:index",
         "//gerrit-index:query_exception",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",

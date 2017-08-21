@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e6c08f0_0325f4cb",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-21T20:41:28Z",
+      "side": 1,
+      "message": "This is not only used for permissions, it\u0027s also used in 2 other places (that are not in a CL yet), so I\u0027ll leave as is for now.",
+      "parentUuid": "5ff0463a_d7f8ee61",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "1e22aa47b9afda327cd1c16ce84ab0a6b871fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ab7d8c_1adbf461",
         "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
         "patchSetId": 12
@@ -45,6 +69,30 @@
       "revId": "1e22aa47b9afda327cd1c16ce84ab0a6b871fca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "216982d3_956382f1",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-21T20:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81ab7d8c_1adbf461",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 9
+      },
+      "revId": "1e22aa47b9afda327cd1c16ce84ab0a6b871fca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

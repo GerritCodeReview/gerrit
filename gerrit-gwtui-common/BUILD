@@ -3,7 +3,7 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 load("//tools/bzl:gwt.bzl", "gwt_module")
 
 EXPORTED_DEPS = [
-    "//gerrit-common:client",
+    "//java/com/google/gerrit/common:client",
     "//java/com/google/gwtexpui/clippy",
     "//java/com/google/gwtexpui/globalkey",
     "//java/com/google/gwtexpui/progress",

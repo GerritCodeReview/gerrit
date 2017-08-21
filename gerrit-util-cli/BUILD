@@ -3,8 +3,8 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-common:annotations",
-        "//gerrit-common:server",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
         "//lib:args4j",
         "//lib:guava",
         "//lib/guice",

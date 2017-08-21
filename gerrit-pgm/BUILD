@@ -9,8 +9,8 @@ RSRCS = "src/main/resources/com/google/gerrit/pgm/"
 INIT_API_SRCS = glob([SRCS + "init/api/*.java"])
 
 BASE_JETTY_DEPS = [
-    "//gerrit-common:annotations",
-    "//gerrit-common:server",
+    "//java/com/google/gerrit/common:annotations",
+    "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gwtexpui/linker:server",
     "//java/com/google/gwtexpui/server",
@@ -163,8 +163,8 @@ junit_tests(
         ":init",
         ":init-api",
         ":pgm",
-        "//gerrit-common:server",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/common:server",
         "//lib:guava",
         "//lib:junit",
         "//lib:truth",

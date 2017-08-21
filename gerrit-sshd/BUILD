@@ -7,7 +7,6 @@ java_library(
     srcs = SRCS,
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-cache-h2:cache-h2",
         "//gerrit-lucene:lucene",
         "//gerrit-server:metrics",
         "//gerrit-server:receive",
@@ -16,6 +15,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/util/cli",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",

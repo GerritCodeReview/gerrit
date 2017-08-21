@@ -5,7 +5,6 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-cache-h2:cache-h2",
         "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-gpg:gpg",
         "//gerrit-httpd:httpd",
@@ -22,6 +21,7 @@ java_library(
         "//gerrit-sshd:sshd",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/cache/h2",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",

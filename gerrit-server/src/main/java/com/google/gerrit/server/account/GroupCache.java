@@ -25,7 +25,7 @@ import java.util.Optional;
 public interface GroupCache {
   AccountGroup get(AccountGroup.Id groupId);
 
-  AccountGroup get(AccountGroup.NameKey name);
+  Optional<InternalGroup> get(AccountGroup.NameKey name);
 
   /**
    * Lookup a group definition by its UUID. The returned definition may be null if the group has
@@ -47,10 +47,9 @@ public interface GroupCache {
   ImmutableList<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
-  void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException;
+  void onCreateGroup(AccountGroup group) throws IOException;
 
   void evict(AccountGroup group) throws IOException;
 
-  void evictAfterRename(AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
-      throws IOException;
+  void evictAfterRename(AccountGroup.NameKey oldName) throws IOException;
 }

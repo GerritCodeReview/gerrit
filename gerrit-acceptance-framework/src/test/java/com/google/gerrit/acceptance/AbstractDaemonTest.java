@@ -92,6 +92,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -967,7 +968,8 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
     grant(project, ref, permission, force, adminGroup.getGroupUUID());
   }
 

@@ -83,15 +83,13 @@ limitations under the License.
                     id="groupMemberSearchInput"
                     text="{{_groupMemberSearch}}"
                     query="[[_queryMembers]]"
-                    placeholder="Name Or Email"
-                    hidden$="[[!_groupOwner]]">
+                    placeholder="Name Or Email">
                 </gr-autocomplete>
               </span>
               <gr-button
                   id="saveGroupMember"
                   on-tap="_handleSavingGroupMember"
-                  disabled="[[!_groupMemberSearch]]"
-                  hidden$="[[!_groupOwner]]">
+                  disabled="[[!_groupMemberSearch]]">
                 Add
               </gr-button>
               <div class="gr-form-styles">
@@ -132,15 +130,13 @@ limitations under the License.
                     id="includedGroupSearchInput"
                     text="{{_includedGroupSearch}}"
                     query="[[_queryIncludedGroup]]"
-                    placeholder="Group Name"
-                    hidden$="[[!_groupOwner]]">
+                    placeholder="Group Name">
                 </gr-autocomplete>
               </span>
               <gr-button
                   id="saveIncludedGroups"
                   on-tap="_handleSavingIncludedGroups"
-                  disabled="[[!_includedGroupSearch]]"
-                  hidden$="[[!_groupOwner]]">
+                  disabled="[[!_includedGroupSearch]]">
                 Add
               </gr-button>
               <div class="gr-form-styles">
@@ -148,7 +144,7 @@ limitations under the License.
                   <tr class="headerRow">
                     <th class="groupNameHeader">Group Name</th>
                     <th class="descriptionHeader">Description</th>
-                    <th class="deleteIncludedHeader" hidden$="[[!_groupOwner]]">
+                    <th class="deleteIncludedHeader">
                       Delete Included Group
                     </th>
                   </tr>
@@ -161,7 +157,7 @@ limitations under the License.
                           </a>
                         </td>
                         <td>[[item.description]]</td>
-                        <td hidden$="[[!_groupOwner]]">
+                        <td>
                           <gr-button
                               class="deleteIncludedGroupButton"
                               on-tap="_handleDeleteIncludedGroup">

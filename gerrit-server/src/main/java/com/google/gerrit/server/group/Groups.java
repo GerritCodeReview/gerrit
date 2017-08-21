@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -91,25 +90,6 @@ public class Groups {
     } else {
       throw new OrmDuplicateKeyException("Duplicate group UUID " + groupUuid);
     }
-  }
-
-  /**
-   * Returns the {@code AccountGroup} for the specified name if it exists.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupName the name of the group
-   * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   */
-  public Optional<AccountGroup> getGroup(ReviewDb db, AccountGroup.NameKey groupName)
-      throws OrmException {
-    AccountGroupName accountGroupName = db.accountGroupNames().get(groupName);
-    if (accountGroupName == null) {
-      return Optional.empty();
-    }
-
-    AccountGroup.Id groupId = accountGroupName.getId();
-    return Optional.ofNullable(db.accountGroups().get(groupId));
   }
 
   public Stream<AccountGroup> getAll(ReviewDb db) throws OrmException {

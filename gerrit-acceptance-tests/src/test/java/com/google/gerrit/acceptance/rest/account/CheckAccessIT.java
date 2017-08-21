@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +40,15 @@ public class CheckAccessIT extends AbstractDaemonTest {
   private Project.NameKey secretProject;
   private Project.NameKey secretRefProject;
   private TestAccount privilegedUser;
-  private AccountGroup privilegedGroup;
+  private InternalGroup privilegedGroup;
 
   @Before
   public void setUp() throws Exception {
     normalProject = createProject("normal");
     secretProject = createProject("secret");
     secretRefProject = createProject("secretRef");
-    privilegedGroup = groupCache.get(new AccountGroup.NameKey(createGroup("privilegedGroup")));
+    privilegedGroup =
+        groupCache.get(new AccountGroup.NameKey(createGroup("privilegedGroup"))).orElse(null);
 
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
     gApi.groups().id(privilegedGroup.getGroupUUID().get()).addMembers(privilegedUser.username);

@@ -93,18 +93,6 @@
       return this._loading || this._loading === undefined;
     },
 
-    _memberUrl(item) {
-      if (item.email) {
-        item = item.email;
-      } else if (item.username) {
-        item = item.username;
-      } else {
-        item = item.name;
-      }
-      return this.getBaseUrl() + '/q/owner:' + this.encodeURL(item, true) +
-          ' status:open';
-    },
-
     _groupUrl(item) {
       return this.getBaseUrl() + '/admin/groups/' + this.encodeURL(item, true);
     },

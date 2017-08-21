@@ -48,6 +48,10 @@
         type: Boolean,
         value: false,
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -69,6 +73,9 @@
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
             this._groupName = config.name;
+            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+              this._isAdmin = isAdmin;
+            }));
             promises.push(this.$.restAPI.getIsGroupOwner(config.name)
                 .then(isOwner => { this._groupOwner = isOwner; }));
             promises.push(this.$.restAPI.getGroupMembers(config.name).then(
@@ -222,6 +229,10 @@
             }
             return groups;
           });
+    },
+
+    _hideItem(owner, admin) {
+      return admin || owner;
     },
   });
 })();

@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -60,7 +61,7 @@ public class GroupCacheImpl implements GroupCache {
         cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<AccountGroup>>() {})
             .loader(ByIdLoader.class);
 
-        cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
+        cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
             .loader(ByNameLoader.class);
 
         cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
@@ -73,7 +74,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
-  private final LoadingCache<String, Optional<AccountGroup>> byName;
+  private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<AccountGroup>> byUUID;
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<GroupIndexer> indexer;
@@ -82,7 +83,7 @@ public class GroupCacheImpl implements GroupCache {
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
-      @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
+      @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
       SchemaFactory<ReviewDb> schema,
       Provider<GroupIndexer> indexer,
@@ -121,27 +122,22 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evictAfterRename(final AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
-      throws IOException {
+  public void evictAfterRename(AccountGroup.NameKey oldName) throws IOException {
     if (oldName != null) {
       byName.invalidate(oldName.get());
     }
-    if (newName != null) {
-      byName.invalidate(newName.get());
-    }
-    indexer.get().index(get(newName).getGroupUUID());
   }
 
   @Override
-  public AccountGroup get(AccountGroup.NameKey name) {
+  public Optional<InternalGroup> get(AccountGroup.NameKey name) {
     if (name == null) {
-      return null;
+      return Optional.empty();
     }
     try {
-      return byName.get(name.get()).orElse(null);
+      return byName.get(name.get());
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup group %s by name", name.get()), e);
-      return null;
+      return Optional.empty();
     }
   }
 
@@ -197,9 +193,8 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException {
-    byName.invalidate(newGroupName.get());
-    indexer.get().index(get(newGroupName).getGroupUUID());
+  public void onCreateGroup(AccountGroup group) throws IOException {
+    indexer.get().index(group.getGroupUUID());
   }
 
   private static AccountGroup missing(AccountGroup.Id key) {
@@ -225,21 +220,17 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
-  static class ByNameLoader extends CacheLoader<String, Optional<AccountGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
+  static class ByNameLoader extends CacheLoader<String, Optional<InternalGroup>> {
+    private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
-    ByNameLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
-      schema = sf;
-      this.groups = groups;
+    ByNameLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+      this.groupQueryProvider = groupQueryProvider;
     }
 
     @Override
-    public Optional<AccountGroup> load(String name) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, new AccountGroup.NameKey(name));
-      }
+    public Optional<InternalGroup> load(String name) throws Exception {
+      return groupQueryProvider.get().byName(new AccountGroup.NameKey(name));
     }
   }
 

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory.Factory;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -31,6 +32,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Optional;
 import org.kohsuke.args4j.Argument;
 
 /** Implements a command that allows the user to see the members of a group. */
@@ -68,16 +70,16 @@ public class ListMembersCommand extends SshCommand {
     }
 
     void display(PrintWriter writer) throws OrmException {
-      AccountGroup group = groupCache.get(new AccountGroup.NameKey(name));
+      Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(name));
       String errorText = "Group not found or not visible\n";
 
-      if (group == null) {
+      if (!group.isPresent()) {
         writer.write(errorText);
         writer.flush();
         return;
       }
 
-      List<AccountInfo> members = apply(group.getGroupUUID());
+      List<AccountInfo> members = apply(group.get().getGroupUUID());
       ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
       formatter.addColumn("id");
       formatter.addColumn("username");

@@ -16,8 +16,10 @@ package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -41,11 +43,11 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   @Override
   public final int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
-    final AccountGroup group = groupCache.get(new AccountGroup.NameKey(n));
-    if (group == null) {
+    Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(n));
+    if (!group.isPresent()) {
       throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
     }
-    setter.addValue(group.getId());
+    setter.addValue(group.get().getId());
     return 1;
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7623e8b2_3d8dd86f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T18:08:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5f8c88d4_f9ed432a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "420e4bf5_fed9b887",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-21T18:06:51Z",
       "side": 1,
       "message": "Sorry, one more thing, let\u0027s link to issue 4660 here.",
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1164ae0_21e4ed78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T18:08:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "420e4bf5_fed9b887",
       "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0eb5ac29_8979846d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T18:08:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f8a1c81a_dd707820",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 36
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ab30415_12f0c358",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 33
@@ -76,6 +142,30 @@
       "writtenOn": "2017-08-21T18:05:47Z",
       "side": 1,
       "message": "This line is too long, but the \"test that\" in the title is unnecessary. Furthermore, the test regards a missing current revision, so this title seems misleading anyway. What about \n\n \u0027no current_revision makes _computeShowUploader return null\u0027",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 85
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d77b339_b4caf202",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T18:08:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3ab30415_12f0c358",
       "range": {
         "startLine": 215,
         "startChar": 4,

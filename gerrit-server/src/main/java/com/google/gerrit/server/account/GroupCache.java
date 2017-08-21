@@ -24,7 +24,14 @@ import java.util.Optional;
 public interface GroupCache {
   AccountGroup get(AccountGroup.Id groupId);
 
-  AccountGroup get(AccountGroup.NameKey name);
+  /**
+   * Looks up an internal group by its name.
+   *
+   * @param name the name of the internal group
+   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
+   *     group with this name exists on this server or an error occurred during lookup
+   */
+  Optional<InternalGroup> get(AccountGroup.NameKey name);
 
   /**
    * Looks up an internal group by its UUID.
@@ -39,11 +46,10 @@ public interface GroupCache {
   ImmutableList<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
-  void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException;
+  void onCreateGroup(AccountGroup group) throws IOException;
 
   void evict(AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
       throws IOException;
 
-  void evictAfterRename(AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
-      throws IOException;
+  void evictAfterRename(AccountGroup.NameKey oldName) throws IOException;
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7e5a49f2_d47c276c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T09:35:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4ed1bbcd_e2229439",
+      "range": {
+        "startLine": 348,
+        "startChar": 7,
+        "endLine": 360,
+        "endChar": 16
+      },
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6fa29e6_f2d3ab92",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 28
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-18T17:50:50Z",
       "side": 1,
       "message": "Why does it return an empty string in this case?\n\nIn the affirmative case on l.376 it returns an account object, so it looks like this case and the case in l.373 should return `null`.",
+      "range": {
+        "startLine": 366,
+        "startChar": 15,
+        "endLine": 366,
+        "endChar": 17
+      },
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba502aef_15742ad2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T09:35:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f6fa29e6_f2d3ab92",
       "range": {
         "startLine": 366,
         "startChar": 15,
@@ -82,6 +130,24 @@
       "writtenOn": "2017-08-18T17:50:50Z",
       "side": 1,
       "message": "This looks unnecessary. There\u0027s already an entry on l.54.",
+      "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4116685d_1b9fdb1e",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T09:35:22Z",
+      "side": 1,
+      "message": "Yep, thanks, done.\n\nThis was added by mistake, i wanted to test it straight away instead of waiting a while for it to test it.",
+      "parentUuid": "c6573fc3_e31306ac",
       "revId": "a23b56ca923b3882c0896d593deaaa811a2e0d70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8a1c81a_dd707820",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T18:05:47Z",
+      "side": 1,
+      "message": "Because these tests involve regular functions (without Polymer bindings or rendering) these `flushAsynchronousOperations` calls in each of the tests should be unneeded.",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 36
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab30415_12f0c358",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 33
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-21T18:05:47Z",
+      "side": 1,
+      "message": "This line is too long, but the \"test that\" in the title is unnecessary. Furthermore, the test regards a missing current revision, so this title seems misleading anyway. What about \n\n \u0027no current_revision makes _computeShowUploader return null\u0027",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 85
+      },
+      "revId": "7a4b94066d9125dc2d8a3d7cc854e30f7ceebe7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

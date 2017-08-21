@@ -274,7 +274,7 @@
 
     getGroupConfig(group) {
       const encodeName = encodeURIComponent(group);
-      return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
+      return this.fetchJSON(`/groups/${encodeName}/detail`);
     },
 
     /**
@@ -348,8 +348,8 @@
      */
     getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
-      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeName)
-          .then(configs => configs.hasOwnProperty(encodeName));
+      return this._fetchSharedCacheURL(`/groups/?owned&q=${encodeName}`)
+          .then(configs => configs.hasOwnProperty(groupName));
     },
 
     getGroupMembers(groupName) {

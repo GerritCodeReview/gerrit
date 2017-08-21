@@ -22,6 +22,30 @@
       "revId": "0bdc3ab3330eb4b6128d2b75a143626c89b5edf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0635422f_7e54676e",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-21T09:26:14Z",
+      "side": 0,
+      "message": "https://gerrit-review.googlesource.com/120892",
+      "parentUuid": "61dad723_084174d6",
+      "range": {
+        "startLine": 51,
+        "startChar": 5,
+        "endLine": 51,
+        "endChar": 52
+      },
+      "revId": "0bdc3ab3330eb4b6128d2b75a143626c89b5edf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

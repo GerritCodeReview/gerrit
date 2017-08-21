@@ -80,6 +80,10 @@
           return this._getGroupSuggestions.bind(this);
         },
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -96,6 +100,10 @@
     _loadGroup() {
       if (!this.groupId) { return; }
 
+      this.$.restAPI.getIsAdmin().then(isAdmin => {
+        this._isAdmin = isAdmin;
+      });
+
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
             this._groupConfig = config;
@@ -104,6 +112,8 @@
             this._loading = false;
             this.$.restAPI.getIsGroupOwner(config.name)
                 .then(isOwner => { this._groupOwner = isOwner; });
+            this.$.restAPI.getIsAdmin(config.name)
+                .then(isAdmin => { this._isAdmin = isAdmin; console.log(isAdmin); });
           });
     },
 
@@ -182,8 +192,8 @@
       this._options = true;
     },
 
-    _computeButtonDisabled(options, option) {
-      return !options || !option;
+    _computeButtonDisabled(options, option, admin) {
+      return option && (options || admin);
     },
 
     _computeHeaderClass(configChanged) {
@@ -203,6 +213,10 @@
             }
             return groups;
           });
+    },
+
+    _disableGroup(owner, admin) {
+      return admin || owner;
     },
   });
 })();

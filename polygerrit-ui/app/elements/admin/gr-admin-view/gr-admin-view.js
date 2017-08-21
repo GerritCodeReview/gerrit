@@ -60,6 +60,10 @@
         type: Boolean,
         value: false,
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
@@ -147,7 +151,7 @@
               },
             ],
           };
-          if (this._groupOwner) {
+          if (this._isAdmin || this._groupOwner) {
             linkCopy.subsection.children.push(
                 {
                   name: 'Audit Log',
@@ -236,6 +240,10 @@
       this.$.restAPI.getGroupConfig(groupId).then(group => {
         this._groupName = group.name;
         this.reload();
+        this.$.restAPI.getIsAdmin().then(isAdmin => {
+          this._isAdmin = isAdmin;
+          this.reload();
+        });
         this.$.restAPI.getIsGroupOwner(group.name).then(
             isOwner => {
               if (isOwner) {

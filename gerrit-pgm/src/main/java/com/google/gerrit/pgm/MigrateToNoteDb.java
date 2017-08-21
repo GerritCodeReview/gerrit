@@ -21,8 +21,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
@@ -31,8 +29,8 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.DummyIndexModule;
-import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -161,8 +159,7 @@ public class MigrateToNoteDb extends SiteProgram {
           @Override
           public void configure() {
             install(dbInjector.getInstance(BatchProgramModule.class));
-            DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-                .to(ReindexAfterRefUpdate.class);
+            bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
             install(new DummyIndexModule());
             factory(ChangeResource.Factory.class);
           }

@@ -3,8 +3,8 @@ load("//tools/bzl:java.bzl", "java_library2")
 SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
 
 PROVIDED = [
-    "//gerrit-common:annotations",
-    "//gerrit-common:server",
+    "//java/com/google/gerrit/common:annotations",
+    "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
     "//gerrit-httpd:httpd",
     "//gerrit-index:index",

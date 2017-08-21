@@ -66,7 +66,6 @@
       _groupName: Object,
       _groupOwner: {
         type: Boolean,
-        value: false,
       },
       _submitTypes: {
         type: Array,
@@ -79,6 +78,9 @@
         value() {
           return this._getGroupSuggestions.bind(this);
         },
+      },
+      _isAdmin: {
+        type: Boolean,
       },
     },
 
@@ -98,12 +100,22 @@
 
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
-            this._groupConfig = config;
             this._groupName = config.name;
-            this.fire('title-change', {title: config.name});
-            this._loading = false;
+
+            this.$.restAPI.getIsAdmin().then(isAdmin => {
+              this._isAdmin = isAdmin ? true : false;
+            });
+
             this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => { this._groupOwner = isOwner; });
+                .then(isOwner => {
+                  this._groupOwner = isOwner ? true : false;
+                });
+
+            this._groupConfig = config;
+
+            this.fire('title-change', {title: config.name});
+
+            this._loading = false;
           });
     },
 
@@ -182,10 +194,6 @@
       this._options = true;
     },
 
-    _computeButtonDisabled(options, option) {
-      return !options || !option;
-    },
-
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
     },
@@ -203,6 +211,10 @@
             }
             return groups;
           });
+    },
+
+    _disableGroup(owner, admin) {
+      return admin || owner;
     },
   });
 })();

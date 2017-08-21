@@ -634,9 +634,18 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     db.changes().beginTransaction(changeId);
     try {
       Change c = db.changes().get(changeId);
-      PrimaryStorage ps = PrimaryStorage.of(c);
-      if (ps != PrimaryStorage.NOTE_DB) {
-        throw new OrmException("primary storage of " + changeId + " is " + ps);
+      if (c != null) {
+        PrimaryStorage ps = PrimaryStorage.of(c);
+        switch (ps) {
+          case REVIEW_DB:
+            return; // Nothing to do.
+          case NOTE_DB:
+            break; // Continue and rebuild.
+          default:
+            throw new OrmException("primary storage of " + changeId + " is " + ps);
+        }
+      } else {
+        c = notes.getChange();
       }
       db.changes().upsert(Collections.singleton(c));
       putExactlyEntities(

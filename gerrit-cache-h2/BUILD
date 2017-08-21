@@ -5,8 +5,8 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-common:server",
         "//gerrit-server:server",
+        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
         "//lib:h2",

@@ -66,7 +66,6 @@
       _groupName: Object,
       _groupOwner: {
         type: Boolean,
-        value: false,
       },
       _submitTypes: {
         type: Array,
@@ -79,6 +78,9 @@
         value() {
           return this._getGroupSuggestions.bind(this);
         },
+      },
+      _isAdmin: {
+        type: Boolean,
       },
     },
 
@@ -96,14 +98,34 @@
     _loadGroup() {
       if (!this.groupId) { return; }
 
-      return this.$.restAPI.getGroupConfig(this.groupId).then(
+      this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
-            this._groupConfig = config;
+            if (!config || !config.name) { return; }
+
             this._groupName = config.name;
-            this.fire('title-change', {title: config.name});
-            this._loading = false;
+
+            this.$.restAPI.getIsAdmin().then(isAdmin => {
+              if (isAdmin) {
+                this._isAdmin = true;
+              } else {
+                this._isAdmin = false;
+              }
+            });
+
             this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => { this._groupOwner = isOwner; });
+                .then(isOwner => {
+                  if (isOwner) {
+                    this._groupOwner = true;
+                  } else {
+                    this._groupOwner = false;
+                  }
+            });
+
+            this._groupConfig = config;
+
+            this.fire('title-change', {title: config.name});
+
+            this._loading = false;
           });
     },
 
@@ -182,10 +204,6 @@
       this._options = true;
     },
 
-    _computeButtonDisabled(options, option) {
-      return !options || !option;
-    },
-
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
     },
@@ -203,6 +221,12 @@
             }
             return groups;
           });
+    },
+
+    _disableGroup(owner, admin) {
+      console.log(admin);
+      console.log(owner);
+      return admin || owner;
     },
   });
 })();

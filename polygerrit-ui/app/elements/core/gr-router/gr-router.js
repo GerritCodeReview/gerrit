@@ -426,7 +426,8 @@
       this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
           true);
 
-      this._mapRoute(RoutePattern.GROUP_MEMBERS, '_handleGroupMembersRoute');
+      this._mapRoute(RoutePattern.GROUP_MEMBERS, '_handleGroupMembersRoute',
+          true);
 
       this._mapRoute(RoutePattern.GROUP_LIST_OFFSET,
           '_handleGroupListOffsetRoute', true);

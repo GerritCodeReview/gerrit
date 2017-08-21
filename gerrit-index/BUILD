@@ -9,24 +9,9 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-genrule2(
-    name = "query_antlr",
-    srcs = ["src/main/antlr3/com/google/gerrit/index/query/Query.g"],
-    outs = ["query_antlr.srcjar"],
-    cmd = " && ".join([
-        "$(location //lib/antlr:antlr-tool) -o $$TMP $<",
-        "cd $$TMP",
-        "$$ROOT/$(location @bazel_tools//tools/zip:zipper) cC $$ROOT/$@ $$(find *)",
-    ]),
-    tools = [
-        "//lib/antlr:antlr-tool",
-        "@bazel_tools//tools/zip:zipper",
-    ],
-)
-
 java_library(
     name = "query_parser",
-    srcs = [":query_antlr"],
+    srcs = ["//antlr3:query"],
     visibility = ["//gerrit-plugin-api:__pkg__"],
     deps = [
         ":query_exception",

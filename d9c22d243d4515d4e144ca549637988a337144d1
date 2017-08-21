@@ -46,6 +46,30 @@
       "revId": "d9c22d243d4515d4e144ca549637988a337144d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a8d6796_af914f17",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T11:29:45Z",
+      "side": 1,
+      "message": "Never mind, I found out how to do it :)",
+      "parentUuid": "a5fa9838_264554fc",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "d9c22d243d4515d4e144ca549637988a337144d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

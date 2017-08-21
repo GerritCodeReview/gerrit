@@ -19,7 +19,7 @@ java_library(
 java_binary(
     name = "antlr-tool",
     main_class = "org.antlr.Tool",
-    visibility = ["//gerrit-index:__pkg__"],
+    visibility = ["//antlr3:__pkg__"],
     runtime_deps = [":tool"],
 )
 

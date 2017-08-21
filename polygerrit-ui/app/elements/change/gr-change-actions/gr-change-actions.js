@@ -109,6 +109,11 @@
     REVISION: 1,
   };
 
+  const EDIT_DISABLED_ACTIONS = [
+    RevisionActions.CHERRYPICK,
+    RevisionActions.REBASE,
+  ];
+
   const DOWNLOAD_ACTION = {
     enabled: true,
     label: 'Download patch',
@@ -155,6 +160,10 @@
           ];
         },
       },
+      editLoaded: {
+        type: Boolean,
+        value: false,
+      },
       _hasKnownChainState: {
         type: Boolean,
         value: false,
@@ -188,7 +197,7 @@
       _allActionValues: {
         type: Array,
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
-            'primaryActionKeys.*, _additionalActions.*, change, ' +
+            'primaryActionKeys.*, _additionalActions.*, change, editLoaded,' +
             '_actionPriorityOverrides.*)',
       },
       _topLevelActions: {
@@ -942,7 +951,7 @@
      * @return {!Array}
      */
     _computeAllActions(changeActionsRecord, revisionActionsRecord,
-        primariesRecord, additionalActionsRecord, change) {
+        primariesRecord, additionalActionsRecord, change, editLoaded) {
       const revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       const changeActionValues = this._getActionValues(changeActionsRecord,
@@ -951,9 +960,14 @@
       if (quickApprove) {
         changeActionValues.unshift(quickApprove);
       }
-      return revisionActionValues
-          .concat(changeActionValues)
-          .sort(this._actionComparator.bind(this));
+      let actions = revisionActionValues
+          .concat(changeActionValues);
+
+      if (editLoaded) {
+        actions = actions.filter(action =>
+            !EDIT_DISABLED_ACTIONS.includes(action.__key));
+      }
+      return actions.sort(this._actionComparator.bind(this));
     },
 
     _getActionPriority(action) {

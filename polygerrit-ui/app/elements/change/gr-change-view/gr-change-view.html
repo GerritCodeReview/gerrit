@@ -365,7 +365,9 @@ limitations under the License.
                 secondary
                 disabled="[[_replyDisabled]]"
                 on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-            <gr-change-actions id="actions"
+            <gr-change-actions
+                id="actions"
+                edit-loaded="[[_editLoaded]]"
                 change="[[_change]]"
                 has-parent="[[hasParent]]"
                 actions="[[_change.actions]]"

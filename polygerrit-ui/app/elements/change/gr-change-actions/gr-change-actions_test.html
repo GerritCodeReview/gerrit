@@ -1018,6 +1018,23 @@ limitations under the License.
       assert.isTrue(handler.called);
     });
 
+    test('hides cherrypick and rebase actions when edit is loaded', () => {
+      const actionFilter =
+          action => action.__key !== 'rebase' && action.__key !== 'cherrypick';
+      element.set('editLoaded', false);
+      element.reload();
+      flushAsynchronousOperations();
+      assert.equal(element._allActionValues.length, 6);
+      const actionValues = _.cloneDeep(element._allActionValues);
+
+      element.set('editLoaded', true);
+      element.reload();
+      flushAsynchronousOperations();
+      assert.equal(element._allActionValues.length, 4);
+      assert.deepEqual(element._allActionValues,
+          actionValues.filter(actionFilter));
+    });
+
     suite('setActionOverflow', () => {
       test('move action from overflow', () => {
         assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));

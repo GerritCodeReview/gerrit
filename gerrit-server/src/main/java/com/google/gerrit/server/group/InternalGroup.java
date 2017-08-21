@@ -19,10 +19,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @AutoValue
-public abstract class InternalGroup {
+public abstract class InternalGroup implements Serializable {
 
   public static InternalGroup create(
       AccountGroup accountGroup,

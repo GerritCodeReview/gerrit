@@ -1214,7 +1214,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg,
         Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
         "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
@@ -1291,7 +1291,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg,
         Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
         "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
@@ -1338,7 +1338,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Util.allow(
         cfg,
         Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
         "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);

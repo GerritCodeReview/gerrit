@@ -48,7 +48,7 @@ junit_tests(
     deps = DEPS + [
         ":gpg",
         ":testutil",
-        "//gerrit-cache-h2:cache-h2",
+        "//java/com/google/gerrit/server/cache/h2",
         "//gerrit-lucene:lucene",
         "//gerrit-server:testutil",
         "//lib:truth",

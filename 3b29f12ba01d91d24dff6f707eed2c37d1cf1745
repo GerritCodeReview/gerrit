@@ -70,6 +70,30 @@
       "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83ac12c8_ce856340",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-21T22:37:25Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure, I honestly didn\u0027t mull over the name all that much. Looking at that link, it appears to technically fit the definition of a modifier (https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md#ComponentName--modifierName)\n\nBut on the other hand, we haven\u0027t pledged to follow this suitcss convention schema at all.\n\nI guess I don\u0027t particularly have a preference -- whatever you think is better!",
+      "parentUuid": "db493b39_8b82cdb2",
+      "range": {
+        "startLine": 698,
+        "startChar": 25,
+        "endLine": 698,
+        "endChar": 27
+      },
+      "revId": "3b29f12ba01d91d24dff6f707eed2c37d1cf1745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

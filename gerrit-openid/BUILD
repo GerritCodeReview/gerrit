@@ -5,8 +5,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         # We want all these deps to be provided_deps
-        "//gerrit-common:annotations",
-        "//gerrit-common:server",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gwtexpui/server",
         "//gerrit-httpd:httpd",

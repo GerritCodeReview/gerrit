@@ -21,10 +21,9 @@ java_library2(
     exported_deps = ["//gerrit-gwtui-common:client-lib"],
     resources = glob(["src/main/**/*"]),
     deps = DEPS + [
-        "//gerrit-common:libclient-src.jar",
-        "//java/com/google/gerrit/extensions:libclient-src.jar",
         "//java/org/eclipse/jgit:libclient-src.jar",
         "//java/org/eclipse/jgit:libEdit-src.jar",
+        "//java/com/google/gerrit/common:libclient-src.jar",
         "//java/com/google/gwtexpui/clippy:libclippy-src.jar",
         "//java/com/google/gwtexpui/globalkey:libglobalkey-src.jar",
         "//java/com/google/gwtexpui/progress:libprogress-src.jar",
@@ -70,7 +69,7 @@ java_doc(
         "//lib:gwtorm_client",
         "//lib/gwt:dev",
         "//gerrit-gwtui-common:client-lib",
-        "//gerrit-common:client",
+        "//java/com/google/gerrit/common:client",
         "//java/com/google/gerrit/reviewdb:client",
     ],
     pkgs = [

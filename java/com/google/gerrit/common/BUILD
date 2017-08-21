@@ -1,15 +1,9 @@
 load("//tools/bzl:gwt.bzl", "gwt_module")
-load("//tools/bzl:junit.bzl", "junit_tests")
-
-SRC = "src/main/java/com/google/gerrit/"
 
 ANNOTATIONS = [
-    SRC + x
-    for x in [
-        "common/Nullable.java",
-        "common/audit/Audit.java",
-        "common/auth/SignInRequired.java",
-    ]
+    "Nullable.java",
+    "audit/Audit.java",
+    "auth/SignInRequired.java",
 ]
 
 java_library(
@@ -20,7 +14,7 @@ java_library(
 
 gwt_module(
     name = "client",
-    srcs = glob([SRC + "common/**/*.java"]),
+    srcs = glob(["**/*.java"]),
     exported_deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:client",
@@ -31,14 +25,14 @@ gwt_module(
         "//lib/joda:joda-time",
         "//lib/log:api",
     ],
-    gwt_xml = SRC + "common/Common.gwt.xml",
+    gwt_xml = "Common.gwt.xml",
     visibility = ["//visibility:public"],
 )
 
 java_library(
     name = "server",
     srcs = glob(
-        [SRC + "common/**/*.java"],
+        ["**/*.java"],
         exclude = ANNOTATIONS,
     ),
     visibility = ["//visibility:public"],
@@ -55,32 +49,5 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/joda:joda-time",
         "//lib/log:api",
-    ],
-)
-
-TEST = "src/test/java/com/google/gerrit/common/"
-
-AUTO_VALUE_TEST_SRCS = [TEST + "AutoValueTest.java"]
-
-junit_tests(
-    name = "client_tests",
-    srcs = glob(
-        ["src/test/java/**/*.java"],
-        exclude = AUTO_VALUE_TEST_SRCS,
-    ),
-    deps = [
-        ":client",
-        "//lib:guava",
-        "//lib:junit",
-        "//lib:truth",
-    ],
-)
-
-junit_tests(
-    name = "auto_value_tests",
-    srcs = AUTO_VALUE_TEST_SRCS,
-    deps = [
-        "//lib:truth",
-        "//lib/auto:auto-value",
     ],
 )

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c8a81d0_f735751a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-21T13:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78d4475a_44591ddb",
+      "revId": "48c3e35797d684396070f65a233d04439b0251c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a330f159_7d71b7e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "48c3e35797d684396070f65a233d04439b0251c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4511e21d_1ed31f9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-21T13:49:20Z",
+      "side": 1,
+      "message": "Done. I think you are right to remove this from this class\u0027s public API is a low-hanging fruit we should collect.\n\nI also tried to keep usage inside this class minimal, but we\u0027ll need to make some more refactorings until this class contains no references to *Control anymore.",
+      "parentUuid": "a330f159_7d71b7e7",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 87
+      },
+      "revId": "48c3e35797d684396070f65a233d04439b0251c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

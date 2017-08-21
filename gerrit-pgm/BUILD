@@ -66,7 +66,7 @@ java_library(
 
 REST_UTIL_DEPS = [
     "//gerrit-cache-h2:cache-h2",
-    "//gerrit-util-cli:cli",
+    "//java/com/google/gerrit/util/cli",
     "//lib:args4j",
     "//lib/commons:dbcp",
 ]

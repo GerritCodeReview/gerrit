@@ -22,6 +22,30 @@
       "revId": "d9c22d243d4515d4e144ca549637988a337144d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5fa9838_264554fc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-21T10:11:50Z",
+      "side": 1,
+      "message": "Im not sure how to do this now. Since the Create button is being added by gr-confirm-overly but subject is within this file.",
+      "parentUuid": "3b109b11_e3be3b72",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "d9c22d243d4515d4e144ca549637988a337144d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

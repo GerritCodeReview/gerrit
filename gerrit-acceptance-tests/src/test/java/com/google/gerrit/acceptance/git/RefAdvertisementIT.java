@@ -82,7 +82,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID();
     setUpPermissions();
     setUpChanges();
   }

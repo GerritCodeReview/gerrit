@@ -16,7 +16,6 @@ java_library(
     resources = RESOURCES,
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-index:query_exception",
         "//gerrit-launcher:launcher",
         "//gerrit-server:metrics",
         "//gerrit-server:receive",
@@ -25,6 +24,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/util/cli",

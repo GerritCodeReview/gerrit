@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.server.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;

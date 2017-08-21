@@ -20,7 +20,7 @@ import com.google.gerrit.pgm.util.AbstractProgram;
 public class Version extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    final String v = com.google.gerrit.common.Version.getVersion();
+    final String v = com.google.gerrit.server.common.Version.getVersion();
     if (v == null) {
       System.err.println("fatal: version unavailable");
       return 1;

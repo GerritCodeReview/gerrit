@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.common.Version;
+import com.google.gerrit.server.common.Version;
 import org.junit.Test;
 
 @NoHttpd

@@ -18,13 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.server.common.FooterConstants;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.inject.Inject;
 import java.util.List;

@@ -16,7 +16,6 @@ package com.google.gerrit.server.api.config;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
-import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
@@ -26,6 +25,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.common.Version;
 import com.google.gerrit.server.config.CheckAccess;
 import com.google.gerrit.server.config.CheckConsistency;
 import com.google.gerrit.server.config.ConfigResource;

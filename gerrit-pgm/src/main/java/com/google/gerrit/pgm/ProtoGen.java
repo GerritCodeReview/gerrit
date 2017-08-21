@@ -58,7 +58,7 @@ public class ProtoGen extends AbstractProgram {
           header = new String(buf.array(), ptr, len, UTF_8);
         }
 
-        String version = com.google.gerrit.common.Version.getVersion();
+        String version = com.google.gerrit.server.common.Version.getVersion();
         out.write(header.replace("@@VERSION@@", version));
         jsm.generateProto(out);
         out.flush();

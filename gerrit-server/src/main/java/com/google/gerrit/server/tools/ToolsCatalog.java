@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.Version;
+import com.google.gerrit.server.common.Version;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.BufferedReader;

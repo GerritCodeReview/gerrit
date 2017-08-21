@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.common.EventListener;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.common.EventListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

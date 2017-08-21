@@ -1,4 +1,4 @@
-package(default_visibility = ["//gerrit-index:__pkg__"])
+package(default_visibility = ["//java/com/google/gerrit/index:__pkg__"])
 
 [java_library(
     name = n,

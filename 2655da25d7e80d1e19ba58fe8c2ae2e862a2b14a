@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a82f5aa_e3e7b05b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-21T07:23:39Z",
+      "side": 1,
+      "message": "Plugins were not adapted to this package change.",
+      "revId": "2655da25d7e80d1e19ba58fe8c2ae2e862a2b14a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

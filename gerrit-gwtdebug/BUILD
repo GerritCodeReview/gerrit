@@ -6,7 +6,7 @@ java_library(
         "//gerrit-pgm:daemon",
         "//gerrit-pgm:pgm",
         "//gerrit-pgm:util",
-        "//gerrit-util-cli:cli",
+        "//java/com/google/gerrit/util/cli",
         "//lib/gwt:dev",
         "//lib/jetty:server",
         "//lib/jetty:servlet",

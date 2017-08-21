@@ -56,11 +56,6 @@
         type: Boolean,
         value: true,
       },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
       /** @type {?} */
       _groupConfig: Object,
       _groupName: Object,
@@ -80,6 +75,10 @@
           return this._getGroupSuggestions.bind(this);
         },
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -98,12 +97,22 @@
 
       return this.$.restAPI.getGroupConfig(this.groupId).then(
           config => {
-            this._groupConfig = config;
             this._groupName = config.name;
-            this.fire('title-change', {title: config.name});
-            this._loading = false;
+
+            this.$.restAPI.getIsAdmin().then(isAdmin => {
+              this._isAdmin = isAdmin ? true : false;
+            });
+
             this.$.restAPI.getIsGroupOwner(config.name)
-                .then(isOwner => { this._groupOwner = isOwner; });
+                .then(isOwner => {
+                  this._groupOwner = isOwner ? true : false;
+                });
+
+            this._groupConfig = config;
+
+            this.fire('title-change', {title: config.name});
+
+            this._loading = false;
           });
     },
 
@@ -111,16 +120,8 @@
       return loading ? 'loading' : '';
     },
 
-    _loggedInChanged(_loggedIn) {
-      if (!_loggedIn) { return; }
-    },
-
     _isLoading() {
       return this._loading || this._loading === undefined;
-    },
-
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
     },
 
     _handleSaveName() {
@@ -182,10 +183,6 @@
       this._options = true;
     },
 
-    _computeButtonDisabled(options, option) {
-      return !options || !option;
-    },
-
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
     },
@@ -203,6 +200,10 @@
             }
             return groups;
           });
+    },
+
+    _computeGroupDisabled(owner, admin) {
+      return admin || owner ? false : true;
     },
   });
 })();

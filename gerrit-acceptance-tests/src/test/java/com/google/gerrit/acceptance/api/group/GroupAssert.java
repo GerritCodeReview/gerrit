@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import java.util.Set;
 
 public class GroupAssert {
@@ -31,7 +31,7 @@ public class GroupAssert {
     assertWithMessage("unexpected groups: " + actual).that(actual).isEmpty();
   }
 
-  public static void assertGroupInfo(AccountGroup group, GroupInfo info) {
+  public static void assertGroupInfo(InternalGroup group, GroupInfo info) {
     if (info.name != null) {
       // 'name' is not set if returned in a map
       assertThat(info.name).isEqualTo(group.getName());

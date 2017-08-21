@@ -31,7 +31,8 @@
 
     _computeOwnerLink(account) {
       if (!account) { return; }
-      return Gerrit.Nav.getUrlForOwner(account.email || account._account_id);
+      return Gerrit.Nav.getUrlForOwner(account.email || account.username ||
+          account.name || account._account_id);
     },
 
     _computeShowEmail(account) {

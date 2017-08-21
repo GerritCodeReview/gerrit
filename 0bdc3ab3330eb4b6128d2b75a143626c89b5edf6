@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61dad723_084174d6",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-21T09:20:35Z",
+      "side": 0,
+      "message": "CI script should abstract the target used, and not make assumption where some rues implemented. The can be decomposed, or moved around. So that to use them was always a bad idea, and now it\u0027s failing, because i moved gerrit-extension-api:extension-api_deploy.jar her to //java/com/google/gerrit/extensions:extension-api_deploy.jar:\n\n  bazel build $BAZEL_OPTS \\\n      gerrit-plugin-api:plugin-api_deploy.jar \\\n      gerrit-extension-api:extension-api_deploy.jar\n\nThe correct rule to use on the CI side is:\n\n  bagel build api",
+      "range": {
+        "startLine": 51,
+        "startChar": 5,
+        "endLine": 51,
+        "endChar": 52
+      },
+      "revId": "0bdc3ab3330eb4b6128d2b75a143626c89b5edf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

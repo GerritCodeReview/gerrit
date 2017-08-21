@@ -1,6 +1,6 @@
 java_library(
-    name = "commons-net",
-    srcs = glob(["src/main/java/org/apache/commons/net/**/*.java"]),
+    name = "net",
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/util/ssl",

@@ -22,7 +22,7 @@ java_binary(
     name = "antlr-tool",
     jvm_flags = ["-XX:-UsePerfData"],
     main_class = "org.antlr.Tool",
-    visibility = ["//gerrit-index:__pkg__"],
+    visibility = ["//antlr3:__pkg__"],
     runtime_deps = [":tool"],
 )
 

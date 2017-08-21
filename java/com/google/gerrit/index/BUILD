@@ -1,9 +1,8 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:junit.bzl", "junit_tests")
 
 QUERY_PARSE_EXCEPTION_SRCS = [
-    "src/main/java/com/google/gerrit/index/query/QueryParseException.java",
-    "src/main/java/com/google/gerrit/index/query/QueryRequiresAuthException.java",
+    "query/QueryParseException.java",
+    "query/QueryRequiresAuthException.java",
 ]
 
 java_library(
@@ -15,7 +14,10 @@ java_library(
 java_library(
     name = "query_parser",
     srcs = ["//antlr3:query"],
-    visibility = ["//gerrit-plugin-api:__pkg__"],
+    visibility = [
+        "//gerrit-plugin-api:__pkg__",
+        "//javatests/com/google/gerrit/index:__pkg__",
+    ],
     deps = [
         ":query_exception",
         "//lib/antlr:java_runtime",
@@ -25,7 +27,7 @@ java_library(
 java_library(
     name = "index",
     srcs = glob(
-        ["src/main/java/**/*.java"],
+        ["**/*.java"],
         exclude = QUERY_PARSE_EXCEPTION_SRCS,
     ),
     visibility = ["//visibility:public"],
@@ -42,21 +44,5 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-    ],
-)
-
-junit_tests(
-    name = "index_tests",
-    size = "small",
-    srcs = glob(["src/test/java/**/*.java"]),
-    visibility = ["//visibility:public"],
-    deps = [
-        ":index",
-        ":query_exception",
-        ":query_parser",
-        "//lib:junit",
-        "//lib:truth",
-        "//lib/antlr:java_runtime",
-        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

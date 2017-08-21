@@ -11,7 +11,6 @@ TEST_DEPS = [
     "//gerrit-gpg:gpg_tests",
     "//gerrit-gwtui:ui_tests",
     "//gerrit-httpd:httpd_tests",
-    "//gerrit-index:index_tests",
     "//gerrit-server:server_tests",
 ]
 

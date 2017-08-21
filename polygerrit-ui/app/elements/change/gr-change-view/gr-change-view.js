@@ -694,6 +694,10 @@
     },
 
     _computePatchInfoClass(patchNum, allPatchSets) {
+      if (this.patchNumEquals(patchNum, this.EDIT_NAME)) {
+        return 'patchInfo--edit';
+      }
+
       const latestNum = this.computeLatestPatchNum(allPatchSets);
       if (this.patchNumEquals(patchNum, latestNum)) {
         return '';
@@ -1353,6 +1357,10 @@
     _computeEditLoaded(patchRangeRecord) {
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    },
+
+    _computeEditLoadedClass(editLoaded) {
+      return editLoaded ? 'editLoaded' : '';
     },
   });
 })();

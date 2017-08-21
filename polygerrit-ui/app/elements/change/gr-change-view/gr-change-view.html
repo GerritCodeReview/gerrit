@@ -163,6 +163,9 @@ limitations under the License.
         border: 1px solid #ddd;
         margin: 1em var(--default-horizontal-margin);
       }
+      .patchInfo--edit .patchInfo-header {
+        background-color: #fcfad6;
+      }
       .patchInfo--oldPatchSet .patchInfo-header {
         background-color: #fff9c4;
       }
@@ -200,7 +203,8 @@ limitations under the License.
         height: 0;
         margin-bottom: 1em;
       }
-      #diffPrefsContainer {
+      #diffPrefsContainer,
+      .rightControls {
         margin: auto 0 auto auto;
       }
       .patchInfo-header-wrapper {
@@ -238,6 +242,15 @@ limitations under the License.
       #relatedChangesToggle {
         margin-left: 1em;
         padding-top: var(--related-change-btn-top-padding, 0);
+      }
+      .showOnEdit {
+        display: none;
+      }
+      .editLoaded .hideOnEdit {
+        display: none;
+      }
+      .editLoaded .showOnEdit {
+        display: initial;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -316,7 +329,9 @@ limitations under the License.
       }
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
-    <div class="container" hidden$="{{_loading}}">
+    <div
+        class$="container [[_computeEditLoadedClass(_editLoaded)]]"
+        hidden$="{{_loading}}">
       <div class$="[[_computeHeaderClass(_change)]]">
         <span class="header-title">
           <gr-change-star
@@ -486,7 +501,7 @@ limitations under the License.
                   class="download"
                   on-tap="_handleDownloadTap">Download</gr-button>
             </span>
-            <span class="descriptionContainer">
+            <span class="descriptionContainer hideOnEdit">
               /
               <gr-editable-label
                   id="descriptionLabel"
@@ -497,6 +512,7 @@ limitations under the License.
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
             </span>
             <span id="diffPrefsContainer"
+                class="hideOnEdit"
                 hidden$="[[_computePrefsButtonHidden(_diffPrefs, _loggedIn)]]"
                 hidden>
               <gr-button link

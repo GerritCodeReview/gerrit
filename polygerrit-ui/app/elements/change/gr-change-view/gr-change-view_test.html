@@ -922,9 +922,9 @@ limitations under the License.
     test('class is applied to file list on old patch set', () => {
       const allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
       assert.equal(element._computePatchInfoClass('1', allPatchSets),
-          'patchInfo--oldPatchSet');
+          'patchInfoOldPatchSet');
       assert.equal(element._computePatchInfoClass('2', allPatchSets),
-          'patchInfo--oldPatchSet');
+          'patchInfoOldPatchSet');
       assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
     });
 
@@ -1335,6 +1335,32 @@ limitations under the License.
       change.current_revision = 'baz';
       element._processEdit(mockChange = _.cloneDeep(change), edit);
       assert.equal(element._patchRange.patchNum, 'baz');
+    });
+
+    suite('editLoaded behavior', () => {
+      setup(() => {
+        element._loggedIn = true;
+        element._diffPrefs = {};
+      });
+
+      const isVisible = el => {
+        assert.ok(el);
+        return getComputedStyle(el).getPropertyValue('display') !== 'none';
+      };
+
+      test('patch specific elements', () => {
+        sandbox.stub(element, 'computeLatestPatchNum').returns('2');
+        element._patchRange = {patchNum: element.EDIT_NAME};
+        flushAsynchronousOperations();
+
+        assert.isFalse(isVisible(element.$.diffPrefsContainer));
+        assert.isFalse(isVisible(element.$$('.descriptionContainer')));
+        element.set('_patchRange.patchNum', 1);
+        flushAsynchronousOperations();
+
+        assert.isTrue(isVisible(element.$$('.descriptionContainer')));
+        assert.isTrue(isVisible(element.$.diffPrefsContainer));
+      });
     });
   });
 </script>

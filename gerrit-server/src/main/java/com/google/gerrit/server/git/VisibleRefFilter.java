@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -50,6 +51,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -286,27 +289,33 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan() {
-    Project.NameKey project = projectCtl.getProject().getNameKey();
+    Project.NameKey p = projectCtl.getProject().getNameKey();
+    Stream<ChangeNotesResult> s;
     try {
-      Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      // TODO(dborowitz): Only hide specific changes that failed to load; this should allow us to
-      // avoid this ugly foreach loop.
-      for (ChangeNotesResult r :
-          (Iterable<ChangeNotesResult>) changeNotesFactory.scan(git, db.get(), project)::iterator) {
-        if (r.error().isPresent()) {
-          throw new OrmException(r.error().get());
-        }
-        ChangeNotes cn = r.notes();
-        if (permissionBackend.user(user).change(cn).database(db).test(ChangePermission.READ)) {
-          visibleChanges.put(cn.getChangeId(), cn.getChange().getDest());
-        }
-      }
-      return visibleChanges;
-    } catch (IOException | OrmException | PermissionBackendException e) {
-      log.error(
-          "Cannot load changes for project " + project + ", assuming no changes are visible", e);
+      s = changeNotesFactory.scan(git, db.get(), p);
+    } catch (IOException e) {
+      log.error("Cannot load changes for project " + p + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
+    return s.map(r -> toNotes(p, r))
+        .filter(Objects::nonNull)
+        .collect(toMap(n -> n.getChangeId(), n -> n.getChange().getDest()));
+  }
+
+  @Nullable
+  private ChangeNotes toNotes(Project.NameKey p, ChangeNotesResult r) {
+    if (r.error().isPresent()) {
+      log.warn("Failed to load change " + r.id() + " in " + p, r.error().get());
+      return null;
+    }
+    try {
+      if (permissionBackend.user(user).change(r.notes()).database(db).test(ChangePermission.READ)) {
+        return r.notes();
+      }
+    } catch (PermissionBackendException e) {
+      log.warn("Failed to check permission for " + r.id() + " in " + p, e);
+    }
+    return null;
   }
 
   private boolean isMetadata(String name) {

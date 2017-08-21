@@ -162,19 +162,25 @@
             groupId: data.params[0],
           };
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          redirectToLogin(data.canonicalPath);
         }
       });
     });
 
     // Matches /admin/groups/<group>,members
     page(/^\/admin\/groups\/(.+),members$/, loadUser, data => {
-      app.params = {
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-members',
-        detailType: 'members',
-        groupId: data.params[0],
-      };
+      restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          app.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group-members',
+            detailType: 'members',
+            groupId: data.params[0],
+          };
+        } else {
+          redirectToLogin(data.canonicalPath);
+        }
+      });
     });
 
     // Matches /admin/groups[,<offset>][/].

@@ -23,13 +23,14 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
+import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Test;
 
 public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    AccountGroup group = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    InternalGroup group = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
     assertWithMessage("Precondition: The group 'Administrators' was loaded by the group cache")
         .that(group)
         .isNotNull();

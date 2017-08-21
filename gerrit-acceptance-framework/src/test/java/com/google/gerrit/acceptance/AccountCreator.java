@@ -24,11 +24,12 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.GroupsUpdate;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.SchemaFactory;
@@ -54,7 +55,7 @@ public class AccountCreator {
   private final Sequences sequences;
   private final AccountsUpdate.Server accountsUpdate;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
-  private final Groups groups;
+  private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
   private final ExternalIdsUpdate.Server externalIdsUpdate;
@@ -66,7 +67,7 @@ public class AccountCreator {
       Sequences sequences,
       AccountsUpdate.Server accountsUpdate,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
-      Groups groups,
+      GroupCache groupCache,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
       ExternalIdsUpdate.Server externalIdsUpdate,
@@ -76,7 +77,7 @@ public class AccountCreator {
     this.sequences = sequences;
     this.accountsUpdate = accountsUpdate;
     this.authorizedKeys = authorizedKeys;
-    this.groups = groups;
+    this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
     this.externalIdsUpdate = externalIdsUpdate;
@@ -121,7 +122,7 @@ public class AccountCreator {
       if (groupNames != null) {
         for (String n : groupNames) {
           AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          Optional<AccountGroup> group = groups.getGroup(db, k);
+          Optional<InternalGroup> group = groupCache.get(k);
           if (!group.isPresent()) {
             throw new NoSuchGroupException(n);
           }

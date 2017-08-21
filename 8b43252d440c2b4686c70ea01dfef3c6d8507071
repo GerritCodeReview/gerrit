@@ -3,6 +3,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "79e42b44_dea2382d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T13:25:40Z",
+      "side": 1,
+      "message": "Is this used instead of calling hasNext() so that possible exceptions are caught? I think we should rather find another way which doesn\u0027t use exceptions for flow-control.",
+      "range": {
+        "startLine": 233,
+        "startChar": 12,
+        "endLine": 234,
+        "endChar": 18
+      },
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eaddb9e_b2582029",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T13:25:40Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this sometimes result in mentioning the previous changeId (and not the one of the change which failed to load)?",
+      "range": {
+        "startLine": 241,
+        "startChar": 12,
+        "endLine": 244,
+        "endChar": 55
+      },
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92eb09b0_f82cb6a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T13:25:40Z",
+      "side": 1,
+      "message": "Don\u0027t we need load() here as well? The previous code always called load().",
+      "range": {
+        "startLine": 227,
+        "startChar": 13,
+        "endLine": 227,
+        "endChar": 43
+      },
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a490f667_59fc3e14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesIterator.java",
         "patchSetId": 1
@@ -14,6 +83,47 @@
       "writtenOn": "2017-08-18T17:57:56Z",
       "side": 1,
       "message": "Not sure if this is workable. We absolutely do want to continue the iterator if there was a problem just loading a single change. The issue is that the exception might have been thrown due to something other than loading a single change e.g. loading a batch of 30 in the ReviewDb case.\n\nI wonder if we might be better off returning a more complex value from this iterator, possibly including a description of an error encountered and the ID, but not actually throwing an exception.\n\nI\u0027ll think about this and come back to it on Monday.",
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "320180fb_230a7d7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T13:25:40Z",
+      "side": 1,
+      "message": "I\u0027m very much in favor of providing a complex value and not throwing any exceptions from hasNext() and next(). Thus, we wouldn\u0027t need this special interface and could simply implement Iterator. We also wouldn\u0027t need to use an exception for flow-control in AllChangesIndexer.\n\nWe could even go a step further. Instead of returning an iterator for ChangeNotes#scan, we could return an Iterable even without loading all elements. We could achieve this by returning the lambda:\n\n () -\u003e createIterator();\n\nwhich is a valid implementation for Iterable. Thus, callers of ChangeNotes#scan could simply use a for-each loop or another simple mechanism to iterate over the elements (instead of the more crude handling necessary for an iterator). (If we didn\u0027t rely on checked exceptions that much, I would even suggest returning a Stream.)",
+      "parentUuid": "a490f667_59fc3e14",
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafd5f28_c80afde7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeNotesIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-21T13:25:40Z",
+      "side": 1,
+      "message": "Would it be possible to move more of the loading code from hasNext() into this method? I would normally expect hasNext() to only perform the minimum steps to determine whether a further element exists, and that next() does much of the work.",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 13
+      },
       "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

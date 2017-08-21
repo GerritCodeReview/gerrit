@@ -207,15 +207,15 @@ limitations under the License.
       });
 
       test('remove rule and undo remove', () => {
-        element.rule = {id: 123};
+        element.rule = {id: 123, value: {action: 'ALLOW'}};
         assert.isFalse(
             element.$.deletedContainer.classList.contains('deleted'));
         MockInteractions.tap(element.$.removeBtn);
         assert.isTrue(element.$.deletedContainer.classList.contains('deleted'));
-        assert.isTrue(element.rule.deleted);
+        assert.isTrue(element.rule.value.deleted);
 
         MockInteractions.tap(element.$.undoRemoveBtn);
-        assert.isNotOk(element.rule.deleted);
+        assert.isNotOk(element.rule.value.deleted);
       });
     });
 

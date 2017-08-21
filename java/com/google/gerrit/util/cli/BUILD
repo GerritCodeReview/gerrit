@@ -1,6 +1,6 @@
 java_library(
     name = "cli",
-    srcs = glob(["src/main/java/**/*.java"]),
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",

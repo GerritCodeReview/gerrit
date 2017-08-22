@@ -47,6 +47,30 @@
       "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a97b983_809401c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-08-22T18:47:36Z",
+      "side": 1,
+      "message": "\u003e There is still the issue of thrashing the kernel buffer cache if it keeps closing and reopening large packfiles.\n\nPack files are normally accessed through the window cache.\nIf window cache is large enough, all pack files will be eventually cached in memory.\n\nBtw, if the diff_summary cache is populated for all changes, what would indexing\nneed to access pack files for?\n\n\u003e But I fully admit I don\u0027t know how much of an issue this would be in practice. If I code something up that sprays changes across threads, will you be able to test out performance on a larger dataset?\n\nI think I would be able to perform the test on a copy of our largest production\nserver.",
+      "parentUuid": "dd327050_69f6564d",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 30
+      },
+      "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

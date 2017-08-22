@@ -1134,6 +1134,12 @@ public abstract class AbstractDaemonTest {
     return name;
   }
 
+  protected String createAccount(String name, String group) throws Exception {
+    name = name(name);
+    accountCreator.create(name, group);
+    return name;
+  }
+
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref r = repo.exactRef(name);

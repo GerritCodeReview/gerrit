@@ -1,0 +1,31 @@
+load("//tools/bzl:junit.bzl", "junit_tests")
+
+junit_tests(
+    name = "gpg_tests",
+    srcs = glob(["**/*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-lucene:lucene",
+        "//gerrit-server:server",
+        "//gerrit-server:testutil",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/gpg",
+        "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/cache/h2",
+        "//javatests/com/google/gerrit/gpg/testutil",
+        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib:truth",
+        "//lib/bouncycastle:bcpg",
+        "//lib/bouncycastle:bcpg-neverlink",
+        "//lib/bouncycastle:bcprov",
+        "//lib/bouncycastle:bcprov-neverlink",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/log:api",
+    ],
+)

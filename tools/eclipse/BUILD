@@ -8,7 +8,6 @@ load(
 )
 
 TEST_DEPS = [
-    "//gerrit-gpg:gpg_tests",
     "//gerrit-gwtui:ui_tests",
     "//gerrit-httpd:httpd_tests",
     "//javatests/com/google/gerrit/index:tests",

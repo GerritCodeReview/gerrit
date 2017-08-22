@@ -1,16 +1,11 @@
 java_library(
-    name = "h2",
+    name = "lifecycle",
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-server:server",
-        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/lifecycle",
         "//lib:guava",
-        "//lib:h2",
         "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
 )

@@ -20,6 +20,7 @@ java_library(
         "//gerrit-server:server",
         "//gerrit-sshd:sshd",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/cache/h2",
         "//lib:guava",

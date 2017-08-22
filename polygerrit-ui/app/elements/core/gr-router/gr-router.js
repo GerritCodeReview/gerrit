@@ -193,14 +193,14 @@
       });
     });
 
-    page('/admin/groups/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/groups\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
-            offset: data.params.offset,
-            filter: data.params.filter,
+            offset: data.params[1],
+            filter: data.params[0],
           };
         } else {
           redirectToLogin(data.canonicalPath);
@@ -208,13 +208,13 @@
       });
     });
 
-    page('/admin/groups/q/filter::filter', loadUser, data => {
+    page(/^\/admin\/groups\/q\/filter:(.+)/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-admin-group-list',
-            filter: data.params.filter || null,
+            filter: data.params[0] || null,
           };
         } else {
           redirectToLogin(data.canonicalPath);
@@ -249,26 +249,26 @@
       };
     });
 
-    page('/admin/projects/:project,branches/q/filter::filter,:offset',
+    page(/^\/admin\/projects\/(.+),branches\/q\/filter:(.+),([0-9])+/,
         loadUser, data => {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'branches',
-            project: data.params.project,
-            offset: data.params.offset,
-            filter: data.params.filter,
+            project: data.params[0],
+            offset: data.params[2],
+            filter: data.params[1],
           };
         });
 
-    page('/admin/projects/:project,branches/q/filter::filter',
+    page(/^\/admin\/projects\/(.+),branches\/q\/filter:(.+)/,
         loadUser, data => {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'branches',
-            project: data.params.project,
-            filter: data.params.filter || null,
+            project: data.params[0],
+            filter: data.params[1] || null,
           };
         });
 
@@ -284,26 +284,26 @@
       };
     });
 
-    page('/admin/projects/:project,tags/q/filter::filter,:offset',
+    page(/^\/admin\/projects\/(.+),tags\/q\/filter:(.+),([0-9])+/,
         loadUser, data => {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'tags',
-            project: data.params.project,
-            offset: data.params.offset,
-            filter: data.params.filter,
+            project: data.params[0],
+            offset: data.params[2],
+            filter: data.params[1],
           };
         });
 
-    page('/admin/projects/:project,tags/q/filter::filter',
+    page(/^\/admin\/projects\/(.+),tags\/q\/filter:(.+)/,
         loadUser, data => {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-detail-list',
             detailType: 'tags',
-            project: data.params.project,
-            filter: data.params.filter || null,
+            project: data.params[0],
+            filter: data.params[1] || null,
           };
         });
 
@@ -317,20 +317,20 @@
       };
     });
 
-    page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/projects\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       app.params = {
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
-        offset: data.params.offset,
-        filter: data.params.filter,
+        offset: data.params[1],
+        filter: data.params[0],
       };
     });
 
-    page('/admin/projects/q/filter::filter', loadUser, data => {
+    page(/^\/admin\/projects\/q\/filter:(.+)/, loadUser, data => {
       app.params = {
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
-        filter: data.params.filter || null,
+        filter: data.params[0] || null,
       };
     });
 
@@ -359,14 +359,14 @@
       });
     });
 
-    page('/admin/plugins/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/plugins\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-plugin-list',
-            offset: data.params.offset,
-            filter: data.params.filter,
+            offset: data.params[1],
+            filter: data.params[0],
           };
         } else {
           redirectToLogin(data.canonicalPath);
@@ -374,13 +374,13 @@
       });
     });
 
-    page('/admin/plugins/q/filter::filter', loadUser, data => {
+    page(/^\/admin\/plugins\/q\/filter:(.+)/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-plugin-list',
-            filter: data.params.filter || null,
+            filter: data.params[0] || null,
           };
         } else {
           redirectToLogin(data.canonicalPath);

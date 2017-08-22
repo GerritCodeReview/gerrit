@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6736da87_4701bcfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 0,
+      "message": "There\u0027s no need to remove the private modifier anymore.",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 11
+      },
+      "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -219,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "cd7988a6_bc3867b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "The large ChangeNotes.Factory class blows the class ChangeNotes up quite much. I would prefer to have less lines of code in the whole file.",
+      "parentUuid": "743d0458_bb15e73c",
+      "revId": "8b43252d440c2b4686c70ea01dfef3c6d8507071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bafd5f28_c80afde7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeNotesIterator.java",
         "patchSetId": 1

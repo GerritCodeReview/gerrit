@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1503347566 -0400\nnonce AHIDc+P1KujpHNpNZyM/bSvhxMguhR77xB8F/OwJHG0sRfzKPKMzIMtRsICkFydOjLa/FYT1Ocmf\n\n0000000000000000000000000000000000000000 2b71c6f0e25dea66d140a8a95201dbaefb969227 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZm0NuAAoJEF/XxZqaEoiM+DgQAK1gBekyImL/Gp3d7zj39aQd\nO1HkHpQ9ghUXze8l2s2Uds6oOC8zBZUOODwryvjYPPKq30dYq+vwm6mpXlb/Udi0\nd1Yvcv8o0ZoNtO/LSwAl0vbUg9uUglXXMBYg5IjR5GhC+PU5YtDQ7VA1VfbskkH/\nWvoYHIZkgaUB7k7wZoWMbnRBrS+1ylxGJXIA8WDKkeMb+hA7s31YL95Pl/bDf2RJ\nUzUYbpHhL691wtZc4eqc3XFaXqoBCKE685iJZylpI0rAu9gnnNhqxAJnFP1vmra8\naifWkviISKAejI66VmyxA1JfDnrjkjc3FnxSdrsUlwkrjtriHu5AZtsK01Z3KBE4\nXsSt5YANA8iBvEblj+TQKvc+8fll2koLhcl2fBoFZ9qwbCHFXlDFZ2MvWz8fs29w\n4A3ij1ugIxXzIEJZIcSlOsBWIMQE/OTf60SO6Y6zrQF9PgbbEjSYAYr5hh49wt8s\n3hBwuaHQLb8szvf4a3sQpcCeYW6yz2JGXsSInk0Mqfy9Z2GEK5RHZDuVjXHN3mUT\nOeP3F41+uTMGca8c2E2etZWG5mbg03vpBxNE0Yh3hbqMhIuVO/rEkLRQ5e5JuBMC\nffyecFInMUo0EZlj0fPTCKgj2ITHKQzzs6/tCasFC3lijkSF5EYSZgb3Anqg0Gax\n5tNtuv2JrKx1UfdljAUg\n\u003dDIwH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "008c78c2_f05c29d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "optional: This lambda statement is a bit long. Could we please extract some/all of the code to a separate method?",
+      "range": {
+        "startLine": 227,
+        "startChar": 21,
+        "endLine": 243,
+        "endChar": 17
+      },
+      "revId": "0a4f0fd20538bd5dac4868f2af35e76d16d7f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c72cc8_7519c190",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "Won\u0027t this trigger the ISE thrown by checkState() for null values?",
+      "range": {
+        "startLine": 294,
+        "startChar": 16,
+        "endLine": 295,
+        "endChar": 41
+      },
+      "revId": "0a4f0fd20538bd5dac4868f2af35e76d16d7f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a4a58d_9b785d16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "optional: That\u0027s a huge lambda statement. Please extract some of the code to a separate method.",
+      "range": {
+        "startLine": 347,
+        "startChar": 14,
+        "endLine": 347,
+        "endChar": 21
+      },
+      "revId": "0a4f0fd20538bd5dac4868f2af35e76d16d7f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c457eb6_372fa487",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "We log all other exceptions but silently ignore this one. I think the previous code would have logged this case. Is silently ignoring this case deliberate?",
+      "range": {
+        "startLine": 390,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 20
+      },
+      "revId": "0a4f0fd20538bd5dac4868f2af35e76d16d7f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52c5aeb0_47552033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:16:54Z",
+      "side": 1,
+      "message": "optional: Shouldn\u0027t this be typically wrapped in a static method in ChangeNotesResult?",
+      "range": {
+        "startLine": 395,
+        "startChar": 13,
+        "endLine": 396,
+        "endChar": 48
+      },
+      "revId": "0a4f0fd20538bd5dac4868f2af35e76d16d7f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

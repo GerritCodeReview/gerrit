@@ -64,6 +64,12 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Test
+  public void systemGroupCanBeRetrievedFromIndex() throws Exception {
+    List<GroupInfo> groupInfos = gApi.groups().query("name:Administrators").get();
+    assertThat(groupInfos).isNotEmpty();
+  }
+
+  @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
     exception.expect(ResourceNotFoundException.class);
     gApi.groups().id("non-existing").addMembers("admin");

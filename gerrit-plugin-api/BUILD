@@ -2,7 +2,7 @@ PLUGIN_API = [
     "//gerrit-httpd:httpd",
     "//gerrit-pgm:init-api",
     "//gerrit-server:server",
-    "//gerrit-sshd:sshd",
+    "//java/com/google/gerrit/sshd",
 ]
 
 EXPORTS = [
@@ -82,7 +82,6 @@ java_binary(
         "//gerrit-httpd:libhttpd-src.jar",
         "//gerrit-pgm:libinit-api-src.jar",
         "//gerrit-server:libserver-src.jar",
-        "//gerrit-sshd:libsshd-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
@@ -90,6 +89,7 @@ java_binary(
         "//java/com/google/gerrit/index:libquery_exception-src.jar",
         "//java/com/google/gerrit/index:libquery_parser-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
+        "//java/com/google/gerrit/sshd:libsshd-src.jar",
         "//java/com/google/gwtexpui/server:libserver-src.jar",
     ],
 )

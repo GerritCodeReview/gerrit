@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8b125b83_0bbff59c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T22:17:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure. it needs to get called once, not every time section is updated. I actually had all of the contents of _setup in ready previously, but due to test setup refactored this way. It\u0027s possible that an observer would only get triggered that one time since every other update is sub-property..",
+      "parentUuid": "67c46582_0288e2b5",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58152cde_7c05447a",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b211038c_a9e6f67f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T22:17:41Z",
+      "side": 1,
+      "message": "The value from the add permission dropdown will either be\nlabel-\u003clabel-name\u003e or labelAs-\u003clabelName\u003e.\n\nBut, the format of the API response is as such:\n\n      \"permissions\": {\n        \"label-Code-Review\": {\n          \"label\": \"Code-Review\",\n          \"rules\": {\n            \"4c97682e6ce61b7247f3381b6f1789356666de7f\": {\n              \"action\": \"ALLOW\",\n              \"force\": false,\n              \"min\": -2,\n              \"max\": 2\n            }\n          }\n        }\n      }\n\nSo, when we add a new item, we have to push the new permission in the same format as the ones that have been returned by the API.\n\nThis is needed to update the \u0027label\u0027 property of the \u0027label-\u003clabel-name\u003e\u0027 permission.",
+      "parentUuid": "58152cde_7c05447a",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

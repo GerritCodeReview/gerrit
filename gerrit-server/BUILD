@@ -151,7 +151,7 @@ TESTUTIL_DEPS = [
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/server/cache/h2",
     "//java/com/google/gerrit/index",
-    "//gerrit-lucene:lucene",
+    "//java/com/google/gerrit/lucene",
     "//lib:gwtorm",
     "//lib:h2",
     "//lib:truth",

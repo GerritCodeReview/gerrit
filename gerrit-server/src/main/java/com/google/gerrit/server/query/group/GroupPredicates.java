@@ -39,7 +39,7 @@ public class GroupPredicates {
 
   public static Predicate<InternalGroup> name(String name) {
     return new GroupPredicate(
-        GroupField.NAME, GroupQueryBuilder.FIELD_NAME, name.toLowerCase(Locale.US));
+        GroupField.NAME, GroupQueryBuilder.FIELD_NAME, name);
   }
 
   public static Predicate<InternalGroup> owner(AccountGroup.UUID ownerUuid) {

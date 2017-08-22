@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f28de0e_3077a09f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T20:47:23Z",
+      "side": 1,
+      "message": "?Object",
+      "range": {
+        "startLine": 233,
+        "startChar": 16,
+        "endLine": 233,
+        "endChar": 22
+      },
+      "revId": "8d182c67a490a22fd38e3160c2d3efb29353ade6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26384151_eeac2fcc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T20:47:23Z",
+      "side": 1,
+      "message": "Looks like this comment should be updated.",
+      "range": {
+        "startLine": 265,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 60
+      },
+      "revId": "8d182c67a490a22fd38e3160c2d3efb29353ade6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -58,7 +58,7 @@
       this.debounce('reload', () => {
         if (filter) {
           return page.show(`${this.path}/q/filter:` +
-              this.encodeURL(filter, false));
+              this.encodeURL(filter, true));
         }
         page.show(this.path);
       }, REQUEST_DEBOUNCE_INTERVAL_MS);
@@ -73,8 +73,9 @@
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));
       let href = this.getBaseUrl() + path;
+      const encodeFilter = encodeURIComponent(filter);
       if (filter) {
-        href += '/q/filter:' + filter;
+        href += '/q/filter:' + encodeFilter;
       }
       if (newOffset > 0) {
         href += ',' + newOffset;

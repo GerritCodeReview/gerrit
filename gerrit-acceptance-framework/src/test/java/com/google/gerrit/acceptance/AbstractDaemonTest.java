@@ -342,6 +342,20 @@ public abstract class AbstractDaemonTest {
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
+
+    // All groups which were added during the server start (e.g. in SchemaCreator) aren't contained
+    // in the instance of the group index which is available here and in tests. There are two
+    // reasons:
+    // 1) No group index is available in SchemaCreator when using an in-memory database. (This could
+    // be fixed by using the IndexManagerOnInit in InMemoryDatabase similar as BaseInit uses it.)
+    // 2) During the on-init part of the server start, we use another instance of the index than
+    // later on. As test indexes are non-permanent, closing an instance and opening another one
+    // removes all indexed data.
+    // As a workaround, we simply reindex all available groups here.
+    for (AccountGroup group : groupCache.all()) {
+      groupCache.evict(group);
+    }
+
     admin = accountCreator.admin();
     user = accountCreator.user();
 

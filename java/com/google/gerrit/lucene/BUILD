@@ -1,6 +1,4 @@
-QUERY_BUILDER = [
-    "src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
-]
+QUERY_BUILDER = ["QueryBuilder.java"]
 
 java_library(
     name = "query_builder",
@@ -20,7 +18,7 @@ java_library(
 java_library(
     name = "lucene",
     srcs = glob(
-        ["src/main/java/**/*.java"],
+        ["**/*.java"],
         exclude = QUERY_BUILDER,
     ),
     visibility = ["//visibility:public"],

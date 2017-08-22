@@ -49,6 +49,7 @@ junit_tests(
         ":gpg",
         ":testutil",
         "//java/com/google/gerrit/server/cache/h2",
+        "//java/com/google/gerrit/lifecycle",
         "//gerrit-lucene:lucene",
         "//gerrit-server:testutil",
         "//lib:truth",

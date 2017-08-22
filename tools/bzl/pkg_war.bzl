@@ -45,7 +45,8 @@ def _add_file(in_file, output):
 
   if short_path.startswith('gerrit-'):
     n = short_path.split('/')[0] + '-' + n
-
+  elif short_path.startswith('java/'):
+    n = short_path[5:].replace('/', '_')
   output_path += n
   return [
     'test -L %s || ln -s $(pwd)/%s %s' % (output_path, input_path, output_path)

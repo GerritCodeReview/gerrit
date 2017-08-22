@@ -5,7 +5,6 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-httpd:httpd",
         "//gerrit-oauth:oauth",
         "//gerrit-openid:openid",
@@ -17,6 +16,7 @@ java_library(
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-sshd:sshd",
+        "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/lifecycle",

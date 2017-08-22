@@ -53,9 +53,9 @@ java_library(
     deps = DEPS + [
         ":init-api",
         ":util",
+        "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/lucene",
-        "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-launcher:launcher",  # We want this dep to be provided_deps
         "//lib:args4j",
         "//lib:derby",
@@ -117,9 +117,9 @@ REST_PGM_DEPS = [
     ":init",
     ":init-api",
     ":util",
+    "//java/com/google/gerrit/elasticsearch",
     "//java/com/google/gerrit/gpg",
     "//java/com/google/gerrit/server/cache/h2",
-    "//gerrit-elasticsearch:elasticsearch",
     "//java/com/google/gerrit/index",
     "//java/com/google/gerrit/lucene",
     "//gerrit-oauth:oauth",

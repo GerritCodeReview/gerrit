@@ -56,6 +56,10 @@
         value: false,
       },
       _filteredLinks: Array,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
       _showDownload: {
         type: Boolean,
         value: false,
@@ -81,7 +85,15 @@
     ],
 
     attached() {
+      this.loggedIn();
+
       this.reload();
+    },
+
+    loggedIn() {
+      return this._getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+      });
     },
 
     reload() {
@@ -109,13 +121,20 @@
             name: this._projectName,
             view: 'gr-project',
             url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
-            children: [{
-              name: 'Commands',
-              detailType: 'commands',
-              view: 'gr-project-commands',
-              url: `/admin/projects/` +
-                  `${this.encodeURL(this._projectName, true)},commands`,
-            },
+            children: [],
+          };
+          if (this._loggedIn) {
+            linkCopy.subsection.children.push(
+              {
+                name: 'Commands',
+                detailType: 'commands',
+                view: 'gr-project-commands',
+                url: `/admin/projects/` +
+                    `${this.encodeURL(this._projectName, true)},commands`,
+              },
+            );
+          }
+          linkCopy.subsection.children.push(
             {
               name: 'Branches',
               detailType: 'branches',
@@ -129,8 +148,8 @@
               view: 'gr-project-detail-list',
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},tags`,
-            }],
-          };
+            },
+          );
         }
         if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
           linkCopy.subsection = {

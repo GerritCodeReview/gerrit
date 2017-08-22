@@ -8,14 +8,11 @@ GERRIT_GLOBAL_MODULE_SRC = [
     "src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
 ]
 
-# Non-recursive glob; dropwizard implementation is in a subpackage.
-METRICS_SRCS = glob(["src/main/java/com/google/gerrit/metrics/*.java"])
-
 RECEIVE_SRCS = glob(["src/main/java/com/google/gerrit/server/git/receive/**/*.java"])
 
 SRCS = glob(
     ["src/main/java/**/*.java"],
-    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + METRICS_SRCS + RECEIVE_SRCS,
+    exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + RECEIVE_SRCS,
 )
 
 RESOURCES = glob(["src/main/resources/**/*"])
@@ -39,13 +36,13 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
-        ":metrics",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/util/cli",
@@ -79,7 +76,6 @@ java_library(
         "//lib/commons:lang",
         "//lib/commons:net",
         "//lib/commons:validator",
-        "//lib/dropwizard:dropwizard-core",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
@@ -143,26 +139,14 @@ java_library(
     ],
 )
 
-# TODO(dborowitz): Move to a different top-level directory to avoid inbound
-# dependencies on gerrit-server.
-java_library(
-    name = "metrics",
-    srcs = METRICS_SRCS,
-    visibility = ["//visibility:public"],
-    deps = [
-        "//java/com/google/gerrit/extensions:api",
-        "//lib:guava",
-    ],
-)
-
 TESTUTIL_DEPS = [
-    ":metrics",
     ":module",
     ":server",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/lifecycle",
+    "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/server/cache/h2",
     "//gerrit-gpg:gpg",
@@ -315,7 +299,6 @@ junit_tests(
         "//lib:truth-java8-extension",
         "//lib/bouncycastle:bcprov",
         "//lib/bouncycastle:bcpkix",
-        "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
         "//lib/commons:codec",

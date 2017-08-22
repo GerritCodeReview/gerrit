@@ -49,7 +49,7 @@ limitations under the License.
     test('_computeNavLink', () => {
       const offset = 25;
       const projectsPerPage = 25;
-      const filter = 'test';
+      let filter = 'test';
       const path = '/admin/projects';
 
       sandbox.stub(element, 'getBaseUrl', () => '');
@@ -69,6 +69,11 @@ limitations under the License.
       assert.equal(
           element._computeNavLink(offset, -1, projectsPerPage, null, path),
           '/admin/projects');
+
+      filter = 'plugins/';
+      assert.equal(
+          element._computeNavLink(offset, 1, projectsPerPage, filter, path),
+          '/admin/projects/q/filter:plugins%252F,50');
     });
 
     test('_onValueChange', done => {

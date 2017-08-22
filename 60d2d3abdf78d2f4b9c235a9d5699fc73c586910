@@ -46,6 +46,30 @@
       "revId": "60d2d3abdf78d2f4b9c235a9d5699fc73c586910",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e12f9d6d_1f75a865",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T17:47:44Z",
+      "side": 1,
+      "message": "Inserting a line inside the label content won\u0027t necessarily put it on a new line in the UI, since newlines in HTML are treated like normal whitespace.\n\nI recommend moving this to a paragraph before the first label.\n\n\u003cdiv class\u003d\"main\"\u003e\n  \u003cp class\u003d\"warning\"\u003e\n    Warning: moving a change will not change its parents.\n  \u003c/p\u003e\n  \u003clabel for\u003d\"branchInput\"\u003e\n\nThat way it will appear more prominently on its own line we can add a style like ..\n\n.warning {\n  color: red;\n}",
+      "parentUuid": "1f1a39a5_7e4806a9",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 86
+      },
+      "revId": "60d2d3abdf78d2f4b9c235a9d5699fc73c586910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

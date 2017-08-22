@@ -22,6 +22,30 @@
       "revId": "aaf39ea662b956f24ed61c713a2027bfb69fe188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a0475b8_7464f5c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T21:27:16Z",
+      "side": 1,
+      "message": "That method was removed in Iafdc27a95a. Following up with you outside this change.",
+      "parentUuid": "5334d26b_2daf9cf3",
+      "range": {
+        "startLine": 736,
+        "startChar": 6,
+        "endLine": 736,
+        "endChar": 26
+      },
+      "revId": "aaf39ea662b956f24ed61c713a2027bfb69fe188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

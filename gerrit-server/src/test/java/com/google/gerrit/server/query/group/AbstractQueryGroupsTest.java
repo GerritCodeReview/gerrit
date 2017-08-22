@@ -185,9 +185,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   public void byName() throws Exception {
     assertQuery("name:non-existing");
 
-    GroupInfo group = createGroup(name("group"));
+    GroupInfo group = createGroup(name("Group"));
     assertQuery("name:" + group.name, group);
-    assertQuery("name:" + group.name.toUpperCase(Locale.US), group);
+    assertQuery("name:" + group.name.toLowerCase(Locale.US));
 
     // only exact match
     GroupInfo groupWithHyphen = createGroup(name("group-with-hyphen"));

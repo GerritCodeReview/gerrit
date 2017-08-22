@@ -7,7 +7,6 @@ java_library(
     deps = [
         "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-httpd:httpd",
-        "//gerrit-lucene:lucene",
         "//gerrit-oauth:oauth",
         "//gerrit-openid:openid",
         "//gerrit-pgm:http",
@@ -21,6 +20,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics/dropwizard",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/cache/h2",

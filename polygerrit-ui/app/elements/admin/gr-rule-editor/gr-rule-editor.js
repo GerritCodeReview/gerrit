@@ -70,10 +70,12 @@
         type: Boolean,
         value: false,
       },
+      _groupName: String,
     },
 
     behaviors: [
       Gerrit.AccessBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -92,6 +94,11 @@
         this._setDefaultRuleValues();
       }
       this._setOriginalRuleValues(rule.value);
+
+      return this.$.restAPI.getGroupConfig(this.group).then(
+          config => {
+            this._groupName = config.name;
+          });
     },
 
     _computeForce(permission) {
@@ -114,6 +121,10 @@
         return FORCE_EDIT_OPTIONS;
       }
       return [];
+    },
+
+    _computeGroupPath(group) {
+      return `/admin/groups/${this.encodeURL(group, true)}`;
     },
 
     _getDefaultRuleValues(permission, label) {

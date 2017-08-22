@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -68,6 +69,8 @@ public interface AccountApi {
   SortedSet<String> getStars(String changeId) throws RestApiException;
 
   List<ChangeInfo> getStarredChanges() throws RestApiException;
+
+  List<GroupInfo> getGroups() throws RestApiException;
 
   List<EmailInfo> getEmails() throws RestApiException;
 
@@ -193,6 +196,11 @@ public interface AccountApi {
 
     @Override
     public List<ChangeInfo> getStarredChanges() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<GroupInfo> getGroups() throws RestApiException {
       throw new NotImplementedException();
     }
 

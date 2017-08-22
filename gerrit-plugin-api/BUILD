@@ -12,6 +12,7 @@ EXPORTS = [
     "//java/com/google/gerrit/index",
     "//java/com/google/gerrit/index:query_exception",
     "//java/com/google/gerrit/index:query_parser",
+    "//java/com/google/gerrit/lifecycle",
     "//java/com/google/gwtexpui/server",
     "//gerrit-server:metrics",
     "//java/com/google/gerrit/reviewdb:server",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba34bdac_4b0244e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-22T19:44:50Z",
+      "side": 1,
+      "message": "This and previous changes don\u0027t work: [1]. The reason for that is how the gathering of gerrit.war works. Dissolving the top-level directory would miss the prefix, so that all jars artifacts are overridden, and only the last one WEB-INF/lib/libserver.jar survives.\n\nA naive fix would be to preserve the path, and replace \"/\" woth \"-\", so that we get:\n\n  $ unzip -t bazel-bin/withdocs.war | grep WEB-INF/lib/ | grep com_google\n    testing: WEB-INF/lib/com_google_gerrit_common_libannotations.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libapi.jar   OK\n    testing: WEB-INF/lib/com_google_gwtexpui_linker_libserver.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_server_cache_h2_libh2.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_util_ssl_libssl.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_reviewdb_libclient.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_common_libserver.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_reviewdb_libserver.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libclient.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_prettify_libserver.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_util_cli_libcli.jar   OK\n    testing: WEB-INF/lib/com_google_gwtexpui_server_libserver.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_index_libindex.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_lifecycle_liblifecycle.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_index_libquery_exception.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_index_libquery_parser.jar   OK\n\n* [1] http://paste.openstack.org/show/619089/",
+      "revId": "0c8a0933c6bbdfef13060495f9a8977ac9e767a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

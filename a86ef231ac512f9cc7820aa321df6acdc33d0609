@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7836e208_e9b50ae1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "Nit: capitalize\n\n Options",
+      "range": {
+        "startLine": 87,
+        "startChar": 30,
+        "endLine": 87,
+        "endChar": 37
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b3571ef_489ff104",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "Nice: this works well.\n\nI\u0027m confused by the name of this property, though. Why is it called hasNewItemName? What about something like:\n\n canCreate\n\nor\n\n isValid\n\nor similar?",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07211a88_7aa765d9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "This is_private property is only used inside this method for the call to createChange on line 81.\n\nI recommend making this a local instead of a property.\n\n const isPrivate \u003d this.$.privateChangeCheckBox.checked;\n\nThe same is true for the `workInProgress` below.",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7912585a_8ee9c495",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "Why does it return an empty string here?",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c10582e_3d5c8dfa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-commands/gr-project-commands.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "Since this only uses one network call, the promise list and Promise.all is not needed. We can just return the call itself:\n\nreturn this.$.restAPI.getProjectConfig(this.project).then(\n    config \u003d\u003e {\n      this._projectConfig \u003d config;\n      this._loading \u003d false;\n   });",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e205fb7_ad306aa7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-commands/gr-project-commands.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "The string of this message should be stored in a constant near the top of this file. Something like ..\n\n const GC_MESSAGE \u003d \u0027Garbage collection completed successfully.\u0027;\n\nAlso, to avoid using window.alert, let\u0027s just fire a \u0027show-alert\u0027 event to create a toast message.\n\nthis.dispatchEvent(new CustomEvent(\u0027show-alert\u0027,\n    {detail: {message: GC_MESSAGE}, bubbles: true}));",
+      "range": {
+        "startLine": 63,
+        "startChar": 10,
+        "endLine": 63,
+        "endChar": 76
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c34d5e_c9e3d3e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T00:51:11Z",
+      "side": 1,
+      "message": "These variables should be named with camel case:\n\n* isPrivate\n* workInProgress",
+      "range": {
+        "startLine": 1195,
+        "startChar": 50,
+        "endLine": 1196,
+        "endChar": 24
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

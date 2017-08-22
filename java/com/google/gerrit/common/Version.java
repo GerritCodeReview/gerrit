@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.GwtIncompatible;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@GwtIncompatible("Unemulated com.google.gerrit.common.Version")
 public class Version {
   private static final Logger log = LoggerFactory.getLogger(Version.class);
   private static final String version;

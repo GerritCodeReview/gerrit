@@ -73,8 +73,9 @@
       offset = +(offset || 0);
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));
       let href = this.getBaseUrl() + path;
+      const encodeFilter = encodeURIComponent(filter);
       if (filter) {
-        href += '/q/filter:' + filter;
+        href += '/q/filter:' + encodeFilter;
       }
       if (newOffset > 0) {
         href += ',' + newOffset;

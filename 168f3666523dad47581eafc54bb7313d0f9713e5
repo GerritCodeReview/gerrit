@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f9963653_84dde77a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T23:18:08Z",
+      "side": 1,
+      "message": "We specifically do not want it to get called when sub-properties update.  _permissions end up staying in sync due to the fact that they reference the same value object. _originalId we do not want to update even when section.id is updated.",
+      "parentUuid": "1c46eeb0_accb7f38",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58152cde_7c05447a",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 3
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "482b18c7_b192ee40",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T23:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "155a56f2_b9ff49a3",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7a66afe_56e05cb5",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
         "patchSetId": 3
@@ -158,6 +206,24 @@
       "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e86e469_4e5de929",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T23:18:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a66afe_56e05cb5",
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

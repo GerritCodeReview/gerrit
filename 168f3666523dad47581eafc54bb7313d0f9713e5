@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1c46eeb0_accb7f38",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T23:09:55Z",
+      "side": 1,
+      "message": "Does it need to get called every time the sub-properties are edited? If so, the observer can use `section.*`, can\u0027t it?",
+      "parentUuid": "8b125b83_0bbff59c",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58152cde_7c05447a",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 3
@@ -93,6 +117,30 @@
       "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "155a56f2_b9ff49a3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-22T23:09:55Z",
+      "side": 1,
+      "message": "This seems worth commenting in the code.",
+      "parentUuid": "b211038c_a9e6f67f",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 7
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

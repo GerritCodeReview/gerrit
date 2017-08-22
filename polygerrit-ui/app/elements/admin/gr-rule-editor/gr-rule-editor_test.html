@@ -40,6 +40,11 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      sandbox.stub(element.$.restAPI, 'getGroupConfig').returns(
+          Promise.resolve({
+            name: 'Test Group',
+          })
+        );
     });
 
     teardown(() => {
@@ -167,6 +172,12 @@ limitations under the License.
         element._setOriginalRuleValues(value);
         assert.deepEqual(element._originalRuleValues, value);
       });
+
+      test('_computeGroupPath', () => {
+        const group = '123';
+        assert.equal(element._computeGroupPath(group),
+            `/admin/groups/123`);
+      });
     });
 
     suite('already existing generic rule', () => {
@@ -190,6 +201,15 @@ limitations under the License.
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
         assert.deepEqual(element._originalRuleValues, element.rule.value);
+      });
+
+
+      test('restAPI group config is called and _groupName is set', done => {
+        element._setupValues(element.rule).then(() => {
+          assert.isTrue(element.$.restAPI.getGroupConfig.called);
+          assert.equal(element._groupName, 'Test Group');
+          done();
+        });
       });
 
       test('values are set correctly', () => {

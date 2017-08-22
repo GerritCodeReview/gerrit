@@ -37,11 +37,6 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
-    },
-
     detached() {
       this.cancelDebouncer('reload');
     },
@@ -74,7 +69,7 @@
       const newOffset = Math.max(0, offset + (itemsPerPage * direction));
       let href = this.getBaseUrl() + path;
       if (filter) {
-        href += '/q/filter:' + filter;
+        href += '/q/filter:' + this.encodeURL(filter, false);
       }
       if (newOffset > 0) {
         href += ',' + newOffset;

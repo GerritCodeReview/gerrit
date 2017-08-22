@@ -46,6 +46,30 @@
       "revId": "05b424c6c461e07d0d8cc2384fa6afdcb9cf8923",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3719231e_912395b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-08-22T12:12:21Z",
+      "side": 0,
+      "message": "https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7061",
+      "parentUuid": "bbb0d096_e4604246",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 74
+      },
+      "revId": "05b424c6c461e07d0d8cc2384fa6afdcb9cf8923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

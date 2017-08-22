@@ -29,8 +29,9 @@ BASE_JETTY_DEPS = [
 ]
 
 DEPS = BASE_JETTY_DEPS + [
+    "//java/com/google/gerrit/metrics",
+    "//java/com/google/gerrit/metrics/dropwizard",
     "//java/com/google/gerrit/reviewdb:server",
-    "//gerrit-server:metrics",
     "//gerrit-server:module",
     "//gerrit-server:receive",
     "//lib:gwtorm",

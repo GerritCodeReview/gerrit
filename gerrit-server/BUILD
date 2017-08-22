@@ -1,4 +1,5 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
+load("//tools/bzl:genrule2.bzl", "genrule2")
 
 CONSTANTS_SRC = [
     "src/main/java/com/google/gerrit/server/documentation/Constants.java",

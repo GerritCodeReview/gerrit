@@ -22,6 +22,30 @@
       "revId": "05b424c6c461e07d0d8cc2384fa6afdcb9cf8923",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb0d096_e4604246",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T10:47:04Z",
+      "side": 0,
+      "message": "Oh, could you file a bug report for that please?",
+      "parentUuid": "3386d44c_d8adf111",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 74
+      },
+      "revId": "05b424c6c461e07d0d8cc2384fa6afdcb9cf8923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

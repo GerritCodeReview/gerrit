@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -37,7 +38,8 @@ public class ProjectUtil {
     try (Repository repo = repoManager.openRepository(branch.getParentKey())) {
       boolean exists = repo.getRefDatabase().exactRef(branch.get()) != null;
       if (!exists) {
-        exists = repo.getFullBranch().equals(branch.get());
+        exists =
+            repo.getFullBranch().equals(branch.get()) || RefNames.REFS_CONFIG.equals(branch.get());
       }
       return exists;
     }

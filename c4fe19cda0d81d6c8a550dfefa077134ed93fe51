@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1503347566 -0400\nnonce AHIDc+P1KujpHNpNZyM/bSvhxMguhR77xB8F/OwJHG0sRfzKPKMzIMtRsICkFydOjLa/FYT1Ocmf\n\n0000000000000000000000000000000000000000 2b71c6f0e25dea66d140a8a95201dbaefb969227 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZm0NuAAoJEF/XxZqaEoiM+DgQAK1gBekyImL/Gp3d7zj39aQd\nO1HkHpQ9ghUXze8l2s2Uds6oOC8zBZUOODwryvjYPPKq30dYq+vwm6mpXlb/Udi0\nd1Yvcv8o0ZoNtO/LSwAl0vbUg9uUglXXMBYg5IjR5GhC+PU5YtDQ7VA1VfbskkH/\nWvoYHIZkgaUB7k7wZoWMbnRBrS+1ylxGJXIA8WDKkeMb+hA7s31YL95Pl/bDf2RJ\nUzUYbpHhL691wtZc4eqc3XFaXqoBCKE685iJZylpI0rAu9gnnNhqxAJnFP1vmra8\naifWkviISKAejI66VmyxA1JfDnrjkjc3FnxSdrsUlwkrjtriHu5AZtsK01Z3KBE4\nXsSt5YANA8iBvEblj+TQKvc+8fll2koLhcl2fBoFZ9qwbCHFXlDFZ2MvWz8fs29w\n4A3ij1ugIxXzIEJZIcSlOsBWIMQE/OTf60SO6Y6zrQF9PgbbEjSYAYr5hh49wt8s\n3hBwuaHQLb8szvf4a3sQpcCeYW6yz2JGXsSInk0Mqfy9Z2GEK5RHZDuVjXHN3mUT\nOeP3F41+uTMGca8c2E2etZWG5mbg03vpBxNE0Yh3hbqMhIuVO/rEkLRQ5e5JuBMC\nffyecFInMUo0EZlj0fPTCKgj2ITHKQzzs6/tCasFC3lijkSF5EYSZgb3Anqg0Gax\n5tNtuv2JrKx1UfdljAUg\n\u003dDIwH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "276fe621_c67fa0fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-22T12:23:55Z",
+      "side": 1,
+      "message": "optional: This lambda statement is a bit large. Please consider to extract some of the code to a separate method.",
+      "range": {
+        "startLine": 301,
+        "startChar": 12,
+        "endLine": 301,
+        "endChar": 18
+      },
+      "revId": "c4fe19cda0d81d6c8a550dfefa077134ed93fe51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

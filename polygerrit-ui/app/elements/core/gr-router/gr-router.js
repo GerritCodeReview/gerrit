@@ -193,7 +193,7 @@
       });
     });
 
-    page('/admin/groups/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/groups\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {
@@ -317,12 +317,12 @@
       };
     });
 
-    page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/projects\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       app.params = {
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
-        offset: data.params.offset,
-        filter: data.params.filter,
+        offset: data.params[1],
+        filter: data.params[0],
       };
     });
 
@@ -359,7 +359,7 @@
       });
     });
 
-    page('/admin/plugins/q/filter::filter,:offset', loadUser, data => {
+    page(/^\/admin\/plugins\/q\/filter:(.+),([0-9])+/, loadUser, data => {
       restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           app.params = {

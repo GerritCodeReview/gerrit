@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2714a20_7ce4081b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/AllProjectsIndexer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-22T14:53:37Z",
+      "side": 1,
+      "message": "All these package names changed, you will need to update your references.",
+      "revId": "edbf62fcbc33a41c87d263df8199fe1c60778481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

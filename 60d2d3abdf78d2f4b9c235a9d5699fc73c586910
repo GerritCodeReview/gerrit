@@ -70,6 +70,30 @@
       "revId": "60d2d3abdf78d2f4b9c235a9d5699fc73c586910",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5feffc1e_9510f35a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T17:53:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e12f9d6d_1f75a865",
+      "range": {
+        "startLine": 64,
+        "startChar": 32,
+        "endLine": 64,
+        "endChar": 86
+      },
+      "revId": "60d2d3abdf78d2f4b9c235a9d5699fc73c586910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

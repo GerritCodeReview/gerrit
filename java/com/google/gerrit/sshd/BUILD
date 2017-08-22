@@ -1,10 +1,6 @@
-load("//tools/bzl:junit.bzl", "junit_tests")
-
-SRCS = glob(["src/main/java/**/*.java"])
-
 java_library(
     name = "sshd",
-    srcs = SRCS,
+    srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-server:receive",
@@ -37,20 +33,6 @@ java_library(
         "//lib/log:api",
         "//lib/log:log4j",
         "//lib/mina:core",
-        "//lib/mina:sshd",
-    ],
-)
-
-junit_tests(
-    name = "sshd_tests",
-    srcs = glob(
-        ["src/test/java/**/*.java"],
-    ),
-    deps = [
-        ":sshd",
-        "//gerrit-server:server",
-        "//java/com/google/gerrit/extensions:api",
-        "//lib:truth",
         "//lib/mina:sshd",
     ],
 )

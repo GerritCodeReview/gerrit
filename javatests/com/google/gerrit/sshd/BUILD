@@ -1,0 +1,13 @@
+load("//tools/bzl:junit.bzl", "junit_tests")
+
+junit_tests(
+    name = "sshd_tests",
+    srcs = glob(["**/*.java"]),
+    deps = [
+        "//gerrit-server:server",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/sshd",
+        "//lib:truth",
+        "//lib/mina:sshd",
+    ],
+)

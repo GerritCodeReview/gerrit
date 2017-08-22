@@ -727,7 +727,13 @@
 
     _onLineSelected(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
-      history.replaceState(null, '', '#' + this.$.cursor.getAddress());
+      if (!this._change) { return; }
+      const cursorAddress = this.$.cursor.getAddress();
+      const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
+          this._change.project, this._path, this._patchRange.patchNum,
+          this._patchRange.basePatchNum, cursorAddress.number,
+          cursorAddress.leftSide);
+      history.replaceState(null, '', url);
     },
 
     _computeDownloadLink(changeNum, patchRange, path) {

@@ -226,13 +226,14 @@
     },
 
     /**
-     * Get a short address for the location of the cursor. Such as '123' for
-     * line 123 of the revision, or 'b321' for line 321 of the base patch.
-     * Returns an empty string if an address is not available.
-     * @return {string}
+     * Get an object describing the location of the cursor. Such as
+     * {leftSide: false, number: 123} for line 123 of the revision, or
+     * {leftSide: true, number: 321} for line 321 of the base patch.
+     * Returns null if an address is not available.
+     * @return {?bject}
      */
     getAddress() {
-      if (!this.diffRow) { return ''; }
+      if (!this.diffRow) { return null; }
 
       // Get the line-number cell targeted by the cursor. If the mode is unified
       // then prefer the revision cell if available.
@@ -245,12 +246,15 @@
       } else {
         cell = this.diffRow.querySelector('.lineNum.' + this.side);
       }
-      if (!cell) { return ''; }
+      if (!cell) { return null; }
 
       const number = cell.getAttribute('data-value');
-      if (!number || number === 'FILE') { return ''; }
+      if (!number || number === 'FILE') { return null; }
 
-      return (cell.matches('.left') ? 'b' : '') + number;
+      return {
+        leftSide: cell.matches('.left'),
+        number: parseInt(number, 10),
+      };
     },
 
     _getViewMode() {

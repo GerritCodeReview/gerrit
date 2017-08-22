@@ -17,9 +17,11 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-access-behavior/gr-access-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-rule-editor">
@@ -57,6 +59,10 @@ limitations under the License.
       #deletedContainer.deleted {
         display: block;
       }
+      .groupPath {
+        color: #666;
+        text-decoration: none;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <div id="mainContainer"
@@ -93,7 +99,9 @@ limitations under the License.
             </select>
           </gr-select>
         </template>
-        [[group]]
+        <a class="groupPath" href$="[[_computeGroupPath(group)]]">
+          [[_groupName]]
+        </a>
         <gr-select
             id="force"
             class$="[[_computeForceClass(permission)]]"

@@ -4,5 +4,5 @@ prolog_cafe_library(
     name = "gerrit-prolog-common",
     srcs = ["gerrit_common.pl"],
     visibility = ["//visibility:public"],
-    deps = ["//gerrit-server:server"],
+    deps = ["//java/gerrit:prolog-predicates"],
 )

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "08cd0227_bcdb27eb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7836e208_e9b50ae1",
+      "range": {
+        "startLine": 87,
+        "startChar": 30,
+        "endLine": 87,
+        "endChar": 37
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b3571ef_489ff104",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 38
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-22T00:51:11Z",
       "side": 1,
       "message": "Nice: this works well.\n\nI\u0027m confused by the name of this property, though. Why is it called hasNewItemName? What about something like:\n\n canCreate\n\nor\n\n isValid\n\nor similar?",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3237cf8d_b0d35db7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done. I\u0027ve chosen \u0027canCreate\u0027 :)",
+      "parentUuid": "9b3571ef_489ff104",
       "range": {
         "startLine": 48,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "33b0f4e9_880fe572",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "07211a88_7aa765d9",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7912585a_8ee9c495",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 38
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-22T00:51:11Z",
       "side": 1,
       "message": "Why does it return an empty string here?",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2205caa_de6a9771",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Oh, thought we could return a string, guess i could do return;",
+      "parentUuid": "7912585a_8ee9c495",
       "range": {
         "startLine": 85,
         "startChar": 14,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "200e03fe_01ed6b9c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-commands/gr-project-commands.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8c10582e_3d5c8dfa",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e205fb7_ad306aa7",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-commands/gr-project-commands.js",
         "patchSetId": 38
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ed80f410_8f13da56",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-commands/gr-project-commands.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done :)",
+      "parentUuid": "0e205fb7_ad306aa7",
+      "range": {
+        "startLine": 63,
+        "startChar": 10,
+        "endLine": 63,
+        "endChar": 76
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05c34d5e_c9e3d3e4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 38
@@ -151,6 +295,30 @@
       "writtenOn": "2017-08-22T00:51:11Z",
       "side": 1,
       "message": "These variables should be named with camel case:\n\n* isPrivate\n* workInProgress",
+      "range": {
+        "startLine": 1195,
+        "startChar": 50,
+        "endLine": 1196,
+        "endChar": 24
+      },
+      "revId": "a86ef231ac512f9cc7820aa321df6acdc33d0609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20cd76e1_43d221e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-22T01:25:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "05c34d5e_c9e3d3e4",
       "range": {
         "startLine": 1195,
         "startChar": 50,

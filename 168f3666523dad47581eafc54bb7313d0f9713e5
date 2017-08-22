@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "1cdef2ae_a655d318",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T23:28:29Z",
+      "side": 1,
+      "message": "Yeah, I think so. Updating.",
+      "parentUuid": "4afc60f4_92e1e860",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "168f3666523dad47581eafc54bb7313d0f9713e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58152cde_7c05447a",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 3

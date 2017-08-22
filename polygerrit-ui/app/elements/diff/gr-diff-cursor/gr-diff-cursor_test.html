@@ -240,27 +240,31 @@ limitations under the License.
 
     test('getAddress', () => {
       // It should initialize to the first chunk: line 5 of the revision.
-      assert.equal(cursorElement.getAddress(), '5');
+      assert.deepEqual(cursorElement.getAddress(),
+          {leftSide: false, number: 5});
 
       // Revision line 4 is up.
       cursorElement.moveUp();
-      assert.equal(cursorElement.getAddress(), '4');
+      assert.deepEqual(cursorElement.getAddress(),
+          {leftSide: false, number: 4});
 
       // Base line 4 is left.
       cursorElement.moveLeft();
-      assert.equal(cursorElement.getAddress(), 'b4');
+      assert.deepEqual(cursorElement.getAddress(), {leftSide: true, number: 4});
 
       // Moving to the next chunk takes it back to the start.
       cursorElement.moveToNextChunk();
-      assert.equal(cursorElement.getAddress(), '5');
+      assert.deepEqual(cursorElement.getAddress(),
+          {leftSide: false, number: 5});
 
       // The following chunk is a removal starting on line 10 of the base.
       cursorElement.moveToNextChunk();
-      assert.equal(cursorElement.getAddress(), 'b10');
+      assert.deepEqual(cursorElement.getAddress(),
+          {leftSide: true, number: 10});
 
-      // Should be an empty string if there is no selection.
+      // Should be null if there is no selection.
       cursorElement.$.cursorManager.unsetCursor();
-      assert.equal(cursorElement.getAddress(), '');
+      assert.isNotOk(cursorElement.getAddress());
     });
 
     test('_findRowByNumberAndFile', () => {

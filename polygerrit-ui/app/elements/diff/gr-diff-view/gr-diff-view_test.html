@@ -620,9 +620,18 @@ limitations under the License.
     });
 
     test('_onLineSelected', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
       const replaceStateStub = sandbox.stub(history, 'replaceState');
       const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
+      sandbox.stub(element.$.cursor, 'getAddress')
+          .returns({number: 123, isLeftSide: false});
 
+      element._changeNum = 321;
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._patchRange = {
+        basePatchNum: '3',
+        patchNum: '5',
+      };
       const e = {};
       const detail = {number: 123, side: 'right'};
 
@@ -633,6 +642,7 @@ limitations under the License.
       assert.equal(moveStub.lastCall.args[1], detail.side);
 
       assert.isTrue(replaceStateStub.called);
+      assert.isTrue(getUrlStub.called);
     });
 
     test('_getDiffViewMode', () => {

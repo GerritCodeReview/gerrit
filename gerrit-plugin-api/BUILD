@@ -13,10 +13,10 @@ EXPORTS = [
     "//java/com/google/gerrit/index:query_exception",
     "//java/com/google/gerrit/index:query_parser",
     "//java/com/google/gerrit/lifecycle",
-    "//java/com/google/gwtexpui/server",
-    "//gerrit-server:metrics",
+    "//java/com/google/gerrit/metrics",
+    "//java/com/google/gerrit/metrics/dropwizard",
     "//java/com/google/gerrit/reviewdb:server",
-    "//prolog:gerrit-prolog-common",
+    "//java/com/google/gwtexpui/server",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/commons:lang3",
@@ -51,6 +51,7 @@ EXPORTS = [
     "//lib:servlet-api-3_1-without-neverlink",
     "//lib:soy",
     "//lib:velocity",
+    "//prolog:gerrit-prolog-common",
 ]
 
 java_binary(

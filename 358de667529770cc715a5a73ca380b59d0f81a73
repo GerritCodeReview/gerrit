@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec316018_a75cc4fe",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T22:51:09Z",
+      "side": 1,
+      "message": "This doesn\u0027t end up getting evaluated if noteDb is not enabled.\n\nThis is due to the fact that _noteDbEnabled is not set initially, and also it is re-assigned \"undefined\" based on the REST API response.\n\n\nWe should do 2 things here:\n1) Make sure it always has a true/false value, by giving an initial assignment, not assigning undefined by the rest API\n2) Swap out the CSS rules so that by default this is hidden, and is only displayed once we have determined that noteDB is enabled.\n\n_computeNodeDbClass can return something like \u0027showNoteDb\u0027 when noteDb is enabled, rather than the inverse.\n\n#noteDbSettings {\n  display: none\n}\n\n#noteDbSettings.showNoteDb {\n  display: block.\n}",
+      "range": {
+        "startLine": 173,
+        "startChar": 43,
+        "endLine": 173,
+        "endChar": 90
+      },
+      "revId": "358de667529770cc715a5a73ca380b59d0f81a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7316428d_467c1925",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T22:51:09Z",
+      "side": 1,
+      "message": "set default to false",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "358de667529770cc715a5a73ca380b59d0f81a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c67593ee_cad7b104",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-22T22:51:09Z",
+      "side": 1,
+      "message": "this can be !!config.note_db_enabled to force a truthy/falsy value.",
+      "range": {
+        "startLine": 138,
+        "startChar": 30,
+        "endLine": 138,
+        "endChar": 53
+      },
+      "revId": "358de667529770cc715a5a73ca380b59d0f81a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -48,6 +48,7 @@ java_library2(
         "//gerrit-pgm:util-nodep",
         "//gerrit-server:testutil",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/lifecycle",
         "//lib:jimfs",
         "//lib:truth",
         "//lib:truth-java8-extension",

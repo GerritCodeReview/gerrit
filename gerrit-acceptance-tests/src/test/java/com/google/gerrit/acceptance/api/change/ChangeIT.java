@@ -86,6 +86,7 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -3125,6 +3126,75 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("new and existing commit message are the same");
     gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
+  }
+
+  @Test
+  public void pureRevertReturnsTrueForPureRevert() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    merge(r);
+    String revertId = gApi.changes().id(r.getChangeId()).revert().get().id;
+    // Without query parameter
+    assertThat(gApi.changes().id(revertId).pureRevert().isPureRevert).isTrue();
+    // With query parameter
+    assertThat(
+            gApi.changes()
+                .id(revertId)
+                .pureRevert(getRemoteHead().toObjectId().name())
+                .isPureRevert)
+        .isTrue();
+  }
+
+  @Test
+  public void pureRevertReturnsFalseOnContentChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    r1.assertOkStatus();
+    merge(r1);
+    // Create a revert and expect pureRevert to be true
+    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
+    assertThat(gApi.changes().id(revertId).pureRevert().isPureRevert).isTrue();
+
+    // Create a new PS and expect pureRevert to be false
+    PushOneCommit.Result result = amendChange(revertId);
+    result.assertOkStatus();
+    assertThat(gApi.changes().id(revertId).pureRevert().isPureRevert).isFalse();
+  }
+
+  @Test
+  public void pureRevertReturnsFalseOnInvalidInput() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    r1.assertOkStatus();
+    merge(r1);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid object ID");
+    gApi.changes().id(createChange().getChangeId()).pureRevert("invalid id");
+  }
+
+  @Test
+  public void pureRevertReturnsFalseCommitDoesNotRebaseCleanly() throws Exception {
+    // Create an initial commit to serve as claimed original
+    PushOneCommit.Result r1 = createChange("commit message", "a.txt", "content1");
+    r1.assertOkStatus();
+    merge(r1);
+    String claimedOriginal = getRemoteHead().toObjectId().name();
+
+    // Change contents of the file
+    PushOneCommit.Result r2 = createChange("commit message", "a.txt", "content2");
+    r2.assertOkStatus();
+    merge(r2);
+
+    // Create a revert of r2. PureRevert is trying to rebase this on claimed original, which fails
+    String revertR2Id = gApi.changes().id(r2.getChangeId()).revert().id();
+    PureRevertInfo pureRevert = gApi.changes().id(revertR2Id).pureRevert(claimedOriginal);
+    assertThat(pureRevert.isPureRevert).isFalse();
+  }
+
+  @Test
+  public void pureRevertThrowsExceptionWhenChangeIsNotARevertAndNoIdProvided() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("no ID was provided and change isn't a revert");
+    gApi.changes().id(createChange().getChangeId()).pureRevert();
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

@@ -400,7 +400,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     // update account in ReviewDb without reindex so that account index is stale
     String newName = "Test User";
     Account.Id accountId = new Account.Id(user1._accountId);
-    Account account = accounts.get(db, accountId);
+    Account account = accounts.get(accountId);
     account.setFullName(newName);
     db.accounts().update(ImmutableSet.of(account));
 

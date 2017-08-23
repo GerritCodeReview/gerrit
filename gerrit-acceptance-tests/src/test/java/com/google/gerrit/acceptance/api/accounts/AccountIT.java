@@ -45,7 +45,6 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
@@ -1024,7 +1023,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
-  @GerritConfig(name = "user.readAccountsFromGit", value = "true")
   public void deleteUserBranchWithAccessDatabaseCapability() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     grant(
@@ -1282,10 +1280,9 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "user.readAccountsFromGit", value = "true")
   public void checkMetaId() throws Exception {
     // metaId is set when account is loaded
-    assertThat(accounts.get(db, admin.getId()).getMetaId()).isEqualTo(getMetaId(admin.getId()));
+    assertThat(accounts.get(admin.getId()).getMetaId()).isEqualTo(getMetaId(admin.getId()));
 
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdate.create();

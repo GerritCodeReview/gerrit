@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c18679f5_b27e9eee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:55:13Z",
+      "side": 1,
+      "message": "Comment removed by: Wyatt Allen; Reason: Internal link",
+      "range": {
+        "startLine": 1035,
+        "startChar": 16,
+        "endLine": 1035,
+        "endChar": 23
+      },
+      "revId": "15ed72fe51911d2d91f11c474d06d9600d7f7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8f160e_e5e105f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:55:13Z",
+      "side": 1,
+      "message": "Should a toast appear the final time or is this something we want to be silent to users?",
+      "revId": "15ed72fe51911d2d91f11c474d06d9600d7f7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

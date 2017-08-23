@@ -16,6 +16,24 @@
       "revId": "a61bb57fcc283e9499d3dc74a0d6f9e5580a8204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f7a9fe3_d1f85f4f",
+        "filename": "java/com/google/gerrit/common/Version.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-23T05:17:40Z",
+      "side": 1,
+      "message": "Yes. We recursively create GWT module from this directory, including all files. Previously, we excluded files that cannot be emulated in GWT, or to put it differently are not used on the client side. Michael changed the exclusion from the build approach, that has disadvantages of Super Dev Mode debugging warning to GwtIncompatible annotation approach in: [1]. And you approved this move.\n\n* [1] https://gerrit-review.googlesource.com/76199",
+      "parentUuid": "cd78a426_8925489a",
+      "revId": "a61bb57fcc283e9499d3dc74a0d6f9e5580a8204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

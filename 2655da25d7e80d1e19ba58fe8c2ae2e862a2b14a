@@ -16,6 +16,23 @@
       "revId": "2655da25d7e80d1e19ba58fe8c2ae2e862a2b14a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29463d98_bff3be11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/common/Version.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-23T05:17:40Z",
+      "side": 1,
+      "message": "This class doesn\u0027t have any dependencies on gerrit-server package and could be moved to gerrit-comon.",
+      "revId": "2655da25d7e80d1e19ba58fe8c2ae2e862a2b14a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

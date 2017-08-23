@@ -22,6 +22,75 @@
       "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fe26875_7ce922ef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T22:14:14Z",
+      "side": 1,
+      "message": "Very minor: This comment is wrapped, but not at 80ch.",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 43
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c1a4aa_3f8d1665",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T22:14:14Z",
+      "side": 1,
+      "message": "Nit: Can it be named ..\n\n _sectionChanged\n\n.. ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069d645a_cd3f7b98",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T22:14:14Z",
+      "side": 1,
+      "message": "Sorry to keep picking on this method, but from what we talked about a little earlier, is the plan to progressively add editing functionality?\n\nIf so, this change might be simplified by omitting this, somehow.\n\nWe also talked a little of a single-direction data flow approach, which, as I understood it, might obviate this kind of translation.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 6
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

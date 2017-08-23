@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -54,7 +53,7 @@ interface ExternalIdCache {
   void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId)
       throws IOException;
 
-  Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
   ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class DisabledExternalIdCache implements ExternalIdCache {
@@ -59,7 +59,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
 
   @Override
-  public Set<ExternalId> byAccount(Account.Id accountId) {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) {
     throw new UnsupportedOperationException();
   }
 

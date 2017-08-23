@@ -1,13 +1,8 @@
-SRCS = glob(
-    ["src/main/java/**/*.java"],
-)
-
-RESOURCES = glob(["src/main/resources/**/*"])
-
 java_library(
     name = "oauth",
-    srcs = SRCS,
-    resources = RESOURCES,
+    srcs = glob(["**/*.java"]),
+    resource_strip_prefix = "resources",
+    resources = ["//resources/com/google/gerrit/httpd/auth/oauth"],
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-server:server",

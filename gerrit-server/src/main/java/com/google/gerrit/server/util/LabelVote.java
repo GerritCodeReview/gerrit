@@ -52,7 +52,7 @@ public abstract class LabelVote {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
-    return create(text.substring(0, e), Short.parseShort(text.substring(e + 1), text.length()));
+    return create(text.substring(0, e), Short.parseShort(text.substring(e + 1)));
   }
 
   public static StringBuilder appendTo(StringBuilder sb, String label, short value) {

@@ -95,20 +95,6 @@ public class ChangeControl {
         throw new NoSuchChangeException(notes.getChangeId(), e);
       }
     }
-
-    public ChangeControl validateFor(ReviewDb db, Change.Id changeId, CurrentUser user)
-        throws OrmException {
-      return validateFor(db, notesFactory.createChecked(changeId), user);
-    }
-
-    public ChangeControl validateFor(ReviewDb db, ChangeNotes notes, CurrentUser user)
-        throws OrmException {
-      ChangeControl c = controlFor(notes, user);
-      if (!c.isVisible(db)) {
-        throw new NoSuchChangeException(c.getId());
-      }
-      return c;
-    }
   }
 
   @Singleton

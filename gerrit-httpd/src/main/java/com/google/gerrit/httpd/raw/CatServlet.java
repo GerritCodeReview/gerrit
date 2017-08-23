@@ -24,7 +24,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -50,22 +53,25 @@ import org.eclipse.jgit.lib.ObjectId;
 public class CatServlet extends HttpServlet {
   private final Provider<ReviewDb> requestDb;
   private final Provider<CurrentUser> userProvider;
-  private final ChangeControl.GenericFactory changeControl;
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil psUtil;
+  private final ChangeNotes.Factory changeNotesFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   CatServlet(
       Provider<ReviewDb> sf,
-      ChangeControl.GenericFactory ccf,
       Provider<CurrentUser> usrprv,
       ChangeEditUtil ceu,
-      PatchSetUtil psu) {
+      PatchSetUtil psu,
+      ChangeNotes.Factory cnf,
+      PermissionBackend pb) {
     requestDb = sf;
-    changeControl = ccf;
     userProvider = usrprv;
     changeEditUtil = ceu;
     psUtil = psu;
+    changeNotesFactory = cnf;
+    permissionBackend = pb;
   }
 
   @Override
@@ -119,34 +125,33 @@ public class CatServlet extends HttpServlet {
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     String revision;
     try {
-      final ReviewDb db = requestDb.get();
-      final ChangeControl control = changeControl.validateFor(db, changeId, userProvider.get());
+      ChangeNotes notes = changeNotesFactory.createChecked(changeId);
+      permissionBackend
+          .user(userProvider)
+          .change(notes)
+          .database(requestDb)
+          .check(ChangePermission.READ);
       if (patchKey.getParentKey().get() == 0) {
         // change edit
-        try {
-          Optional<ChangeEdit> edit = changeEditUtil.byChange(control.getChange());
-          if (edit.isPresent()) {
-            revision = ObjectId.toString(edit.get().getEditCommit());
-          } else {
-            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
-          }
-        } catch (AuthException e) {
+        Optional<ChangeEdit> edit = changeEditUtil.byChange(notes.getChange());
+        if (edit.isPresent()) {
+          revision = ObjectId.toString(edit.get().getEditCommit());
+        } else {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
       } else {
-        PatchSet patchSet = psUtil.get(db, control.getNotes(), patchKey.getParentKey());
+        PatchSet patchSet = psUtil.get(requestDb.get(), notes, patchKey.getParentKey());
         if (patchSet == null) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
         revision = patchSet.getRevision().get();
       }
-    } catch (NoSuchChangeException e) {
+    } catch (NoSuchChangeException | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       getServletContext().log("Cannot query database", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

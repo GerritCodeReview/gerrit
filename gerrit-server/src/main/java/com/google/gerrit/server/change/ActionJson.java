@@ -133,6 +133,7 @@ public class ActionJson {
     copy.starred = changeInfo.starred;
     copy.stars = changeInfo.stars;
     copy.submitted = changeInfo.submitted;
+    copy.submitter = changeInfo.submitter;
     copy.id = changeInfo.id;
     return copy;
   }

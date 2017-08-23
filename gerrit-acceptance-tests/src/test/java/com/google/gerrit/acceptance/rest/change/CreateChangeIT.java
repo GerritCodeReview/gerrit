@@ -401,6 +401,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
+    assertThat(out.submitter).isNull();
     Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
     assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
     return out;

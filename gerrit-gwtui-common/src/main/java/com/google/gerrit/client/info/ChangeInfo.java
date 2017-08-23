@@ -134,6 +134,8 @@ public class ChangeInfo extends JavaScriptObject {
 
   private native String submittedRaw() /*-{ return this.submitted; }-*/;
 
+  public final native AccountInfo submitter() /*-{ return this.submitter; }-*/;
+
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
 
   public final native boolean muted() /*-{ return this.muted ? true : false; }-*/;

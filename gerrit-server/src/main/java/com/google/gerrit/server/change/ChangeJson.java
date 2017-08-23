@@ -556,7 +556,7 @@ public class ChangeJson {
       out.removableReviewers = removableReviewers(ctl, out);
     }
 
-    out.submitted = getSubmittedOn(cd);
+    setSubmitter(cd, out);
     out.plugins =
         pluginDefinedAttributesFactory != null ? pluginDefinedAttributesFactory.create(cd) : null;
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
@@ -852,9 +852,13 @@ public class ChangeJson {
     return Ints.tryParse(value);
   }
 
-  private Timestamp getSubmittedOn(ChangeData cd) throws OrmException {
+  private void setSubmitter(ChangeData cd, ChangeInfo out) throws OrmException {
     Optional<PatchSetApproval> s = cd.getSubmitApproval();
-    return s.isPresent() ? s.get().getGranted() : null;
+    if (!s.isPresent()) {
+      return;
+    }
+    out.submitted = s.get().getGranted();
+    out.submitter = accountLoader.get(s.get().getAccountId());
   }
 
   private Map<String, LabelWithStatus> labelsForSubmittedChange(

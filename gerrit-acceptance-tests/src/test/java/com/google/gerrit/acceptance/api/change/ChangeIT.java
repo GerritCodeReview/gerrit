@@ -2117,10 +2117,19 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void submitted() throws Exception {
     PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    assertThat(gApi.changes().id(r.getChangeId()).info().submitted).isNull();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
-    assertThat(gApi.changes().id(r.getChangeId()).info().submitted).isNotNull();
+    String id = r.getChangeId();
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).info();
+    assertThat(c.submitted).isNull();
+    assertThat(c.submitter).isNull();
+
+    gApi.changes().id(id).current().review(ReviewInput.approve());
+    gApi.changes().id(id).current().submit();
+
+    c = gApi.changes().id(r.getChangeId()).info();
+    assertThat(c.submitted).isNotNull();
+    assertThat(c.submitter).isNotNull();
+    assertThat(c.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
   }
 
   @Test

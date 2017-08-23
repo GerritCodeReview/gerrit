@@ -35,6 +35,7 @@ public class ChangeInfo {
   public Timestamp created;
   public Timestamp updated;
   public Timestamp submitted;
+  public AccountInfo submitter;
   public Boolean starred;
   public Boolean muted;
   public Collection<String> stars;

@@ -5642,6 +5642,9 @@ updated.
 |`submitted`          |only set for merged changes|
 The link:rest-api.html#timestamp[timestamp] of when the change was
 submitted.
+|`submitter`          |only set for merged changes|
+The user who submitted the change, as an
+link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change with the default label.
 |`stars`              |optional|

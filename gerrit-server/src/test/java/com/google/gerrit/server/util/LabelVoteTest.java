@@ -15,6 +15,8 @@
 package com.google.gerrit.server.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -75,6 +77,25 @@ public class LabelVoteTest {
     l = LabelVote.parseWithEquals("Code-Review=+2");
     assertEquals("Code-Review", l.label());
     assertEquals((short) 2, l.value());
+    l = LabelVote.parseWithEquals("R=0");
+    assertEquals("R", l.label());
+    assertEquals((short) 0, l.value());
+
+    String longName = "A-loooooooooooooooooooooooooooooooooooooooooooooooooong-label";
+    // Regression test: an old bug passed the string length as a radix to Short#parseShort.
+    assertTrue(longName.length() > Character.MAX_RADIX);
+    l = LabelVote.parseWithEquals(longName + "=+1");
+    assertEquals(longName, l.label());
+    assertEquals((short) 1, l.value());
+
+    assertParseWithEqualsFails(null);
+    assertParseWithEqualsFails("");
+    assertParseWithEqualsFails("Code-Review");
+    assertParseWithEqualsFails("=1");
+    assertParseWithEqualsFails("=.1");
+    assertParseWithEqualsFails("=a1");
+    assertParseWithEqualsFails("=1a");
+    assertParseWithEqualsFails("=.");
   }
 
   @Test
@@ -84,5 +105,14 @@ public class LabelVoteTest {
     assertEquals("Code-Review=0", LabelVote.parseWithEquals("Code-Review=0").formatWithEquals());
     assertEquals("Code-Review=+1", LabelVote.parseWithEquals("Code-Review=+1").formatWithEquals());
     assertEquals("Code-Review=+2", LabelVote.parseWithEquals("Code-Review=+2").formatWithEquals());
+  }
+
+  private void assertParseWithEqualsFails(String value) {
+    try {
+      LabelVote.parseWithEquals(value);
+      fail("expected IllegalArgumentException when parsing \"" + value + "\"");
+    } catch (IllegalArgumentException e) {
+      // Expected.
+    }
   }
 }

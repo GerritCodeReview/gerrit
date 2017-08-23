@@ -5,7 +5,6 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-oauth:oauth",
         "//gerrit-pgm:http",
         "//gerrit-pgm:init",
         "//gerrit-pgm:init-api",
@@ -17,6 +16,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/httpd/auth/oauth",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",

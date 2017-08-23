@@ -25,6 +25,8 @@
       branch: String,
       /** @type {?} */
       _serverConfig: Object,
+      /** @type {?} */
+      _projectConfig: Object,
       subject: String,
       topic: String,
       _query: {
@@ -53,6 +55,9 @@
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
       });
+      this.$.restAPI.getProjectConfig(this.project).then(config => {
+        this._projectConfig = config;
+      }));
     },
 
     observers: [

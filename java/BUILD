@@ -7,7 +7,7 @@ java_binary(
 
 java_library(
     name = "main_lib",
-    srcs = ["src/main/java/Main.java"],
+    srcs = ["Main.java"],
     visibility = ["//visibility:public"],
     deps = ["//gerrit-launcher:launcher"],
 )

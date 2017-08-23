@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a225b86a_855a7934",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-23T05:52:14Z",
+      "side": 1,
+      "message": "The reason it was done that way, is to avoid conflicts during merging of follow-up changes that are based on very old merge changes. The rest handler (CreateChange.java) induces the parent commit from passed based change attribute:\n\n  parentCommit \u003d ObjectId.fromString(ps.getRevision().get());\n\nCan you expand the commit message and mentions those concerns, and say that we don\u0027t care, and its the change owner responsibility to not use this button in that case, or perform a conflict resoultion in a terminal, as inline-edit workflow still doesn\u0027t support doing it in browser.",
+      "revId": "473b654363e8a3182ee4db27566b1c8a7fbec652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79f08568_8b181df5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T21:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c18679f5_b27e9eee",
+      "range": {
+        "startLine": 1035,
+        "startChar": 16,
+        "endLine": 1035,
+        "endChar": 23
+      },
+      "revId": "15ed72fe51911d2d91f11c474d06d9600d7f7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e8f160e_e5e105f9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "15ed72fe51911d2d91f11c474d06d9600d7f7c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e43602f_fe4d919d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T21:42:22Z",
+      "side": 1,
+      "message": "My inclination is to say no, since, the way this is used, the browser will be redirected after the final failure anyway, and the user will see the 404 that way if it continues to fail.\n\nIf, someday, this is used in such a way that a toast on failure is desired, it could still be fired from the `.then` if the result is `false`.",
+      "parentUuid": "7e8f160e_e5e105f9",
+      "revId": "15ed72fe51911d2d91f11c474d06d9600d7f7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -105,8 +105,6 @@ public class PatchList implements Serializable {
     this.patches = patches;
   }
 
-  protected PatchList() {}
-
   /** Old side tree or commit; null only if this is a combined diff. */
   @Nullable
   public ObjectId getOldId() {

@@ -1,19 +1,8 @@
-package(
-    default_visibility = ["//visibility:public"],
-)
-
-load("//tools/bzl:junit.bzl", "junit_tests")
-
-SRCS = glob(
-    ["src/main/java/**/*.java"],
-)
-
-RESOURCES = glob(["src/main/resources/**/*"])
-
 java_library(
     name = "httpd",
-    srcs = SRCS,
-    resources = RESOURCES,
+    srcs = glob(["**/*.java"]),
+    resource_strip_prefix = "resources",
+    resources = ["//resources/com/google/gerrit/httpd"],
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-launcher:launcher",
@@ -50,34 +39,5 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/lucene:lucene-core-and-backward-codecs",
-    ],
-)
-
-junit_tests(
-    name = "httpd_tests",
-    srcs = glob(["src/test/java/**/*.java"]),
-    deps = [
-        ":httpd",
-        "//gerrit-server:server",
-        "//java/com/google/gerrit/common:annotations",
-        "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/util/http",
-        "//javatests/com/google/gerrit/util/http/testutil",
-        "//lib:gson",
-        "//lib:guava",
-        "//lib:gwtorm",
-        "//lib:jimfs",
-        "//lib:junit",
-        "//lib:servlet-api-3_1-without-neverlink",
-        "//lib:soy",
-        "//lib:truth",
-        "//lib/easymock",
-        "//lib/guice",
-        "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/joda:joda-time",
     ],
 )

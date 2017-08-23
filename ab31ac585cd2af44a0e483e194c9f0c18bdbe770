@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3384caf0_f098806f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T22:22:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c1862d9_c8a6ceae",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 14
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fe26875_7ce922ef",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04c33bc3_d818688e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T22:22:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fe26875_7ce922ef",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 43
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e29f9fda_926c9581",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T22:22:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5c1a4aa_3f8d1665",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069d645a_cd3f7b98",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-23T22:14:14Z",
       "side": 1,
       "message": "Sorry to keep picking on this method, but from what we talked about a little earlier, is the plan to progressively add editing functionality?\n\nIf so, this change might be simplified by omitting this, somehow.\n\nWe also talked a little of a single-direction data flow approach, which, as I understood it, might obviate this kind of translation.",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 6
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b528f6b6_1f8683ff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T22:22:09Z",
+      "side": 1,
+      "message": "I\u0027d like to keep it for now, though it may not be in use initially due to the progressive edit functionality, as I believe it will be easier to add if the functions are already written.\n\nIf we remove the two-way data binding approach, l.191 will still be necessary, but not l.192",
+      "parentUuid": "069d645a_cd3f7b98",
       "range": {
         "startLine": 163,
         "startChar": 4,

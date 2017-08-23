@@ -40,7 +40,7 @@
     'has:star',
     'has:stars',
     'has:unresolved',
-    'hashtag',
+    'hashtag:',
     'intopic:',
     'is:',
     'is:abandoned',

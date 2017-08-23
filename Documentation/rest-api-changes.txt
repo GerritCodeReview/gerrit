@@ -536,7 +536,10 @@ to the new merge commit.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "source": "refs/12/1234/1"
+    "subject": "Merge dev_branch into master",
+    "merge": {
+      "source": "refs/12/1234/1"
+    }
   }
 ----
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f43cd03_da74b7e8",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-23T05:10:26Z",
+      "side": 1,
+      "message": "May be rather call this fie fake_pom.xml in main directory of this project to avoid the assumption that this project is built with Maven?",
+      "revId": "b529c5ed3fac0ea45b15ca34a87ba332ccb47051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

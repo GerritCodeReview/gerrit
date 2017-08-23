@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -256,6 +257,12 @@ public interface ChangeApi {
   ChangeInfo check(FixInput fix) throws RestApiException;
 
   void index() throws RestApiException;
+
+  /** Check if this change is a pure revert of the change stored in revertOf. */
+  PureRevertInfo pureRevert() throws RestApiException;
+
+  /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
+  PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -546,6 +553,16 @@ public interface ChangeApi {
 
     @Override
     public void mute(boolean mute) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public PureRevertInfo pureRevert() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
       throw new NotImplementedException();
     }
   }

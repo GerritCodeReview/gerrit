@@ -53,6 +53,10 @@
     properties: {
       /** @type {?} */
       label: Object,
+      editing: {
+        type: Boolean,
+        value: false,
+      },
       group: String,
       permission: String,
       /** @type {?} */
@@ -103,8 +107,15 @@
       return this._computeForce(permission) ? 'force' : '';
     },
 
-    _computeDeletedClass(deleted) {
-      return deleted ? 'deleted' : '';
+    _computeSectionClass(editing, deleted) {
+      const classList = [];
+      if (editing) {
+        classList.push('editing');
+      }
+      if (deleted) {
+        classList.push('deleted');
+      }
+      return classList.join(' ');
     },
 
     _computeForceOptions(permission) {

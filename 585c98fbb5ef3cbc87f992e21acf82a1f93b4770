@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b40e61_f7fc73a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-23T23:00:45Z",
+      "side": 1,
+      "message": "What about\n\n      return Gerrit.Nav.getUrlForOwner(\n          account.email || account.username || account._account_id);\n?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "585c98fbb5ef3cbc87f992e21acf82a1f93b4770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

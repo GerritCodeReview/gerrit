@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c11421f7_24df2be4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T00:11:56Z",
+      "side": 1,
+      "message": "since you already have the ID noteDbSettings, you can just use that for the selector (#noteDbSettings instead of .noteDbSettings) and remove this one.",
+      "range": {
+        "startLine": 176,
+        "startChar": 51,
+        "endLine": 176,
+        "endChar": 65
+      },
+      "revId": "770367dd13713f56d2426bc9904bcfc1ceecc57c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

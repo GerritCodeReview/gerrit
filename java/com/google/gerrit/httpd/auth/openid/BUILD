@@ -1,7 +1,8 @@
 java_library(
     name = "openid",
-    srcs = glob(["src/main/java/**/*.java"]),
-    resources = glob(["src/main/resources/**/*"]),
+    srcs = glob(["**/*.java"]),
+    resource_strip_prefix = "resources",
+    resources = ["//resources/com/google/gerrit/httpd/auth/openid"],
     visibility = ["//visibility:public"],
     deps = [
         # We want all these deps to be provided_deps

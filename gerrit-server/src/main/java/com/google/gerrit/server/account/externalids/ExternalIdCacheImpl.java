@@ -23,6 +23,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -33,7 +34,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -165,7 +165,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException {
     return get().byAccount().get(accountId);
   }
 

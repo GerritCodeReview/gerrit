@@ -24,7 +24,7 @@
       projectName: String,
       branch: String,
       /** @type {?} */
-      _serverConfig: Object,
+      _projectConfig: Object,
       subject: String,
       topic: String,
       _query: {
@@ -32,10 +32,6 @@
         value() {
           return this._getProjectBranchesSuggestions.bind(this);
         },
-      },
-      checkedPrivate: {
-        type: Boolean,
-        value: true,
       },
       canCreate: {
         type: Boolean,
@@ -50,8 +46,8 @@
     ],
 
     attached() {
-      this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
+      this.$.restAPI.getProjectConfig(this.projectName).then(config => {
+        this._projectConfig = config;
       });
     },
 

@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.RetryerBuilder;
@@ -28,6 +29,10 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Throwables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Histogram0;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -75,6 +80,30 @@ public class RetryHelper {
     }
   }
 
+  @Singleton
+  private static class Metrics {
+    final Histogram0 attemptCounts;
+    final Counter0 timeoutCount;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      attemptCounts =
+          metricMaker.newHistogram(
+              "batch_update/retry_attempt_counts",
+              new Description(
+                      "Distribution of number of attempts made by RetryHelper"
+                          + " (1 == single attempt, no retry)")
+                  .setCumulative()
+                  .setUnit("attempts"));
+      timeoutCount =
+          metricMaker.newCounter(
+              "batch_update/retry_timeout_count",
+              new Description("Number of executions of RetryHelper that ultimately timed out")
+                  .setCumulative()
+                  .setUnit("timeouts"));
+    }
+  }
+
   public static Options.Builder options() {
     return new AutoValue_RetryHelper_Options.Builder();
   }
@@ -84,6 +113,7 @@ public class RetryHelper {
   }
 
   private final NotesMigration migration;
+  private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
   private final Duration defaultTimeout;
   private final WaitStrategy waitStrategy;
@@ -91,9 +121,11 @@ public class RetryHelper {
   @Inject
   RetryHelper(
       @GerritServerConfig Config cfg,
+      Metrics metrics,
       NotesMigration migration,
       ReviewDbBatchUpdate.AssistedFactory reviewDbBatchUpdateFactory,
       NoteDbBatchUpdate.AssistedFactory noteDbBatchUpdateFactory) {
+    this.metrics = metrics;
     this.migration = migration;
     this.updateFactory =
         new BatchUpdate.Factory(migration, reviewDbBatchUpdateFactory, noteDbBatchUpdateFactory);
@@ -117,18 +149,18 @@ public class RetryHelper {
   }
 
   public <T> T execute(Action<T> action, Options opts) throws RestApiException, UpdateException {
+    MetricListener listener = null;
     try {
       RetryerBuilder<T> builder = RetryerBuilder.newBuilder();
       if (migration.disableChangeReviewDb()) {
+        listener = new MetricListener(opts.listener());
         builder
+            .withRetryListener(listener)
             .withStopStrategy(
                 StopStrategies.stopAfterDelay(
                     firstNonNull(opts.timeout(), defaultTimeout).toMillis(), MILLISECONDS))
             .withWaitStrategy(waitStrategy)
             .retryIfException(RetryHelper::isLockFailure);
-        if (opts.listener() != null) {
-          builder.withRetryListener(opts.listener());
-        }
       } else {
         // Either we aren't full-NoteDb, or the underlying ref storage doesn't support atomic
         // transactions. Either way, retrying a partially-failed operation is not idempotent, so
@@ -136,11 +168,18 @@ public class RetryHelper {
       }
       return builder.build().call(() -> action.call(updateFactory));
     } catch (ExecutionException | RetryException e) {
+      if (e instanceof RetryException) {
+        metrics.timeoutCount.increment();
+      }
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);
         Throwables.throwIfInstanceOf(e.getCause(), RestApiException.class);
       }
       throw new UpdateException(e);
+    } finally {
+      if (listener != null) {
+        metrics.attemptCounts.record(listener.getAttemptCount());
+      }
     }
   }
 
@@ -149,5 +188,27 @@ public class RetryHelper {
       t = t.getCause();
     }
     return t instanceof LockFailureException;
+  }
+
+  private static class MetricListener implements RetryListener {
+    private final RetryListener delegate;
+    private long attemptCount;
+
+    MetricListener(@Nullable RetryListener delegate) {
+      this.delegate = delegate;
+      attemptCount = 1;
+    }
+
+    @Override
+    public <V> void onRetry(Attempt<V> attempt) {
+      attemptCount = attempt.getAttemptNumber();
+      if (delegate != null) {
+        delegate.onRetry(attempt);
+      }
+    }
+
+    long getAttemptCount() {
+      return attemptCount;
+    }
   }
 }

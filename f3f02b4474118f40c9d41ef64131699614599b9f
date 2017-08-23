@@ -71,6 +71,30 @@
       "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe28de9a_af3d2d96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-08-23T08:36:02Z",
+      "side": 1,
+      "message": "\u003e I think I would be able to perform the test on a copy of our largest production\n\u003e server.\n\nSuch a test will require time and patience. Therefore, I propose to do it\nin context of a follow-up change. This one shouldn\u0027t be blocked for too long\nwaiting on my tests.",
+      "parentUuid": "0a97b983_809401c4",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 30
+      },
+      "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

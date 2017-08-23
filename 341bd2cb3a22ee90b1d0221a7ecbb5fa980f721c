@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68621b26_4011f887",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-23T22:47:06Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "79ce3b60_398f359c",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e160868_c5629849",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7646e7d8_ae45a6e7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-23T22:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e160868_c5629849",
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c6b7b7a_54476f9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-23T22:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0d07634_1dd44837",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +165,30 @@
       "writtenOn": "2017-08-23T20:37:26Z",
       "side": 1,
       "message": "does !Object cause a failure here?",
+      "range": {
+        "startLine": 458,
+        "startChar": 15,
+        "endLine": 458,
+        "endChar": 16
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61db2d50_f65557b1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-23T22:47:06Z",
+      "side": 1,
+      "message": "I didn\u0027t touch this code, it came in via rebase (Iafdc27a95afb422f1448593f7e50f5bd3c67a167).",
+      "parentUuid": "2876b8a8_e649f47f",
       "range": {
         "startLine": 458,
         "startChar": 15,

@@ -148,7 +148,7 @@ def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):
     libs = LIBS + doc_lib,
     pgmlibs = PGMLIBS,
     context = doc_ctx + context + ui_deps + [
-      '//gerrit-main:main_bin_deploy.jar',
+      '//java:gerrit-main-class_deploy.jar',
       '//gerrit-war:webapp_assets',
     ],
     **kwargs

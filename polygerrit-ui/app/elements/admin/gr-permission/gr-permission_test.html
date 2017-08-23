@@ -142,12 +142,22 @@ limitations under the License.
             expectedLabel);
       });
 
-      test('_computeDeletedClass', () => {
+      test('_computeSectionClass', () => {
         let deleted = true;
-        assert.equal(element._computeDeletedClass(deleted), 'deleted');
+        let editing = false;
+        assert.equal(element._computeSectionClass(editing, deleted), 'deleted');
+
         deleted = false;
-        assert.equal(element._computeDeletedClass(deleted), '');
+        assert.equal(element._computeSectionClass(editing, deleted), '');
+
+        editing = true;
+        assert.equal(element._computeSectionClass(editing, deleted), 'editing');
+
+        deleted = true;
+        assert.equal(element._computeSectionClass(editing, deleted),
+            'editing deleted');
       });
+
 
       test('_computeGroupsWithRules', () => {
         const rules = [
@@ -276,6 +286,7 @@ limitations under the License.
       });
 
       test('removing the permission', () => {
+        element.editing = true;
         element.name = 'Priority';
         element.section = 'refs/*';
 

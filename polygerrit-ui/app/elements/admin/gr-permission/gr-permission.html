@@ -44,11 +44,23 @@ limitations under the License.
       .rules {
         background: #fafafa;
         border: 1px solid #d1d2d3;
+        border-bottom: 0;
+      }
+      .editing .rules {
+        border-bottom: 1px solid #d1d2d3;
       }
       .title {
         margin-bottom: .3em;
       }
-      #addRule {
+      #addRule,
+      #removeBtn {
+        display: none;
+      }
+      .editing #removeBtn {
+        display: block;
+      }
+      .editing #addRule {
+        display: block;
         padding: .7em;
       }
       #deletedContainer,
@@ -64,7 +76,7 @@ limitations under the License.
     <style include="gr-menu-page-styles"></style>
     <section
         id="permission"
-        class$="gr-form-styles [[_computeDeletedClass(_deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       <div id="mainContainer">
         <div class="header">
           <span class="title">[[name]]</span>
@@ -79,6 +91,7 @@ limitations under the License.
               as="rule">
             <gr-rule-editor
                 label="[[_label]]"
+                editing="[[editing]]"
                 group="[[rule.id]]"
                 permission="[[permission.id]]"
                 rule="{{rule}}"

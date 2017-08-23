@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.AddIncludedGroups.Input;
+import com.google.gerrit.server.group.AddSubgroups.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 @Singleton
-public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
+public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   public static class Input {
     @DefaultInput String _oneGroup;
 
@@ -73,7 +73,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   private final GroupJson json;
 
   @Inject
-  public AddIncludedGroups(
+  public AddSubgroups(
       GroupsCollection groupsCollection,
       Provider<ReviewDb> db,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
@@ -98,30 +98,30 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
 
     List<GroupInfo> result = new ArrayList<>();
-    Set<AccountGroup.UUID> includedGroupUuids = new HashSet<>();
-    for (String includedGroup : input.groups) {
-      GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-      includedGroupUuids.add(d.getGroupUUID());
-      result.add(json.format(d));
+    Set<AccountGroup.UUID> subgroupUuids = new HashSet<>();
+    for (String subgroupIdentifier : input.groups) {
+      GroupDescription.Basic subgroup = groupsCollection.parse(subgroupIdentifier);
+      subgroupUuids.add(subgroup.getGroupUUID());
+      result.add(json.format(subgroup));
     }
 
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     try {
-      groupsUpdateProvider.get().addIncludedGroups(db.get(), groupUuid, includedGroupUuids);
+      groupsUpdateProvider.get().addSubgroups(db.get(), groupUuid, subgroupUuids);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
     return result;
   }
 
-  static class PutIncludedGroup implements RestModifyView<GroupResource, PutIncludedGroup.Input> {
+  static class PutSubgroup implements RestModifyView<GroupResource, PutSubgroup.Input> {
     static class Input {}
 
-    private final AddIncludedGroups put;
+    private final AddSubgroups addSubgroups;
     private final String id;
 
-    PutIncludedGroup(AddIncludedGroups put, String id) {
-      this.put = put;
+    PutSubgroup(AddSubgroups addSubgroups, String id) {
+      this.addSubgroups = addSubgroups;
       this.id = id;
     }
 
@@ -129,10 +129,10 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     public GroupInfo apply(GroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
             IOException {
-      AddIncludedGroups.Input in = new AddIncludedGroups.Input();
+      AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id);
       try {
-        List<GroupInfo> list = put.apply(resource, in);
+        List<GroupInfo> list = addSubgroups.apply(resource, in);
         if (list.size() == 1) {
           return list.get(0);
         }
@@ -144,18 +144,16 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateIncludedGroup
-      implements RestModifyView<IncludedGroupResource, PutIncludedGroup.Input> {
-    private final Provider<GetIncludedGroup> get;
+  static class UpdateSubgroup implements RestModifyView<SubgroupResource, PutSubgroup.Input> {
+    private final Provider<GetSubgroup> get;
 
     @Inject
-    UpdateIncludedGroup(Provider<GetIncludedGroup> get) {
+    UpdateSubgroup(Provider<GetSubgroup> get) {
       this.get = get;
     }
 
     @Override
-    public GroupInfo apply(IncludedGroupResource resource, PutIncludedGroup.Input input)
-        throws OrmException {
+    public GroupInfo apply(SubgroupResource resource, PutSubgroup.Input input) throws OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

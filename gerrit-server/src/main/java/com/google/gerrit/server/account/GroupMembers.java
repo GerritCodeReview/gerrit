@@ -117,7 +117,7 @@ public class GroupMembers {
 
     Set<Account> indirectMembers = new HashSet<>();
     if (groupControl.canSeeGroup()) {
-      for (AccountGroup.UUID subgroupUuid : group.getIncludes()) {
+      for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
         if (!seen.contains(subgroupUuid)) {
           indirectMembers.addAll(listAccounts(subgroupUuid, project, seen));
         }

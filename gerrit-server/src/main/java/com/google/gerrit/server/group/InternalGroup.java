@@ -27,7 +27,7 @@ public abstract class InternalGroup {
   public static InternalGroup create(
       AccountGroup accountGroup,
       ImmutableSet<Account.Id> members,
-      ImmutableSet<AccountGroup.UUID> includes) {
+      ImmutableSet<AccountGroup.UUID> subgroups) {
     return new AutoValue_InternalGroup(
         accountGroup.getId(),
         accountGroup.getNameKey(),
@@ -37,7 +37,7 @@ public abstract class InternalGroup {
         accountGroup.getGroupUUID(),
         accountGroup.getCreatedOn(),
         members,
-        includes);
+        subgroups);
   }
 
   public abstract AccountGroup.Id getId();
@@ -61,5 +61,5 @@ public abstract class InternalGroup {
 
   public abstract ImmutableSet<Account.Id> getMembers();
 
-  public abstract ImmutableSet<AccountGroup.UUID> getIncludes();
+  public abstract ImmutableSet<AccountGroup.UUID> getSubgroups();
 }

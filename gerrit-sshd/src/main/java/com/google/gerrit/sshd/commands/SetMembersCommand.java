@@ -26,10 +26,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.DeleteIncludedGroups;
+import com.google.gerrit.server.group.AddSubgroups;
 import com.google.gerrit.server.group.DeleteMembers;
+import com.google.gerrit.server.group.DeleteSubgroups;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.InternalGroup;
@@ -94,9 +94,9 @@ public class SetMembersCommand extends SshCommand {
 
   @Inject private DeleteMembers deleteMembers;
 
-  @Inject private AddIncludedGroups addIncludedGroups;
+  @Inject private AddSubgroups addSubgroups;
 
-  @Inject private DeleteIncludedGroups deleteIncludedGroups;
+  @Inject private DeleteSubgroups deleteSubgroups;
 
   @Inject private GroupsCollection groupsCollection;
 
@@ -115,7 +115,7 @@ public class SetMembersCommand extends SshCommand {
           reportMembersAction("removed from", resource, accountsToRemove);
         }
         if (!groupsToRemove.isEmpty()) {
-          deleteIncludedGroups.apply(resource, fromGroups(groupsToRemove));
+          deleteSubgroups.apply(resource, fromGroups(groupsToRemove));
           reportGroupsAction("excluded from", resource, groupsToRemove);
         }
         if (!accountsToAdd.isEmpty()) {
@@ -123,7 +123,7 @@ public class SetMembersCommand extends SshCommand {
           reportMembersAction("added to", resource, accountsToAdd);
         }
         if (!groupsToInclude.isEmpty()) {
-          addIncludedGroups.apply(resource, fromGroups(groupsToInclude));
+          addSubgroups.apply(resource, fromGroups(groupsToInclude));
           reportGroupsAction("included to", resource, groupsToInclude);
         }
       }
@@ -160,9 +160,8 @@ public class SetMembersCommand extends SshCommand {
         String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }
 
-  private AddIncludedGroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
-    return AddIncludedGroups.Input.fromGroups(
-        accounts.stream().map(Object::toString).collect(toList()));
+  private AddSubgroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
+    return AddSubgroups.Input.fromGroups(accounts.stream().map(Object::toString).collect(toList()));
   }
 
   private AddMembers.Input fromMembers(List<Account.Id> accounts) {

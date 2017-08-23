@@ -239,9 +239,9 @@ public class GroupCacheImpl implements GroupCache {
 
         ImmutableSet<Account.Id> members =
             groups.getMembers(db, groupUuid).collect(toImmutableSet());
-        ImmutableSet<AccountGroup.UUID> includes =
-            groups.getIncludes(db, groupUuid).collect(toImmutableSet());
-        return accountGroup.map(group -> InternalGroup.create(group, members, includes));
+        ImmutableSet<AccountGroup.UUID> subgroups =
+            groups.getSubgroups(db, groupUuid).collect(toImmutableSet());
+        return accountGroup.map(group -> InternalGroup.create(group, members, subgroups));
       }
     }
   }

@@ -21,16 +21,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetIncludedGroup implements RestReadView<IncludedGroupResource> {
+public class GetSubgroup implements RestReadView<SubgroupResource> {
   private final GroupJson json;
 
   @Inject
-  GetIncludedGroup(GroupJson json) {
+  GetSubgroup(GroupJson json) {
     this.json = json;
   }
 
   @Override
-  public GroupInfo apply(IncludedGroupResource rsrc) throws OrmException {
+  public GroupInfo apply(SubgroupResource rsrc) throws OrmException {
     return json.format(rsrc.getMemberDescription());
   }
 }

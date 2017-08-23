@@ -68,7 +68,9 @@
      * @return {!Promise<!Response>}
      */
     fetch(url, opt_options) {
-      const options = Object.assign({}, this._defaultOptions, opt_options);
+      const options = Object.assign({
+        headers: new Headers(),
+      }, this._defaultOptions, opt_options);
       if (this._type === Gerrit.Auth.TYPE.ACCESS_TOKEN) {
         return this._getAccessToken().then(
             accessToken => this._fetchWithAccessToken(url, options, accessToken)
@@ -105,7 +107,6 @@
       if (options.method && options.method !== 'GET') {
         const token = this._getCookie('XSRF_TOKEN');
         if (token) {
-          options.headers = options.headers || new Headers();
           options.headers.append('X-Gerrit-Auth', token);
         }
       }
@@ -136,8 +137,8 @@
     },
 
     _fetchWithAccessToken(url, options, accessToken) {
-      const method = options.method || 'GET';
       const params = [];
+
       if (accessToken) {
         params.push(`access_token=${accessToken}`);
         const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
@@ -147,20 +148,30 @@
           url = url.replace(pathname, '/a' + pathname);
         }
       }
-      let contentType = options.headers && options.headers.get('Content-Type');
-      if (contentType) {
-        options.headers.set('Content-Type', 'text/plain');
+
+      const method = options.method || 'GET';
+      let contentType = options.headers.get('Content-Type');
+
+      // For all requests with body, ensure json content type.
+      if (!contentType && options.body) {
+        contentType = 'application/json';
       }
+
       if (method !== 'GET') {
         options.method = 'POST';
         params.push(`$m=${method}`);
-        if (!contentType && options.body) {
-          contentType = 'application/json';
+        // If a request is not GET, and does not have a body, ensure text/plain
+        // content type.
+        if (!contentType) {
+          contentType = 'text/plain';
         }
       }
+
       if (contentType) {
+        options.headers.set('Content-Type', 'text/plain');
         params.push(`$ct=${encodeURIComponent(contentType)}`);
       }
+
       if (params.length) {
         url = url + (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
       }

@@ -22,6 +22,30 @@
       "revId": "770367dd13713f56d2426bc9904bcfc1ceecc57c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd01c28f_d953fb63",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-23T00:37:31Z",
+      "side": 1,
+      "message": "Doing it like this with a class makes it easier to test as I’m unsure on how to do it with id in checking that the new class is added if notedb returns true or if it is hidden when it is false.\n\nWould you know how I can do the same for id as I am doing for class please?",
+      "parentUuid": "c11421f7_24df2be4",
+      "range": {
+        "startLine": 176,
+        "startChar": 51,
+        "endLine": 176,
+        "endChar": 65
+      },
+      "revId": "770367dd13713f56d2426bc9904bcfc1ceecc57c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

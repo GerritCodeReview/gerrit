@@ -42,8 +42,6 @@ public interface AccountCache {
   @Nullable
   AccountState getOrNull(Account.Id accountId);
 
-  AccountState getByUsername(String username);
-
   /**
    * Evicts the account from the cache and triggers a reindex for it.
    *
@@ -51,8 +49,6 @@ public interface AccountCache {
    * @throws IOException thrown if reindexing fails
    */
   void evict(Account.Id accountId) throws IOException;
-
-  void evictByUsername(String username);
 
   /** Evict all accounts from the cache, but doesn't trigger reindex of all accounts. */
   void evictAllNoReindex();

@@ -14,23 +14,34 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Locale;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Authenticates users with kerberos (gssapi-with-mic). */
 @Singleton
 class GerritGSSAuthenticator extends GSSAuthenticator {
+  private static final Logger log = LoggerFactory.getLogger(GerritGSSAuthenticator.class);
+
   private final AccountCache accounts;
+  private final ExternalIds externalIds;
   private final SshScope sshScope;
   private final SshLog sshLog;
   private final GenericFactory userFactory;
@@ -39,11 +50,13 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   @Inject
   GerritGSSAuthenticator(
       AccountCache accounts,
+      ExternalIds externalIds,
       SshScope sshScope,
       SshLog sshLog,
       IdentifiedUser.GenericFactory userFactory,
       @GerritServerConfig Config config) {
     this.accounts = accounts;
+    this.externalIds = externalIds;
     this.sshScope = sshScope;
     this.sshLog = sshLog;
     this.userFactory = userFactory;
@@ -63,18 +76,27 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
     if (config.getBoolean("auth", "userNameToLowerCase", false)) {
       username = username.toLowerCase(Locale.US);
     }
-    AccountState state = accounts.getByUsername(username);
-    Account account = state == null ? null : state.getAccount();
-    boolean active = account != null && account.isActive();
-    if (active) {
-      return SshUtil.success(
-          username,
-          session,
-          sshScope,
-          sshLog,
-          sd,
-          SshUtil.createUser(sd, userFactory, account.getId()));
+    ExternalId.Key extIdKey = ExternalId.Key.create(SCHEME_USERNAME, username);
+    try {
+      ExternalId extId = externalIds.get(extIdKey);
+      if (extId != null) {
+        AccountState state = accounts.get(extId.accountId());
+        Account account = state == null ? null : state.getAccount();
+        boolean active = account != null && account.isActive();
+        if (active) {
+          return SshUtil.success(
+              username,
+              session,
+              sshScope,
+              sshLog,
+              sd,
+              SshUtil.createUser(sd, userFactory, account.getId()));
+        }
+      }
+      return false;
+    } catch (IOException | ConfigInvalidException e) {
+      log.error(String.format("Failed to read external ID %s", extIdKey.get()), e);
+      return false;
     }
-    return false;
   }
 }

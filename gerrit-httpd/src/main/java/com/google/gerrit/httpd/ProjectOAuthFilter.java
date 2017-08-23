@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -31,6 +32,8 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,6 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +77,7 @@ class ProjectOAuthFilter implements Filter {
   private final DynamicMap<OAuthLoginProvider> loginProviders;
   private final AccountCache accountCache;
   private final AccountManager accountManager;
+  private final ExternalIds externalIds;
   private final String gitOAuthProvider;
   private final boolean userNameToLowerCase;
 
@@ -85,11 +90,13 @@ class ProjectOAuthFilter implements Filter {
       DynamicMap<OAuthLoginProvider> pluginsProvider,
       AccountCache accountCache,
       AccountManager accountManager,
+      ExternalIds externalIds,
       @GerritServerConfig Config gerritConfig) {
     this.session = session;
     this.loginProviders = pluginsProvider;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
+    this.externalIds = externalIds;
     this.gitOAuthProvider = gerritConfig.getString("auth", null, "gitOAuthProvider");
     this.userNameToLowerCase = gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
   }
@@ -149,35 +156,50 @@ class ProjectOAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
-
-    AccountState who = accountCache.getByUsername(authInfo.username);
-    if (who == null || !who.getAccount().isActive()) {
-      log.warn(
-          "Authentication failed for "
-              + authInfo.username
-              + ": account inactive or not provisioned in Gerrit");
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
-
-    AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
-    authRequest.setEmailAddress(who.getAccount().getPreferredEmail());
-    authRequest.setDisplayName(who.getAccount().getFullName());
-    authRequest.setPassword(authInfo.tokenOrSecret);
-    authRequest.setAuthPlugin(authInfo.pluginName);
-    authRequest.setAuthProvider(authInfo.exportName);
-
+    ExternalId.Key extIdKey = ExternalId.Key.create(SCHEME_USERNAME, authInfo.username);
     try {
-      AuthResult authResult = accountManager.authenticate(authRequest);
-      WebSession ws = session.get();
-      ws.setUserAccountId(authResult.getAccountId());
-      ws.setAccessPathOk(AccessPath.GIT, true);
-      ws.setAccessPathOk(AccessPath.REST_API, true);
-      return true;
-    } catch (AccountException e) {
-      log.warn("Authentication failed for " + authInfo.username, e);
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
+      ExternalId extId = externalIds.get(extIdKey);
+      if (extId == null) {
+        log.warn(
+            "Authentication failed for "
+                + authInfo.username
+                + ": external ID "
+                + extIdKey.get()
+                + " not found");
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+      AccountState who = accountCache.get(extId.accountId());
+      if (who == null || !who.getAccount().isActive()) {
+        log.warn(
+            "Authentication failed for "
+                + authInfo.username
+                + ": account inactive or not provisioned in Gerrit");
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
+      authRequest.setEmailAddress(who.getAccount().getPreferredEmail());
+      authRequest.setDisplayName(who.getAccount().getFullName());
+      authRequest.setPassword(authInfo.tokenOrSecret);
+      authRequest.setAuthPlugin(authInfo.pluginName);
+      authRequest.setAuthProvider(authInfo.exportName);
+
+      try {
+        AuthResult authResult = accountManager.authenticate(authRequest);
+        WebSession ws = session.get();
+        ws.setUserAccountId(authResult.getAccountId());
+        ws.setAccessPathOk(AccessPath.GIT, true);
+        ws.setAccessPathOk(AccessPath.REST_API, true);
+        return true;
+      } catch (AccountException e) {
+        log.warn("Authentication failed for " + authInfo.username, e);
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+    } catch (ConfigInvalidException e) {
+      throw new IOException("Invalid external ID config", e);
     }
   }
 

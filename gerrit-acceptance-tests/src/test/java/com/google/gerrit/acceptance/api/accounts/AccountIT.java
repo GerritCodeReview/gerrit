@@ -50,6 +50,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
@@ -98,6 +99,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -1267,6 +1269,39 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
 
     assertThat(accountQueryProvider.get().byDefault(name)).hasSize(2);
+  }
+
+  @Test
+  @GerritConfig(name = "user.readAccountsFromGit", value = "true")
+  public void checkMetaId() throws Exception {
+    // metaId is set when account is loaded
+    assertThat(accounts.get(db, admin.getId()).getMetaId()).isEqualTo(getMetaId(admin.getId()));
+
+    // metaId is set when account is created
+    AccountsUpdate au = accountsUpdate.create();
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    Account account = au.insert(db, accountId, a -> {});
+    assertThat(account.getMetaId()).isEqualTo(getMetaId(accountId));
+
+    // metaId is set when account is updated
+    Account updatedAccount = au.update(db, accountId, a -> a.setFullName("foo"));
+    assertThat(account.getMetaId()).isNotEqualTo(updatedAccount.getMetaId());
+    assertThat(updatedAccount.getMetaId()).isEqualTo(getMetaId(accountId));
+
+    // metaId is set when account is replaced
+    Account newAccount = new Account(accountId, TimeUtil.nowTs());
+    au.replace(db, newAccount);
+    assertThat(updatedAccount.getMetaId()).isNotEqualTo(newAccount.getMetaId());
+    assertThat(newAccount.getMetaId()).isEqualTo(getMetaId(accountId));
+  }
+
+  private String getMetaId(Account.Id accountId) throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo);
+        ObjectReader or = repo.newObjectReader()) {
+      Ref ref = repo.exactRef(RefNames.refsUsers(accountId));
+      return ref != null ? ref.getObjectId().name() : null;
+    }
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

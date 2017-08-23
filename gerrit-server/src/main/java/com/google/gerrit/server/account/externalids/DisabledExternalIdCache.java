@@ -49,21 +49,6 @@ public class DisabledExternalIdCache implements ExternalIdCache {
       Collection<ExternalId> toAdd) {}
 
   @Override
-  public void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd) {}
-
-  @Override
-  public void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd) {}
-
-  @Override
   public void onReplace(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,
@@ -72,17 +57,6 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public void onRemove(ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> extId) {}
-
-  @Override
-  public void onRemoveByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> extIdKeys) {}
-
-  @Override
-  public void onRemoveByKeys(
-      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys) {}
 
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) {

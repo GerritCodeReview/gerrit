@@ -138,7 +138,7 @@ public class ExternalIdReader {
         byte[] raw =
             rw.getObjectReader().open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
         try {
-          extIds.add(ExternalId.parse(note.getName(), raw));
+          extIds.add(ExternalId.parse(note.getName(), raw, note.getData()));
         } catch (Exception e) {
           log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
         }
@@ -186,9 +186,9 @@ public class ExternalIdReader {
       return null;
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    return ExternalId.parse(noteId.name(), raw);
+    ObjectId noteData = noteMap.get(noteId);
+    byte[] raw = rw.getObjectReader().open(noteData, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+    return ExternalId.parse(noteId.name(), raw, noteData);
   }
 
   private void checkReadEnabled() throws IOException {

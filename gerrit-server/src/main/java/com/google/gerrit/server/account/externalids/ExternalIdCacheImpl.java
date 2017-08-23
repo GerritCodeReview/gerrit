@@ -84,6 +84,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
         newNotesRev,
         m -> {
           for (ExternalId extId : extIds) {
+            extId.checkThatBlobIdIsSet();
             m.put(extId.accountId(), extId);
           }
         });
@@ -103,23 +104,6 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemoveByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> extIdKeys)
-      throws IOException {
-    updateCache(oldNotesRev, newNotesRev, m -> removeKeys(m.get(accountId), extIdKeys));
-  }
-
-  @Override
-  public void onRemoveByKeys(
-      ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId.Key> extIdKeys)
-      throws IOException {
-    updateCache(oldNotesRev, newNotesRev, m -> removeKeys(m.values(), extIdKeys));
-  }
-
-  @Override
   public void onUpdate(
       ObjectId oldNotesRev, ObjectId newNotesRev, Collection<ExternalId> updatedExtIds)
       throws IOException {
@@ -129,6 +113,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
         m -> {
           removeKeys(m.values(), updatedExtIds.stream().map(e -> e.key()).collect(toSet()));
           for (ExternalId updatedExtId : updatedExtIds) {
+            updatedExtId.checkThatBlobIdIsSet();
             m.put(updatedExtId.accountId(), updatedExtId);
           }
         });
@@ -152,45 +137,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
             m.remove(extId.accountId(), extId);
           }
           for (ExternalId extId : toAdd) {
-            m.put(extId.accountId(), extId);
-          }
-        });
-  }
-
-  @Override
-  public void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Account.Id accountId,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException {
-    ExternalIdsUpdate.checkSameAccount(toAdd, accountId);
-
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          removeKeys(m.get(accountId), toRemove);
-          for (ExternalId extId : toAdd) {
-            m.put(extId.accountId(), extId);
-          }
-        });
-  }
-
-  @Override
-  public void onReplaceByKeys(
-      ObjectId oldNotesRev,
-      ObjectId newNotesRev,
-      Collection<ExternalId.Key> toRemove,
-      Collection<ExternalId> toAdd)
-      throws IOException {
-    updateCache(
-        oldNotesRev,
-        newNotesRev,
-        m -> {
-          removeKeys(m.values(), toRemove);
-          for (ExternalId extId : toAdd) {
+            extId.checkThatBlobIdIsSet();
             m.put(extId.accountId(), extId);
           }
         });
@@ -211,6 +158,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
             m.remove(extId.accountId(), extId);
           }
           for (ExternalId extId : toAdd) {
+            extId.checkThatBlobIdIsSet();
             m.put(extId.accountId(), extId);
           }
         });
@@ -289,6 +237,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       Multimap<Account.Id, ExternalId> extIdsByAccount =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalId extId : externalIdReader.all(notesRev)) {
+        extId.checkThatBlobIdIsSet();
         extIdsByAccount.put(extId.accountId(), extId);
       }
       return AllExternalIds.create(extIdsByAccount);

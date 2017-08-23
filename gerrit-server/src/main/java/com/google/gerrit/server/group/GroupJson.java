@@ -45,7 +45,7 @@ public class GroupJson {
   private final GroupBackend groupBackend;
   private final GroupControl.Factory groupControlFactory;
   private final Provider<ListMembers> listMembers;
-  private final Provider<ListIncludedGroups> listIncludes;
+  private final Provider<ListSubgroups> listSubgroups;
   private EnumSet<ListGroupsOption> options;
 
   @Inject
@@ -53,11 +53,11 @@ public class GroupJson {
       GroupBackend groupBackend,
       GroupControl.Factory groupControlFactory,
       Provider<ListMembers> listMembers,
-      Provider<ListIncludedGroups> listIncludes) {
+      Provider<ListSubgroups> listSubgroups) {
     this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
     this.listMembers = listMembers;
-    this.listIncludes = listIncludes;
+    this.listSubgroups = listSubgroups;
 
     options = EnumSet.noneOf(ListGroupsOption.class);
   }
@@ -74,7 +74,7 @@ public class GroupJson {
 
   public GroupInfo format(GroupResource rsrc) throws OrmException {
     GroupInfo info = init(rsrc.getGroup());
-    initMembersAndIncludes(rsrc, info);
+    initMembersAndSubgroups(rsrc, info);
     return info;
   }
 
@@ -82,7 +82,7 @@ public class GroupJson {
     GroupInfo info = init(group);
     if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
       GroupResource rsrc = new GroupResource(groupControlFactory.controlFor(group));
-      initMembersAndIncludes(rsrc, info);
+      initMembersAndSubgroups(rsrc, info);
     }
     return info;
   }
@@ -116,7 +116,8 @@ public class GroupJson {
     return group instanceof GroupDescription.Internal;
   }
 
-  private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info) throws OrmException {
+  private GroupInfo initMembersAndSubgroups(GroupResource rsrc, GroupInfo info)
+      throws OrmException {
     if (!rsrc.isInternalGroup()) {
       return info;
     }
@@ -126,7 +127,7 @@ public class GroupJson {
       }
 
       if (options.contains(INCLUDES)) {
-        info.includes = listIncludes.get().apply(rsrc);
+        info.includes = listSubgroups.get().apply(rsrc);
       }
       return info;
     } catch (MethodNotAllowedException e) {

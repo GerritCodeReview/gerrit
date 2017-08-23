@@ -25,8 +25,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
+import com.google.gerrit.server.group.AddSubgroups;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
@@ -101,7 +101,7 @@ final class CreateGroupCommand extends SshCommand {
 
   @Inject private AddMembers addMembers;
 
-  @Inject private AddIncludedGroups addIncludedGroups;
+  @Inject private AddSubgroups addSubgroups;
 
   @Override
   protected void run() throws Failure, OrmException, IOException, ConfigInvalidException {
@@ -113,7 +113,7 @@ final class CreateGroupCommand extends SshCommand {
       }
 
       if (!initialGroups.isEmpty()) {
-        addIncludedGroups(rsrc);
+        addSubgroups(rsrc);
       }
     } catch (RestApiException e) {
       throw die(e);
@@ -142,10 +142,10 @@ final class CreateGroupCommand extends SshCommand {
     addMembers.apply(rsrc, input);
   }
 
-  private void addIncludedGroups(GroupResource rsrc) throws RestApiException, OrmException {
-    AddIncludedGroups.Input input =
-        AddIncludedGroups.Input.fromGroups(
+  private void addSubgroups(GroupResource rsrc) throws RestApiException, OrmException {
+    AddSubgroups.Input input =
+        AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));
-    addIncludedGroups.apply(rsrc, input);
+    addSubgroups.apply(rsrc, input);
   }
 }

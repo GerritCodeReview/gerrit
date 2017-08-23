@@ -20,18 +20,18 @@ import java.util.Set;
 
 public class GroupDetail {
   private Set<Account.Id> members;
-  private Set<AccountGroup.UUID> includes;
+  private Set<AccountGroup.UUID> subgroups;
 
-  public GroupDetail(Set<Account.Id> members, Set<AccountGroup.UUID> includes) {
+  public GroupDetail(Set<Account.Id> members, Set<AccountGroup.UUID> subgroups) {
     this.members = members;
-    this.includes = includes;
+    this.subgroups = subgroups;
   }
 
   public Set<Account.Id> getMembers() {
     return members;
   }
 
-  public Set<AccountGroup.UUID> getIncludes() {
-    return includes;
+  public Set<AccountGroup.UUID> getSubgroups() {
+    return subgroups;
   }
 }

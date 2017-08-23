@@ -116,7 +116,7 @@ client so they are generally disabled by default. Optional fields are:
 
 [[includes]]
 --
-* `INCLUDES`: include list of directly included groups.
+* `INCLUDES`: include list of direct subgroups.
 --
 
 [[members]]
@@ -1129,13 +1129,13 @@ already a member of the group.
   ]
 ----
 
-[[delete-group-member]]
-=== Delete Group Member
+[[remove-group-member]]
+=== Remove Group Member
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/members/link:rest-api-accounts.html#account-id[\{account-id\}]'
 --
 
-Deletes a user from a Gerrit internal group.
+Removes a user from a Gerrit internal group.
 
 .Request
 ----
@@ -1147,15 +1147,15 @@ Deletes a user from a Gerrit internal group.
   HTTP/1.1 204 No Content
 ----
 
-[[delete-group-members]]
-=== Delete Group Members
+[[remove-group-members]]
+=== Remove Group Members
 --
 'POST /groups/link:#group-id[\{group-id\}]/members.delete'
 --
 
-Delete one or several users from a Gerrit internal group.
+Removes one or several users from a Gerrit internal group.
 
-The users to be deleted from the group must be provided in the request
+The users to be removed from the group must be provided in the request
 body as a link:#members-input[MembersInput] entity.
 
 .Request
@@ -1176,16 +1176,16 @@ body as a link:#members-input[MembersInput] entity.
   HTTP/1.1 204 No Content
 ----
 
-[[group-include-endpoints]]
-== Group Include Endpoints
+[[subgroup-endpoints]]
+== Subgroup Endpoints
 
-[[included-groups]]
-=== List Included Groups
+[[list-subgroups]]
+=== List Subgroups
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/'
 --
 
-Lists the directly included groups of a group.
+Lists the direct subgroups of a group.
 
 As result a list of link:#group-info[GroupInfo] entries is returned.
 The entries in the list are sorted by group name and UUID.
@@ -1217,13 +1217,13 @@ The entries in the list are sorted by group name and UUID.
   ]
 ----
 
-[[get-included-group]]
-=== Get Included Group
+[[get-subgroup]]
+=== Get Subgroup
 --
 'GET /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Retrieves an included group.
+Retrieves a subgroup.
 
 .Request
 ----
@@ -1231,7 +1231,7 @@ Retrieves an included group.
 ----
 
 As response a link:#group-info[GroupInfo] entity is returned that
-describes the included group.
+describes the subgroup.
 
 .Response
 ----
@@ -1253,13 +1253,13 @@ describes the included group.
   }
 ----
 
-[[include-group]]
-=== Include Group
+[[add-subgroup]]
+=== Add Subgroup
 --
 'PUT /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Includes an internal or external group into a Gerrit internal group.
+Adds an internal or external group as subgroup to a Gerrit internal group.
 External groups must be specified using the UUID.
 
 .Request
@@ -1268,7 +1268,7 @@ External groups must be specified using the UUID.
 ----
 
 As response a link:#group-info[GroupInfo] entity is returned that
-describes the included group.
+describes the subgroup.
 
 .Response
 ----
@@ -1290,11 +1290,11 @@ describes the included group.
   }
 ----
 
-The request also succeeds if the group is already included in this
-group, but then the HTTP response code is `200 OK`.
+The request also succeeds if the group is already a subgroup of this
+group.
 
-[[include-groups]]
-=== Include Groups
+[[add-subgroups]]
+=== Add Subgroups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups'
 --
@@ -1305,10 +1305,10 @@ OR
 'POST /groups/link:#group-id[\{group-id\}]/groups.add'
 --
 
-Includes one or several groups into a Gerrit internal group.
+Adds one or several groups as subgroups to a Gerrit internal group.
 
-The groups to be included into the group must be provided in the
-request body as a link:#groups-input[GroupsInput] entity.
+The subgroups to be added must be provided in the request body as a
+link:#groups-input[GroupsInput] entity.
 
 .Request
 ----
@@ -1327,8 +1327,8 @@ As response a list of link:#group-info[GroupInfo] entities is
 returned that describes the groups that were specified in the
 link:#groups-input[GroupsInput]. A link:#group-info[GroupInfo] entity
 is returned for each group specified in the input, independently of
-whether the group was newly included into the group or whether the
-group was already included in the group.
+whether the group was newly added as subgroup or whether the
+group was already a subgroup of the group.
 
 .Response
 ----
@@ -1363,13 +1363,13 @@ group was already included in the group.
   ]
 ----
 
-[[delete-included-group]]
-=== Delete Included Group
+[[remove-subgroup]]
+=== Remove Subgroup
 --
 'DELETE /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 --
 
-Deletes an included group from a Gerrit internal group.
+Removes a subgroup from a Gerrit internal group.
 
 .Request
 ----
@@ -1381,16 +1381,16 @@ Deletes an included group from a Gerrit internal group.
   HTTP/1.1 204 No Content
 ----
 
-[[delete-included-groups]]
-=== Delete Included Groups
+[[remove-subgroups]]
+=== Remove Subgroups
 --
 'POST /groups/link:#group-id[\{group-id\}]/groups.delete'
 --
 
-Delete one or several included groups from a Gerrit internal group.
+Removes one or several subgroups from a Gerrit internal group.
 
-The groups to be deleted from the group must be provided in the request
-body as a link:#groups-input[GroupsInput] entity.
+The subgroups to be removed must be provided in the request body as a
+link:#groups-input[GroupsInput] entity.
 
 .Request
 ----
@@ -1495,9 +1495,9 @@ A list of link:rest-api-accounts.html#account-info[AccountInfo]
 entities describing the direct members. +
 Only set if link:#members[members] are requested.
 |`includes`    |optional, only for internal groups|
-A list of link:#group-info[GroupInfo] entities describing the directly
-included groups. +
-Only set if link:#includes[included groups] are requested.
+A list of link:#group-info[GroupInfo] entities describing the direct
+subgroups. +
+Only set if link:#includes[subgroups] are requested.
 |===========================
 
 The type of a group can be deduced from the group's UUID:

@@ -60,15 +60,15 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupUuid);
     ImmutableSet<Account.Id> members = loadMembers();
-    ImmutableSet<AccountGroup.UUID> includes = loadIncludes();
-    return new GroupDetail(members, includes);
+    ImmutableSet<AccountGroup.UUID> subgroups = loadSubgroups();
+    return new GroupDetail(members, subgroups);
   }
 
   private ImmutableSet<Account.Id> loadMembers() throws OrmException, NoSuchGroupException {
     return groups.getMembers(db, groupUuid).filter(control::canSeeMember).collect(toImmutableSet());
   }
 
-  private ImmutableSet<AccountGroup.UUID> loadIncludes() {
+  private ImmutableSet<AccountGroup.UUID> loadSubgroups() {
     if (!control.canSeeGroup()) {
       return ImmutableSet.of();
     }

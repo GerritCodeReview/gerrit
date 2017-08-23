@@ -177,12 +177,11 @@ public class GroupCacheImpl implements GroupCache {
 
     try (ReviewDb db = schema.open()) {
       ImmutableSet<Account.Id> members = groups.getMembers(db, groupUuid).collect(toImmutableSet());
-      ImmutableSet<AccountGroup.UUID> includes =
-          groups.getIncludes(db, groupUuid).collect(toImmutableSet());
-      return accountGroup.map(group -> InternalGroup.create(group, members, includes));
+      ImmutableSet<AccountGroup.UUID> subgroups =
+          groups.getSubgroups(db, groupUuid).collect(toImmutableSet());
+      return accountGroup.map(group -> InternalGroup.create(group, members, subgroups));
     } catch (OrmException | NoSuchGroupException e) {
-      log.warn(
-          String.format("Cannot lookup members or sub-groups of group %s", groupUuid.get()), e);
+      log.warn(String.format("Cannot lookup members or subgroups of group %s", groupUuid.get()), e);
     }
     return Optional.empty();
   }

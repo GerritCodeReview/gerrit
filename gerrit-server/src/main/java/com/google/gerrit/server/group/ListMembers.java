@@ -106,9 +106,9 @@ public class ListMembers implements RestReadView<GroupResource> {
     }
 
     if (recursive) {
-      for (AccountGroup.UUID includedGroupUuid : groupDetail.getIncludes()) {
-        if (!seenGroups.contains(includedGroupUuid)) {
-          members.putAll(getMembers(includedGroupUuid, seenGroups));
+      for (AccountGroup.UUID subgroupUuid : groupDetail.getSubgroups()) {
+        if (!seenGroups.contains(subgroupUuid)) {
+          members.putAll(getMembers(subgroupUuid, seenGroups));
         }
       }
     }

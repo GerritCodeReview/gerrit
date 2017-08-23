@@ -19,13 +19,13 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.TypeLiteral;
 
-public class IncludedGroupResource extends GroupResource {
-  public static final TypeLiteral<RestView<IncludedGroupResource>> INCLUDED_GROUP_KIND =
-      new TypeLiteral<RestView<IncludedGroupResource>>() {};
+public class SubgroupResource extends GroupResource {
+  public static final TypeLiteral<RestView<SubgroupResource>> SUBGROUP_KIND =
+      new TypeLiteral<RestView<SubgroupResource>>() {};
 
   private final GroupDescription.Basic member;
 
-  public IncludedGroupResource(GroupResource group, GroupDescription.Basic member) {
+  public SubgroupResource(GroupResource group, GroupDescription.Basic member) {
     super(group);
     this.member = member;
   }

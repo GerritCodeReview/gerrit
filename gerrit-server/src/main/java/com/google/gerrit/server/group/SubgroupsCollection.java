@@ -26,36 +26,36 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
+import com.google.gerrit.server.group.AddSubgroups.PutSubgroup;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class IncludedGroupsCollection
-    implements ChildCollection<GroupResource, IncludedGroupResource>, AcceptsCreate<GroupResource> {
-  private final DynamicMap<RestView<IncludedGroupResource>> views;
-  private final ListIncludedGroups list;
+public class SubgroupsCollection
+    implements ChildCollection<GroupResource, SubgroupResource>, AcceptsCreate<GroupResource> {
+  private final DynamicMap<RestView<SubgroupResource>> views;
+  private final ListSubgroups list;
   private final GroupsCollection groupsCollection;
   private final Provider<ReviewDb> dbProvider;
   private final Groups groups;
-  private final AddIncludedGroups put;
+  private final AddSubgroups addSubgroups;
 
   @Inject
-  IncludedGroupsCollection(
-      DynamicMap<RestView<IncludedGroupResource>> views,
-      ListIncludedGroups list,
+  SubgroupsCollection(
+      DynamicMap<RestView<SubgroupResource>> views,
+      ListSubgroups list,
       GroupsCollection groupsCollection,
       Provider<ReviewDb> dbProvider,
       Groups groups,
-      AddIncludedGroups put) {
+      AddSubgroups addSubgroups) {
     this.views = views;
     this.list = list;
     this.groupsCollection = groupsCollection;
     this.dbProvider = dbProvider;
     this.groups = groups;
-    this.put = put;
+    this.addSubgroups = addSubgroups;
   }
 
   @Override
@@ -64,23 +64,23 @@ public class IncludedGroupsCollection
   }
 
   @Override
-  public IncludedGroupResource parse(GroupResource resource, IdString id)
+  public SubgroupResource parse(GroupResource resource, IdString id)
       throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
     GroupDescription.Internal parent =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
-    if (resource.getControl().canSeeGroup() && isMember(parent, member)) {
-      return new IncludedGroupResource(resource, member);
+    if (resource.getControl().canSeeGroup() && isSubgroup(parent, member)) {
+      return new SubgroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(GroupDescription.Internal parent, GroupDescription.Basic member)
+  private boolean isSubgroup(GroupDescription.Internal parent, GroupDescription.Basic member)
       throws OrmException, ResourceNotFoundException {
     try {
-      return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
+      return groups.isSubgroup(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(
           String.format("Group %s not found", parent.getGroupUUID()));
@@ -89,12 +89,12 @@ public class IncludedGroupsCollection
 
   @SuppressWarnings("unchecked")
   @Override
-  public PutIncludedGroup create(GroupResource group, IdString id) {
-    return new PutIncludedGroup(put, id.get());
+  public PutSubgroup create(GroupResource group, IdString id) {
+    return new PutSubgroup(addSubgroups, id.get());
   }
 
   @Override
-  public DynamicMap<RestView<IncludedGroupResource>> views() {
+  public DynamicMap<RestView<SubgroupResource>> views() {
     return views;
   }
 }

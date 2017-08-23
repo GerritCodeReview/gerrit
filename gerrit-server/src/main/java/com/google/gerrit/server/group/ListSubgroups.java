@@ -35,15 +35,15 @@ import java.util.List;
 import org.slf4j.Logger;
 
 @Singleton
-public class ListIncludedGroups implements RestReadView<GroupResource> {
-  private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListIncludedGroups.class);
+public class ListSubgroups implements RestReadView<GroupResource> {
+  private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListSubgroups.class);
 
   private final GroupControl.Factory controlFactory;
   private final GroupIncludeCache groupIncludeCache;
   private final GroupJson json;
 
   @Inject
-  ListIncludedGroups(
+  ListSubgroups(
       GroupControl.Factory controlFactory, GroupIncludeCache groupIncludeCache, GroupJson json) {
     this.controlFactory = controlFactory;
     this.groupIncludeCache = groupIncludeCache;
@@ -57,19 +57,18 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
-    Collection<AccountGroup.UUID> includedGroupUuids =
+    Collection<AccountGroup.UUID> subgroupUuids =
         groupIncludeCache.subgroupsOf(group.getGroupUUID());
-    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
+    for (AccountGroup.UUID subgroupUuid : subgroupUuids) {
       try {
-        GroupControl i = controlFactory.controlFor(includedGroupUuid);
+        GroupControl i = controlFactory.controlFor(subgroupUuid);
         if (ownerOfParent || i.isVisible()) {
           included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(
             String.format(
-                "Group %s no longer available, included into %s",
-                includedGroupUuid, group.getName()));
+                "Group %s no longer available, subgroup of %s", subgroupUuid, group.getName()));
         continue;
       }
     }

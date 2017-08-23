@@ -22,10 +22,10 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
-import com.google.gerrit.server.group.DeleteIncludedGroups;
+import com.google.gerrit.server.group.AddSubgroups;
 import com.google.gerrit.server.group.DeleteMembers;
+import com.google.gerrit.server.group.DeleteSubgroups;
 import com.google.gerrit.server.group.GetAuditLog;
 import com.google.gerrit.server.group.GetDescription;
 import com.google.gerrit.server.group.GetDetail;
@@ -35,8 +35,8 @@ import com.google.gerrit.server.group.GetOptions;
 import com.google.gerrit.server.group.GetOwner;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.Index;
-import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.ListMembers;
+import com.google.gerrit.server.group.ListSubgroups;
 import com.google.gerrit.server.group.PutDescription;
 import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
@@ -64,9 +64,9 @@ class GroupApiImpl implements GroupApi {
   private final ListMembers listMembers;
   private final AddMembers addMembers;
   private final DeleteMembers deleteMembers;
-  private final ListIncludedGroups listGroups;
-  private final AddIncludedGroups addGroups;
-  private final DeleteIncludedGroups deleteGroups;
+  private final ListSubgroups listSubgroups;
+  private final AddSubgroups addSubgroups;
+  private final DeleteSubgroups deleteSubgroups;
   private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
   private final Index index;
@@ -86,9 +86,9 @@ class GroupApiImpl implements GroupApi {
       ListMembers listMembers,
       AddMembers addMembers,
       DeleteMembers deleteMembers,
-      ListIncludedGroups listGroups,
-      AddIncludedGroups addGroups,
-      DeleteIncludedGroups deleteGroups,
+      ListSubgroups listSubgroups,
+      AddSubgroups addSubgroups,
+      DeleteSubgroups deleteSubgroups,
       GetAuditLog getAuditLog,
       Index index,
       @Assisted GroupResource rsrc) {
@@ -105,9 +105,9 @@ class GroupApiImpl implements GroupApi {
     this.listMembers = listMembers;
     this.addMembers = addMembers;
     this.deleteMembers = deleteMembers;
-    this.listGroups = listGroups;
-    this.addGroups = addGroups;
-    this.deleteGroups = deleteGroups;
+    this.listSubgroups = listSubgroups;
+    this.addSubgroups = addSubgroups;
+    this.deleteSubgroups = deleteSubgroups;
     this.getAuditLog = getAuditLog;
     this.index = index;
     this.rsrc = rsrc;
@@ -233,27 +233,27 @@ class GroupApiImpl implements GroupApi {
   @Override
   public List<GroupInfo> includedGroups() throws RestApiException {
     try {
-      return listGroups.apply(rsrc);
+      return listSubgroups.apply(rsrc);
     } catch (Exception e) {
-      throw asRestApiException("Cannot list included groups", e);
+      throw asRestApiException("Cannot list subgroups", e);
     }
   }
 
   @Override
   public void addGroups(String... groups) throws RestApiException {
     try {
-      addGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+      addSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(Arrays.asList(groups)));
     } catch (Exception e) {
-      throw asRestApiException("Cannot add group members", e);
+      throw asRestApiException("Cannot add subgroups", e);
     }
   }
 
   @Override
   public void removeGroups(String... groups) throws RestApiException {
     try {
-      deleteGroups.apply(rsrc, AddIncludedGroups.Input.fromGroups(Arrays.asList(groups)));
+      deleteSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(Arrays.asList(groups)));
     } catch (Exception e) {
-      throw asRestApiException("Cannot remove group members", e);
+      throw asRestApiException("Cannot remove subgroups", e);
     }
   }
 

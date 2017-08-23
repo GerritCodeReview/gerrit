@@ -35,12 +35,12 @@ java_library2(
     srcs = SRCS,
     exported_deps = [
         "//gerrit-launcher:launcher",
-        "//gerrit-openid:openid",
         "//gerrit-pgm:daemon",
         "//gerrit-pgm:http-jetty",
         "//gerrit-pgm:util-nodep",
         "//gerrit-server:testutil",
         "//java/com/google/gerrit/gpg",
+        "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/lifecycle",
         "//lib:jimfs",

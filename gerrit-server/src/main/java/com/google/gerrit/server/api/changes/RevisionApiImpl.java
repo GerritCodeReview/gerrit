@@ -58,6 +58,7 @@ import com.google.gerrit.server.change.GetCommit;
 import com.google.gerrit.server.change.GetDescription;
 import com.google.gerrit.server.change.GetMergeList;
 import com.google.gerrit.server.change.GetPatch;
+import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.ListRevisionComments;
 import com.google.gerrit.server.change.ListRevisionDrafts;
@@ -129,6 +130,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Provider<GetMergeList> getMergeList;
   private final PutDescription putDescription;
   private final GetDescription getDescription;
+  private final GetPureRevert getPureRevert;
 
   @Inject
   RevisionApiImpl(
@@ -170,6 +172,7 @@ class RevisionApiImpl implements RevisionApi {
       Provider<GetMergeList> getMergeList,
       PutDescription putDescription,
       GetDescription getDescription,
+      GetPureRevert getPureRevert,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
@@ -209,6 +212,7 @@ class RevisionApiImpl implements RevisionApi {
     this.getMergeList = getMergeList;
     this.putDescription = putDescription;
     this.getDescription = getDescription;
+    this.getPureRevert = getPureRevert;
     this.revision = r;
   }
 
@@ -289,6 +293,20 @@ class RevisionApiImpl implements RevisionApi {
     try (Repository repo = repoManager.openRepository(revision.getProject());
         RevWalk rw = new RevWalk(repo)) {
       return rebaseUtil.canRebase(revision.getPatchSet(), revision.getChange().getDest(), repo, rw);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check if rebase is possible", e);
+    }
+  }
+
+  @Override
+  public boolean isPureRevert() throws RestApiException {
+    return isPureRevert(null);
+  }
+
+  @Override
+  public boolean isPureRevert(String claimedOriginal) throws RestApiException {
+    try {
+      return (Boolean) getPureRevert.setClaimedOriginal(claimedOriginal).apply(revision);
     } catch (Exception e) {
       throw asRestApiException("Cannot check if rebase is possible", e);
     }

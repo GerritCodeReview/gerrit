@@ -70,6 +70,7 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
     get(CHANGE_KIND, "check").to(Check.class);
+    get(CHANGE_KIND, "pure_revert").to(GetPureRevert.CurrentRevision.class);
     post(CHANGE_KIND, "check").to(Check.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
@@ -127,6 +128,7 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
     get(REVISION_KIND, "mergelist").to(GetMergeList.class);
+    get(REVISION_KIND, "pure_revert").to(GetPureRevert.class);
 
     child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
 

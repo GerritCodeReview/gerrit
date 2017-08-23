@@ -3151,6 +3151,15 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
   }
 
+  @Test
+  public void isPureRevertReturnsTrueForPureRevert() throws Exception {
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    String revertId = gApi.changes().id(r.getChangeId()).revert().get().id;
+    assertThat(gApi.changes().id(revertId).isPureRevert()).isTrue();
+  }
+
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> new Account.Id(a._accountId));
   }

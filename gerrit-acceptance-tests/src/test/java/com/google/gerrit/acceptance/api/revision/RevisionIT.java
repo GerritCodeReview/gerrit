@@ -1290,6 +1290,68 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
+  @Test
+  public void isPureRevertReturnsTrueForPureRevert() throws Exception {
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    String revertId = gApi.changes().id(r.getChangeId()).revert().get().id;
+    assertThat(
+            gApi.changes().id(revertId).current().isPureRevert(getRemoteHead().toObjectId().name()))
+        .isTrue();
+  }
+
+  @Test
+  public void isPureRevertReturnsFalseOnContentChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    approve(r1.getChangeId());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    boolean pureRevert =
+        gApi.changes()
+            .id(createChange().getChangeId())
+            .current()
+            .isPureRevert(getRemoteHead().toObjectId().name());
+    assertThat(pureRevert).isFalse();
+  }
+
+  @Test
+  public void isPureRevertReturnsFalseOnInvalidInput() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    approve(r1.getChangeId());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid object ID");
+    gApi.changes().id(createChange().getChangeId()).current().isPureRevert("invalid id");
+  }
+
+  @Test
+  public void isPureRevertReturnsFalseCommitDoesNotRebaseCleanly() throws Exception {
+    PushOneCommit.Result r1 = createChange("commit message", "a.txt", "cont\nent", null);
+    approve(r1.getChangeId());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    PushOneCommit.Result r2 = createChange("commit message", "a.txt", "test\ncont\nent", null);
+    approve(r2.getChangeId());
+    gApi.changes().id(r2.getChangeId()).current().submit();
+
+    PushOneCommit.Result r3 = createChange("commit message", "a.txt", "test\ndiff\nent", null);
+    boolean pureRevert =
+        gApi.changes()
+            .id(r3.getChangeId())
+            .current()
+            .isPureRevert(getRemoteHead().toObjectId().name());
+    assertThat(pureRevert).isFalse();
+  }
+
+  @Test
+  public void isPureRevertThrowsExceptionWhenChangeIsNotARevertAndNoIdProvided() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("no ID was provided and change isn't a revert");
+    gApi.changes().id(createChange().getChangeId()).current().isPureRevert();
+  }
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);

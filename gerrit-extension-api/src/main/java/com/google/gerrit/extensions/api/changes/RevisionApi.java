@@ -57,6 +57,10 @@ public interface RevisionApi {
 
   boolean canRebase() throws RestApiException;
 
+  boolean isPureRevert() throws RestApiException;
+
+  boolean isPureRevert(String otherId) throws RestApiException;
+
   RevisionReviewerApi reviewer(String id) throws RestApiException;
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
@@ -197,6 +201,16 @@ public interface RevisionApi {
 
     @Override
     public boolean canRebase() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean isPureRevert() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean isPureRevert(String otherId) throws RestApiException {
       throw new NotImplementedException();
     }
 

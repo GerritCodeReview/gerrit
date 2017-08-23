@@ -257,6 +257,12 @@ public interface ChangeApi {
 
   void index() throws RestApiException;
 
+  /** Check if this change is a pure revert of the change stored in revertOf. */
+  boolean isPureRevert() throws RestApiException;
+
+  /** Check if this change is a pure revert of claimedOriginal. */
+  boolean isPureRevert(String claimedOriginal) throws RestApiException;
+
   abstract class SuggestedReviewersRequest {
     private String query;
     private int limit;
@@ -546,6 +552,16 @@ public interface ChangeApi {
 
     @Override
     public void mute(boolean mute) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean isPureRevert() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean isPureRevert(String claimedOriginal) throws RestApiException {
       throw new NotImplementedException();
     }
   }

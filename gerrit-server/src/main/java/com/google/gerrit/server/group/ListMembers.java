@@ -96,7 +96,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
     Set<Account.Id> indirectMembers = new HashSet<>();
     if (recursive && groupControl.canSeeGroup()) {
-      for (AccountGroup.UUID subgroupUuid : group.getIncludes()) {
+      for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
         if (!seenGroups.contains(subgroupUuid)) {
           indirectMembers.addAll(getMembers(subgroupUuid, seenGroups));
         }

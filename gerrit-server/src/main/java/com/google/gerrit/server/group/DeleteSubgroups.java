@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.AddIncludedGroups.Input;
+import com.google.gerrit.server.group.AddSubgroups.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,13 +35,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Singleton
-public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input> {
+public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
   private final GroupsCollection groupsCollection;
   private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  DeleteIncludedGroups(
+  DeleteSubgroups(
       GroupsCollection groupsCollection,
       Provider<ReviewDb> db,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
@@ -64,15 +64,15 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
           String.format("Cannot delete groups from group %s", internalGroup.getName()));
     }
 
-    Set<AccountGroup.UUID> internalGroupsToRemove = new HashSet<>();
-    for (String includedGroup : input.groups) {
-      GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-      internalGroupsToRemove.add(d.getGroupUUID());
+    Set<AccountGroup.UUID> subgroupsToRemove = new HashSet<>();
+    for (String subgroupIdentifier : input.groups) {
+      GroupDescription.Basic subgroup = groupsCollection.parse(subgroupIdentifier);
+      subgroupsToRemove.add(subgroup.getGroupUUID());
     }
 
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
     try {
-      groupsUpdateProvider.get().deleteIncludedGroups(db.get(), groupUuid, internalGroupsToRemove);
+      groupsUpdateProvider.get().removeSubgroups(db.get(), groupUuid, subgroupsToRemove);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
@@ -81,22 +81,21 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   }
 
   @Singleton
-  static class DeleteIncludedGroup
-      implements RestModifyView<IncludedGroupResource, DeleteIncludedGroup.Input> {
+  static class DeleteSubgroup implements RestModifyView<SubgroupResource, DeleteSubgroup.Input> {
     static class Input {}
 
-    private final Provider<DeleteIncludedGroups> delete;
+    private final Provider<DeleteSubgroups> delete;
 
     @Inject
-    DeleteIncludedGroup(Provider<DeleteIncludedGroups> delete) {
+    DeleteSubgroup(Provider<DeleteSubgroups> delete) {
       this.delete = delete;
     }
 
     @Override
-    public Response<?> apply(IncludedGroupResource resource, Input input)
+    public Response<?> apply(SubgroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
             ResourceNotFoundException {
-      AddIncludedGroups.Input in = new AddIncludedGroups.Input();
+      AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);
     }

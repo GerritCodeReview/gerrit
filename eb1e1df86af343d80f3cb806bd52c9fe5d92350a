@@ -22,6 +22,30 @@
       "revId": "eb1e1df86af343d80f3cb806bd52c9fe5d92350a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f38498_7972a1cd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T21:59:36Z",
+      "side": 1,
+      "message": "probably not necessary as it should always be passed from the parent, but doesn\u0027t hurt.",
+      "parentUuid": "77555763_47f93583",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "eb1e1df86af343d80f3cb806bd52c9fe5d92350a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

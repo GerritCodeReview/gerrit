@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "21861b44_4c2c61b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T19:47:36Z",
+      "side": 1,
+      "message": "Nit remove period.",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "27a1353f144a1e0dd48a144923824303d71df092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42de1eef_5d3ecda9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2017-08-23T17:43:36Z",
       "side": 1,
       "message": "In what sense is this required? The API calls as they are generally work, but do we fail to meet some contract in the docs? Or do API requests fail under some circumstances?",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "27a1353f144a1e0dd48a144923824303d71df092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ce8fd43_f30fec71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-23T19:47:36Z",
+      "side": 1,
+      "message": "I think I was just initially confused by this wording. Gerrit requests *that use an access-token* require a content-type (whether or not a type is required for non-access-token calls to that endpoint).\n\nI see that this behavior is only added in the access-token case, too.\n\nIf that\u0027s accurate, can we update this message to say this only applies to the access token case?",
+      "parentUuid": "42de1eef_5d3ecda9",
       "range": {
         "startLine": 9,
         "startChar": 7,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d0737fb_8dca7f16",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-23T02:24:04Z",
+      "side": 1,
+      "message": "I would expect that the user is also in the Registered Users and Anonymous Users group, but apparently it is not the case since this test passes.\n\nMaybe this is a side effect of the account being manually created in the acceptance test?  It\u0027s the same in GroupsIT.",
+      "range": {
+        "startLine": 1318,
+        "startChar": 4,
+        "endLine": 1318,
+        "endChar": 48
+      },
+      "revId": "9d29e10f62e00a602a127d8fe08654079cd73333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -39,6 +42,7 @@ public class AccountResolver {
   private final AccountCache byId;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Emails emails;
+  private final ExternalIds externalIds;
 
   @Inject
   AccountResolver(
@@ -46,12 +50,14 @@ public class AccountResolver {
       Accounts accounts,
       AccountCache byId,
       Provider<InternalAccountQuery> accountQueryProvider,
-      Emails emails) {
+      Emails emails,
+      ExternalIds externalIds) {
     this.realm = realm;
     this.accounts = accounts;
     this.byId = byId;
     this.accountQueryProvider = accountQueryProvider;
     this.emails = emails;
+    this.externalIds = externalIds;
   }
 
   /**
@@ -113,9 +119,12 @@ public class AccountResolver {
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
-      AccountState who = byId.getByUsername(nameOrEmail);
-      if (who != null) {
-        return Collections.singleton(who.getAccount().getId());
+      ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, nameOrEmail));
+      if (extId != null) {
+        AccountState who = byId.get(extId.accountId());
+        if (who != null) {
+          return Collections.singleton(who.getAccount().getId());
+        }
       }
     }
 

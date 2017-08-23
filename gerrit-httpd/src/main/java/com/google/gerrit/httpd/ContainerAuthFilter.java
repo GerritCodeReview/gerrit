@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -25,6 +26,8 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -39,6 +42,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -56,6 +60,7 @@ import org.eclipse.jgit.lib.Config;
 class ContainerAuthFilter implements Filter {
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
+  private final ExternalIds externalIds;
   private final Config config;
   private final String loginHttpHeader;
 
@@ -63,10 +68,12 @@ class ContainerAuthFilter implements Filter {
   ContainerAuthFilter(
       DynamicItem<WebSession> session,
       AccountCache accountCache,
+      ExternalIds externalIds,
       AuthConfig authConfig,
       @GerritServerConfig Config config) {
     this.session = session;
     this.accountCache = accountCache;
+    this.externalIds = externalIds;
     this.config = config;
 
     loginHttpHeader = firstNonNull(emptyToNull(authConfig.getLoginHttpHeader()), AUTHORIZATION);
@@ -98,15 +105,24 @@ class ContainerAuthFilter implements Filter {
     if (config.getBoolean("auth", "userNameToLowerCase", false)) {
       username = username.toLowerCase(Locale.US);
     }
-    final AccountState who = accountCache.getByUsername(username);
-    if (who == null || !who.getAccount().isActive()) {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
+    try {
+      ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
+      if (extId == null) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+      AccountState who = accountCache.get(extId.accountId());
+      if (who == null || !who.getAccount().isActive()) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+      WebSession ws = session.get();
+      ws.setUserAccountId(who.getAccount().getId());
+      ws.setAccessPathOk(AccessPath.GIT, true);
+      ws.setAccessPathOk(AccessPath.REST_API, true);
+      return true;
+    } catch (ConfigInvalidException e) {
+      throw new IOException("Invalid external ID config", e);
     }
-    WebSession ws = session.get();
-    ws.setUserAccountId(who.getAccount().getId());
-    ws.setAccessPathOk(AccessPath.GIT, true);
-    ws.setAccessPathOk(AccessPath.REST_API, true);
-    return true;
   }
 }

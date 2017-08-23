@@ -86,9 +86,20 @@ limitations under the License.
             assert.deepEqual(element._computeForceOptions(permission), []);
           });
 
-      test('_computeDeletedClass', () => {
-        assert.equal(element._computeDeletedClass(true), 'deleted');
-        assert.equal(element._computeDeletedClass(false), '');
+      test('_computeSectionClass', () => {
+        let deleted = true;
+        let editing = false;
+        assert.equal(element._computeSectionClass(editing, deleted), 'deleted');
+
+        deleted = false;
+        assert.equal(element._computeSectionClass(editing, deleted), '');
+
+        editing = true;
+        assert.equal(element._computeSectionClass(editing, deleted), 'editing');
+
+        deleted = true;
+        assert.equal(element._computeSectionClass(editing, deleted),
+            'editing deleted');
       });
 
       test('_getDefaultRuleValues', () => {
@@ -206,7 +217,19 @@ limitations under the License.
         assert.isFalse(element._modified);
       });
 
+      test('all selects are disabled when not in edit mode', () => {
+        const selects = Polymer.dom(element.root).querySelectorAll('select');
+        for (select of selects) {
+          assert.isTrue(select.disabled);
+        }
+        element.editing = true;
+        for (select of selects) {
+          assert.isFalse(select.disabled);
+        }
+      });
+
       test('remove rule and undo remove', () => {
+        element.editing = true;
         element.rule = {id: 123, value: {action: 'ALLOW'}};
         assert.isFalse(
             element.$.deletedContainer.classList.contains('deleted'));

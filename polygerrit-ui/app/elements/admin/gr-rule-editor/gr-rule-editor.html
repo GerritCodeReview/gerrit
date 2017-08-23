@@ -31,10 +31,17 @@ limitations under the License.
         display: block;
       }
       .buttons {
+        display: none;
+      }
+      .editing .buttons {
         display: flex;
       }
-      .buttons gr-button {
-        margin-left: .3em;
+      #options {
+        align-items: baseline;
+        display: flex;
+      }
+      #options > * {
+        margin-right: .5em;
       }
       #mainContainer {
         align-items: baseline;
@@ -60,12 +67,12 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <div id="mainContainer"
-        class$="gr-form-styles [[_computeDeletedClass(_deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       <div id="options">
         <gr-select id="action"
             bind-value="{{rule.value.action}}"
             on-change="_handleValueChange">
-          <select>
+          <select disabled$="[[!editing]]">
             <template is="dom-repeat" items="[[_computeOptions(permission)]]">
               <option value="[[item]]">[[item]]</option>
             </template>
@@ -76,7 +83,7 @@ limitations under the License.
               id="labelMin"
               bind-value="{{rule.value.min}}"
               on-change="_handleValueChange">
-            <select>
+            <select disabled$="[[!editing]]">
               <template is="dom-repeat" items="[[label.values]]">
                 <option value="[[item.value]]">[[item.value]]</option>
               </template>
@@ -86,20 +93,20 @@ limitations under the License.
               id="labelMax"
               bind-value="{{rule.value.max}}"
               on-change="_handleValueChange">
-            <select>
+            <select disabled$="[[!editing]]">
               <template is="dom-repeat" items="[[label.values]]">
                 <option value="[[item.value]]">[[item.value]]</option>
               </template>
             </select>
           </gr-select>
         </template>
-        [[group]]
+        <span>[[group]]</span>
         <gr-select
             id="force"
             class$="[[_computeForceClass(permission)]]"
             bind-value="{{rule.value.force}}"
             on-change="_handleValueChange">
-          <select>
+          <select disabled$="[[!editing]]">
             <template
                 is="dom-repeat"
                 items="[[_computeForceOptions(permission)]]">
@@ -118,7 +125,7 @@ limitations under the License.
     </div>
     <div
         id="deletedContainer"
-        class$="gr-form-styles [[_computeDeletedClass(_deleted)]]">
+        class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
       [[group]] was deleted
       <gr-button id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>
     </div>

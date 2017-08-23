@@ -145,16 +145,16 @@ public class Groups {
    *
    * @param db the {@code ReviewDb} instance to use for lookups
    * @param parentGroupUuid the UUID of the parent group
-   * @param includedGroupUuid the UUID of the subgroup
+   * @param subgroupUuid the UUID of the subgroup
    * @return {@code true} if the group is a subgroup of the other group, or else {@code false}
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
-  public boolean isIncluded(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, AccountGroup.UUID includedGroupUuid)
+  public boolean isSubgroup(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, AccountGroup.UUID subgroupUuid)
       throws OrmException, NoSuchGroupException {
     AccountGroup parentGroup = getExistingGroup(db, parentGroupUuid);
-    AccountGroupById.Key key = new AccountGroupById.Key(parentGroup.getId(), includedGroupUuid);
+    AccountGroupById.Key key = new AccountGroupById.Key(parentGroup.getId(), subgroupUuid);
     return db.accountGroupById().get(key) != null;
   }
 
@@ -191,7 +191,7 @@ public class Groups {
    * @throws OrmException if an error occurs while reading from ReviewDb
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
-  public Stream<AccountGroup.UUID> getIncludes(ReviewDb db, AccountGroup.UUID groupUuid)
+  public Stream<AccountGroup.UUID> getSubgroups(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, NoSuchGroupException {
     AccountGroup group = getExistingGroup(db, groupUuid);
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(group.getId());
@@ -226,14 +226,14 @@ public class Groups {
    * exist. This method doesn't check whether the parent groups exist.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param includedGroupUuid the UUID of the subgroup
+   * @param subgroupUuid the UUID of the subgroup
    * @return a stream of the IDs of the parent groups
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public Stream<AccountGroup.Id> getParentGroups(ReviewDb db, AccountGroup.UUID includedGroupUuid)
+  public Stream<AccountGroup.Id> getParentGroups(ReviewDb db, AccountGroup.UUID subgroupUuid)
       throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds =
-        db.accountGroupById().byIncludeUUID(includedGroupUuid);
+        db.accountGroupById().byIncludeUUID(subgroupUuid);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);
   }
 

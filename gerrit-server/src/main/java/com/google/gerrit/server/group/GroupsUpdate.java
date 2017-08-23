@@ -347,33 +347,33 @@ public class GroupsUpdate {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param parentGroupUuid the UUID of the parent group
-   * @param includedGroupUuids a set of IDs of the groups to add as subgroups
+   * @param subgroupUuids a set of IDs of the groups to add as subgroups
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
-  public void addIncludedGroups(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
+  public void addSubgroups(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException {
     AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
-    Set<AccountGroupById> newIncludedGroups = new HashSet<>();
-    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
-      boolean isIncluded = groups.isIncluded(db, parentGroupUuid, includedGroupUuid);
-      if (!isIncluded) {
+    Set<AccountGroupById> newSubgroups = new HashSet<>();
+    for (AccountGroup.UUID includedGroupUuid : subgroupUuids) {
+      boolean isSubgroup = groups.isSubgroup(db, parentGroupUuid, includedGroupUuid);
+      if (!isSubgroup) {
         AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
-        newIncludedGroups.add(new AccountGroupById(key));
+        newSubgroups.add(new AccountGroupById(key));
       }
     }
 
-    if (newIncludedGroups.isEmpty()) {
+    if (newSubgroups.isEmpty()) {
       return;
     }
 
     if (currentUser != null) {
-      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newIncludedGroups);
+      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups);
     }
-    db.accountGroupById().insert(newIncludedGroups);
-    for (AccountGroupById newIncludedGroup : newIncludedGroups) {
+    db.accountGroupById().insert(newSubgroups);
+    for (AccountGroupById newIncludedGroup : newSubgroups) {
       groupIncludeCache.evictParentGroupsOf(newIncludedGroup.getIncludeUUID());
     }
     groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
@@ -388,34 +388,33 @@ public class GroupsUpdate {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param parentGroupUuid the UUID of the parent group
-   * @param includedGroupUuids a set of IDs of the subgroups to remove from the parent group
+   * @param subgroupUuids a set of IDs of the subgroups to remove from the parent group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
-  public void deleteIncludedGroups(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
+  public void removeSubgroups(
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException {
     AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
-    Set<AccountGroupById> includedGroupsToRemove = new HashSet<>();
-    for (AccountGroup.UUID includedGroupUuid : includedGroupUuids) {
-      boolean isIncluded = groups.isIncluded(db, parentGroupUuid, includedGroupUuid);
-      if (isIncluded) {
-        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
-        includedGroupsToRemove.add(new AccountGroupById(key));
+    Set<AccountGroupById> subgroupsToRemove = new HashSet<>();
+    for (AccountGroup.UUID subgroupUuid : subgroupUuids) {
+      boolean isSubgroup = groups.isSubgroup(db, parentGroupUuid, subgroupUuid);
+      if (isSubgroup) {
+        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, subgroupUuid);
+        subgroupsToRemove.add(new AccountGroupById(key));
       }
     }
 
-    if (includedGroupsToRemove.isEmpty()) {
+    if (subgroupsToRemove.isEmpty()) {
       return;
     }
 
     if (currentUser != null) {
-      auditService.dispatchDeleteGroupsFromGroup(
-          currentUser.getAccountId(), includedGroupsToRemove);
+      auditService.dispatchDeleteGroupsFromGroup(currentUser.getAccountId(), subgroupsToRemove);
     }
-    db.accountGroupById().delete(includedGroupsToRemove);
-    for (AccountGroupById groupToRemove : includedGroupsToRemove) {
+    db.accountGroupById().delete(subgroupsToRemove);
+    for (AccountGroupById groupToRemove : subgroupsToRemove) {
       groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
     }
     groupIncludeCache.evictSubgroupsOf(parentGroupUuid);

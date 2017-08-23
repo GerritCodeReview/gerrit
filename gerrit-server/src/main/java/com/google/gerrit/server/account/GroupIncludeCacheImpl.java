@@ -150,7 +150,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key)
         throws OrmException, NoSuchGroupException {
       try (ReviewDb db = schema.open()) {
-        return groups.getIncludes(db, key).collect(toImmutableList());
+        return groups.getSubgroups(db, key).collect(toImmutableList());
       }
     }
   }

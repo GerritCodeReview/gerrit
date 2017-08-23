@@ -106,10 +106,10 @@ public class GroupMembers {
       members.add(accountCache.get(memberId).getAccount());
     }
 
-    for (AccountGroup.UUID groupIncludeUuid : groupDetail.getIncludes()) {
-      AccountGroup includedGroup = groupCache.get(groupIncludeUuid);
-      if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
-        members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
+    for (AccountGroup.UUID subgroupUuid : groupDetail.getSubgroups()) {
+      AccountGroup subgroup = groupCache.get(subgroupUuid);
+      if (subgroup != null && !seen.contains(subgroup.getGroupUUID())) {
+        members.addAll(listAccounts(subgroup.getGroupUUID(), project, seen));
       }
     }
     return members;

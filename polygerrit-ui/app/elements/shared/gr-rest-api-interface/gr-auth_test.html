@@ -93,7 +93,7 @@ limitations under the License.
           const [url, options] = fetch.lastCall.args;
           assert.equal(url, '/url');
           assert.equal(options.bar, 'bar');
-          assert.isUndefined(options.headers);
+          assert.equal(Object.keys(options.headers).length, 0);
         });
       });
 
@@ -151,7 +151,7 @@ limitations under the License.
         }));
       });
 
-      test('HTTP PUT', () => {
+      test('HTTP PUT with content type', () => {
         const originalOptions = {
           method: 'PUT',
           headers: new Headers({'Content-Type': 'mail/pigeon'}),
@@ -160,6 +160,21 @@ limitations under the License.
           assert.isTrue(getToken.called);
           const [url, options] = fetch.lastCall.args;
           assert.include(url, '$ct=mail%2Fpigeon');
+          assert.include(url, '$m=PUT');
+          assert.include(url, 'access_token=zbaz');
+          assert.equal(options.method, 'POST');
+          assert.equal(options.headers.get('Content-Type'), 'text/plain');
+        });
+      });
+
+      test('HTTP PUT without content type', () => {
+        const originalOptions = {
+          method: 'PUT',
+        };
+        return auth.fetch('/url', originalOptions).then(() => {
+          assert.isTrue(getToken.called);
+          const [url, options] = fetch.lastCall.args;
+          assert.include(url, '$ct=text%2Fplain');
           assert.include(url, '$m=PUT');
           assert.include(url, 'access_token=zbaz');
           assert.equal(options.method, 'POST');

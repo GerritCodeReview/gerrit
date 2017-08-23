@@ -9,7 +9,6 @@ load(
 
 TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
-    "//gerrit-httpd:httpd_tests",
     "//javatests/com/google/gerrit/index:tests",
     "//javatests/org/eclipse/jgit:jgit_patch_tests",
     "//gerrit-server:server_tests",

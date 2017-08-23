@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.inject.Injector;
@@ -47,15 +48,17 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
 
   @Override
   public int run() throws Exception {
+    Injector dbInjector = createDbInjector(DataSourceProvider.Context.SINGLE_USER);
     SitePaths sitePaths = new SitePaths(getSitePath());
+    ThreadSettingsConfig threadSettingsConfig = dbInjector.getInstance(ThreadSettingsConfig.class);
     Config fakeCfg = new Config();
     if (!Strings.isNullOrEmpty(sourceUrl)) {
       fakeCfg.setString("accountPatchReviewDb", null, "url", sourceUrl);
     }
     JdbcAccountPatchReviewStore sourceJdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(fakeCfg, sitePaths);
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
+            fakeCfg, sitePaths, threadSettingsConfig);
 
-    Injector dbInjector = createDbInjector(DataSourceProvider.Context.SINGLE_USER);
     Config cfg = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String targetUrl = cfg.getString("accountPatchReviewDb", null, "url");
     if (targetUrl == null) {
@@ -64,7 +67,8 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     }
     System.out.println("target Url: " + targetUrl);
     JdbcAccountPatchReviewStore targetJdbcAccountPatchReviewStore =
-        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(cfg, sitePaths);
+        JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
+            cfg, sitePaths, threadSettingsConfig);
     targetJdbcAccountPatchReviewStore.createTableIfNotExists();
 
     if (!isTargetTableEmpty(targetJdbcAccountPatchReviewStore)) {

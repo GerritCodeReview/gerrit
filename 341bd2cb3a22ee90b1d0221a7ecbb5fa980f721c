@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79ce3b60_398f359c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:37:26Z",
+      "side": 1,
+      "message": "Is the dom-if removed here on purpose? Should we have a different check? Or is changeSection.sectionName always there?",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e160868_c5629849",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:37:26Z",
+      "side": 1,
+      "message": "Nit: remove this line for consistency.",
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d07634_1dd44837",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:37:26Z",
+      "side": 1,
+      "message": "Looks like the closure compile is failing due to this definition. I *think* all you need to do is add \u0027!\u0027 to the Array.\n\n       * @type {!Array\u003c{\n       *   sectionName: string,\n       *   query: string,\n       *   results: Array\u003cChangeInfo\u003e\n       * }\u003e}",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18739716_285cac56",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:37:26Z",
+      "side": 1,
+      "message": "Much cleaner looking :)",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 47
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2876b8a8_e649f47f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T20:37:26Z",
+      "side": 1,
+      "message": "does !Object cause a failure here?",
+      "range": {
+        "startLine": 458,
+        "startChar": 15,
+        "endLine": 458,
+        "endChar": 16
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -329,8 +329,7 @@ public class AccountManager {
       // setting the given user name has failed, but the realm does not
       // allow the user to manually set a user name,
       // this means we would end with an account without user name
-      // (without 'username:<USERNAME>' entry in
-      // account_external_ids table),
+      // (without 'username:<USERNAME>' external ID),
       // such an account cannot be used for uploading changes,
       // this is why the best we can do here is to fail early and cleanup
       // the database

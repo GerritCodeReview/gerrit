@@ -754,8 +754,6 @@ database tables:
 * `accounts`
 +
 * `account_group_members`
-+
-* `account_external_ids`
 
 +
 If direct updates are made to any of these database tables, this

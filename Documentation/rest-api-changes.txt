@@ -1077,6 +1077,36 @@ describing the account of the deleted assignee is returned.
 
 If the change had no assignee the response is "`204 No Content`".
 
+[[get-pure-revert]]
+=== Get Pure Revert
+--
+'GET /changes/link:#change-id[\{change-id\}]/pure_revert'
+--
+
+Check if the given change is a pure revert of the change it references in `revertOf`.
+Optionally, the query parameter `o` can be passed in to specify a commit (SHA1 in
+40 digit hex representation) to check against. It takes precedence over `revertOf`.
+If the change has no reference in `revertOf`, the parameter is mandatory.
+
+As response a link:#pure-revert-info[PureRevertInfo] entity is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/pure_revert?o=247bccf56ae47634650bcc08b8aa784c3580ccas HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "isPureRevert" : false
+  }
+----
+
 [[abandon-change]]
 === Abandon Change
 --
@@ -6556,6 +6586,16 @@ If not set, the default is `ALL`.
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
 |=============================
+
+[[pure-revert-info]]
+=== PureRevertInfo
+The `PureRevertInfo` entity describes the result of a pure revert check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name      |Description
+|`isPureRevert`  |Outcome of the check as boolean.
+|======================
 
 [[push-certificate-info]]
 === PushCertificateInfo

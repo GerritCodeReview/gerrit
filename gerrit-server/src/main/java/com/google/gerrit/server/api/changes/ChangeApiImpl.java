@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.change.DeletePrivate;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
+import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.Ignore;
 import com.google.gerrit.server.change.Index;
@@ -142,6 +144,7 @@ class ChangeApiImpl implements ChangeApi {
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
+  private final GetPureRevert getPureRevert;
 
   @Inject
   ChangeApiImpl(
@@ -186,6 +189,7 @@ class ChangeApiImpl implements ChangeApi {
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
+      GetPureRevert getPureRevert,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -228,6 +232,7 @@ class ChangeApiImpl implements ChangeApi {
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
+    this.getPureRevert = getPureRevert;
     this.change = change;
   }
 
@@ -667,6 +672,20 @@ class ChangeApiImpl implements ChangeApi {
       this.mute.apply(change, new Mute.Input());
     } else {
       unmute.apply(change, new Unmute.Input());
+    }
+  }
+
+  @Override
+  public PureRevertInfo pureRevert() throws RestApiException {
+    return pureRevert(null);
+  }
+
+  @Override
+  public PureRevertInfo pureRevert(@Nullable String claimedOriginal) throws RestApiException {
+    try {
+      return getPureRevert.setClaimedOriginal(claimedOriginal).apply(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot compute pure revert", e);
     }
   }
 }

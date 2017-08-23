@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd78a426_8925489a",
+        "filename": "java/com/google/gerrit/common/Version.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-23T03:40:54Z",
+      "side": 1,
+      "message": "Why is this added?  Is it related somehow to moving the file?",
+      "revId": "a61bb57fcc283e9499d3dc74a0d6f9e5580a8204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

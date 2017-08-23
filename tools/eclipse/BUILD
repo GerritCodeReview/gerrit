@@ -9,7 +9,6 @@ load(
 
 TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
-    "//gerrit-httpd:httpd_tests",
     "//gerrit-server:server_tests",
 ]
 

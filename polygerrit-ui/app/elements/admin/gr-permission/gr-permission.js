@@ -29,7 +29,10 @@
         notify: true,
       },
       section: String,
-
+      editing: {
+        type: Boolean,
+        value: false,
+      },
       _label: {
         type: Object,
         computed: '_computeLabel(permission, labels)',
@@ -71,8 +74,15 @@
       this.set('permission.value.deleted', true);
     },
 
-    _computeDeletedClass(deleted) {
-      return deleted ? 'deleted' : '';
+    _computeSectionClass(editing, deleted) {
+      const classList = [];
+      if (editing) {
+        classList.push('editing');
+      }
+      if (deleted) {
+        classList.push('deleted');
+      }
+      return classList.join(' ');
     },
 
     _handleUndoRemove() {

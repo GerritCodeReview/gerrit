@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38a82cda_d4a18dc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/group/GroupPredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-23T04:41:58Z",
+      "side": 1,
+      "message": "This no longer needs to be wrapped.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 61
+      },
+      "revId": "4eeec79fd2ed49e6ee28c4202f1a05811ec4a74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d999acbb_95e67bf5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-23T04:41:58Z",
+      "side": 1,
+      "message": "Add an assertion that it doesn\u0027t return a result with lower-case \"group\"?\n\n assertQuery(\"name:\" + group.name.toLowerCase(Locale.US));",
+      "revId": "4eeec79fd2ed49e6ee28c4202f1a05811ec4a74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

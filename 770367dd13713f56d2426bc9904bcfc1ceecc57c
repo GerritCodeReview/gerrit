@@ -46,6 +46,30 @@
       "revId": "770367dd13713f56d2426bc9904bcfc1ceecc57c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05519ec_7c05bc91",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-23T11:31:16Z",
+      "side": 1,
+      "message": "Actually i will use the function in the tests which is as good as checking \u003csection id\u003e\n\nThanks, done.",
+      "parentUuid": "cd01c28f_d953fb63",
+      "range": {
+        "startLine": 176,
+        "startChar": 51,
+        "endLine": 176,
+        "endChar": 65
+      },
+      "revId": "770367dd13713f56d2426bc9904bcfc1ceecc57c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

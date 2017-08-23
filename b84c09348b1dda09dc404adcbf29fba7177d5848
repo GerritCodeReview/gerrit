@@ -22,6 +22,30 @@
       "revId": "b84c09348b1dda09dc404adcbf29fba7177d5848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0ad3ba4_b221a4e3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-23T17:58:29Z",
+      "side": 1,
+      "message": "No, if user isn\u0027t given then we\u0027re out of view and shouldn\u0027t be fetching any changes.\n\nHowever, I need to account for someone visiting \"/dashboard/\", added that to the router.",
+      "parentUuid": "42380f23_e2900f77",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "b84c09348b1dda09dc404adcbf29fba7177d5848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

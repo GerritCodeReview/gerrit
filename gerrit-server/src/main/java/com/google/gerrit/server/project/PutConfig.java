@@ -147,6 +147,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         p.setRejectImplicitMerges(input.rejectImplicitMerges);
       }
 
+      if (input.privateByDefault != null) {
+        p.setPrivateByDefault(input.privateByDefault);
+      }
+
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }
@@ -258,7 +262,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                               value,
                               v.getKey()));
                     }
-                    //$FALL-THROUGH$
+                    // $FALL-THROUGH$
                   case STRING:
                     cfg.setString(v.getKey(), value);
                     break;

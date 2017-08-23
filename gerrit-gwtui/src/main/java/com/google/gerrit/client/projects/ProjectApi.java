@@ -147,6 +147,7 @@ public class ProjectApi {
       InheritableBoolean enableSignedPush,
       InheritableBoolean requireSignedPush,
       InheritableBoolean rejectImplicitMerges,
+      InheritableBoolean privateByDefault,
       InheritableBoolean enableReviewerByEmail,
       InheritableBoolean matchAuthorToCommitterDate,
       String maxObjectSizeLimit,
@@ -168,6 +169,7 @@ public class ProjectApi {
       in.setRequireSignedPush(requireSignedPush);
     }
     in.setRejectImplicitMerges(rejectImplicitMerges);
+    in.setPrivateByDefault(privateByDefault);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
@@ -297,6 +299,12 @@ public class ProjectApi {
     final void setRequireSignedPush(InheritableBoolean v) {
       setRequireSignedPushRaw(v.name());
     }
+
+    final void setPrivateByDefault(InheritableBoolean v) {
+      setPrivateByDefault(v.name());
+    }
+
+    private native void setPrivateByDefault(String v) /*-{ if(v)this.private_by_default=v; }-*/;
 
     final void setEnableReviewerByEmail(InheritableBoolean v) {
       setEnableReviewerByEmailRaw(v.name());

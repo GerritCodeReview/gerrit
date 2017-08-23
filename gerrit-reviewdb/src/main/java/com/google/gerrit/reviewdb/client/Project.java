@@ -102,6 +102,7 @@ public final class Project {
   protected InheritableBoolean requireSignedPush;
 
   protected InheritableBoolean rejectImplicitMerges;
+  protected InheritableBoolean privateByDefault;
 
   protected InheritableBoolean enableReviewerByEmail;
 
@@ -120,6 +121,7 @@ public final class Project {
     createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
+    privateByDefault = InheritableBoolean.INHERIT;
     enableReviewerByEmail = InheritableBoolean.INHERIT;
     matchAuthorToCommitterDate = InheritableBoolean.INHERIT;
   }
@@ -162,6 +164,14 @@ public final class Project {
 
   public InheritableBoolean getRejectImplicitMerges() {
     return rejectImplicitMerges;
+  }
+
+  public InheritableBoolean getPrivateByDefault() {
+    return privateByDefault;
+  }
+
+  public void setPrivateByDefault(InheritableBoolean privateByDefault) {
+    this.privateByDefault = privateByDefault;
   }
 
   public InheritableBoolean getEnableReviewerByEmail() {

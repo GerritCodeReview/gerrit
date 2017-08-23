@@ -199,6 +199,24 @@ the implicit merge check.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[change-section]]
+=== Change section
+
+The change section includes configuration for project-specific change settings:
+
+[[change.privateByDefault]]change.privateByDefault::
++
+Controls whether all new changes in the project are set as private by default.
++
+Note that a new change will be public if the `is_private` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `remove-private` link:user-upload.html#private[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

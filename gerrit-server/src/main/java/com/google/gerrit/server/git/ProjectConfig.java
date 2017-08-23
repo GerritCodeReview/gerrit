@@ -125,6 +125,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_REQUIRE_SIGNED_PUSH = "requireSignedPush";
   private static final String KEY_REJECT_IMPLICIT_MERGES = "rejectImplicitMerges";
 
+  private static final String CHANGE = "change";
+  private static final String KEY_PRIVATE_BY_DEFAULT = "privateByDefault";
+
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
   private static final String KEY_MERGE_CONTENT = "mergeContent";
@@ -535,6 +538,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
     p.setRejectImplicitMerges(
         getEnum(rc, RECEIVE, null, KEY_REJECT_IMPLICIT_MERGES, InheritableBoolean.INHERIT));
+
+    p.setPrivateByDefault(
+        getEnum(rc, CHANGE, null, KEY_PRIVATE_BY_DEFAULT, InheritableBoolean.INHERIT));
+
     p.setEnableReviewerByEmail(
         getEnum(rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.INHERIT));
 
@@ -1106,6 +1113,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         KEY_REJECT_IMPLICIT_MERGES,
         p.getRejectImplicitMerges(),
         InheritableBoolean.INHERIT);
+
+    set(
+        rc,
+        CHANGE,
+        null,
+        KEY_PRIVATE_BY_DEFAULT,
+        p.getPrivateByDefault(),
+        InheritableBoolean.INHERIT);
+
     set(
         rc,
         REVIEWER,

@@ -22,6 +22,30 @@
       "revId": "03a26f2b92430ef75ffe5e464d06025cc5bf6c66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68a2d325_9baba27e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-23T22:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7257c3_04382f32",
+      "range": {
+        "startLine": 102,
+        "startChar": 27,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "03a26f2b92430ef75ffe5e464d06025cc5bf6c66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

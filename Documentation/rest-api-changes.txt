@@ -517,64 +517,6 @@ describes the change.
   }
 ----
 
-[[create-merge-patch-set-for-change]]
-=== Create Merge Patch Set For Change
---
-'POST /changes/link:#change-id[\{change-id\}]/merge'
---
-
-Update an existing change by using a
-link:#merge-patch-set-input[MergePatchSetInput] entity.
-
-Gerrit will create a merge commit based on the information of
-MergePatchSetInput and add a new patch set to the change corresponding
-to the new merge commit.
-
-.Request
-----
-  POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "subject": "Merge dev_branch into master",
-    "merge": {
-      "source": "refs/12/1234/1"
-    }
-  }
-----
-
-As response a link:#change-info[ChangeInfo] entity with current revision is
-returned that describes the resulting change.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "id": "test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc",
-    "project": "test",
-    "branch": "master",
-    "hashtags": [],
-    "change_id": "Ic5466d107c5294414710935a8ef3b0180fb848dc",
-    "subject": "Merge dev_branch into master",
-    "status": "NEW",
-    "created": "2016-09-23 18:08:53.238000000",
-    "updated": "2016-09-23 18:09:25.934000000",
-    "submit_type": "MERGE_IF_NECESSARY",
-    "mergeable": true,
-    "insertions": 5,
-    "deletions": 0,
-    "_number": 72,
-    "owner": {
-      "_account_id": 1000000
-    },
-    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822"
-  }
-----
-
 [[get-change-detail]]
 === Get Change Detail
 --
@@ -805,6 +747,97 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
     ]
   }
 ----
+
+[[create-merge-patch-set-for-change]]
+=== Create Merge Patch Set For Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/merge'
+--
+
+Update an existing change by using a
+link:#merge-patch-set-input[MergePatchSetInput] entity.
+
+Gerrit will create a merge commit based on the information of
+MergePatchSetInput and add a new patch set to the change corresponding
+to the new merge commit.
+
+.Request
+----
+  POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "subject": "Merge dev_branch into master",
+    "merge": {
+      "source": "refs/12/1234/1"
+    }
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity with current revision is
+returned that describes the resulting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "project": "test",
+    "branch": "master",
+    "hashtags": [],
+    "change_id": "Ic5466d107c5294414710935a8ef3b0180fb848dc",
+    "subject": "Merge dev_branch into master",
+    "status": "NEW",
+    "created": "2016-09-23 18:08:53.238000000",
+    "updated": "2016-09-23 18:09:25.934000000",
+    "submit_type": "MERGE_IF_NECESSARY",
+    "mergeable": true,
+    "insertions": 5,
+    "deletions": 0,
+    "_number": 72,
+    "owner": {
+      "_account_id": 1000000
+    },
+    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822"
+  }
+----
+
+[[set-message]]
+=== Set Commit Message
+--
+'PUT /changes/link:#change-id[\{change-id\}]/message'
+--
+
+Creates a new patch set with a new commit message.
+
+The new commit message must be provided in the request body inside a
+link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
+link:project-configuration.html#require-change-id[Require Change-Id] was specified.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "New Commit message \n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444\n"
+  }
+----
+
+.Notifications
+
+An email will be sent using the "newpatchset" template.
+
+[options="header",cols="1,1"]
+|=============================
+|WIP State       |Default
+|Ready for review|owner, reviewers, CCs, stars, NEW_PATCHSETS watchers
+|Work in progress|owner
+|=============================
 
 [[get-topic]]
 === Get Topic
@@ -3138,38 +3171,6 @@ request:
   HTTP/1.1 204 No Content
 ----
 
-[[set-message]]
-=== Set Commit Message
---
-'PUT /changes/link:#change-id[\{change-id\}]/message'
---
-
-Creates a new patch set with a new commit message.
-
-The new commit message must be provided in the request body inside a
-link:#commit-message-input[CommitMessageInput] entity and contain the change ID footer if
-link:project-configuration.html#require-change-id[Require Change-Id] was specified.
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "New Commit message \n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444\n"
-  }
-----
-
-.Notifications
-
-An email will be sent using the "newpatchset" template.
-
-[options="header",cols="1,1"]
-|=============================
-|WIP State       |Default
-|Ready for review|owner, reviewers, CCs, stars, NEW_PATCHSETS watchers
-|Work in progress|owner
-|=============================
 
 [[revision-endpoints]]
 == Revision Endpoints

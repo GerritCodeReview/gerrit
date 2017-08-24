@@ -31,7 +31,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":asciidoc_lib",
-        "//gerrit-server:constants",
+        "//java/com/google/gerrit:constants",
         "//lib:args4j",
         "//lib:guava",
         "//lib/lucene:lucene-analyzers-common",

@@ -8,7 +8,6 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":framework-lib",
-        "//gerrit-launcher:launcher",
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-server:testutil",
@@ -19,6 +18,7 @@ java_library(
         "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
         "//java/com/google/gerrit/gpg/testing:gpg-test-util",
         "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/pgm",
@@ -80,11 +80,11 @@ java_library2(
     testonly = 1,
     srcs = glob(["**/*.java"]),
     exported_deps = [
-        "//gerrit-launcher:launcher",
         "//gerrit-server:testutil",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/pgm:daemon",
         "//java/com/google/gerrit/pgm/http/jetty",

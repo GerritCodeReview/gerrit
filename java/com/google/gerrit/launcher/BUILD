@@ -2,7 +2,7 @@
 # additional srcs or deps to this rule.
 java_library(
     name = "launcher",
-    srcs = ["src/main/java/com/google/gerrit/launcher/GerritLauncher.java"],
+    srcs = ["GerritLauncher.java"],
     resources = [":workspace-root.txt"],
     visibility = ["//visibility:public"],
 )

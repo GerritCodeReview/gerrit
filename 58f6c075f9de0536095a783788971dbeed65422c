@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "584fbbbb_7930deb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:15:00Z",
+      "side": 1,
+      "message": "\u003e The assignee is not part of ChangeInfo so I left it out (maybe that\u0027s a bug and it should be added to ChangeInfo).\n\nIt\u0027s there:\nhttps://gerrit.googlesource.com/gerrit/+/5af68039fd8e18a68e443c978747da7e642aab4d/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java#30",
+      "parentUuid": "2984b395_304a3279",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bef4097d_1854722d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "c6f5a4b1_d9f1d954",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:15:00Z",
+      "side": 1,
+      "message": "Great idea, that simplifies the reviewer code considerably as well.",
+      "parentUuid": "3fb3b800_62bb0523",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00543579_dc8b72fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -119,6 +155,24 @@
       "side": 1,
       "message": "I was thinking about the special Submit approval. The submitter isn\u0027t added as reviewer, is it? And this user could be removed as reviewer after the change was merged.",
       "parentUuid": "00543579_dc8b72fd",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8acbae8d_9b9af08f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:15:00Z",
+      "side": 1,
+      "message": "If I\u0027m reading SubmitStrategyOp correctly,it always adds the submitter as a REVIEWER:\nhttps://gerrit.googlesource.com/gerrit/+/5af68039fd8e18a68e443c978747da7e642aab4d/gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java#341",
+      "parentUuid": "6da4cf36_a8cfbe0a",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -212,6 +266,30 @@
     },
     {
       "key": {
+        "uuid": "85f2139e_34fed051",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:15:00Z",
+      "side": 1,
+      "message": "\u003e MetaId is null if [...]\n\n\nObjectId.fromString should throw NPE if you pass it null. Um, given that, why does this pass tests?",
+      "parentUuid": "d75c6020_8c93988a",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 42
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d1a9425_ece9b387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -241,6 +319,24 @@
       "side": 1,
       "message": "Yeah, I missed that we have the DETAILED_ACCOUNTS option for changes (I thought that you always get non-detailed accounts infos with changes). For this option we must include the state of the external IDs too. They are used for secondary_emails and username.",
       "parentUuid": "4d1a9425_ece9b387",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867768b3_d7d8b28f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:15:00Z",
+      "side": 1,
+      "message": "(AccountLoader#DETAILED_OPTIONS doesn\u0027t include SECONDARY_EMAILS, but it does include USERNAME.)",
+      "parentUuid": "1fcbbc6f_ee382dae",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

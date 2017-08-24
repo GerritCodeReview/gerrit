@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fd580a7_3e14b745",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-24T01:21:46Z",
+      "side": 1,
+      "message": "Something here has broken the formatting of the HTML.  See:\n\nhttp://gerrit-documentation.storage.googleapis.com/Documentation/2.14.3/config-gerrit.html",
+      "revId": "8dead9663f4caa49e87bf3233323e6c5ede84529",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

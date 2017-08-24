@@ -49,6 +49,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -135,6 +136,8 @@ public class SubmoduleOp {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
+  private final int maxCombinedCommitMessageSize;
+  private final int maxNumberOfCommitMessagesToCombine;
   private final MergeOpRepoManager orm;
   private final Map<Branch.NameKey, GitModules> branchGitModules;
 
@@ -170,6 +173,10 @@ public class SubmoduleOp {
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions =
         cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true);
+    this.maxCombinedCommitMessageSize =
+        cfg.getInt("submodule", "maxCombinedCommitMessageSize", 1 << 18);
+    this.maxNumberOfCommitMessagesToCombine =
+        cfg.getInt("submodule", "maxNumberOfCommitMessagesToCombine", 1 << 10);
     this.orm = orm;
     this.updatedBranches = updatedBranches;
     this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
@@ -547,8 +554,11 @@ public class SubmoduleOp {
       RevCommit newCommit,
       RevCommit oldCommit)
       throws SubmoduleException {
-    msgbuf.append("* Update " + s.getPath());
-    msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
+    msgbuf.append("* Update ");
+    msgbuf.append(s.getPath());
+    msgbuf.append(" from branch '");
+    msgbuf.append(s.getSubmodule().getShortName());
+    msgbuf.append("'");
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {
@@ -559,13 +569,32 @@ public class SubmoduleOp {
       subOr.rw.resetRetain(subOr.canMergeFlag);
       subOr.rw.markStart(newCommit);
       subOr.rw.markUninteresting(oldCommit);
+      int numMessages = 0;
       for (RevCommit c : subOr.rw) {
         subOr.rw.parseBody(c);
-        if (verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY) {
-          msgbuf.append("\n  - " + c.getShortMessage());
-        } else if (verboseSuperProject == VerboseSuperprojectUpdate.TRUE) {
-          msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
+
+        String bullet;
+        String message;
+        switch (verboseSuperProject) {
+          case TRUE:
+            bullet = "\n  - ";
+            message = StringUtils.replace(c.getFullMessage(), "\n", "\n    ");
+            break;
+          case SUBJECT_ONLY:
+            bullet = "\n - ";
+            message = c.getShortMessage();
+            break;
+          default:
+            return;
         }
+
+        if (numMessages++ > maxNumberOfCommitMessagesToCombine
+            || (msgbuf.length() + bullet.length() + message.length())
+                > maxCombinedCommitMessageSize) {
+          break;
+        }
+        msgbuf.append(bullet);
+        msgbuf.append(message);
       }
     } catch (IOException e) {
       throw new SubmoduleException(

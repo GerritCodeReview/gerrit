@@ -20,8 +20,11 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -30,10 +33,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.index.DummyIndexModule;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,10 +164,21 @@ public class MigrateToNoteDb extends SiteProgram {
           public void configure() {
             install(dbInjector.getInstance(BatchProgramModule.class));
             bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
-            install(new DummyIndexModule());
+            install(getIndexModule());
             factory(ChangeResource.Factory.class);
           }
         });
+  }
+
+  private Module getIndexModule() {
+    switch (IndexModule.getIndexType(dbInjector)) {
+      case LUCENE:
+        return LuceneIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+      case ELASTICSEARCH:
+        return ElasticIndexModule.singleVersionWithExplicitVersions(ImmutableMap.of(), threads);
+      default:
+        throw new IllegalStateException("unsupported index.type");
+    }
   }
 
   private void stop() {

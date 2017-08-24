@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1503591075 +0200\nnonce AHIDc+P+r/mfufhMsZR3IGohUbzV8lOv33bIqVpVbPivTKQmYCGJCFGQxkJdC5ObXFUOR+YdVF7/\n\n0000000000000000000000000000000000000000 cd8a11cd804d374d35bfcd38b8d54bd61b8a489a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZnvqoAAoJEFG1/Zeg0O9RB4gH/A0xDh2kR17P2aPp/uMEQBF0\n558WlmBkIj1O7r3sh7YJ5Uk29y8aQD47jHBn9z3TQuFYc/KpGGnpXaUOK7kL7B6u\nFPEBxrHB3nlUAh32Zwoot/WjEAQHBbz+amHXZDGjYzY96OBK4V9y3uw3e6Pz2One\n2lBcR6/RC6C7wZ6bDyH9plRycMoIoiEcKflE1fZA/yTVY1468Gv6mAJ15xNrpWPF\no2J+qwJwC9Poco0Ix7QcxeaSv7cJcPyh6noPlQUjSH6/JQQ5P9g5c0vMbefiizd+\noQFNU9mpBx4ht8ETL3PIK2EyDqCqtKlzxRzMQjWOzPmu4TK4bs4tyubQNZK6C/c\u003d\n\u003dm7xS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8df3f6a8_c87710bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:52:47Z",
+      "side": 1,
+      "message": "way",
+      "range": {
+        "startLine": 155,
+        "startChar": 48,
+        "endLine": 155,
+        "endChar": 51
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc9b4299_9339b091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:52:47Z",
+      "side": 1,
+      "message": "This allocates a new string every time, maybe factor out a constant?",
+      "range": {
+        "startLine": 200,
+        "startChar": 72,
+        "endLine": 200,
+        "endChar": 96
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "915b0c31_a1b54350",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:52:47Z",
+      "side": 1,
+      "message": "Why not continue reusing the same buffer?",
+      "range": {
+        "startLine": 202,
+        "startChar": 84,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

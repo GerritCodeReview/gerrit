@@ -70,18 +70,18 @@ limitations under the License.
       element._filteredLinks = [{
         name: 'Projects',
         url: '/admin/projects',
-        view: 'gr-admin-project-list',
+        view: 'gr-project-list',
         children: [],
       }];
 
       element.params = {
-        adminView: 'gr-admin-project-list',
+        adminView: 'gr-project-list',
       };
 
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root).querySelectorAll(
           '.selected').length, 1);
-      assert.ok(element.$$('gr-admin-project-list'));
+      assert.ok(element.$$('gr-project-list'));
       assert.isNotOk(element.$$('gr-admin-create-project'));
     });
 

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2984b395_304a3279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T13:52:26Z",
+      "side": 1,
+      "message": "Yes, the uploaders of all patch sets are missing.\nThe assignee is not part of ChangeInfo so I left it out (maybe that\u0027s a bug and it should be added to ChangeInfo).",
+      "parentUuid": "de0df69b_404f9fd0",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bef4097d_1854722d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3fb3b800_62bb0523",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T13:52:26Z",
+      "side": 1,
+      "message": "ugh, ChangesMessages :(\n\nWhat if we just take the state of all reviewers then (including the removed ones)? At least any change message author should have been a reviewer once.",
+      "parentUuid": "bef4097d_1854722d",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00543579_dc8b72fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2017-08-24T13:30:45Z",
       "side": 1,
       "message": "Is this necessary? Can we have approvals by a user that is not also a reviewer?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da4cf36_a8cfbe0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T13:52:26Z",
+      "side": 1,
+      "message": "I was thinking about the special Submit approval. The submitter isn\u0027t added as reviewer, is it? And this user could be removed as reviewer after the change was merged.",
+      "parentUuid": "00543579_dc8b72fd",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -134,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "d75c6020_8c93988a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T13:52:26Z",
+      "side": 1,
+      "message": "This way hashObjectId is handling the null case for us and ObjectId.zeroId() is used for null. MetaId is null if the account was read from ReviewDb (still possible) or if the account is not found (in this case account cache is returning a dummy AccountState object to represent a missing account).",
+      "parentUuid": "289bc36c_839e3d68",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 42
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d1a9425_ece9b387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -145,6 +223,24 @@
       "writtenOn": "2017-08-24T13:30:45Z",
       "side": 1,
       "message": "Can the external ID set possibly contribute to the account info? In theory it can contribute to some of the AccountInfo fields (e.g. secondary_emails), but looking at AccountLoader#DETAILED_OPTIONS, I think all of those specific options come from just the meta ref. Sound right?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fcbbc6f_ee382dae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T13:52:26Z",
+      "side": 1,
+      "message": "Yeah, I missed that we have the DETAILED_ACCOUNTS option for changes (I thought that you always get non-detailed accounts infos with changes). For this option we must include the state of the external IDs too. They are used for secondary_emails and username.",
+      "parentUuid": "4d1a9425_ece9b387",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

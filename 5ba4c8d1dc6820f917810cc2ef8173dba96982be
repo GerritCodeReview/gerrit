@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01d87b41_a7b1298e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-24T23:12:54Z",
+      "side": 1,
+      "message": "Optional: since we do this same check twice, it could be computed ahead of time...\n\nconst hasBasePatch \u003d params.basePatchNum !\u003d\u003d null \u0026\u0026 params.basePatchNum !\u003d\u003d undefined;\n\nif (hasBasePatch \u0026\u0026 ....)",
+      "range": {
+        "startLine": 167,
+        "startChar": 10,
+        "endLine": 167,
+        "endChar": 75
+      },
+      "revId": "5ba4c8d1dc6820f917810cc2ef8173dba96982be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -163,12 +163,16 @@
      * @return {boolean} whether or not the URL needs to be upgraded.
      */
     _normalizePatchRangeParams(params) {
+      const hasBasePatchNum = params.basePatchNum !== null &&
+          params.basePatchNum !== undefined;
+      const hasPatchNum = params.patchNum !== null &&
+          params.patchNum !== undefined;
       let needsRedirect = false;
-      if (params.basePatchNum &&
+      if (hasBasePatchNum &&
           this.patchNumEquals(params.basePatchNum, params.patchNum)) {
         needsRedirect = true;
         params.basePatchNum = null;
-      } else if (params.basePatchNum && !params.patchNum) {
+      } else if (hasBasePatchNum && !hasPatchNum) {
         // Regexes set basePatchNum instead of patchNum when only one is
         // specified. Redirect is not needed in this case.
         params.patchNum = params.basePatchNum;

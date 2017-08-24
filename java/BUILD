@@ -8,5 +8,5 @@ java_binary(
 java_library(
     name = "gerrit-main-class-lib",
     srcs = ["Main.java"],
-    deps = ["//gerrit-launcher:launcher"],
+    deps = ["//java/com/google/gerrit/launcher"],
 )

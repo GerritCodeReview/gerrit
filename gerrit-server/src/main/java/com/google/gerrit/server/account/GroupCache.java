@@ -22,7 +22,14 @@ import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
-  AccountGroup get(AccountGroup.Id groupId);
+  /**
+   * Looks up an internal group by its ID.
+   *
+   * @param groupId the ID of the internal group
+   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
+   *     group with this ID exists on this server or an error occurred during lookup
+   */
+  Optional<InternalGroup> get(AccountGroup.Id groupId);
 
   /**
    * Looks up an internal group by its name.

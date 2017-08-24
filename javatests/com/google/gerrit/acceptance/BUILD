@@ -1,7 +1,5 @@
 load("//tools/bzl:java.bzl", "java_library2")
 
-SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
-
 PROVIDED = [
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
@@ -32,7 +30,7 @@ java_binary(
 java_library2(
     name = "lib",
     testonly = 1,
-    srcs = SRCS,
+    srcs = glob(["**/*.java"]),
     exported_deps = [
         "//gerrit-launcher:launcher",
         "//gerrit-server:testutil",

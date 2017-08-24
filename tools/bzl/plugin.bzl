@@ -13,7 +13,7 @@ PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
 PLUGIN_DEPS_NEVERLINK = ["//gerrit-plugin-api:lib-neverlink"]
 
 PLUGIN_TEST_DEPS = [
-    "//gerrit-acceptance-framework:lib",
+    "//javatests/com/google/gerrit/acceptance:lib",
     "//lib/bouncycastle:bcpg",
     "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",

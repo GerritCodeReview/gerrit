@@ -7,7 +7,6 @@ java_library(
     resources = RESOURCES,
     visibility = ["//visibility:public"],
     exports = [
-        "//gerrit-acceptance-framework:lib",
         "//gerrit-launcher:launcher",
         "//gerrit-server:receive",
         "//gerrit-server:server",
@@ -23,6 +22,7 @@ java_library(
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/sshd",
+        "//javatests/com/google/gerrit/acceptance:lib",
         "//javatests/com/google/gerrit/gpg/testutil",
         "//javatests/com/google/gerrit/testutil/extensions",
         "//lib:args4j",

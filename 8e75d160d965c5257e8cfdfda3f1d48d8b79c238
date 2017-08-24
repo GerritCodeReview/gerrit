@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "893ad42d_9088a07c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-24T12:25:33Z",
+      "side": 1,
+      "message": "Please add a comment here saying that we don\u0027t care about the value of the parameters as long as they are within valid bounds.",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 12
+      },
+      "revId": "8e75d160d965c5257e8cfdfda3f1d48d8b79c238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b63d79a_ccf9b55d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-24T12:25:33Z",
+      "side": 1,
+      "message": "I would prefer to have this test near the other test for the LargeObjectTombstone.",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "8e75d160d965c5257e8cfdfda3f1d48d8b79c238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aebf3ec2_b9b5c56f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-24T12:25:33Z",
+      "side": 1,
+      "message": "This cast isn\u0027t necessary and should rather be avoided. Can\u0027t we simply use Object as type in this line?",
+      "range": {
+        "startLine": 87,
+        "startChar": 37,
+        "endLine": 87,
+        "endChar": 48
+      },
+      "revId": "8e75d160d965c5257e8cfdfda3f1d48d8b79c238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -547,8 +548,11 @@ public class SubmoduleOp {
       RevCommit newCommit,
       RevCommit oldCommit)
       throws SubmoduleException {
-    msgbuf.append("* Update " + s.getPath());
-    msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
+    msgbuf.append("* Update ");
+    msgbuf.append(s.getPath());
+    msgbuf.append(" from branch '");
+    msgbuf.append(s.getSubmodule().getShortName());
+    msgbuf.append("'");
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {
@@ -562,9 +566,11 @@ public class SubmoduleOp {
       for (RevCommit c : subOr.rw) {
         subOr.rw.parseBody(c);
         if (verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY) {
-          msgbuf.append("\n  - " + c.getShortMessage());
+          msgbuf.append("\n - ");
+          msgbuf.append(c.getShortMessage());
         } else if (verboseSuperProject == VerboseSuperprojectUpdate.TRUE) {
-          msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
+          msgbuf.append("\n  - ");
+          msgbuf.append(StringUtils.replace(c.getFullMessage(), "\n", "\n    "));
         }
       }
     } catch (IOException e) {

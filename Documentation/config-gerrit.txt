@@ -84,9 +84,7 @@ Values should use common unit suffixes to express their setting:
 * h, hr, hour, hours
 
 +
---
 If a unit suffix is not specified, `milliseconds` is assumed.
-
 Default is `30 seconds`.
 
 [[accounts]]

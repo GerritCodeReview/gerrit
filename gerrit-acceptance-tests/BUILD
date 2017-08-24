@@ -7,11 +7,11 @@ java_library(
     resources = RESOURCES,
     visibility = ["//visibility:public"],
     exports = [
-        "//gerrit-acceptance-framework:lib",
         "//gerrit-launcher:launcher",
         "//gerrit-server:receive",
         "//gerrit-server:server",
         "//gerrit-server:testutil",
+        "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",

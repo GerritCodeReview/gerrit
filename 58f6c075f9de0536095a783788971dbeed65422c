@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "c8603fe3_fe2b0ef1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "Still need to do this and generally update the commit message.",
+      "parentUuid": "0b4cae42_6716d9d4",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de0df69b_404f9fd0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "\u003e The assignee is not part of ChangeInfo so I left it out (maybe that\u0027s a bug and it should be added to ChangeInfo).\n\nIt\u0027s there:\nhttps://gerrit.googlesource.com/gerrit/+/5af68039fd8e18a68e443c978747da7e642aab4d/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java#30",
       "parentUuid": "2984b395_304a3279",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f15bd55_83b58f7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "Ah, assignee is just missing in the documentation.\n\nDone",
+      "parentUuid": "584fbbbb_7930deb9",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -126,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "1ea966d4_ac7d3667",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f5a4b1_d9f1d954",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00543579_dc8b72fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -179,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "d7f92f53_658b93f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "OK, since we also include the removed reviewers now, this is then not needed anymore.\n\nDone.",
+      "parentUuid": "8acbae8d_9b9af08f",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3e5d6be_e0b8cde4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -202,6 +274,30 @@
     },
     {
       "key": {
+        "uuid": "9f8a773d_d503cf02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "not applicable anymore (this line was removed)",
+      "parentUuid": "f3e5d6be_e0b8cde4",
+      "range": {
+        "startLine": 149,
+        "startChar": 76,
+        "endLine": 149,
+        "endChar": 92
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6aef32eb_7bb199db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -213,6 +309,24 @@
       "writtenOn": "2017-08-24T13:30:45Z",
       "side": 1,
       "message": "Optional: Future-proof this by iterating over the whole table and just excluding REMOVED? Something like:\n\n reviewers.asTable().rowMap().entrySet().stream().forEach(e -\u003e {\n   if (e.getKey() !\u003d REMOVED) {\n     accounts.addAll(e.getValue().keySet());\n   }\n });",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea5bed15_32df8ee6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "We now add all reviewers (including removed ones).",
+      "parentUuid": "6aef32eb_7bb199db",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -290,6 +404,30 @@
     },
     {
       "key": {
+        "uuid": "4916bd82_65b7fd00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "Eh, we don\u0027t execute tests with reading accounts from ReviewDb :/\n\nDone.",
+      "parentUuid": "85f2139e_34fed051",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 42
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d1a9425_ece9b387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -337,6 +475,24 @@
       "side": 1,
       "message": "(AccountLoader#DETAILED_OPTIONS doesn\u0027t include SECONDARY_EMAILS, but it does include USERNAME.)",
       "parentUuid": "1fcbbc6f_ee382dae",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b744ab_59f853ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-24T16:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "867768b3_d7d8b28f",
       "revId": "58f6c075f9de0536095a783788971dbeed65422c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

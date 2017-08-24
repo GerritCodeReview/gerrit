@@ -1,4 +1,153 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1503580182 +0200\nnonce AHIDc+Om+TNn/yR6n+OfcVO4RBr2oAfzgTfblHzA5rUXO+m/G8wHg0TPNktfYapa0S6AIT0Kr2AT\n\n0000000000000000000000000000000000000000 58f6c075f9de0536095a783788971dbeed65422c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZntAWAAoJEFG1/Zeg0O9R2l0H/jfs2lkzf04ZP2+sMcr3Yw4M\n2zExGAwkuV3UrDxygWxrB2ARyLBt85nOf4rEuga5ldloCDz+INUZl1c78NUNeafs\nGljb3DK6y9xLnOTVVIPPfvfxQ+mTk5GRgD15sNC0CjlH6ckXityVP8FCV53dcfHp\nTok7fJUC0Sbwy4FG/z3fsQPTzIUvFCe9SFiB9qY+TPBnAdNpfMqjN8KjgJP4NGqj\ny0GpHAn/r/3eVaSNROUJx3ph00obgJLsf4/xeYUEtRVIXPnRUSZNbHHGyUIO/Sy5\n7Doa45jRBT+AFoxRHvfp1xEnSBtq+tozmaqf85b+qLs8Dtn4y/twsbyieuurOjg\u003d\n\u003dm7d2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b4cae42_6716d9d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "IIRC in the bug you said you were worried about performance. Maybe mention something in the commit message about tradeoffs?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0df69b_404f9fd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "Missing:\n\n* assignee\n* uploaders of all patch sets",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef4097d_1854722d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "What about ChangeMessages? It is possible for a user to be an author of a ChangeMessage but neither a reviewer or CC (for example if they were removed).\n\nUnfortunately I think this is where it might start to get somewhat expensive, because there are some changes with very many ChangeMessages (thousands). Maybe it is ok to be slightly wrong in this corner case. What do you think?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00543579_dc8b72fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "Is this necessary? Can we have approvals by a user that is not also a reviewer?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e5d6be_e0b8cde4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "Don\u0027t make this intermediate collection, just forEach(accounts::add)",
+      "range": {
+        "startLine": 149,
+        "startChar": 76,
+        "endLine": 149,
+        "endChar": 92
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aef32eb_7bb199db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "Optional: Future-proof this by iterating over the whole table and just excluding REMOVED? Something like:\n\n reviewers.asTable().rowMap().entrySet().stream().forEach(e -\u003e {\n   if (e.getKey() !\u003d REMOVED) {\n     accounts.addAll(e.getValue().keySet());\n   }\n });",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "289bc36c_839e3d68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to parse an ObjectId just so we can use hashObjectId instead of hashing the string.",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 42
+      },
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d1a9425_ece9b387",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:30:45Z",
+      "side": 1,
+      "message": "Can the external ID set possibly contribute to the account info? In theory it can contribute to some of the AccountInfo fields (e.g. secondary_emails), but looking at AccountLoader#DETAILED_OPTIONS, I think all of those specific options come from just the meta ref. Sound right?",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

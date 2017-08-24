@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -55,6 +56,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
+  private final CreateRefControl createRefControl;
   private String ref;
 
   @Inject
@@ -64,18 +66,21 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
+      CreateRefControl createRefControl,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
+    this.createRefControl = createRefControl;
     this.ref = ref;
   }
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException, IOException {
+      throws BadRequestException, AuthException, ResourceConflictException, IOException,
+          PermissionBackendException, NoSuchProjectException {
     if (input == null) {
       input = new BranchInput();
     }
@@ -100,7 +105,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     }
 
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
-    final RefControl refControl = rsrc.getControl().controlForRef(name);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
@@ -117,7 +121,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      String rejectReason = refControl.canCreate(repo, object);
+      String rejectReason = createRefControl.canCreateRef(repo, object, identifiedUser.get(), name);
       if (rejectReason != null) {
         throw new AuthException("Cannot create \"" + ref + "\": " + rejectReason);
       }

@@ -187,6 +187,30 @@
       "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15018227_b0399d5b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-24T21:47:52Z",
+      "side": 1,
+      "message": "\u003e [..] as I believe it will be easier to add if the functions are already written.\n\nI think it\u0027s easier to review edits to existing functions partly because it\u0027d be a modification to already-reviewed code. It\u0027s hard to do that primary review in this case because it\u0027s it\u0027s not really used.\n\nThis is why I favor the approach of rendering a read only view ASAP and adding functionality like this after. It\u0027s just easier for me to evaluate as a reviewer.",
+      "parentUuid": "b528f6b6_1f8683ff",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 6
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

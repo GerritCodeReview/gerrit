@@ -12,8 +12,8 @@ java_library(
     name = "query_parser",
     srcs = ["//antlr3:query"],
     visibility = [
-        "//gerrit-plugin-api:__pkg__",
         "//javatests/com/google/gerrit/index:__pkg__",
+        "//plugins:__pkg__",
     ],
     deps = [
         ":query_exception",

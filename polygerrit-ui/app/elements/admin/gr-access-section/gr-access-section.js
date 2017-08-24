@@ -164,36 +164,7 @@
     },
 
     _handleAddPermission() {
-      const value = this.$.permissionSelect.value;
-      const permission = {
-        id: value,
-        value: {rules: {}},
-      };
-
-      // This is needed to update the 'label' property of the
-      // 'label-<label-name>' permission.
-      //
-      // The value from the add permission dropdown will either be
-      // label-<label-name> or labelAs-<labelName>.
-      // But, the format of the API response is as such:
-      // "permissions": {
-      //  "label-Code-Review": {
-      //    "label": "Code-Review",
-      //    "rules": {...}
-      //    }
-      //  }
-      // }
-      // When we add a new item, we have to push the new permission in the same
-      // format as the ones that have been returned by the API.
-      if (value.startsWith('label')) {
-        permission.value.label =
-            value.replace('label-', '').replace('labelAs-', '');
-      }
-      // Add to the end of the array (used in dom-repeat) and also to the
-      // section object that is two way bound with its parent element.
-      this.push('_permissions', permission);
-      this.set(['section.value.permissions', permission.id],
-          permission.value);
+      // TODO implement once read-only mode is disabled.
     },
   });
 })();

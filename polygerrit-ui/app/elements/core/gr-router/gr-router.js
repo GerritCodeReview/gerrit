@@ -350,6 +350,16 @@
       };
     });
 
+    // Matches /admin/projects/<project>,access
+    page('/admin/projects/:project,access', loadUser, data => {
+      app.params = {
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-access',
+        detailType: 'access',
+        project: data.params.project,
+      };
+    });
+
     // Matches /admin/projects/<project>
     page(/^\/admin\/projects\/([^,]+)$/, loadUser, data => {
       app.params = {

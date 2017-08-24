@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.events.Event;
 
 /**
  * Allows to listen to events without user visibility restrictions. To listen to events visible to a

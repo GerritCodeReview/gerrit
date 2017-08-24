@@ -17,7 +17,6 @@ package com.google.gerrit.server.events;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.EventDispatcher;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.common.AccountInfo;

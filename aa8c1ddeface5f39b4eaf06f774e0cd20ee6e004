@@ -22,6 +22,30 @@
       "revId": "aa8c1ddeface5f39b4eaf06f774e0cd20ee6e004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "578a6db7_a3d0fb18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-24T16:12:25Z",
+      "side": 1,
+      "message": "Absolutely, that will be in one of my next refactoring CLs.",
+      "parentUuid": "8c768ed6_77cb3629",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "aa8c1ddeface5f39b4eaf06f774e0cd20ee6e004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

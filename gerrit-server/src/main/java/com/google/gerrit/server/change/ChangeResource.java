@@ -15,8 +15,10 @@
 package com.google.gerrit.server.change;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ListMultimap;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -25,18 +27,28 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {
@@ -55,15 +67,24 @@ public class ChangeResource implements RestResource, HasETag {
     ChangeResource create(ChangeControl ctl);
   }
 
+  private final Provider<ReviewDb> db;
+  private final AccountCache accountCache;
+  private final ApprovalsUtil approvalUtil;
   private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
   private final ChangeControl control;
 
   @Inject
   ChangeResource(
+      Provider<ReviewDb> db,
+      AccountCache accountCache,
+      ApprovalsUtil approvalUtil,
       PermissionBackend permissionBackend,
       StarredChangesUtil starredChangesUtil,
       @Assisted ChangeControl control) {
+    this.db = db;
+    this.accountCache = accountCache;
+    this.approvalUtil = approvalUtil;
     this.permissionBackend = permissionBackend;
     this.starredChangesUtil = starredChangesUtil;
     this.control = control;
@@ -119,6 +140,25 @@ public class ChangeResource implements RestResource, HasETag {
     }
 
     byte[] buf = new byte[20];
+    Set<Account.Id> accounts = new HashSet<>();
+    accounts.add(getChange().getOwner());
+    try {
+      ListMultimap<PatchSet.Id, PatchSetApproval> approvals =
+          approvalUtil.byChange(db.get(), getNotes());
+      ReviewerSet reviewers = approvalUtil.getReviewers(getNotes(), approvals.values());
+      accounts.addAll(approvals.values().stream().map(a -> a.getAccountId()).collect(toSet()));
+      accounts.addAll(reviewers.byState(ReviewerStateInternal.REVIEWER));
+      accounts.addAll(reviewers.byState(ReviewerStateInternal.CC));
+    } catch (OrmException e) {
+      // This ETag will be invalidated if it loads next time.
+    }
+    accounts
+        .stream()
+        .forEach(
+            a ->
+                hashObjectId(
+                    h, ObjectId.fromString(accountCache.get(a).getAccount().getMetaId()), buf));
+
     ObjectId noteId;
     try {
       noteId = getNotes().loadRevision();

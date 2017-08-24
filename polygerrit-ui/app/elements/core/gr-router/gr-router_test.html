@@ -33,13 +33,17 @@ limitations under the License.
 
 <script>
   suite('gr-router tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => { sandbox.restore(); });
+
     suite('generateUrl', () => {
-      let element;
-
-      setup(() => {
-        element = fixture('basic');
-      });
-
       test('search', () => {
         let params = {
           view: Gerrit.Nav.View.SEARCH,
@@ -108,6 +112,88 @@ limitations under the License.
         params.leftSide = true;
         assert.equal(element._generateUrl(params),
             '/c/test/+/42/2/file.cpp#b123');
+      });
+
+      test('_getPatchRangeExpression', () => {
+        const params = {};
+        let actual = element._getPatchRangeExpression(params);
+        assert.equal(actual, '');
+
+        params.patchNum = 4;
+        actual = element._getPatchRangeExpression(params);
+        assert.equal(actual, '4');
+
+        params.basePatchNum = 2;
+        actual = element._getPatchRangeExpression(params);
+        assert.equal(actual, '2..4');
+
+        delete params.patchNum;
+        actual = element._getPatchRangeExpression(params);
+        assert.equal(actual, '2..');
+      });
+    });
+
+    suite('param normalization', () => {
+      let projectLookupStub;
+
+      setup(() => {
+        projectLookupStub = sandbox
+            .stub(element._restAPI, 'getFromProjectLookup')
+            .returns(Promise.resolve('foo/bar'));
+        sandbox.stub(element, '_generateUrl');
+      });
+
+      suite('_normalizeLegacyRouteParams', () => {
+        let rangeStub;
+
+        setup(() => {
+          rangeStub = sandbox.stub(element, '_normalizePatchRangeParams')
+              .returns(Promise.resolve());
+        });
+
+        test('w/o changeNum', () => {
+          const params = {};
+          return element._normalizeLegacyRouteParams(params).then(() => {
+            assert.isFalse(projectLookupStub.called);
+            assert.isFalse(rangeStub.called);
+            assert.isNotOk(params.project);
+          });
+        });
+
+        test('w/ changeNum', () => {
+          const params = {changeNum: 1234};
+          return element._normalizeLegacyRouteParams(params).then(() => {
+            assert.isTrue(projectLookupStub.called);
+            assert.isTrue(rangeStub.called);
+            assert.equal(params.project, 'foo/bar');
+          });
+        });
+      });
+
+      suite('_normalizePatchRangeParams', () => {
+        test('range n..n normalizes to n', () => {
+          const params = {basePatchNum: 4, patchNum: 4};
+          const needsRedirect = element._normalizePatchRangeParams(params);
+          assert.isTrue(needsRedirect);
+          assert.isNotOk(params.basePatchNum);
+          assert.equal(params.patchNum, 4);
+        });
+
+        test('range n.. normalizes to n', () => {
+          const params = {basePatchNum: 4};
+          const needsRedirect = element._normalizePatchRangeParams(params);
+          assert.isFalse(needsRedirect);
+          assert.isNotOk(params.basePatchNum);
+          assert.equal(params.patchNum, 4);
+        });
+
+        test('range 0..n normalizes to edit..n', () => {
+          const params = {basePatchNum: 0, patchNum: 4};
+          const needsRedirect = element._normalizePatchRangeParams(params);
+          assert.isTrue(needsRedirect);
+          assert.equal(params.basePatchNum, 'edit');
+          assert.equal(params.patchNum, 4);
+        });
       });
     });
   });

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0260a091_e15ad6b4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-24T12:51:07Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "db5dce8c_e7f8c914",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "8e75d160d965c5257e8cfdfda3f1d48d8b79c238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aebf3ec2_b9b5c56f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 2

@@ -473,7 +473,7 @@
       page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
         this._setParams({
           view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
+          adminView: 'gr-project-list',
           offset: data.params[1] || 0,
           filter: null,
         });
@@ -482,7 +482,7 @@
       page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
         this._setParams({
           view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
+          adminView: 'gr-project-list',
           offset: data.params.offset,
           filter: data.params.filter,
         });
@@ -491,7 +491,7 @@
       page('/admin/projects/q/filter::filter', loadUser, data => {
         this._setParams({
           view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
+          adminView: 'gr-project-list',
           filter: data.params.filter || null,
         });
       });
@@ -697,3 +697,4 @@
     },
   });
 })();
+

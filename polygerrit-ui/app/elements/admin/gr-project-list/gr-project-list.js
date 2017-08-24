@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-admin-project-list',
+    is: 'gr-project-list',
 
     properties: {
       /**

@@ -17,14 +17,14 @@
 jar_filetype = FileType([".jar"])
 
 LIBS = [
-    "//gerrit-war:init",
-    "//gerrit-war:log4j-config",
-    "//gerrit-war:version",
+    "//java/com/google/gerrit/common:version",
+    "//java/com/google/gerrit/httpd:war-init",
     "//lib:postgresql",
     "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
     "//lib/bouncycastle:bcpg",
     "//lib/log:impl_log4j",
+    "//resources:log4j-config",
 ]
 
 PGMLIBS = [
@@ -149,7 +149,7 @@ def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):
     pgmlibs = PGMLIBS,
     context = doc_ctx + context + ui_deps + [
       '//java:gerrit-main-class_deploy.jar',
-      '//gerrit-war:webapp_assets',
+      '//webapp:assets',
     ],
     **kwargs
   )

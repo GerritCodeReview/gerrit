@@ -1,3 +1,4 @@
+load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:gwt.bzl", "gwt_module")
 
 ANNOTATIONS = [
@@ -48,4 +49,22 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
+)
+
+java_import(
+    name = "version",
+    jars = [":gen_version"],
+    visibility = ["//visibility:public"],
+)
+
+genrule2(
+    name = "gen_version",
+    outs = ["gen_version.jar"],
+    cmd = " && ".join([
+        "cd $$TMP",
+        "mkdir -p com/google/gerrit/common",
+        "cat $$ROOT/$(location //:version.txt) >com/google/gerrit/common/Version",
+        "zip -9Dqr $$ROOT/$@ .",
+    ]),
+    tools = ["//:version.txt"],
 )

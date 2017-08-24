@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8e929b_e1ab798a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-24T21:19:05Z",
+      "side": 1,
+      "message": "The main way I want to increase test coverage is by converting route handlers like this into instance methods. That way we can stub some key methods and test that they take the expected action for a given set of route params.",
+      "range": {
+        "startLine": 260,
+        "startChar": 40,
+        "endLine": 268,
+        "endChar": 9
+      },
+      "revId": "893da60def34a1942d97069043e25b1a1b7ee8c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50ee4a40_d8e4e33e",
+        "filename": "prolog/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-24T20:21:21Z",
+      "side": 1,
+      "message": "Alternatively this could be called prolog-common, to avoid dumb libcommon.jar final artifact name and potential collision with other artifacts with such name:\n\n  $ unzip -t bazel-bin/withdocs.war | grep common\n    testing: WEB-INF/lib/com_google_gerrit_common_libannotations.jar   OK\n    testing: WEB-INF/lib/commons-lang3-3.3.2.jar   OK\n    testing: WEB-INF/lib/org_apache_commons_net_libnet.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_common_libserver.jar   OK\n    testing: WEB-INF/lib/libcommon.jar   OK \u003c\u003d\u003d this is artifact from this prolog:common rule\n    testing: WEB-INF/lib/jest-common-2.4.0.jar   OK\n    testing: WEB-INF/lib/commons-compress-1.13.jar   OK\n    testing: WEB-INF/lib/commons-dbcp-1.4.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_common_gen_version.jar   OK\n    testing: WEB-INF/lib/lucene-analyzers-common-5.5.4.jar   OK\n    testing: WEB-INF/lib/commons-validator-1.6.jar   OK\n    testing: WEB-INF/lib/commons-pool-1.5.5.jar   OK\n    testing: WEB-INF/lib/commons-net-3.5.jar   OK\n    testing: WEB-INF/lib/commons-lang-2.6.jar   OK\n    testing: WEB-INF/lib/commons-codec-1.10.jar   OK\n    testing: WEB-INF/lib/asm-commons-5.1.jar   OK\n    testing: WEB-INF/lib/commons-collections-3.2.2.jar   OK\n    testing: Documentation/error-no-common-ancestry.html   OK",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "3889104d26b4eaa8ec1f112afd79f87345438efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

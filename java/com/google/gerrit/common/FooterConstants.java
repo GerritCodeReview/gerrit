@@ -16,6 +16,9 @@ package com.google.gerrit.common;
 
 import org.eclipse.jgit.revwalk.FooterKey;
 
+import com.google.common.annotations.GwtIncompatible;
+
+@GwtIncompatible("Unemulated com.google.gerrit.common.FooterConstants")
 public class FooterConstants {
   /** The change ID as used to track patch sets. */
   public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");

@@ -3,11 +3,11 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-launcher:launcher",
         "//gerrit-server:server",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gwtexpui/server",

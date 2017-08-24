@@ -8,11 +8,11 @@ WAR_SRCS = [
 ]
 
 DEPS = [
-    "//gerrit-server:receive",
-    "//gerrit-server:server",
+    "//java/com/google/gerrit:server",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/lifecycle",
     "//java/com/google/gerrit/reviewdb:server",
+    "//java/com/google/gerrit/server/git/receive",
     "//lib:guava",
     "//lib:gwtorm",
     "//lib/guice",
@@ -27,7 +27,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = DEPS + [
         ":httpd",
-        "//gerrit-server:module",
+        "//java/com/google/gerrit:module",
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/gpg",
         "//java/com/google/gerrit/httpd/auth/oauth",

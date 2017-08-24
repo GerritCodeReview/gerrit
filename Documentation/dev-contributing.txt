@@ -120,7 +120,7 @@ The `Change-Id` line is, as usual, created by a local git hook.  To install it,
 simply copy it from the checkout and make it executable:
 
 ====
-  cp ./gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/
+  cp ./resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/
   chmod +x .git/hooks/commit-msg
 ====
 

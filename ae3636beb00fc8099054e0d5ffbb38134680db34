@@ -39,6 +39,52 @@
       "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40a0ce78_29da48b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-24T10:55:33Z",
+      "side": 1,
+      "message": "Add on top of this \n\ndetailType: \u0027access\u0027,\n\nplease.",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bb474e4_0c2214a3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-24T10:55:33Z",
+      "side": 1,
+      "message": "Add under here\n\ndetailType: \u0027access\u0027,\n\nplease.",
+      "range": {
+        "startLine": 357,
+        "startChar": 8,
+        "endLine": 357,
+        "endChar": 39
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

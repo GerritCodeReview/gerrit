@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.account;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
@@ -25,6 +26,7 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -113,17 +115,60 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return query(AccountPredicates.fullName(fullName));
   }
 
+  /**
+   * Queries for accounts that have a preferred email that exactly matches the given email.
+   *
+   * @param email preferred email by which accounts should be found
+   * @return list of accounts that have a preferred email that exactly matches the given email
+   * @throws OrmException if query cannot be parsed
+   */
   public List<AccountState> byPreferredEmail(String email) throws OrmException {
-    return query(AccountPredicates.preferredEmail(email));
+    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+      return query(AccountPredicates.preferredEmailExact(email));
+    }
+
+    return query(AccountPredicates.preferredEmail(email))
+        .stream()
+        .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+        .collect(toList());
   }
 
+  /**
+   * Makes multiple queries for accounts by preferred email (exact match).
+   *
+   * @param emails preferred emails by which accounts should be found
+   * @return multimap of the given emails to accounts that have a preferred email that exactly
+   *     matches this email
+   * @throws OrmException if query cannot be parsed
+   */
   public Multimap<String, AccountState> byPreferredEmail(String... emails) throws OrmException {
     List<String> emailList = Arrays.asList(emails);
+
+    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+      List<List<AccountState>> r =
+          query(
+              emailList
+                  .stream()
+                  .map(e -> AccountPredicates.preferredEmailExact(e))
+                  .collect(toList()));
+      Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+      for (int i = 0; i < emailList.size(); i++) {
+        accountsByEmail.putAll(emailList.get(i), r.get(i));
+      }
+      return accountsByEmail;
+    }
+
     List<List<AccountState>> r =
         query(emailList.stream().map(e -> AccountPredicates.preferredEmail(e)).collect(toList()));
     Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
     for (int i = 0; i < emailList.size(); i++) {
-      accountsByEmail.putAll(emailList.get(i), r.get(i));
+      String email = emailList.get(i);
+      Set<AccountState> matchingAccounts =
+          r.get(i)
+              .stream()
+              .filter(a -> a.getAccount().getPreferredEmail().equals(email))
+              .collect(toSet());
+      accountsByEmail.putAll(email, matchingAccounts);
     }
     return accountsByEmail;
   }

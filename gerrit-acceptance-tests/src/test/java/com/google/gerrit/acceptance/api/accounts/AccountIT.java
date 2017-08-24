@@ -709,7 +709,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void lookUpByPreferredEmail() throws Exception {
     // create an inconsistent account that has a preferred email without external ID
-    String prefEmail = "foo.preferred@example.com";
+    String prefix = "foo.preferred";
+    String prefEmail = prefix + "@example.com";
     TestAccount foo = accountCreator.create(name("foo"));
     accountsUpdate.create().update(db, foo.id, a -> a.setPreferredEmail(prefEmail));
 
@@ -717,6 +718,14 @@ public class AccountIT extends AbstractDaemonTest {
     ImmutableSet<Account.Id> accountsByPrefEmail = emails.getAccountFor(prefEmail);
     assertThat(accountsByPrefEmail).hasSize(1);
     assertThat(Iterables.getOnlyElement(accountsByPrefEmail)).isEqualTo(foo.id);
+
+    // look up by email prefix doesn't find the account
+    accountsByPrefEmail = emails.getAccountFor(prefix);
+    assertThat(accountsByPrefEmail).isEmpty();
+
+    // look up by other case doesn't find the account
+    accountsByPrefEmail = emails.getAccountFor(prefEmail.toUpperCase(Locale.US));
+    assertThat(accountsByPrefEmail).isEmpty();
   }
 
   @Test

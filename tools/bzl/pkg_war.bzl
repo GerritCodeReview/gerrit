@@ -28,7 +28,7 @@ LIBS = [
 ]
 
 PGMLIBS = [
-    "//gerrit-pgm:pgm",
+    "//java/com/google/gerrit/pgm"
 ]
 
 def _add_context(in_file, output):

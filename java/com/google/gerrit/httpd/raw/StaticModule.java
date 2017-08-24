@@ -208,7 +208,7 @@ public class StaticModule extends ServletModule {
       if (p.unpackedWar != null) {
         return p.unpackedWar.resolve(name);
       }
-      return p.sourceRoot.resolve("gerrit-war/src/main/webapp/" + name);
+      return p.sourceRoot.resolve("webapp/" + name);
     }
   }
 

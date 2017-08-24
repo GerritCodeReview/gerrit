@@ -9,8 +9,8 @@ load(
     "gwt_binary",
 )
 
-PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
-PLUGIN_DEPS_NEVERLINK = ["//gerrit-plugin-api:lib-neverlink"]
+PLUGIN_DEPS = ["//plugins:plugin-lib"]
+PLUGIN_DEPS_NEVERLINK = ["//plugins:plugin-lib-neverlink"]
 
 PLUGIN_TEST_DEPS = [
     "//javatests/com/google/gerrit/acceptance:lib",

@@ -184,7 +184,7 @@ java_library(
         "//lib/powermock:powermock-module-junit4-common",
     ],
     deps = TESTUTIL_DEPS + [
-        "//gerrit-pgm:init",
+        "//java/com/google/gerrit/pgm/init",
         "//lib/auto:auto-value",
         "//lib/easymock:easymock",
         "//lib/powermock:powermock-api-easymock",

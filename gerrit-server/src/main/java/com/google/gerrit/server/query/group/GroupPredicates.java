@@ -24,6 +24,10 @@ import com.google.gerrit.server.index.group.GroupField;
 import java.util.Locale;
 
 public class GroupPredicates {
+  public static Predicate<InternalGroup> id(AccountGroup.Id groupId) {
+    return new GroupPredicate(GroupField.ID, groupId.toString());
+  }
+
   public static Predicate<InternalGroup> uuid(AccountGroup.UUID uuid) {
     return new GroupPredicate(GroupField.UUID, GroupQueryBuilder.FIELD_UUID, uuid.get());
   }

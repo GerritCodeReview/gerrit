@@ -56,6 +56,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -199,10 +200,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
         new AccountGroup(createGroupArgs.getGroup(), groupId, uuid, TimeUtil.nowTs());
     group.setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupId != null) {
-      AccountGroup ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
-      if (ownerGroup != null) {
-        group.setOwnerGroupUUID(ownerGroup.getGroupUUID());
-      }
+      Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
+      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(group::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {
       group.setDescription(createGroupArgs.groupDescription);

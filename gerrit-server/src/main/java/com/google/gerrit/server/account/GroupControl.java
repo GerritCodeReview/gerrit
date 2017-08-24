@@ -21,12 +21,15 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {
@@ -71,11 +74,11 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(AccountGroup.Id groupId) throws NoSuchGroupException {
-      final AccountGroup group = groupCache.get(groupId);
-      if (group == null) {
-        throw new NoSuchGroupException(groupId);
-      }
-      return controlFor(GroupDescriptions.forAccountGroup(group));
+      Optional<InternalGroup> group = groupCache.get(groupId);
+      return group
+          .map(InternalGroupDescription::new)
+          .map(this::controlFor)
+          .orElseThrow(() -> new NoSuchGroupException(groupId));
     }
 
     public GroupControl controlFor(AccountGroup.UUID groupId) throws NoSuchGroupException {

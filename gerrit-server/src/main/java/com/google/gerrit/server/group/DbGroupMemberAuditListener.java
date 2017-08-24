@@ -152,7 +152,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       Account.Id accountId = m.getAccountId();
       String userName = accountCache.get(accountId).getUserName();
       AccountGroup.Id groupId = m.getAccountGroupId();
-      String groupName = groupCache.get(groupId).getName();
+      String groupName = getGroupName(groupId);
 
       descriptions.add(
           MessageFormat.format(
@@ -168,7 +168,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
       AccountGroup.UUID groupUuid = m.getIncludeUUID();
       String groupName = groupBackend.get(groupUuid).getName();
       AccountGroup.Id targetGroupId = m.getGroupId();
-      String targetGroupName = groupCache.get(targetGroupId).getName();
+      String targetGroupName = getGroupName(targetGroupId);
 
       descriptions.add(
           MessageFormat.format(
@@ -176,6 +176,10 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
               groupUuid, groupName, targetGroupId, targetGroupName));
     }
     logOrmException(header, me, descriptions, e);
+  }
+
+  private String getGroupName(AccountGroup.Id groupId) {
+    return groupCache.get(groupId).map(InternalGroup::getName).orElse("Deleted group " + groupId);
   }
 
   private void logOrmException(String header, Account.Id me, Iterable<?> values, OrmException e) {

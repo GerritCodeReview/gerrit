@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1503474328 +0200\nnonce AHIDc+O1sdb3zv0JxdrsSKozU4GZW6WfdOgH5uDDbHkvfoSS5cIwwywEV7fj9kg+3y0WcUsupKeS\n\n0000000000000000000000000000000000000000 cb5d2b64f68394a24aa16c266ad7afed8b95a6fa refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZnTKYAAoJEFG1/Zeg0O9RhBIH/0WXLhBGAccbqMYmid8fyFex\nFP/lvQGugTe6AT08cn7tLroT5Avg7GSCC7SG68qJXlmoPFtI9O3YLy3nWLrTxnbz\nTze45FUUE34J6623pWOq1w1PAVqskVkIGTbnkrp9M9EVn9wcr5kamcAXKZN5C3gf\n1cPwtfdn4BalacQjX1sGkH5VPXGEKMHMTax3s+MP/kLFBJKaRhnlhBssLObXoxFJ\nJxCiHTXDyiAFDhDfcXZ3WfWJlaN38SYcw+jgt0txXzVU4aYFoLVbbBk0+z0gzy5W\nodhN1QTLjhHT7BA0cy8xURayUHnT9AH7ysw7SxnG2HfPvVLIdw+cpwZT/xuxIJI\u003d\n\u003duHUz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f75c8cb6_ec6997e0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:01:03Z",
+      "side": 1,
+      "message": "This will not have a useful error message because it will call Arrays.toString on the byte[]. Probably nicer to make values contain Strings (like you do below).",
+      "revId": "1ac1eac528eca3fab65bbbb6a8c36659fe461bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4eb62fa_340bf889",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:01:03Z",
+      "side": 1,
+      "message": "This should probably be a List. It would be a bug if one of the values was repeated, and converting to a Set here would make it so this test doesn\u0027t catch the bug.",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 7
+      },
+      "revId": "1ac1eac528eca3fab65bbbb6a8c36659fe461bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67a9434e_4ab97ffc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T14:01:03Z",
+      "side": 1,
+      "message": "Use Guava\u0027s Streams.stream. You could optionally inline values as well (which I\u0027m guessing will screw up the indentation slightly less once you remove the .spliterator call)",
+      "revId": "1ac1eac528eca3fab65bbbb6a8c36659fe461bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

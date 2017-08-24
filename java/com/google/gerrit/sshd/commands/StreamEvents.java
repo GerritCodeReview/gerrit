@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Supplier;
-import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.gerrit.server.events.ProjectNameKeySerializer;
 import com.google.gerrit.server.events.SupplierSerializer;
+import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;

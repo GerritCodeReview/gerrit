@@ -1,5 +1,52 @@
 load("//tools/bzl:java.bzl", "java_library2")
 
+java_library(
+    name = "lib",
+    testonly = 1,
+    resource_strip_prefix = "resources",
+    resources = ["//resources/com/google/gerrit/acceptance"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":framework-lib",
+        "//gerrit-launcher:launcher",
+        "//gerrit-server:receive",
+        "//gerrit-server:server",
+        "//gerrit-server:testutil",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/lucene",
+        "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/pgm",
+        "//java/com/google/gerrit/pgm/init",
+        "//java/com/google/gerrit/pgm/util",
+        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/sshd",
+        "//javatests/com/google/gerrit/gpg/testutil",
+        "//javatests/com/google/gerrit/testutil/extensions",
+        "//lib:args4j",
+        "//lib:gson",
+        "//lib:guava-retrying",
+        "//lib:gwtjsonrpc",
+        "//lib:gwtorm",
+        "//lib:h2",
+        "//lib:jimfs",
+        "//lib:jsch",
+        "//lib:servlet-api-3_1-without-neverlink",
+        "//lib/bouncycastle:bcpg",
+        "//lib/bouncycastle:bcprov",
+        "//lib/commons:compress",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//lib/guice:guice-servlet",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
+        "//lib/mina:sshd",
+        "//prolog:gerrit-prolog-common",
+    ],
+)
+
 PROVIDED = [
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
@@ -20,15 +67,15 @@ PROVIDED = [
 ]
 
 java_binary(
-    name = "acceptance-framework",
+    name = "framework",
     testonly = 1,
     main_class = "Dummy",
     visibility = ["//visibility:public"],
-    runtime_deps = [":lib"],
+    runtime_deps = [":framework-lib"],
 )
 
 java_library2(
-    name = "lib",
+    name = "framework-lib",
     testonly = 1,
     srcs = glob(["**/*.java"]),
     exported_deps = [
@@ -69,9 +116,9 @@ java_library2(
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(
-    name = "acceptance-framework-javadoc",
+    name = "framework-javadoc",
     testonly = 1,
-    libs = [":lib"],
+    libs = [":framework-lib"],
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",
     visibility = ["//visibility:public"],

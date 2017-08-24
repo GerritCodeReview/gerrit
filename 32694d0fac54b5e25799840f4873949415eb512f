@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee6319ed_ee88f0bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-24T11:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01350f1b_7eee7142",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "32694d0fac54b5e25799840f4873949415eb512f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89ee121c_6ab444f6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-23T23:28:18Z",
       "side": 1,
       "message": "optional: move this inside the try block",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 45
+      },
+      "revId": "32694d0fac54b5e25799840f4873949415eb512f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a97b2f0_47223a67",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-24T11:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89ee121c_6ab444f6",
       "range": {
         "startLine": 83,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3e34e136_1bda7912",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-24T11:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67f47fcd_c8ed8ac9",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 95
+      },
+      "revId": "32694d0fac54b5e25799840f4873949415eb512f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "715e6f8e_77d61239",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2017-08-23T23:28:18Z",
       "side": 1,
       "message": "Is it possible to assert that the recovered object has the same value as the one that was serialized?",
+      "revId": "32694d0fac54b5e25799840f4873949415eb512f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fe7a47b_dad710ba",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-24T11:10:24Z",
+      "side": 1,
+      "message": "Technically yes, but we don\u0027t care about the inner values of the Tombstone (just that we correctly obtain a Tombstone object). Since it would require an implementation of #equals I\u0027d rather leave it out.",
+      "parentUuid": "715e6f8e_77d61239",
       "revId": "32694d0fac54b5e25799840f4873949415eb512f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

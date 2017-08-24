@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "868382af_f3bb928d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4597,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "Maybe add \"(256 KiB)\"",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7768ea4_aa448f95",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4599,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "This name is a little wordy. I would at least omit the \"NumberOf\", maybe even leave off \"ToCombine\" as well.",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d404ca28_15211054",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4604,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "Maybe 1000 since this is a more \"human\" number?",
+      "range": {
+        "startLine": 4604,
+        "startChar": 19,
+        "endLine": 4604,
+        "endChar": 23
+      },
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faba2c45_f8e6a552",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "Optional: I would find 256 \u003c\u003c 10 easier to read.",
+      "range": {
+        "startLine": 177,
+        "startChar": 64,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8696e080_a0f50162",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "Before you had this size limiting code, I would have suggested rolling your own replacement method looping around String#find to avoid the extra allocations within StringUtils.replace.\n\nOf course, you could still do this, just modify the loop to keep track of the size after replacement, but at that point it\u0027s probably a significant readability loss. And with limiting the number of commits, it\u0027s hard to see this being an issue in practice. So I\u0027m fine with it as-is.",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ff90d65_6ba88d17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T16:37:01Z",
+      "side": 1,
+      "message": "Otherwise add an ellipsis or some other indication that the list was truncated?\n\nI guess this makes the math slightly more complicated if you want this extra bit to count towards the combined size.",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

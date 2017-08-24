@@ -15,12 +15,12 @@ TEST_DEPS = [
 ]
 
 DEPS = [
-    "//gerrit-acceptance-tests:lib",
     "//gerrit-gwtdebug:gwtdebug",
     "//gerrit-gwtui:ui_module",
     "//gerrit-plugin-gwtui:gwtui-api-lib",
     "//gerrit-server:server",
     "//java:main_lib",
+    "//javatests/com/google/gerrit/acceptance:lib",
     "//lib/asciidoctor:asciidoc_lib",
     "//lib/asciidoctor:doc_indexer_lib",
     "//lib/auto:auto-value",

@@ -193,13 +193,13 @@ Debugging tests:
 Debug test example:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change:api_change
+  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //javatests/com/google/gerrit/acceptance/api/change:api_change
 ----
 
 To run a specific test group, e.g. the rest-account test group:
 
 ----
-  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest_account
+  bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
 To run the tests against NoteDb backend with write

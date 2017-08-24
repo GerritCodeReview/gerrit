@@ -45,9 +45,9 @@ pkg_war(
 )
 
 API_DEPS = [
-    "//gerrit-acceptance-framework:acceptance-framework_deploy.jar",
-    "//gerrit-acceptance-framework:liblib-src.jar",
-    "//gerrit-acceptance-framework:acceptance-framework-javadoc",
+    "//javatests/com/google/gerrit/acceptance:acceptance-framework_deploy.jar",
+    "//javatests/com/google/gerrit/acceptance:liblib-src.jar",
+    "//javatests/com/google/gerrit/acceptance:acceptance-framework-javadoc",
     "//java/com/google/gerrit/extensions:extension-api_deploy.jar",
     "//java/com/google/gerrit/extensions:libapi-src.jar",
     "//java/com/google/gerrit/extensions:extension-api-javadoc",

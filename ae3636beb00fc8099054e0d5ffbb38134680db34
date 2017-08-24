@@ -85,6 +85,52 @@
       "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c696903_ae7f7cfc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-24T10:57:14Z",
+      "side": 1,
+      "message": "Looks better if this was on line 1031 instead of here please.",
+      "range": {
+        "startLine": 1032,
+        "startChar": 10,
+        "endLine": 1032,
+        "endChar": 11
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "267db9b4_03df2a54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-24T10:57:14Z",
+      "side": 1,
+      "message": "Remove space please.",
+      "range": {
+        "startLine": 1699,
+        "startChar": 28,
+        "endLine": 1699,
+        "endChar": 29
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

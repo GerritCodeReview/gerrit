@@ -164,11 +164,12 @@
      */
     _normalizePatchRangeParams(params) {
       let needsRedirect = false;
-      if (params.basePatchNum &&
+      if (params.basePatchNum !== null && params.basePatchNum !== undefined &&
           this.patchNumEquals(params.basePatchNum, params.patchNum)) {
         needsRedirect = true;
         params.basePatchNum = null;
-      } else if (params.basePatchNum && !params.patchNum) {
+      } else if (params.basePatchNum &&
+          (params.patchNum === null || params.patchNum === undefined)) {
         // Regexes set basePatchNum instead of patchNum when only one is
         // specified. Redirect is not needed in this case.
         params.patchNum = params.basePatchNum;

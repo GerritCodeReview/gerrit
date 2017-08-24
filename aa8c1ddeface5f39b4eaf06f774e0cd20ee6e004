@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c768ed6_77cb3629",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T13:54:34Z",
+      "side": 1,
+      "message": "Idle thought mostly unrelated to this change: maybe the ProjectState enum should grow boolean permitsRead/permitsWrite methods?",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "aa8c1ddeface5f39b4eaf06f774e0cd20ee6e004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

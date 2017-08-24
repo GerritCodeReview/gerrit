@@ -18,8 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
-import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -107,7 +105,9 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
+import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.AbandonOp;

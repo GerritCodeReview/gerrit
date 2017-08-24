@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b2b3c0f_1558fe77",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-24T19:13:24Z",
+      "side": 1,
+      "message": "I would prefer if there were a constructor that took two bools. This forces you to consider the behavior when adding a new state, it\u0027s not possible to forget to update one of the permits* implementations.",
+      "revId": "2ce852a530578a19984ebf0642204e504f898c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

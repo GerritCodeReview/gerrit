@@ -21,7 +21,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -58,7 +57,7 @@ public class GroupCacheImpl implements GroupCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<AccountGroup>>() {})
+        cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<InternalGroup>>() {})
             .loader(ByIdLoader.class);
 
         cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
@@ -73,7 +72,7 @@ public class GroupCacheImpl implements GroupCache {
     };
   }
 
-  private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
+  private final LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId;
   private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<AccountGroup>> byUUID;
   private final SchemaFactory<ReviewDb> schema;
@@ -82,7 +81,7 @@ public class GroupCacheImpl implements GroupCache {
 
   @Inject
   GroupCacheImpl(
-      @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
+      @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
       SchemaFactory<ReviewDb> schema,
@@ -97,13 +96,12 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public AccountGroup get(AccountGroup.Id groupId) {
+  public Optional<InternalGroup> get(AccountGroup.Id groupId) {
     try {
-      Optional<AccountGroup> g = byId.get(groupId);
-      return g.isPresent() ? g.get() : missing(groupId);
+      return byId.get(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load group " + groupId, e);
-      return missing(groupId);
+      return Optional.empty();
     }
   }
 
@@ -197,26 +195,17 @@ public class GroupCacheImpl implements GroupCache {
     indexer.get().index(group.getGroupUUID());
   }
 
-  private static AccountGroup missing(AccountGroup.Id key) {
-    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
-    return new AccountGroup(name, key, null, TimeUtil.nowTs());
-  }
-
-  static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
+  static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
+    private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
-      schema = sf;
-      this.groups = groups;
+    ByIdLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+      this.groupQueryProvider = groupQueryProvider;
     }
 
     @Override
-    public Optional<AccountGroup> load(AccountGroup.Id key) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, key);
-      }
+    public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
+      return groupQueryProvider.get().byId(key);
     }
   }
 

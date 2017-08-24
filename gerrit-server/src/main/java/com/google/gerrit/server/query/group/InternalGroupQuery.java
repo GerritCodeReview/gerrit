@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
@@ -46,7 +47,16 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
   }
 
   public Optional<InternalGroup> byName(AccountGroup.NameKey groupName) throws OrmException {
-    List<InternalGroup> groups = query(GroupPredicates.name(groupName.get()));
+    return getOnlyGroup(GroupPredicates.name(groupName.get()), "group name '" + groupName + "'");
+  }
+
+  public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws OrmException {
+    return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
+  }
+
+  private Optional<InternalGroup> getOnlyGroup(
+      Predicate<InternalGroup> predicate, String groupDescription) throws OrmException {
+    List<InternalGroup> groups = query(predicate);
     if (groups.isEmpty()) {
       return Optional.empty();
     }
@@ -57,7 +67,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
 
     ImmutableList<AccountGroup.UUID> groupUuids =
         groups.stream().map(InternalGroup::getGroupUUID).collect(toImmutableList());
-    log.warn(String.format("Ambiguous group name '%s' for groups %s.", groupName, groupUuids));
+    log.warn(String.format("Ambiguous %s for groups %s.", groupDescription, groupUuids));
     return Optional.empty();
   }
 }

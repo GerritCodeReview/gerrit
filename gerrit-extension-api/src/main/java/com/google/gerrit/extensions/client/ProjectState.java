@@ -17,5 +17,13 @@ package com.google.gerrit.extensions.client;
 public enum ProjectState {
   ACTIVE,
   READ_ONLY,
-  HIDDEN
+  HIDDEN;
+
+  public boolean permitsRead() {
+    return this != HIDDEN;
+  }
+
+  public boolean permitsWrite() {
+    return this == ACTIVE;
+  }
 }

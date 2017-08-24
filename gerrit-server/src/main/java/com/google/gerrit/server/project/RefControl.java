@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -197,12 +196,11 @@ public class RefControl {
   }
 
   private boolean isProjectStatePermittingWrite() {
-    return getProjectControl().getProject().getState().equals(ProjectState.ACTIVE);
+    return getProjectControl().getProject().getState().permitsWrite();
   }
 
   private boolean isProjectStatePermittingRead() {
-    return getProjectControl().getProject().getState().equals(ProjectState.READ_ONLY)
-        || isProjectStatePermittingWrite();
+    return getProjectControl().getProject().getState().permitsRead();
   }
 
   private boolean canPushWithForce() {

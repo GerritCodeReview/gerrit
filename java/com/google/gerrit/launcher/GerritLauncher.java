@@ -604,7 +604,7 @@ public final class GerritLauncher {
     return resolveInSourceRoot("eclipse-out");
   }
 
-  static final String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
+  static final String SOURCE_ROOT_RESOURCE = "/com/google/gerrit/launcher/workspace-root.txt";
 
   /**
    * Locate a path in the source tree.

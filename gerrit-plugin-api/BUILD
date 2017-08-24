@@ -1,5 +1,5 @@
 PLUGIN_API = [
-    "//gerrit-pgm:init-api",
+    "//java/com/google/gerrit/pgm/init/api",
     "//gerrit-server:server",
     "//java/com/google/gerrit/httpd",
     "//java/com/google/gerrit/sshd",
@@ -79,7 +79,6 @@ java_binary(
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "//gerrit-pgm:libinit-api-src.jar",
         "//gerrit-server:libserver-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
@@ -88,6 +87,7 @@ java_binary(
         "//java/com/google/gerrit/index:libindex-src.jar",
         "//java/com/google/gerrit/index:libquery_exception-src.jar",
         "//java/com/google/gerrit/index:libquery_parser-src.jar",
+        "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
         "//java/com/google/gerrit/sshd:libsshd-src.jar",
         "//java/com/google/gwtexpui/server:libserver-src.jar",

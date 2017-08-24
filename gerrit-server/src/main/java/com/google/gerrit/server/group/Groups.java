@@ -60,18 +60,6 @@ public class Groups {
   }
 
   /**
-   * Returns the {@code AccountGroup} for the specified ID if it exists.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
-   * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   */
-  public Optional<AccountGroup> getGroup(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
-    return Optional.ofNullable(db.accountGroups().get(groupId));
-  }
-
-  /**
    * Returns the {@code AccountGroup} for the specified UUID if it exists.
    *
    * @param db the {@code ReviewDb} instance to use for lookups

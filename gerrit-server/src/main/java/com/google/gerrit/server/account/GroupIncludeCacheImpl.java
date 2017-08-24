@@ -19,11 +19,13 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -33,7 +35,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -174,8 +175,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         return groups
             .getParentGroups(db, key)
             .map(groupCache::get)
-            .map(AccountGroup::getGroupUUID)
-            .filter(Objects::nonNull)
+            .flatMap(Streams::stream)
+            .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
       }
     }

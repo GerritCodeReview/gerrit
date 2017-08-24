@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -46,7 +48,6 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -199,8 +200,8 @@ public class AccountCacheImpl implements AccountCache {
           groups
               .getGroupsWithMember(db, who)
               .map(groupCache::get)
-              .map(AccountGroup::getGroupUUID)
-              .filter(Objects::nonNull)
+              .flatMap(Streams::stream)
+              .map(InternalGroup::getGroupUUID)
               .collect(toImmutableSet());
 
       try {

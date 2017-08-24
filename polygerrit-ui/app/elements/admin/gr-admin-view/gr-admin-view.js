@@ -17,7 +17,7 @@
   const ADMIN_LINKS = [{
     name: 'Projects',
     url: '/admin/projects',
-    view: 'gr-admin-project-list',
+    view: 'gr-project-list',
     viewableToAll: true,
     children: [],
   }, {
@@ -191,7 +191,7 @@
           params.adminView === 'gr-project-commands');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
-          params.adminView === 'gr-admin-project-list');
+          params.adminView === 'gr-project-list');
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
       this.set('_showPluginList', params.adminView === 'gr-plugin-list');

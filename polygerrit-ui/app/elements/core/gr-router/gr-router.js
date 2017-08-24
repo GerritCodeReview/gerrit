@@ -698,7 +698,7 @@
     _handleProjectListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-project-list',
+        adminView: 'gr-project-list',
         offset: data.params[1] || 0,
         filter: null,
       });
@@ -707,7 +707,7 @@
     _handleProjectListFilterOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-project-list',
+        adminView: 'gr-project-list',
         offset: data.params.offset,
         filter: data.params.filter,
       });
@@ -716,7 +716,7 @@
     _handleProjectListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-project-list',
+        adminView: 'gr-project-list',
         filter: data.params.filter || null,
       });
     },

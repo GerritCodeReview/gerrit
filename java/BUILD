@@ -9,5 +9,5 @@ java_library(
     name = "main_lib",
     srcs = ["Main.java"],
     visibility = ["//visibility:public"],
-    deps = ["//gerrit-launcher:launcher"],
+    deps = ["//java/com/google/gerrit/launcher"],
 )

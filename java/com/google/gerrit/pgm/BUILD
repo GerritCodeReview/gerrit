@@ -15,7 +15,6 @@ java_library(
     resources = ["//resources/com/google/gerrit/pgm"],
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-launcher:launcher",
         "//gerrit-server:module",
         "//gerrit-server:receive",
         "//gerrit-server:server",
@@ -28,6 +27,7 @@ java_library(
         "//java/com/google/gerrit/httpd/auth/oauth",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics/dropwizard",

@@ -19,11 +19,13 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -64,6 +66,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       Provider<SetParent> setParent,
       GitReferenceUpdated gitRefUpdated,
       ContributorAgreementsChecker contributorAgreements,
+      Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -75,6 +79,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         metaDataUpdateFactory,
         allProjects,
         setParent,
+        user.get(),
+        permissionBackend,
         projectName,
         base,
         sectionList,

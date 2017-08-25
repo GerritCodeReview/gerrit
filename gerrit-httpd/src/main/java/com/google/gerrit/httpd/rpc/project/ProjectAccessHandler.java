@@ -30,12 +30,15 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -59,6 +62,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final CurrentUser user;
+  private final PermissionBackend permissionBackend;
 
   protected final Project.NameKey projectName;
   protected final ObjectId base;
@@ -73,6 +78,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
+      CurrentUser user,
+      PermissionBackend permissionBackend,
       Project.NameKey projectName,
       ObjectId base,
       List<AccessSection> sectionList,
@@ -85,6 +92,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjects = allProjects;
     this.setParent = setParent;
+    this.user = user;
+    this.permissionBackend = permissionBackend;
 
     this.projectName = projectName;
     this.base = base;
@@ -111,6 +120,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);
       Set<String> toDelete = scanSectionNames(config);
+      PermissionBackend.ForProject forProject = permissionBackend.user(user).project(projectName);
 
       for (AccessSection section : mergeSections(sectionList)) {
         String name = section.getName();
@@ -122,7 +132,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           replace(config, toDelete, section);
 
         } else if (AccessSection.isValid(name)) {
-          if (checkIfOwner && !projectControl.controlForRef(name).isOwner()) {
+          if (checkIfOwner && !forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
             continue;
           }
 
@@ -138,7 +148,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
             config.remove(config.getAccessSection(name));
           }
 
-        } else if (!checkIfOwner || projectControl.controlForRef(name).isOwner()) {
+        } else if (!checkIfOwner || forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
           config.remove(config.getAccessSection(name));
         }
       }

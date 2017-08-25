@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.project;
 import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
+import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
@@ -145,7 +146,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        if (pc.controlForRef(name).isOwner()) {
+        if (check(perm, name, WRITE_CONFIG)) {
           local.add(section);
           ownerOf.add(name);
 

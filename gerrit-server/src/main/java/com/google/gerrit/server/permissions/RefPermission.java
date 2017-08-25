@@ -41,7 +41,19 @@ public enum RefPermission {
    * according to the submit strategy, which may include cherry-pick or rebase. By creating changes
    * for each commit, automatic server side rebase, and post-update review are enabled.
    */
-  UPDATE_BY_SUBMIT;
+  UPDATE_BY_SUBMIT,
+
+  /**
+   * Can read all private changes on the ref. Typically granted to CI systems if they should run on
+   * private changes.
+   */
+  READ_PRIVATE_CHANGES(Permission.VIEW_PRIVATE_CHANGES),
+
+  /** Read access to ref's config section in {@code project.config}. */
+  READ_CONFIG,
+
+  /** Write access to ref's config section in {@code project.config}. */
+  WRITE_CONFIG;
 
   private final String name;
 

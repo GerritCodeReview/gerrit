@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "00c08b59_d774d6d8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03f60411_28815deb",
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "292319d1_6019ed09",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-08-24T05:37:15Z",
       "side": 1,
       "message": "Could this be on top of commands please? It’s just that it looks better as then it is alphabetical.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 12
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "748d2682_19d1a55e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "292319d1_6019ed09",
       "range": {
         "startLine": 134,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6b5104af_01c8b485",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40a0ce78_29da48b9",
+      "range": {
+        "startLine": 136,
+        "startChar": 14,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d9e28b0_2cac65ea",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7c46e0f1_71cbc9c4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9e28b0_2cac65ea",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bb474e4_0c2214a3",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2017-08-24T10:55:33Z",
       "side": 1,
       "message": "Add under here\n\ndetailType: \u0027access\u0027,\n\nplease.",
+      "range": {
+        "startLine": 357,
+        "startChar": 8,
+        "endLine": 357,
+        "endChar": 39
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9452246_5386017f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bb474e4_0c2214a3",
       "range": {
         "startLine": 357,
         "startChar": 8,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "afa323a7_f6169cc9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c696903_ae7f7cfc",
+      "range": {
+        "startLine": 1032,
+        "startChar": 10,
+        "endLine": 1032,
+        "endChar": 11
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "267db9b4_03df2a54",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -145,6 +283,30 @@
       "writtenOn": "2017-08-24T10:57:14Z",
       "side": 1,
       "message": "Remove space please.",
+      "range": {
+        "startLine": 1699,
+        "startChar": 28,
+        "endLine": 1699,
+        "endChar": 29
+      },
+      "revId": "ae3636beb00fc8099054e0d5ffbb38134680db34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04b5548b_61aff0ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "267db9b4_03df2a54",
       "range": {
         "startLine": 1699,
         "startChar": 28,

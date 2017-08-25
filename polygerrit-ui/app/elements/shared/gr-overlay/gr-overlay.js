@@ -24,11 +24,22 @@
       Polymer.IronOverlayBehavior,
     ],
 
+    listeners: {
+      'iron-overlay-closed': '_close',
+      'iron-overlay-cancelled': '_close',
+    },
+
     open(...args) {
       return new Promise(resolve => {
+        Polymer.dom(this.parent).querySelector('body')
+            .setAttribute('style', 'overflow:hidden;');
         Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
         this._awaitOpen(resolve);
       });
+    },
+
+    _close() {
+      Polymer.dom(this.parent).querySelector('body').removeAttribute('style');
     },
 
     /**

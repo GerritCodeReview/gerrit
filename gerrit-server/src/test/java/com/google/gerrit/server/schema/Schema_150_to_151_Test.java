@@ -16,26 +16,27 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.testutil.SchemaUpgradeTestEnvironment;
 import com.google.gerrit.testutil.TestUpdateUI;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,11 +49,38 @@ public class Schema_150_to_151_Test {
   @Inject private Schema_151 schema151;
 
   private ReviewDb db;
+  private Connection connection;
+  private PreparedStatement createdOnRetrieval;
+  private PreparedStatement createdOnUpdate;
+  private PreparedStatement auditEntryDeletion;
 
   @Before
   public void setUp() throws Exception {
     testEnv.getInjector().injectMembers(this);
     db = testEnv.getDb();
+    connection = ((JdbcSchema) db).getConnection();
+    createdOnRetrieval =
+        connection.prepareStatement("SELECT created_on FROM account_groups WHERE group_id = ?");
+    createdOnUpdate =
+        connection.prepareStatement("UPDATE account_groups SET created_on = ? WHERE group_id = ?");
+    auditEntryDeletion =
+        connection.prepareStatement("DELETE account_group_members_audit WHERE group_id = ?");
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    if (auditEntryDeletion != null) {
+      auditEntryDeletion.close();
+    }
+    if (createdOnUpdate != null) {
+      createdOnUpdate.close();
+    }
+    if (createdOnRetrieval != null) {
+      createdOnRetrieval.close();
+    }
+    if (connection != null) {
+      connection.close();
+    }
   }
 
   @Test
@@ -63,8 +91,8 @@ public class Schema_150_to_151_Test {
 
     schema151.migrateData(db, new TestUpdateUI());
 
-    AccountGroup group = db.accountGroups().get(groupId);
-    assertThat(group.getCreatedOn()).isAtLeast(testStartTime);
+    Timestamp createdOn = getCreatedOn(groupId);
+    assertThat(createdOn).isAtLeast(testStartTime);
   }
 
   @Test
@@ -75,8 +103,8 @@ public class Schema_150_to_151_Test {
 
     schema151.migrateData(db, new TestUpdateUI());
 
-    AccountGroup group = db.accountGroups().get(groupId);
-    assertThat(group.getCreatedOn()).isEqualTo(AccountGroup.auditCreationInstantTs());
+    Timestamp createdOn = getCreatedOn(groupId);
+    assertThat(createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
   }
 
   private AccountGroup.Id createGroup(String name) throws Exception {
@@ -87,16 +115,26 @@ public class Schema_150_to_151_Test {
     return new Id(groupInfo.groupId);
   }
 
-  private void setCreatedOnToVeryOldTimestamp(Id groupId) throws OrmException {
-    AccountGroup group = db.accountGroups().get(groupId);
+  private Timestamp getCreatedOn(Id groupId) throws Exception {
+    createdOnRetrieval.setInt(1, groupId.get());
+    try (ResultSet results = createdOnRetrieval.executeQuery()) {
+      if (results.first()) {
+        return results.getTimestamp(1);
+      }
+    }
+    return null;
+  }
+
+  private void setCreatedOnToVeryOldTimestamp(Id groupId) throws Exception {
+    createdOnUpdate.setInt(1, groupId.get());
     Instant instant = LocalDateTime.of(1800, Month.JANUARY, 1, 0, 0).toInstant(ZoneOffset.UTC);
-    group.setCreatedOn(Timestamp.from(instant));
-    db.accountGroups().update(ImmutableList.of(group));
+    createdOnUpdate.setTimestamp(1, Timestamp.from(instant));
+    createdOnUpdate.setInt(2, groupId.get());
+    createdOnUpdate.executeUpdate();
   }
 
   private void removeAuditEntriesFor(AccountGroup.Id groupId) throws Exception {
-    ResultSet<AccountGroupMemberAudit> groupMemberAudits =
-        db.accountGroupMembersAudit().byGroup(groupId);
-    db.accountGroupMembersAudit().delete(groupMemberAudits);
+    auditEntryDeletion.setInt(1, groupId.get());
+    auditEntryDeletion.executeUpdate();
   }
 }

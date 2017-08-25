@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.testutil.SchemaUpgradeTestEnvironment;
 import com.google.gerrit.testutil.TestUpdateUI;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -57,6 +59,8 @@ public class Schema_150_to_151_Test {
 
   @Test
   public void createdOnIsPopulatedForGroupsCreatedAfterAudit() throws Exception {
+    assume().that(db instanceof JdbcSchema).isTrue();
+
     Timestamp testStartTime = TimeUtil.nowTs();
     AccountGroup.Id groupId = createGroup("Group for schema migration");
     setCreatedOnToVeryOldTimestamp(groupId);
@@ -69,6 +73,8 @@ public class Schema_150_to_151_Test {
 
   @Test
   public void createdOnIsPopulatedForGroupsCreatedBeforeAudit() throws Exception {
+    assume().that(db instanceof JdbcSchema).isTrue();
+
     AccountGroup.Id groupId = createGroup("Ancient group for schema migration");
     setCreatedOnToVeryOldTimestamp(groupId);
     removeAuditEntriesFor(groupId);

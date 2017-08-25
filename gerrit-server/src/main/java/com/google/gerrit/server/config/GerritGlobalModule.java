@@ -90,7 +90,6 @@ import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
@@ -250,7 +249,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
-    factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);

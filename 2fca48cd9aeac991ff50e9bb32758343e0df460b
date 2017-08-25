@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1959691_471e1a1e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-25T00:06:31Z",
+      "side": 1,
+      "message": "Would benefit from description of return value, with an example.\n\n    @return {!string} Everything after the first \u0027#\u0027 (\"a#b#c\" -\u003e \"b#c\").",
+      "revId": "2fca48cd9aeac991ff50e9bb32758343e0df460b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

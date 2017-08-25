@@ -544,8 +544,7 @@ The supported values are:
 +
 *`HTTP`
 +
-Only the randomly generated HTTP password is accepted when doing Git over HTTP
-and REST API requests.
+Only the HTTP password is accepted when doing Git over HTTP and REST API requests.
 +
 *`LDAP`
 +
@@ -554,7 +553,7 @@ requests.
 +
 *`OAUTH`
 +
-Only the `OAUTH` password is allowed when doing Git over HTTP and REST API
+Only the `OAUTH` authentication is allowed when doing Git over HTTP and REST API
 requests.
 +
 *`HTTP_LDAP`

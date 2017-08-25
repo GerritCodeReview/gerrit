@@ -22,6 +22,30 @@
       "revId": "570a530a7db12c744049afa1db0076df59b6dfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21410c3d_5ff1b238",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectIndexCollection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-25T02:04:16Z",
+      "side": 1,
+      "message": "\u003e It can be removed in a follow-up commit to avoid triggering CI again for the entire series\n\nDone in https://gerrit-review.googlesource.com/121872",
+      "parentUuid": "354d0675_41034f35",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "570a530a7db12c744049afa1db0076df59b6dfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

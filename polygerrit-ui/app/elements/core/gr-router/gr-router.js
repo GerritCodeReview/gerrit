@@ -14,6 +14,83 @@
 (function() {
   'use strict';
 
+  const RoutePattern = {
+    ROOT: '/',
+    DASHBOARD: '/dashboard/(.*)',
+    ADMIN_PLACEHOLDER: '/admin/(.*)',
+    AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
+    REGISTER: /^\/register(\/.*)?/,
+
+    // Matches /admin/groups/<group>
+    GROUP: /^\/admin\/groups\/([^,]+)$/,
+
+    // Matches /admin/groups/<group>,info (backwords compat with gwtui)
+    // Redirects to /admin/groups/<group>
+    GROUP_INFO: /^\/admin\/groups\/(.+),info$/,
+
+    // Matches /admin/groups/<group>,audit-log
+    GROUP_AUDIT_LOG: /^\/admin\/groups\/(.+),audit-log$/,
+
+    // Matches /admin/groups/<group>,members
+    GROUP_MEMBERS: /^\/admin\/groups\/(.+),members$/,
+
+    // Matches /admin/groups[,<offset>][/].
+    GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
+    GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
+    GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
+
+    // Matches /admin/projects/<project>
+    PROJECT: /^\/admin\/projects\/([^,]+)$/,
+
+    // Matches /admin/projects/<project>,commands.
+    PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
+
+    // Matches /admin/projects[,<offset>][/].
+    PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
+    PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
+    PROJECT_LIST_FILTER_OFFSET: '/admin/projects/q/filter::filter,:offset',
+
+    // Matches /admin/projects/<project>,branches[,<offset>].
+    BRANCH_LIST_OFFSET: /^\/admin\/projects\/(.+),branches(,(.+))?$/,
+    BRANCH_LIST_FILTER: '/admin/projects/:project,branches/q/filter::filter',
+    BRANCH_LIST_FILTER_OFFSET:
+        '/admin/projects/:project,branches/q/filter::filter,:offset',
+
+    // Matches /admin/projects/<project>,tags[,<offset>].
+    TAG_LIST_OFFSET: /^\/admin\/projects\/(.+),tags(,(.+))?$/,
+    TAG_LIST_FILTER: '/admin/projects/:project,tags/q/filter::filter',
+    TAG_LIST_FILTER_OFFSET:
+        '/admin/projects/:project,tags/q/filter::filter,:offset',
+
+    PLUGIN_LIST: /^\/admin\/plugins(\/)?$/,
+
+    // Matches /admin/plugins[,<offset>][/].
+    PLUGIN_LIST_OFFSET: /^\/admin\/plugins(,(\d+))?(\/)?$/,
+    PLUGIN_LIST_FILTER: '/admin/plugins/q/filter::filter',
+    PLUGIN_LIST_FILTER_OFFSET: '/admin/plugins/q/filter::filter,:offset',
+
+    QUERY: '/q/:query',
+    QUERY_OFFSET: '/q/:query,:offset',
+
+    // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
+    CHNAGE_LEGACY: /^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
+
+    // Matches
+    // /c/<project>/+/<changeNum>/
+    //     [<basePatchNum|edit>..][<patchNum|edit>]/[path].
+    // TODO(kaspern): Migrate completely to project based URLs, with backwards
+    // compatibility for change-only.
+    // eslint-disable-next-line max-len
+    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
+
+    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
+    DIFF_LEGACY: /^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+
+    SETTINGS: /^\/settings\/?/,
+    SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
+  };
+
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   const app = document.querySelector('#app');
@@ -48,8 +125,9 @@
     },
 
     behaviors: [
-      Gerrit.URLEncodingBehavior,
+      Gerrit.BaseUrlBehavior,
       Gerrit.PatchSetBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     start() {
@@ -66,7 +144,7 @@
     },
 
     _generateUrl(params) {
-      const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+      const base = this.getBaseUrl();
       let url = '';
 
       if (params.view === Gerrit.Nav.View.SEARCH) {
@@ -133,6 +211,13 @@
       return base + url;
     },
 
+    /**
+     * Given an object of parameters, potentially including a `patchNum` or a
+     * `basePatchNum` or both, return a string representation of that range. If
+     * no range is indicated in the params, the empty string is returned.
+     * @param {!Object} params
+     * @return {string}
+     */
     _getPatchRangeExpression(params) {
       let range = '';
       if (params.patchNum) { range = '' + params.patchNum; }
@@ -193,9 +278,15 @@
       return needsRedirect;
     },
 
-    _redirectToLogin(data) {
-      const basePath = window.Gerrit.BaseUrlBehavior.getBaseUrl() || '';
-      page('/login/' + encodeURIComponent(data.substring(basePath.length)));
+    /**
+     * Redirect the user to login using the given return-URL for redirection
+     * after authentication success.
+     * @param {string} returnUrl
+     */
+    _redirectToLogin(returnUrl) {
+      const basePath = this.getBaseUrl() || '';
+      this._redirect(
+          '/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
     },
 
     /**
@@ -209,8 +300,60 @@
       return canonicalPath.split('#').slice(1).join('#');
     },
 
+    /**
+     * Check to see if the user is logged in and return a promise that only
+     * resolves if the user is logged in. If the user us not logged in, the
+     * promise never resolves and the page is redirected to the login flow.
+
+     * @param {!Object} data The parsed route data.
+     * @return {!Promise<!Object>} A promise yielding the original route data
+     *     (if it resolves).
+     */
+    _redirectIfNotLoggedIn(data) {
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return Promise.resolve();
+        } else {
+          this._redirectToLogin(data.canonicalPath);
+          // Return a promise that never resolves.
+          return new Promise(() => {});
+        }
+      });
+    },
+
+    /**  Page.js middleware that warms the REST API's logged-in cache line. */
+    _loadUserMiddleware(ctx, next) {
+      this._restAPI.getLoggedIn().then(() => { next(); });
+    },
+
+    /**
+     * Map a route to a method on the router.
+     *
+     * @param {!string|!RegExp} pattern The page.js pattern for the route.
+     * @param {!string} handlerName The method name for the handler. If the
+     *     route is matched, the handler will be executed with `this` referring
+     *     to the component. Its return value will be discarded so that it does
+     *     not interfere with page.js.
+     * @param  {?boolean} opt_authRedirect If true, then auth is checked before
+     *     executing the handler. If the user is not logged in, it will redirect
+     *     to the login flow and the handler will not be executed. The login
+     *     redirect specifies the matched URL to be used after successfull auth.
+     */
+    _mapRoute(pattern, handlerName, opt_authRedirect) {
+      if (!this[handlerName]) {
+        console.error('Attempted to map route to unknown method: ',
+            handlerName);
+        return;
+      }
+      page(pattern, this._loadUserMiddleware.bind(this), data => {
+        const promise = opt_authRedirect ?
+          this._redirectIfNotLoggedIn(data) : Promise.resolve();
+        promise.then(() => { this[handlerName](data); });
+      });
+    },
+
     _startRouter() {
-      const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+      const base = this.getBaseUrl();
       if (base) {
         page.base(base);
       }
@@ -227,7 +370,7 @@
         // Fire asynchronously so that the URL is changed by the time the event
         // is processed.
         this.async(() => {
-          app.fire('location-change', {
+          this.fire('location-change', {
             hash: window.location.hash,
             pathname: window.location.pathname,
           });
@@ -236,476 +379,451 @@
         next();
       });
 
-      const loadUser = (ctx, next) => {
-        this._restAPI.getLoggedIn().then(() => { next(); });
-      };
+      this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
-      // Routes.
-      page('/', loadUser, data => {
-        if (data.querystring.match(/^closeAfterLogin/)) {
-          // Close child window on redirect after login.
-          window.close();
-        }
-        let hash = this._getHashFromCanonicalPath(data.canonicalPath);
-        // For backward compatibility with GWT links.
-        if (hash) {
-          // In certain login flows the server may redirect to a hash without
-          // a leading slash, which page.js doesn't handle correctly.
-          if (hash[0] !== '/') {
-            hash = '/' + hash;
-          }
-          if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
-            // Path decodes all '+' to ' ' -- this breaks project-based URLs.
-            // See Issue 6888.
-            hash = hash.replace('/ /', '/+/');
-          }
-          let newUrl = base + hash;
-          if (hash.startsWith('/VE/')) {
-            newUrl = base + '/settings' + hash;
-          }
-          this._redirect(newUrl);
-          return;
-        }
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._redirect('/dashboard/self');
-          } else {
-            this._redirect('/q/status:open');
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
-      page('/dashboard/(.*)', loadUser, data => {
-        if (!data.params[0]) {
-          page.redirect('/dashboard/self');
-          return;
-        }
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (!loggedIn) {
-            if (data.params[0].toLowerCase() === 'self') {
-              this._redirectToLogin(data.canonicalPath);
-            } else {
-              this._redirect('/q/owner:' + data.params[0]);
-            }
-          } else {
-            this._setParams({
-              view: Gerrit.Nav.View.DASHBOARD,
-              user: data.params[0],
-            });
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
-      // Matches /admin/groups/<group>,info (backwords compat with gwtui)
-      // Redirects to /admin/groups/<group>
-      page(/^\/admin\/groups\/(.+),info$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._redirect(
-                '/admin/groups/' + encodeURIComponent(data.params[0]));
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
+          true);
 
-      // Matches /admin/groups/<group>,audit-log
-      page(/^\/admin\/groups\/(.+),audit-log$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-group-audit-log',
-              detailType: 'audit-log',
-              groupId: data.params[0],
-            });
-          } else {
-            this._redirect('/login/' + encodeURIComponent(data.canonicalPath));
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_MEMBERS, '_handleGroupMembersRoute');
 
-      // Matches /admin/groups/<group>,members
-      page(/^\/admin\/groups\/(.+),members$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-group-members',
-          detailType: 'members',
-          groupId: data.params[0],
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_LIST_OFFSET,
+          '_handleGroupListOffsetRoute', true);
 
-      // Matches /admin/groups[,<offset>][/].
-      page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-admin-group-list',
-              offset: data.params[1] || 0,
-              filter: null,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_LIST_FILTER_OFFSET,
+          '_handleGroupListFilterOffsetRoute', true);
 
-      page('/admin/groups/q/filter::filter,:offset', loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-admin-group-list',
-              offset: data.params.offset,
-              filter: data.params.filter,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_LIST_FILTER,
+          '_handleGroupListFilterRoute', true);
 
-      page('/admin/groups/q/filter::filter', loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-admin-group-list',
-              filter: data.params.filter || null,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
-      // Matches /admin/groups/<group>
-      page(/^\/admin\/groups\/([^,]+)$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-group',
-              groupId: data.params[0],
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.PROJECT_COMMANDS,
+          '_handleProjectCommandsRoute', true);
 
-      // Matches /admin/projects/<project>,commands.
-      page(/^\/admin\/projects\/(.+),commands$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-commands',
-              detailType: 'commands',
-              project: data.params[0],
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
+          '_handleBranchListOffsetRoute');
 
-      // Matches /admin/projects/<project>,branches[,<offset>].
-      page(/^\/admin\/projects\/(.+),branches(,(.+))?$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-project-detail-list',
-          detailType: 'branches',
-          project: data.params[0],
-          offset: data.params[2] || 0,
-          filter: null,
-        });
-      });
+      this._mapRoute(RoutePattern.BRANCH_LIST_FILTER_OFFSET,
+          '_handleBranchListFilterOffsetRoute');
 
-      page('/admin/projects/:project,branches/q/filter::filter,:offset',
-          loadUser, data => {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: data.params.project,
-              offset: data.params.offset,
-              filter: data.params.filter,
-            });
-          });
+      this._mapRoute(RoutePattern.BRANCH_LIST_FILTER,
+          '_handleBranchListFilterRoute');
 
-      page('/admin/projects/:project,branches/q/filter::filter',
-          loadUser, data => {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: data.params.project,
-              filter: data.params.filter || null,
-            });
-          });
+      this._mapRoute(RoutePattern.TAG_LIST_OFFSET,
+          '_handleTagListOffsetRoute');
 
-      // Matches /admin/projects/<project>,tags[,<offset>].
-      page(/^\/admin\/projects\/(.+),tags(,(.+))?$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-project-detail-list',
-          detailType: 'tags',
-          project: data.params[0],
-          offset: data.params[2] || 0,
-          filter: null,
-        });
-      });
+      this._mapRoute(RoutePattern.TAG_LIST_FILTER_OFFSET,
+          '_handleTagListFilterOffsetRoute');
 
-      page('/admin/projects/:project,tags/q/filter::filter,:offset',
-          loadUser, data => {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: data.params.project,
-              offset: data.params.offset,
-              filter: data.params.filter,
-            });
-          });
+      this._mapRoute(RoutePattern.TAG_LIST_FILTER,
+          '_handleTagListFilterRoute');
 
-      page('/admin/projects/:project,tags/q/filter::filter',
-          loadUser, data => {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: data.params.project,
-              filter: data.params.filter || null,
-            });
-          });
+      this._mapRoute(RoutePattern.PROJECT_LIST_OFFSET,
+          '_handleProjectListOffsetRoute');
 
-      // Matches /admin/projects[,<offset>][/].
-      page(/^\/admin\/projects(,(\d+))?(\/)?$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
-          offset: data.params[1] || 0,
-          filter: null,
-        });
-      });
+      this._mapRoute(RoutePattern.PROJECT_LIST_FILTER_OFFSET,
+          '_handleProjectListFilterOffsetRoute');
 
-      page('/admin/projects/q/filter::filter,:offset', loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
-          offset: data.params.offset,
-          filter: data.params.filter,
-        });
-      });
+      this._mapRoute(RoutePattern.PROJECT_LIST_FILTER,
+          '_handleProjectListFilterRoute');
 
-      page('/admin/projects/q/filter::filter', loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-admin-project-list',
-          filter: data.params.filter || null,
-        });
-      });
+      this._mapRoute(RoutePattern.PROJECT, '_handleProjectRoute');
 
-      // Matches /admin/projects/<project>
-      page(/^\/admin\/projects\/([^,]+)$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          project: data.params[0],
-          adminView: 'gr-project',
-        });
-      });
+      this._mapRoute(RoutePattern.PLUGIN_LIST_OFFSET,
+          '_handlePluginListOffsetRoute', true);
 
-      // Matches /admin/plugins[,<offset>][/].
-      page(/^\/admin\/plugins(,(\d+))?(\/)?$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-plugin-list',
-              offset: data.params[1] || 0,
-              filter: null,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.PLUGIN_LIST_FILTER_OFFSET,
+          '_handlePluginListFilterOffsetRoute', true);
 
-      page('/admin/plugins/q/filter::filter,:offset', loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-plugin-list',
-              offset: data.params.offset,
-              filter: data.params.filter,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.PLUGIN_LIST_FILTER,
+          '_handlePluginListFilterRoute', true);
 
-      page('/admin/plugins/q/filter::filter', loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-plugin-list',
-              filter: data.params.filter || null,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
 
-      page(/^\/admin\/plugins(\/)?$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-plugin-list',
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.ADMIN_PLACEHOLDER,
+          '_handleAdminPlaceholderRoute', true);
 
-      page('/admin/(.*)', loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            data.params.view = Gerrit.Nav.View.ADMIN;
-            data.params.placeholder = true;
-            this._setParams(data.params);
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.QUERY_OFFSET, '_handleQueryRoute');
+      this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
-      const queryHandler = data => {
-        data.params.view = Gerrit.Nav.View.SEARCH;
-        this._setParams(data.params);
-      };
+      this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
+          '_handleChangeNumberLegacyRoute');
 
-      page('/q/:query,:offset', queryHandler);
-      page('/q/:query', queryHandler);
+      this._mapRoute(RoutePattern.CHANGE_OR_DIFF, '_handleChangeOrDiffRoute');
 
-      page(/^\/(\d+)\/?/, ctx => {
-        this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
-      });
+      this._mapRoute(RoutePattern.CHNAGE_LEGACY, '_handleChnageLegacyRoute');
 
-      // Matches
-      // /c/<project>/+/<changeNum>/
-      //     [<basePatchNum|edit>..][<patchNum|edit>]/[path].
-      // TODO(kaspern): Migrate completely to project based URLs, with backwards
-      // compatibility for change-only.
-      // eslint-disable-next-line max-len
-      page(/^\/c\/(.+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
-          ctx => {
-            // Parameter order is based on the regex group number matched.
-            const params = {
-              project: ctx.params[0],
-              changeNum: ctx.params[1],
-              basePatchNum: ctx.params[4],
-              patchNum: ctx.params[6],
-              path: ctx.params[8],
-              view: ctx.params[8] ?
-                Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
-              hash: ctx.hash,
-            };
-            const needsRedirect = this._normalizePatchRangeParams(params);
-            if (needsRedirect) {
-              this._redirect(this._generateUrl(params));
-            } else {
-              this._setParams(params);
-              this._restAPI.setInProjectLookup(params.changeNum,
-                  params.project);
-            }
-          });
+      this._mapRoute(RoutePattern.DIFF_LEGACY, '_handleDiffLegacyRoute');
 
-      // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-      page(/^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/, ctx => {
-        // Parameter order is based on the regex group number matched.
-        const params = {
-          changeNum: ctx.params[0],
-          basePatchNum: ctx.params[3],
-          patchNum: ctx.params[5],
-          view: Gerrit.Nav.View.CHANGE,
-        };
+      this._mapRoute(RoutePattern.AGREEMENTS, '_handleAgreementsRoute', true);
 
-        this._normalizeLegacyRouteParams(params);
-      });
+      this._mapRoute(RoutePattern.SETTINGS_LEGACY,
+          '_handleSettingsLegacyRoute', true);
 
-      // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-      page(/^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/, ctx => {
-        // Check if path has an '@' which indicates it was using GWT style line
-        // numbers. Even if the filename had an '@' in it, it would have already
-        // been URI encoded. Redirect to hash version of path.
-        if (ctx.path.includes('@')) {
-          this._redirect(ctx.path.replace('@', '#'));
-          return;
-        }
+      this._mapRoute(RoutePattern.SETTINGS, '_handleSettingsRoute', true);
 
-        // Parameter order is based on the regex group number matched.
-        const params = {
-          changeNum: ctx.params[0],
-          basePatchNum: ctx.params[2],
-          patchNum: ctx.params[4],
-          path: ctx.params[5],
-          hash: ctx.hash,
-          view: Gerrit.Nav.View.DIFF,
-        };
-
-        this._normalizeLegacyRouteParams(params);
-      });
-
-      page(/^\/settings\/(agreements|new-agreement)/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            data.params.view = Gerrit.Nav.View.AGREEMENTS;
-            this._setParams(data.params);
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
-
-      page(/^\/settings\/VE\/(\S+)/, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.SETTINGS,
-              emailToken: data.params[0],
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
-
-      page(/^\/settings\/?/, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({view: Gerrit.Nav.View.SETTINGS});
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
-
-      page(/^\/register(\/.*)?/, ctx => {
-        this._setParams({justRegistered: true});
-        const path = ctx.params[0] || '/';
-        if (path[0] !== '/') { return; }
-        page.show(base + path);
-      });
+      this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
 
       page.start();
+    },
+
+    /**
+     * @param {!Object} data
+     * @return {Promise?} if handling the route involves asynchrony, then a
+     *     promise is returned. Otherwise, synchronous handling returns
+     *     undefined.
+     */
+    _handleRootRoute(data) {
+      if (data.querystring.match(/^closeAfterLogin/)) {
+        // Close child window on redirect after login.
+        window.close();
+        return;
+      }
+      let hash = this._getHashFromCanonicalPath(data.canonicalPath);
+      // For backward compatibility with GWT links.
+      if (hash) {
+        // In certain login flows the server may redirect to a hash without
+        // a leading slash, which page.js doesn't handle correctly.
+        if (hash[0] !== '/') {
+          hash = '/' + hash;
+        }
+        if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
+          // Path decodes all '+' to ' ' -- this breaks project-based URLs.
+          // See Issue 6888.
+          hash = hash.replace('/ /', '/+/');
+        }
+        const base = this.getBaseUrl();
+        let newUrl = base + hash;
+        if (hash.startsWith('/VE/')) {
+          newUrl = base + '/settings' + hash;
+        }
+        this._redirect(newUrl);
+        return;
+      }
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this._redirect('/dashboard/self');
+        } else {
+          this._redirect('/q/status:open');
+        }
+      });
+    },
+
+    _handleDashboardRoute(data) {
+      if (!data.params[0]) {
+        this._redirect('/dashboard/self');
+        return;
+      }
+
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          if (data.params[0].toLowerCase() === 'self') {
+            this._redirectToLogin(data.canonicalPath);
+          } else {
+            // TODO: encode user or use _generateUrl.
+            this._redirect('/q/owner:' + data.params[0]);
+          }
+        } else {
+          this._setParams({
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          });
+        }
+      });
+    },
+
+    _handleGroupInfoRoute(data) {
+      this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+    },
+
+    _handleGroupAuditLogRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-group-audit-log',
+        detailType: 'audit-log',
+        groupId: data.params[0],
+      });
+    },
+
+    _handleGroupMembersRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-group-members',
+        detailType: 'members',
+        groupId: data.params[0],
+      });
+    },
+
+    _handleGroupListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-group-list',
+        offset: data.params[1] || 0,
+        filter: null,
+      });
+    },
+
+    _handleGroupListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-group-list',
+        offset: data.params.offset,
+        filter: data.params.filter,
+      });
+    },
+
+    _handleGroupListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-group-list',
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleGroupRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-group',
+        groupId: data.params[0],
+      });
+    },
+
+    _handleProjectCommandsRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-commands',
+        detailType: 'commands',
+        project: data.params[0],
+      });
+    },
+
+    _handleBranchListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'branches',
+        project: data.params[0],
+        offset: data.params[2] || 0,
+        filter: null,
+      });
+    },
+
+    _handleBranchListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'branches',
+        project: data.params.project,
+        offset: data.params.offset,
+        filter: data.params.filter,
+      });
+    },
+
+    _handleBranchListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'branches',
+        project: data.params.project,
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleTagListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'tags',
+        project: data.params[0],
+        offset: data.params[2] || 0,
+        filter: null,
+      });
+    },
+
+    _handleTagListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'tags',
+        project: data.params.project,
+        offset: data.params.offset,
+        filter: data.params.filter,
+      });
+    },
+
+    _handleTagListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-detail-list',
+        detailType: 'tags',
+        project: data.params.project,
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleProjectListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-project-list',
+        offset: data.params[1] || 0,
+        filter: null,
+      });
+    },
+
+    _handleProjectListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-project-list',
+        offset: data.params.offset,
+        filter: data.params.filter,
+      });
+    },
+
+    _handleProjectListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-project-list',
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handleProjectRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        project: data.params[0],
+        adminView: 'gr-project',
+      });
+    },
+
+    _handlePluginListOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-plugin-list',
+        offset: data.params[1] || 0,
+        filter: null,
+      });
+    },
+
+    _handlePluginListFilterOffsetRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-plugin-list',
+        offset: data.params.offset,
+        filter: data.params.filter,
+      });
+    },
+
+    _handlePluginListFilterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-plugin-list',
+        filter: data.params.filter || null,
+      });
+    },
+
+    _handlePluginListRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-plugin-list',
+      });
+    },
+
+    _handleAdminPlaceholderRoute(data) {
+      data.params.view = Gerrit.Nav.View.ADMIN;
+      data.params.placeholder = true;
+      this._setParams(data.params);
+    },
+
+    _handleQueryRoute(data) {
+      data.params.view = Gerrit.Nav.View.SEARCH;
+      this._setParams(data.params);
+    },
+
+    _handleChangeNumberLegacyRoute(ctx) {
+      this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
+    },
+
+    _handleChangeOrDiffRoute(ctx) {
+      // Parameter order is based on the regex group number matched.
+      const params = {
+        project: ctx.params[0],
+        changeNum: ctx.params[1],
+        basePatchNum: ctx.params[4],
+        patchNum: ctx.params[6],
+        path: ctx.params[8],
+        view: ctx.params[8] ?
+          Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
+        hash: ctx.hash,
+      };
+      const needsRedirect = this._normalizePatchRangeParams(params);
+      if (needsRedirect) {
+        this._redirect(this._generateUrl(params));
+      } else {
+        this._setParams(params);
+        this._restAPI.setInProjectLookup(params.changeNum,
+            params.project);
+      }
+    },
+
+    _handleChnageLegacyRoute(ctx) {
+      // Parameter order is based on the regex group number matched.
+      const params = {
+        changeNum: ctx.params[0],
+        basePatchNum: ctx.params[3],
+        patchNum: ctx.params[5],
+        view: Gerrit.Nav.View.CHANGE,
+      };
+
+      this._normalizeLegacyRouteParams(params);
+    },
+
+    _handleDiffLegacyRoute(ctx) {
+      // Check if path has an '@' which indicates it was using GWT style line
+      // numbers. Even if the filename had an '@' in it, it would have already
+      // been URI encoded. Redirect to hash version of path.
+      if (ctx.path.includes('@')) {
+        this._redirect(ctx.path.replace('@', '#'));
+        return;
+      }
+
+      // Parameter order is based on the regex group number matched.
+      const params = {
+        changeNum: ctx.params[0],
+        basePatchNum: ctx.params[2],
+        patchNum: ctx.params[4],
+        path: ctx.params[5],
+        hash: ctx.hash,
+        view: Gerrit.Nav.View.DIFF,
+      };
+
+      this._normalizeLegacyRouteParams(params);
+    },
+
+    _handleAgreementsRoute(data) {
+      data.params.view = Gerrit.Nav.View.AGREEMENTS;
+      this._setParams(data.params);
+    },
+
+    _handleSettingsLegacyRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.SETTINGS,
+        emailToken: data.params[0],
+      });
+    },
+
+    _handleSettingsRoute(data) {
+      this._setParams({view: Gerrit.Nav.View.SETTINGS});
+    },
+
+    _handleRegisterRoute(ctx) {
+      this._setParams({justRegistered: true});
+      const path = ctx.params[0] || '/';
+      if (path[0] !== '/') { return; }
+      this._redirect(this.getBaseUrl() + path);
     },
   });
 })();

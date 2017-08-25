@@ -204,6 +204,13 @@
 
     listeners: {
       'topic-changed': '_handleTopicChanged',
+      // When an overlay is opened in a mobile viewport, the overlay has a full
+      // screen view. When it has a full screen view, we do not want the
+      // background to be scrollable. This will eliminate background scroll by
+      // hiding most of the contents on the screen upon opening, and showing
+      // again upon closing.
+      'fullscreen-overlay-opened': '_handleHideBackgroundContent',
+      'fullscreen-overlay-closed': '_handleShowBackgroundContent',
     },
     observers: [
       '_labelsChanged(_change.labels.*)',
@@ -418,6 +425,14 @@
       if (e.target === this.$.replyOverlay) {
         this.$.replyDialog.focus();
       }
+    },
+
+    _handleHideBackgroundContent() {
+      this.$.mainContent.classList.add('overlayOpen');
+    },
+
+    _handleShowBackgroundContent() {
+      this.$.mainContent.classList.remove('overlayOpen');
     },
 
     _handleReplySent(e) {

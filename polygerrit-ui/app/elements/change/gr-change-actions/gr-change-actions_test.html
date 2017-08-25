@@ -346,6 +346,20 @@ limitations under the License.
       });
     });
 
+    test('fullscreen-overlay-opened hides content', () => {
+      sandbox.spy(element, '_handleHideBackgroundContent');
+      element.$.overlay.fire('fullscreen-overlay-opened');
+      assert.isTrue(element._handleHideBackgroundContent.called);
+      assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
+    });
+
+    test('fullscreen-overlay-closed shows content', () => {
+      sandbox.spy(element, '_handleShowBackgroundContent');
+      element.$.overlay.fire('fullscreen-overlay-closed');
+      assert.isTrue(element._handleShowBackgroundContent.called);
+      assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
+    });
+
     suite('cherry-pick', () => {
       let fireActionStub;
 

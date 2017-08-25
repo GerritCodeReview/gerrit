@@ -121,6 +121,50 @@ limitations under the License.
         });
       });
 
+      test('fullscreen-overlay-opened hides content', () => {
+        element._loggedIn = true;
+        element._loading = false;
+        element._change = {
+          owner: {_account_id: 1},
+          labels: {},
+          actions: {
+            abandon: {
+              enabled: true,
+              label: 'Abandon',
+              method: 'POST',
+              title: 'Abandon',
+            },
+          },
+        };
+        sandbox.spy(element, '_handleHideBackgroundContent');
+        element.$.replyDialog.fire('fullscreen-overlay-opened');
+        assert.isTrue(element._handleHideBackgroundContent.called);
+        assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
+  
+        assert.equal(getComputedStyle(element.$.actions).display, 'block');
+      });
+
+      test('fullscreen-overlay-closed shows content', () => {
+        element._loggedIn = true;
+        element._loading = false;
+        element._change = {
+          owner: {_account_id: 1},
+          labels: {},
+          actions: {
+            abandon: {
+              enabled: true,
+              label: 'Abandon',
+              method: 'POST',
+              title: 'Abandon',
+            },
+          },
+        };
+        sandbox.spy(element, '_handleShowBackgroundContent');
+        element.$.replyDialog.fire('fullscreen-overlay-closed');
+        assert.isTrue(element._handleShowBackgroundContent.called);
+        assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
+      });
+
       test('X should expand all messages', () => {
         const handleExpand =
             sandbox.stub(element.$.messageList, 'handleExpandCollapse');

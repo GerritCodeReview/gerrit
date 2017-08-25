@@ -45,6 +45,9 @@
     // Matches /admin/projects/<project>,commands.
     PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
 
+    // Matches /admin/projects/<project>,access.
+    PROJECT_ACCESS: /^\/admin\/projects\/(.+),access$/,
+
     // Matches /admin/projects[,<offset>][/].
     PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
     PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
@@ -402,6 +405,9 @@
       this._mapRoute(RoutePattern.PROJECT_COMMANDS,
           '_handleProjectCommandsRoute', true);
 
+      this._mapRoute(RoutePattern.PROJECT_ACCESS,
+          '_handleProjectAccessRoute', true);
+
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
 
@@ -598,6 +604,15 @@
       });
     },
 
+    _handleProjectAccessRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-access',
+        detailType: 'access',
+        project: data.params[0],
+      });
+    },
+
     _handleBranchListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
@@ -680,11 +695,31 @@
       });
     },
 
+<<<<<<< HEAD
     _handleProjectListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-project-list',
         filter: data.params.filter || null,
+=======
+      // Matches /admin/projects/<project>,access
+      page('/admin/projects/:project,access', loadUser, data => {
+        this._setParams({
+          view: Gerrit.Nav.View.ADMIN,
+          adminView: 'gr-project-access',
+          detailType: 'access',
+          project: data.params.project,
+        });
+      });
+
+      // Matches /admin/projects/<project>
+      page(/^\/admin\/projects\/([^,]+)$/, loadUser, data => {
+        this._setParams({
+          view: Gerrit.Nav.View.ADMIN,
+          project: data.params[0],
+          adminView: 'gr-project',
+        });
+>>>>>>> 6429ea0f5e... Introduce gr-project-access
       });
     },
 

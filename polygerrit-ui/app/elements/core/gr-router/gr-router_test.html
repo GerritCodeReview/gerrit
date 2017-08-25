@@ -102,6 +102,7 @@ limitations under the License.
         '_handlePluginListFilterRoute',
         '_handlePluginListOffsetRoute',
         '_handlePluginListRoute',
+        '_handleProjectAccessRoute',
         '_handleProjectCommandsRoute',
         '_handleSettingsLegacyRoute',
         '_handleSettingsRoute',
@@ -651,6 +652,16 @@ limitations under the License.
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-project-commands',
             detailType: 'commands',
+            project: 4321,
+          });
+        });
+
+        test('_handleProjectAccessRoute', () => {
+          const data = {params: {0: 4321}};
+          assertDataToParams(data, '_handleProjectAccessRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project-access',
+            detailType: 'access',
             project: 4321,
           });
         });

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfaf2f84_01b768b9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StandaloneNoteDbMigrationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-25T13:26:30Z",
+      "side": 1,
+      "message": "For some reason, the group index isn\u0027t present when the author identity of the NoteDb commit is created. As AccountCacheImpl always determines the groups of which a user is a member, we need the group index when migrating changes. I still have to find out how to make it available for this test.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 69
+      },
+      "revId": "7b64bfafa56ae4bbd277597c57a70124596e78b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

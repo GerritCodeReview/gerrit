@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.Lists;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -25,21 +26,20 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupDetailFactory;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.kohsuke.args4j.Option;
 
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupControl.Factory groupControlFactory;
   private final AccountLoader accountLoader;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
@@ -48,10 +48,10 @@ public class ListMembers implements RestReadView<GroupResource> {
   @Inject
   protected ListMembers(
       GroupCache groupCache,
-      GroupDetailFactory.Factory groupDetailFactory,
+      GroupControl.Factory groupControlFactory,
       AccountLoader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
-    this.groupDetailFactory = groupDetailFactory;
+    this.groupControlFactory = groupControlFactory;
     this.accountLoader = accountLoaderFactory.create(true);
   }
 
@@ -68,52 +68,40 @@ public class ListMembers implements RestReadView<GroupResource> {
     return apply(group.getGroupUUID());
   }
 
-  public List<AccountInfo> apply(AccountGroup group) throws OrmException {
-    return apply(group.getGroupUUID());
-  }
-
   public List<AccountInfo> apply(AccountGroup.UUID groupId) throws OrmException {
-    final Map<Account.Id, AccountInfo> members =
-        getMembers(groupId, new HashSet<AccountGroup.UUID>());
-    final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
-    Collections.sort(memberInfos, AccountInfoComparator.ORDER_NULLS_FIRST);
+    Set<Account.Id> members = getMembers(groupId, new HashSet<>());
+    List<AccountInfo> memberInfos = new ArrayList<>(members.size());
+    for (Account.Id member : members) {
+      memberInfos.add(accountLoader.get(member));
+    }
+    accountLoader.fill();
+    memberInfos.sort(AccountInfoComparator.ORDER_NULLS_FIRST);
     return memberInfos;
   }
 
-  private Map<Account.Id, AccountInfo> getMembers(
-      final AccountGroup.UUID groupUUID, HashSet<AccountGroup.UUID> seenGroups)
-      throws OrmException {
+  private Set<Account.Id> getMembers(
+      AccountGroup.UUID groupUUID, HashSet<AccountGroup.UUID> seenGroups) {
     seenGroups.add(groupUUID);
 
-    final Map<Account.Id, AccountInfo> members = new HashMap<>();
-    Optional<InternalGroup> group = groupCache.get(groupUUID);
-    if (!group.isPresent()) {
-      // the included group is an external group and can't be resolved
-      return Collections.emptyMap();
+    Optional<InternalGroup> internalGroup = groupCache.get(groupUUID);
+    if (!internalGroup.isPresent()) {
+      return ImmutableSet.of();
     }
+    InternalGroup group = internalGroup.get();
 
-    final GroupDetail groupDetail;
-    try {
-      groupDetail = groupDetailFactory.create(group.get().getGroupUUID()).call();
-    } catch (NoSuchGroupException e) {
-      // the included group is not visible
-      return Collections.emptyMap();
-    }
+    GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 
-    for (Account.Id member : groupDetail.getMembers()) {
-      if (!members.containsKey(member)) {
-        members.put(member, accountLoader.get(member));
-      }
-    }
+    Set<Account.Id> directMembers =
+        group.getMembers().stream().filter(groupControl::canSeeMember).collect(toImmutableSet());
 
-    if (recursive) {
-      for (AccountGroup.UUID includedGroupUuid : groupDetail.getIncludes()) {
-        if (!seenGroups.contains(includedGroupUuid)) {
-          members.putAll(getMembers(includedGroupUuid, seenGroups));
+    Set<Account.Id> indirectMembers = new HashSet<>();
+    if (recursive && groupControl.canSeeGroup()) {
+      for (AccountGroup.UUID subgroupUuid : group.getIncludes()) {
+        if (!seenGroups.contains(subgroupUuid)) {
+          indirectMembers.addAll(getMembers(subgroupUuid, seenGroups));
         }
       }
     }
-    accountLoader.fill();
-    return members;
+    return Sets.union(directMembers, indirectMembers);
   }
 }

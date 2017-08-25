@@ -17,13 +17,11 @@ package com.google.gerrit.server.index.group;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GroupIndexCollection
     extends IndexCollection<AccountGroup.UUID, AccountGroup, GroupIndex> {
-  @Inject
   @VisibleForTesting
   public GroupIndexCollection() {}
 }

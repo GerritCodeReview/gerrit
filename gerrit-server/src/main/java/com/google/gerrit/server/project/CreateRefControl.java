@@ -67,9 +67,7 @@ public class CreateRefControl {
     if (ps == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }
-    if (!ps.getProject()
-        .getState()
-        .equals(com.google.gerrit.extensions.client.ProjectState.ACTIVE)) {
+    if (!ps.getProject().getState().permitsWrite()) {
       return "project state does not permit write";
     }
 

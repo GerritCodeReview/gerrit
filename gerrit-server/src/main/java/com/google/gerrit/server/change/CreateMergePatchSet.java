@@ -42,7 +42,6 @@ import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -117,11 +116,10 @@ public class CreateMergePatchSet
       throw new BadRequestException("merge.source must be non-empty");
     }
 
-    ChangeControl ctl = rsrc.getControl();
-    PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
-    ProjectControl projectControl = ctl.getProjectControl();
+    PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
+    ProjectControl projectControl = rsrc.getControl().getProjectControl();
     ProjectState state = projectControl.getProjectState();
-    Change change = ctl.getChange();
+    Change change = rsrc.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();
     try (Repository git = gitManager.openRepository(project);
@@ -153,11 +151,12 @@ public class CreateMergePatchSet
               ObjectId.fromString(change.getKey().get().substring(1)));
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
-      PatchSetInserter psInserter = patchSetInserterFactory.create(ctl, nextPsId, newCommit);
+      PatchSetInserter psInserter =
+          patchSetInserterFactory.create(rsrc.getControl(), nextPsId, newCommit);
       try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.addOp(
-            ctl.getId(),
+            rsrc.getId(),
             psInserter
                 .setMessage("Uploaded patch set " + nextPsId.get() + ".")
                 .setDraft(ps.isDraft())

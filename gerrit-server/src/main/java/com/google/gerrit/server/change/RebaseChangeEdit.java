@@ -87,7 +87,7 @@ public class RebaseChangeEdit
             PermissionBackendException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.rebaseEdit(repository, rsrc.getControl());
+        editModifier.rebaseEdit(repository, rsrc.getNotes());
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

@@ -133,7 +133,7 @@ public class CatServlet extends HttpServlet {
           .check(ChangePermission.READ);
       if (patchKey.getParentKey().get() == 0) {
         // change edit
-        Optional<ChangeEdit> edit = changeEditUtil.byChange(notes.getChange());
+        Optional<ChangeEdit> edit = changeEditUtil.byChange(notes, userProvider.get());
         if (edit.isPresent()) {
           revision = ObjectId.toString(edit.get().getEditCommit());
         } else {

@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
 /**
@@ -52,10 +51,6 @@ public class ChangeEditResource implements RestResource {
 
   public ChangeResource getChangeResource() {
     return change;
-  }
-
-  public ChangeControl getControl() {
-    return getChangeResource().getControl();
   }
 
   public ChangeEdit getChangeEdit() {

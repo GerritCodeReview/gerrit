@@ -5636,6 +5636,12 @@ where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`topic`              |optional|The topic to which this change belongs.
+|`assignee`           |optional|
+The assignee of the change as an link:rest-api-accounts.html#account-info[
+AccountInfo] entity.
+|`hashtags`           |optional|
+List of hashtags that are set on the change (only populated when NoteDb
+is enabled).
 |`change_id`          ||The Change-Id of the change.
 |`subject`            ||
 The subject of the change (header line of the commit message).

@@ -14,17 +14,19 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit.Key;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,21 +38,46 @@ public class Schema_151 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
-    List<AccountGroup> accountGroups = db.accountGroups().all().toList();
-    for (AccountGroup accountGroup : accountGroups) {
-      ResultSet<AccountGroupMemberAudit> groupMemberAudits =
-          db.accountGroupMembersAudit().byGroup(accountGroup.getId());
-      Optional<Timestamp> firstTimeMentioned =
-          Streams.stream(groupMemberAudits)
-              .map(AccountGroupMemberAudit::getKey)
-              .map(Key::getAddedOn)
-              .min(Comparator.naturalOrder());
-      Timestamp createdOn =
-          firstTimeMentioned.orElseGet(() -> AccountGroup.auditCreationInstantTs());
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    Connection connection = ((JdbcSchema) db).getConnection();
+    try (PreparedStatement groupUpdate =
+            connection.prepareStatement(
+                "UPDATE account_groups SET created_on = ? WHERE group_id = ?");
+        PreparedStatement addedOnRetrieval =
+            connection.prepareStatement(
+                "SELECT added_on FROM account_group_members_audit WHERE group_id = ?"
+                    + " ORDER BY added_on ASC")) {
+      List<AccountGroup.Id> accountGroups = getAllGroupIds(db);
+      for (AccountGroup.Id groupId : accountGroups) {
+        Optional<Timestamp> firstTimeMentioned = getFirstTimeMentioned(addedOnRetrieval, groupId);
+        Timestamp createdOn = firstTimeMentioned.orElseGet(AccountGroup::auditCreationInstantTs);
 
-      accountGroup.setCreatedOn(createdOn);
+        groupUpdate.setTimestamp(1, createdOn);
+        groupUpdate.setInt(2, groupId.get());
+        groupUpdate.executeUpdate();
+      }
     }
-    db.accountGroups().update(accountGroups);
+  }
+
+  private static Optional<Timestamp> getFirstTimeMentioned(
+      PreparedStatement addedOnRetrieval, AccountGroup.Id groupId) throws SQLException {
+    addedOnRetrieval.setInt(1, groupId.get());
+    try (ResultSet resultSet = addedOnRetrieval.executeQuery()) {
+      if (resultSet.first()) {
+        return Optional.of(resultSet.getTimestamp(1));
+      }
+    }
+    return Optional.empty();
+  }
+
+  private static List<AccountGroup.Id> getAllGroupIds(ReviewDb db) throws SQLException {
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery("SELECT group_id FROM account_groups")) {
+      List<AccountGroup.Id> groupIds = new ArrayList<>();
+      while (rs.next()) {
+        groupIds.add(new AccountGroup.Id(rs.getInt(1)));
+      }
+      return groupIds;
+    }
   }
 }

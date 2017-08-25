@@ -26,16 +26,22 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,26 +165,36 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   static class ParentGroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final Provider<GroupIndex> groupIndexProvider;
+    private final Provider<InternalGroupQuery> groupQueryProvider;
     private final GroupCache groupCache;
-    private final Groups groups;
 
     @Inject
-    ParentGroupsLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache, Groups groups) {
+    ParentGroupsLoader(
+        SchemaFactory<ReviewDb> sf,
+        GroupIndexCollection groupIndexCollection,
+        Provider<InternalGroupQuery> groupQueryProvider,
+        GroupCache groupCache) {
       schema = sf;
+      this.groupIndexProvider = groupIndexCollection::getSearchIndex;
+      this.groupQueryProvider = groupQueryProvider;
       this.groupCache = groupCache;
-      this.groups = groups;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
-      try (ReviewDb db = schema.open()) {
-        return groups
-            .getParentGroups(db, key)
-            .map(groupCache::get)
-            .flatMap(Streams::stream)
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableList());
+      Stream<InternalGroup> internalGroupStream;
+      if (groupIndexProvider.get().getSchema().hasField(GroupField.SUBGROUP)) {
+        internalGroupStream = groupQueryProvider.get().bySubgroup(key).stream();
+      } else {
+        try (ReviewDb db = schema.open()) {
+          internalGroupStream =
+              Groups.getParentGroupsFromReviewDb(db, key)
+                  .map(groupCache::get)
+                  .flatMap(Streams::stream);
+        }
       }
+      return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableList());
     }
   }
 

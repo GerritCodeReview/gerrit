@@ -198,8 +198,8 @@ public class Groups {
    * @return a stream of the IDs of the parent groups
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public Stream<AccountGroup.Id> getParentGroups(ReviewDb db, AccountGroup.UUID subgroupUuid)
-      throws OrmException {
+  public static Stream<AccountGroup.Id> getParentGroupsFromReviewDb(
+      ReviewDb db, AccountGroup.UUID subgroupUuid) throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds =
         db.accountGroupById().byIncludeUUID(subgroupUuid);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);

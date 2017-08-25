@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupDescription;
@@ -35,7 +38,6 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -43,13 +45,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -58,6 +61,8 @@ import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
 public class ListGroups implements RestReadView<TopLevelResource> {
+  private static final Comparator<GroupDescription.Internal> GROUP_COMPARATOR =
+      Comparator.comparing(GroupDescription.Basic::getName);
 
   protected final GroupCache groupCache;
 
@@ -266,33 +271,32 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private List<GroupInfo> getAllGroups() throws OrmException {
     List<GroupInfo> groupInfos;
-    List<AccountGroup> groupList;
+    List<GroupDescription.Internal> groupList;
     if (!projects.isEmpty()) {
-      Map<AccountGroup.UUID, AccountGroup> groups = new HashMap<>();
+      Map<AccountGroup.UUID, GroupDescription.Internal> groups = new HashMap<>();
       for (ProjectControl projectControl : projects) {
         final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
         for (GroupReference groupRef : groupsRefs) {
-          final AccountGroup group = groupCache.get(groupRef.getUUID());
-          if (group != null) {
-            groups.put(group.getGroupUUID(), group);
-          }
+          Optional<InternalGroup> internalGroup = groupCache.get(groupRef.getUUID());
+          internalGroup.ifPresent(
+              group -> groups.put(group.getGroupUUID(), new InternalGroupDescription(group)));
         }
       }
       groupList = filterGroups(groups.values());
     } else {
-      groupList = filterGroups(groupCache.all());
+      groupList = filterGroups(getAllExistingInternalGroups());
     }
     groupInfos = Lists.newArrayListWithCapacity(groupList.size());
     int found = 0;
     int foundIndex = 0;
-    for (AccountGroup group : groupList) {
+    for (GroupDescription.Internal group : groupList) {
       if (foundIndex++ < start) {
         continue;
       }
       if (limit > 0 && ++found > limit) {
         break;
       }
-      groupInfos.add(json.addOptions(options).format(GroupDescriptions.forAccountGroup(group)));
+      groupInfos.add(json.addOptions(options).format(group));
     }
     return groupInfos;
   }
@@ -354,7 +358,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     List<GroupInfo> groups = new ArrayList<>();
     int found = 0;
     int foundIndex = 0;
-    for (AccountGroup g : filterGroups(groupCache.all())) {
+    for (GroupDescription.Internal g : filterGroups(getAllExistingInternalGroups())) {
       GroupControl ctl = groupControlFactory.controlFor(g);
       try {
         if (genericGroupControlFactory.controlFor(user, g.getGroupUUID()).isOwner()) {
@@ -373,10 +377,19 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groups;
   }
 
-  private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
-    List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
+  private ImmutableList<GroupDescription.Internal> getAllExistingInternalGroups() {
+    return groupCache
+        .all()
+        .stream()
+        .map(GroupDescriptions::forAccountGroup)
+        .collect(toImmutableList());
+  }
+
+  private List<GroupDescription.Internal> filterGroups(
+      Collection<GroupDescription.Internal> groups) {
+    List<GroupDescription.Internal> filteredGroups = new ArrayList<>(groups.size());
     Pattern pattern = Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
-    for (AccountGroup group : groups) {
+    for (GroupDescription.Internal group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
         if (!group
             .getName()
@@ -401,7 +414,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         filteredGroups.add(group);
       }
     }
-    Collections.sort(filteredGroups, new GroupComparator());
+    filteredGroups.sort(GROUP_COMPARATOR);
     return filteredGroups;
   }
 }

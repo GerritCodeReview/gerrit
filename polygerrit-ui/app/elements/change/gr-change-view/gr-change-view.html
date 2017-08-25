@@ -326,13 +326,19 @@ limitations under the License.
         .scrollable {
           overflow: auto;
         }
+        /* Change actions are the only thing thant need to remain visible due
+        to the fact that they may have the currently visible overlay open. */
+        #mainContent.overlayOpen .hideOnMobileOverlay {
+          display: none;
+        }
       }
     </style>
     <div class="container loading" hidden$="[[!_loading]]">Loading...</div>
     <div
+        id="mainContent"
         class$="container [[_computeEditLoadedClass(_editLoaded)]]"
         hidden$="{{_loading}}">
-      <div class$="[[_computeHeaderClass(_change)]]">
+      <div class$="hideOnMobileOverlay [[_computeHeaderClass(_change)]]">
         <span class="header-title">
           <gr-change-star
               id="changeStar"
@@ -360,7 +366,7 @@ limitations under the License.
         </span>
       </div>
       <section class="changeInfo">
-        <div class="changeInfo-column changeMetadata">
+        <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
               change="{{_change}}"
               commit-info="[[_commitInfo]]"
@@ -394,7 +400,7 @@ limitations under the License.
                 on-download-tap="_handleDownloadTap"></gr-change-actions>
           </div>
           <hr class="mobile">
-          <div id="commitAndRelated">
+          <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
               <div
                   id="commitMessage"
@@ -459,7 +465,7 @@ limitations under the License.
           </div>
         </div>
       </section>
-      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum,
+      <section class$="patchInfo hideOnMobileOverlay [[_computePatchInfoClass(_patchRange.patchNum,
           _allPatchSets)]]">
         <div class="patchInfo-header">
           <div class="patchInfo-header-wrapper">
@@ -537,6 +543,7 @@ limitations under the License.
             file-list-increment="{{_numFilesShown}}"></gr-file-list>
       </section>
       <gr-messages-list id="messageList"
+          class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           reviewer-updates="[[_change.reviewer_updates]]"

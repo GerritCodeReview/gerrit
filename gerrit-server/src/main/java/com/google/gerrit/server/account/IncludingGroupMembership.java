@@ -97,7 +97,7 @@ public class IncludingGroupMembership implements GroupMembership {
         if (!group.isPresent()) {
           continue;
         }
-        if (search(includeCache.subgroupsOf(id))) {
+        if (search(group.get().getIncludes())) {
           memberOf.put(id, true);
           return true;
         }

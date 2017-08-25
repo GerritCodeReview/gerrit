@@ -259,7 +259,7 @@ public class GroupsUpdate {
    * @param groupUuid the UUID of the group
    * @param accountIds a set of IDs of accounts to add
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws IOException if the cache entry of one of the new members couldn't be invalidated
+   * @throws IOException if the group or one of the new members couldn't be indexed
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
@@ -293,6 +293,7 @@ public class GroupsUpdate {
       auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers);
     }
     db.accountGroupMembers().insert(newMembers);
+    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     for (AccountGroupMember newMember : newMembers) {
       accountCache.evict(newMember.getAccountId());
     }
@@ -306,7 +307,7 @@ public class GroupsUpdate {
    * @param groupUuid the UUID of the group
    * @param accountIds a set of IDs of accounts to remove
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws IOException if the cache entry of one of the removed members couldn't be invalidated
+   * @throws IOException if the group or one of the removed members couldn't be indexed
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
   public void removeGroupMembers(
@@ -331,6 +332,7 @@ public class GroupsUpdate {
       auditService.dispatchDeleteAccountsFromGroup(currentUser.getAccountId(), membersToRemove);
     }
     db.accountGroupMembers().delete(membersToRemove);
+    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     for (AccountGroupMember member : membersToRemove) {
       accountCache.evict(member.getAccountId());
     }
@@ -349,11 +351,12 @@ public class GroupsUpdate {
    * @param parentGroupUuid the UUID of the parent group
    * @param includedGroupUuids a set of IDs of the groups to add as subgroups
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the parent group couldn't be indexed
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
   public void addIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
-      throws OrmException, NoSuchGroupException {
+      throws OrmException, NoSuchGroupException, IOException {
     AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> newIncludedGroups = new HashSet<>();
@@ -373,6 +376,7 @@ public class GroupsUpdate {
       auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newIncludedGroups);
     }
     db.accountGroupById().insert(newIncludedGroups);
+    groupCache.evict(parentGroup.getGroupUUID(), parentGroup.getId(), parentGroup.getNameKey());
     for (AccountGroupById newIncludedGroup : newIncludedGroups) {
       groupIncludeCache.evictParentGroupsOf(newIncludedGroup.getIncludeUUID());
     }
@@ -390,11 +394,12 @@ public class GroupsUpdate {
    * @param parentGroupUuid the UUID of the parent group
    * @param includedGroupUuids a set of IDs of the subgroups to remove from the parent group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws IOException if the parent group couldn't be indexed
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
   public void deleteIncludedGroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> includedGroupUuids)
-      throws OrmException, NoSuchGroupException {
+      throws OrmException, NoSuchGroupException, IOException {
     AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> includedGroupsToRemove = new HashSet<>();
@@ -415,6 +420,7 @@ public class GroupsUpdate {
           currentUser.getAccountId(), includedGroupsToRemove);
     }
     db.accountGroupById().delete(includedGroupsToRemove);
+    groupCache.evict(parentGroup.getGroupUUID(), parentGroup.getId(), parentGroup.getNameKey());
     for (AccountGroupById groupToRemove : includedGroupsToRemove) {
       groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
     }

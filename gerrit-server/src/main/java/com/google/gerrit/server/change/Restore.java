@@ -37,7 +37,6 @@ import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -88,11 +87,10 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     req.permissions().database(dbProvider).check(ChangePermission.RESTORE);
 
-    ChangeControl ctl = req.getControl();
     Op op = new Op(input);
     try (BatchUpdate u =
         updateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+            dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op).execute();
     }
     return json.noOptions().format(op.change);

@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -77,8 +76,8 @@ public class ChangeResource implements RestResource, HasETag {
     return control;
   }
 
-  public IdentifiedUser getUser() {
-    return getControl().getUser().asIdentifiedUser();
+  public CurrentUser getUser() {
+    return getControl().getUser();
   }
 
   public Change.Id getId() {

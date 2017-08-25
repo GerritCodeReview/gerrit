@@ -49,7 +49,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
       throws AuthException, OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
     return commentJson
         .get()
         .setFillAccounts(true)

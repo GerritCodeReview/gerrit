@@ -89,7 +89,7 @@ public class PublishChangeEdit
         throws IOException, OrmException, RestApiException, UpdateException,
             ConfigInvalidException {
       CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(
             String.format("no edit exists for change %s", rsrc.getChange().getChangeId()));

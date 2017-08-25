@@ -47,7 +47,6 @@ import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -105,7 +104,7 @@ public class ChangeEdits
   @Override
   public ChangeEditResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, OrmException {
-    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     if (!edit.isPresent()) {
       throw new ResourceNotFoundException(id);
     }
@@ -157,7 +156,7 @@ public class ChangeEdits
     public Response<?> apply(ChangeResource resource, Put.Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
-      putEdit.apply(resource.getControl(), path, input.content);
+      putEdit.apply(resource, path, input.content);
       return Response.none();
     }
   }
@@ -182,7 +181,7 @@ public class ChangeEdits
     public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
         throws IOException, AuthException, ResourceConflictException, OrmException,
             PermissionBackendException {
-      return deleteContent.apply(rsrc.getControl(), path);
+      return deleteContent.apply(rsrc, path);
     }
   }
 
@@ -218,7 +217,7 @@ public class ChangeEdits
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc)
         throws AuthException, IOException, ResourceNotFoundException, OrmException {
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         return Response.none();
       }
@@ -275,13 +274,12 @@ public class ChangeEdits
             PermissionBackendException {
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        ChangeControl changeControl = resource.getControl();
         if (isRestoreFile(input)) {
-          editModifier.restoreFile(repository, changeControl, input.restorePath);
+          editModifier.restoreFile(repository, resource.getNotes(), input.restorePath);
         } else if (isRenameFile(input)) {
-          editModifier.renameFile(repository, changeControl, input.oldPath, input.newPath);
+          editModifier.renameFile(repository, resource.getNotes(), input.oldPath, input.newPath);
         } else {
-          editModifier.createEdit(repository, changeControl);
+          editModifier.createEdit(repository, resource.getNotes());
         }
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
@@ -320,19 +318,18 @@ public class ChangeEdits
     public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
-      return apply(rsrc.getControl(), rsrc.getPath(), input.content);
+      return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
     }
 
-    public Response<?> apply(ChangeControl changeControl, String path, RawInput newContent)
+    public Response<?> apply(ChangeResource rsrc, String path, RawInput newContent)
         throws ResourceConflictException, AuthException, IOException, OrmException,
             PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
-      Project.NameKey project = changeControl.getChange().getProject();
-      try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.modifyFile(repository, changeControl, path, newContent);
+      try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
+        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }
@@ -364,15 +361,14 @@ public class ChangeEdits
     public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
         throws AuthException, ResourceConflictException, OrmException, IOException,
             PermissionBackendException {
-      return apply(rsrc.getControl(), rsrc.getPath());
+      return apply(rsrc.getChangeResource(), rsrc.getPath());
     }
 
-    public Response<?> apply(ChangeControl changeControl, String filePath)
+    public Response<?> apply(ChangeResource rsrc, String filePath)
         throws AuthException, IOException, OrmException, ResourceConflictException,
             PermissionBackendException {
-      Project.NameKey project = changeControl.getChange().getProject();
-      try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.deleteFile(repository, changeControl, filePath);
+      try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
+        editModifier.deleteFile(repository, rsrc.getNotes(), filePath);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }
@@ -401,7 +397,7 @@ public class ChangeEdits
         ChangeEdit edit = rsrc.getChangeEdit();
         return Response.ok(
             fileContentUtil.getContent(
-                rsrc.getControl().getProjectControl().getProjectState(),
+                rsrc.getChangeResource().getControl().getProjectControl().getProjectState(),
                 base
                     ? ObjectId.fromString(edit.getBasePatchSet().getRevision().get())
                     : edit.getEditCommit(),
@@ -471,8 +467,7 @@ public class ChangeEdits
 
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        ChangeControl changeControl = rsrc.getControl();
-        editModifier.modifyMessage(repository, changeControl, input.message);
+        editModifier.modifyMessage(repository, rsrc.getNotes(), input.message);
       } catch (UnchangedCommitMessageException e) {
         throw new ResourceConflictException(e.getMessage());
       }
@@ -501,7 +496,7 @@ public class ChangeEdits
     @Override
     public BinaryResult apply(ChangeResource rsrc)
         throws AuthException, IOException, ResourceNotFoundException, OrmException {
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       String msg;
       if (edit.isPresent()) {
         if (base) {

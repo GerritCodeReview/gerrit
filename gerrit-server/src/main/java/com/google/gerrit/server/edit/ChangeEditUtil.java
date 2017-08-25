@@ -38,8 +38,8 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
@@ -70,10 +70,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> user;
+  private final Provider<CurrentUser> userProvider;
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
 
@@ -81,40 +80,32 @@ public class ChangeEditUtil {
   ChangeEditUtil(
       GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       Provider<ReviewDb> db,
-      Provider<CurrentUser> user,
+      Provider<CurrentUser> userProvider,
       ChangeKindCache changeKindCache,
       PatchSetUtil psUtil) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
     this.db = db;
-    this.user = user;
+    this.userProvider = userProvider;
     this.changeKindCache = changeKindCache;
     this.psUtil = psUtil;
   }
 
   /**
-   * Retrieve edit for a change and the user from the request scope.
+   * Retrieve edit for a given change.
    *
    * <p>At most one change edit can exist per user and change.
    *
-   * @param change
+   * @param notes change notes of change to retrieve change edits for.
    * @return edit for this change for this user, if present.
-   * @throws AuthException
-   * @throws IOException
-   * @throws OrmException
+   * @throws AuthException if this is not a logged-in user.
+   * @throws IOException if an error occurs.
    */
-  public Optional<ChangeEdit> byChange(Change change)
-      throws AuthException, IOException, OrmException {
-    try {
-      return byChange(changeControlFactory.controlFor(db.get(), change, user.get()));
-    } catch (NoSuchChangeException e) {
-      throw new IOException(e);
-    }
+  public Optional<ChangeEdit> byChange(ChangeNotes notes) throws AuthException, IOException {
+    return byChange(notes, userProvider.get());
   }
 
   /**
@@ -122,17 +113,19 @@ public class ChangeEditUtil {
    *
    * <p>At most one change edit can exist per user and change.
    *
-   * @param ctl control with user to retrieve change edits for.
+   * @param notes change notes of change to retrieve change edits for.
+   * @param user user to retrieve edits as.
    * @return edit for this change for this user, if present.
    * @throws AuthException if this is not a logged-in user.
    * @throws IOException if an error occurs.
    */
-  public Optional<ChangeEdit> byChange(ChangeControl ctl) throws AuthException, IOException {
-    if (!ctl.getUser().isIdentifiedUser()) {
+  public Optional<ChangeEdit> byChange(ChangeNotes notes, CurrentUser user)
+      throws AuthException, IOException {
+    if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    IdentifiedUser u = ctl.getUser().asIdentifiedUser();
-    Change change = ctl.getChange();
+    IdentifiedUser u = user.asIdentifiedUser();
+    Change change = notes.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       int n = change.currentPatchSetId().get();
       String[] refNames = new String[n];
@@ -146,7 +139,7 @@ public class ChangeEditUtil {
       }
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
-        PatchSet basePs = getBasePatchSet(ctl, ref);
+        PatchSet basePs = getBasePatchSet(notes, ref);
         return Optional.of(new ChangeEdit(change, ref.getName(), commit, basePs));
       }
     }
@@ -244,13 +237,13 @@ public class ChangeEditUtil {
     indexer.index(db.get(), change);
   }
 
-  private PatchSet getBasePatchSet(ChangeControl ctl, Ref ref) throws IOException {
+  private PatchSet getBasePatchSet(ChangeNotes notes, Ref ref) throws IOException {
     try {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
       return psUtil.get(
-          db.get(), ctl.getNotes(), new PatchSet.Id(ctl.getId(), Integer.parseInt(psId)));
+          db.get(), notes, new PatchSet.Id(notes.getChange().getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);
     }

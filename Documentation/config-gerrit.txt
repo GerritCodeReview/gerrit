@@ -4617,8 +4617,9 @@ notifications if the full name of the user is not set.
 +
 By default "Anonymous Coward" is used.
 
+[[secure.config]]
+== File `etc/secure.config`
 
-== [[secure.config]]File `etc/secure.config`
 The optional file `'$site_path'/etc/secure.config` overrides (or
 supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
 The file should be readable only by the daemon process and can be

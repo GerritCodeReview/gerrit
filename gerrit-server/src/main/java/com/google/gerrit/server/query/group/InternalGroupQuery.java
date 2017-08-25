@@ -21,6 +21,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
@@ -52,6 +53,10 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
 
   public Optional<InternalGroup> byId(AccountGroup.Id groupId) throws OrmException {
     return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
+  }
+
+  public List<InternalGroup> byMember(Account.Id memberId) throws OrmException {
+    return query(GroupPredicates.member(memberId));
   }
 
   private Optional<InternalGroup> getOnlyGroup(

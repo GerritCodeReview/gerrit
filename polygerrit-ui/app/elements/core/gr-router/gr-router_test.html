@@ -234,5 +234,241 @@ limitations under the License.
         });
       });
     });
+
+    suite('route handlers', () => {
+      let redirectStub;
+      let setParamsStub;
+
+      setup(() => {
+        redirectStub = sandbox.stub(element, '_redirect');
+        setParamsStub = sandbox.stub(element, '_setParams');
+      });
+
+      suite('_handleRootRoute', () => {
+        test('closes for closeAfterLogin', () => {
+          const data = {querystring: 'closeAfterLogin', canonicalPath: ''};
+          const closeStub = sandbox.stub(window, 'close');
+          const result = element._handleRootRoute(data);
+          assert.isNotOk(result);
+          assert.isTrue(closeStub.called);
+          assert.isFalse(redirectStub.called);
+        });
+
+        test('redirects to dahsboard if logged in', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(true));
+          const data = {
+            canonicalPath: '/', path: '/', querystring: '', hash: '',
+          };
+          const result = element._handleRootRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(redirectStub.calledWithExactly('/dashboard/self'));
+          });
+        });
+
+        test('redirects to open changes if not logged in', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {
+            canonicalPath: '/', path: '/', querystring: '', hash: '',
+          };
+          const result = element._handleRootRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(redirectStub.calledWithExactly('/q/status:open'));
+          });
+        });
+
+        suite('GWT hash-path URLs', () => {
+          test('redirects hash-path URLs', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar/baz',
+              hash: '/foo/bar/baz',
+              querystring: '',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+          });
+
+          test('redirects hash-path URLs w/o leading slash', () => {
+            const data = {
+              canonicalPath: '/#foo/bar/baz',
+              querystring: '',
+              hash: 'foo/bar/baz',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+          });
+
+          test('normalizes "/ /" in hash to "/+/"', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar/+/123/4',
+              querystring: '',
+              hash: '/foo/bar/ /123/4',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/+/123/4'));
+          });
+
+          test('prepends baseurl to hash-path', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar',
+              querystring: '',
+              hash: '/foo/bar',
+            };
+            sandbox.stub(element, 'getBaseUrl').returns('/baz');
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/baz/foo/bar'));
+          });
+
+          test('normalizes /VE/ settings hash-paths', () => {
+            const data = {
+              canonicalPath: '/#/VE/foo/bar',
+              querystring: '',
+              hash: '/VE/foo/bar',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/settings/VE/foo/bar'));
+          });
+
+          test('does not drop "inner hashes"', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar#baz',
+              querystring: '',
+              hash: '/foo/bar',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar#baz'));
+          });
+        });
+      });
+
+      suite('_handleDashboardRoute', () => {
+        let reidrectToLoginStub;
+
+        setup(() => {
+          reidrectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        });
+
+        test('no user specified', () => {
+          const data = {canonicalPath: '/dashboard', params: {}};
+          const result = element._handleDashboardRoute(data);
+          assert.isNotOk(result);
+          assert.isFalse(setParamsStub.called);
+          assert.isFalse(reidrectToLoginStub.called);
+          assert.isTrue(redirectStub.called);
+          assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+        });
+
+        test('own dahsboard but signed out redirects to login', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {canonicalPath: '/dashboard', params: {'0': 'seLF'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(reidrectToLoginStub.calledOnce);
+            assert.isFalse(redirectStub.called);
+            assert.isFalse(setParamsStub.called);
+          });
+        });
+
+        test('non-self dahsboard but signed out does not redirect', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {canonicalPath: '/dashboard', params: {'0': 'foo'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.calledOnce);
+            assert.equal(redirectStub.lastCall.args[0], '/q/owner:foo');
+          });
+        });
+
+        test('dahsboard while signed in sets params', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(true));
+          const data = {canonicalPath: '/dashboard', params: {'0': 'foo'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(setParamsStub.calledOnce);
+            assert.deepEqual(setParamsStub.lastCall.args[0], {
+              view: Gerrit.Nav.View.DASHBOARD,
+              user: 'foo',
+            });
+          });
+        });
+      });
+
+      test('_handleGroupInfoRoute', () => {
+        const data = {params: {'0': 1234}};
+        element._handleGroupInfoRoute(data);
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/admin/groups/1234');
+      });
+
+      test('_handleGroupAuditLogRoute', () => {
+        const data = {params: {'0': 1234}};
+        element._handleGroupAuditLogRoute(data);
+        assert.isTrue(setParamsStub.calledOnce);
+        assert.deepEqual(setParamsStub.lastCall.args[0], {
+          view: Gerrit.Nav.View.ADMIN,
+          adminView: 'gr-group-audit-log',
+          detailType: 'audit-log',
+          groupId: 1234,
+        });
+      });
+
+      test('_handleGroupMembersRoute', () => {
+        const data = {params: {'0': 1234}};
+        element._handleGroupMembersRoute(data);
+        assert.isTrue(setParamsStub.calledOnce);
+        assert.deepEqual(setParamsStub.lastCall.args[0], {
+          view: Gerrit.Nav.View.ADMIN,
+          adminView: 'gr-group-members',
+          detailType: 'members',
+          groupId: 1234,
+        });
+      });
+
+      test('_handleGroupListRoute', () => {
+        const data = {params: {}};
+        element._handleGroupListRoute(data);
+        assert.isTrue(setParamsStub.calledOnce);
+        assert.deepEqual(setParamsStub.lastCall.args[0], {
+          view: Gerrit.Nav.View.ADMIN,
+          adminView: 'gr-admin-group-list',
+          offset: 0,
+          filter: null,
+        });
+
+        data.params[1] = 42;
+        element._handleGroupListRoute(data);
+        assert.deepEqual(setParamsStub.lastCall.args[0], {
+          view: Gerrit.Nav.View.ADMIN,
+          adminView: 'gr-admin-group-list',
+          offset: 42,
+          filter: null,
+        });
+      });
+    });
   });
 </script>

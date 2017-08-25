@@ -14,6 +14,15 @@
 (function() {
   'use strict';
 
+  const RoutePattern = {
+    ROOT: '/',
+    DASHBOARD: '/dashboard/(.*)',
+    GROUP_INFO: /^\/admin\/groups\/(.+),info$/,
+    GROUP_AUDIT_LOG: /^\/admin\/groups\/(.+),audit-log$/,
+    GROUP_MEMBERS: /^\/admin\/groups\/(.+),members$/,
+    GROUP_LIST: /^\/admin\/groups(,(\d+))?(\/)?$/,
+  };
+
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   const app = document.querySelector('#app');
@@ -48,8 +57,9 @@
     },
 
     behaviors: [
-      Gerrit.URLEncodingBehavior,
+      Gerrit.BaseUrlBehavior,
       Gerrit.PatchSetBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     start() {
@@ -66,7 +76,7 @@
     },
 
     _generateUrl(params) {
-      const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+      const base = this.getBaseUrl();
       let url = '';
 
       if (params.view === Gerrit.Nav.View.SEARCH) {
@@ -194,8 +204,9 @@
     },
 
     _redirectToLogin(data) {
-      const basePath = window.Gerrit.BaseUrlBehavior.getBaseUrl() || '';
-      page('/login/' + encodeURIComponent(data.substring(basePath.length)));
+      const basePath = this.getBaseUrl() || '';
+      this._redirect(
+          '/login/' + encodeURIComponent(data.substring(basePath.length)));
     },
 
     /**
@@ -209,8 +220,140 @@
       return canonicalPath.split('#').slice(1).join('#');
     },
 
+    _redirectIfNotLoggedIn(data) {
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          return Promise.resolve();
+        } else {
+          this._redirectToLogin(data.canonicalPath);
+          // Return a promise that never resolves.
+          return new Promise(() => {});
+        }
+      });
+    },
+
+    /**
+     * @param {!Object} data
+     * @return {Promise?} if handling the route involves asynchrony, then a
+     *     promise is returned. Otherwise, synchronous handling returns
+     *     undefined.
+     */
+    _handleRootRoute(data) {
+      if (data.querystring.match(/^closeAfterLogin/)) {
+        // Close child window on redirect after login.
+        window.close();
+        return;
+      }
+      let hash = this._getHashFromCanonicalPath(data.canonicalPath);
+      // For backward compatibility with GWT links.
+      if (hash) {
+        // In certain login flows the server may redirect to a hash without
+        // a leading slash, which page.js doesn't handle correctly.
+        if (hash[0] !== '/') {
+          hash = '/' + hash;
+        }
+        if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
+          // Path decodes all '+' to ' ' -- this breaks project-based URLs.
+          // See Issue 6888.
+          hash = hash.replace('/ /', '/+/');
+        }
+        const base = this.getBaseUrl();
+        let newUrl = base + hash;
+        if (hash.startsWith('/VE/')) {
+          newUrl = base + '/settings' + hash;
+        }
+        this._redirect(newUrl);
+        return;
+      }
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this._redirect('/dashboard/self');
+        } else {
+          this._redirect('/q/status:open');
+        }
+      });
+    },
+
+    _handleDashboardRoute(data) {
+      if (!data.params[0]) {
+        this._redirect('/dashboard/self');
+        return;
+      }
+
+      return this._restAPI.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          if (data.params[0].toLowerCase() === 'self') {
+            this._redirectToLogin(data.canonicalPath);
+          } else {
+            // TODO: encode user or use _generateUrl.
+            this._redirect('/q/owner:' + data.params[0]);
+          }
+        } else {
+          this._setParams({
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          });
+        }
+      });
+    },
+
+    _handleGroupInfoRoute(data) {
+      this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+    },
+
+    _handleGroupAuditLogRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-group-audit-log',
+        detailType: 'audit-log',
+        groupId: data.params[0],
+      });
+    },
+
+    _handleGroupMembersRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-group-members',
+        detailType: 'members',
+        groupId: data.params[0],
+      });
+    },
+
+    _handleGroupListRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-group-list',
+        offset: data.params[1] || 0,
+        filter: null,
+      });
+    },
+
+    _loadUserMiddleware(ctx, next) {
+      this._restAPI.getLoggedIn().then(() => { next(); });
+    },
+
+    /**
+     * Map a route to a method on the router.
+     *
+     * @param {!string|!Regex} pattern The page.js pattern for the route.
+     * @param {!string} handlerName The method name for the handler. If the
+     *     route is matched, the handler will be executed with `this` referring
+     *     to the component.
+     * @param  {?boolean} opt_authRedirect If true, then auth is checked before
+     *     executing the hanler. If the user is not logged in, it will redirect
+     *     to the login flow and the handler will not be executed. The login
+     *     redirect specifies the matched URL to be used after successfull auth.
+     */
+    _mapRoute(pattern, handlerName, opt_authRedirect) {
+      page(pattern, this._loadUserMiddleware.bind(this), data => {
+        const promise = opt_authRedirect ?
+          this._redirectIfNotLoggedIn(data) : Promise.resolve();
+        promise.then(() => { this[handlerName](data); });
+      });
+    },
+
     _startRouter() {
-      const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
+      const base = this.getBaseUrl();
       if (base) {
         page.base(base);
       }
@@ -227,7 +370,7 @@
         // Fire asynchronously so that the URL is changed by the time the event
         // is processed.
         this.async(() => {
-          app.fire('location-change', {
+          this.fire('location-change', {
             hash: window.location.hash,
             pathname: window.location.pathname,
           });
@@ -241,115 +384,23 @@
       };
 
       // Routes.
-      page('/', loadUser, data => {
-        if (data.querystring.match(/^closeAfterLogin/)) {
-          // Close child window on redirect after login.
-          window.close();
-        }
-        let hash = this._getHashFromCanonicalPath(data.canonicalPath);
-        // For backward compatibility with GWT links.
-        if (hash) {
-          // In certain login flows the server may redirect to a hash without
-          // a leading slash, which page.js doesn't handle correctly.
-          if (hash[0] !== '/') {
-            hash = '/' + hash;
-          }
-          if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
-            // Path decodes all '+' to ' ' -- this breaks project-based URLs.
-            // See Issue 6888.
-            hash = hash.replace('/ /', '/+/');
-          }
-          let newUrl = base + hash;
-          if (hash.startsWith('/VE/')) {
-            newUrl = base + '/settings' + hash;
-          }
-          this._redirect(newUrl);
-          return;
-        }
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._redirect('/dashboard/self');
-          } else {
-            this._redirect('/q/status:open');
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
-      page('/dashboard/(.*)', loadUser, data => {
-        if (!data.params[0]) {
-          page.redirect('/dashboard/self');
-          return;
-        }
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (!loggedIn) {
-            if (data.params[0].toLowerCase() === 'self') {
-              this._redirectToLogin(data.canonicalPath);
-            } else {
-              this._redirect('/q/owner:' + data.params[0]);
-            }
-          } else {
-            this._setParams({
-              view: Gerrit.Nav.View.DASHBOARD,
-              user: data.params[0],
-            });
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
       // Matches /admin/groups/<group>,info (backwords compat with gwtui)
       // Redirects to /admin/groups/<group>
-      page(/^\/admin\/groups\/(.+),info$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._redirect(
-                '/admin/groups/' + encodeURIComponent(data.params[0]));
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
       // Matches /admin/groups/<group>,audit-log
-      page(/^\/admin\/groups\/(.+),audit-log$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-group-audit-log',
-              detailType: 'audit-log',
-              groupId: data.params[0],
-            });
-          } else {
-            this._redirect('/login/' + encodeURIComponent(data.canonicalPath));
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
+          true);
 
       // Matches /admin/groups/<group>,members
-      page(/^\/admin\/groups\/(.+),members$/, loadUser, data => {
-        this._setParams({
-          view: Gerrit.Nav.View.ADMIN,
-          adminView: 'gr-group-members',
-          detailType: 'members',
-          groupId: data.params[0],
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_MEMBERS, '_handleGroupMembersRoute');
 
       // Matches /admin/groups[,<offset>][/].
-      page(/^\/admin\/groups(,(\d+))?(\/)?$/, loadUser, data => {
-        this._restAPI.getLoggedIn().then(loggedIn => {
-          if (loggedIn) {
-            this._setParams({
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-admin-group-list',
-              offset: data.params[1] || 0,
-              filter: null,
-            });
-          } else {
-            this._redirectToLogin(data.canonicalPath);
-          }
-        });
-      });
+      this._mapRoute(RoutePattern.GROUP_LIST, '_handleGroupListRoute', true);
 
       page('/admin/groups/q/filter::filter,:offset', loadUser, data => {
         this._restAPI.getLoggedIn().then(loggedIn => {

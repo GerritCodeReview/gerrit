@@ -42,6 +42,16 @@ public interface AccountCache {
   @Nullable
   AccountState getOrNull(Account.Id accountId);
 
+  /**
+   * Returns an {@code AccountState} instance for the given username.
+   *
+   * <p>This method first loads the external ID for the username and then uses the account ID of the
+   * external ID to lookup the account from the cache.
+   *
+   * @param username username if the account that should be retrieved
+   * @return {@code AccountState} instance for the given username, if no account with this username
+   *     exists or if loading the external ID fails {@code null} is returned
+   */
   AccountState getByUsername(String username);
 
   /**
@@ -51,8 +61,6 @@ public interface AccountCache {
    * @throws IOException thrown if reindexing fails
    */
   void evict(Account.Id accountId) throws IOException;
-
-  void evictByUsername(String username);
 
   /** Evict all accounts from the cache, but doesn't trigger reindex of all accounts. */
   void evictAllNoReindex();

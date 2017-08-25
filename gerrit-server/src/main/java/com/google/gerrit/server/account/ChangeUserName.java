@@ -46,7 +46,6 @@ public class ChangeUserName implements Callable<VoidResult> {
     ChangeUserName create(IdentifiedUser user, String newUsername);
   }
 
-  private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
@@ -56,13 +55,11 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Inject
   ChangeUserName(
-      AccountCache accountCache,
       SshKeyCache sshKeyCache,
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory,
       @Assisted IdentifiedUser user,
       @Nullable @Assisted String newUsername) {
-    this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
@@ -113,10 +110,8 @@ public class ChangeUserName implements Callable<VoidResult> {
     externalIdsUpdate.delete(old);
     for (ExternalId extId : old) {
       sshKeyCache.evict(extId.key().id());
-      accountCache.evictByUsername(extId.key().id());
     }
 
-    accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;
   }

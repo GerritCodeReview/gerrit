@@ -33,6 +33,7 @@ limitations under the License.
 <link rel="import" href="../gr-group-members/gr-group-members.html">
 <link rel="import" href="../gr-plugin-list/gr-plugin-list.html">
 <link rel="import" href="../gr-project/gr-project.html">
+<link rel="import" href="../gr-project-access/gr-project-access.html">
 <link rel="import" href="../gr-project-commands/gr-project-commands.html">
 <link rel="import" href="../gr-project-detail-list/gr-project-detail-list.html">
 
@@ -125,6 +126,11 @@ limitations under the License.
       <main>
         <gr-project-commands
             project="[[params.project]]"></gr-project-commands>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showProjectAccess]]" restamp="true">
+      <main class="table">
+        <gr-project-access project="[[params.project]]"></gr-project-access>
       </main>
     </template>
     <template is="dom-if" if="[[params.placeholder]]" restamp="true">

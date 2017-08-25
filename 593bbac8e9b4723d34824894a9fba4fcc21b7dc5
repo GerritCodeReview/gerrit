@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2dc78e63_a307d7c6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4597,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-25T09:57:25Z",
+      "side": 1,
+      "message": "Good idea. Done (both).",
+      "parentUuid": "cd6bb879_c8f5c16c",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7768ea4_aa448f95",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -51,6 +69,24 @@
       "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "049fe928_0ffa111d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4599,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-25T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7768ea4_aa448f95",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -74,6 +110,30 @@
       "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba7c229_790a5a76",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4604,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-25T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d404ca28_15211054",
+      "range": {
+        "startLine": 4604,
+        "startChar": 19,
+        "endLine": 4604,
+        "endChar": 23
+      },
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "f14994df_e3ea7dc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-25T09:57:25Z",
+      "side": 1,
+      "message": "Agreed, I think keeping as-is would be good for readability. With the new limits I think we won\u0027t run into issues for that additional instantiation. From what I saw our largest garbage creator was the #replace(String, String) call that created a new pattern each time.",
+      "parentUuid": "8696e080_a0f50162",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ff90d65_6ba88d17",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 3
@@ -131,6 +209,24 @@
       "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8873eda6_b7455e16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-25T09:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff90d65_6ba88d17",
+      "revId": "593bbac8e9b4723d34824894a9fba4fcc21b7dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

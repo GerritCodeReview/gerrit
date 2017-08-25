@@ -211,6 +211,30 @@
       "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26d23caa_765d705b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:01:33Z",
+      "side": 1,
+      "message": "Ok, since everything is kind of \"hooked up\" already (ex: there\u0027s the button, with an on-tap handler, etc. what do you think about keeping this function but removing everything inside of it with a todo? That way, the pipes are still there but the review can be done for the function contents later?",
+      "parentUuid": "15018227_b0399d5b",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 6
+      },
+      "revId": "ab31ac585cd2af44a0e483e194c9f0c18bdbe770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

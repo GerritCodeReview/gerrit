@@ -102,19 +102,13 @@ public class RefNames {
   }
 
   public static String changeMetaRef(Change.Id id) {
-    StringBuilder r = new StringBuilder();
-    r.append(REFS_CHANGES);
-    r.append(shard(id.get()));
-    r.append(META_SUFFIX);
-    return r.toString();
+    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
+    return shard(id.get(), r).append(META_SUFFIX).toString();
   }
 
   public static String robotCommentsRef(Change.Id id) {
-    StringBuilder r = new StringBuilder();
-    r.append(REFS_CHANGES);
-    r.append(shard(id.get()));
-    r.append(ROBOT_COMMENTS_SUFFIX);
-    return r.toString();
+    StringBuilder r = newStringBuilder().append(REFS_CHANGES);
+    return shard(id.get(), r).append(ROBOT_COMMENTS_SUFFIX).toString();
   }
 
   public static boolean isNoteDbMetaRef(String ref) {
@@ -129,16 +123,12 @@ public class RefNames {
   }
 
   public static String refsUsers(Account.Id accountId) {
-    StringBuilder r = new StringBuilder();
-    r.append(REFS_USERS);
-    r.append(shard(accountId.get()));
-    return r.toString();
+    StringBuilder r = newStringBuilder().append(REFS_USERS);
+    return shard(accountId.get(), r).toString();
   }
 
   public static String refsDraftComments(Change.Id changeId, Account.Id accountId) {
-    StringBuilder r = buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get());
-    r.append(accountId.get());
-    return r.toString();
+    return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).append(accountId.get()).toString();
   }
 
   public static String refsDraftCommentsPrefix(Change.Id changeId) {
@@ -146,9 +136,7 @@ public class RefNames {
   }
 
   public static String refsStarredChanges(Change.Id changeId, Account.Id accountId) {
-    StringBuilder r = buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get());
-    r.append(accountId.get());
-    return r.toString();
+    return buildRefsPrefix(REFS_STARRED_CHANGES, changeId.get()).append(accountId.get()).toString();
   }
 
   public static String refsStarredChangesPrefix(Change.Id changeId) {
@@ -156,11 +144,8 @@ public class RefNames {
   }
 
   private static StringBuilder buildRefsPrefix(String prefix, int id) {
-    StringBuilder r = new StringBuilder();
-    r.append(prefix);
-    r.append(shard(id));
-    r.append('/');
-    return r;
+    StringBuilder r = newStringBuilder().append(prefix);
+    return shard(id, r).append('/');
   }
 
   public static String refsCacheAutomerge(String hash) {
@@ -171,15 +156,18 @@ public class RefNames {
     if (id < 0) {
       return null;
     }
-    StringBuilder r = new StringBuilder();
+    return shard(id, newStringBuilder()).toString();
+  }
+
+  private static StringBuilder shard(int id, StringBuilder sb) {
     int n = id % 100;
     if (n < 10) {
-      r.append('0');
+      sb.append('0');
     }
-    r.append(n);
-    r.append('/');
-    r.append(id);
-    return r.toString();
+    sb.append(n);
+    sb.append('/');
+    sb.append(id);
+    return sb;
   }
 
   /**
@@ -361,6 +349,13 @@ public class RefNames {
       return null;
     }
     return Integer.valueOf(name.substring(i, name.length()));
+  }
+
+  private static StringBuilder newStringBuilder() {
+    // Many refname types in this file are always are longer than the default of 16 chars, so
+    // presize StringBuilders larger by default. This hurts readability less than accurate
+    // calculations would, at a negligible cost to memory overhead.
+    return new StringBuilder(64);
   }
 
   private RefNames() {}

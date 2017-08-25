@@ -59,6 +59,10 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
     return query(GroupPredicates.member(memberId));
   }
 
+  public List<InternalGroup> bySubgroup(AccountGroup.UUID subgroupId) throws OrmException {
+    return query(GroupPredicates.subgroup(subgroupId));
+  }
+
   private Optional<InternalGroup> getOnlyGroup(
       Predicate<InternalGroup> predicate, String groupDescription) throws OrmException {
     List<InternalGroup> groups = query(predicate);

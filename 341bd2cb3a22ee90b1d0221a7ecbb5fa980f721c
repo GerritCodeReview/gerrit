@@ -198,6 +198,30 @@
       "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea5a814_34b3947d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:16:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "61db2d50_f65557b1",
+      "range": {
+        "startLine": 458,
+        "startChar": 15,
+        "endLine": 458,
+        "endChar": 16
+      },
+      "revId": "341bd2cb3a22ee90b1d0221a7ecbb5fa980f721c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

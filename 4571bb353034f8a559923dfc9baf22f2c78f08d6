@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d9c0f8_c9aa45d4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:16:52Z",
+      "side": 1,
+      "message": "Nit: Array and Object should either have ? (if nullable) or ! (if not).",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "4571bb353034f8a559923dfc9baf22f2c78f08d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbc0253_d9eb25c3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-25T16:16:52Z",
+      "side": 1,
+      "message": "Is there any chance that this won\u0027t be defined yet?",
+      "range": {
+        "startLine": 101,
+        "startChar": 23,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "4571bb353034f8a559923dfc9baf22f2c78f08d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

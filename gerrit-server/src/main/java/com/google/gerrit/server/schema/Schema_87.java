@@ -17,14 +17,17 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class Schema_87 extends SchemaVersion {
@@ -35,16 +38,39 @@ public class Schema_87 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    for (AccountGroup.Id id : scanSystemGroups(db)) {
-      AccountGroup group = db.accountGroups().get(id);
-      if (group != null && SystemGroupBackend.isSystemGroup(group.getGroupUUID())) {
-        db.accountGroups().delete(Collections.singleton(group));
-        db.accountGroupNames().deleteKeys(Collections.singleton(group.getNameKey()));
+    Connection connection = ((JdbcSchema) db).getConnection();
+    try (PreparedStatement uuidRetrieval =
+            connection.prepareStatement(
+                "SELECT group_uuid FROM account_groups WHERE group_id = ?");
+        PreparedStatement groupDeletion =
+            connection.prepareStatement("DELETE FROM account_groups WHERE group_id = ?");
+        PreparedStatement groupNameDeletion =
+            connection.prepareStatement("DELETE FROM account_group_names WHERE group_id = ?")) {
+      for (AccountGroup.Id id : scanSystemGroups(db)) {
+        Optional<AccountGroup.UUID> groupUuid = getUuid(uuidRetrieval, id);
+        if (groupUuid.filter(SystemGroupBackend::isSystemGroup).isPresent()) {
+          groupDeletion.setInt(1, id.get());
+          groupDeletion.executeUpdate();
+
+          groupNameDeletion.setInt(1, id.get());
+          groupNameDeletion.executeUpdate();
+        }
       }
     }
   }
 
-  private Set<AccountGroup.Id> scanSystemGroups(ReviewDb db) throws SQLException {
+  private static Optional<AccountGroup.UUID> getUuid(
+      PreparedStatement uuidRetrieval, AccountGroup.Id id) throws SQLException {
+    uuidRetrieval.setInt(1, id.get());
+    try (ResultSet uuidResults = uuidRetrieval.executeQuery()) {
+      if (uuidResults.first()) {
+        Optional.of(new AccountGroup.UUID(uuidResults.getString(1)));
+      }
+    }
+    return Optional.empty();
+  }
+
+  private static Set<AccountGroup.Id> scanSystemGroups(ReviewDb db) throws SQLException {
     try (Statement stmt = newStatement(db);
         ResultSet rs =
             stmt.executeQuery("SELECT group_id FROM account_groups WHERE group_type = 'SYSTEM'")) {

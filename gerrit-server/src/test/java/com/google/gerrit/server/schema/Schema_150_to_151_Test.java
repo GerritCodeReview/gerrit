@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.testutil.SchemaUpgradeTestEnvironment;
 import com.google.gerrit.testutil.TestUpdateUI;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -53,6 +55,7 @@ public class Schema_150_to_151_Test {
   public void setUp() throws Exception {
     testEnv.getInjector().injectMembers(this);
     db = testEnv.getDb();
+    assume().that(db instanceof JdbcSchema).isTrue();
   }
 
   @Test

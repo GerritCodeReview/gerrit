@@ -37,6 +37,17 @@ public class RefNamesTest {
   }
 
   @Test
+  public void changeRefs() throws Exception {
+    String changeMetaRef = RefNames.changeMetaRef(changeId);
+    assertThat(changeMetaRef).isEqualTo("refs/changes/67/67473/meta");
+    assertThat(RefNames.isNoteDbMetaRef(changeMetaRef)).isTrue();
+
+    String robotCommentsRef = RefNames.robotCommentsRef(changeId);
+    assertThat(robotCommentsRef).isEqualTo("refs/changes/67/67473/robot-comments");
+    assertThat(RefNames.isNoteDbMetaRef(robotCommentsRef)).isTrue();
+  }
+
+  @Test
   public void refsUsers() throws Exception {
     assertThat(RefNames.refsUsers(accountId)).isEqualTo("refs/users/23/1011123");
   }

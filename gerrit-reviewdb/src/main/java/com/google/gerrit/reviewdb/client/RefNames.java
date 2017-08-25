@@ -109,6 +109,42 @@ public class RefNames {
     return r.toString();
   }
 
+  public static boolean isChangeMetaRef(String ref) {
+    if (ref == null) {
+      return false;
+    }
+    if (!ref.startsWith(REFS_CHANGES) || !ref.endsWith(META_SUFFIX)) {
+      return false;
+    }
+    int len = ref.length();
+    int preLen = REFS_CHANGES.length();
+    int sufLen = META_SUFFIX.length();
+
+    if (ref.charAt(preLen + 1) != ref.charAt(len - sufLen - 1) || ref.charAt(preLen + 2) != '/') {
+      return false;
+    }
+
+    if (ref.charAt(preLen) == '0') {
+      // refs/changes/0X/X/meta
+      if (len != preLen + sufLen + 4) {
+        return false;
+      }
+    } else {
+      // refs/changes/XY/...XY/meta
+      if (ref.charAt(preLen) != ref.charAt(len - sufLen - 2)) {
+        return false;
+      }
+    }
+
+    for (int i = preLen + 3; i < len - sufLen; i++) {
+      char c = ref.charAt(i);
+      if (c < '0' || c > '9') {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public static String robotCommentsRef(Change.Id id) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_CHANGES);

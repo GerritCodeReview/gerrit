@@ -48,6 +48,39 @@ public class RefNamesTest {
   }
 
   @Test
+  public void isChangeMetaRef() throws Exception {
+    assertThat(RefNames.isChangeMetaRef(null)).isFalse();
+    assertThat(RefNames.isChangeMetaRef("")).isFalse();
+    assertThat(RefNames.isChangeMetaRef(psId.toRefName())).isFalse();
+    assertThat(RefNames.isChangeMetaRef(RefNames.changeMetaRef(changeId))).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/meta")).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/83/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/74/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/metax")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/mxta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("xrefs/changes/73/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/chxnges/73/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73.67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/x3/674x3/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/7y/6747y/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/x7473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73.67473/meta")).isFalse();
+
+    assertThat(RefNames.isChangeMetaRef("refs/changes/01/1/meta")).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/01/01/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/01/11/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/x1/1/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/02/1/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/01.1/meta")).isFalse();
+
+    assertThat(RefNames.isChangeMetaRef("refs/changes/34/34/meta")).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/34/35/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/x4/34/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/34/x4/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/34.34/meta")).isFalse();
+  }
+
+  @Test
   public void refsUsers() throws Exception {
     assertThat(RefNames.refsUsers(accountId)).isEqualTo("refs/users/23/1011123");
   }

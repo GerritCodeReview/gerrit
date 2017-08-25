@@ -45,6 +45,9 @@
     // Matches /admin/projects/<project>,commands.
     PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
 
+    // Matches /admin/projects/<project>,access.
+    PROJECT_ACCESS: /^\/admin\/projects\/(.+),access$/,
+
     // Matches /admin/projects[,<offset>][/].
     PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
     PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
@@ -402,6 +405,9 @@
       this._mapRoute(RoutePattern.PROJECT_COMMANDS,
           '_handleProjectCommandsRoute', true);
 
+      this._mapRoute(RoutePattern.PROJECT_ACCESS,
+          '_handleProjectAccessRoute', true);
+
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
 
@@ -594,6 +600,15 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-project-commands',
         detailType: 'commands',
+        project: data.params[0],
+      });
+    },
+
+    _handleProjectAccessRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-access',
+        detailType: 'access',
         project: data.params[0],
       });
     },

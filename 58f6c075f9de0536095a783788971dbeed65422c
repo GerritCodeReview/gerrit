@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "f730a838_56f1263d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-25T07:51:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8603fe3_fe2b0ef1",
+      "revId": "58f6c075f9de0536095a783788971dbeed65422c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de0df69b_404f9fd0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1

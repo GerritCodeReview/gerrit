@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "7568a855_6cd0e82b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-25T07:51:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8df3f6a8_c87710bc",
+      "range": {
+        "startLine": 155,
+        "startChar": 48,
+        "endLine": 155,
+        "endChar": 51
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc9b4299_9339b091",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7e5e00ee_fb44650f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-25T07:51:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc9b4299_9339b091",
+      "range": {
+        "startLine": 200,
+        "startChar": 72,
+        "endLine": 200,
+        "endChar": 96
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "915b0c31_a1b54350",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2017-08-24T16:52:47Z",
       "side": 1,
       "message": "Why not continue reusing the same buffer?",
+      "range": {
+        "startLine": 202,
+        "startChar": 84,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "cd8a11cd804d374d35bfcd38b8d54bd61b8a489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e023da_a0ade9a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-25T07:51:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "915b0c31_a1b54350",
       "range": {
         "startLine": 202,
         "startChar": 84,

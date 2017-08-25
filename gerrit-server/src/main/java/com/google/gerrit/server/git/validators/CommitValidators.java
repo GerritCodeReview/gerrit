@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyP
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -44,9 +45,8 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -89,6 +89,7 @@ public class CommitValidators {
     private final AllUsersName allUsers;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
     private final String installCommitMsgHookCommand;
+    private final ProjectCache projectCache;
 
     @Inject
     Factory(
@@ -97,7 +98,8 @@ public class CommitValidators {
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
         AllUsersName allUsers,
-        ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
+        ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
+        ProjectCache projectCache) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
@@ -105,26 +107,29 @@ public class CommitValidators {
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
+      this.projectCache = projectCache;
     }
 
     public CommitValidators forReceiveCommits(
         PermissionBackend.ForRef perm,
-        RefControl refctl,
+        Branch.NameKey branch,
+        IdentifiedUser user,
         SshInfo sshInfo,
         Repository repo,
         RevWalk rw)
         throws IOException {
       NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
-      IdentifiedUser user = refctl.getUser().asIdentifiedUser();
+      ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, refctl.getProjectControl().getProjectState()),
-              new ChangeIdValidator(refctl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-              new ConfigValidator(refctl, rw, allUsers),
+              new SignedOffByValidator(user, perm, projectState),
+              new ChangeIdValidator(
+                  projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
+              new ConfigValidator(branch, user, rw, allUsers),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -132,23 +137,31 @@ public class CommitValidators {
     }
 
     public CommitValidators forGerritCommits(
-        PermissionBackend.ForRef perm, RefControl refctl, SshInfo sshInfo, RevWalk rw) {
-      IdentifiedUser user = refctl.getUser().asIdentifiedUser();
+        PermissionBackend.ForRef perm,
+        Branch.NameKey branch,
+        IdentifiedUser user,
+        SshInfo sshInfo,
+        RevWalk rw)
+        throws IOException {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, refctl.getProjectControl().getProjectState()),
-              new ChangeIdValidator(refctl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-              new ConfigValidator(refctl, rw, allUsers),
+              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
+              new ChangeIdValidator(
+                  projectCache.checkedGet(branch.getParentKey()),
+                  user,
+                  canonicalWebUrl,
+                  installCommitMsgHookCommand,
+                  sshInfo),
+              new ConfigValidator(branch, user, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountValidator(allUsers)));
     }
 
-    public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, RefControl refControl) {
-      IdentifiedUser user = refControl.getUser().asIdentifiedUser();
+    public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, IdentifiedUser user) {
       // Generally only include validators that are based on permissions of the
       // user creating a change for a merged commit; generally exclude
       // validators that would require amending the change in order to correct.
@@ -208,22 +221,23 @@ public class CommitValidators {
             + " line format in commit message footer";
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
-    private final ProjectControl projectControl;
+    private final ProjectState projectState;
     private final String canonicalWebUrl;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
     private final IdentifiedUser user;
 
     public ChangeIdValidator(
-        RefControl refControl,
+        ProjectState projectState,
+        IdentifiedUser user,
         String canonicalWebUrl,
         String installCommitMsgHookCommand,
         SshInfo sshInfo) {
-      this.projectControl = refControl.getProjectControl();
+      this.projectState = projectState;
       this.canonicalWebUrl = canonicalWebUrl;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
-      this.user = projectControl.getUser().asIdentifiedUser();
+      this.user = user;
     }
 
     @Override
@@ -238,7 +252,7 @@ public class CommitValidators {
       String sha1 = commit.abbreviate(SHA1_LENGTH).name();
 
       if (idList.isEmpty()) {
-        if (projectControl.getProjectState().isRequireChangeID()) {
+        if (projectState.isRequireChangeID()) {
           String shortMsg = commit.getShortMessage();
           if (shortMsg.startsWith(CHANGE_ID_PREFIX)
               && CHANGE_ID
@@ -342,12 +356,15 @@ public class CommitValidators {
 
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
-    private final RefControl refControl;
+    private final Branch.NameKey branch;
+    private final IdentifiedUser user;
     private final RevWalk rw;
     private final AllUsersName allUsers;
 
-    public ConfigValidator(RefControl refControl, RevWalk rw, AllUsersName allUsers) {
-      this.refControl = refControl;
+    public ConfigValidator(
+        Branch.NameKey branch, IdentifiedUser user, RevWalk rw, AllUsersName allUsers) {
+      this.branch = branch;
+      this.user = user;
       this.rw = rw;
       this.allUsers = allUsers;
     }
@@ -355,9 +372,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
-
-      if (REFS_CONFIG.equals(refControl.getRefName())) {
+      if (REFS_CONFIG.equals(branch.get())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
@@ -373,7 +388,7 @@ public class CommitValidators {
         } catch (ConfigInvalidException | IOException e) {
           log.error(
               "User "
-                  + currentUser.getUserName()
+                  + user.getUserName()
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "
@@ -383,10 +398,9 @@ public class CommitValidators {
         }
       }
 
-      if (allUsers.equals(refControl.getProjectControl().getProject().getNameKey())
-          && RefNames.isRefsUsers(refControl.getRefName())) {
+      if (allUsers.equals(branch.getParentKey()) && RefNames.isRefsUsers(branch.get())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
-        Account.Id accountId = Account.Id.fromRef(refControl.getRefName());
+        Account.Id accountId = Account.Id.fromRef(branch.get());
         if (accountId != null) {
           try {
             WatchConfig wc = new WatchConfig(accountId);
@@ -401,7 +415,7 @@ public class CommitValidators {
           } catch (IOException | ConfigInvalidException e) {
             log.error(
                 "User "
-                    + currentUser.getUserName()
+                    + user.getUserName()
                     + " tried to push an invalid watch configuration "
                     + receiveEvent.command.getNewId().name()
                     + " for account "

@@ -59,7 +59,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -567,18 +566,21 @@ public class ChangeInserter implements InsertChangeOp {
     PermissionBackend.ForRef perm =
         permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
     try {
-      RefControl refControl =
-          projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,
-              refControl.getProjectControl().getProject(),
+              projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
-            .forGerritCommits(perm, refControl, new NoSshInfo(), ctx.getRevWalk())
+            .forGerritCommits(
+                perm,
+                new Branch.NameKey(ctx.getProject(), refName),
+                ctx.getIdentifiedUser(),
+                new NoSshInfo(),
+                ctx.getRevWalk())
             .validate(event);
       }
     } catch (CommitValidationException e) {

@@ -134,7 +134,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -1012,8 +1011,7 @@ class ReceiveCommits {
       return;
     }
 
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    validateNewCommits(ctl, cmd);
+    validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
     actualCommands.add(cmd);
   }
 
@@ -1033,7 +1031,7 @@ class ReceiveCommits {
       if (!validRefOperation(cmd)) {
         return;
       }
-      validateNewCommits(projectControl.controlForRef(cmd.getRefName()), cmd);
+      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       actualCommands.add(cmd);
     } else {
       if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
@@ -1104,9 +1102,8 @@ class ReceiveCommits {
     }
     logDebug("Rewinding {}", cmd);
 
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (newObject != null) {
-      validateNewCommits(ctl, cmd);
+      validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -1138,7 +1135,6 @@ class ReceiveCommits {
     final NotesMigration notesMigration;
     private final boolean defaultPublishComments;
     Branch.NameKey dest;
-    RefControl ctl;
     PermissionBackend.ForRef perm;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
@@ -1451,7 +1447,6 @@ class ReceiveCommits {
     }
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
-    magicBranch.ctl = projectControl.controlForRef(ref);
     magicBranch.perm = permissions.ref(ref);
     if (!projectControl.getProject().getState().permitsWrite()) {
       reject(cmd, "project state does not permit write");
@@ -1590,7 +1585,7 @@ class ReceiveCommits {
     // commits and the target branch head.
     //
     try {
-      Ref targetRef = rp.getAdvertisedRefs().get(magicBranch.ctl.getRefName());
+      Ref targetRef = rp.getAdvertisedRefs().get(magicBranch.dest.get());
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
@@ -1798,7 +1793,7 @@ class ReceiveCommits {
           logDebug("Creating new change for {} even though it is already tracked", name);
         }
 
-        if (!validCommit(rp.getRevWalk(), magicBranch.perm, magicBranch.ctl, magicBranch.cmd, c)) {
+        if (!validCommit(rp.getRevWalk(), magicBranch.perm, magicBranch.dest, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
           logDebug("Aborting early due to invalid commit");
@@ -1992,7 +1987,7 @@ class ReceiveCommits {
         rw.markUninteresting(c);
       }
     } else {
-      markHeadsAsUninteresting(rw, magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+      markHeadsAsUninteresting(rw, magicBranch.dest != null ? magicBranch.dest.get() : null);
     }
     return start;
   }
@@ -2002,11 +1997,11 @@ class ReceiveCommits {
     for (RevCommit c : magicBranch.baseCommit) {
       rp.getRevWalk().markUninteresting(c);
     }
-    Ref targetRef = allRefs().get(magicBranch.ctl.getRefName());
+    Ref targetRef = allRefs().get(magicBranch.dest.get());
     if (targetRef != null) {
       logDebug(
           "Marking target ref {} ({}) uninteresting",
-          magicBranch.ctl.getRefName(),
+          magicBranch.dest.get(),
           targetRef.getObjectId().name());
       rp.getRevWalk().markUninteresting(rp.getRevWalk().parseCommit(targetRef.getObjectId()));
     }
@@ -2014,7 +2009,7 @@ class ReceiveCommits {
 
   private void rejectImplicitMerges(Set<RevCommit> mergedParents) throws IOException {
     if (!mergedParents.isEmpty()) {
-      Ref targetRef = allRefs().get(magicBranch.ctl.getRefName());
+      Ref targetRef = allRefs().get(magicBranch.dest.get());
       if (targetRef != null) {
         RevWalk rw = rp.getRevWalk();
         RevCommit tip = rw.parseCommit(targetRef.getObjectId());
@@ -2380,8 +2375,7 @@ class ReceiveCommits {
       }
 
       PermissionBackend.ForRef perm = permissions.ref(change.getDest().get());
-      RefControl refctl = projectControl.controlForRef(change.getDest());
-      if (!validCommit(rp.getRevWalk(), perm, refctl, inputCommand, newCommit)) {
+      if (!validCommit(rp.getRevWalk(), perm, change.getDest(), inputCommand, newCommit)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2685,9 +2679,9 @@ class ReceiveCommits {
     return true;
   }
 
-  private void validateNewCommits(RefControl ctl, ReceiveCommand cmd)
+  private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
-    PermissionBackend.ForRef perm = permissions.ref(ctl.getRefName());
+    PermissionBackend.ForRef perm = permissions.ref(branch.get());
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
@@ -2721,7 +2715,7 @@ class ReceiveCommits {
         i++;
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, perm, ctl, cmd, c)) {
+        } else if (!validCommit(walk, perm, branch, cmd, c)) {
           break;
         }
 
@@ -2757,7 +2751,11 @@ class ReceiveCommits {
   }
 
   private boolean validCommit(
-      RevWalk rw, PermissionBackend.ForRef perm, RefControl ctl, ReceiveCommand cmd, ObjectId id)
+      RevWalk rw,
+      PermissionBackend.ForRef perm,
+      Branch.NameKey branch,
+      ReceiveCommand cmd,
+      ObjectId id)
       throws IOException {
 
     if (validCommits.contains(id)) {
@@ -2768,15 +2766,16 @@ class ReceiveCommits {
     rw.parseBody(c);
 
     try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, ctl.getRefName(), rw.getObjectReader(), c, user)) {
+        new CommitReceivedEvent(cmd, project, branch.get(), rw.getObjectReader(), c, user)) {
       boolean isMerged =
           magicBranch != null
               && cmd.getRefName().equals(magicBranch.cmd.getRefName())
               && magicBranch.merged;
       CommitValidators validators =
           isMerged
-              ? commitValidatorsFactory.forMergedCommits(perm, ctl)
-              : commitValidatorsFactory.forReceiveCommits(perm, ctl, sshInfo, repo, rw);
+              ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
+              : commitValidatorsFactory.forReceiveCommits(
+                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw);
       messages.addAll(validators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());

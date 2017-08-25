@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.server.testutil.ConfigSuite;
 import java.util.ArrayDeque;
 import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;

@@ -18,11 +18,11 @@ import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.group.IncludedGroupResource.INCLUDED_GROUP_KIND;
 import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 
-import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.audit.GroupMemberAuditListener;
 import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
 import com.google.gerrit.server.group.DeleteIncludedGroups.DeleteIncludedGroup;

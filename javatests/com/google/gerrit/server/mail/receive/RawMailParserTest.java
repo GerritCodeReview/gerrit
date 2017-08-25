@@ -23,7 +23,7 @@ import com.google.gerrit.server.mail.receive.data.NonUTF8Message;
 import com.google.gerrit.server.mail.receive.data.QuotedPrintableHeaderMessage;
 import com.google.gerrit.server.mail.receive.data.RawMailMessage;
 import com.google.gerrit.server.mail.receive.data.SimpleTextMessage;
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.server.testutil.GerritBaseTests;
 import org.junit.Test;
 
 public class RawMailParserTest extends GerritBaseTests {

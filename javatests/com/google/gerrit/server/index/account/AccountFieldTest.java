@@ -29,7 +29,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.server.testutil.GerritBaseTests;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;

@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.server.testutil.TestChanges;
 import org.junit.Test;
 
 public class ChangeDataTest {

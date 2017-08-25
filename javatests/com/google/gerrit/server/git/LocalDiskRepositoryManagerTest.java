@@ -19,8 +19,8 @@ import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.testutil.TempFileUtil;
 import com.google.gerrit.server.util.HostPlatform;
-import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;

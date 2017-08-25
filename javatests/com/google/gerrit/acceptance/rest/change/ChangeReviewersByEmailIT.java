@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.server.testutil.FakeEmailSender.Message;
 import java.util.EnumSet;
 import java.util.List;
 import org.junit.Before;

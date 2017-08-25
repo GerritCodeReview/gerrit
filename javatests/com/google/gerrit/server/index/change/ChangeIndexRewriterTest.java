@@ -36,7 +36,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.server.testutil.GerritBaseTests;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;

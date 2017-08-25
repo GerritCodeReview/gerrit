@@ -57,7 +57,7 @@ import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.server.testutil.TestTimeUtil;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;

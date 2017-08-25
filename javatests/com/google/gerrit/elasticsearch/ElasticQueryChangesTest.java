@@ -16,8 +16,8 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
-import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
+import com.google.gerrit.server.testutil.InMemoryModule;
+import com.google.gerrit.server.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.concurrent.ExecutionException;

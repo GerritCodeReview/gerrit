@@ -5,7 +5,7 @@ junit_tests(
     srcs = glob(["client/**/*.java"]),
     deps = [
         "//java/com/google/gerrit/reviewdb:client",
-        "//javatests/com/google/gerrit:testutil",
+        "//javatests/com/google/gerrit/server:testutil",
         "//lib:gwtorm",
         "//lib:truth",
     ],

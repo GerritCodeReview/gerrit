@@ -44,7 +44,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.server.testutil.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
-import com.google.gerrit.testutil.FakeEmailSender;
+import com.google.gerrit.server.testutil.FakeEmailSender;
 import org.junit.Test;
 
 public class NotificationMailFormatIT extends AbstractDaemonTest {

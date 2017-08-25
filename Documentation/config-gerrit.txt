@@ -537,7 +537,7 @@ By default this is set to false.
 
 [[auth.gitBasicAuthPolicy]]auth.gitBasicAuthPolicy::
 +
-When `auth.type` is `LDAP` or `OAUTH`, it allows using either the generated
+When `auth.type` is `LDAP`, `LDAP_BIND` or `OAUTH`, it allows using either the generated
 HTTP password, the LDAP or OAUTH password, or a combination of HTTP and LDAP
 authentication, to authenticate Git over HTTP and REST API requests.
 The supported values are:

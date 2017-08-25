@@ -65,6 +65,106 @@ limitations under the License.
       assert.equal(hash, 'foo#bar#baz');
     });
 
+    test('_startRouter requires auth for the right handlers', () => {
+      // This test encodes the lists of route handler methods that gr-router
+      // automatically checks for authentication before triggering.
+
+      const requiresAuth = {};
+      const doesNotRequireAuth = {};
+      sandbox.stub(Gerrit.Nav, 'setup');
+      sandbox.stub(window.page, 'start');
+      sandbox.stub(window.page, 'base');
+      sandbox.stub(window, 'page');
+      sandbox.stub(element, '_mapRoute', (pattern, methodName, usesAuth) => {
+        if (usesAuth) {
+          requiresAuth[methodName] = true;
+        } else {
+          doesNotRequireAuth[methodName] = true;
+        }
+      });
+      element._startRouter();
+
+      const actualRequiresAuth = Object.keys(requiresAuth);
+      actualRequiresAuth.sort();
+      const actualDoesNotRequireAuth = Object.keys(doesNotRequireAuth);
+      actualDoesNotRequireAuth.sort();
+
+      const shouldRequireAutoAuth = [
+        '_handleAdminPlaceholderRoute',
+        '_handleAgreementsRoute',
+        '_handleGroupAuditLogRoute',
+        '_handleGroupInfoRoute',
+        '_handleGroupListFilterOffsetRoute',
+        '_handleGroupListFilterRoute',
+        '_handleGroupListOffsetRoute',
+        '_handleGroupRoute',
+        '_handlePluginListFilterOffsetRoute',
+        '_handlePluginListFilterRoute',
+        '_handlePluginListOffsetRoute',
+        '_handlePluginListRoute',
+        '_handleProjectCommandsRoute',
+        '_handleSettingsLegacyRoute',
+        '_handleSettingsRoute',
+      ];
+      assert.deepEqual(actualRequiresAuth, shouldRequireAutoAuth);
+
+      const unauthenticatedHandlers = [
+        '_handleBranchListFilterOffsetRoute',
+        '_handleBranchListFilterRoute',
+        '_handleBranchListOffsetRoute',
+        '_handleChangeNumberLegacyRoute',
+        '_handleChangeOrDiffRoute',
+        '_handleChnageLegacyRoute',
+        '_handleDiffLegacyRoute',
+        '_handleGroupMembersRoute',
+        '_handleProjectListFilterOffsetRoute',
+        '_handleProjectListFilterRoute',
+        '_handleProjectListOffsetRoute',
+        '_handleProjectRoute',
+        '_handleQueryRoute',
+        '_handleRegisterRoute',
+        '_handleTagListFilterOffsetRoute',
+        '_handleTagListFilterRoute',
+        '_handleTagListOffsetRoute',
+      ];
+
+      // Handler names that check authentication themselves, and thus don't need
+      // it performed for them.
+      const selfAuthenticatingHandlers = [
+        '_handleDashboardRoute',
+        '_handleRootRoute',
+      ];
+
+      const shouldNotRequireAuth = unauthenticatedHandlers
+          .concat(selfAuthenticatingHandlers);
+      shouldNotRequireAuth.sort();
+
+      assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
+    });
+
+    test('_redirectIfNotLoggedIn while logged in', () => {
+      sandbox.stub(element._restAPI, 'getLoggedIn')
+          .returns(Promise.resolve(true));
+      const data = {canonicalPath: ''};
+      const redirectStub = sandbox.stub(element, '_redirectToLogin');
+      return element._redirectIfNotLoggedIn(data).then(() => {
+        assert.isFalse(redirectStub.called);
+      });
+    });
+
+    test('_redirectIfNotLoggedIn while logged out', () => {
+      sandbox.stub(element._restAPI, 'getLoggedIn')
+          .returns(Promise.resolve(false));
+      const data = {canonicalPath: ''};
+      return new Promise(resolve => {
+        sandbox.stub(element, '_redirectToLogin', () => { resolve(); });
+
+        element._redirectIfNotLoggedIn(data).then(() => {
+          assert.isTrue(false, 'Should never execute');
+        });
+      });
+    });
+
     suite('generateUrl', () => {
       test('search', () => {
         let params = {
@@ -231,6 +331,660 @@ limitations under the License.
           assert.isTrue(needsRedirect);
           assert.isNotOk(params.basePatchNum);
           assert.equal(params.patchNum, 'edit');
+        });
+      });
+    });
+
+    suite('route handlers', () => {
+      let redirectStub;
+      let setParamsStub;
+
+      // Simple route handlers are direct mappings from parsed route data to a
+      // new set of app.params. This test helper asserts that passing `data`
+      // into `methodName` results in setting the params specified in `params`.
+      function assertDataToParams(data, methodName, params) {
+        element[methodName](data);
+        assert.deepEqual(setParamsStub.lastCall.args[0], params);
+      }
+
+      setup(() => {
+        redirectStub = sandbox.stub(element, '_redirect');
+        setParamsStub = sandbox.stub(element, '_setParams');
+      });
+
+      test('_handleAdminPlaceholderRoute', () => {
+        element._handleAdminPlaceholderRoute({params: {}});
+        assert.equal(setParamsStub.lastCall.args[0].view,
+            Gerrit.Nav.View.ADMIN);
+        assert.isTrue(setParamsStub.lastCall.args[0].placeholder);
+      });
+
+      test('_handleAgreementsRoute', () => {
+        element._handleAgreementsRoute({params: {}});
+        assert.isTrue(setParamsStub.calledOnce);
+        assert.equal(setParamsStub.lastCall.args[0].view,
+            Gerrit.Nav.View.AGREEMENTS);
+      });
+
+      test('_handleSettingsLegacyRoute', () => {
+        const data = {params: {0: 'my-token'}};
+        assertDataToParams(data, '_handleSettingsLegacyRoute', {
+          view: Gerrit.Nav.View.SETTINGS,
+          emailToken: 'my-token',
+        });
+      });
+
+      test('_handleSettingsRoute', () => {
+        const data = {};
+        assertDataToParams(data, '_handleSettingsRoute', {
+          view: Gerrit.Nav.View.SETTINGS,
+        });
+      });
+
+      suite('_handleRootRoute', () => {
+        test('closes for closeAfterLogin', () => {
+          const data = {querystring: 'closeAfterLogin', canonicalPath: ''};
+          const closeStub = sandbox.stub(window, 'close');
+          const result = element._handleRootRoute(data);
+          assert.isNotOk(result);
+          assert.isTrue(closeStub.called);
+          assert.isFalse(redirectStub.called);
+        });
+
+        test('redirects to dahsboard if logged in', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(true));
+          const data = {
+            canonicalPath: '/', path: '/', querystring: '', hash: '',
+          };
+          const result = element._handleRootRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(redirectStub.calledWithExactly('/dashboard/self'));
+          });
+        });
+
+        test('redirects to open changes if not logged in', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {
+            canonicalPath: '/', path: '/', querystring: '', hash: '',
+          };
+          const result = element._handleRootRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(redirectStub.calledWithExactly('/q/status:open'));
+          });
+        });
+
+        suite('GWT hash-path URLs', () => {
+          test('redirects hash-path URLs', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar/baz',
+              hash: '/foo/bar/baz',
+              querystring: '',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+          });
+
+          test('redirects hash-path URLs w/o leading slash', () => {
+            const data = {
+              canonicalPath: '/#foo/bar/baz',
+              querystring: '',
+              hash: 'foo/bar/baz',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
+          });
+
+          test('normalizes "/ /" in hash to "/+/"', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar/+/123/4',
+              querystring: '',
+              hash: '/foo/bar/ /123/4',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar/+/123/4'));
+          });
+
+          test('prepends baseurl to hash-path', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar',
+              querystring: '',
+              hash: '/foo/bar',
+            };
+            sandbox.stub(element, 'getBaseUrl').returns('/baz');
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/baz/foo/bar'));
+          });
+
+          test('normalizes /VE/ settings hash-paths', () => {
+            const data = {
+              canonicalPath: '/#/VE/foo/bar',
+              querystring: '',
+              hash: '/VE/foo/bar',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly(
+                '/settings/VE/foo/bar'));
+          });
+
+          test('does not drop "inner hashes"', () => {
+            const data = {
+              canonicalPath: '/#/foo/bar#baz',
+              querystring: '',
+              hash: '/foo/bar',
+            };
+            const result = element._handleRootRoute(data);
+            assert.isNotOk(result);
+            assert.isTrue(redirectStub.called);
+            assert.isTrue(redirectStub.calledWithExactly('/foo/bar#baz'));
+          });
+        });
+      });
+
+      suite('_handleDashboardRoute', () => {
+        let reidrectToLoginStub;
+
+        setup(() => {
+          reidrectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        });
+
+        test('no user specified', () => {
+          const data = {canonicalPath: '/dashboard', params: {}};
+          const result = element._handleDashboardRoute(data);
+          assert.isNotOk(result);
+          assert.isFalse(setParamsStub.called);
+          assert.isFalse(reidrectToLoginStub.called);
+          assert.isTrue(redirectStub.called);
+          assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+        });
+
+        test('own dahsboard but signed out redirects to login', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {canonicalPath: '/dashboard', params: {0: 'seLF'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isTrue(reidrectToLoginStub.calledOnce);
+            assert.isFalse(redirectStub.called);
+            assert.isFalse(setParamsStub.called);
+          });
+        });
+
+        test('non-self dahsboard but signed out does not redirect', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(false));
+          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.calledOnce);
+            assert.equal(redirectStub.lastCall.args[0], '/q/owner:foo');
+          });
+        });
+
+        test('dahsboard while signed in sets params', () => {
+          sandbox.stub(element._restAPI, 'getLoggedIn')
+              .returns(Promise.resolve(true));
+          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
+          const result = element._handleDashboardRoute(data);
+          assert.isOk(result);
+          return result.then(() => {
+            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(setParamsStub.calledOnce);
+            assert.deepEqual(setParamsStub.lastCall.args[0], {
+              view: Gerrit.Nav.View.DASHBOARD,
+              user: 'foo',
+            });
+          });
+        });
+      });
+
+      suite('group routes', () => {
+        test('_handleGroupInfoRoute', () => {
+          const data = {params: {0: 1234}};
+          element._handleGroupInfoRoute(data);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.equal(redirectStub.lastCall.args[0], '/admin/groups/1234');
+        });
+
+        test('_handleGroupAuditLogRoute', () => {
+          const data = {params: {0: 1234}};
+          assertDataToParams(data, '_handleGroupAuditLogRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group-audit-log',
+            detailType: 'audit-log',
+            groupId: 1234,
+          });
+        });
+
+        test('_handleGroupMembersRoute', () => {
+          const data = {params: {0: 1234}};
+          assertDataToParams(data, '_handleGroupMembersRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group-members',
+            detailType: 'members',
+            groupId: 1234,
+          });
+        });
+
+        test('_handleGroupListOffsetRoute', () => {
+          const data = {params: {}};
+          assertDataToParams(data, '_handleGroupListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            offset: 0,
+            filter: null,
+          });
+
+          data.params[1] = 42;
+          assertDataToParams(data, '_handleGroupListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            offset: 42,
+            filter: null,
+          });
+        });
+
+        test('_handleGroupListFilterOffsetRoute', () => {
+          const data = {params: {filter: 'foo', offset: 42}};
+          assertDataToParams(data, '_handleGroupListFilterOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            offset: 42,
+            filter: 'foo',
+          });
+        });
+
+        test('_handleGroupListFilterRoute', () => {
+          const data = {params: {filter: 'foo'}};
+          assertDataToParams(data, '_handleGroupListFilterRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            filter: 'foo',
+          });
+        });
+
+        test('_handleGroupRoute', () => {
+          const data = {params: {0: 4321}};
+          assertDataToParams(data, '_handleGroupRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-group',
+            groupId: 4321,
+          });
+        });
+      });
+
+      suite('project routes', () => {
+        test('_handleProjectRoute', () => {
+          const data = {params: {0: 4321}};
+          assertDataToParams(data, '_handleProjectRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project',
+            project: 4321,
+          });
+        });
+
+        test('_handleProjectCommandsRoute', () => {
+          const data = {params: {0: 4321}};
+          assertDataToParams(data, '_handleProjectCommandsRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project-commands',
+            detailType: 'commands',
+            project: 4321,
+          });
+        });
+
+        suite('branch list routes', () => {
+          test('_handleBranchListOffsetRoute', () => {
+            const data = {params: {0: 4321}};
+            assertDataToParams(data, '_handleBranchListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'branches',
+              project: 4321,
+              offset: 0,
+              filter: null,
+            });
+
+            data.params[2] = 42;
+            assertDataToParams(data, '_handleBranchListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'branches',
+              project: 4321,
+              offset: 42,
+              filter: null,
+            });
+          });
+
+          test('_handleBranchListFilterOffsetRoute', () => {
+            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'branches',
+              project: 4321,
+              offset: 42,
+              filter: 'foo',
+            });
+          });
+
+          test('_handleBranchListFilterRoute', () => {
+            const data = {params: {project: 4321, filter: 'foo'}};
+            assertDataToParams(data, '_handleBranchListFilterRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'branches',
+              project: 4321,
+              filter: 'foo',
+            });
+          });
+        });
+
+        suite('tag list routes', () => {
+          test('_handleTagListOffsetRoute', () => {
+            const data = {params: {0: 4321}};
+            assertDataToParams(data, '_handleTagListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'tags',
+              project: 4321,
+              offset: 0,
+              filter: null,
+            });
+          });
+
+          test('_handleTagListFilterOffsetRoute', () => {
+            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'tags',
+              project: 4321,
+              offset: 42,
+              filter: 'foo',
+            });
+          });
+
+          test('_handleTagListFilterRoute', () => {
+            const data = {params: {project: 4321}};
+            assertDataToParams(data, '_handleTagListFilterRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'tags',
+              project: 4321,
+              filter: null,
+            });
+
+            data.params.filter = 'foo';
+            assertDataToParams(data, '_handleTagListFilterRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-detail-list',
+              detailType: 'tags',
+              project: 4321,
+              filter: 'foo',
+            });
+          });
+        });
+
+        suite('project list routes', () => {
+          test('_handleProjectListOffsetRoute', () => {
+            const data = {params: {}};
+            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-admin-project-list',
+              offset: 0,
+              filter: null,
+            });
+
+            data.params[1] = 42;
+            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-admin-project-list',
+              offset: 42,
+              filter: null,
+            });
+          });
+
+          test('_handleProjectListFilterOffsetRoute', () => {
+            const data = {params: {filter: 'foo', offset: 42}};
+            assertDataToParams(data, '_handleProjectListFilterOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-admin-project-list',
+              offset: 42,
+              filter: 'foo',
+            });
+          });
+
+          test('_handleProjectListFilterRoute', () => {
+            const data = {params: {}};
+            assertDataToParams(data, '_handleProjectListFilterRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-admin-project-list',
+              filter: null,
+            });
+
+            data.params.filter = 'foo';
+            assertDataToParams(data, '_handleProjectListFilterRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-admin-project-list',
+              filter: 'foo',
+            });
+          });
+        });
+      });
+
+      suite('plugin routes', () => {
+        test('_handlePluginListOffsetRoute', () => {
+          const data = {params: {}};
+          assertDataToParams(data, '_handlePluginListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            offset: 0,
+            filter: null,
+          });
+
+          data.params[1] = 42;
+          assertDataToParams(data, '_handlePluginListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            offset: 42,
+            filter: null,
+          });
+        });
+
+        test('_handlePluginListFilterOffsetRoute', () => {
+          const data = {params: {filter: 'foo', offset: 42}};
+          assertDataToParams(data, '_handlePluginListFilterOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            offset: 42,
+            filter: 'foo',
+          });
+        });
+
+        test('_handlePluginListFilterRoute', () => {
+          const data = {params: {}};
+          assertDataToParams(data, '_handlePluginListFilterRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            filter: null,
+          });
+
+          data.params.filter = 'foo';
+          assertDataToParams(data, '_handlePluginListFilterRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+            filter: 'foo',
+          });
+        });
+
+        test('_handlePluginListRoute', () => {
+          const data = {params: {}};
+          assertDataToParams(data, '_handlePluginListRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-plugin-list',
+          });
+        });
+      });
+
+      suite('change/diff routes', () => {
+        test('_handleChangeNumberLegacyRoute', () => {
+          const data = {params: {0: 12345}};
+          element._handleChangeNumberLegacyRoute(data);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
+        });
+
+        test('_handleChnageLegacyRoute', () => {
+          const normalizeRouteStub = sandbox.stub(element,
+              '_normalizeLegacyRouteParams');
+          const ctx = {
+            params: [
+              1234, // 0 Change number
+              null, // 1 Unused
+              null, // 2 Unused
+              6, // 3 Base patch number
+              null, // 4 Unused
+              9, // 5 Patch number
+            ],
+          };
+          element._handleChnageLegacyRoute(ctx);
+          assert.isTrue(normalizeRouteStub.calledOnce);
+          assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
+            changeNum: 1234,
+            basePatchNum: 6,
+            patchNum: 9,
+            view: Gerrit.Nav.View.CHANGE,
+          });
+        });
+
+        test('_handleDiffLegacyRoute', () => {
+          const normalizeRouteStub = sandbox.stub(element,
+              '_normalizeLegacyRouteParams');
+          const ctx = {
+            params: [
+              1234, // 0 Change number
+              null, // 1 Unused
+              3, // 2 Base patch number
+              null, // 3 Unused
+              8, // 4 Patch number
+              'foo/bar', // 5 Diff path
+            ],
+            path: '/c/1234/3..8/foo/bar',
+            hash: 'b123',
+          };
+          element._handleDiffLegacyRoute(ctx);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRouteStub.calledOnce);
+          assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
+            changeNum: 1234,
+            basePatchNum: 3,
+            patchNum: 8,
+            view: Gerrit.Nav.View.DIFF,
+            hash: 'b123',
+            path: 'foo/bar',
+          });
+        });
+
+        test('_handleDiffLegacyRoute w/ @', () => {
+          const normalizeRouteStub = sandbox.stub(element,
+              '_normalizeLegacyRouteParams');
+          const ctx = {path: '/c/1234/3..8/foo/bar@b123'};
+          element._handleDiffLegacyRoute(ctx);
+          assert.isFalse(normalizeRouteStub.called);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.isTrue(redirectStub.calledWithExactly(
+              '/c/1234/3..8/foo/bar#b123'));
+        });
+
+        suite('_handleChangeOrDiffRoute', () => {
+          let normalizeRangeStub;
+
+          function makeParams(path, hash) {
+            return {
+              params: [
+                'foo/bar', // 0 Project
+                1234, // 1 Change number
+                null, // 2 Unused
+                null, // 3 Unused
+                4, // 4 Base patch number
+                null, // 5 Unused
+                7, // 6 Patch number
+                null, // 7 Unused,
+                path, // 8 Diff path
+              ],
+              hash,
+            };
+          }
+
+          setup(() => {
+            normalizeRangeStub = sandbox.stub(element,
+                '_normalizePatchRangeParams');
+            sandbox.stub(element._restAPI, 'setInProjectLookup');
+          });
+
+          test('needs redirect', () => {
+            normalizeRangeStub.returns(true);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            element._handleChangeOrDiffRoute(ctx);
+            assert.isTrue(normalizeRangeStub.called);
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.calledOnce);
+            assert.isTrue(redirectStub.calledWithExactly('foo'));
+          });
+
+          test('change view', () => {
+            normalizeRangeStub.returns(false);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
+              view: Gerrit.Nav.View.CHANGE,
+              project: 'foo/bar',
+              changeNum: 1234,
+              basePatchNum: 4,
+              patchNum: 7,
+              path: null,
+              hash: '',
+            });
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(normalizeRangeStub.called);
+          });
+
+          test('diff view', () => {
+            normalizeRangeStub.returns(false);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams('foo/bar/baz', 'b44');
+            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
+              view: Gerrit.Nav.View.DIFF,
+              project: 'foo/bar',
+              changeNum: 1234,
+              basePatchNum: 4,
+              patchNum: 7,
+              path: 'foo/bar/baz',
+              hash: 'b44',
+            });
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(normalizeRangeStub.called);
+          });
         });
       });
     });

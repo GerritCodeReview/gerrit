@@ -28,7 +28,7 @@ class MySql extends BaseDataSourceType {
 
   @Inject
   MySql(@GerritServerConfig Config cfg) {
-    super("com.mysql.jdbc.Driver");
+    super("com.mysql.cj.jdbc.Driver");
     this.cfg = cfg;
   }
 

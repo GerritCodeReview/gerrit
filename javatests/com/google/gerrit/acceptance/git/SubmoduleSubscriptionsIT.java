@@ -20,7 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.server.testutil.ConfigSuite;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

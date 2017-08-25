@@ -16,8 +16,6 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.audit.AuditService;
-import com.google.gerrit.audit.RpcAuditEvent;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
@@ -26,6 +24,8 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.audit.AuditService;
+import com.google.gerrit.server.audit.RpcAuditEvent;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.server.ActiveCall;

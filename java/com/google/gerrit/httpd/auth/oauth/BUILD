@@ -5,11 +5,11 @@ java_library(
     resources = ["//resources/com/google/gerrit/httpd/auth/oauth"],
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtorm",

@@ -15,9 +15,9 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.IndexVersions;
+import com.google.gerrit.server.testutil.ConfigSuite;
+import com.google.gerrit.server.testutil.InMemoryModule;
+import com.google.gerrit.server.testutil.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.List;

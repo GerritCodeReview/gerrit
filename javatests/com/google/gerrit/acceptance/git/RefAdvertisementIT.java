@@ -45,7 +45,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.server.testutil.TestChanges;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;

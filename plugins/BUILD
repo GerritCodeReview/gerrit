@@ -18,9 +18,9 @@ genrule2(
 )
 
 PLUGIN_API = [
-    "//java/com/google/gerrit:server",
     "//java/com/google/gerrit/pgm/init/api",
     "//java/com/google/gerrit/httpd",
+    "//java/com/google/gerrit/server",
     "//java/com/google/gerrit/sshd",
 ]
 
@@ -98,7 +98,6 @@ java_binary(
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "//java/com/google/gerrit:libserver-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
@@ -108,6 +107,7 @@ java_binary(
         "//java/com/google/gerrit/index:libquery_parser-src.jar",
         "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/reviewdb:libserver-src.jar",
+        "//java/com/google/gerrit/server:libserver-src.jar",
         "//java/com/google/gerrit/sshd:libsshd-src.jar",
         "//java/com/google/gwtexpui/server:libserver-src.jar",
     ],

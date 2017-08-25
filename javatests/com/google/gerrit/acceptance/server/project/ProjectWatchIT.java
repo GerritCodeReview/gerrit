@@ -36,7 +36,7 @@ import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.server.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.EnumSet;
 import java.util.HashMap;

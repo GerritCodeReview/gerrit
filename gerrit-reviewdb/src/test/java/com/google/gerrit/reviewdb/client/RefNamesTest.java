@@ -39,12 +39,32 @@ public class RefNamesTest {
   @Test
   public void changeRefs() throws Exception {
     String changeMetaRef = RefNames.changeMetaRef(changeId);
-    assertThat(changeMetaRef).isEqualTo("refs/changes/67/67473/meta");
+    assertThat(changeMetaRef).isEqualTo("refs/changes/73/67473/meta");
     assertThat(RefNames.isNoteDbMetaRef(changeMetaRef)).isTrue();
 
     String robotCommentsRef = RefNames.robotCommentsRef(changeId);
-    assertThat(robotCommentsRef).isEqualTo("refs/changes/67/67473/robot-comments");
+    assertThat(robotCommentsRef).isEqualTo("refs/changes/73/67473/robot-comments");
     assertThat(RefNames.isNoteDbMetaRef(robotCommentsRef)).isTrue();
+  }
+
+  @Test
+  public void isChangeMetaRef() throws Exception {
+    assertThat(RefNames.isChangeMetaRef(null)).isFalse();
+    assertThat(RefNames.isChangeMetaRef("")).isFalse();
+    assertThat(RefNames.isChangeMetaRef(psId.toRefName())).isFalse();
+    assertThat(RefNames.isChangeMetaRef(RefNames.changeMetaRef(changeId))).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/meta")).isTrue();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/83/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/74/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/metax")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/67473/mxta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("xrefs/changes/73/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/chxnges/73/67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73.67473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/x3/674x3/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/7y/6747y/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73/x7473/meta")).isFalse();
+    assertThat(RefNames.isChangeMetaRef("refs/changes/73.67473/meta")).isFalse();
   }
 
   @Test

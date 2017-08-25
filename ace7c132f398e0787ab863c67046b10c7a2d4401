@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db549f0b_9e1ab0e7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-25T10:57:32Z",
+      "side": 1,
+      "message": "We are not checking that they have been randomly generated or not: you could set the HTTP password with gerrit set-account and it would still work with gitBasicAuthPolicy \u003d HTTP.\n\nChange to \"HTTP password managed by Gerrit?\" or \"Gerrit\u0027s managed HTTP password\" ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "ace7c132f398e0787ab863c67046b10c7a2d4401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb671d8_3629b26a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-08-25T10:57:32Z",
+      "side": 1,
+      "message": "This is incorrect: OAuth delegates the authentication to the provider, which could use any sort of way to verify the credentials (cookie, password, SSL certificates, two factor, whatever).\n\nChange to \"authentication\"",
+      "range": {
+        "startLine": 33,
+        "startChar": 23,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "ace7c132f398e0787ab863c67046b10c7a2d4401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be2c38ef_7a7207ce",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-25T07:24:10Z",
+      "side": 1,
+      "message": "This will be the wrong sha1 because the corresponding change in the plugin is no longer on the tip of master and submitting it will result in a merge commit for which we don\u0027t know the sha1 in advance.\n\nRather than updating the plugin here, it would be better to tie the changes together with a common topic as mentioned on the plugin change.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "e1d6d120fc68c69b0a9d35dad5528896f6d8346a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

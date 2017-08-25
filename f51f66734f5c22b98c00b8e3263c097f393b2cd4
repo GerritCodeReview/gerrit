@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d6250b4_5daacc51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-25T13:58:48Z",
+      "side": 1,
+      "message": "For callers it may be surprising that each call of\n\n  groupCache.getInternalGroup(...)\n\nleads to loading the group members/includes even if the group is already cached. At least this should be documented in the JavaDoc of this method. Wouldn\u0027t it be better to have the cache store internal groups?\n\nI\u0027m a bit concerned that this is happening for each result that is returned by queries on the group index.",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 70
+      },
+      "revId": "f51f66734f5c22b98c00b8e3263c097f393b2cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

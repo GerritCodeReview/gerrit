@@ -24,6 +24,7 @@ import com.google.gerrit.server.group.Index.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 
 @Singleton
 public class Index implements RestModifyView<GroupResource, Input> {
@@ -49,9 +50,11 @@ public class Index implements RestModifyView<GroupResource, Input> {
           String.format("External Group Not Allowed: %s", groupUuid.get()));
     }
 
-    AccountGroup accountGroup = groupCache.get(groupUuid);
+    Optional<InternalGroup> group = groupCache.get(groupUuid);
     // evicting the group from the cache, reindexes the group
-    groupCache.evict(accountGroup);
+    if (group.isPresent()) {
+      groupCache.evict(group.get().getGroupUUID(), group.get().getId(), group.get().getNameKey());
+    }
     return Response.none();
   }
 }

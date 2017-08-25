@@ -17,10 +17,10 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,11 +56,7 @@ public class InternalGroupBackend implements GroupBackend {
       return null;
     }
 
-    AccountGroup g = groupCache.get(uuid);
-    if (g == null) {
-      return null;
-    }
-    return GroupDescriptions.forAccountGroup(g);
+    return groupCache.get(uuid).map(InternalGroupDescription::new).orElse(null);
   }
 
   @Override

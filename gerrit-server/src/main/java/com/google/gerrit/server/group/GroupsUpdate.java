@@ -170,7 +170,7 @@ public class GroupsUpdate {
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
       throws OrmException, IOException, NoSuchGroupException {
     AccountGroup updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
-    groupCache.evict(updatedGroup);
+    groupCache.evict(updatedGroup.getGroupUUID(), updatedGroup.getId(), updatedGroup.getNameKey());
   }
 
   @VisibleForTesting
@@ -221,7 +221,7 @@ public class GroupsUpdate {
 
     db.accountGroupNames().deleteKeys(ImmutableList.of(oldName));
 
-    groupCache.evict(group);
+    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     groupCache.evictAfterRename(oldName, newName);
 
     @SuppressWarnings("unused")

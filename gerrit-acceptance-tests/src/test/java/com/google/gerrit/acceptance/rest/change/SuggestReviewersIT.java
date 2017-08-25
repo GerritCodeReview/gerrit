@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.CreateGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
@@ -44,9 +45,9 @@ import org.junit.Test;
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject private CreateGroup.Factory createGroupFactory;
 
-  private AccountGroup group1;
-  private AccountGroup group2;
-  private AccountGroup group3;
+  private InternalGroup group1;
+  private InternalGroup group2;
+  private InternalGroup group3;
 
   private TestAccount user1;
   private TestAccount user2;
@@ -234,8 +235,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "addreviewer.maxAllowed", value = "2")
   @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1")
   public void suggestReviewersGroupSizeConsiderations() throws Exception {
-    AccountGroup largeGroup = group("large");
-    AccountGroup mediumGroup = group("medium");
+    InternalGroup largeGroup = group("large");
+    InternalGroup mediumGroup = group("medium");
 
     // Both groups have Administrator as a member. Add two users to large
     // group to push it past maxAllowed, and one to medium group to push it
@@ -424,19 +425,19 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n).get();
   }
 
-  private AccountGroup group(String name) throws Exception {
+  private InternalGroup group(String name) throws Exception {
     GroupInfo group = createGroupFactory.create(name(name)).apply(TopLevelResource.INSTANCE, null);
-    return groupCache.get(new AccountGroup.UUID(group.id));
+    return groupCache.get(new AccountGroup.UUID(group.id)).orElse(null);
   }
 
-  private TestAccount user(String name, String fullName, String emailName, AccountGroup... groups)
+  private TestAccount user(String name, String fullName, String emailName, InternalGroup... groups)
       throws Exception {
-    String[] groupNames = Arrays.stream(groups).map(AccountGroup::getName).toArray(String[]::new);
+    String[] groupNames = Arrays.stream(groups).map(InternalGroup::getName).toArray(String[]::new);
     return accountCreator.create(
         name(name), name(emailName) + "@example.com", fullName, groupNames);
   }
 
-  private TestAccount user(String name, String fullName, AccountGroup... groups) throws Exception {
+  private TestAccount user(String name, String fullName, InternalGroup... groups) throws Exception {
     return user(name, fullName, name, groups);
   }
 
@@ -461,7 +462,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private void assertReviewers(
       List<SuggestedReviewerInfo> actual,
       List<TestAccount> expectedUsers,
-      List<AccountGroup> expectedGroups) {
+      List<InternalGroup> expectedGroups) {
     List<Integer> actualAccountIds =
         actual
             .stream()

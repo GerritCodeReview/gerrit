@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.kohsuke.args4j.Option;
 
 public class ListMembers implements RestReadView<GroupResource> {
@@ -85,15 +86,15 @@ public class ListMembers implements RestReadView<GroupResource> {
     seenGroups.add(groupUUID);
 
     final Map<Account.Id, AccountInfo> members = new HashMap<>();
-    final AccountGroup group = groupCache.get(groupUUID);
-    if (group == null) {
+    Optional<InternalGroup> group = groupCache.get(groupUUID);
+    if (!group.isPresent()) {
       // the included group is an external group and can't be resolved
       return Collections.emptyMap();
     }
 
     final GroupDetail groupDetail;
     try {
-      groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
+      groupDetail = groupDetailFactory.create(group.get().getGroupUUID()).call();
     } catch (NoSuchGroupException e) {
       // the included group is not visible
       return Collections.emptyMap();

@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 /** Parses a query string meant to be applied to group objects. */
 public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
@@ -90,9 +91,9 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   @Operator
   public Predicate<InternalGroup> owner(String owner) throws QueryParseException {
-    AccountGroup group = args.groupCache.get(new AccountGroup.UUID(owner));
-    if (group != null) {
-      return GroupPredicates.owner(group.getGroupUUID());
+    Optional<InternalGroup> group = args.groupCache.get(new AccountGroup.UUID(owner));
+    if (group.isPresent()) {
+      return GroupPredicates.owner(group.get().getGroupUUID());
     }
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, owner);
     if (g == null) {

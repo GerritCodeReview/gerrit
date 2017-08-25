@@ -66,7 +66,7 @@ public class GroupIndexerImpl implements GroupIndexer {
   @Override
   public void index(AccountGroup.UUID uuid) throws IOException {
     for (Index<AccountGroup.UUID, InternalGroup> i : getWriteIndexes()) {
-      Optional<InternalGroup> internalGroup = groupCache.getInternalGroup(uuid);
+      Optional<InternalGroup> internalGroup = groupCache.get(uuid);
       if (internalGroup.isPresent()) {
         i.replace(internalGroup.get());
       } else {

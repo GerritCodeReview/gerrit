@@ -25,7 +25,7 @@ import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.server.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.server.testutil.InMemoryRepositoryManager;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

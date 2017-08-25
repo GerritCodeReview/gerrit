@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.server.testutil.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

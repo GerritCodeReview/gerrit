@@ -64,10 +64,9 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
       throws AuthException, MethodNotAllowedException, OrmException {
-    AccountGroup group = rsrc.toAccountGroup();
-    if (group == null) {
-      throw new MethodNotAllowedException();
-    } else if (!rsrc.getControl().isOwner()) {
+    GroupDescription.Internal group =
+        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 

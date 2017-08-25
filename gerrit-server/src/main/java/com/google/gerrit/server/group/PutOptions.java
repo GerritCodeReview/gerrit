@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -44,10 +45,9 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
   public GroupOptionsInfo apply(GroupResource resource, GroupOptionsInfo input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
           ResourceNotFoundException, OrmException, IOException {
-    AccountGroup accountGroup = resource.toAccountGroup();
-    if (accountGroup == null) {
-      throw new MethodNotAllowedException();
-    } else if (!resource.getControl().isOwner()) {
+    GroupDescription.Internal internalGroup =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
@@ -58,8 +58,8 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
       input.visibleToAll = false;
     }
 
-    if (accountGroup.isVisibleToAll() != input.visibleToAll) {
-      AccountGroup.UUID groupUuid = accountGroup.getGroupUUID();
+    if (internalGroup.isVisibleToAll() != input.visibleToAll) {
+      AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
       try {
         groupsUpdateProvider
             .get()

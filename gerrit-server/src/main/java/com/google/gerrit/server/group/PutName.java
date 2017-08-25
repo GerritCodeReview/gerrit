@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -52,9 +53,9 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
           ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
-    if (rsrc.toAccountGroup() == null) {
-      throw new MethodNotAllowedException();
-    } else if (!rsrc.getControl().isOwner()) {
+    GroupDescription.Internal internalGroup =
+        rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    if (!rsrc.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     } else if (input == null || Strings.isNullOrEmpty(input.name)) {
       throw new BadRequestException("name is required");
@@ -64,15 +65,15 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("name is required");
     }
 
-    if (rsrc.toAccountGroup().getName().equals(newName)) {
+    if (internalGroup.getName().equals(newName)) {
       return newName;
     }
 
-    renameGroup(rsrc.toAccountGroup(), newName);
+    renameGroup(internalGroup, newName);
     return newName;
   }
 
-  private void renameGroup(AccountGroup group, String newName)
+  private void renameGroup(GroupDescription.Internal group, String newName)
       throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     try {

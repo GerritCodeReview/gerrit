@@ -142,12 +142,15 @@ public class GroupControl {
   }
 
   public boolean isOwner() {
-    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
-    if (accountGroup == null) {
-      isOwner = false;
-    } else if (isOwner == null) {
-      AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
+    if (isOwner != null) {
+      return isOwner;
+    }
+
+    if (group instanceof GroupDescription.Internal) {
+      AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
       isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();
+    } else {
+      isOwner = false;
     }
     return isOwner;
   }
@@ -189,7 +192,9 @@ public class GroupControl {
   }
 
   private boolean canSeeMembers() {
-    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
-    return (accountGroup != null && accountGroup.isVisibleToAll()) || isOwner();
+    if (group instanceof GroupDescription.Internal) {
+      return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
+    }
+    return false;
   }
 }

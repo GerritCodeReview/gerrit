@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -56,16 +57,15 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
       input = new Input(); // Delete would set description to null.
     }
 
-    AccountGroup accountGroup = resource.toAccountGroup();
-    if (accountGroup == null) {
-      throw new MethodNotAllowedException();
-    } else if (!resource.getControl().isOwner()) {
+    GroupDescription.Internal internalGroup =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
+    if (!resource.getControl().isOwner()) {
       throw new AuthException("Not group owner");
     }
 
     String newDescription = Strings.emptyToNull(input.description);
-    if (!Objects.equals(accountGroup.getDescription(), newDescription)) {
-      AccountGroup.UUID groupUuid = resource.getGroupUUID();
+    if (!Objects.equals(internalGroup.getDescription(), newDescription)) {
+      AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
       try {
         groupsUpdateProvider
             .get()

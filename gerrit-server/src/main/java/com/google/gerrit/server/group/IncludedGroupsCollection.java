@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
 import com.google.gwtorm.server.OrmException;
@@ -67,10 +66,8 @@ public class IncludedGroupsCollection
   @Override
   public IncludedGroupResource parse(GroupResource resource, IdString id)
       throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
-    AccountGroup parent = resource.toAccountGroup();
-    if (parent == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal parent =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
@@ -80,7 +77,7 @@ public class IncludedGroupsCollection
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
+  private boolean isMember(GroupDescription.Internal parent, GroupDescription.Basic member)
       throws OrmException, ResourceNotFoundException {
     try {
       return groups.isIncluded(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());

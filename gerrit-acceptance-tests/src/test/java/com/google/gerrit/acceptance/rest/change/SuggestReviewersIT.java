@@ -25,19 +25,15 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.CreateGroup;
-import com.google.gerrit.server.group.GroupsCollection;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +43,6 @@ import org.junit.Test;
 @Sandboxed
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject private CreateGroup.Factory createGroupFactory;
-
-  @Inject private GroupsCollection groups;
 
   private AccountGroup group1;
   private AccountGroup group2;
@@ -432,8 +426,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private AccountGroup group(String name) throws Exception {
     GroupInfo group = createGroupFactory.create(name(name)).apply(TopLevelResource.INSTANCE, null);
-    GroupDescription.Basic d = groups.parseInternal(Url.decode(group.id));
-    return GroupDescriptions.toAccountGroup(d);
+    return groupCache.get(new AccountGroup.UUID(group.id));
   }
 
   private TestAccount user(String name, String fullName, String emailName, AccountGroup... groups)

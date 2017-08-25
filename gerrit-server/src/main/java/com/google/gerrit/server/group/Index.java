@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -44,14 +43,15 @@ public class Index implements RestModifyView<GroupResource, Input> {
       throw new AuthException("not allowed to index group");
     }
 
-    AccountGroup group = GroupDescriptions.toAccountGroup(rsrc.getGroup());
-    if (group == null) {
+    AccountGroup.UUID groupUuid = rsrc.getGroup().getGroupUUID();
+    if (!rsrc.isInternalGroup()) {
       throw new UnprocessableEntityException(
-          String.format("External Group Not Allowed: %s", rsrc.getGroupUUID().get()));
+          String.format("External Group Not Allowed: %s", groupUuid.get()));
     }
 
+    AccountGroup accountGroup = groupCache.get(groupUuid);
     // evicting the group from the cache, reindexes the group
-    groupCache.evict(group);
+    groupCache.evict(accountGroup);
     return Response.none();
   }
 }

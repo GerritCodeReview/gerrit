@@ -18,7 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -211,8 +211,8 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     Set<AccountGroup.UUID> groupUuids = new HashSet<>();
     if (groups != null) {
       for (String g : groups) {
-        AccountGroup group = GroupDescriptions.toAccountGroup(groupsCollection.parseInternal(g));
-        groupUuids.add(group.getGroupUUID());
+        GroupDescription.Internal internalGroup = groupsCollection.parseInternal(g);
+        groupUuids.add(internalGroup.getGroupUUID());
       }
     }
     return groupUuids;

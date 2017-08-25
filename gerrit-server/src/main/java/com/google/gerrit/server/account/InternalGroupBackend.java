@@ -85,6 +85,6 @@ public class InternalGroupBackend implements GroupBackend {
   @Override
   public boolean isVisibleToAll(AccountGroup.UUID uuid) {
     GroupDescription.Internal g = get(uuid);
-    return g != null && g.getAccountGroup().isVisibleToAll();
+    return g != null && g.isVisibleToAll();
   }
 }

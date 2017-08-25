@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -71,10 +72,8 @@ public class MembersCollection
   public MemberResource parse(GroupResource parent, IdString id)
       throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException,
           IOException, ConfigInvalidException {
-    AccountGroup group = parent.toAccountGroup();
-    if (group == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal group =
+        parent.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
     IdentifiedUser user = accounts.parse(TopLevelResource.INSTANCE, id).getUser();
     if (parent.getControl().canSeeMember(user.getAccountId()) && isMember(group, user)) {
@@ -83,7 +82,7 @@ public class MembersCollection
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(AccountGroup group, IdentifiedUser user)
+  private boolean isMember(GroupDescription.Internal group, IdentifiedUser user)
       throws OrmException, ResourceNotFoundException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     try {

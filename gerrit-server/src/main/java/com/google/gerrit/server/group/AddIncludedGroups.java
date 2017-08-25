@@ -87,10 +87,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
           ResourceNotFoundException {
-    AccountGroup group = resource.toAccountGroup();
-    if (group == null) {
-      throw new MethodNotAllowedException();
-    }
+    GroupDescription.Internal group =
+        resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
 
     GroupControl control = resource.getControl();

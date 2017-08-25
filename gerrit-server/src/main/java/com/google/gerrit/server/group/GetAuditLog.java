@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -38,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class GetAuditLog implements RestReadView<GroupResource> {
@@ -94,10 +94,10 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     for (AccountGroupByIdAud auditEvent :
         db.get().accountGroupByIdAud().byGroup(group.getId()).toList()) {
       AccountGroup.UUID includedGroupUUID = auditEvent.getKey().getIncludeUUID();
-      AccountGroup includedGroup = groupCache.get(includedGroupUUID);
+      Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
       GroupInfo member;
-      if (includedGroup != null) {
-        member = groupJson.format(GroupDescriptions.forAccountGroup(includedGroup));
+      if (includedGroup.isPresent()) {
+        member = groupJson.format(new InternalGroupDescription(includedGroup.get()));
       } else {
         GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
         member = new GroupInfo();

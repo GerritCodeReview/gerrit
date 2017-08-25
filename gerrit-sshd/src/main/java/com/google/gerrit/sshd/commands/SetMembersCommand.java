@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.group.DeleteIncludedGroups;
 import com.google.gerrit.server.group.DeleteMembers;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -149,7 +151,11 @@ public class SetMembersCommand extends SshCommand {
       String action, GroupResource group, List<AccountGroup.UUID> groupUuidList)
       throws UnsupportedEncodingException, IOException {
     String names =
-        groupUuidList.stream().map(uuid -> groupCache.get(uuid).getName()).collect(joining(", "));
+        groupUuidList
+            .stream()
+            .map(uuid -> groupCache.get(uuid).map(InternalGroup::getName))
+            .flatMap(Streams::stream)
+            .collect(joining(", "));
     out.write(
         String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
   }

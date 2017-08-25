@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -29,6 +30,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class GroupMembers {
@@ -69,9 +71,9 @@ public class GroupMembers {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     }
-    AccountGroup group = groupCache.get(groupUUID);
-    if (group != null) {
-      return getGroupMembers(group, project, seen);
+    Optional<InternalGroup> group = groupCache.get(groupUUID);
+    if (group.isPresent()) {
+      return getGroupMembers(group.get(), project, seen);
     }
     return Collections.emptySet();
   }
@@ -96,7 +98,7 @@ public class GroupMembers {
   }
 
   private Set<Account> getGroupMembers(
-      final AccountGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
+      InternalGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
     final GroupDetail groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
@@ -107,9 +109,9 @@ public class GroupMembers {
     }
 
     for (AccountGroup.UUID groupIncludeUuid : groupDetail.getIncludes()) {
-      AccountGroup includedGroup = groupCache.get(groupIncludeUuid);
-      if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
-        members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
+      Optional<InternalGroup> includedGroup = groupCache.get(groupIncludeUuid);
+      if (includedGroup.isPresent() && !seen.contains(includedGroup.get().getGroupUUID())) {
+        members.addAll(listAccounts(includedGroup.get().getGroupUUID(), project, seen));
       }
     }
     return members;

@@ -22,12 +22,14 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
 import com.google.inject.Inject;
+import java.util.Optional;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
@@ -60,15 +62,15 @@ public class ListGroupsCommand extends SshCommand {
     for (GroupInfo info : listGroups.get()) {
       formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));
       if (verboseOutput) {
-        AccountGroup o =
+        Optional<InternalGroup> group =
             info.ownerId != null
                 ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
-                : null;
+                : Optional.empty();
 
         formatter.addColumn(Url.decode(info.id));
         formatter.addColumn(Strings.nullToEmpty(info.description));
-        formatter.addColumn(o != null ? o.getName() : "n/a");
-        formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
+        formatter.addColumn(group.map(InternalGroup::getName).orElse("n/a"));
+        formatter.addColumn(group.map(g -> g.getGroupUUID().get()).orElse(""));
         formatter.addColumn(
             Boolean.toString(MoreObjects.firstNonNull(info.options.visibleToAll, Boolean.FALSE)));
       }

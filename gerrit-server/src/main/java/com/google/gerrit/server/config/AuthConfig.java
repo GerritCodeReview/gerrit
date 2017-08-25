@@ -96,6 +96,14 @@ public class AuthConfig {
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
 
+    if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
+        && authType != AuthType.LDAP
+        && authType != AuthType.LDAP_BIND
+        && authType != AuthType.OAUTH) {
+      throw new IllegalStateException(
+          "use auth.gitBasicAuthPolicy HTTP_LDAP only with auth.type LDAP, LDAP_BIND or OAUTH");
+    }
+
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
       int age =

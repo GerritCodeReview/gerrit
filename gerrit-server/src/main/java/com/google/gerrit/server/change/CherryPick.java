@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -70,7 +72,7 @@ public class CherryPick
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;
     if (input.message == null || input.message.trim().isEmpty()) {
       throw new BadRequestException("message must be non-empty");
@@ -93,7 +95,7 @@ public class CherryPick
               rsrc.getChange(),
               rsrc.getPatchSet(),
               input,
-              rsrc.getControl().getProjectControl().controlForRef(refName));
+              new Branch.NameKey(rsrc.getProject(), refName));
       return json.noOptions().format(rsrc.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

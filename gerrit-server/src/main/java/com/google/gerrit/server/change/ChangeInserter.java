@@ -57,9 +57,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -94,7 +92,7 @@ public class ChangeInserter implements InsertChangeOp {
   private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
   private final PermissionBackend permissionBackend;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ProjectCache projectCache;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -144,7 +142,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Inject
   ChangeInserter(
       PermissionBackend permissionBackend,
-      ProjectControl.GenericFactory projectControlFactory,
+      ProjectCache projectCache,
       IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -161,7 +159,7 @@ public class ChangeInserter implements InsertChangeOp {
       @Assisted ObjectId commitId,
       @Assisted String refName) {
     this.permissionBackend = permissionBackend;
-    this.projectControlFactory = projectControlFactory;
+    this.projectCache = projectCache;
     this.userFactory = userFactory;
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -567,24 +565,25 @@ public class ChangeInserter implements InsertChangeOp {
     PermissionBackend.ForRef perm =
         permissionBackend.user(ctx.getUser()).project(ctx.getProject()).ref(refName);
     try {
-      RefControl refControl =
-          projectControlFactory.controlFor(ctx.getProject(), ctx.getUser()).controlForRef(refName);
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,
-              refControl.getProjectControl().getProject(),
+              projectCache.checkedGet(ctx.getProject()).getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),
               commitId,
               ctx.getIdentifiedUser())) {
         commitValidatorsFactory
-            .forGerritCommits(perm, refControl, new NoSshInfo(), ctx.getRevWalk())
+            .forGerritCommits(
+                perm,
+                new Branch.NameKey(ctx.getProject(), refName),
+                ctx.getIdentifiedUser(),
+                new NoSshInfo(),
+                ctx.getRevWalk())
             .validate(event);
       }
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
-    } catch (NoSuchProjectException e) {
-      throw new ResourceConflictException(e.getMessage());
     }
   }
 }

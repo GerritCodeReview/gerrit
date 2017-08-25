@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -338,7 +339,13 @@ public class PatchSetInserter implements BatchUpdateOp {
             commitId,
             ctx.getIdentifiedUser())) {
       commitValidatorsFactory
-          .forGerritCommits(perm, origCtl.getRefControl(), new NoSshInfo(), ctx.getRevWalk())
+          .forGerritCommits(
+              perm,
+              new Branch.NameKey(
+                  origCtl.getProject().getNameKey(), origCtl.getRefControl().getRefName()),
+              ctx.getIdentifiedUser(),
+              new NoSshInfo(),
+              ctx.getRevWalk())
           .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -51,8 +50,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -94,6 +94,7 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final PatchSetUtil psUtil;
@@ -111,6 +112,7 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory changeNotesFactory,
+      ProjectControl.GenericFactory projectControlFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil changeMessagesUtil,
       PatchSetUtil psUtil,
@@ -125,6 +127,7 @@ public class CherryPickChange {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeNotesFactory = changeNotesFactory;
+    this.projectControlFactory = projectControlFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
     this.psUtil = psUtil;
@@ -136,9 +139,9 @@ public class CherryPickChange {
       Change change,
       PatchSet patch,
       CherryPickInput input,
-      RefControl refControl)
+      Branch.NameKey dest)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
-          UpdateException, RestApiException, ConfigInvalidException {
+          UpdateException, RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         batchUpdateFactory,
         change,
@@ -146,7 +149,7 @@ public class CherryPickChange {
         change.getProject(),
         ObjectId.fromString(patch.getRevision().get()),
         input,
-        refControl);
+        dest);
   }
 
   public Change.Id cherryPick(
@@ -156,9 +159,9 @@ public class CherryPickChange {
       Project.NameKey project,
       ObjectId sourceCommit,
       CherryPickInput input,
-      RefControl destRefControl)
+      Branch.NameKey dest)
       throws OrmException, IOException, InvalidChangeOperationException, IntegrationException,
-          UpdateException, RestApiException, ConfigInvalidException {
+          UpdateException, RestApiException, ConfigInvalidException, NoSuchProjectException {
 
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
@@ -168,11 +171,10 @@ public class CherryPickChange {
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
-      String destRefName = destRefControl.getRefName();
-      Ref destRef = git.getRefDatabase().exactRef(destRefName);
+      Ref destRef = git.getRefDatabase().exactRef(dest.get());
       if (destRef == null) {
         throw new InvalidChangeOperationException(
-            String.format("Branch %s does not exist.", destRefName));
+            String.format("Branch %s does not exist.", dest.get()));
       }
 
       RevCommit baseCommit = getBaseCommit(destRef, project.get(), revWalk, input.base);
@@ -200,8 +202,10 @@ public class CherryPickChange {
       String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
+      ProjectControl projectControl =
+          projectControlFactory.controlFor(dest.getParentKey(), identifiedUser);
       try {
-        ProjectState projectState = destRefControl.getProjectControl().getProjectState();
+        ProjectState projectState = projectControl.getProjectState();
         cherryPickCommit =
             mergeUtilFactory
                 .create(projectState)
@@ -242,8 +246,7 @@ public class CherryPickChange {
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            ChangeControl destCtl =
-                destRefControl.getProjectControl().controlFor(destChanges.get(0).notes());
+            ChangeControl destCtl = projectControl.controlFor(destChanges.get(0).notes());
             result = insertPatchSet(bu, git, destCtl, cherryPickCommit, input);
           } else {
             // Change key not found on destination branch. We can create a new
@@ -254,16 +257,13 @@ public class CherryPickChange {
             }
             result =
                 createNewChange(
-                    bu, cherryPickCommit, destRefName, newTopic, sourceChange, sourceCommit, input);
+                    bu, cherryPickCommit, dest.get(), newTopic, sourceChange, sourceCommit, input);
 
             if (sourceChange != null && sourcePatchId != null) {
               bu.addOp(
                   sourceChange.getId(),
                   new AddMessageToSourceChangeOp(
-                      changeMessagesUtil,
-                      sourcePatchId,
-                      RefNames.shortName(destRefName),
-                      cherryPickCommit));
+                      changeMessagesUtil, sourcePatchId, dest.getShortName(), cherryPickCommit));
             }
           }
           bu.execute();

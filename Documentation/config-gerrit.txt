@@ -180,7 +180,9 @@ Exactly like `HTTP` (above), but additionally Gerrit pre-populates
 a user's full name and email address based on information obtained
 from the user's account object in LDAP.  The user's group membership
 is also pulled from LDAP, making any LDAP groups that a user is a
-member of available as groups in Gerrit.
+member of available as groups in Gerrit. Hence the `_LDAP` suffix in
+the name of this authentication type. Gerrit does NOT authenticate
+the user via LDAP.
 +
 * `CLIENT_SSL_CERT_LDAP`
 +
@@ -191,7 +193,8 @@ certificate of the trust chain used to issue the client's certificate
 into the <review-site>/etc/keystore.
 After the authentication is done Gerrit will obtain basic user
 registration (name and email) from LDAP, and some group memberships.
-Therefore, the "_LDAP" suffix in the name of this authentication type.
+Hence the `_LDAP` suffix in the name of this authentication type.
+Gerrit does NOT authenticate the user via LDAP.
 This authentication type can only be used under hosted daemon mode, and
 the httpd.listenUrl must use https:// as the protocol.
 Optionally, certificate revocation list file can be used

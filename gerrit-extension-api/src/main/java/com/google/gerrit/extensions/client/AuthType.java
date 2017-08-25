@@ -32,14 +32,17 @@ public enum AuthType {
   HTTP,
 
   /**
-   * Login relies upon the container/web server security, but also uses LDAP.
+   * Login relies upon the container/web server security.
    *
    * <p>Like {@link #HTTP}, the container or web server must populate an HTTP header with a unique
    * name for the current user. Gerrit will implicitly trust the value of this header to supply the
    * unique identity.
    *
-   * <p>In addition to trusting the HTTP headers, Gerrit will obtain basic user registration (name
-   * and email) from LDAP, and some group memberships.
+   * <p>After the authentication is done Gerrit will obtain basic user registration (name and
+   * email), and some group memberships, from LDP. Hence the "_LDAP" suffix in the name of this
+   * authentication type.
+   *
+   * <p>Gerrit will NOT authenticate the user via LDAP.
    */
   HTTP_LDAP,
 
@@ -51,9 +54,11 @@ public enum AuthType {
    * to import the root certificate of the trust chain used to issue the client's certificate into
    * the &lt;review-site&gt;/etc/keystore.
    *
-   * <p>After the authentication is done Gerrit will obtain basic user registration (name and email)
-   * from LDAP, and some group memberships. Therefore, the "_LDAP" suffix in the name of this
+   * <p>After the authentication is done Gerrit will obtain basic user registration (name and
+   * email), and some group memberships, from LDP. Hence the "_LDAP" suffix in the name of this
    * authentication type.
+   *
+   * <p>Gerrit will NOT authenticate the user via LDAP.
    */
   CLIENT_SSL_CERT_LDAP,
 

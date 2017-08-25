@@ -60,7 +60,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -286,13 +285,12 @@ public class PostReviewers
     }
 
     Set<Account.Id> reviewers = new HashSet<>();
-    ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
       members =
           groupMembersFactory
-              .create(control.getUser())
-              .listAccounts(group.getGroupUUID(), control.getProject().getNameKey());
+              .create(rsrc.getUser())
+              .listAccounts(group.getGroupUUID(), rsrc.getProject());
     } catch (NoSuchGroupException e) {
       return fail(
           reviewer,

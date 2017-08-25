@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -67,15 +66,11 @@ public class DeletePrivate
       throw new ResourceConflictException("change is not private");
     }
 
-    ChangeControl control = rsrc.getControl();
     SetPrivateOp op = new SetPrivateOp(cmUtil, false, input);
     try (BatchUpdate u =
         updateFactory.create(
-            dbProvider.get(),
-            control.getProject().getNameKey(),
-            control.getUser(),
-            TimeUtil.nowTs())) {
-      u.addOp(control.getId(), op).execute();
+            dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      u.addOp(rsrc.getId(), op).execute();
     }
 
     return Response.none();

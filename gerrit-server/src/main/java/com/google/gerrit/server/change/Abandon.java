@@ -76,7 +76,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
           IOException, ConfigInvalidException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
-    NotifyHandling notify = input.notify == null ? defaultNotify(req.getControl()) : input.notify;
+    NotifyHandling notify = input.notify == null ? defaultNotify(req.getChange()) : input.notify;
     Change change =
         abandon(
             updateFactory,
@@ -87,19 +87,24 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     return json.noOptions().format(change);
   }
 
-  private NotifyHandling defaultNotify(ChangeControl control) {
-    return control.getChange().hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
+  private NotifyHandling defaultNotify(Change change) {
+    return change.hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
   }
 
   public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control)
       throws RestApiException, UpdateException {
-    return abandon(updateFactory, control, "", defaultNotify(control), ImmutableListMultimap.of());
+    return abandon(
+        updateFactory, control, "", defaultNotify(control.getChange()), ImmutableListMultimap.of());
   }
 
   public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
     return abandon(
-        updateFactory, control, msgTxt, defaultNotify(control), ImmutableListMultimap.of());
+        updateFactory,
+        control,
+        msgTxt,
+        defaultNotify(control.getChange()),
+        ImmutableListMultimap.of());
   }
 
   public Change abandon(

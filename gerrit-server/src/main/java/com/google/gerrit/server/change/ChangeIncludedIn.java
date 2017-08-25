@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,9 +43,8 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   @Override
   public IncludedInInfo apply(ChangeResource rsrc)
       throws RestApiException, OrmException, IOException {
-    ChangeControl ctl = rsrc.getControl();
     PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
-    Project.NameKey project = ctl.getProject().getNameKey();
+    Project.NameKey project = rsrc.getProject();
     return includedIn.apply(project, ps.getRevision().get());
   }
 }

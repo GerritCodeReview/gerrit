@@ -172,7 +172,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
     try {
-      changeEditsPut.apply(changeResource.getControl(), filePath, newContent);
+      changeEditsPut.apply(changeResource, filePath, newContent);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify file of change edit", e);
     }
@@ -181,7 +181,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void deleteFile(String filePath) throws RestApiException {
     try {
-      changeEditDeleteContent.apply(changeResource.getControl(), filePath);
+      changeEditDeleteContent.apply(changeResource, filePath);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete file of change edit", e);
     }

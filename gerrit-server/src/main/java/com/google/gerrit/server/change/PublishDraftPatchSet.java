@@ -155,7 +155,7 @@ public class PublishDraftPatchSet
         throws RestApiException, UpdateException {
       return publish.apply(
           updateFactory,
-          rsrc.getControl().getUser(),
+          rsrc.getUser(),
           rsrc.getChange(),
           rsrc.getChange().currentPatchSetId(),
           null);

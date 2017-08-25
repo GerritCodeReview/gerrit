@@ -92,6 +92,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -353,7 +354,7 @@ public abstract class AbstractDaemonTest {
     // removes all indexed data.
     // As a workaround, we simply reindex all available groups here.
     for (AccountGroup group : groupCache.all()) {
-      groupCache.evict(group);
+      groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     }
 
     admin = accountCreator.admin();
@@ -1185,8 +1186,9 @@ public abstract class AbstractDaemonTest {
       String g = createGroup("cla-test-group");
       GroupApi groupApi = gApi.groups().id(g);
       groupApi.description("CLA test group");
-      AccountGroup caGroup = groupCache.get(new AccountGroup.UUID(groupApi.detail().id));
-      GroupReference groupRef = GroupReference.forGroup(caGroup);
+      InternalGroup caGroup =
+          groupCache.get(new AccountGroup.UUID(groupApi.detail().id)).orElse(null);
+      GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
       PermissionRule rule = new PermissionRule(groupRef);
       rule.setAction(PermissionRule.Action.ALLOW);
       ca = new ContributorAgreement("cla-test");

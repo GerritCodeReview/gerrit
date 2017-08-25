@@ -19,11 +19,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -91,8 +93,8 @@ public class IncludingGroupMembership implements GroupMembership {
         }
 
         memberOf.put(id, false);
-        AccountGroup group = groupCache.get(id);
-        if (group == null) {
+        Optional<InternalGroup> group = groupCache.get(id);
+        if (!group.isPresent()) {
           continue;
         }
         if (search(includeCache.subgroupsOf(id))) {

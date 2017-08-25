@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.server.testutil.TestTimeUtil;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

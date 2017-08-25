@@ -37,7 +37,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.server.testutil.NoteDbMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;

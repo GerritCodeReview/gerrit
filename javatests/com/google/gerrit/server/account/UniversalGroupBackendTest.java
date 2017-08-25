@@ -35,7 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.server.testutil.GerritBaseTests;
 import java.util.Set;
 import org.easymock.IAnswer;
 import org.eclipse.jgit.lib.Config;

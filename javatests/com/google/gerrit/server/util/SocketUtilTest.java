@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.server.testutil.GerritBaseTests;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -96,6 +97,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       Provider<SetParent> setParent,
       Sequences seq,
       ContributorAgreementsChecker contributorAgreements,
+      Provider<CurrentUser> user,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -107,6 +109,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         metaDataUpdateFactory,
         allProjects,
         setParent,
+        user.get(),
+        permissionBackend,
         projectName,
         base,
         sectionList,

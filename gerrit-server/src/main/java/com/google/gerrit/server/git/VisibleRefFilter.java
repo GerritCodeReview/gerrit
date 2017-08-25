@@ -38,7 +38,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -80,7 +79,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final PermissionBackend.ForProject perm;
   private final ProjectState projectState;
   private final Repository git;
-  private ProjectControl projectCtl;
   private boolean showMetadata = true;
   private String userEditPrefix;
   private Map<Change.Id, Branch.NameKey> visibleChanges;
@@ -141,7 +139,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
-    projectCtl = projectState.controlFor(user.get());
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
@@ -263,10 +260,20 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     if (visibleChanges == null) {
       visible(id);
     }
-    if (id != null) {
-      return (userEditPrefix != null && name.startsWith(userEditPrefix) && visible(id))
-          || (visibleChanges.containsKey(id)
-              && projectCtl.controlForRef(visibleChanges.get(id)).isEditVisible());
+    if (id == null) {
+      return false;
+    }
+    if (userEditPrefix != null && name.startsWith(userEditPrefix) && visible(id)) {
+      return true;
+    }
+    if (visibleChanges.containsKey(id)) {
+      try {
+        // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
+        perm.ref(visibleChanges.get(id).get()).check(RefPermission.READ_PRIVATE_CHANGES);
+        return true;
+      } catch (PermissionBackendException | AuthException e) {
+        return false;
+      }
     }
     return false;
   }

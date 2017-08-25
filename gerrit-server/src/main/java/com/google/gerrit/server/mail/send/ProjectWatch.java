@@ -119,11 +119,24 @@ public class ProjectWatch {
     static class List {
       protected final Set<Account.Id> accounts = new HashSet<>();
       protected final Set<Address> emails = new HashSet<>();
+
+      private static List union(List... others) {
+        List union = new List();
+        for (List other : others) {
+          union.accounts.addAll(other.accounts);
+          union.emails.addAll(other.emails);
+        }
+        return union;
+      }
     }
 
     protected final List to = new List();
     protected final List cc = new List();
     protected final List bcc = new List();
+
+    List all() {
+      return List.union(to, cc, bcc);
+    }
 
     List list(NotifyConfig.Header header) {
       switch (header) {

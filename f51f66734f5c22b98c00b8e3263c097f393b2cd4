@@ -22,6 +22,30 @@
       "revId": "f51f66734f5c22b98c00b8e3263c097f393b2cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8580eb23_0c19bc27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-25T16:58:01Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t it be better to have the cache store internal groups?\n\nYes, I intended to do that in a follow-up change. I created it and added it to the same topic as this change.",
+      "parentUuid": "7d6250b4_5daacc51",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 70
+      },
+      "revId": "f51f66734f5c22b98c00b8e3263c097f393b2cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

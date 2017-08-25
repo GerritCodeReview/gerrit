@@ -98,7 +98,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       throws RestApiException, OrmException, UpdateException, PermissionBackendException {
     Change change = rsrc.getChange();
     Project.NameKey project = rsrc.getProject();
-    IdentifiedUser caller = rsrc.getUser();
+    IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
 
     if (change.getStatus().isClosed()) {

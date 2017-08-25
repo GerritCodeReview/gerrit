@@ -55,7 +55,7 @@ public class PostHashtags
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(), req.getChange().getProject(), req.getControl().getUser(), TimeUtil.nowTs())) {
+            db.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       SetHashtagsOp op = hashtagsFactory.create(input);
       bu.addOp(req.getId(), op);
       bu.execute();

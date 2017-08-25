@@ -43,6 +43,28 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
+    test('_getHashFromCanonicalPath', () => {
+      let url = '/foo/bar';
+      let hash = element._getHashFromCanonicalPath(url);
+      assert.equal(hash, '');
+
+      url = '';
+      hash = element._getHashFromCanonicalPath(url);
+      assert.equal(hash, '');
+
+      url = '/foo#bar';
+      hash = element._getHashFromCanonicalPath(url);
+      assert.equal(hash, 'bar');
+
+      url = '/foo#bar#baz';
+      hash = element._getHashFromCanonicalPath(url);
+      assert.equal(hash, 'bar#baz');
+
+      url = '#foo#bar#baz';
+      hash = element._getHashFromCanonicalPath(url);
+      assert.equal(hash, 'foo#bar#baz');
+    });
+
     suite('generateUrl', () => {
       test('search', () => {
         let params = {

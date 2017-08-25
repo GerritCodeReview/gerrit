@@ -196,6 +196,17 @@
       page('/login/' + encodeURIComponent(data.substring(basePath.length)));
     },
 
+    /**
+     * Hashes parsed by page.js exclude "inner" hashes, so a URL like "/a#b#c"
+     * is parsed to have a hash of "b" rather than "b#c". Instead, this method
+     * parses hashes correctly. Will return an empty string if there is no hash.
+     * @param {!string} canonicalPath
+     * @return {!string} Everything after the first '#' ("a#b#c" -> "b#c").
+     */
+    _getHashFromCanonicalPath(canonicalPath) {
+      return canonicalPath.split('#').slice(1).join('#');
+    },
+
     _startRouter() {
       const base = window.Gerrit.BaseUrlBehavior.getBaseUrl();
       if (base) {
@@ -233,22 +244,22 @@
           // Close child window on redirect after login.
           window.close();
         }
+        let hash = this._getHashFromCanonicalPath(data.canonicalPath);
         // For backward compatibility with GWT links.
-        if (data.hash) {
+        if (hash) {
           // In certain login flows the server may redirect to a hash without
           // a leading slash, which page.js doesn't handle correctly.
-          if (data.hash[0] !== '/') {
-            data.hash = '/' + data.hash;
+          if (hash[0] !== '/') {
+            hash = '/' + hash;
           }
-          if (data.hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
+          if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
             // Path decodes all '+' to ' ' -- this breaks project-based URLs.
             // See Issue 6888.
-            data.hash = data.hash.replace('/ /', '/+/');
+            hash = hash.replace('/ /', '/+/');
           }
-          const hash = data.hash;
           let newUrl = base + hash;
           if (hash.startsWith('/VE/')) {
-            newUrl = base + '/settings' + data.hash;
+            newUrl = base + '/settings' + hash;
           }
           this._redirect(newUrl);
           return;

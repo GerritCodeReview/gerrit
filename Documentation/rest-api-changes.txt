@@ -927,6 +927,8 @@ If the change has no assignee the response is "`204 No Content`".
 Returns a list of every user ever assigned to a change, in the order in which
 they were first assigned.
 
+[NOTE] Past assignees are only available when NoteDb is enabled.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/past_assignees HTTP/1.0

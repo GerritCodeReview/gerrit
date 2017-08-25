@@ -177,8 +177,8 @@ public class Groups {
    * @return a stream of the IDs of the groups of which the account is a member
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public Stream<AccountGroup.Id> getGroupsWithMember(ReviewDb db, Account.Id accountId)
-      throws OrmException {
+  public static Stream<AccountGroup.Id> getGroupsWithMemberFromReviewDb(
+      ReviewDb db, Account.Id accountId) throws OrmException {
     ResultSet<AccountGroupMember> accountGroupMembers =
         db.accountGroupMembers().byAccount(accountId);
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);

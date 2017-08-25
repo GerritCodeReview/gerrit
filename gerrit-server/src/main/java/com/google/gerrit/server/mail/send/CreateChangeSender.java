@@ -14,17 +14,20 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +39,20 @@ public class CreateChangeSender extends NewChangeSender {
     CreateChangeSender create(Project.NameKey project, Change.Id id);
   }
 
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final PermissionBackend permissionBackend;
+
   @Inject
   public CreateChangeSender(
-      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
+      EmailArguments ea,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      PermissionBackend permissionBackend,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id id)
       throws OrmException {
     super(ea, newChangeData(ea, project, id));
+    this.identifiedUserFactory = identifiedUserFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -48,16 +60,13 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     try {
-      // Try to mark interested owners with TO and CC or BCC line.
+      // Upgrade watching owners from CC and BCC to TO.
       Watchers matching =
           getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
-      for (Account.Id user :
-          Iterables.concat(matching.to.accounts, matching.cc.accounts, matching.bcc.accounts)) {
-        if (isOwnerOfProjectOrBranch(user)) {
-          add(RecipientType.TO, user);
-        }
-      }
-
+      // TODO(hiesel): Remove special handling for owners
+      StreamSupport.stream(matching.all().accounts.spliterator(), false)
+          .filter(acc -> isOwnerOfProjectOrBranch(acc))
+          .forEach(acc -> add(RecipientType.TO, acc));
       // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
@@ -72,11 +81,10 @@ public class CreateChangeSender extends NewChangeSender {
     includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
   }
 
-  private boolean isOwnerOfProjectOrBranch(Account.Id user) {
-    return projectState != null
-        && projectState
-            .controlFor(args.identifiedUserFactory.create(user))
-            .controlForRef(change.getDest())
-            .isOwner();
+  private boolean isOwnerOfProjectOrBranch(Account.Id userId) {
+    return permissionBackend
+        .user(identifiedUserFactory.create(userId))
+        .ref(change.getDest())
+        .testOrFalse(RefPermission.WRITE_ACCESS);
   }
 }

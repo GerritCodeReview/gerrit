@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
-public class RefControl {
+class RefControl {
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -66,19 +66,19 @@ public class RefControl {
     this.effective = new HashMap<>();
   }
 
-  public String getRefName() {
+  String getRefName() {
     return refName;
   }
 
-  public ProjectControl getProjectControl() {
+  ProjectControl getProjectControl() {
     return projectControl;
   }
 
-  public CurrentUser getUser() {
+  CurrentUser getUser() {
     return projectControl.getUser();
   }
 
-  public RefControl forUser(CurrentUser who) {
+  RefControl forUser(CurrentUser who) {
     ProjectControl newCtl = projectControl.forUser(who);
     if (relevant.isUserSpecific()) {
       return newCtl.controlForRef(getRefName());
@@ -87,7 +87,7 @@ public class RefControl {
   }
 
   /** Is this user a ref owner? */
-  public boolean isOwner() {
+  boolean isOwner() {
     if (owner == null) {
       if (canPerform(Permission.OWNER)) {
         owner = true;
@@ -107,11 +107,6 @@ public class RefControl {
               && isProjectStatePermittingRead();
     }
     return isVisible;
-  }
-
-  /** Can this user see other users change edits? */
-  public boolean isEditVisible() {
-    return canViewPrivateChanges();
   }
 
   private boolean canUpload() {
@@ -275,11 +270,6 @@ public class RefControl {
     return canPerform(Permission.ABANDON);
   }
 
-  /** @return true if this user can remove a reviewer for a change. */
-  boolean canRemoveReviewer() {
-    return canPerform(Permission.REMOVE_REVIEWER);
-  }
-
   /** @return true if this user can view private changes. */
   boolean canViewPrivateChanges() {
     return canPerform(Permission.VIEW_PRIVATE_CHANGES);
@@ -395,7 +385,7 @@ public class RefControl {
   }
 
   /** True if the user is blocked from using this permission. */
-  public boolean isBlocked(String permissionName) {
+  boolean isBlocked(String permissionName) {
     return !doCanPerform(permissionName, false, true);
   }
 
@@ -576,6 +566,16 @@ public class RefControl {
 
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);
+
+        case READ_PRIVATE_CHANGES:
+          return canViewPrivateChanges();
+
+        case READ_ACCESS:
+          return projectControl
+              .controlForRef(RefNames.REFS_CONFIG)
+              .canPerform(RefPermission.READ.name());
+        case WRITE_ACCESS:
+          return isOwner();
 
         case SKIP_VALIDATION:
           return canForgeAuthor()

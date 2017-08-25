@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -119,11 +120,24 @@ public class ProjectWatch {
     static class List {
       protected final Set<Account.Id> accounts = new HashSet<>();
       protected final Set<Address> emails = new HashSet<>();
+
+      private List union(List... others) {
+        List union = new List();
+        for (List other : Lists.asList(this, others)) {
+          union.accounts.addAll(other.accounts);
+          union.emails.addAll(other.emails);
+        }
+        return union;
+      }
     }
 
     protected final List to = new List();
     protected final List cc = new List();
     protected final List bcc = new List();
+
+    List all() {
+      return to.union(cc, bcc);
+    }
 
     List list(NotifyConfig.Header header) {
       switch (header) {

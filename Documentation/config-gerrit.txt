@@ -4590,6 +4590,21 @@ This allows to enable the superproject subscription mechanism.
 +
 By default this is true.
 
+[[submodule.maxCombinedCommitMessageSize]]submodule.maxCombinedCommitMessageSize::
++
+This allows to limit the length of the commit message for a submodule.
++
+By default this is 262144 (256 KiB).
++
+Common unit suffixes of k, m, or g are supported.
+
+[[submodule.maxCommitMessages]]submodule.maxCommitMessages::
++
+This allows to limit the number of commit messages that should be combined when creating
+a commit message for a submodule.
++
+By default this is 1000.
+
 [[user]]
 === Section user
 

@@ -95,6 +95,7 @@
     },
 
     _computePermissionName(name, permission, permissionValues, capabilities) {
+      Polymer.dom.flush();
       if (name === GLOBAL_NAME) {
         return capabilities[permission.id].name;
       } else if (permissionValues[permission.id]) {

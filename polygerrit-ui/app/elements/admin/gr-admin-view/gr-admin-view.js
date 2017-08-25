@@ -69,6 +69,7 @@
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
       _showPluginList: Boolean,
+      _showProjectAccess: Boolean,
     },
 
     behaviors: [
@@ -110,6 +111,13 @@
             view: 'gr-project',
             url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
             children: [{
+              name: 'Access',
+              detailType: 'access',
+              view: 'gr-project-access',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},access`,
+            },
+            {
               name: 'Commands',
               detailType: 'commands',
               view: 'gr-project-commands',
@@ -187,6 +195,7 @@
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
       this.set('_showPluginList', params.adminView === 'gr-plugin-list');
+      this.set('_showProjectAccess', params.adminView === 'gr-project-access');
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.

@@ -18,14 +18,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class ProjectIndexCollection
     extends IndexCollection<Project.NameKey, ProjectState, ProjectIndex> {
 
-  @Inject
   @VisibleForTesting
   public ProjectIndexCollection() {}
 }

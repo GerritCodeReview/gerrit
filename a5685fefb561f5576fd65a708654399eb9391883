@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fa7dd1_bd6ef892",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-08-25T17:05:10Z",
+      "side": 1,
+      "message": "I didn\u0027t find time to manually test the SQL statements of this class. Please look at them closely.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "a5685fefb561f5576fd65a708654399eb9391883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

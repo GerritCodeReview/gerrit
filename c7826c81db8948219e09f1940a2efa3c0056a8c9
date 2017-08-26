@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6959a9a1_3408b024",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-26T13:54:15Z",
+      "side": 1,
+      "message": "Needs base url here, this.getBaseUrl(). Need to import the behaviour too.",
+      "revId": "c7826c81db8948219e09f1940a2efa3c0056a8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -175,6 +175,9 @@ limitations under the License.
       assert.equal(valueOf(
           'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
           .firstElementChild.checked, false);
+      assert.equal(valueOf(
+          'Display desktop version on mobile', 'preferences')
+          .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);

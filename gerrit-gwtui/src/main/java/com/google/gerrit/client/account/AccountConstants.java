@@ -37,6 +37,8 @@ public interface AccountConstants extends Constants {
 
   String contextWholeFile();
 
+  String polyGerritDesktopSiteOnMobile();
+
   String showSiteHeader();
 
   String useFlashClipboard();

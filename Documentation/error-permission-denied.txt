@@ -3,15 +3,20 @@
 With this error message an SSH command to Gerrit is rejected if the
 SSH authentication is not successful.
 
-The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH] protocol uses link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography] for authentication.
-This means for a successful SSH authentication you need your private
-SSH key and the corresponding public SSH key must be known to Gerrit.
+The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH] protocol can use
+link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography]
+for authentication.
+In general configurations, Gerrit will authenticate you by the public keys
+known to you. Optionally, it can be configured by the administrator to allow
+for link:config-gerrit.html#sshd.kerberosKeytab[kerberos] authentication
+instead.
 
-If you are facing this problem, do the following:
+In any case, verify that you are using the correct username for the SSH command
+and that it is typed correctly (case sensitive). You can look up your username
+in the Gerrit Web UI under 'Settings' -> 'Profile'.
 
-. Verify that you are using the correct username for the SSH command
-  and that it is typed correctly (case sensitive). You can look up
-  your username in the Gerrit Web UI under 'Settings' -> 'Profile'.
+If you are facing this problem and using an SSH keypair, do the following:
+
 . Verify that you have uploaded your public SSH key for your Gerrit
   account. To do this go in the Gerrit Web UI to 'Settings' ->
   'SSH Public Keys' and check that your public SSH key is there. If
@@ -21,6 +26,19 @@ If you are facing this problem, do the following:
   described below. From the trace you should see which private SSH
   key is used.
 
+Debugging kerberos issues can be quite hard given the complexity of the
+protocol. In case you are using kerberos authentication, do the following:
+
+. Verify that you have acquired a valid initial ticket. On a Linux machine, you
+  can acquire one using the `kinit` command. List all your tickets using the
+  `klist` command. It should list all principals for which you have acquired
+  ticket and include a principal name corresponding to your Gerrit server, for
+  example `HOST/gerrit.mydomain.tld@MYDOMAIN.TLD`.
+  Note that tickets can expire and require you to re-run `kinit` periodically.
+. Verify that your SSH client is using kerberos authentication. For OpenSSH
+  clients this can be controlled using the `GSSAPIAuthentication` setting.
+  For more information see
+  link:user-upload.html#configure_ssh_kerberos[SSH kerberos configuration].
 
 == Test SSH authentication
 

@@ -56,8 +56,8 @@ For git operations Gerrit supports the link:user-upload.html#ssh[SSH]
 and the link:user-upload.html#http[HTTP/HTTPS] protocols.
 
 [NOTE]
-To use SSH you must link:user-upload.html#configure_ssh[generate an SSH
-key pair and upload the public SSH key to Gerrit].
+To use SSH you may need to link:user-upload.html#ssh[configure your SSH public
+key in your `Settings`].
 
 [[code-review]]
 == Code Review Workflow

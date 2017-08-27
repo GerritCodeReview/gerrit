@@ -22,6 +22,7 @@
     'diff_view',
     'publish_comments_on_push',
     'signed_off_by',
+    'poly_gerrit_desktop_site_on_mobile',
     'email_format',
     'size_bar_in_change_table',
   ];
@@ -281,6 +282,11 @@
 
     _handleInsertSignedOff() {
       this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
+    },
+
+    _handleDesktopSiteOnMobile() {
+      this.set('_localPrefs.poly_gerrit_desktop_site_on_mobile',
+          this.$.desktopSiteOnMobile.checked);
     },
 
     _handleMenuChanged() {

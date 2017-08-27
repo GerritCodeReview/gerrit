@@ -84,6 +84,17 @@
       '?': '_showKeyboardShortcuts',
     },
 
+    attached() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs.poly_gerrit_desktop_site_on_mobile) {
+          if (screen.width < 848) {
+            window.document.getElementsByTagName('meta')['viewport']
+                .content = 'width=1024, user-scalable=yes';
+          }
+        }
+      });
+    },
+
     ready() {
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();

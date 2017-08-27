@@ -15,7 +15,7 @@ Queries the documentation index and returns results with the title and URL
 from the matched documents.
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.

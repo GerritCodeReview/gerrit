@@ -9,8 +9,8 @@ Gerrit supports three methods of uploading changes:
 All three methods rely on authentication, which must first be configured
 by the uploading user.
 
-Gerrit supports two methods of authenticating the uploading user.  SSH
-public key, and HTTP/HTTPS.
+Gerrit supports two protocols for uploading changes; SSH and HTTP/HTTPS. These
+may not all be available for you, depending on the server configuration.
 
 [[http]]
 == HTTP/HTTPS
@@ -41,13 +41,15 @@ not configured, the password can be obtained by clicking on `Generate Password`.
 [[ssh]]
 == SSH
 
-Each user uploading changes to Gerrit must configure one or more SSH
-public keys.  The per-user SSH key list can be accessed over the web
-within Gerrit by `Settings`, and then accessing the `SSH Public Keys`
-tab.
+To upload changes over SSH, Gerrit supports two forms of authentication: a
+user's public key or kerberos.
 
-[[configure_ssh]]
-=== Configuration
+Unless your Gerrit instance is configured to support
+link:config-gerrit.html#sshd.kerberosKeytab[kerberos] in your domain, only
+public key authentication can be used.
+
+[[configure_ssh_public_keys]]
+=== Public keys
 
 To register a new SSH key for use with Gerrit, paste the contents of
 your `id_rsa.pub` or `id_dsa.pub` file into the text box and click
@@ -79,10 +81,29 @@ key's passphrase.  Consult `man ssh-agent`, or your SSH client's
 documentation, for more details on configuration of the agent
 process and how to add the private key.
 
+[[configure_ssh_kerberos]]
+=== Kerberos
+
+A kerberos-enabled server configuration allows for zero configuration in an
+existing single-sign-on environment.
+
+Your SSH client should be configured to enable kerberos authentication. For
+OpenSSH clients, this is controlled by the option `GSSAPIAuthentication` which
+should be set to `yes`.
+
+Some Linux distributions have packaged OpenSSH to enable this by default (e.g.
+Debian, Ubuntu). If this is not the case for your distribution, enable it for
+Gerrit with this entry in your local SSH configuration:
+
+----
+Host gerrit.mydomain.tld
+    GSSAPIAuthentication yes
+----
+
 [[test_ssh]]
 === Testing Connections
 
-To verify your SSH key is working correctly, try using an SSH client
+To verify your SSH authentication is working correctly, try using an SSH client
 to connect to Gerrit's SSHD port.  By default Gerrit runs on
 port 29418, using the same hostname as the web server:
 

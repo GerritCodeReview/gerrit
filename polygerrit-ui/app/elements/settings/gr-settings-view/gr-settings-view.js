@@ -264,6 +264,11 @@
       this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
     },
 
+    _handleDesktopSiteOnMobile() {
+      this.set('_localPrefs.poly_gerrit_desktop_site_on_mobile',
+          this.$.desktopSiteOnMobile.checked);
+    },
+
     _handleMenuChanged() {
       if (this._isLoading()) { return; }
       this._menuChanged = true;

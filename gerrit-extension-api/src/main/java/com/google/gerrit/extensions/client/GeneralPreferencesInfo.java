@@ -129,6 +129,7 @@ public class GeneralPreferencesInfo {
     }
   }
 
+  public Boolean polyGerritDesktopSiteOnMobile;
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
   /** Should the site header be displayed when logged in ? */
@@ -207,6 +208,7 @@ public class GeneralPreferencesInfo {
 
   public static GeneralPreferencesInfo defaults() {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
+    p.polyGerritDesktopSiteOnMobile = false;
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
     p.useFlashClipboard = true;

@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MyPreferencesScreen extends SettingsScreen {
+  private CheckBox polyGerritDesktopSiteOnMobile;
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox highlightAssigneeInChangeTable;
@@ -71,6 +72,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
+    polyGerritDesktopSiteOnMobile = new CheckBox(Util.C.polyGerritDesktopSiteOnMobile());
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     maximumPageSize = new ListBox();
@@ -165,7 +167,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     publishCommentsOnPush = new CheckBox(Util.C.publishCommentsOnPush());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(15 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(16 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -195,6 +197,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
     formGrid.setWidget(row, fieldIdx, diffView);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, polyGerritDesktopSiteOnMobile);
     row++;
 
     formGrid.setText(row, labelIdx, "");
@@ -252,6 +258,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     add(save);
 
     final OnEditEnabler e = new OnEditEnabler(save);
+    e.listenTo(polyGerritDesktopSiteOnMobile);
     e.listenTo(showSiteHeader);
     e.listenTo(useFlashClipboard);
     e.listenTo(maximumPageSize);
@@ -291,6 +298,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void enable(boolean on) {
+    polyGerritDesktopSiteOnMobile.setEnabled(on);
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     maximumPageSize.setEnabled(on);
@@ -311,6 +319,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   }
 
   private void display(GeneralPreferences p) {
+    polyGerritDesktopSiteOnMobile.setValue(p.polyGerritDesktopSiteOnMobile());
     showSiteHeader.setValue(p.showSiteHeader());
     useFlashClipboard.setValue(p.useFlashClipboard());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.changesPerPage());
@@ -401,6 +410,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
   private void doSave() {
     GeneralPreferences p = GeneralPreferences.create();
+    p.polyGerritDesktopSiteOnMobile(polyGerritDesktopSiteOnMobile.getValue());
     p.showSiteHeader(showSiteHeader.getValue());
     p.useFlashClipboard(useFlashClipboard.getValue());
     p.changesPerPage(getListBox(maximumPageSize, DEFAULT_PAGESIZE));

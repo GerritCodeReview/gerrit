@@ -49,7 +49,7 @@ The `set-members` command is processing the options in the following
 order: `--remove`, `--exclude`, `--add`, `--include`
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.

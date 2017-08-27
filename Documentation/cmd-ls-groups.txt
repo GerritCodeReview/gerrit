@@ -23,7 +23,7 @@ If the caller is a member of the privileged 'Administrators' group,
 all groups are listed.
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.

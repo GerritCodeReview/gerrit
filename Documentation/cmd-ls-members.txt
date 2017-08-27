@@ -16,7 +16,7 @@ group is visible to the user. The users' id, username, full name and email are
 shown tab-separated.
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts. Output is either an error

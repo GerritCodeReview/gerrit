@@ -22,6 +22,30 @@
       "revId": "455d1e0f103cb881d2c5bc874d61407947db4c25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8d51e0b_697cdd00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T07:35:56Z",
+      "side": 1,
+      "message": "If the existing logic works I don\u0027t see any reason to change it, particularly since GWT is likely to be removed soon.  I merged the change because I misread the logic and thought it was fixing a bug.",
+      "parentUuid": "e9537857_6c7fd302",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "455d1e0f103cb881d2c5bc874d61407947db4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

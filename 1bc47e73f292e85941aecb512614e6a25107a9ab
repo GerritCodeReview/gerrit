@@ -75,6 +75,24 @@
     },
     {
       "key": {
+        "uuid": "eecfd0a8_79e6839d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T15:08:46Z",
+      "side": 1,
+      "message": "Something like this would be nice.",
+      "parentUuid": "2b847545_5961f97d",
+      "revId": "1bc47e73f292e85941aecb512614e6a25107a9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e60b7ef_1d84befc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 1

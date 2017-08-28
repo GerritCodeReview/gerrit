@@ -135,7 +135,7 @@ public class DeleteDraftPatchSet
       if (!allowDrafts) {
         throw new MethodNotAllowedException("Draft workflow is disabled");
       }
-      if (!ctx.getControl().canDelete(ctx.getDb(), Change.Status.DRAFT)) {
+      if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 
@@ -220,7 +220,7 @@ public class DeleteDraftPatchSet
               allowDrafts
                   && rsrc.getPatchSet().isDraft()
                   && psUtil.byChange(db.get(), rsrc.getNotes()).size() > 1
-                  && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT));
+                  && rsrc.getControl().canDeleteDraft(db.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

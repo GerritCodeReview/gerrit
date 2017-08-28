@@ -234,8 +234,14 @@ public class ChangeControl {
     return (isOwner() || getRefControl().canPublishDrafts()) && isVisible(db);
   }
 
+  /** Can this user delete this draft change or any patch set of this change? */
+  public boolean canDeleteDraft(ReviewDb db) throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
+    return canDelete(db, Change.Status.DRAFT);
+  }
+
   /** Can this user delete this change or any patch set of this change? */
-  public boolean canDelete(ReviewDb db, Change.Status status) throws OrmException {
+  private boolean canDelete(ReviewDb db, Change.Status status) throws OrmException {
     if (!isVisible(db)) {
       return false;
     }

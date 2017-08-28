@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d7faef0_58f0aacb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:14:52Z",
+      "side": 0,
+      "message": "Maybe better keep this method (with ChangeNotes as arg) so that callers don\u0027t need to retrieve the user from the request scope themselves?",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 3
+      },
+      "revId": "ef213fd3e034d4472f7411739d24045cf3ff1584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

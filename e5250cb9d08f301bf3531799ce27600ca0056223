@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab1015fa_bc2d0e2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeIncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:14:52Z",
+      "side": 1,
+      "message": "[optional] inline this",
+      "revId": "e5250cb9d08f301bf3531799ce27600ca0056223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7e382f8_b4855fba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:14:52Z",
+      "side": 1,
+      "message": "never thrown",
+      "range": {
+        "startLine": 143,
+        "startChar": 41,
+        "endLine": 143,
+        "endChar": 53
+      },
+      "revId": "e5250cb9d08f301bf3531799ce27600ca0056223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06c309e5_ea95f7b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:14:52Z",
+      "side": 1,
+      "message": "no longer used",
+      "revId": "e5250cb9d08f301bf3531799ce27600ca0056223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "734881ea_c6923187",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:14:52Z",
+      "side": 1,
+      "message": "no longer used",
+      "revId": "e5250cb9d08f301bf3531799ce27600ca0056223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

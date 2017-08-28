@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "914d0562_2653ebde",
+        "filename": "project.config",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-28T14:57:27Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be sufficient to widen the gerritcodereview-maintainers to gerrit-verifiers?\n\n  submit \u003d group gerrit-verifiers",
+      "revId": "aa32085bf19b37fa3c4be59b55fc8ed36f9807da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

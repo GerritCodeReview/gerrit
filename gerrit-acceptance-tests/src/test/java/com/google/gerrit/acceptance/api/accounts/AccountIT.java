@@ -31,6 +31,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.fail;
@@ -1311,6 +1312,26 @@ public class AccountIT extends AbstractDaemonTest {
       Ref ref = repo.exactRef(RefNames.refsUsers(accountId));
       return ref != null ? ref.getObjectId().name() : null;
     }
+  }
+
+  @Test
+  public void groups() throws Exception {
+    assertGroups(
+        admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));
+
+    //TODO: update when test user is fixed to be included in "Anonymous Users" and
+    //      "Registered Users" groups
+    assertGroups(user.username, ImmutableList.of());
+
+    String group = createGroup("group");
+    String newUser = createAccount("user1", group);
+    assertGroups(newUser, ImmutableList.of(group));
+  }
+
+  private void assertGroups(String user, List<String> expected) throws Exception {
+    List<String> actual =
+        gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());
+    assertThat(actual).containsExactlyElementsIn(expected);
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

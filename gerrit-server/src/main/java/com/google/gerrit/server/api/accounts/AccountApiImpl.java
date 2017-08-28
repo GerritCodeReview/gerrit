@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
 import com.google.gerrit.server.account.GetEmails;
 import com.google.gerrit.server.account.GetExternalIds;
+import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
@@ -70,6 +72,7 @@ import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.account.Stars;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
@@ -116,6 +119,7 @@ public class AccountApiImpl implements AccountApi {
   private final GetExternalIds getExternalIds;
   private final DeleteExternalIds deleteExternalIds;
   private final PutStatus putStatus;
+  private final GetGroups getGroups;
 
   @Inject
   AccountApiImpl(
@@ -153,6 +157,7 @@ public class AccountApiImpl implements AccountApi {
       GetExternalIds getExternalIds,
       DeleteExternalIds deleteExternalIds,
       PutStatus putStatus,
+      GetGroups getGroups,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -189,6 +194,7 @@ public class AccountApiImpl implements AccountApi {
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
     this.putStatus = putStatus;
+    this.getGroups = getGroups;
   }
 
   @Override
@@ -359,6 +365,15 @@ public class AccountApiImpl implements AccountApi {
       return stars.list().apply(account);
     } catch (Exception e) {
       throw asRestApiException("Cannot get starred changes", e);
+    }
+  }
+
+  @Override
+  public List<GroupInfo> getGroups() throws RestApiException {
+    try {
+      return getGroups.apply(account);
+    } catch (OrmException e) {
+      throw asRestApiException("Cannot get groups", e);
     }
   }
 

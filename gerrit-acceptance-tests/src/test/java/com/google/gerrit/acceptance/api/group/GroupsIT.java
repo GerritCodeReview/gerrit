@@ -687,12 +687,6 @@ public class GroupsIT extends AbstractDaemonTest {
     return groupCache.get(new AccountGroup.NameKey(name));
   }
 
-  private String createAccount(String name, String group) throws Exception {
-    name = name(name);
-    accountCreator.create(name, group);
-    return name;
-  }
-
   private void setCreatedOnToNull(AccountGroup.UUID groupUuid) throws Exception {
     groupsUpdateProvider.get().updateGroup(db, groupUuid, group -> group.setCreatedOn(null));
   }

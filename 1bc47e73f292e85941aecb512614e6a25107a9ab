@@ -57,6 +57,24 @@
     },
     {
       "key": {
+        "uuid": "2b847545_5961f97d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:07:52Z",
+      "side": 1,
+      "message": "In practice I don\u0027t see us extracting metrics from the source code, but instead having some other structured data (e.g. a properties file) from which both the in-code metrics and documentation are generated.",
+      "parentUuid": "4d5d9dbf_1c8c9f7c",
+      "revId": "1bc47e73f292e85941aecb512614e6a25107a9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e60b7ef_1d84befc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 1

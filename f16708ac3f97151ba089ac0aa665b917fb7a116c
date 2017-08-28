@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32c247d3_5ba16ece",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-08-28T15:21:37Z",
+      "side": 1,
+      "message": "why are you adding this line?",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 78
+      },
+      "revId": "f16708ac3f97151ba089ac0aa665b917fb7a116c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

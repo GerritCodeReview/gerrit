@@ -23,6 +23,11 @@ def load_bower_archives():
     version = "3.5.0",
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
+    name = "font-roboto",
+    package = "font-roboto",
+    version = "1.0.3",
+    sha1 = "edf478d20ae2fc0704d7c155e20162caaabdd5ae")
+  bower_archive(
     name = "iron-a11y-announcer",
     package = "iron-a11y-announcer",
     version = "1.0.6",
@@ -38,6 +43,11 @@ def load_bower_archives():
     version = "1.0.18",
     sha1 = "e231a1a02b090f5183db917639fdb96cdd0dca18")
   bower_archive(
+    name = "iron-checked-element-behavior",
+    package = "iron-checked-element-behavior",
+    version = "1.0.6",
+    sha1 = "93ad3554cec119d8c5732d1c722ad113e1866370")
+  bower_archive(
     name = "iron-fit-behavior",
     package = "iron-fit-behavior",
     version = "1.2.7",
@@ -45,8 +55,13 @@ def load_bower_archives():
   bower_archive(
     name = "iron-flex-layout",
     package = "iron-flex-layout",
-    version = "2.0.0",
-    sha1 = "feae42cc5d2d948a50074f430cfb8ab28cb6dc9e")
+    version = "1.3.7",
+    sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
+  bower_archive(
+    name = "iron-form-element-behavior",
+    package = "iron-form-element-behavior",
+    version = "1.0.7",
+    sha1 = "7b5a79e02cc32f0918725dd26925d0df1e03ed12")
   bower_archive(
     name = "iron-meta",
     package = "iron-meta",
@@ -70,18 +85,38 @@ def load_bower_archives():
   bower_archive(
     name = "mocha",
     package = "mocha",
-    version = "3.4.2",
-    sha1 = "dfa9fd7705c541e8df3bfa22ca83789920024258")
+    version = "3.5.0",
+    sha1 = "09aa92f4f89949ed5f501a57f082e96510b18318")
   bower_archive(
     name = "neon-animation",
     package = "neon-animation",
     version = "1.2.5",
     sha1 = "588d289f779d02b21ce5b676e257bbd6155649e8")
   bower_archive(
+    name = "paper-behaviors",
+    package = "paper-behaviors",
+    version = "1.0.13",
+    sha1 = "a81eab28a952e124c208430e17508d9a1aae4ee7")
+  bower_archive(
+    name = "paper-material",
+    package = "paper-material",
+    version = "1.0.7",
+    sha1 = "159b7fb6b13b181c4276b25f9c6adbeaacb0d42b")
+  bower_archive(
+    name = "paper-ripple",
+    package = "paper-ripple",
+    version = "1.0.10",
+    sha1 = "21199db50d02b842da54bd6f4f1d1b10b474e893")
+  bower_archive(
+    name = "paper-styles",
+    package = "paper-styles",
+    version = "1.3.1",
+    sha1 = "4ee9c692366949a754e0e39f8031aa60ce66f24d")
+  bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",
-    version = "2.12.0",
-    sha1 = "d87c4a315cd07040bbe8196650dc342bbb6a3835")
+    version = "2.13.0",
+    sha1 = "ea4325b243d5a0b55bfd764e1575d51e2a191c16")
   bower_archive(
     name = "sinonjs",
     package = "sinonjs",

@@ -30,6 +30,10 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "font-roboto",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+  )
+  bower_component(
     name = "iron-a11y-announcer",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
@@ -59,6 +63,15 @@ def define_bower_components():
     ],
   )
   bower_component(
+    name = "iron-checked-element-behavior",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-form-element-behavior",
+      ":iron-validatable-behavior",
+      ":polymer",
+    ],
+  )
+  bower_component(
     name = "iron-dropdown",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -78,6 +91,11 @@ def define_bower_components():
   )
   bower_component(
     name = "iron-flex-layout",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
+    name = "iron-form-element-behavior",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
   )
@@ -160,6 +178,53 @@ def define_bower_components():
     name = "page",
     license = "//lib:LICENSE-page.js",
     seed = True,
+  )
+  bower_component(
+    name = "paper-behaviors",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-behaviors",
+      ":iron-checked-element-behavior",
+      ":paper-ripple",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-flex-layout",
+      ":paper-behaviors",
+      ":paper-material",
+      ":paper-ripple",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "paper-material",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":paper-styles",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-ripple",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-a11y-keys-behavior",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-styles",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":font-roboto",
+      ":iron-flex-layout",
+      ":polymer",
+    ],
   )
   bower_component(
     name = "polymer-resin",

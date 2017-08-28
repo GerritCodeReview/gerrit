@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa926be_de8ecbdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T13:19:23Z",
+      "side": 1,
+      "message": "Mention which version of bazel deprecates it?",
+      "revId": "2bbd7ee6645b7ca1390621de92c8059e6eee591b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

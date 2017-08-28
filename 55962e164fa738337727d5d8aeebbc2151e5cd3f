@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42761ae8_3ee3c9de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T21:05:38Z",
+      "side": 1,
+      "message": "return `${this.getBaseUrl()}/admin/groups/${this.encodeURL(group, true)}`;\n\n:D",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 57
+      },
+      "revId": "55962e164fa738337727d5d8aeebbc2151e5cd3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

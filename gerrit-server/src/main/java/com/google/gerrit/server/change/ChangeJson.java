@@ -35,6 +35,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
+import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static java.util.stream.Collectors.toList;
 
@@ -48,6 +49,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
@@ -77,6 +79,7 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -103,6 +106,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
@@ -209,6 +213,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final TrackingFooters trackingFooters;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -239,6 +244,7 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      TrackingFooters trackingFooters,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -264,6 +270,7 @@ public class ChangeJson {
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.options = Sets.immutableEnumSet(options);
+    this.trackingFooters = trackingFooters;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -567,6 +574,15 @@ public class ChangeJson {
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
       actionJson.addChangeActions(out, ctl);
+    }
+
+    if (has(TRACKING_IDS)) {
+      ListMultimap<String, String> set = trackingFooters.extract(cd.commitFooters());
+      out.trackingIds = set.entries()
+          .stream()
+          .map(e -> new TrackingIdInfo(e.getKey(), e.getValue()))
+          .collect(toList());
+      }
     }
 
     return out;

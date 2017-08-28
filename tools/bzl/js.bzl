@@ -124,18 +124,18 @@ bower_archive = repository_rule(
 )
 
 def _bower_component_impl(ctx):
-  transitive_zipfiles = set([ctx.file.zipfile])
+  transitive_zipfiles = depset([ctx.file.zipfile])
   for d in ctx.attr.deps:
     transitive_zipfiles += d.transitive_zipfiles
 
-  transitive_licenses = set()
+  transitive_licenses = depset()
   if ctx.file.license:
-    transitive_licenses += set([ctx.file.license])
+    transitive_licenses += depset([ctx.file.license])
 
   for d in ctx.attr.deps:
     transitive_licenses += d.transitive_licenses
 
-  transitive_versions = set(ctx.files.version_json)
+  transitive_versions = depset(ctx.files.version_json)
   for d in ctx.attr.deps:
     transitive_versions += d.transitive_versions
 
@@ -173,13 +173,13 @@ def _js_component(ctx):
     command = cmd,
     mnemonic = "GenBowerZip")
 
-  licenses = set()
+  licenses = depset()
   if ctx.file.license:
-    licenses += set([ctx.file.license])
+    licenses += depset([ctx.file.license])
 
   return struct(
     transitive_zipfiles=list([ctx.outputs.zip]),
-    transitive_versions=set([]),
+    transitive_versions=depset(),
     transitive_licenses=licenses)
 
 js_component = rule(
@@ -219,15 +219,15 @@ def bower_component(name, license=None, **kwargs):
 
 def _bower_component_bundle_impl(ctx):
   """A bunch of bower components zipped up."""
-  zips = set([])
+  zips = depset()
   for d in ctx.attr.deps:
     zips += d.transitive_zipfiles
 
-  versions = set([])
+  versions = depset()
   for d in ctx.attr.deps:
     versions += d.transitive_versions
 
-  licenses = set([])
+  licenses = depset()
   for d in ctx.attr.deps:
     licenses += d.transitive_versions
 

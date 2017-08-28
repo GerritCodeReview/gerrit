@@ -1,5 +1,5 @@
 def _classpath_collector(ctx):
-    all = set()
+    all = depset()
     for d in ctx.attr.deps:
         if hasattr(d, 'java'):
             all += d.java.transitive_runtime_deps

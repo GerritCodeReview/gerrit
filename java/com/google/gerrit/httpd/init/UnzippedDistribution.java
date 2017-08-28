@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd;
+package com.google.gerrit.httpd.init;
 
 import static com.google.gerrit.pgm.init.InitPlugins.JAR;
 import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;

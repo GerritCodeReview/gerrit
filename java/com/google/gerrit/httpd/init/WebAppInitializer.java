@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd;
+package com.google.gerrit.httpd.init;
 
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
@@ -22,6 +22,16 @@ import com.google.gerrit.common.EventBroker;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
+import com.google.gerrit.httpd.AllRequestFilter;
+import com.google.gerrit.httpd.GetUserFilter;
+import com.google.gerrit.httpd.GitOverHttpModule;
+import com.google.gerrit.httpd.H2CacheBasedWebSession;
+import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
+import com.google.gerrit.httpd.RequestContextFilter;
+import com.google.gerrit.httpd.RequestMetricsFilter;
+import com.google.gerrit.httpd.RequireSslFilter;
+import com.google.gerrit.httpd.WebModule;
+import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.oauth.OAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;

@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "37103bb0_572c681f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 4687,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T16:22:35Z",
+      "side": 1,
+      "message": "This would render as\n\n  Please see UI on configuring the UI.\n\nPerhaps you want to change it to mention the PolyGerrit UI.",
+      "range": {
+        "startLine": 4687,
+        "startChar": 0,
+        "endLine": 4687,
+        "endChar": 62
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a3a1b21_dff5b10b",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T16:22:35Z",
+      "side": 1,
+      "message": "Perhaps make it an important message block?\n\n  [IMPORTANT]\n  PolyGerrit is still a beta feature...",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9db4cf4_60b10ca0",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 23
@@ -41,6 +87,52 @@
         "startChar": 0,
         "endLine": 13,
         "endChar": 36
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5497dd_23fc5ff6",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T16:22:35Z",
+      "side": 1,
+      "message": "(suggestion) enabled -\u003e available to users",
+      "range": {
+        "startLine": 19,
+        "startChar": 42,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d524596_ca52c346",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T16:22:35Z",
+      "side": 1,
+      "message": "(suggestion) enable -\u003e switch, because you\u0027ve used the term \u0027enable\u0027 already for the server side option",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 9
       },
       "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

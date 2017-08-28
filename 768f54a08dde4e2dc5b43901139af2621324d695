@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7dda9db6_9df8f4db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T09:32:27Z",
+      "side": 1,
+      "message": "Already done in the follow-up change.",
+      "parentUuid": "c06fc3d1_46be2d1a",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 58
+      },
+      "revId": "768f54a08dde4e2dc5b43901139af2621324d695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd0899f0_67aa7dcb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludingGroupMembership.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "33d9f186_4e64dbe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T09:32:27Z",
+      "side": 1,
+      "message": "Already done in the follow-up change.",
+      "parentUuid": "bd0899f0_67aa7dcb",
+      "range": {
+        "startLine": 100,
+        "startChar": 19,
+        "endLine": 100,
+        "endChar": 47
+      },
+      "revId": "768f54a08dde4e2dc5b43901139af2621324d695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ca74c0e_a7fa783b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-28T09:28:18Z",
       "side": 1,
       "message": "InternalGroup already contains the members, hence we don\u0027t need to load them again via GroupDetail. We only need to filter out non-visible members.",
+      "range": {
+        "startLine": 95,
+        "startChar": 3,
+        "endLine": 103,
+        "endChar": 56
+      },
+      "revId": "768f54a08dde4e2dc5b43901139af2621324d695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8a0be34_9e597fae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T09:32:27Z",
+      "side": 1,
+      "message": "Already done in the follow-up change.",
+      "parentUuid": "4ca74c0e_a7fa783b",
       "range": {
         "startLine": 95,
         "startChar": 3,

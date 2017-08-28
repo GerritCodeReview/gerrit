@@ -477,13 +477,15 @@ case "$ACTION" in
       echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
-      TIMEOUT=30
-      while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
-        kill $PID 2>/dev/null
-        sleep 1
-        TIMEOUT=`expr $TIMEOUT - 1`
+      while running "$GERRIT_PID" ; do
+        TIMEOUT=30
+        while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
+          kill $PID 2>/dev/null
+          sleep 1
+          TIMEOUT=`expr $TIMEOUT - 1`
+        done
+        test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
       done
-      test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
       rm -f "$GERRIT_PID" "$GERRIT_RUN"
       echo OK
     fi

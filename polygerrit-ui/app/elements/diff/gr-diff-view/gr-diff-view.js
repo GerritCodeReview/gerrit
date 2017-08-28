@@ -467,7 +467,7 @@
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
-      this._loadHash(this.params.hash);
+      this._initCursor(this.params);
 
       this._changeNum = value.changeNum;
       this._patchRange = {
@@ -539,18 +539,16 @@
     },
 
     /**
-     * If the URL hash is a diff address then configure the diff cursor.
+     * If the params specify a diff address then configure the diff cursor.
      */
-    _loadHash(hash) {
-      hash = (hash || '').replace(/^#/, '');
-      if (!HASH_PATTERN.test(hash)) { return; }
-      if (hash[0] === 'a' || hash[0] === 'b') {
+    _initCursor(params) {
+      if (params.lineNum === undefined) { return; }
+      if (params.leftSide) {
         this.$.cursor.side = DiffSides.LEFT;
-        hash = hash.substring(1);
       } else {
         this.$.cursor.side = DiffSides.RIGHT;
       }
-      this.$.cursor.initialLineNumber = parseInt(hash, 10);
+      this.$.cursor.initialLineNumber = params.lineNum;
     },
 
     _pathChanged(path) {

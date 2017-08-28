@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c4e0800_4384b1fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T17:23:20Z",
+      "side": 1,
+      "message": "Do we want to enforce any kind of order to this object? Just for use of ease by devs -- it\u0027s pretty huge already, so defining some sort of system for where to put new routes might be nice.",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b632c56_f95f0ff2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T17:23:20Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d9245a_dcc3a52e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T17:23:20Z",
+      "side": 1,
+      "message": "Maybe worthy of a followup change... This seems like the right time to use the Promise.reject construct, instead of a promise that never resolves.",
+      "range": {
+        "startLine": 318,
+        "startChar": 10,
+        "endLine": 319,
+        "endChar": 39
+      },
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

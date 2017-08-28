@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "3b34c820_916dceda",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T21:37:16Z",
+      "side": 1,
+      "message": "Works for me -- I\u0027d agree that it\u0027s overkill, I just figured you may want to document your organization.",
+      "parentUuid": "c878e50b_e1b3eb0e",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b632c56_f95f0ff2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8

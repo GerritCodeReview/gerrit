@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "383b7adc_6de5a132",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T14:34:44Z",
+      "side": 1,
+      "message": "\"as\"?",
+      "range": {
+        "startLine": 340,
+        "startChar": 2,
+        "endLine": 340,
+        "endChar": 8
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "285413da_4f9c5721",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T14:34:44Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 5225,
+        "startChar": 33,
+        "endLine": 5225,
+        "endChar": 35
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79d072_3ad5898b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6428,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T14:34:44Z",
+      "side": 1,
+      "message": "an external",
+      "range": {
+        "startLine": 6428,
+        "startChar": 53,
+        "endLine": 6428,
+        "endChar": 61
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e475026b_2bb91c17",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T14:34:44Z",
+      "side": 1,
+      "message": "Please add a test for this new ListChangesOption.",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

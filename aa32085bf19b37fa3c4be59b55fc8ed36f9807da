@@ -16,6 +16,24 @@
       "revId": "aa32085bf19b37fa3c4be59b55fc8ed36f9807da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1a830fc_3f75d53c",
+        "filename": "project.config",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T15:58:37Z",
+      "side": 1,
+      "message": "+1\n\nAllowing gerrit-verifiers to submit will allow more people to submit, but it\u0027s a curated list of people who are known and trusted, rather than allowing anyone who has an account to do a drive-by submit.\n\nWe have had quite a few new users signing up and adding random comments, or creating reverts. At least those actions are less potentially damaging than submit.",
+      "parentUuid": "914d0562_2653ebde",
+      "revId": "aa32085bf19b37fa3c4be59b55fc8ed36f9807da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

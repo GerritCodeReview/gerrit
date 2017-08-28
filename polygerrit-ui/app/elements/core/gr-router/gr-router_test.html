@@ -65,6 +65,39 @@ limitations under the License.
       assert.equal(hash, 'foo#bar#baz');
     });
 
+    suite('_parseLineAddress', () => {
+      test('returns null for empty and invalid hashes', () => {
+        let actual = element._parseLineAddress('');
+        assert.isNull(actual);
+
+        actual = element._parseLineAddress('foobar');
+        assert.isNull(actual);
+
+        actual = element._parseLineAddress('foo123');
+        assert.isNull(actual);
+
+        actual = element._parseLineAddress('123bar');
+        assert.isNull(actual);
+      });
+
+      test('parses correctly', () => {
+        let actual = element._parseLineAddress('1234');
+        assert.isOk(actual);
+        assert.equal(actual.lineNum, 1234);
+        assert.isFalse(actual.leftSide);
+
+        actual = element._parseLineAddress('a4');
+        assert.isOk(actual);
+        assert.equal(actual.lineNum, 4);
+        assert.isTrue(actual.leftSide);
+
+        actual = element._parseLineAddress('b77');
+        assert.isOk(actual);
+        assert.equal(actual.lineNum, 77);
+        assert.isTrue(actual.leftSide);
+      });
+    });
+
     test('_startRouter requires auth for the right handlers', () => {
       // This test encodes the lists of route handler methods that gr-router
       // automatically checks for authentication before triggering.
@@ -903,8 +936,9 @@ limitations under the License.
             basePatchNum: 3,
             patchNum: 8,
             view: Gerrit.Nav.View.DIFF,
-            hash: 'b123',
             path: 'foo/bar',
+            lineNum: 123,
+            leftSide: true,
           });
         });
 
@@ -967,7 +1001,6 @@ limitations under the License.
               basePatchNum: 4,
               patchNum: 7,
               path: null,
-              hash: '',
             });
             assert.isFalse(redirectStub.called);
             assert.isTrue(normalizeRangeStub.called);
@@ -984,7 +1017,8 @@ limitations under the License.
               basePatchNum: 4,
               patchNum: 7,
               path: 'foo/bar/baz',
-              hash: 'b44',
+              leftSide: true,
+              lineNum: 44,
             });
             assert.isFalse(redirectStub.called);
             assert.isTrue(normalizeRangeStub.called);

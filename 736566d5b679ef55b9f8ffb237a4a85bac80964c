@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bcb5766_61cdb97a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 4685,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T16:13:32Z",
+      "side": 1,
+      "message": "Polygerrit UI",
+      "range": {
+        "startLine": 4685,
+        "startChar": 19,
+        "endLine": 4685,
+        "endChar": 21
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9db4cf4_60b10ca0",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T16:13:32Z",
+      "side": 1,
+      "message": "Wasn\u0027t that implemented recently?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -91,6 +91,8 @@
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
   };
 
+  const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
+
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   const app = document.querySelector('#app');
@@ -298,6 +300,15 @@
      */
     _getHashFromCanonicalPath(canonicalPath) {
       return canonicalPath.split('#').slice(1).join('#');
+    },
+
+    _parseLineAddress(hash) {
+      const match = hash.match(LINE_ADDRESS_PATTERN);
+      if (!match) { return null; }
+      return {
+        leftSide: !!match[1],
+        lineNum: parseInt(match[2], 10),
+      };
     },
 
     /**
@@ -745,6 +756,8 @@
     },
 
     _handleChangeOrDiffRoute(ctx) {
+      const isDiffView = ctx.params[8];
+
       // Parameter order is based on the regex group number matched.
       const params = {
         project: ctx.params[0],
@@ -752,17 +765,23 @@
         basePatchNum: ctx.params[4],
         patchNum: ctx.params[6],
         path: ctx.params[8],
-        view: ctx.params[8] ?
-            Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
-        hash: ctx.hash,
+        view: isDiffView ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
       };
+
+      if (isDiffView) {
+        const address = this._parseLineAddress(ctx.hash);
+        if (address) {
+          params.leftSide = address.leftSide;
+          params.lineNum = address.lineNum;
+        }
+      }
+
       const needsRedirect = this._normalizePatchRangeParams(params);
       if (needsRedirect) {
         this._redirect(this._generateUrl(params));
       } else {
         this._setParams(params);
-        this._restAPI.setInProjectLookup(params.changeNum,
-            params.project);
+        this._restAPI.setInProjectLookup(params.changeNum, params.project);
       }
     },
 
@@ -793,9 +812,14 @@
         basePatchNum: ctx.params[2],
         patchNum: ctx.params[4],
         path: ctx.params[5],
-        hash: ctx.hash,
         view: Gerrit.Nav.View.DIFF,
       };
+
+      const address = this._parseLineAddress(ctx.hash);
+      if (address) {
+        params.leftSide = address.leftSide;
+        params.lineNum = address.lineNum;
+      }
 
       this._normalizeLegacyRouteParams(params);
     },

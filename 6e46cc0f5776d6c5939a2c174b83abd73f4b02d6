@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "d7fffbe9_bb4dcbe8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:40:24Z",
+      "side": 1,
+      "message": "Maybe move this up above _more_changes? The final two fields (_more_changes and problems) are for special cases in the API and aren\u0027t really normal parts of the ChangeInfo.",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "285413da_4f9c5721",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -85,6 +102,80 @@
       "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ce7e27c_ecb13fa4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:40:24Z",
+      "side": 1,
+      "message": "Why this structure instead of something more like a Multimap, with a map of key -\u003e list of values?",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ce3888_5c88b713",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:40:24Z",
+      "side": 1,
+      "message": "I would expect this check to be omitted. I think if a caller requests TRACKING_IDS, it\u0027s fair for them to assume the field is set in the response, even if it\u0027s to an empty list.",
+      "range": {
+        "startLine": 579,
+        "startChar": 8,
+        "endLine": 579,
+        "endChar": 34
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35174c3f_f41a8765",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:40:24Z",
+      "side": 1,
+      "message": "Same as above, I don\u0027t think we want this check",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b539a8d5_d2851d4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-28T15:40:24Z",
+      "side": 1,
+      "message": "Given the output structure you have here, you can eliminate one of these for loops by using Multimap#entries():\n\n for (Map.Entry\u003cString, String\u003e e : set.entries()) {\n   out.trackingIds.add(new TrackingIdInfo(e.getKey(), id));\n }\n\nActually, Java 8 streams make this even simpler:\n\n out.trackingIds \u003d set.entries()\n     .stream()\n     .map(e -\u003e new TrackingIdInfo(e.getKey(), e.getValue()))\n     .collect(toList());",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

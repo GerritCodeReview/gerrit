@@ -1531,7 +1531,7 @@
     getChangeFileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
           '?parent=' + opt_parentIndex : '';
-      return this._changeBaseUrl(changeId, patchNum).then(url => {
+      return this._changeBaseURL(changeId, patchNum).then(url => {
         url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
         return this._fetchB64File(url);
       });

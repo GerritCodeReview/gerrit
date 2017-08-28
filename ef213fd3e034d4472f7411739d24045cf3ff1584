@@ -22,6 +22,30 @@
       "revId": "ef213fd3e034d4472f7411739d24045cf3ff1584",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d89d7be6_ee9bd61d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-28T12:10:10Z",
+      "side": 0,
+      "message": "Done. I only migrated the callers that user a control or a user provider, but not the ones who just called rsrc.getUser(), since I think it is a bit cleaner to pass in a user if it is low-effort.",
+      "parentUuid": "6d7faef0_58f0aacb",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 3
+      },
+      "revId": "ef213fd3e034d4472f7411739d24045cf3ff1584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -219,7 +219,7 @@ public class NewAgreementScreen extends AccountScreen {
     if (url != null && url.length() > 0) {
       agreementGroup.setVisible(true);
       agreementHtml.setText(Gerrit.C.rpcStatusWorking());
-      if (!url.startsWith("http:") || !url.startsWith("https:")) {
+      if (!url.startsWith("http:") && !url.startsWith("https:")) {
         url = GWT.getHostPageBaseURL() + url;
       }
       final RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);

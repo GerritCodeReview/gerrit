@@ -52,6 +52,24 @@
       "revId": "2a4824cea2fb6e10c9cddaba6c0d14a29b1bc21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcda437c_5cfb446a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T10:26:28Z",
+      "side": 1,
+      "message": "\u003e projectControlFactory.controlFor(...) is not doing any permissions checks yet\n\nimplies that permission checks will be added later, in which case it will need to be called from here.",
+      "parentUuid": "a77abcb3_937ea981",
+      "revId": "2a4824cea2fb6e10c9cddaba6c0d14a29b1bc21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

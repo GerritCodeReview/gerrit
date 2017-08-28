@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7341bf8e_3b3d0b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-28T12:37:16Z",
+      "side": 1,
+      "message": "Would be nice to add why this is needed (because set is deprecated).",
+      "revId": "9d14c49fa4d5e7a2914d191189892c4e9ba9ed12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

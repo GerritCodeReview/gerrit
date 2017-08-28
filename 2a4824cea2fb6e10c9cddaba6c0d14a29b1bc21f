@@ -34,6 +34,24 @@
       "revId": "2a4824cea2fb6e10c9cddaba6c0d14a29b1bc21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a77abcb3_937ea981",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:16:31Z",
+      "side": 1,
+      "message": "Why would it be needed later?",
+      "parentUuid": "4b75d97a_a8ac1505",
+      "revId": "2a4824cea2fb6e10c9cddaba6c0d14a29b1bc21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -73,7 +73,7 @@ def _war_impl(ctx):
   ]
 
   # Add lib
-  transitive_lib_deps = set()
+  transitive_lib_deps = depset()
   for l in ctx.attr.libs:
     if hasattr(l, 'java'):
       transitive_lib_deps += l.java.transitive_runtime_deps
@@ -85,7 +85,7 @@ def _war_impl(ctx):
     inputs.append(dep)
 
   # Add pgm lib
-  transitive_pgmlib_deps = set()
+  transitive_pgmlib_deps = depset()
   for l in ctx.attr.pgmlibs:
     transitive_pgmlib_deps += l.java.transitive_runtime_deps
 
@@ -95,7 +95,7 @@ def _war_impl(ctx):
       inputs.append(dep)
 
   # Add context
-  transitive_context_deps = set()
+  transitive_context_deps = depset()
   if ctx.attr.context:
     for jar in ctx.attr.context:
       if hasattr(jar, 'java'):

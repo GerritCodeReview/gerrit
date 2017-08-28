@@ -218,8 +218,11 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+<<<<<<< HEAD
   private final RemoveReviewerControl removeReviewerControl;
+=======
   private final TrackingFooters trackingFooters;
+>>>>>>> bfc677769f... Add trackingid into ChangeInfo
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -251,8 +254,11 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+<<<<<<< HEAD
       RemoveReviewerControl removeReviewerControl,
+=======
       TrackingFooters trackingFooters,
+>>>>>>> bfc677769f... Add trackingid into ChangeInfo
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;

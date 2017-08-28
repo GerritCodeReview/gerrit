@@ -69,6 +69,10 @@ public class ChangeInfo {
   public Boolean _moreChanges;
 
   public List<ProblemInfo> problems;
+<<<<<<< HEAD
   public List<PluginDefinedInfo> plugins;
+=======
+
   public Collection<TrackingIdInfo> trackingIds;
+>>>>>>> bfc677769f... Add trackingid into ChangeInfo
 }

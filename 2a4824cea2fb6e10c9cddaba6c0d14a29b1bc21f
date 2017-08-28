@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be40911_305baeb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T07:52:41Z",
+      "side": 1,
+      "message": "projectControlFactory.controlFor(...) is not doing any permissions checks yet. If we only need the Project instance, would it be easier and more readable to just get it from the project cache here?",
+      "revId": "2a4824cea2fb6e10c9cddaba6c0d14a29b1bc21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a3d66fa_f20de713",
+        "filename": "java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T01:09:17Z",
+      "side": 1,
+      "message": "remove blank line",
+      "revId": "b9fd2300b2f3bc40300c94aaf47fd1ed917249ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

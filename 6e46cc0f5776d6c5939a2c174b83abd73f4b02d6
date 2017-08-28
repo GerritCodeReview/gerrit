@@ -122,6 +122,46 @@
     },
     {
       "key": {
+        "uuid": "e7a90683_7682c752",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TrackingIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T15:53:05Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75d2b1cd_6dabd467",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T15:53:05Z",
+      "side": 1,
+      "message": "nit: this should go before the @Assisted argument(s)",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40ce3888_5c88b713",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3

@@ -70,6 +70,30 @@
       "revId": "bf634810a713d50eac9cb6c4e64916ef765386b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79d350b4_8b327c68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T07:18:56Z",
+      "side": 1,
+      "message": "*facepalm*\n\nyes.  so actually the logic in the original code was correct.",
+      "parentUuid": "d5ba9aed_74b41969",
+      "range": {
+        "startLine": 222,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "bf634810a713d50eac9cb6c4e64916ef765386b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

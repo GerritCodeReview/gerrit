@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9537857_6c7fd302",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T07:31:47Z",
+      "side": 1,
+      "message": "We could do something like\n\n      if (url.startsWith(\"http:\") || url.startsWith(\"https:\")) {\n        url \u003d  url;\n      } else {\n        url \u003d GWT.getHostPageBaseURL() + url;\n      }\n\nIn polygerrit i am doing this way (escept from the else part)",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "455d1e0f103cb881d2c5bc874d61407947db4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

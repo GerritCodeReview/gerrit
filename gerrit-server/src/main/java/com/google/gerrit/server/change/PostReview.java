@@ -88,6 +88,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -126,6 +127,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -159,6 +161,8 @@ public class PostReview
   private final NotifyUtil notifyUtil;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
+
+  private static final AtomicInteger attemptCounter = new AtomicInteger();
 
   @Inject
   PostReview(
@@ -210,6 +214,13 @@ public class PostReview
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException, ConfigInvalidException {
+    int attempt = attemptCounter.getAndIncrement();
+    if (attempt % 2 == 0) {
+      throw new LockFailureException("one-off lock failure");
+    } else if (attempt > 10 && attempt < 30) {
+      throw new LockFailureException("repeating lock failure");
+    }
+
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {

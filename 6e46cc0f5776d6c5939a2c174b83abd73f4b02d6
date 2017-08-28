@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3179489e_b0d8d74f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "383b7adc_6de5a132",
+      "range": {
+        "startLine": 340,
+        "startChar": 2,
+        "endLine": 340,
+        "endChar": 8
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7fffbe9_bb4dcbe8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "03cd7cb6_0bb3d460",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5222,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fffbe9_bb4dcbe8",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "285413da_4f9c5721",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2017-08-28T14:34:44Z",
       "side": 1,
       "message": "are",
+      "range": {
+        "startLine": 5225,
+        "startChar": 33,
+        "endLine": 5225,
+        "endChar": 35
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a404beb5_e9d21cdd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5225,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "285413da_4f9c5721",
       "range": {
         "startLine": 5225,
         "startChar": 33,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "cc42458d_82eaa2bc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6428,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a79d072_3ad5898b",
+      "range": {
+        "startLine": 6428,
+        "startChar": 53,
+        "endLine": 6428,
+        "endChar": 61
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e475026b_2bb91c17",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
         "patchSetId": 3
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "478b36bd_b918a14d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "I will do it later in this change.",
+      "parentUuid": "e475026b_2bb91c17",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ce7e27c_ecb13fa4",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 3
@@ -116,6 +224,24 @@
       "writtenOn": "2017-08-28T15:40:24Z",
       "side": 1,
       "message": "Why this structure instead of something more like a Multimap, with a map of key -\u003e list of values?",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e4fcf2b_4a1e3a89",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Not sure why, but if i use a Multimap here, the content wouldn\u0027t be shown in the output.",
+      "parentUuid": "0ce7e27c_ecb13fa4",
       "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "98984c1a_322eebb7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TrackingIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a90683_7682c752",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75d2b1cd_6dabd467",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -156,6 +306,24 @@
       "writtenOn": "2017-08-28T15:53:05Z",
       "side": 1,
       "message": "nit: this should go before the @Assisted argument(s)",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106c3a5f_5c5e1fbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75d2b1cd_6dabd467",
       "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "356482d5_21084656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40ce3888_5c88b713",
+      "range": {
+        "startLine": 579,
+        "startChar": 8,
+        "endLine": 579,
+        "endChar": 34
+      },
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35174c3f_f41a8765",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "f737deca_4f793772",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35174c3f_f41a8765",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b539a8d5_d2851d4a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -213,6 +423,24 @@
       "writtenOn": "2017-08-28T15:40:24Z",
       "side": 1,
       "message": "Given the output structure you have here, you can eliminate one of these for loops by using Multimap#entries():\n\n for (Map.Entry\u003cString, String\u003e e : set.entries()) {\n   out.trackingIds.add(new TrackingIdInfo(e.getKey(), id));\n }\n\nActually, Java 8 streams make this even simpler:\n\n out.trackingIds \u003d set.entries()\n     .stream()\n     .map(e -\u003e new TrackingIdInfo(e.getKey(), e.getValue()))\n     .collect(toList());",
+      "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4cbcf89_74ddac85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1019939
+      },
+      "writtenOn": "2017-08-28T22:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b539a8d5_d2851d4a",
       "revId": "6e46cc0f5776d6c5939a2c174b83abd73f4b02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

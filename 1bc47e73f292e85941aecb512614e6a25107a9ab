@@ -39,6 +39,24 @@
     },
     {
       "key": {
+        "uuid": "4d5d9dbf_1c8c9f7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T14:19:22Z",
+      "side": 1,
+      "message": "Yeah, however one positive aspect of manually writing the doc is that at that moment you see which other metric namespaces already exist and you may consider putting the new metric into one of them instead of starting a new namespace (I guess we could archive the same with automation though).",
+      "parentUuid": "aa67b3cb_6ba89e5d",
+      "revId": "1bc47e73f292e85941aecb512614e6a25107a9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e60b7ef_1d84befc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RetryHelper.java",
         "patchSetId": 1

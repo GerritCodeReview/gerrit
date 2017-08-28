@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -68,7 +70,7 @@ public class CherryPickCommit
   public ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
       throws OrmException, IOException, UpdateException, RestApiException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
     RevCommit commit = rsrc.getCommit();
     String message = Strings.nullToEmpty(input.message).trim();
     input.message = message.isEmpty() ? commit.getFullMessage() : message;
@@ -97,7 +99,7 @@ public class CherryPickCommit
               projectName,
               commit,
               input,
-              rsrc.getProject().controlForRef(refName));
+              new Branch.NameKey(rsrc.getProject().getProject().getNameKey(), refName));
       return json.noOptions().format(projectName, cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

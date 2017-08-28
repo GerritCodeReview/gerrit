@@ -22,6 +22,29 @@
       "revId": "9f0bc243afe7319d36fdf59fb817f2daa66c9004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc564afe_e4f7aeed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T06:15:07Z",
+      "side": 1,
+      "message": "Is this valid with AuthType.OAUTH? Then it should be configured with GitBasicAuthPolicy.OAUTH, right?",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 37
+      },
+      "revId": "9f0bc243afe7319d36fdf59fb817f2daa66c9004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

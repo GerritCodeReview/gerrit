@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98904faa_9c271a4d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T09:37:13Z",
+      "side": 0,
+      "message": "Nice that we can finally get rid of GroupDetail :)",
+      "revId": "768f54a08dde4e2dc5b43901139af2621324d695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

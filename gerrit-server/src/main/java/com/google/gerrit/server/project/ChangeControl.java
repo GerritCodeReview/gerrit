@@ -331,7 +331,7 @@ public class ChangeControl {
   }
 
   /** Is this user the owner of the change? */
-  private boolean isOwner() {
+  boolean isOwner() {
     if (getUser().isIdentifiedUser()) {
       Account.Id id = getUser().asIdentifiedUser().getAccountId();
       return id.equals(getChange().getOwner());
@@ -355,40 +355,6 @@ public class ChangeControl {
       Collection<Account.Id> results = changeData(db, cd).reviewers().all();
       return results.contains(getUser().getAccountId());
     }
-    return false;
-  }
-
-  /** @return true if the user is allowed to remove this reviewer. */
-  public boolean canRemoveReviewer(PatchSetApproval approval) {
-    return canRemoveReviewer(approval.getAccountId(), approval.getValue());
-  }
-
-  public boolean canRemoveReviewer(Account.Id reviewer, int value) {
-    if (getChange().getStatus().isOpen()) {
-      // A user can always remove themselves.
-      //
-      if (getUser().isIdentifiedUser()) {
-        if (getUser().getAccountId().equals(reviewer)) {
-          return true; // can remove self
-        }
-      }
-
-      // The change owner may remove any zero or positive score.
-      //
-      if (isOwner() && 0 <= value) {
-        return true;
-      }
-
-      // Users with the remove reviewer permission, the branch owner, project
-      // owner and site admin can remove anyone
-      if (getRefControl().canRemoveReviewer() // has removal permissions
-          || getRefControl().isOwner() // branch owner
-          || getProjectControl().isOwner() // project owner
-          || getProjectControl().isAdmin()) {
-        return true;
-      }
-    }
-
     return false;
   }
 
@@ -553,7 +519,7 @@ public class ChangeControl {
           case SUBMIT:
             return getRefControl().canSubmit(isOwner());
 
-          case REMOVE_REVIEWER: // TODO Honor specific removal filters?
+          case REMOVE_REVIEWER:
           case SUBMIT_AS:
             return getRefControl().canPerform(perm.permissionName().get());
         }

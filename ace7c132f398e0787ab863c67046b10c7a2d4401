@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43508197_dbf50b57",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T01:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db549f0b_9e1ab0e7",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "ace7c132f398e0787ab863c67046b10c7a2d4401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb671d8_3629b26a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-25T10:57:32Z",
       "side": 1,
       "message": "This is incorrect: OAuth delegates the authentication to the provider, which could use any sort of way to verify the credentials (cookie, password, SSL certificates, two factor, whatever).\n\nChange to \"authentication\"",
+      "range": {
+        "startLine": 33,
+        "startChar": 23,
+        "endLine": 33,
+        "endChar": 31
+      },
+      "revId": "ace7c132f398e0787ab863c67046b10c7a2d4401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "304208ef_3a461a8f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T01:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcb671d8_3629b26a",
       "range": {
         "startLine": 33,
         "startChar": 23,

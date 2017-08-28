@@ -316,26 +316,23 @@ public class Submit
     String topic = change.getTopic();
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    boolean visible;
+    boolean visible =
+        change.getStatus().isOpen() && resource.isCurrent() && !resource.getPatchSet().isDraft();
+    if (!visible) {
+      return null;
+    }
     try {
-      visible =
-          change.getStatus().isOpen()
-              && resource.isCurrent()
-              && !resource.getPatchSet().isDraft()
-              && resource.permissions().test(ChangePermission.SUBMIT);
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
       visible = false;
-    } catch (PermissionBackendException e) {
-      log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not check submit permission", e);
     } catch (OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
+    visible &= resource.permissions().testOrFalse(ChangePermission.SUBMIT);
     if (!visible) {
-      return new UiAction.Description().setLabel("").setTitle("").setVisible(false);
+      return null;
     }
 
     ChangeSet cs;

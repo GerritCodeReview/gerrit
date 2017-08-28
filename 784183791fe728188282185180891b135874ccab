@@ -46,6 +46,30 @@
       "revId": "784183791fe728188282185180891b135874ccab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41eb6848_5e6e91f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T17:31:24Z",
+      "side": 1,
+      "message": "Yeah, this is quite common. https://stackoverflow.com/q/4978235/1254292",
+      "parentUuid": "26460e3e_7ed4c18c",
+      "range": {
+        "startLine": 67,
+        "startChar": 14,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "784183791fe728188282185180891b135874ccab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

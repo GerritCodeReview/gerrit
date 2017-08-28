@@ -200,7 +200,7 @@ type server struct{}
 
 // Any path prefixes that should resolve to index.html.
 var (
-	fePaths    = []string{"/q/", "/c/", "/dashboard/"}
+	fePaths    = []string{"/q/", "/c/", "/dashboard/", "/admin/"}
 	issueNumRE = regexp.MustCompile(`^\/\d+\/?$`)
 )
 

@@ -14,79 +14,48 @@
 
 package com.google.gerrit.server.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.gerrit.server.util.LabelVote.parse;
+import static com.google.gerrit.server.util.LabelVote.parseWithEquals;
 
 import org.junit.Test;
 
 public class LabelVoteTest {
   @Test
-  public void parse() {
-    LabelVote l;
-    l = LabelVote.parse("Code-Review-2");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) -2, l.value());
-    l = LabelVote.parse("Code-Review-1");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) -1, l.value());
-    l = LabelVote.parse("-Code-Review");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 0, l.value());
-    l = LabelVote.parse("Code-Review");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 1, l.value());
-    l = LabelVote.parse("Code-Review+1");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 1, l.value());
-    l = LabelVote.parse("Code-Review+2");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 2, l.value());
+  public void labelVoteParse() {
+    assertLabelVoteEquals(parse("Code-Review-2"), "Code-Review", -2);
+    assertLabelVoteEquals(parse("Code-Review-1"), "Code-Review", -1);
+    assertLabelVoteEquals(parse("-Code-Review"), "Code-Review", 0);
+    assertLabelVoteEquals(parse("Code-Review"), "Code-Review", 1);
+    assertLabelVoteEquals(parse("Code-Review+1"), "Code-Review", 1);
+    assertLabelVoteEquals(parse("Code-Review+2"), "Code-Review", 2);
   }
 
   @Test
-  public void format() {
-    assertEquals("Code-Review-2", LabelVote.parse("Code-Review-2").format());
-    assertEquals("Code-Review-1", LabelVote.parse("Code-Review-1").format());
-    assertEquals("-Code-Review", LabelVote.parse("-Code-Review").format());
-    assertEquals("Code-Review+1", LabelVote.parse("Code-Review+1").format());
-    assertEquals("Code-Review+2", LabelVote.parse("Code-Review+2").format());
+  public void labelVoteFormat() {
+    assertThat(parse("Code-Review-2").format()).isEqualTo("Code-Review-2");
+    assertThat(parse("Code-Review-1").format()).isEqualTo("Code-Review-1");
+    assertThat(parse("-Code-Review").format()).isEqualTo("-Code-Review");
+    assertThat(parse("Code-Review+1").format()).isEqualTo("Code-Review+1");
+    assertThat(parse("Code-Review+2").format()).isEqualTo("Code-Review+2");
   }
 
   @Test
-  public void parseWithEquals() {
-    LabelVote l;
-    l = LabelVote.parseWithEquals("Code-Review=-2");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) -2, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=-1");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) -1, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=0");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 0, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=1");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 1, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=+1");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 1, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=2");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 2, l.value());
-    l = LabelVote.parseWithEquals("Code-Review=+2");
-    assertEquals("Code-Review", l.label());
-    assertEquals((short) 2, l.value());
-    l = LabelVote.parseWithEquals("R=0");
-    assertEquals("R", l.label());
-    assertEquals((short) 0, l.value());
+  public void labelVoteParseWithEquals() {
+    assertLabelVoteEquals(parseWithEquals("Code-Review=-2"), "Code-Review", -2);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=-1"), "Code-Review", -1);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=0"), "Code-Review", 0);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=1"), "Code-Review", 1);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=+1"), "Code-Review", 1);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=2"), "Code-Review", 2);
+    assertLabelVoteEquals(parseWithEquals("Code-Review=+2"), "Code-Review", 2);
+    assertLabelVoteEquals(parseWithEquals("R=0"), "R", 0);
 
     String longName = "A-loooooooooooooooooooooooooooooooooooooooooooooooooong-label";
     // Regression test: an old bug passed the string length as a radix to Short#parseShort.
-    assertTrue(longName.length() > Character.MAX_RADIX);
-    l = LabelVote.parseWithEquals(longName + "=+1");
-    assertEquals(longName, l.label());
-    assertEquals((short) 1, l.value());
+    assertThat(longName.length()).isGreaterThan(Character.MAX_RADIX);
+    assertLabelVoteEquals(parseWithEquals(longName + "=+1"), longName, 1);
 
     assertParseWithEqualsFails(null);
     assertParseWithEqualsFails("");
@@ -99,18 +68,23 @@ public class LabelVoteTest {
   }
 
   @Test
-  public void formatWithEquals() {
-    assertEquals("Code-Review=-2", LabelVote.parseWithEquals("Code-Review=-2").formatWithEquals());
-    assertEquals("Code-Review=-1", LabelVote.parseWithEquals("Code-Review=-1").formatWithEquals());
-    assertEquals("Code-Review=0", LabelVote.parseWithEquals("Code-Review=0").formatWithEquals());
-    assertEquals("Code-Review=+1", LabelVote.parseWithEquals("Code-Review=+1").formatWithEquals());
-    assertEquals("Code-Review=+2", LabelVote.parseWithEquals("Code-Review=+2").formatWithEquals());
+  public void labelVoteFormatWithEquals() {
+    assertThat(parseWithEquals("Code-Review=-2").formatWithEquals()).isEqualTo("Code-Review=-2");
+    assertThat(parseWithEquals("Code-Review=-1").formatWithEquals()).isEqualTo("Code-Review=-1");
+    assertThat(parseWithEquals("Code-Review=0").formatWithEquals()).isEqualTo("Code-Review=0");
+    assertThat(parseWithEquals("Code-Review=+1").formatWithEquals()).isEqualTo("Code-Review=+1");
+    assertThat(parseWithEquals("Code-Review=+2").formatWithEquals()).isEqualTo("Code-Review=+2");
+  }
+
+  private void assertLabelVoteEquals(LabelVote actual, String expectedLabel, int expectedValue) {
+    assertThat(actual.label()).isEqualTo(expectedLabel);
+    assertThat((int) actual.value()).isEqualTo(expectedValue);
   }
 
   private void assertParseWithEqualsFails(String value) {
     try {
-      LabelVote.parseWithEquals(value);
-      fail("expected IllegalArgumentException when parsing \"" + value + "\"");
+      parseWithEquals(value);
+      assert_().fail("expected IllegalArgumentException when parsing \"%s\"", value);
     } catch (IllegalArgumentException e) {
       // Expected.
     }

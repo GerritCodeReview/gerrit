@@ -22,6 +22,30 @@
       "revId": "bf634810a713d50eac9cb6c4e64916ef765386b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e86b8583_4d226f98",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T07:07:12Z",
+      "side": 1,
+      "message": "Hmm. Looks like the logic is wrong and I misread it before. Should it be like this instead?\n\n if (!(url.startsWith(\"http:\") || url.startsWith(\"https:\")) {",
+      "parentUuid": "721a3084_873a0067",
+      "range": {
+        "startLine": 222,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "bf634810a713d50eac9cb6c4e64916ef765386b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

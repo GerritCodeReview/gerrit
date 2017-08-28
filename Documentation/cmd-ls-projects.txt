@@ -25,7 +25,7 @@ If the caller is a member of the privileged 'Administrators'
 group, all projects are listed.
 
 == ACCESS
-Any user who has configured an SSH key, or by an user over HTTP.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.

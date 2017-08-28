@@ -37,7 +37,7 @@ to 'git push', which will relay them automatically.
 	Deprecated, use `refs/for/branch%cc=address` instead.
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == EXAMPLES
 

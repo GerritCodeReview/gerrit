@@ -2582,7 +2582,7 @@ limit] of this project as a link:#max-object-size-limit-info[
 MaxObjectSizeLimitInfo] entity.
 |`submit_type`               ||
 The default submit type of the project, can be `MERGE_IF_NECESSARY`,
-`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
 |`match_author_to_committer_date` |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that indicates whether
@@ -2660,7 +2660,7 @@ If set to `0`, the max object size limit is removed. +
 If not set, this setting is not updated.
 |`submit_type`                             |optional|
 The default submit type of the project, can be `MERGE_IF_NECESSARY`,
-`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or
 `CHERRY_PICK`. +
 If not set, the submit type is not updated.
 |`state`                                   |optional|
@@ -2966,8 +2966,8 @@ Whether a permission-only project should be created.
 Whether an empty initial commit should be created.
 |`submit_type`               |optional|
 The submit type that should be set for the project
-(`MERGE_IF_NECESSARY`, `REBASE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,
-`MERGE_ALWAYS`, `CHERRY_PICK`). +
+(`MERGE_IF_NECESSARY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`,
+`FAST_FORWARD_ONLY`, `MERGE_ALWAYS`, `CHERRY_PICK`). +
 If not set, `MERGE_IF_NECESSARY` is set as submit type unless
 link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.

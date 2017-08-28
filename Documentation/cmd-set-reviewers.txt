@@ -47,7 +47,7 @@ API.
 	Display site-specific usage information
 
 == ACCESS
-Any user who has configured an SSH key.
+Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.

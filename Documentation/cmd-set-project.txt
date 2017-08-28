@@ -53,6 +53,7 @@ Description values containing spaces should be quoted in single quotes
 * FAST_FORWARD_ONLY: produces a strictly linear history.
 * MERGE_IF_NECESSARY: create a merge commit when required.
 * REBASE_IF_NECESSARY: rebase the commit when required.
+* REBASE_ALWAYS: always rebase the commit including dependencies.
 * MERGE_ALWAYS: always create a merge commit.
 * CHERRY_PICK: always cherry-pick the commit.
 

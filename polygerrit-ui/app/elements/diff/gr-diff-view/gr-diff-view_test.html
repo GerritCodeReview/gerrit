@@ -509,7 +509,7 @@ limitations under the License.
         getDiffComments() { return Promise.resolve({}); },
       });
       sandbox.stub(element.$.diff, 'reload');
-      sandbox.stub(element, '_loadHash');
+      sandbox.stub(element, '_initCursor');
 
       element._loggedIn = true;
       element.params = {
@@ -522,7 +522,7 @@ limitations under the License.
       };
 
       flush(() => {
-        assert.isTrue(element._loadHash.lastCall.calledWithExactly(10));
+        assert.isTrue(element._initCursor.calledOnce);
         done();
       });
     });
@@ -573,31 +573,31 @@ limitations under the License.
       assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
     });
 
-    test('_loadHash', () => {
+    test('_initCursor', () => {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
-      // Ignores invalid hashes:
-      element._loadHash('not valid');
+      // Does nothing when params specify no cursor address:
+      element._initCursor({});
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
-      // Ignores null hash:
-      element._loadHash(null);
+      // Does nothing when params specify side but no number:
+      element._initCursor({leftSide: true});
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
-      // Revision hash:
-      element._loadHash('234');
+      // Revision hash: specifies lineNum but not side.
+      element._initCursor({lineNum: 234});
       assert.equal(element.$.cursor.initialLineNumber, 234);
       assert.equal(element.$.cursor.side, 'right');
 
-      // Base hash:
-      element._loadHash('b345');
+      // Base hash: specifies lineNum and side.
+      element._initCursor({leftSide: true, lineNum: 345});
       assert.equal(element.$.cursor.initialLineNumber, 345);
       assert.equal(element.$.cursor.side, 'left');
 
-      // GWT-style base hash:
-      element._loadHash('a123');
+      // Specifies right side:
+      element._initCursor({leftSide: false, lineNum: 123});
       assert.equal(element.$.cursor.initialLineNumber, 123);
-      assert.equal(element.$.cursor.side, 'left');
+      assert.equal(element.$.cursor.side, 'right');
     });
 
     test('_shortenPath with long path should add ellipsis', () => {

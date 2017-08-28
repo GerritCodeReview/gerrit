@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ac1864c_1de0664e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-28T21:12:43Z",
+      "side": 1,
+      "message": "Being that it\u0027s an object, there\u0027s not intrinsic order, naturally. However, similarly named patterns are grouped together in the declaration order (GROUP_*, PROJECT_*, TAG_*, etc.), and I would expect somebody adding a new pattern to put it next to the similar ones.\n\nIf somebody adds one to an unusual place, I feel like anyone might add a nit comment to move it.",
+      "parentUuid": "1c4e0800_4384b1fd",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b632c56_f95f0ff2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba0440dd_85cab2f9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-28T21:12:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b632c56_f95f0ff2",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3ed5ba_1132d00f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-28T21:12:43Z",
+      "side": 1,
+      "message": "Good point. Promise.reject is much more on-label. Done.",
+      "parentUuid": "72d9245a_dcc3a52e",
+      "range": {
+        "startLine": 318,
+        "startChar": 10,
+        "endLine": 319,
+        "endChar": 39
+      },
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

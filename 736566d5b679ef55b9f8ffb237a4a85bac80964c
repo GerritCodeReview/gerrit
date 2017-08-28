@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0e759d6_6d477c8b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 4685,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0bcb5766_61cdb97a",
+      "range": {
+        "startLine": 4685,
+        "startChar": 19,
+        "endLine": 4685,
+        "endChar": 21
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37103bb0_572c681f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 23
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-28T16:22:35Z",
       "side": 1,
       "message": "This would render as\n\n  Please see UI on configuring the UI.\n\nPerhaps you want to change it to mention the PolyGerrit UI.",
+      "range": {
+        "startLine": 4687,
+        "startChar": 0,
+        "endLine": 4687,
+        "endChar": 62
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aefbad7_6f096eab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 4687,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "37103bb0_572c681f",
       "range": {
         "startLine": 4687,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c1d4f096_286afd4c",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1a3a1b21_dff5b10b",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9db4cf4_60b10ca0",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 23
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-28T16:13:32Z",
       "side": 1,
       "message": "Wasn\u0027t that implemented recently?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6903cf70_bb76a750",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d9db4cf4_60b10ca0",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e2cf228d_245c09d6",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8e5497dd_23fc5ff6",
+      "range": {
+        "startLine": 19,
+        "startChar": 42,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d524596_ca52c346",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 23
@@ -128,6 +248,30 @@
       "writtenOn": "2017-08-28T16:22:35Z",
       "side": 1,
       "message": "(suggestion) enable -\u003e switch, because you\u0027ve used the term \u0027enable\u0027 already for the server side option",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "736566d5b679ef55b9f8ffb237a4a85bac80964c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24941e24_f50471aa",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-08-28T17:45:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8d524596_ca52c346",
       "range": {
         "startLine": 35,
         "startChar": 3,

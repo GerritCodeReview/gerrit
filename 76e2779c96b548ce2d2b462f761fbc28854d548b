@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c878e50b_e1b3eb0e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-28T21:33:16Z",
+      "side": 1,
+      "message": "👍\n\nIf this gets even more unwieldy or hard to manage maybe we can group them into sub-objects.\n\n RoutePattern.GroupList.OFFSET_FILTER\n\nNo opposition to this, but it felt to me like overkill at this point.",
+      "parentUuid": "82fd759c_2191aa7f",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b632c56_f95f0ff2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8be4ea8f_f75988d9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:44:58Z",
+      "side": 1,
+      "message": "This wrongly returns false for refs like \u0027refs/changes/01/1/meta\u0027.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "3a033ddce095d21ef5e187146cdaf297a1952f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c4095d6_6cf0834b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 2
@@ -14,6 +37,30 @@
       "writtenOn": "2017-08-27T23:47:03Z",
       "side": 1,
       "message": "from the test log it looks like this might be null",
+      "range": {
+        "startLine": 438,
+        "startChar": 18,
+        "endLine": 438,
+        "endChar": 26
+      },
+      "revId": "3a033ddce095d21ef5e187146cdaf297a1952f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87be163b_90e9d1b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-28T08:44:58Z",
+      "side": 1,
+      "message": "I don\u0027t think that this is the problem. We get here only if RefNames.isChangeMetaRef(...) returned true and in this case we are sure that the ref contains a change ID.",
+      "parentUuid": "0c4095d6_6cf0834b",
       "range": {
         "startLine": 438,
         "startChar": 18,

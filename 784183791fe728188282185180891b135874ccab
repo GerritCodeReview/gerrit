@@ -22,6 +22,30 @@
       "revId": "784183791fe728188282185180891b135874ccab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26460e3e_7ed4c18c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-28T17:30:04Z",
+      "side": 1,
+      "message": "I was following the same pattern as gr-dropdown:\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js#152\n\nIt is used to keep whatever protocol is being used (ex/https) without specifying.",
+      "parentUuid": "548b128e_c6a247f9",
+      "range": {
+        "startLine": 67,
+        "startChar": 14,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "784183791fe728188282185180891b135874ccab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

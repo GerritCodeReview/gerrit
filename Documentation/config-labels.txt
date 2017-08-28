@@ -11,11 +11,10 @@ groups within projects, enabling functionality for that group's members.
 [[label_Code-Review]]
 == Label: Code-Review
 
-The code review label is the second of two default labels that is
-configured upon the creation of a Gerrit instance.  It may have any
-meaning the project desires.  It was originally invented by the Android
-Open Source Project to mean 'I read the code and it seems reasonably
-correct'.
+The Code-Review label is configured upon the creation of a Gerrit
+instance.  It may have any meaning the project desires.  It was
+originally invented by the Android Open Source Project to mean
+'I read the code and it seems reasonably correct'.
 
 The range of values is:
 
@@ -87,8 +86,10 @@ The Verified label was originally invented by the Android Open Source
 Project to mean 'compiles, passes basic unit tests'.  Some CI tools
 expect to use the Verified label to vote on a change after running.
 
-Administrators can install the Verified label by adding the following
-text to `project.config`:
+During site initialization the administrator may have chosen to
+configure the default Verified label for all projects.  In case it is
+desired to configure it at a later time, administrators can do this by
+adding the following to `project.config` in `All-Projects`:
 
 ----
   [label "Verified"]
@@ -96,6 +97,7 @@ text to `project.config`:
       value = -1 Fails
       value =  0 No score
       value = +1 Verified
+      copyAllScoresIfNoCodeChange = true
 ----
 
 The range of values is:
@@ -315,8 +317,8 @@ set and the same code delta as the previous patch set. This means only
 the commit message is different. This can be used to enable sticky
 approvals on labels that only depend on the code, reducing turn-around
 if only the commit message is changed prior to submitting a change.
-For the Verified label that is installed by the link:pgm-init.html[init]
-site program this is enabled by default.
+For the Verified label that is optionally installed by the
+link:pgm-init.html[init] site program this is enabled by default.
 
 Defaults to false.
 

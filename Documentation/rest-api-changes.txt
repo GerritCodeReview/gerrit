@@ -6418,7 +6418,7 @@ change.
 |Field Name      ||Description
 |`submit_type`   ||
 Submit type used for this change, can be `MERGE_IF_NECESSARY`,
-`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
 |`strategy`     |optional|
 The strategy of the merge, can be `recursive`, `resolve`,

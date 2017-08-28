@@ -3650,7 +3650,9 @@ Path must be absolute.
 +
 The default submit type for newly created projects. Supported values
 are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
-`MERGE_ALWAYS` and `CHERRY_PICK`.
+`REBASE_ALWAYS`, `MERGE_ALWAYS` and `CHERRY_PICK`.
++
+For more details see link:project-configuration.html#submit_type[Submit Types].
 +
 By default, `MERGE_IF_NECESSARY`.
 

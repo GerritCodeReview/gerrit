@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "903f62ec_6346c41c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-28T06:02:38Z",
+      "side": 1,
+      "message": "superfluous \u0027the\u0027?",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 14
+      },
+      "revId": "e2920037bc66ad0cd53f9880b96490a1127752a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

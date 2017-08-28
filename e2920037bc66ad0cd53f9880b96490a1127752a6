@@ -22,6 +22,30 @@
       "revId": "e2920037bc66ad0cd53f9880b96490a1127752a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c5e258_7b5f16b4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GitBasicAuthPolicy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-28T06:14:51Z",
+      "side": 1,
+      "message": "I think it\u0027s OK.  I.e. \"The authentication provided by OAuth\"",
+      "parentUuid": "903f62ec_6346c41c",
+      "range": {
+        "startLine": 30,
+        "startChar": 11,
+        "endLine": 30,
+        "endChar": 14
+      },
+      "revId": "e2920037bc66ad0cd53f9880b96490a1127752a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

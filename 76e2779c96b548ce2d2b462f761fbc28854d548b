@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "82fd759c_2191aa7f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-28T21:16:45Z",
+      "side": 1,
+      "message": "Totally acknowledge that there isn\u0027t an actual natural order.\n\nI\u0027m more wondering if we should leave a comment saying how we want this to be visually ordered. I have this same problem with a lot of our larger elements -- sometimes there\u0027s a thousand lines of code and all of the member function properties are pretty randomly distributed. This is a super nit tho, feel free to disregard.",
+      "parentUuid": "9ac1864c_1de0664e",
+      "revId": "76e2779c96b548ce2d2b462f761fbc28854d548b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b632c56_f95f0ff2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8

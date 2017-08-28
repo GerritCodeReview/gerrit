@@ -2571,4 +2571,30 @@ public class ChangeIT extends AbstractDaemonTest {
       return true;
     }
   }
+  
+  @Test
+  @GerritConfig(name = "trackingid.jira-bug.footer", value = "Bug:")
+  @GerritConfig(name = "trackingid.jira-bug.match", value = "JRA\\d{2,8}")
+  @GerritConfig(name = "trackingid.jira-bug.system", value = "JIRA")
+  public void trackingIds() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT + "\n\n" + "Bug:JRA001",
+            PushOneCommit.FILE_NAME,
+            PushOneCommit.FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes()
+        .id(result.getChangeId())
+        .get(EnumSet.of(ListChangesOption.TRACKING_IDS));
+    Collection<TrackingIdInfo> trackingIds = change.trackingIds;
+    assertThat(trackingIds).isNotNull();
+    assertThat(trackingIds).hasSize(1);
+    assertThat(trackingIds.iterator().next().system).isEqualTo("JIRA");
+    assertThat(trackingIds.iterator().next().id).isEqualTo("JRA001");
+  }
 }

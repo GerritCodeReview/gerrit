@@ -72,7 +72,10 @@ public enum ListChangesOption {
   REVIEWER_UPDATES(19),
 
   /** Set the submittable boolean. */
-  SUBMITTABLE(20);
+  SUBMITTABLE(20),
+
+  /** If tracking Ids are included, include detailed tracking Ids info. */
+  TRACKING_IDS(21);
 
   private final int value;
 

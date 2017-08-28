@@ -334,6 +334,12 @@ default. Optional fields are:
   server.
 --
 
+[[tracking-ids]]
+--
+* `TRACKING_IDS`: include references to external tracking systems
+  as link:#tracking-id-info[TrackingIdInfo].
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -5207,6 +5213,10 @@ patch set to a link:#revision-info[RevisionInfo] entity. +
 Only set if link:#current-revision[the current revision] is requested
 (in which case it will only contain a key for the current revision) or
 if link:#all-revisions[all revisions] are requested.
+|`tracking_ids`       |optional|
+A list of link:#tracking-id-info[TrackingIdInfo] entities describing
+references to external tracking systems. Only set if
+link:#tracking-ids[tracking ids] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last change that is returned.
@@ -6412,6 +6422,17 @@ The `TopicInput` entity contains information for setting a topic.
 |`topic`       |optional|The topic. +
 The topic will be deleted if not set.
 |===========================
+
+[[tracking-id-info]]
+=== TrackingIdInfo
+The `TrackingIdInfo` entity describes a reference to an external tracking system.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`system`  |The name of the external tracking system.
+|`id`      |The tracking id.
+|======================
 
 [[voting-range-info]]
 === VotingRangeInfo

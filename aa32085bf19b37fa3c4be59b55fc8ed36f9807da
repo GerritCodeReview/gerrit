@@ -52,6 +52,24 @@
       "revId": "aa32085bf19b37fa3c4be59b55fc8ed36f9807da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c6f3575_d67fc5b1",
+        "filename": "project.config",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-28T16:20:11Z",
+      "side": 1,
+      "message": "Exactly. Moreover, there would be logical asymmetry: Only gerrit-verifier are allowed to vote ob VRFY+1. Allowing registered user to submit would be strange, as they are not allowed to vote on VRFY+1, but allowed to submit.",
+      "parentUuid": "b1a830fc_3f75d53c",
+      "revId": "aa32085bf19b37fa3c4be59b55fc8ed36f9807da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

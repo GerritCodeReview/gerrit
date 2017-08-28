@@ -189,7 +189,7 @@ def _gwt_binary_impl(ctx):
   )
 
 def _get_transitive_closure(ctx):
-  deps = set()
+  deps = depset()
   for dep in ctx.attr.module_deps:
     deps += dep.java.transitive_runtime_deps
     deps += dep.java.transitive_source_jars

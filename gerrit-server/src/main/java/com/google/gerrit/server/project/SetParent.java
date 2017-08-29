@@ -74,10 +74,11 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   public String apply(ProjectResource rsrc, Input input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException {
-    ProjectControl ctl = rsrc.getControl();
+    IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    validateParentUpdate(ctl, parentName, checkIfAdmin);
+    validateParentUpdate(
+        rsrc.getProjectState().getProject().getNameKey(), user, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
@@ -89,10 +90,10 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       } else if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      md.setAuthor(ctl.getUser().asIdentifiedUser());
+      md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(ctl.getProject());
+      cache.evict(rsrc.getProjectState().getProject());
 
       Project.NameKey parent = project.getParent(allProjects);
       checkNotNull(parent);
@@ -105,15 +106,15 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  public void validateParentUpdate(ProjectControl ctl, String newParent, boolean checkIfAdmin)
+  public void validateParentUpdate(
+      Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, UnprocessableEntityException,
           PermissionBackendException {
-    IdentifiedUser user = ctl.getUser().asIdentifiedUser();
     if (checkIfAdmin) {
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    if (ctl.getProject().getNameKey().equals(allProjects)) {
+    if (project.equals(allProjects)) {
       throw new ResourceConflictException("cannot set parent of " + allProjects.get());
     }
 
@@ -127,14 +128,11 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       if (Iterables.tryFind(
               parent.tree(),
               p -> {
-                return p.getProject().getNameKey().equals(ctl.getProject().getNameKey());
+                return p.getProject().getNameKey().equals(project);
               })
           .isPresent()) {
         throw new ResourceConflictException(
-            "cycle exists between "
-                + ctl.getProject().getName()
-                + " and "
-                + parent.getProject().getName());
+            "cycle exists between " + project.get() + " and " + parent.getProject().getName());
       }
     }
   }

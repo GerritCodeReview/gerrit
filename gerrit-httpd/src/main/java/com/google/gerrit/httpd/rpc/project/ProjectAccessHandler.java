@@ -147,7 +147,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           setParent
               .get()
               .validateParentUpdate(
-                  projectControl,
+                  projectControl.getProject().getNameKey(),
+                  projectControl.getUser().asIdentifiedUser(),
                   MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
                   checkIfOwner);
         } catch (AuthException e) {

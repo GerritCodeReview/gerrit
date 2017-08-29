@@ -42,7 +42,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
@@ -145,7 +145,7 @@ public class ReviewersUtil {
   public List<SuggestedReviewerInfo> suggestReviewers(
       ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectControl projectControl,
+      ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
       throws IOException, OrmException, ConfigInvalidException {
@@ -162,7 +162,7 @@ public class ReviewersUtil {
     }
 
     List<Account.Id> sortedRecommendations =
-        recommendAccounts(changeNotes, suggestReviewers, projectControl, candidateList);
+        recommendAccounts(changeNotes, suggestReviewers, projectState, candidateList);
 
     // Filter accounts by visibility and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
@@ -183,10 +183,7 @@ public class ReviewersUtil {
       // important.
       suggestedReviewer.addAll(
           suggestAccountGroups(
-              suggestReviewers,
-              projectControl,
-              visibilityControl,
-              limit - suggestedReviewer.size()));
+              suggestReviewers, projectState, visibilityControl, limit - suggestedReviewer.size()));
     }
 
     if (suggestedReviewer.size() <= limit) {
@@ -215,12 +212,12 @@ public class ReviewersUtil {
   private List<Account.Id> recommendAccounts(
       ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectControl projectControl,
+      ProjectState projectState,
       List<Account.Id> candidateList)
       throws OrmException, IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
-          changeNotes, suggestReviewers, projectControl, candidateList);
+          changeNotes, suggestReviewers, projectState, candidateList);
     }
   }
 
@@ -247,16 +244,16 @@ public class ReviewersUtil {
 
   private List<SuggestedReviewerInfo> suggestAccountGroups(
       SuggestReviewers suggestReviewers,
-      ProjectControl projectControl,
+      ProjectState projectState,
       VisibilityControl visibilityControl,
       int limit)
       throws OrmException, IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
-      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectControl)) {
+      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectState)) {
         GroupAsReviewer result =
             suggestGroupAsReviewer(
-                suggestReviewers, projectControl.getProject(), g, visibilityControl);
+                suggestReviewers, projectState.getProject(), g, visibilityControl);
         if (result.allowed || result.allowedWithConfirmation) {
           GroupBaseInfo info = new GroupBaseInfo();
           info.id = Url.encode(g.getUUID().get());
@@ -278,10 +275,11 @@ public class ReviewersUtil {
   }
 
   private List<GroupReference> suggestAccountGroups(
-      SuggestReviewers suggestReviewers, ProjectControl ctl) {
+      SuggestReviewers suggestReviewers, ProjectState projectState) {
     return Lists.newArrayList(
         Iterables.limit(
-            groupBackend.suggest(suggestReviewers.getQuery(), ctl), suggestReviewers.getLimit()));
+            groupBackend.suggest(suggestReviewers.getQuery(), projectState),
+            suggestReviewers.getLimit()));
   }
 
   private static class GroupAsReviewer {

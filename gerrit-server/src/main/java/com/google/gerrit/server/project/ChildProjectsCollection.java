@@ -55,7 +55,7 @@ public class ChildProjectsCollection
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getControl().getProjectState().parents()) {
       if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
-        return new ChildProjectResource(parent, p.getControl());
+        return new ChildProjectResource(parent, p.getProjectState());
       }
     }
     throw new ResourceNotFoundException(id);

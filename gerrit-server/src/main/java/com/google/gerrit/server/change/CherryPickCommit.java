@@ -76,14 +76,14 @@ public class CherryPickCommit
     input.message = message.isEmpty() ? commit.getFullMessage() : message;
     String destination = Strings.nullToEmpty(input.destination).trim();
     input.parent = input.parent == null ? 1 : input.parent;
-    Project.NameKey projectName = rsrc.getProject().getProject().getNameKey();
+    Project.NameKey projectName = rsrc.getProjectState().getProject().getNameKey();
 
     if (destination.isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
     }
 
     String refName = RefNames.fullName(destination);
-    CreateChange.checkValidCLA(rsrc.getProject());
+    CreateChange.checkValidCLA(rsrc.getProjectState().controlFor(user.get()));
     permissionBackend
         .user(user)
         .project(projectName)
@@ -99,7 +99,7 @@ public class CherryPickCommit
               projectName,
               commit,
               input,
-              new Branch.NameKey(rsrc.getProject().getProject().getNameKey(), refName));
+              new Branch.NameKey(rsrc.getProjectState().getProject().getNameKey(), refName));
       return json.noOptions().format(projectName, cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

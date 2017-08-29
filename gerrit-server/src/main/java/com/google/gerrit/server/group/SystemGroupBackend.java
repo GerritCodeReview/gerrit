@@ -32,7 +32,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -156,7 +156,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectControl project) {
+  public Collection<GroupReference> suggest(String name, ProjectState project) {
     String nameLC = name.toLowerCase(Locale.US);
     SortedMap<String, GroupReference> matches = names.tailMap(nameLC);
     if (matches.isEmpty()) {

@@ -194,7 +194,7 @@ public class CreateChange
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getControl().getUser());
+        List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getUser());
         if (ctls.size() != 1) {
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
@@ -253,7 +253,7 @@ public class CreateChange
         }
         c =
             newMergeCommit(
-                git, oi, rw, rsrc.getControl(), mergeTip, input.merge, author, commitMessage);
+                git, oi, rw, rsrc.getProjectState(), mergeTip, input.merge, author, commitMessage);
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
@@ -310,7 +310,7 @@ public class CreateChange
       Repository repo,
       ObjectInserter oi,
       RevWalk rw,
-      ProjectControl projectControl,
+      ProjectState projectState,
       RevCommit mergeTip,
       MergeInput merge,
       PersonIdent authorIdent,
@@ -320,7 +320,7 @@ public class CreateChange
       throw new BadRequestException("merge.source must be non-empty");
     }
 
-    ProjectState state = projectControl.getProjectState();
+    ProjectState state = projectState;
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
     if (!commits.canRead(state, repo, sourceCommit)) {
       throw new BadRequestException("do not have read permission for: " + merge.source);

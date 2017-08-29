@@ -21,7 +21,7 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -64,7 +64,7 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectControl project) {
+  public Collection<GroupReference> suggest(String name, ProjectState project) {
     return groupCache
         .all()
         .stream()

@@ -31,8 +31,8 @@ public class CommitResource implements RestResource {
     this.commit = commit;
   }
 
-  public ProjectControl getProject() {
-    return project.getControl();
+  public ProjectState getProjectState() {
+    return project.getProjectState();
   }
 
   public RevCommit getCommit() {

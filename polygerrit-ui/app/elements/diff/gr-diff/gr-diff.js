@@ -313,7 +313,7 @@
       const isOnParent =
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
-          side, isOnParent);
+          side, isOnParent, opt_range);
       threadEl.addOrEditDraft(opt_lineNum, opt_range);
     },
 
@@ -326,6 +326,20 @@
     },
 
     /**
+     * @param {string} commentSide
+     * @param {!Object=} opt_range
+     */
+    _getRangeString(commentSide, opt_range) {
+      return opt_range ?
+        'range-' +
+        opt_range.startLine + '-' +
+        opt_range.startChar + '-' +
+        opt_range.endLine + '-' +
+        opt_range.endChar + '-' +
+        commentSide : 'line-' + commentSide;
+    },
+
+    /**
      * @param {!Object} contentEl
      * @param {number} patchNum
      * @param {string} commentSide
@@ -334,13 +348,7 @@
      */
     _getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide,
         isOnParent, opt_range) {
-      const rangeToCheck = opt_range ?
-          'range-' +
-          opt_range.startLine + '-' +
-          opt_range.startChar + '-' +
-          opt_range.endLine + '-' +
-          opt_range.endChar + '-' +
-          commentSide : 'line-' + commentSide;
+      const rangeToCheck = this._getRangeString(commentSide, opt_range);
 
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);

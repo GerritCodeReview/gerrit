@@ -6,9 +6,9 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "af1f5a31b8306faed9d09a38c8e2c1d6afc4c4a2dada3b5de11cceae8c7f4596",
-    strip_prefix = "rules_closure-f68d4b5a55c04ee50a3196590dce1ca8e7dbf438",
-    url = "https://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/f68d4b5a55c04ee50a3196590dce1ca8e7dbf438.tar.gz",  # 2017-05-05
+    sha256 = "25f5399f18d8bf9ce435f85c6bbf671ec4820bc4396b3022cc5dc4bc66303609",
+    strip_prefix = "rules_closure-0.4.2",
+    url = "https://bazel-mirror.storage.googleapis.com/github.com/bazelbuild/rules_closure/archive/0.4.2.tar.gz",  # 2017-08-29
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

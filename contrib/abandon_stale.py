@@ -25,20 +25,23 @@
 
 """ Script to abandon stale changes from the review server.
 
-Fetches a list of open changes that have not been updated since a
-given age in months or years (default 6 months), and then abandons them.
+Fetches a list of open changes that have not been updated since a given age in
+days, months or years (default 6 months), and then abandons them.
 
-Assumes that the user's credentials are in the .netrc file.  Supports
-either basic or digest authentication.
+Requires the user's credentials for the Gerrit server to be declared in the
+.netrc file. Supports either basic or digest authentication.
 
 Example to abandon changes that have not been updated for 3 months:
 
   ./abandon_stale --gerrit-url http://review.example.com/ --age 3months
 
-Supports dry-run mode to only list the stale changes but not actually
+Supports dry-run mode to only list the stale changes, but not actually
 abandon them.
 
-Requires pygerrit2 (https://github.com/dpursehouse/pygerrit2).
+See the --help output for more information about options.
+
+Requires pygerrit2 (https://github.com/dpursehouse/pygerrit2) to be installed
+and available for import.
 
 """
 
@@ -71,32 +74,32 @@ def _main():
     parser.add_option('-a', '--age', dest='age',
                       metavar='AGE',
                       default="6months",
-                      help='age of change since last update '
-                           '(default: %default)')
+                      help='age of change since last update in days, months'
+                           ' or years (default: %default)')
     parser.add_option('-m', '--message', dest='message',
                       metavar='STRING', default=None,
-                      help='Custom message to append to abandon message')
+                      help='custom message to append to abandon message')
     parser.add_option('--branch', dest='branches', metavar='BRANCH_NAME',
                       default=[], action='append',
-                      help='Abandon changes only on the given branch')
+                      help='abandon changes only on the given branch')
     parser.add_option('--exclude-branch', dest='exclude_branches',
                       metavar='BRANCH_NAME',
                       default=[],
                       action='append',
-                      help='Do not abandon changes on given branch')
+                      help='do not abandon changes on given branch')
     parser.add_option('--project', dest='projects', metavar='PROJECT_NAME',
                       default=[], action='append',
-                      help='Abandon changes only on the given project')
+                      help='abandon changes only on the given project')
     parser.add_option('--exclude-project', dest='exclude_projects',
                       metavar='PROJECT_NAME',
                       default=[],
                       action='append',
-                      help='Do not abandon changes on given project')
+                      help='do not abandon changes on given project')
     parser.add_option('--owner', dest='owner',
                       metavar='USERNAME',
                       default=None,
                       action='store',
-                      help='Only abandon changes owned by the given user')
+                      help='only abandon changes owned by the given user')
     parser.add_option('-v', '--verbose', dest='verbose',
                       action='store_true',
                       help='enable verbose (debug) logging')

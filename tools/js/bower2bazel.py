@@ -224,7 +224,11 @@ def interpret_bower_json(seeds, ws_out, build_out):
     # will have to either 1) strip off the prefix (typically github
     # user?), or 2) build a map of short name <=> fully qualified
     # name. For now, we just ignore the problem.
-    pkg["normalized-name"] = pkg["name"]
+    
+
+    print(pkg["_originalSource"])
+
+    pkg["normalized-name"] = pkg["_originalSource"]
     data.append(pkg)
 
   dump_workspace(data, seeds, ws_out)

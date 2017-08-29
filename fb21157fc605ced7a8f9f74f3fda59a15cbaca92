@@ -93,6 +93,30 @@
       "revId": "fb21157fc605ced7a8f9f74f3fda59a15cbaca92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a12111aa_db7601b1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-29T08:22:00Z",
+      "side": 1,
+      "message": "That would be good I think. I wonder if we should do some test-cleanup at some point. There are also very large test classes (like ChangeIT with \u003e3000 LOC). It would be nice to split those up for readability. I also think that there is no in-test parallelism in bazel (though I have to admit I didn\u0027t check) so maybe we can get tests to be faster or more parallelizable.",
+      "parentUuid": "bfa0f9d0_4a90b776",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 36
+      },
+      "revId": "fb21157fc605ced7a8f9f74f3fda59a15cbaca92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

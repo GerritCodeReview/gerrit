@@ -148,6 +148,11 @@ limitations under the License.
     });
 
     test('keyboard shortcuts', done => {
+      sandbox.stub(element, '_computeLabelNames');
+      element.sections = [
+        {results: new Array(1)},
+        {results: new Array(2)},
+      ];
       element.selectedIndex = 0;
       element.changes = [
         {_number: 0},
@@ -163,7 +168,10 @@ limitations under the License.
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
+        assert.isTrue(elementItems[1].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+        assert.equal(element.selectedIndex, 2);
+        assert.isTrue(elementItems[2].hasAttribute('selected'));
 
         const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
         assert.equal(element.selectedIndex, 2);
@@ -483,6 +491,25 @@ limitations under the License.
           element._sectionHref(
               'is:open ((reviewer:self -is:ignored) OR assignee:self)'),
           '/q/is:open+((reviewer:self+-is:ignored)+OR+assignee:self)');
+    });
+
+    test('_computeItemAbsoluteIndex', () => {
+      sandbox.stub(element, '_computeLabelNames');
+      element.sections = [
+        {results: new Array(1)},
+        {results: new Array(2)},
+        {results: new Array(3)},
+      ];
+
+      assert.equal(element._computeItemAbsoluteIndex(0, 0), 0);
+      // Out of range but no matter.
+      assert.equal(element._computeItemAbsoluteIndex(0, 1), 1);
+
+      assert.equal(element._computeItemAbsoluteIndex(1, 0), 1);
+      assert.equal(element._computeItemAbsoluteIndex(1, 1), 2);
+      assert.equal(element._computeItemAbsoluteIndex(1, 2), 3);
+      assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
+      assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
     });
   });
 </script>

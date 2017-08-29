@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "4bb03157_34592ab5",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-29T12:41:02Z",
+      "side": 1,
+      "message": "OK, done. I avoided saying this because also releases before 2.15 have parts of the account data already in NoteDb.",
+      "parentUuid": "faeb54b7_5cd997c0",
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c83b00b_f9e6022c",
         "filename": "Documentation/config-accounts.txt",
         "patchSetId": 13
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "a75e8e9e_4a5406e8",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-29T12:41:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c83b00b_f9e6022c",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "678fb210_e07f92e0",
         "filename": "Documentation/config-accounts.txt",
         "patchSetId": 13
@@ -54,6 +96,30 @@
       "writtenOn": "2017-08-29T11:09:02Z",
       "side": 1,
       "message": "shouldn\u0027t this be third level? (same as project watches, under user branch)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 2
+      },
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3578aaf_aafb163e",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-29T12:41:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "678fb210_e07f92e0",
       "range": {
         "startLine": 256,
         "startChar": 0,

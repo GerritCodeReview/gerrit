@@ -190,7 +190,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
           setParent
               .get()
               .validateParentUpdate(
-                  projectControl,
+                  projectControl.getProject().getNameKey(),
+                  projectControl.getUser().asIdentifiedUser(),
                   MoreObjects.firstNonNull(newParentProjectName, allProjects).get(),
                   true);
         } catch (UnprocessableEntityException e) {

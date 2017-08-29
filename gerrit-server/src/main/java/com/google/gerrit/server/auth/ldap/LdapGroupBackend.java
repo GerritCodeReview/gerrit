@@ -34,7 +34,7 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -158,7 +158,7 @@ public class LdapGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectControl project) {
+  public Collection<GroupReference> suggest(String name, ProjectState project) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(name);
     if (isLdapUUID(uuid)) {
       GroupDescription.Basic g = get(uuid);

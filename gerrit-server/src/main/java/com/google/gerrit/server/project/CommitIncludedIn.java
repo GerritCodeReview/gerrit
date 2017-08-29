@@ -38,7 +38,7 @@ class CommitIncludedIn implements RestReadView<CommitResource> {
   public IncludedInInfo apply(CommitResource rsrc)
       throws RestApiException, OrmException, IOException {
     RevCommit commit = rsrc.getCommit();
-    Project.NameKey project = rsrc.getProject().getProject().getNameKey();
+    Project.NameKey project = rsrc.getProjectState().getProject().getNameKey();
     return includedIn.apply(project, commit.getId().getName());
   }
 }

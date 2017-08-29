@@ -71,13 +71,13 @@ class ListDashboards implements RestReadView<ProjectResource> {
       throws ResourceNotFoundException, IOException, PermissionBackendException {
     String project = rsrc.getName();
     if (!inherited) {
-      return scan(rsrc.getControl(), project, true);
+      return scan(rsrc.getProjectState(), project, true);
     }
 
     List<List<DashboardInfo>> all = new ArrayList<>();
     boolean setDefault = true;
     for (ProjectState ps : tree(rsrc)) {
-      List<DashboardInfo> list = scan(ps.controlFor(user.get()), project, setDefault);
+      List<DashboardInfo> list = scan(ps, project, setDefault);
       for (DashboardInfo d : list) {
         if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
           setDefault = false;
@@ -100,17 +100,17 @@ class ListDashboards implements RestReadView<ProjectResource> {
     return tree.values();
   }
 
-  private List<DashboardInfo> scan(ProjectControl ctl, String project, boolean setDefault)
+  private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
-    Project.NameKey projectName = ctl.getProject().getNameKey();
+    Project.NameKey projectName = state.getProject().getNameKey();
     PermissionBackend.ForProject perm =
-        permissionBackend.user(user).project(ctl.getProject().getNameKey());
+        permissionBackend.user(user).project(state.getProject().getNameKey());
     try (Repository git = gitManager.openRepository(projectName);
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
         if (perm.ref(ref.getName()).test(RefPermission.READ)) {
-          all.addAll(scanDashboards(ctl.getProject(), git, rw, ref, project, setDefault));
+          all.addAll(scanDashboards(state.getProject(), git, rw, ref, project, setDefault));
         }
       }
       return all;

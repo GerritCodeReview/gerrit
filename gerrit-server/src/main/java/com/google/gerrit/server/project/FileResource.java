@@ -32,30 +32,30 @@ public class FileResource implements RestResource {
       new TypeLiteral<RestView<FileResource>>() {};
 
   public static FileResource create(
-      GitRepositoryManager repoManager, ProjectControl project, ObjectId rev, String path)
+      GitRepositoryManager repoManager, ProjectState projectState, ObjectId rev, String path)
       throws ResourceNotFoundException, IOException {
-    try (Repository repo = repoManager.openRepository(project.getProject().getNameKey());
+    try (Repository repo = repoManager.openRepository(projectState.getProject().getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       RevTree tree = rw.parseTree(rev);
       if (TreeWalk.forPath(repo, path, tree) != null) {
-        return new FileResource(project, rev, path);
+        return new FileResource(projectState, rev, path);
       }
     }
     throw new ResourceNotFoundException(IdString.fromDecoded(path));
   }
 
-  private final ProjectControl project;
+  private final ProjectState projectState;
   private final ObjectId rev;
   private final String path;
 
-  public FileResource(ProjectControl project, ObjectId rev, String path) {
-    this.project = project;
+  public FileResource(ProjectState projectState, ObjectId rev, String path) {
+    this.projectState = projectState;
     this.rev = rev;
     this.path = path;
   }
 
-  public ProjectControl getProject() {
-    return project;
+  public ProjectState getProjectState() {
+    return projectState;
   }
 
   public ObjectId getRev() {

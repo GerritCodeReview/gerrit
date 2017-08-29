@@ -302,11 +302,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       throw new BadRequestException(
           "You should only have no more than one --project and -n with --suggest");
     }
-
     List<GroupReference> groupRefs =
         Lists.newArrayList(
             Iterables.limit(
-                groupBackend.suggest(suggest, Iterables.getFirst(projects, null)),
+                groupBackend.suggest(
+                    suggest,
+                    !projects.isEmpty()
+                        ? Iterables.getFirst(projects, null).getProjectState()
+                        : null),
                 limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());

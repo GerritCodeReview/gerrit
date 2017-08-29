@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee5f6cf_2781179d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginLsCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-08-29T15:30:10Z",
+      "side": 0,
+      "message": "Can you explain this deletion in the commit message?",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "2511dd96227ee44d7e1598407fab5d2a81eac2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

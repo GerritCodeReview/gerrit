@@ -615,14 +615,11 @@ public class ChangeData {
       }
       throw new IllegalStateException("user already specified: " + changeControl.getUser());
     }
-    try {
-      if (change != null) {
-        changeControl = changeControlFactory.controlFor(db, change, user);
-      } else {
-        changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
-      }
-    } catch (NoSuchChangeException e) {
-      throw new OrmException(e);
+
+    if (change != null) {
+      changeControl = changeControlFactory.controlFor(db, change, user);
+    } else {
+      changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
     }
     return changeControl;
   }

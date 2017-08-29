@@ -181,7 +181,7 @@ public class ChangeFinder {
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
     if (!indexConfig.separateChangeSubIndexes()) {
       for (ChangeData cd : cds) {
-        ctls.add(cd.changeControl(user));
+        checkedAdd(cd, ctls, user);
       }
       return ctls;
     }
@@ -195,9 +195,18 @@ public class ChangeFinder {
     Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
       if (seen.add(cd.getId())) {
-        ctls.add(cd.changeControl(user));
+        checkedAdd(cd, ctls, user);
       }
     }
     return ctls;
+  }
+
+  private static void checkedAdd(ChangeData cd, List<ChangeControl> ctls, CurrentUser user)
+      throws OrmException {
+    try {
+      ctls.add(cd.changeControl(user));
+    } catch (NoSuchChangeException e) {
+      // Ignore
+    }
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "acb5eb6f_6b34a8b4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T19:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eff456f_a73dc9f6",
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef1b3db2_55c5f36b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adc551d4_cc87733d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T19:24:35Z",
+      "side": 1,
+      "message": "That\u0027s intended. The comment on the pattern declaration now indicates that the \u0027a\u0027 and \u0027b\u0027 are used interchangeably to indicate the base of the diff.",
+      "parentUuid": "ef1b3db2_55c5f36b",
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af77d94a_df0aa6cf",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T19:24:35Z",
+      "side": 1,
+      "message": "My bad. Done.",
+      "parentUuid": "19ef5d76_70337b90",
+      "range": {
+        "startLine": 69,
+        "startChar": 39,
+        "endLine": 69,
+        "endChar": 46
+      },
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

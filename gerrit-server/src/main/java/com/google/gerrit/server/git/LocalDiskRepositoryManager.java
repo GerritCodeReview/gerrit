@@ -274,7 +274,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         || name.contains(">") // redirect output
         || name.contains("|") // pipe
         || name.contains("$") // dollar sign
-        || name.contains("\r"); // carriage return
+        || name.contains("\r") // carriage return
+        || name.contains("/+") // delimiter in /changes/
+        || name.contains("~"); // delimiter in /changes/
   }
 
   @Override

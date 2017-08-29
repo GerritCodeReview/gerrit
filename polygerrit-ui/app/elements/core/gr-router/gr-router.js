@@ -20,6 +20,7 @@
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?/,
+    CATCHALL: /.*/,
 
     // Matches /admin/groups/<group>
     GROUP: /^\/admin\/groups\/([^,]+)$/,
@@ -122,6 +123,10 @@
         type: Object,
         value: () => document.createElement('gr-rest-api-interface'),
       },
+      _app: {
+        type: Object,
+        value: app,
+      },
     },
 
     behaviors: [
@@ -131,12 +136,12 @@
     ],
 
     start() {
-      if (!app) { return; }
+      if (!this._app) { return; }
       this._startRouter();
     },
 
     _setParams(params) {
-      app.params = params;
+      this._app.params = params;
     },
 
     _redirect(url) {
@@ -465,6 +470,8 @@
       this._mapRoute(RoutePattern.SETTINGS, '_handleSettingsRoute', true);
 
       this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
+
+      this._mapRoute(RoutePattern.CATCHALL, '_handleCatchallRoute');
 
       page.start();
     },
@@ -821,6 +828,14 @@
       const path = ctx.params[0] || '/';
       if (path[0] !== '/') { return; }
       this._redirect(this.getBaseUrl() + path);
+    },
+
+    _handleCatchallRoute() {
+      // Note: the app's 404 display is tightly-coupled with catching 404
+      // network responses, so we simulate a 404 response status to display it.
+      // TODO: Decouple the gr-app error view from network responses.
+      this._app.dispatchEvent(new CustomEvent('page-error',
+          {detail: {response: {status: 404}}}));
     },
   });
 })();

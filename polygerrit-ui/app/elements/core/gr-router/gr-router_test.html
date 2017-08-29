@@ -112,6 +112,7 @@ limitations under the License.
         '_handleBranchListFilterOffsetRoute',
         '_handleBranchListFilterRoute',
         '_handleBranchListOffsetRoute',
+        '_handleCatchallRoute',
         '_handleChangeNumberLegacyRoute',
         '_handleChangeOrDiffRoute',
         '_handleChnageLegacyRoute',
@@ -383,6 +384,15 @@ limitations under the License.
         assertDataToParams(data, '_handleSettingsRoute', {
           view: Gerrit.Nav.View.SETTINGS,
         });
+      });
+
+      test('_handleCatchallRoute', () => {
+        element._app = {dispatchEvent: sinon.stub()};
+        element._handleCatchallRoute();
+        assert.isTrue(element._app.dispatchEvent.calledOnce);
+        assert.equal(
+            element._app.dispatchEvent.lastCall.args[0].detail.response.status,
+            404);
       });
 
       suite('_handleRootRoute', () => {

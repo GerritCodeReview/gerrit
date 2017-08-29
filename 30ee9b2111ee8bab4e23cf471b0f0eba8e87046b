@@ -22,6 +22,30 @@
       "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d11dfe6_18aab907",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T21:24:31Z",
+      "side": 1,
+      "message": "Hmm .. But \"wildcard\" describes what it is, whereas \"catchall\" describes what it\u0027s for.\n\n\"Catchall\" strikes me as clearer. For example, what if we someday use a different route pattern that accomplishes the same thing but doesn\u0027t contain a wildcard? Then the intent would be the same, so the name need not change.\n\nCalling it \"wildcard\" feels like naming a string with its content.\n\n const foo \u003d \"foo\";\n\nI guess I don\u0027t feel to strongly though.",
+      "parentUuid": "ac11b653_c9db35f4",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "025fc0c9e9ff039085b9397c39b547c3fdb8a1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32945898_caeed2a7",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-29T18:24:16Z",
+      "side": 1,
+      "message": "Yeah, it should probably be removed. I\u0027m a little confused that this change seems so easy and I\u0027m not sure if I was missing something..",
+      "parentUuid": "b4bfca4f_441a7559",
+      "revId": "025fc0c9e9ff039085b9397c39b547c3fdb8a1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

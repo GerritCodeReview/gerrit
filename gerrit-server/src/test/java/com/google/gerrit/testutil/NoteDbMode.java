@@ -40,7 +40,6 @@ public enum NoteDbMode {
   /** All change tables are entirely disabled, and code/meta ref updates are fused. */
   FUSED(NotesMigrationState.NOTE_DB),
 
-  // TODO(dborowitz): Change CI to use this, then remove FUSED and DISABLE_CHANGE_REVIEW_DB.
   /** All change tables are entirely disabled, and code/meta ref updates are fused. */
   ON(NotesMigrationState.NOTE_DB),
 

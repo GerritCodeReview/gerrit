@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4bfca4f_441a7559",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-29T18:19:03Z",
+      "side": 1,
+      "message": "Does this change mean this TODO is no longer applicable?",
+      "revId": "025fc0c9e9ff039085b9397c39b547c3fdb8a1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

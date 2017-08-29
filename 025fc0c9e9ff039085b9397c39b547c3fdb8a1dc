@@ -34,6 +34,24 @@
       "revId": "025fc0c9e9ff039085b9397c39b547c3fdb8a1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5e39996_f8b1ea84",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-29T18:53:09Z",
+      "side": 1,
+      "message": "I think you can chalk this up to Han-Wen and I not knowing how Bower is supposed to work :)\n\nAs long as it builds, it\u0027s probably fine. If you\u0027re extra paranoid you could try building before/after this change and ensuring the PG assets are byte-for-byte identical.",
+      "parentUuid": "32945898_caeed2a7",
+      "revId": "025fc0c9e9ff039085b9397c39b547c3fdb8a1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

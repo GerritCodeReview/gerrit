@@ -110,7 +110,7 @@ public class PutMessage
     }
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
-    ensureCanEditCommitMessage(resource.getControl().getNotes());
+    ensureCanEditCommitMessage(resource.getNotes());
     ensureChangeIdIsCorrect(
         resource.getControl().getProjectControl().getProjectState().isRequireChangeID(),
         resource.getChange().getKey().get(),

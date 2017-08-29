@@ -94,10 +94,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(),
-            rsrc.getChange().getProject(),
-            rsrc.getControl().getUser(),
-            TimeUtil.nowTs())) {
+            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 

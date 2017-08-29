@@ -50,13 +50,12 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
       throws AuthException, OrmException {
-    if (!rsrc.getControl().getUser().isIdentifiedUser()) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
     List<Comment> drafts =
-        commentsUtil.draftByChangeAuthor(
-            db.get(), cd.notes(), rsrc.getControl().getUser().getAccountId());
+        commentsUtil.draftByChangeAuthor(db.get(), cd.notes(), rsrc.getUser().getAccountId());
     return commentJson
         .get()
         .setFillAccounts(false)

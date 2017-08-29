@@ -125,9 +125,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       if (c.getStatus().isOpen()) {
         ChangeSet cs =
-            mergeSuperSet
-                .get()
-                .completeChangeSet(dbProvider.get(), c, resource.getControl().getUser());
+            mergeSuperSet.get().completeChangeSet(dbProvider.get(), c, resource.getUser());
         cds = cs.changes().asList();
         hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {

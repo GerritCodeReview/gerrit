@@ -270,7 +270,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId getEditRev() throws AuthException, IOException, OrmException {
-    edit = editReader.byChange(change);
+    edit = editReader.byChange(control.getNotes());
     if (edit.isPresent()) {
       return edit.get().getEditCommit();
     }

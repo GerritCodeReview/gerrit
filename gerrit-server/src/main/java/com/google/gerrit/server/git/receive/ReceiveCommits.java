@@ -2434,7 +2434,7 @@ class ReceiveCommits {
       Optional<ChangeEdit> edit = null;
 
       try {
-        edit = editUtil.byChange(projectControl.controlFor(notes));
+        edit = editUtil.byChange(notes, user);
       } catch (AuthException | IOException e) {
         logError("Cannot retrieve edit", e);
         return false;

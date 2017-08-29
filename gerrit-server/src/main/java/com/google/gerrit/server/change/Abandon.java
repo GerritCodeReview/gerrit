@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.AbandonOp;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -76,49 +77,58 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
           IOException, ConfigInvalidException {
     req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
-    NotifyHandling notify = input.notify == null ? defaultNotify(req.getControl()) : input.notify;
+    NotifyHandling notify = input.notify == null ? defaultNotify(req.getChange()) : input.notify;
     Change change =
         abandon(
             updateFactory,
-            req.getControl(),
+            req.getNotes(),
+            req.getUser(),
             input.message,
             notify,
             notifyUtil.resolveAccounts(input.notifyDetails));
     return json.noOptions().format(change);
   }
 
-  private NotifyHandling defaultNotify(ChangeControl control) {
-    return control.getChange().hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
+  private NotifyHandling defaultNotify(Change change) {
+    return change.hasReviewStarted() ? NotifyHandling.ALL : NotifyHandling.OWNER;
   }
 
-  public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control)
-      throws RestApiException, UpdateException {
-    return abandon(updateFactory, control, "", defaultNotify(control), ImmutableListMultimap.of());
-  }
-
-  public Change abandon(BatchUpdate.Factory updateFactory, ChangeControl control, String msgTxt)
+  public Change abandon(BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user)
       throws RestApiException, UpdateException {
     return abandon(
-        updateFactory, control, msgTxt, defaultNotify(control), ImmutableListMultimap.of());
+        updateFactory,
+        notes,
+        user,
+        "",
+        defaultNotify(notes.getChange()),
+        ImmutableListMultimap.of());
+  }
+
+  public Change abandon(
+      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, String msgTxt)
+      throws RestApiException, UpdateException {
+    return abandon(
+        updateFactory,
+        notes,
+        user,
+        msgTxt,
+        defaultNotify(notes.getChange()),
+        ImmutableListMultimap.of());
   }
 
   public Change abandon(
       BatchUpdate.Factory updateFactory,
-      ChangeControl control,
+      ChangeNotes notes,
+      CurrentUser user,
       String msgTxt,
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws RestApiException, UpdateException {
-    CurrentUser user = control.getUser();
     Account account = user.isIdentifiedUser() ? user.asIdentifiedUser().getAccount() : null;
     AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling, accountsToNotify);
     try (BatchUpdate u =
-        updateFactory.create(
-            dbProvider.get(),
-            control.getProject().getNameKey(),
-            control.getUser(),
-            TimeUtil.nowTs())) {
-      u.addOp(control.getId(), op).execute();
+        updateFactory.create(dbProvider.get(), notes.getProjectName(), user, TimeUtil.nowTs())) {
+      u.addOp(notes.getChangeId(), op).execute();
     }
     return op.getChange();
   }

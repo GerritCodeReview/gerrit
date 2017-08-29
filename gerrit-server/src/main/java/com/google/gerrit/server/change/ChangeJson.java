@@ -290,7 +290,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(changeDataFactory.create(db.get(), rsrc.getControl()));
+    return format(changeDataFactory.create(db.get(), rsrc.getNotes()));
   }
 
   public ChangeInfo format(Change change) throws OrmException {

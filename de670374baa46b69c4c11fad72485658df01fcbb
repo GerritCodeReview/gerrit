@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eff456f_a73dc9f6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-29T18:17:07Z",
+      "side": 1,
+      "message": "Needs a comment. What is this pattern applied to, and why?",
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1b3db2_55c5f36b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-29T18:17:07Z",
+      "side": 1,
+      "message": "This discards whether the value of match[1] is \u0027a\u0027 or \u0027b\u0027, is that a problem?",
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19ef5d76_70337b90",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-29T18:17:07Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 69,
+        "startChar": 39,
+        "endLine": 69,
+        "endChar": 46
+      },
+      "revId": "de670374baa46b69c4c11fad72485658df01fcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

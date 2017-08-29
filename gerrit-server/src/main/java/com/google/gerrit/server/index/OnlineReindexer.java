@@ -73,7 +73,8 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
               }
             }
           };
-      t.setName(String.format("Reindex v%d-v%d", version(indexes.getSearchIndex()), newVersion));
+      t.setName(
+          String.format("Reindex %s v%d-v%d", name, version(indexes.getSearchIndex()), newVersion));
       t.start();
     }
   }
@@ -97,23 +98,26 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     index =
         checkNotNull(
             indexes.getWriteIndex(newVersion),
-            "not an active write schema version: %s",
+            "not an active write schema version: %s %s",
+            name,
             newVersion);
     log.info(
-        "Starting online reindex from schema version {} to {}",
+        "Starting online reindex of {} from schema version {} to {}",
+        name,
         version(indexes.getSearchIndex()),
         version(index));
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
       log.error(
-          "Online reindex of schema version {} failed. Successfully"
-              + " indexed {} changes, failed to index {} changes",
+          "Online reindex of {} schema version {} failed. Successfully"
+              + " indexed {}, failed to index {}",
+          name,
           version(index),
           result.doneCount(),
           result.failedCount());
       return;
     }
-    log.info("Reindex to version {} complete", version(index));
+    log.info("Reindex {} to version {} complete", name, version(index));
     activateIndex();
     for (OnlineUpgradeListener listener : listeners) {
       listener.onSuccess(name, oldVersion, newVersion);
@@ -122,11 +126,11 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
 
   public void activateIndex() {
     indexes.setSearchIndex(index);
-    log.info("Using schema version {}", version(index));
+    log.info("Using {} schema version {}", name, version(index));
     try {
       index.markReady(true);
     } catch (IOException e) {
-      log.warn("Error activating new schema version {}", version(index));
+      log.warn("Error activating new {} schema version {}", name, version(index));
     }
 
     List<I> toRemove = Lists.newArrayListWithExpectedSize(1);
@@ -140,7 +144,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
         i.markReady(false);
         indexes.removeWriteIndex(version(i));
       } catch (IOException e) {
-        log.warn("Error deactivating old schema version {}", version(i));
+        log.warn("Error deactivating old {} schema version {}", name, version(i));
       }
     }
   }

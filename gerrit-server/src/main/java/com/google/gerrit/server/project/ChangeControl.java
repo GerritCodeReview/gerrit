@@ -319,7 +319,7 @@ public class ChangeControl {
   }
 
   /** Is the current patch set locked against state changes? */
-  public boolean isPatchSetLocked(ReviewDb db) throws OrmException {
+  boolean isPatchSetLocked(ReviewDb db) throws OrmException {
     if (getChange().getStatus() == Change.Status.MERGED) {
       return false;
     }

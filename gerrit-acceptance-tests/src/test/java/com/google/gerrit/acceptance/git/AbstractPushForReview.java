@@ -877,10 +877,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             r.getChangeId());
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
     r = push.to("refs/for/master");
-    r.assertErrorStatus(
-        "cannot add patch set to "
-            + r.getChange().change().getChangeId()
-            + ". Change is patch set locked.");
+    r.assertErrorStatus("cannot add patch set to " + r.getChange().change().getChangeId() + ".");
   }
 
   @Test

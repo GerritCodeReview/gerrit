@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutStatus.Input;
@@ -48,18 +47,15 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final AccountsUpdate.Server accountsUpdate;
 
   @Inject
   PutStatus(
       Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
       AccountsUpdate.Server accountsUpdate) {
     this.self = self;
-    this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.accountsUpdate = accountsUpdate;
   }
@@ -75,7 +71,7 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
@@ -84,10 +80,7 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     Account account =
         accountsUpdate
             .create()
-            .update(
-                dbProvider.get(),
-                user.getAccountId(),
-                a -> a.setStatus(Strings.nullToEmpty(newStatus)));
+            .update(user.getAccountId(), a -> a.setStatus(Strings.nullToEmpty(newStatus)));
     if (account == null) {
       throw new ResourceNotFoundException("account not found");
     }

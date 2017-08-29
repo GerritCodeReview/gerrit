@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47ece9dd_b6337bc0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T22:11:50Z",
+      "side": 1,
+      "message": "Nit: sorry I missed this in the first pass, but all the other route handlers end with \"...Route\". Just for consistency.",
+      "range": {
+        "startLine": 853,
+        "startChar": 4,
+        "endLine": 853,
+        "endChar": 19
+      },
+      "revId": "c8a14aa463539f93c12b8148702a004595395abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a67b0363_1c13e37c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-29T22:11:50Z",
+      "side": 1,
+      "message": "Can we add a test for this method?\n\nNit: is guess this name seems sort of generic (although I can\u0027t immediately think of a great alternative).\n\nIf we can\u0027t find a more specific name (`_normalizeAndUpgradeChangeParams`?) can we add a JSDoc describing what this is for?\n\n/**\n * Normalize the patch range params for a the change or diff view and\n * redirect if URL upgrade is needed.\n */",
+      "range": {
+        "startLine": 867,
+        "startChar": 4,
+        "endLine": 867,
+        "endChar": 23
+      },
+      "revId": "c8a14aa463539f93c12b8148702a004595395abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

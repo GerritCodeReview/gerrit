@@ -45,6 +45,30 @@
       "revId": "c8a14aa463539f93c12b8148702a004595395abe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de809cea_bdb06074",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-29T23:12:11Z",
+      "side": 1,
+      "message": "This method is tested in both the test for _handleDiffEdit and the tests for _handleChangeOrDiffRoute. Do we need more?",
+      "parentUuid": "a67b0363_1c13e37c",
+      "range": {
+        "startLine": 867,
+        "startChar": 4,
+        "endLine": 867,
+        "endChar": 23
+      },
+      "revId": "c8a14aa463539f93c12b8148702a004595395abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "09d2e69a_9fb6e5f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:43:35Z",
+      "side": 1,
+      "message": "what does this have to do with this change? The series of \u0027concepts\u0027 started with this, you mean?",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "142a2695_59738181",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:43:35Z",
+      "side": 1,
+      "message": "perhaps this note not in the footer?",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a09f046_422ca56e",
         "filename": "Documentation/concept-comments.txt",
         "patchSetId": 10

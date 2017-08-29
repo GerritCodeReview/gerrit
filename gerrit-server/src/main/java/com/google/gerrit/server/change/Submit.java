@@ -313,29 +313,22 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
-    String topic = change.getTopic();
+    if (!change.getStatus().isOpen()
+        || !resource.isCurrent()
+        || resource.getPatchSet().isDraft()
+        || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
+      return null; // submit not visible
+    }
+
     ReviewDb db = dbProvider.get();
     ChangeData cd = changeDataFactory.create(db, resource.getControl());
-    boolean visible;
     try {
-      visible =
-          change.getStatus().isOpen()
-              && resource.isCurrent()
-              && !resource.getPatchSet().isDraft()
-              && resource.permissions().test(ChangePermission.SUBMIT);
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
-      visible = false;
-    } catch (PermissionBackendException e) {
-      log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not check submit permission", e);
+      return null; // submit not visible
     } catch (OrmException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);
-    }
-
-    if (!visible) {
-      return new UiAction.Description().setLabel("").setTitle("").setVisible(false);
     }
 
     ChangeSet cs;
@@ -346,6 +339,7 @@ public class Submit
           "Could not determine complete set of changes to be submitted", e);
     }
 
+    String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
       topicSize = getChangesByTopic(topic).size();

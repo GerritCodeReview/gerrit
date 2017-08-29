@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38d55f37_391cbd6e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-08-29T19:41:06Z",
+      "side": 1,
+      "message": "in the hash?",
+      "range": {
+        "startLine": 95,
+        "startChar": 75,
+        "endLine": 96,
+        "endChar": 12
+      },
+      "revId": "46e93055515d65a19529ccfc087ec51660effff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

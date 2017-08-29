@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b1bd56e_a17ee03a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-29T16:21:20Z",
+      "side": 1,
+      "message": "Please add two unit tests to cover the new functions.",
+      "revId": "b8ae1d67223ab6019ebdd4e1a2358a5377248b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

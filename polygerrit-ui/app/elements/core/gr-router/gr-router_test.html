@@ -125,6 +125,7 @@ limitations under the License.
       const shouldRequireAutoAuth = [
         '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
+        '_handleDiffEditRoute',
         '_handleGroupAuditLogRoute',
         '_handleGroupInfoRoute',
         '_handleGroupListFilterOffsetRoute',
@@ -148,8 +149,8 @@ limitations under the License.
         '_handleBranchListOffsetRoute',
         '_handleChangeNumberLegacyRoute',
         '_handleChangeOrDiffRoute',
-        '_handleChnageLegacyRoute',
         '_handleDefaultRoute',
+        '_handleChangeLegacyRoute',
         '_handleDiffLegacyRoute',
         '_handleGroupMembersRoute',
         '_handleProjectListFilterOffsetRoute',
@@ -911,7 +912,7 @@ limitations under the License.
           assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
         });
 
-        test('_handleChnageLegacyRoute', () => {
+        test('_handleChangeLegacyRoute', () => {
           const normalizeRouteStub = sandbox.stub(element,
               '_normalizeLegacyRouteParams');
           const ctx = {
@@ -924,7 +925,7 @@ limitations under the License.
               9, // 5 Patch number
             ],
           };
-          element._handleChnageLegacyRoute(ctx);
+          element._handleChangeLegacyRoute(ctx);
           assert.isTrue(normalizeRouteStub.calledOnce);
           assert.deepEqual(normalizeRouteStub.lastCall.args[0], {
             changeNum: 1234,
@@ -1043,6 +1044,39 @@ limitations under the License.
             });
             assert.isFalse(redirectStub.called);
             assert.isTrue(normalizeRangeStub.called);
+          });
+        });
+
+        test('_handleDiffEditRoute', () => {
+          const normalizeRangeStub =
+              sandbox.stub(element, '_normalizePatchRangeParams');
+          sandbox.stub(element._restAPI, 'setInProjectLookup');
+          const ctx = {
+            params: [
+              'foo/bar', // 0 Project
+              1234, // 1 Change number
+              null, // 2 Unused
+              null, // 3 Unused
+              null, // 4 Unused
+              4, // 5 Base patch number
+              7, // 6 Patch number
+              null, // 7 Unused,
+              '/c/1234/3..8/foo/bar,edit', // 8 Diff path
+            ],
+            hash: '',
+          };
+          element._handleDiffEditRoute(ctx);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRangeStub.calledOnce);
+          assert.deepEqual(normalizeRangeStub.lastCall.args[0], {
+            changeNum: 1234,
+            basePatchNum: 4,
+            patchNum: 7,
+            view: Gerrit.Nav.View.DIFF,
+            hash: '',
+            path: '/c/1234/3..8/foo/bar,edit',
+            edit: true,
+            project: 'foo/bar',
           });
         });
       });

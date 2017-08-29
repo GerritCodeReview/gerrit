@@ -96,8 +96,8 @@ Debian, Ubuntu). If this is not the case for your distribution, enable it for
 Gerrit with this entry in your local SSH configuration:
 
 ----
-Host gerrit.mydomain.tld
-    GSSAPIAuthentication yes
+  Host gerrit.mydomain.tld
+      GSSAPIAuthentication yes
 ----
 
 [[test_ssh]]
@@ -141,6 +141,30 @@ and obtain the port number on the fly from the `/ssh_info` URL.
 The returned output from this URL is always `'hostname' SP 'port'`,
 or `NOT_AVAILABLE` if the SSHD server is not currently running.
 
+[[configure_ssh_host_entry]]
+=== OpenSSH Host entry
+
+If you are frequently uploading changes to the same Gerrit server, consider
+adding an SSH `Host` entry in your OpenSSH client configuration
+(`~/.ssh/config`) for that Gerrit server.  It allows you use a single alias
+defining your username, hostname and port number whenever you're accessing
+this Gerrit server in an SSH context (also command line SSH or SCP).  Use this
+for easier to remember, shorter URLs, e.g.:
+
+----
+  $ cat ~/.ssh/config
+  ...
+  Host mygerrit
+      Hostname git.example.com
+      Port 29418
+      User john.doe
+
+  $ git clone mygerrit:myproject
+
+  $ ssh mygerrit gerrit version
+
+  $ scp -p mygerrit:hooks/commit-msg .git/hooks/
+----
 
 == git push
 
@@ -286,22 +310,6 @@ When a change edit already exists for a change then pushing with
 rebase a change edit on the newest patch set when the rebase of the
 change edit in the web UI fails due to conflicts.
 
-If you are frequently uploading changes to the same Gerrit server,
-consider adding an SSH host block in `~/.ssh/config` to remember
-your username, hostname and port number.  This permits the use of
-shorter URLs on the command line, such as:
-
-----
-  $ cat ~/.ssh/config
-  ...
-  Host tr
-    Hostname git.example.com
-    Port 29418
-    User john.doe
-
-  $ git push tr:kernel/common HEAD:refs/for/experimental
-----
-
 [[reviewers]]
 ==== Reviewers
 
@@ -310,7 +318,7 @@ copies' of the notification message may be sent by including the
 `reviewer` (or `r`) and `cc` options in the reference:
 
 ----
-  git push tr:kernel/common HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com
 ----
 
 The `r='email'` and `cc='email'` options may be specified as many
@@ -327,7 +335,7 @@ branches, consider adding a custom remote block to your project's
   $ cat .git/config
   ...
   [remote "exp"]
-    url = tr:kernel/common
+    url = ssh://john.doe@git.example.com:29418/kernel/common
     push = HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com
 
   $ git push exp

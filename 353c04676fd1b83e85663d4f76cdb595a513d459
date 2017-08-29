@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95e8b915_e0f654c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-29T13:25:45Z",
+      "side": 1,
+      "message": "Or would this be equivalent?\n\n } catch (NoSuchChangeException e) {\n   // Ignore\n }\n\nIf so, I think this is a bit more readable.",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 5
+      },
+      "revId": "353c04676fd1b83e85663d4f76cdb595a513d459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

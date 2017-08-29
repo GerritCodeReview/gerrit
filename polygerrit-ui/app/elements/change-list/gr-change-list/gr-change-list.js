@@ -179,12 +179,24 @@
       return `${this.getBaseUrl()}/q/${this.encodeURL(query, true)}`;
     },
 
-    _computeItemSelected(index, sectionIndex, selectedIndex) {
+    /**
+     * Maps an index local to a particular section to the absolute index
+     * across all the changes on the page.
+     *
+     * @param sectionIndex {number} index of section
+     * @param localIndex {number} index of row within section
+     * @return {number} absolute index of row in the aggregate dashboard
+     */
+    _computeItemAbsoluteIndex(sectionIndex, localIndex) {
       let idx = 0;
       for (let i = 0; i < sectionIndex; i++) {
-        idx += this.sections[i].length;
+        idx += this.sections[i].results.length;
       }
-      idx += index;
+      return idx + localIndex;
+    },
+
+    _computeItemSelected(sectionIndex, index, selectedIndex) {
+      const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
       return idx == selectedIndex;
     },
 
@@ -199,21 +211,13 @@
       return account._account_id === change.assignee._account_id;
     },
 
-    _getAggregatesectionsLen(sections) {
-      sections = sections || [];
-      let len = 0;
-      for (const section of this.sections) {
-        len += section.length;
-      }
-      return len;
-    },
-
     _handleJKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      const len = this._getAggregatesectionsLen(this.sections);
+      // Compute absolute index of item that would come after final item.
+      const len = this._computeItemAbsoluteIndex(this.sections.length, 0);
       if (this.selectedIndex === len - 1) { return; }
       this.selectedIndex += 1;
     },

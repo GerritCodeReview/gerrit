@@ -94,7 +94,7 @@ limitations under the License.
         </template>
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">
           <gr-change-list-item
-              selected$="[[_computeItemSelected(index, sectionIndex, selectedIndex)]]"
+              selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
               assigned$="[[_computeItemAssigned(account, change)]]"
               needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
               change="[[change]]"

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.webui;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -28,6 +29,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
    *     properties. If null the action will assumed unavailable and not presented. This is usually
    *     the same as {@code setVisible(false)}.
    */
+  @Nullable
   Description getDescription(R resource);
 
   /** Describes an action invokable through the web interface. */

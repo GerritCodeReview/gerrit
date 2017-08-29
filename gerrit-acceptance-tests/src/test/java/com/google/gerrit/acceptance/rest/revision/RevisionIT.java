@@ -23,6 +23,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
@@ -74,5 +76,35 @@ public class RevisionIT extends AbstractDaemonTest {
                 + "/content?parent=10");
     response.assertBadRequest();
     assertThat(response.getEntityContent()).isEqualTo("invalid parent");
+  }
+
+  @Test
+  public void getReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ObjectId ps1Commit = r.getCommit();
+    r = amendChange(r.getChangeId());
+    ObjectId ps2Commit = r.getCommit();
+
+    ChangeInfo info1 = checkRevisionReview(r, 1, ps1Commit);
+    assertThat(info1.currentRevision).isNull();
+
+    ChangeInfo info2 = checkRevisionReview(r, 2, ps2Commit);
+    assertThat(info2.currentRevision).isEqualTo(ps2Commit.name());
+  }
+
+  private ChangeInfo checkRevisionReview(
+      PushOneCommit.Result r, int psNum, ObjectId expectedRevision) throws Exception {
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+    RestResponse response =
+        adminRestSession.get("/changes/" + r.getChangeId() + "/revisions/" + psNum + "/review");
+    response.assertOK();
+    ChangeInfo info = newGson().fromJson(response.getReader(), ChangeInfo.class);
+
+    // Check for DETAILED_ACCOUNTS, DETAILED_LABELS, and specified revision.
+    assertThat(info.owner.name).isNotNull();
+    assertThat(info.labels.get("Code-Review").all).hasSize(1);
+    assertThat(info.revisions.keySet()).containsExactly(expectedRevision.name());
+    return info;
   }
 }

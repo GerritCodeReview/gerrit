@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -225,6 +226,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String changeId2 =
         createChangeWithTopic(testRepo, "foo2", "touching b", "b.txt", "real content")
             .getChangeId();
+    int changeNum2 = gApi.changes().id(changeId2).info()._number;
     approve(changeId2);
 
     // collide with the other change in the same topic
@@ -243,7 +245,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Problems with change(s): 2");
+      assertThat(info.title).isEqualTo("Problems with change(s): " + changeNum2);
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
     }
@@ -357,9 +359,11 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionVisitor() throws Exception {
+  public void currentRevisionActionVisitor() throws Exception {
     String id = createChange().getChangeId();
+    amendChange(id);
     ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    Change.Id changeId = new Change.Id(origChange._number);
 
     class Visitor implements ActionVisitor {
       @Override
@@ -373,7 +377,7 @@ public class ActionsIT extends AbstractDaemonTest {
         assertThat(changeInfo).isNotNull();
         assertThat(changeInfo._number).isEqualTo(origChange._number);
         assertThat(revisionInfo).isNotNull();
-        assertThat(revisionInfo._number).isEqualTo(1);
+        assertThat(revisionInfo._number).isEqualTo(2);
         if (name.equals("cherrypick")) {
           return false;
         }
@@ -393,24 +397,23 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // Test different codepaths within ActionJson...
     // ...via revision API.
-    visitedRevisionActionsAssertions(origActions, gApi.changes().id(id).current().actions());
+    visitedCurrentRevisionActionsAssertions(origActions, gApi.changes().id(id).current().actions());
 
     // ...via change API with option.
     EnumSet<ListChangesOption> opts = EnumSet.of(CURRENT_ACTIONS, CURRENT_REVISION);
     ChangeInfo changeInfo = gApi.changes().id(id).get(opts);
     RevisionInfo revisionInfo = Iterables.getOnlyElement(changeInfo.revisions.values());
-    visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
+    visitedCurrentRevisionActionsAssertions(origActions, revisionInfo.actions);
 
     // ...via ChangeJson directly.
-    ChangeData cd = changeDataFactory.create(db, project, new Change.Id(origChange._number));
+    ChangeData cd = changeDataFactory.create(db, project, changeId);
     revisionInfo =
         changeJsonFactory
             .create(opts)
-            .getRevisionInfo(cd.changeControl(), Iterables.getOnlyElement(cd.patchSets()));
-    visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
+            .getRevisionInfo(cd.changeControl(), cd.patchSet(new PatchSet.Id(changeId, 1)));
   }
 
-  private void visitedRevisionActionsAssertions(
+  private void visitedCurrentRevisionActionsAssertions(
       Map<String, ActionInfo> origActions, Map<String, ActionInfo> newActions) {
     assertThat(newActions).isNotNull();
     Set<String> expectedNames = new TreeSet<>(origActions.keySet());
@@ -420,6 +423,50 @@ public class ActionsIT extends AbstractDaemonTest {
     ActionInfo rebase = newActions.get("rebase");
     assertThat(rebase).isNotNull();
     assertThat(rebase.label).isEqualTo("All Your Base");
+  }
+
+  @Test
+  public void oldRevisionActionVisitor() throws Exception {
+    String id = createChange().getChangeId();
+    amendChange(id);
+    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+
+    class Visitor implements ActionVisitor {
+      @Override
+      public boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo) {
+        return true; // Do nothing; implicitly called for CURRENT_ACTIONS.
+      }
+
+      @Override
+      public boolean visit(
+          String name, ActionInfo actionInfo, ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+        assertThat(changeInfo).isNotNull();
+        assertThat(changeInfo._number).isEqualTo(origChange._number);
+        assertThat(revisionInfo).isNotNull();
+        assertThat(revisionInfo._number).isEqualTo(1);
+        if (name.equals("description")) {
+          actionInfo.label = "Describify";
+        }
+        return true;
+      }
+    }
+
+    Map<String, ActionInfo> origActions = gApi.changes().id(id).revision(1).actions();
+    assertThat(origActions.keySet()).containsExactly("description");
+    assertThat(origActions.get("description").label).isEqualTo("Edit Description");
+
+    Visitor v = new Visitor();
+    visitorHandle = actionVisitors.add(v);
+
+    // Unlike for the current revision, actions for old revisions are only available via the
+    // revision API.
+    Map<String, ActionInfo> newActions = gApi.changes().id(id).revision(1).actions();
+    assertThat(newActions).isNotNull();
+    assertThat(newActions.keySet()).isEqualTo(origActions.keySet());
+
+    ActionInfo description = newActions.get("description");
+    assertThat(description).isNotNull();
+    assertThat(description.label).isEqualTo("Describify");
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {

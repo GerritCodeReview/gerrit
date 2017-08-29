@@ -586,7 +586,7 @@ public class ChangeJson {
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(ctl, cd, src, out);
+      out.revisions = revisions(ctl, cd, src, limitToPsId, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -1202,14 +1202,26 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(
-      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map, ChangeInfo changeInfo)
+      ChangeControl ctl,
+      ChangeData cd,
+      Map<PatchSet.Id, PatchSet> map,
+      Optional<PatchSet.Id> limitToPsId,
+      ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(ctl);
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
-        if ((has(ALL_REVISIONS) || in.getId().equals(ctl.getChange().currentPatchSetId()))
-            && ctl.isPatchVisible(in, db.get())) {
+        PatchSet.Id id = in.getId();
+        boolean want = false;
+        if (has(ALL_REVISIONS)) {
+          want = true;
+        } else if (limitToPsId.isPresent()) {
+          want = id.equals(limitToPsId.get());
+        } else {
+          want = id.equals(ctl.getChange().currentPatchSetId());
+        }
+        if (want && ctl.isPatchVisible(in, db.get())) {
           res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, rw, false, changeInfo));
         }
       }

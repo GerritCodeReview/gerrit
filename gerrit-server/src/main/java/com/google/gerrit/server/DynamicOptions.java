@@ -138,7 +138,7 @@ public class DynamicOptions {
 
   public void parseDynamicBeans(CmdLineParser clp) {
     for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
-      clp.parseWithPrefix(e.getKey(), e.getValue());
+      clp.parseWithPrefix("--" + e.getKey(), e.getValue());
     }
   }
 

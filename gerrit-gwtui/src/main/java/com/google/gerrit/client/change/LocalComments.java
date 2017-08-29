@@ -128,7 +128,7 @@ public class LocalComments {
   }
 
   private String getReplyCommentName() {
-    return "savedReplyComment-" + PageLinks.toChangeId(project, changeId);
+    return "savedReplyComment~" + PageLinks.toChangeId(project, changeId);
   }
 
   public static void saveInlineComments() {
@@ -194,9 +194,9 @@ public class LocalComments {
   }
 
   private static boolean isInlineComment(String key) {
-    return key.startsWith("patchCommentEdit-")
-        || key.startsWith("patchReply-")
-        || key.startsWith("patchComment-");
+    return key.startsWith("patchCommentEdit~")
+        || key.startsWith("patchReply~")
+        || key.startsWith("patchComment~");
   }
 
   private static InlineComment getInlineComment(String key) {
@@ -206,9 +206,9 @@ public class LocalComments {
     CommentRange range;
     StorageBackend storage = new StorageBackend();
 
-    String[] elements = key.split("-");
+    String[] elements = key.split("~");
     int offset = 1;
-    if (key.startsWith("patchReply-") || key.startsWith("patchCommentEdit-")) {
+    if (key.startsWith("patchReply~") || key.startsWith("patchCommentEdit~")) {
       offset = 2;
     }
     ProjectChangeId id = ProjectChangeId.create(elements[offset + 0]);
@@ -232,9 +232,9 @@ public class LocalComments {
     }
     CommentInfo info = CommentInfo.create(path, side, line, range, false);
     info.message(storage.getItem(key));
-    if (key.startsWith("patchReply-")) {
+    if (key.startsWith("patchReply~")) {
       info.inReplyTo(elements[1]);
-    } else if (key.startsWith("patchCommentEdit-")) {
+    } else if (key.startsWith("patchCommentEdit~")) {
       info.id(elements[1]);
     }
     InlineComment inlineComment = new InlineComment(id.getProject(), psId, info);
@@ -245,22 +245,22 @@ public class LocalComments {
     if (psId == null) {
       return null;
     }
-    String result = "patchComment-";
+    String result = "patchComment~";
     if (comment.id() != null) {
-      result = "patchCommentEdit-" + comment.id() + "-";
+      result = "patchCommentEdit~" + comment.id() + "~";
     } else if (comment.inReplyTo() != null) {
-      result = "patchReply-" + comment.inReplyTo() + "-";
+      result = "patchReply~" + comment.inReplyTo() + "~";
     }
 
     result += PageLinks.toChangeId(project, changeId);
-    result += "-" + psId.getId() + "-" + btoa(comment.path()) + "-" + comment.side() + "-";
+    result += "~" + psId.getId() + "~" + btoa(comment.path()) + "~" + comment.side() + "~";
     if (comment.hasRange()) {
       result +=
           "R"
               + comment.range().startLine()
               + ","
               + comment.range().startCharacter()
-              + "-"
+              + "~"
               + comment.range().endLine()
               + ","
               + comment.range().endCharacter();

@@ -70,6 +70,29 @@
       "revId": "fb21157fc605ced7a8f9f74f3fda59a15cbaca92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfa0f9d0_4a90b776",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-29T08:15:31Z",
+      "side": 1,
+      "message": "Unrelated to this change, but maybe we should convert these tests to use the API rather than REST.",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 36
+      },
+      "revId": "fb21157fc605ced7a8f9f74f3fda59a15cbaca92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a09f046_422ca56e",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "What I\u0027m missing here:\n\n* Comments are tied to a patch set. You can still comment on older non-current patch sets or engage in conversations there.\n* (2.15/PolyGerrit?) Overview of unresolved comments can be seen in the patch set selection dropdown.\n* Perhaps add that verification of comments being acted upon in successive patch sets can be achieved in the diff view by setting the base patch set on those comments were placed on.",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16d17c91_ad6123bd",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "If you\u0027re going to explain the keyboard shortcut to insert a comment, perhaps also add those to navigate in the content (j/k or arrow keys) and pressing \u0027a\u0027 to send the summary comment.",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ead87b5_cfe5eff3",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "I\u0027d prefer you either use a\n\n[NOTE]\n\nblock or just remove \u0027NOTE:\u0027",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 4
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "896ce212_0cde4756",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "Perhaps elaborate a bit more on that inline and file comments are first saved as draft until the full review has been published. This is #1 confusing for first time users, at least for those I know.\n\n(This, instead of now suggesting to Reply+Send for each individual comment.)\n\nAnd perhaps, don\u0027t repeat the same block in the File comments section.",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f96d0de8_05003d6c",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "Is the \u0027Resolved\u0027 tickbox a 2.15/NoteDb feature only with PolyGerrit? I don\u0027t have it on my private 2.14.3 installation and it\u0027s not here on this Gerrit-of-Gerrit running master in GWT.",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 9
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00ad1430_dc085a97",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "They do, I think. Perhaps you mean to say they don\u0027t belong to a specific file.",
+      "range": {
+        "startLine": 104,
+        "startChar": 5,
+        "endLine": 104,
+        "endChar": 43
+      },
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2cac44c_bda2bd35",
+        "filename": "Documentation/concept-comments.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T23:40:49Z",
+      "side": 1,
+      "message": "Perhaps add here that sending the summary comment will publish all inline+file comments too.",
+      "revId": "9528358bc3fd11b0eddb1dcb958f7c9b2d2dbf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

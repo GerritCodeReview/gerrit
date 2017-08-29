@@ -31,6 +31,6 @@ class GetProject implements RestReadView<ProjectResource> {
 
   @Override
   public ProjectInfo apply(ProjectResource rsrc) {
-    return json.format(rsrc.getControl());
+    return json.format(rsrc.getProjectState());
   }
 }

@@ -122,12 +122,11 @@ public class ListTags implements RestReadView<ProjectResource> {
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
-      ProjectControl pctl = resource.getControl();
       Map<String, Ref> all =
-          visibleTags(pctl, repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
+          visibleTags(
+              resource.getProjectState(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(
-            createTagInfo(perm.ref(ref.getName()), ref, rw, pctl.getProject().getNameKey(), links));
+        tags.add(createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getNameKey(), links));
       }
     }
 
@@ -157,16 +156,17 @@ public class ListTags implements RestReadView<ProjectResource> {
         tagName = Constants.R_TAGS + tagName;
       }
       Ref ref = repo.getRefDatabase().exactRef(tagName);
-      ProjectControl pctl = resource.getControl();
-      if (ref != null && !visibleTags(pctl, repo, ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
+      if (ref != null
+          && !visibleTags(resource.getProjectState(), repo, ImmutableMap.of(ref.getName(), ref))
+              .isEmpty()) {
         return createTagInfo(
             permissionBackend
-                .user(pctl.getUser())
+                .user(resource.getUser())
                 .project(resource.getNameKey())
                 .ref(ref.getName()),
             ref,
             rw,
-            pctl.getProject().getNameKey(),
+            resource.getNameKey(),
             links);
       }
     }
@@ -213,11 +213,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
   }
 
-  private Map<String, Ref> visibleTags(
-      ProjectControl pctl, Repository repo, Map<String, Ref> tags) {
-    return refFilterFactory
-        .create(pctl.getProjectState(), repo)
-        .setShowMetadata(false)
-        .filter(tags, true);
+  private Map<String, Ref> visibleTags(ProjectState state, Repository repo, Map<String, Ref> tags) {
+    return refFilterFactory.create(state, repo).setShowMetadata(false).filter(tags, true);
   }
 }

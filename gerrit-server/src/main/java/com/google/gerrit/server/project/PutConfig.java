@@ -100,12 +100,12 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     if (!rsrc.getControl().isOwner()) {
       throw new AuthException("restricted to project owner");
     }
-    return apply(rsrc.getControl(), input);
+    return apply(rsrc.getProjectState(), input);
   }
 
-  public ConfigInfo apply(ProjectControl ctrl, ConfigInput input)
+  public ConfigInfo apply(ProjectState projectState, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
-    Project.NameKey projectName = ctrl.getProject().getNameKey();
+    Project.NameKey projectName = projectState.getProject().getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
@@ -172,7 +172,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(ctrl.getProjectState(), projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");

@@ -91,7 +91,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final Provider<GroupsCollection> groupsCollection;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final ProjectJson json;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final GitRepositoryManager repoManager;
   private final DynamicSet<NewProjectCreatedListener> createdListeners;
   private final ProjectCache projectCache;
@@ -112,7 +111,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<GroupsCollection> groupsCollection,
       ProjectJson json,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
-      ProjectControl.GenericFactory projectControlFactory,
       GitRepositoryManager repoManager,
       DynamicSet<NewProjectCreatedListener> createdListeners,
       ProjectCache projectCache,
@@ -130,7 +128,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.json = json;
-    this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
     this.createdListeners = createdListeners;
     this.projectCache = projectCache;
@@ -163,7 +160,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    args.newParent = projectsCollection.get().parse(parentName, false).getControl();
+    args.newParent = projectsCollection.get().parse(parentName, false).getNameKey();
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
@@ -203,25 +200,17 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
     }
 
-    Project p = createProject(args);
-
-    ProjectControl projectControl;
-    try {
-      projectControl = projectControlFactory.controlFor(p.getNameKey(), identifiedUser.get());
-    } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(p.getName());
-    }
-
+    ProjectState projectState = createProject(args);
     if (input.pluginConfigValues != null) {
       ConfigInput in = new ConfigInput();
       in.pluginConfigValues = input.pluginConfigValues;
-      putConfig.get().apply(projectControl, in);
+      putConfig.get().apply(projectState, in);
     }
 
-    return Response.created(json.format(projectControl));
+    return Response.created(json.format(projectState));
   }
 
-  private Project createProject(CreateProjectArgs args)
+  private ProjectState createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
     try {
@@ -246,7 +235,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
         fire(nameKey, head);
 
-        return projectCache.get(nameKey).getProject();
+        return projectCache.get(nameKey);
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException(
@@ -281,7 +270,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       newProject.setRequireChangeID(args.changeIdRequired);
       newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
       if (args.newParent != null) {
-        newProject.setParentName(args.newParent.getProject().getNameKey());
+        newProject.setParentName(args.newParent);
       }
 
       if (!args.ownerIds.isEmpty()) {

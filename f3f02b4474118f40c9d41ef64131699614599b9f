@@ -95,6 +95,30 @@
       "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfa34c2_a0dbd54e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-29T21:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe28de9a_af3d2d96",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 198,
+        "endChar": 30
+      },
+      "revId": "f3f02b4474118f40c9d41ef64131699614599b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

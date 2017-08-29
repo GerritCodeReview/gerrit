@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "92b2c55b_e4f1d120",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-29T23:11:04Z",
+      "side": 1,
+      "message": "I\u0027m aware that it\u0027s a correct alternative spelling, as your link points out. \n\nIt isn\u0027t _literally_ catching all requests, it\u0027s only catching requests that aren\u0027t caught by other constants (performing a function closer to the \u0027default\u0027 clause in a switch statement).",
+      "parentUuid": "d655ee0c_124ef8d9",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86328ff1_5833aef2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 4

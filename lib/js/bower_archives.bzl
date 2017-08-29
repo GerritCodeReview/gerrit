@@ -24,57 +24,57 @@ def load_bower_archives():
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
     name = "font-roboto",
-    package = "font-roboto",
+    package = "PolymerElements/font-roboto",
     version = "1.0.3",
     sha1 = "edf478d20ae2fc0704d7c155e20162caaabdd5ae")
   bower_archive(
     name = "iron-a11y-announcer",
-    package = "iron-a11y-announcer",
+    package = "PolymerElements/iron-a11y-announcer",
     version = "1.0.6",
     sha1 = "14aed1e1b300ea344e80362e875919ea3d104dcc")
   bower_archive(
     name = "iron-a11y-keys-behavior",
-    package = "iron-a11y-keys-behavior",
+    package = "polymerelements/iron-a11y-keys-behavior",
     version = "1.1.9",
     sha1 = "f58358ee652c67e6e721364ba50fb77a2ece1465")
   bower_archive(
     name = "iron-behaviors",
-    package = "iron-behaviors",
+    package = "polymerelements/iron-behaviors",
     version = "1.0.18",
     sha1 = "e231a1a02b090f5183db917639fdb96cdd0dca18")
   bower_archive(
     name = "iron-checked-element-behavior",
-    package = "iron-checked-element-behavior",
+    package = "PolymerElements/iron-checked-element-behavior",
     version = "1.0.6",
     sha1 = "93ad3554cec119d8c5732d1c722ad113e1866370")
   bower_archive(
     name = "iron-fit-behavior",
-    package = "iron-fit-behavior",
+    package = "PolymerElements/iron-fit-behavior",
     version = "1.2.7",
     sha1 = "01c485fbf898307029bbb72ac7e132db1570a842")
   bower_archive(
     name = "iron-flex-layout",
-    package = "iron-flex-layout",
+    package = "polymerelements/iron-flex-layout",
     version = "1.3.7",
     sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
   bower_archive(
     name = "iron-form-element-behavior",
-    package = "iron-form-element-behavior",
+    package = "PolymerElements/iron-form-element-behavior",
     version = "1.0.7",
     sha1 = "7b5a79e02cc32f0918725dd26925d0df1e03ed12")
   bower_archive(
     name = "iron-meta",
-    package = "iron-meta",
+    package = "PolymerElements/iron-meta",
     version = "1.1.3",
     sha1 = "f77eba3f6f6817f10bda33918bde8f963d450041")
   bower_archive(
     name = "iron-resizable-behavior",
-    package = "iron-resizable-behavior",
+    package = "polymerelements/iron-resizable-behavior",
     version = "1.0.6",
     sha1 = "719c2a8a1a784f8aefcdeef41fcc2e5a03518d9e")
   bower_archive(
     name = "iron-validatable-behavior",
-    package = "iron-validatable-behavior",
+    package = "PolymerElements/iron-validatable-behavior",
     version = "1.1.2",
     sha1 = "7111f34ff32e1510131dfbdb1eaa51bfa291e8be")
   bower_archive(
@@ -89,27 +89,27 @@ def load_bower_archives():
     sha1 = "09aa92f4f89949ed5f501a57f082e96510b18318")
   bower_archive(
     name = "neon-animation",
-    package = "neon-animation",
+    package = "polymerelements/neon-animation",
     version = "1.2.5",
     sha1 = "588d289f779d02b21ce5b676e257bbd6155649e8")
   bower_archive(
     name = "paper-behaviors",
-    package = "paper-behaviors",
+    package = "polymerelements/paper-behaviors",
     version = "1.0.13",
     sha1 = "a81eab28a952e124c208430e17508d9a1aae4ee7")
   bower_archive(
     name = "paper-material",
-    package = "paper-material",
+    package = "polymerelements/paper-material",
     version = "1.0.7",
     sha1 = "159b7fb6b13b181c4276b25f9c6adbeaacb0d42b")
   bower_archive(
     name = "paper-ripple",
-    package = "paper-ripple",
+    package = "polymerelements/paper-ripple",
     version = "1.0.10",
     sha1 = "21199db50d02b842da54bd6f4f1d1b10b474e893")
   bower_archive(
     name = "paper-styles",
-    package = "paper-styles",
+    package = "polymerelements/paper-styles",
     version = "1.3.1",
     sha1 = "4ee9c692366949a754e0e39f8031aa60ce66f24d")
   bower_archive(
@@ -129,7 +129,7 @@ def load_bower_archives():
     sha1 = "d6c07a0112ab2e9677fe085933744466a89232fb")
   bower_archive(
     name = "web-animations-js",
-    package = "web-animations-js",
+    package = "web-animations/web-animations-js",
     version = "2.3.1",
     sha1 = "2ba5548d36188fe54555eaad0a576de4b027661e")
   bower_archive(

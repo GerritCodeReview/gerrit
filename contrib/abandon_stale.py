@@ -152,7 +152,7 @@ def _main():
             query_terms += ["owner:%s" % options.owner]
         query = "%20".join(query_terms)
         while True:
-            q = query + "&n=%d&S=%d" % (step, offset)
+            q = query + "&o=DETAILED_ACCOUNTS&n=%d&S=%d" % (step, offset)
             logging.debug("Query: %s", q)
             url = "/changes/?q=" + q
             result = gerrit.get(url)

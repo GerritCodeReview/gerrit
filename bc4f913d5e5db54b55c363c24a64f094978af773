@@ -22,6 +22,30 @@
       "revId": "bc4f913d5e5db54b55c363c24a64f094978af773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab544781_05509d31",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-29T10:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046dda34_690d7126",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 7
+      },
+      "revId": "bc4f913d5e5db54b55c363c24a64f094978af773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

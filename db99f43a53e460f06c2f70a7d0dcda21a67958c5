@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1503996910 +0200\nnonce AHIDc+Mxm9PCVDiehiRzi48BOuJ7aH3NUjddeAJkUt7ZmjX9LOaTeA9kugnZET1IJDA+Q8NiBCs1\n\n0000000000000000000000000000000000000000 7e8dfcdded0264bd3e1dce9dee6c4025870e81bb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZpSvuAAoJEFG1/Zeg0O9RttIH/jpif2Jjy7lOfqb3KTL9Yuo3\n6coKFepgd2KheLOk+vkRj+TvGy4rYLcaNB+1OYslbgsR6E25d2aWWiELB6Ot7lpx\nRi7y2Ogg584+ztbjMH4vP0Hp8SaYhsmreYXlvfZrY40HYNsfBWHa3zdeNAvRuWY+\nXehdb2ka12IA2IWQ7Fz5JQnnSN6jrB82CTl34M1JSuJxDjx4u437w8ZfQcFT6RIF\njdIYDkhILoG1SmjhppMx9HEd9tTvq85T1YoTaEKpKaJZ7hWskh8O8v+5TPVEU5AC\nzwGFB+qoW/6+PPiy7uQBMbvwZEJwHsdRtymMdHGKcQz43EeCKFxc8qd7ako06Pw\u003d\n\u003dNslN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "faeb54b7_5cd997c0",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T11:09:02Z",
+      "side": 1,
+      "message": "(minor) Perhaps add \"starting from 2.15\". This will be published online and listed in search results and may confuse users running older versions.",
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c83b00b_f9e6022c",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T11:09:02Z",
+      "side": 1,
+      "message": "(minor) SSH -\u003e OpenSSH",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "678fb210_e07f92e0",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-08-29T11:09:02Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be third level? (same as project watches, under user branch)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 2
+      },
+      "revId": "db99f43a53e460f06c2f70a7d0dcda21a67958c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

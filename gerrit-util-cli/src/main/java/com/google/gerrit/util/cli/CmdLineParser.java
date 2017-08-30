@@ -434,7 +434,7 @@ public class CmdLineParser {
     }
 
     private void parseAdditionalOptions(String prefix, Object bean, Set<Object> parsedBeans) {
-      for (Class c = bean.getClass(); c != null; c = c.getSuperclass()) {
+      for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
         for (Field f : c.getDeclaredFields()) {
           if (f.isAnnotationPresent(Options.class)) {
             Object additionalBean = null;

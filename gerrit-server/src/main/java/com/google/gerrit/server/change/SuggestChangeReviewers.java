@@ -74,7 +74,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
     return reviewersUtil.suggestReviewers(
         rsrc.getNotes(),
         this,
-        rsrc.getControl().getProjectControl(),
+        rsrc.getControl().getProjectControl().getProjectState(),
         getVisibility(rsrc),
         excludeGroups);
   }

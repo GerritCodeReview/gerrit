@@ -44,7 +44,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -79,6 +79,7 @@ public class CreateMergePatchSet
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   CreateMergePatchSet(
@@ -91,7 +92,8 @@ public class CreateMergePatchSet
       PatchSetUtil psUtil,
       MergeUtil.Factory mergeUtilFactory,
       RetryHelper retryHelper,
-      PatchSetInserter.Factory patchSetInserterFactory) {
+      PatchSetInserter.Factory patchSetInserterFactory,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.db = db;
     this.gitManager = gitManager;
@@ -102,6 +104,7 @@ public class CreateMergePatchSet
     this.psUtil = psUtil;
     this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -117,8 +120,7 @@ public class CreateMergePatchSet
     }
 
     PatchSet ps = psUtil.current(db.get(), rsrc.getNotes());
-    ProjectControl projectControl = rsrc.getControl().getProjectControl();
-    ProjectState state = projectControl.getProjectState();
+    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
     Change change = rsrc.getChange();
     Project.NameKey project = change.getProject();
     Branch.NameKey dest = change.getDest();
@@ -128,7 +130,7 @@ public class CreateMergePatchSet
         RevWalk rw = new RevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
-      if (!commits.canRead(state, git, sourceCommit)) {
+      if (!commits.canRead(projectState, git, sourceCommit)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }
@@ -140,7 +142,7 @@ public class CreateMergePatchSet
       RevCommit newCommit =
           createMergeCommit(
               in,
-              projectControl,
+              projectState,
               dest,
               git,
               oi,
@@ -172,7 +174,7 @@ public class CreateMergePatchSet
 
   private RevCommit createMergeCommit(
       MergePatchSetInput in,
-      ProjectControl projectControl,
+      ProjectState projectState,
       Branch.NameKey dest,
       Repository git,
       ObjectInserter oi,
@@ -210,7 +212,7 @@ public class CreateMergePatchSet
     String mergeStrategy =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(in.merge.strategy),
-            mergeUtilFactory.create(projectControl.getProjectState()).mergeStrategyName());
+            mergeUtilFactory.create(projectState).mergeStrategyName());
 
     return MergeUtil.createMergeCommit(
         oi, git.getConfig(), mergeTip, sourceCommit, mergeStrategy, author, commitMsg, rw);

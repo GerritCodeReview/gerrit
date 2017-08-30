@@ -59,7 +59,7 @@ public class GetHead implements RestReadView<ProjectResource> {
       } else if (head.isSymbolic()) {
         String n = head.getTarget().getName();
         permissionBackend
-            .user(rsrc.getControl().getUser())
+            .user(rsrc.getUser())
             .project(rsrc.getNameKey())
             .ref(n)
             .check(RefPermission.READ);

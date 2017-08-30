@@ -24,7 +24,7 @@ public class CreateProjectArgs {
 
   private Project.NameKey projectName;
   public List<AccountGroup.UUID> ownerIds;
-  public ProjectControl newParent;
+  public Project.NameKey newParent;
   public String projectDescription;
   public SubmitType submitType;
   public InheritableBoolean contributorAgreements;

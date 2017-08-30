@@ -42,10 +42,10 @@ public class ProjectJson {
     this.webLinks = webLinks;
   }
 
-  public ProjectInfo format(ProjectControl ctl) {
-    ProjectInfo info = format(ctl.getProject());
+  public ProjectInfo format(ProjectState state) {
+    ProjectInfo info = format(state.getProject());
     info.labels = new HashMap<>();
-    for (LabelType t : ctl.getLabelTypes().getLabelTypes()) {
+    for (LabelType t : state.getLabelTypes().getLabelTypes()) {
       LabelTypeInfo labelInfo = new LabelTypeInfo();
       labelInfo.values =
           t.getValues()

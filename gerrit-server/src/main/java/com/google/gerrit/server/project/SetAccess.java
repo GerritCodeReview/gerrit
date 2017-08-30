@@ -44,6 +44,7 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -91,7 +92,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
       throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
-          BadRequestException, UnprocessableEntityException, PermissionBackendException {
+          BadRequestException, UnprocessableEntityException, OrmException,
+          PermissionBackendException {
     List<AccessSection> removals = getAccessSections(input.remove);
     List<AccessSection> additions = getAccessSections(input.add);
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();

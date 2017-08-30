@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc71772f_8cf9a2e6",
+        "filename": "tools/download_file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-30T07:03:31Z",
+      "side": 1,
+      "message": "May be remove all this diagnostic code?",
+      "revId": "748b1ae4826a973f486270b063caf252c93284e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

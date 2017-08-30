@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.client.UiType;
+import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
@@ -69,6 +71,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String KEY_TOKEN = "token";
 
   private final Config config;
+  private final AccountVisibilityProvider accountVisibilityProvider;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final DynamicMap<DownloadScheme> downloadSchemes;
@@ -92,6 +95,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   @Inject
   public GetServerInfo(
       @GerritServerConfig Config config,
+      AccountVisibilityProvider accountVisibilityProvider,
       AuthConfig authConfig,
       Realm realm,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -112,6 +116,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ChangeIndexCollection indexes,
       SitePaths sitePaths) {
     this.config = config;
+    this.accountVisibilityProvider = accountVisibilityProvider;
     this.authConfig = authConfig;
     this.realm = realm;
     this.downloadSchemes = downloadSchemes;
@@ -136,6 +141,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   @Override
   public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
     ServerInfo info = new ServerInfo();
+    info.accounts = getAccountsInfo(accountVisibilityProvider);
     info.auth = getAuthInfo(authConfig, realm);
     info.change = getChangeInfo(config);
     info.download =
@@ -154,6 +160,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     info.user = getUserInfo(anonymousCowardName);
     info.receive = getReceiveInfo();
+    return info;
+  }
+
+  private AccountsInfo getAccountsInfo(AccountVisibilityProvider accountVisibilityProvider) {
+    AccountsInfo info = new AccountsInfo();
+    info.visibility = accountVisibilityProvider.get();
     return info;
   }
 

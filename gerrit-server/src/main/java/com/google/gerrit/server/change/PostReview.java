@@ -98,6 +98,8 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -159,6 +161,7 @@ public class PostReview
   private final NotifyUtil notifyUtil;
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   PostReview(
@@ -178,7 +181,8 @@ public class PostReview
       NotesMigration migration,
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
-      WorkInProgressOp.Factory workInProgressOpFactory) {
+      WorkInProgressOp.Factory workInProgressOpFactory,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.db = db;
     this.changes = changes;
@@ -196,6 +200,7 @@ public class PostReview
     this.notifyUtil = notifyUtil;
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -215,13 +220,17 @@ public class PostReview
     if (revision.getEdit().isPresent()) {
       throw new ResourceConflictException("cannot post review on edit");
     }
+    LabelTypes labelTypes =
+        projectCache
+            .checkedGet(revision.getProject())
+            .getLabelTypes(revision.getNotes(), revision.getUser());
     if (input.onBehalfOf != null) {
-      revision = onBehalfOf(revision, input);
+      revision = onBehalfOf(revision, labelTypes, input);
     } else if (input.drafts == null) {
       input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
-      checkLabels(revision, input.strictLabels, input.labels);
+      checkLabels(revision, labelTypes, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
       cleanUpComments(input.comments);
@@ -411,7 +420,7 @@ public class PostReview
     }
   }
 
-  private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
+  private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
           PermissionBackendException, IOException, ConfigInvalidException {
     if (in.labels == null || in.labels.isEmpty()) {
@@ -427,7 +436,6 @@ public class PostReview
 
     CurrentUser caller = rev.getUser();
     PermissionBackend.ForChange perm = rev.permissions().database(db);
-    LabelTypes labelTypes = rev.getControl().getLabelTypes();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
@@ -468,14 +476,14 @@ public class PostReview
     return new RevisionResource(changes.parse(ctl), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource rsrc, boolean strict, Map<String, Short> labels)
+  private void checkLabels(
+      RevisionResource rsrc, LabelTypes labelTypes, boolean strict, Map<String, Short> labels)
       throws BadRequestException, AuthException, PermissionBackendException {
-    LabelTypes types = rsrc.getControl().getLabelTypes();
     PermissionBackend.ForChange perm = rsrc.permissions();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType lt = types.byLabel(ent.getKey());
+      LabelType lt = labelTypes.byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
           throw new BadRequestException(
@@ -841,7 +849,7 @@ public class PostReview
       boolean dirty = false;
       dirty |= insertComments(ctx);
       dirty |= insertRobotComments(ctx);
-      dirty |= updateLabels(ctx);
+      dirty |= updateLabels(projectCache.checkedGet(ctx.getProject()), ctx);
       dirty |= insertMessage(ctx);
       return dirty;
     }
@@ -1107,7 +1115,7 @@ public class PostReview
       return false;
     }
 
-    private boolean updateLabels(ChangeContext ctx)
+    private boolean updateLabels(ProjectState projectState, ChangeContext ctx)
         throws OrmException, ResourceConflictException, IOException {
       Map<String, Short> inLabels =
           MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
@@ -1121,8 +1129,8 @@ public class PostReview
 
       List<PatchSetApproval> del = new ArrayList<>();
       List<PatchSetApproval> ups = new ArrayList<>();
-      Map<String, PatchSetApproval> current = scanLabels(ctx, del);
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      Map<String, PatchSetApproval> current = scanLabels(projectState, ctx, del);
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
       Map<String, Short> allApprovals =
           getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
       Map<String, Short> previous =
@@ -1182,7 +1190,7 @@ public class PostReview
         return false;
       }
 
-      forceCallerAsReviewer(ctx, current, ups, del);
+      forceCallerAsReviewer(projectState, ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);
       ctx.getDb().patchSetApprovals().upsert(ups);
       return !del.isEmpty() || !ups.isEmpty();
@@ -1260,6 +1268,7 @@ public class PostReview
     }
 
     private void forceCallerAsReviewer(
+        ProjectState projectState,
         ChangeContext ctx,
         Map<String, PatchSetApproval> current,
         List<PatchSetApproval> ups,
@@ -1269,7 +1278,12 @@ public class PostReview
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes().get(0).getLabelId();
+          LabelId labelId =
+              projectState
+                  .getLabelTypes(ctx.getNotes(), ctx.getUser())
+                  .getLabelTypes()
+                  .get(0)
+                  .getLabelId();
           PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
@@ -1287,9 +1301,10 @@ public class PostReview
       ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 
-    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, List<PatchSetApproval> del)
+    private Map<String, PatchSetApproval> scanLabels(
+        ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
         throws OrmException, IOException {
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :

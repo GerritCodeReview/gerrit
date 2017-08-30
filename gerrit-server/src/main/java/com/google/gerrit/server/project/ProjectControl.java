@@ -218,13 +218,6 @@ public class ProjectControl {
     return state.getProject();
   }
 
-  public LabelTypes getLabelTypes() {
-    if (labelTypes == null) {
-      labelTypes = state.getLabelTypes();
-    }
-    return labelTypes;
-  }
-
   /** Returns whether the project is hidden. */
   private boolean isHidden() {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);

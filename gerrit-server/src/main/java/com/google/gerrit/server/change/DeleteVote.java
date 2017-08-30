@@ -42,6 +42,8 @@ import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -75,6 +77,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
   private final NotifyUtil notifyUtil;
   private final RemoveReviewerControl removeReviewerControl;
+  private final ProjectCache projectCache;
 
   @Inject
   DeleteVote(
@@ -87,7 +90,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       NotifyUtil notifyUtil,
-      RemoveReviewerControl removeReviewerControl) {
+      RemoveReviewerControl removeReviewerControl,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.db = db;
     this.approvalsUtil = approvalsUtil;
@@ -98,12 +102,13 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
     this.notifyUtil = notifyUtil;
     this.removeReviewerControl = removeReviewerControl;
+    this.projectCache = projectCache;
   }
 
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, IOException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -123,7 +128,13 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     try (BatchUpdate bu =
         updateFactory.create(
             db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
-      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccount(), rsrc.getLabel(), input));
+      bu.addOp(
+          change.getId(),
+          new Op(
+              projectCache.checkedGet(r.getChange().getProject()),
+              r.getReviewerUser().getAccount(),
+              rsrc.getLabel(),
+              input));
       bu.execute();
     }
 
@@ -131,16 +142,19 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   }
 
   private class Op implements BatchUpdateOp {
+    private final ProjectState projectState;
     private final Account account;
     private final String label;
     private final DeleteVoteInput input;
+
     private ChangeMessage changeMessage;
     private Change change;
     private PatchSet ps;
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(Account account, String label, DeleteVoteInput input) {
+    private Op(ProjectState projectState, Account account, String label, DeleteVoteInput input) {
+      this.projectState = projectState;
       this.account = account;
       this.label = label;
       this.input = input;
@@ -156,7 +170,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       ps = psUtil.current(db.get(), ctl.getNotes());
 
       boolean found = false;
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(

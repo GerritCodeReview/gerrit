@@ -93,6 +93,30 @@
       "revId": "7f4d52b36c09fccd44dc2e68266a13d64d142a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "375c2fce_3583e4ec",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjectsCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-08-30T21:59:17Z",
+      "side": 1,
+      "message": "Oh, and I would like to additionally propose that ssh/restapi commands make most of their data public (not protected) so that plugins can populate them via their command line switches.  So for example, if I have a plugin that adds a special --myplugin--format switch to this ListProjectsCommand, it could toggle the internal variables of this command as it wishes since the internal variables would be public.  \n\nTiny rant: The more I program, the more I tend to think that public should almost always be used unless you have a really really really good reason not to (likely security).  When you don\u0027t, you will almost always regret it eventually when it comes time to use your classes later in ways that you did not anticipate.  That\u0027s probably why python does not have such modifiers.",
+      "parentUuid": "0bada57e_62430f4a",
+      "range": {
+        "startLine": 32,
+        "startChar": 19,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "7f4d52b36c09fccd44dc2e68266a13d64d142a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

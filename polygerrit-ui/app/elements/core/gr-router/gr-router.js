@@ -90,6 +90,11 @@
     // eslint-disable-next-line max-len
     CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
 
+    // Matches
+    //     /c/<project>/+/<changeNum>/[<basePatchNum>..]<patchNum>/<path>,edit
+    // eslint-disable-next-line max-len
+    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(((\d+|edit)\.\.)?(edit)(\/(.+)))),edit$/,
+
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     DIFF_LEGACY: /^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
 
@@ -222,6 +227,9 @@
           url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
         } else {
           url = `/c/${params.changeNum}${suffix}`;
+        }
+        if (params.edit) {
+          url += ',edit';
         }
       } else {
         throw new Error('Can\'t generate');
@@ -482,9 +490,11 @@
       this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
           '_handleChangeNumberLegacyRoute');
 
+      this._mapRoute(RoutePattern.DIFF_EDIT, '_handleDiffEditRoute', true);
+
       this._mapRoute(RoutePattern.CHANGE_OR_DIFF, '_handleChangeOrDiffRoute');
 
-      this._mapRoute(RoutePattern.CHNAGE_LEGACY, '_handleChnageLegacyRoute');
+      this._mapRoute(RoutePattern.CHNAGE_LEGACY, '_handleChangeLegacyRoute');
 
       this._mapRoute(RoutePattern.DIFF_LEGACY, '_handleDiffLegacyRoute');
 
@@ -809,16 +819,10 @@
         }
       }
 
-      const needsRedirect = this._normalizePatchRangeParams(params);
-      if (needsRedirect) {
-        this._redirect(this._generateUrl(params));
-      } else {
-        this._setParams(params);
-        this._restAPI.setInProjectLookup(params.changeNum, params.project);
-      }
+      this._redirectOrNavigate(params);
     },
 
-    _handleChnageLegacyRoute(ctx) {
+    _handleChangeLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],
@@ -855,6 +859,35 @@
       }
 
       this._normalizeLegacyRouteParams(params);
+    },
+
+    _handleDiffEditRoute(ctx) {
+      // Parameter order is based on the regex group number matched.
+      this._redirectOrNavigate({
+        project: ctx.params[0],
+        changeNum: ctx.params[1],
+        basePatchNum: ctx.params[5],
+        patchNum: ctx.params[6],
+        path: ctx.params[8],
+        view: Gerrit.Nav.View.DIFF,
+        hash: ctx.hash,
+        edit: true,
+      });
+    },
+
+    /**
+     * Normalize the patch range params for a the change or diff view and
+     * redirect if URL upgrade is needed.
+     */
+    _redirectOrNavigate(params) {
+      const needsRedirect = this._normalizePatchRangeParams(params);
+      if (needsRedirect) {
+        this._redirect(this._generateUrl(params));
+      } else {
+        this._setParams(params);
+        this._restAPI.setInProjectLookup(params.changeNum,
+            params.project);
+      }
     },
 
     _handleAgreementsRoute(data) {

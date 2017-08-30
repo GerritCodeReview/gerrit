@@ -22,6 +22,30 @@
       "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e8e092_2a3bba03",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:54:50Z",
+      "side": 1,
+      "message": "I\u0027m using the single word spelling \"catchall\". (See Logan\u0027s comment in the other thread.) This is consistent with the code comment also.\n\nI never expected \"catchall\" to be so controversial. 😐 I can just get rid of that word altogether if this is a blocker.",
+      "parentUuid": "1e172aaf_55e77354",
+      "range": {
+        "startLine": 115,
+        "startChar": 21,
+        "endLine": 115,
+        "endChar": 22
+      },
+      "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

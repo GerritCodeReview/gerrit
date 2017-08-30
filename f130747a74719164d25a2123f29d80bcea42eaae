@@ -17,6 +17,24 @@
       "revId": "f130747a74719164d25a2123f29d80bcea42eaae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc2f9cc_7f7c6d38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-30T13:37:48Z",
+      "side": 1,
+      "message": "I think you are right. In JdbcAccountPatchReviewStore we also use \"DELETE FROM\".\n\nDone.",
+      "parentUuid": "06c82013_65fa2abe",
+      "revId": "f130747a74719164d25a2123f29d80bcea42eaae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

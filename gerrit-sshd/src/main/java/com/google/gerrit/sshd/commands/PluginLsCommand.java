@@ -33,7 +33,7 @@ import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
 @CommandMetaData(name = "ls", description = "List the installed plugins", runsAt = MASTER_OR_SLAVE)
-final class PluginLsCommand extends SshCommand {
+public class PluginLsCommand extends SshCommand {
   @Inject @Options public ListPlugins list;
 
   @Option(name = "--format", usage = "output format")

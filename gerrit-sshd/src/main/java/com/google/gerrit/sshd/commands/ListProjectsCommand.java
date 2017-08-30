@@ -28,7 +28,7 @@ import java.util.List;
   description = "List projects visible to the caller",
   runsAt = MASTER_OR_SLAVE
 )
-final class ListProjectsCommand extends SshCommand {
+public class ListProjectsCommand extends SshCommand {
   @Inject @Options public ListProjects impl;
 
   @Override

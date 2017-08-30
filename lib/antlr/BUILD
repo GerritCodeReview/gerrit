@@ -16,8 +16,11 @@ java_library(
     exports = ["@java_runtime//jar"],
 )
 
+# See https://github.com/bazelbuild/bazel/issues/3542
+# for why we need to tweak jvm flags in this rule.
 java_binary(
     name = "antlr-tool",
+    jvm_flags = ["-XX:-UsePerfData"],
     main_class = "org.antlr.Tool",
     visibility = ["//gerrit-index:__pkg__"],
     runtime_deps = [":tool"],

@@ -131,7 +131,7 @@ def _gwt_user_agent_module(ctx):
     "cp $p/%s %s" % (gwt_user_agent_xml.path, gwt),
     "$p/%s cC $p/%s $(find . | sed 's|^./||')" % (ctx.executable._zip.path, gwt_user_agent_zip.path)
   ])
-  ctx.action(
+  ctx.actions.run_shell(
     inputs = [gwt_user_agent_xml] + ctx.files._zip,
     outputs = [gwt_user_agent_zip],
     command = cmd,
@@ -184,7 +184,7 @@ def _gwt_binary_impl(ctx):
     )
   ])
 
-  ctx.action(
+  ctx.actions.run_shell(
     inputs = list(deps) + ctx.files._jdk + ctx.files._zip + gwt_user_agent_modules,
     outputs = [output_zip],
     mnemonic = "GwtBinary",

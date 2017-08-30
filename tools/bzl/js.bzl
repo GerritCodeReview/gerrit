@@ -167,7 +167,7 @@ def _js_component(ctx):
     "zip -qr ../%s *" %  ctx.outputs.zip.basename
   ])
 
-  ctx.action(
+  ctx.actions.run_shell(
     inputs = ctx.files.srcs,
     outputs = [ctx.outputs.zip],
     command = cmd,
@@ -234,7 +234,7 @@ def _bower_component_bundle_impl(ctx):
   out_zip = ctx.outputs.zip
   out_versions = ctx.outputs.version_json
 
-  ctx.action(
+  ctx.actions.run_shell(
     inputs=list(zips),
     outputs=[out_zip],
     command=" && ".join([
@@ -249,7 +249,7 @@ def _bower_component_bundle_impl(ctx):
     ]),
     mnemonic="BowerCombine")
 
-  ctx.action(
+  ctx.actions.run_shell(
     inputs=list(versions),
     outputs=[out_versions],
     mnemonic="BowerVersions",
@@ -317,7 +317,7 @@ def _vulcanize_impl(ctx):
     use_default_shell_env = True,
     execution_requirements = {"local": "1"},
   )
-  ctx.action(
+  ctx.actions.run_shell(
     mnemonic = "Vulcanize",
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._vulcanize_archive
@@ -335,7 +335,7 @@ def _vulcanize_impl(ctx):
     "--html", ctx.outputs.html.path,
     "--js", ctx.outputs.js.path])
 
-  ctx.action(
+  ctx.actions.run_shell(
     mnemonic = "Crisper",
     inputs = [ctx.file._run_npm, ctx.file.app,
               ctx.file._crisper_archive, vulcanized],

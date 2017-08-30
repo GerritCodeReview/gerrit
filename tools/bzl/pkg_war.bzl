@@ -109,7 +109,7 @@ def _war_impl(ctx):
   # Add zip war
   cmd.append(_make_war(build_output, war))
 
-  ctx.action(
+  ctx.actions.run_shell(
     inputs = inputs,
     outputs = [war],
     mnemonic = 'WAR',

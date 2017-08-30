@@ -69,6 +69,30 @@
       "revId": "c8a14aa463539f93c12b8148702a004595395abe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4143589_9c91225d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:18:30Z",
+      "side": 1,
+      "message": "\u003e Do we need more?\n\nI guess it\u0027s not needed then. It can be nice to test it individually, but it\u0027s not needed for this change.\n\nCould still use a comment though.",
+      "parentUuid": "de809cea_bdb06074",
+      "range": {
+        "startLine": 867,
+        "startChar": 4,
+        "endLine": 867,
+        "endChar": 23
+      },
+      "revId": "c8a14aa463539f93c12b8148702a004595395abe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -70,6 +70,23 @@
       "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1523f34f_05decec0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-30T17:16:16Z",
+      "side": 1,
+      "message": "If the route is renamed to \u0027DEFAULT\u0027, should the function be renamed accordingly?",
+      "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

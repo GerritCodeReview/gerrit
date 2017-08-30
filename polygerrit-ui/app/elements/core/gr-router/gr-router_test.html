@@ -149,6 +149,7 @@ limitations under the License.
         '_handleChangeNumberLegacyRoute',
         '_handleChangeOrDiffRoute',
         '_handleChnageLegacyRoute',
+        '_handleDefaultRoute',
         '_handleDiffLegacyRoute',
         '_handleGroupMembersRoute',
         '_handleProjectListFilterOffsetRoute',
@@ -417,6 +418,15 @@ limitations under the License.
         assertDataToParams(data, '_handleSettingsRoute', {
           view: Gerrit.Nav.View.SETTINGS,
         });
+      });
+
+      test('_handleDefaultRoute', () => {
+        element._app = {dispatchEvent: sinon.stub()};
+        element._handleDefaultRoute();
+        assert.isTrue(element._app.dispatchEvent.calledOnce);
+        assert.equal(
+            element._app.dispatchEvent.lastCall.args[0].detail.response.status,
+            404);
       });
 
       suite('_handleRootRoute', () => {

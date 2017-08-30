@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4669cc4f_68bc7675",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-30T15:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be930342_116d54dc",
+      "range": {
+        "startLine": 852,
+        "startChar": 28,
+        "endLine": 852,
+        "endChar": 69
+      },
+      "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9017ff7_300b652f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-30T15:05:52Z",
       "side": 1,
       "message": "I think you are missing to pass the destBranch + user here.",
+      "range": {
+        "startLine": 115,
+        "startChar": 83,
+        "endLine": 115,
+        "endChar": 85
+      },
+      "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "824472a6_ce1eea2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-30T15:15:45Z",
+      "side": 1,
+      "message": "Done. Good catch!",
+      "parentUuid": "a9017ff7_300b652f",
       "range": {
         "startLine": 115,
         "startChar": 83,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "d4bfd82b_fe588101",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-30T15:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa293069_bce268dc",
+      "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38494353_9f00d844",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "89fb2797_8556bc3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-30T15:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38494353_9f00d844",
+      "range": {
+        "startLine": 533,
+        "startChar": 57,
+        "endLine": 533,
+        "endChar": 69
+      },
+      "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "861db10d_c6e001f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1
@@ -99,6 +189,24 @@
       "writtenOn": "2017-08-30T15:05:52Z",
       "side": 1,
       "message": "no longer used",
+      "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb91583_5b36d881",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-08-30T15:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "861db10d_c6e001f9",
       "revId": "86dd9697c66ffb25f5f6f8623fd5394d0f7696b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

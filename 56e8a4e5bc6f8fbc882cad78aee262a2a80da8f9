@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce16d2a3_1622a127",
+        "filename": "plugins/singleusergroup",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-30T07:05:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should update the submodule commit here, or let it get automatically updated by subscription when the whole topic is submitted.\n\nIs it needed to make CI pass?",
+      "revId": "56e8a4e5bc6f8fbc882cad78aee262a2a80da8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

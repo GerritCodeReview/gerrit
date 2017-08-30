@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a035ec_ad0f1069",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 64
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:11:52Z",
+      "side": 1,
+      "message": "The test fails because this entry is not alphabetically sorted. Either, it should appear after \u0027_handleGroupRoute\u0027, or we can follow this list with ..\n\n shouldRequireAutoAuth.sort();\n\n.. to allow these strings to be grouped logically like you\u0027ve done here.",
+      "revId": "57baa9cfa47e7d63983cdc0297132e3603538f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

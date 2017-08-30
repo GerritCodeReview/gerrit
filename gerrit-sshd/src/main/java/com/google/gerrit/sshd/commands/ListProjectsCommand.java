@@ -16,12 +16,15 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
 import com.google.inject.Inject;
 import java.util.List;
+import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
     name = "ls-projects",
@@ -30,9 +33,12 @@ import java.util.List;
 public class ListProjectsCommand extends SshCommand {
   @Inject @Options public ListProjects impl;
 
+  @Option(name = "--format", usage = "output format")
+  private OutputFormat format = OutputFormat.TEXT;
+
   @Override
   public void run() throws Exception {
-    if (!impl.getFormat().isJson()) {
+    if (!format.isJson()) {
       List<String> showBranch = impl.getShowBranch();
       if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
         throw die("--tree and --show-branch options are not compatible.");
@@ -41,6 +47,6 @@ public class ListProjectsCommand extends SshCommand {
         throw die("--tree and --description options are not compatible.");
       }
     }
-    impl.display(out);
+    impl.apply(TopLevelResource.INSTANCE);
   }
 }

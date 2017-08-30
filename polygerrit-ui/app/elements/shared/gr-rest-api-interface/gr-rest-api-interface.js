@@ -486,6 +486,14 @@
       });
     },
 
+    /**
+     * @param {string} userId the ID of the user usch as an email address.
+     * @return {!Promise<!Object>}
+     */
+    getAccountDetails(userId) {
+      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
+    },
+
     getAccountEmails() {
       return this._fetchSharedCacheURL('/accounts/self/emails');
     },
@@ -577,6 +585,10 @@
               });
             }
           });
+    },
+
+    getAccountStatus(userId) {
+      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
     },
 
     getAccountGroups() {

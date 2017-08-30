@@ -317,7 +317,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void userCannotMarkPrivateAfterMerging() throws Exception {
+  public void ownerCannotMarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
@@ -334,7 +334,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void userCannotUnmarkPrivateAfterMerging() throws Exception {
+  public void ownerCanUnmarkPrivateAfterMerging() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
@@ -348,9 +348,8 @@ public class ChangeIT extends AbstractDaemonTest {
     merge(result);
 
     setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to unmark private");
     gApi.changes().id(changeId).setPrivate(false, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
   }
 
   @Test

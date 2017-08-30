@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -78,8 +77,6 @@ public class DeletePrivate
 
   protected BooleanCondition canDeletePrivate(ChangeResource rsrc) {
     PermissionBackend.WithUser user = permissionBackend.user(rsrc.getUser());
-    return or(
-        rsrc.isUserOwner() && rsrc.getChange().getStatus() != Change.Status.MERGED,
-        user.testCond(GlobalPermission.ADMINISTRATE_SERVER));
+    return or(rsrc.isUserOwner(), user.testCond(GlobalPermission.ADMINISTRATE_SERVER));
   }
 }

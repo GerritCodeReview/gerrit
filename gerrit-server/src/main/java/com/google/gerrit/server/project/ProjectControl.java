@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -143,7 +142,6 @@ public class ProjectControl {
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
-  private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
@@ -216,13 +214,6 @@ public class ProjectControl {
 
   public Project getProject() {
     return state.getProject();
-  }
-
-  public LabelTypes getLabelTypes() {
-    if (labelTypes == null) {
-      labelTypes = state.getLabelTypes();
-    }
-    return labelTypes;
   }
 
   /** Returns whether the project is hidden. */

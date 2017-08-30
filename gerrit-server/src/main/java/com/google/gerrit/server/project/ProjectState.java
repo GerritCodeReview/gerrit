@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
@@ -46,6 +47,7 @@ import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
@@ -108,6 +110,9 @@ public class ProjectState {
 
   /** If this is all projects, the capabilities used by the server. */
   private final CapabilityCollection capabilities;
+
+  /** All label types applicable to changes in this project. */
+  private LabelTypes labelTypes;
 
   @Inject
   public ProjectState(
@@ -406,24 +411,39 @@ public class ProjectState {
     return getInheritableBoolean(Project::getMatchAuthorToCommitterDate);
   }
 
+  /** All available label types. */
   public LabelTypes getLabelTypes() {
-    Map<String, LabelType> types = new LinkedHashMap<>();
-    for (ProjectState s : treeInOrder()) {
-      for (LabelType type : s.getConfig().getLabelSections().values()) {
-        String lower = type.getName().toLowerCase();
-        LabelType old = types.get(lower);
-        if (old == null || old.canOverride()) {
-          types.put(lower, type);
+    if (labelTypes == null) {
+      labelTypes = loadLabelTypes();
+    }
+    return labelTypes;
+  }
+
+  /** All available label types for this change and user. */
+  public LabelTypes getLabelTypes(ChangeNotes notes, CurrentUser user) {
+    return getLabelTypes(notes.getChange().getDest(), user);
+  }
+
+  /** All available label types for this branch and user. */
+  public LabelTypes getLabelTypes(Branch.NameKey destination, CurrentUser user) {
+    List<LabelType> all = getLabelTypes().getLabelTypes();
+
+    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
+    for (LabelType l : all) {
+      List<String> refs = l.getRefPatterns();
+      if (refs == null) {
+        r.add(l);
+      } else {
+        for (String refPattern : refs) {
+          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, user)) {
+            r.add(l);
+            break;
+          }
         }
       }
     }
-    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
-    for (LabelType type : types.values()) {
-      if (!type.getValues().isEmpty()) {
-        all.add(type);
-      }
-    }
-    return new LabelTypes(Collections.unmodifiableList(all));
+
+    return new LabelTypes(r);
   }
 
   public List<CommentLinkInfo> getCommentLinks() {
@@ -521,5 +541,29 @@ public class ProjectState {
       }
     }
     return false;
+  }
+
+  private LabelTypes loadLabelTypes() {
+    Map<String, LabelType> types = new LinkedHashMap<>();
+    for (ProjectState s : treeInOrder()) {
+      for (LabelType type : s.getConfig().getLabelSections().values()) {
+        String lower = type.getName().toLowerCase();
+        LabelType old = types.get(lower);
+        if (old == null || old.canOverride()) {
+          types.put(lower, type);
+        }
+      }
+    }
+    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
+    for (LabelType type : types.values()) {
+      if (!type.getValues().isEmpty()) {
+        all.add(type);
+      }
+    }
+    return new LabelTypes(Collections.unmodifiableList(all));
+  }
+
+  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {
+    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), user);
   }
 }

@@ -42,6 +42,7 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -94,6 +95,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ReviewerAdded reviewerAdded;
   private final AccountCache accountCache;
+  private final ProjectCache projectCache;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final NotesMigration migration;
   private final Provider<IdentifiedUser> user;
@@ -117,6 +119,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ReviewerAdded reviewerAdded,
       AccountCache accountCache,
+      ProjectCache projectCache,
       AddReviewerSender.Factory addReviewerSenderFactory,
       NotesMigration migration,
       Provider<IdentifiedUser> user,
@@ -131,6 +134,7 @@ public class PostReviewersOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.reviewerAdded = reviewerAdded;
     this.accountCache = accountCache;
+    this.projectCache = projectCache;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.migration = migration;
     this.user = user;
@@ -161,7 +165,9 @@ public class PostReviewersOp implements BatchUpdateOp {
                 ctx.getDb(),
                 ctx.getNotes(),
                 ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-                rsrc.getControl().getLabelTypes(),
+                projectCache
+                    .checkedGet(rsrc.getProject())
+                    .getLabelTypes(rsrc.getChange().getDest(), ctx.getUser()),
                 rsrc.getChange(),
                 reviewers);
         if (addedReviewers.isEmpty()) {

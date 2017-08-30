@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d7cc42a_d83b9252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-30T15:18:01Z",
+      "side": 1,
+      "message": "I think here too you need to pass the destBranch + user.",
+      "range": {
+        "startLine": 303,
+        "startChar": 74,
+        "endLine": 303,
+        "endChar": 76
+      },
+      "revId": "26747aedcff14c06dcc0cf464abff51875d61ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

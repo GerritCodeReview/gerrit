@@ -443,8 +443,7 @@ public class CmdLineParser {
             } catch (IllegalAccessException e) {
               throw new IllegalAnnotationError(e);
             }
-            parseWithPrefix(
-                prefix + f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
+            parseWithPrefix(f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
           }
         }
       }

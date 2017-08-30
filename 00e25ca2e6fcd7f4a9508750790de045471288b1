@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03a649e2_fc6f404d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:41:29Z",
+      "side": 1,
+      "message": "Please put this new route near the AGREEMENTS route.",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "00e25ca2e6fcd7f4a9508750790de045471288b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "837f2ef5_51d5de63",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 66
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:41:29Z",
+      "side": 1,
+      "message": "I believe making the slash optional isn\u0027t needed if the regex doesn\u0027t end with $. Is there some way this breaks without the optional slash? The same applies to AGREEMENTS on l.21.\n\nNit: because it\u0027s now just one character, the parens around the / are no longer needed to apply the ?.\n\n (\\/)?\n\ncan become\n\n \\/?",
+      "range": {
+        "startLine": 42,
+        "startChar": 47,
+        "endLine": 42,
+        "endChar": 52
+      },
+      "revId": "00e25ca2e6fcd7f4a9508750790de045471288b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bb2530_12bee797",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 66
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:41:29Z",
+      "side": 1,
+      "message": "Alphabetize this ruleset, and other rulesets in this file.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "00e25ca2e6fcd7f4a9508750790de045471288b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

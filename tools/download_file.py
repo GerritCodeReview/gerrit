@@ -85,8 +85,11 @@ opts.add_option('--unsign', action='store_true')
 args, _ = opts.parse_args()
 
 root_dir = args.o
-while root_dir and root_dir != "/":
+print("root_dir: %s" % root_dir)
+while root_dir and path.dirname(root_dir) != root_dir:
   root_dir, n = path.split(root_dir)
+  print("root_dir: %s" % root_dir, file=stderr)
+  print("n: %s" % n, file=stderr)
   if n == 'WORKSPACE':
     break
 

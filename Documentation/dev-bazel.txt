@@ -224,7 +224,7 @@ Primary storage NoteDb:
 Primary storage NoteDb and ReviewDb disabled:
 
 ----
-  bazel test --test_env=GERRIT_NOTEDB=DISABLE_CHANGE_REVIEW_DB //...
+  bazel test --test_env=GERRIT_NOTEDB=ON //...
 ----
 
 To run only tests that do not use SSH:

@@ -52,6 +52,9 @@ As result a link:#server-info[ServerInfo] entity is returned.
 
   )]}'
   {
+    "accounts": {
+      "visibility": "ALL"
+    },
     "auth": {
       "auth_type": "LDAP",
       "use_contributor_agreements": true,
@@ -1331,6 +1334,19 @@ The `AccessCheckInput` entity is a tuple of (account, project)  or
 |`ref`|optional|The refname for which to check access
 |=========================================
 
+[[accounts-config-info]]
+=== AccountsConfigInfo
+The `AccountsConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#accounts[accounts]
+section.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name           |Description
+|`visibility`         |
+link:config-gerrit.html#accounts.visibility[Visibility setting for
+accounts].
+|=============================
 
 [[auth-info]]
 === AuthInfo
@@ -1753,6 +1769,10 @@ the Gerrit server.
 [options="header",cols="1,^1,5"]
 |=======================================
 |Field Name                ||Description
+|`accounts`                ||
+Information about the configuration from the
+link:config-gerrit.html#accounts[accounts] section as
+link:#accounts-config-info[AccountsConfigInfo] entity.
 |`auth`                    ||
 Information about the authentication configuration as
 link:#auth-info[AuthInfo] entity.

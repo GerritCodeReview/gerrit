@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.extensions.common;
 
 /** Visibility level of other accounts to a given user. */
 public enum AccountVisibility {

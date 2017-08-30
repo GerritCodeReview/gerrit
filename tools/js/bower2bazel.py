@@ -215,15 +215,7 @@ def interpret_bower_json(seeds, ws_out, build_out):
     license = package_licenses.get(pkg_name, "DO_NOT_DISTRIBUTE")
 
     pkg["bazel-license"] = license
-
-    # TODO(hanwen): bower packages can also have 'fully qualified'
-    # names, ("PolymerElements/iron-ajax") as well as short names
-    # ("iron-ajax").  It is possible for bower.json files to refer to
-    # long names as their dependencies. If any package does this, we
-    # will have to either 1) strip off the prefix (typically github
-    # user?), or 2) build a map of short name <=> fully qualified
-    # name. For now, we just ignore the problem.
-    pkg["normalized-name"] = pkg["name"]
+    pkg["normalized-name"] = pkg["_originalSource"]
     data.append(pkg)
 
   dump_workspace(data, seeds, ws_out)

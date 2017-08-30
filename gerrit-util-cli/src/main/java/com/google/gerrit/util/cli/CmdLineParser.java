@@ -395,7 +395,7 @@ public class CmdLineParser {
 
     MyParser(Object bean) {
       super(bean);
-      parseAdditionalOptions("", bean, new HashSet<>());
+      parseAdditionalOptions(bean, new HashSet<>());
       ensureOptionsInitialized();
     }
 
@@ -433,7 +433,7 @@ public class CmdLineParser {
       }
     }
 
-    private void parseAdditionalOptions(String prefix, Object bean, Set<Object> parsedBeans) {
+    private void parseAdditionalOptions(Object bean, Set<Object> parsedBeans) {
       for (Class<?> c = bean.getClass(); c != null; c = c.getSuperclass()) {
         for (Field f : c.getDeclaredFields()) {
           if (f.isAnnotationPresent(Options.class)) {
@@ -444,7 +444,7 @@ public class CmdLineParser {
               throw new IllegalAnnotationError(e);
             }
             parseWithPrefix(
-                prefix + f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
+                f.getAnnotation(Options.class).prefix(), additionalBean, parsedBeans);
           }
         }
       }

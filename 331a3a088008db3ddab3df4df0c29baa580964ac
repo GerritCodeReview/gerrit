@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b7c89de4_db340bb4",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-30T12:56:02Z",
+      "side": 1,
+      "message": "Let\u0027s leave it. We can always change it later if somebody desperately needs sorted inputs.",
+      "parentUuid": "0d3a0177_6db13880",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 299,
+        "endChar": 10
+      },
+      "revId": "331a3a088008db3ddab3df4df0c29baa580964ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1e0f0b1_021dac57",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 13
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7f92f220_d65b6647",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-30T12:56:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e0f0b1_021dac57",
+      "range": {
+        "startLine": 1008,
+        "startChar": 22,
+        "endLine": 1008,
+        "endChar": 26
+      },
+      "revId": "331a3a088008db3ddab3df4df0c29baa580964ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bad0e61_f6c71689",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 13
@@ -59,6 +107,30 @@
       "writtenOn": "2017-08-30T12:00:20Z",
       "side": 1,
       "message": "missing trailing comma",
+      "range": {
+        "startLine": 1105,
+        "startChar": 22,
+        "endLine": 1105,
+        "endChar": 26
+      },
+      "revId": "331a3a088008db3ddab3df4df0c29baa580964ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ace6f9e5_63666cb8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-30T12:56:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bad0e61_f6c71689",
       "range": {
         "startLine": 1105,
         "startChar": 22,
@@ -105,6 +177,30 @@
       "writtenOn": "2017-08-30T12:00:20Z",
       "side": 1,
       "message": "I guess NoSuchGroupExeceptions means that the project has a ACL rule for a group that does no longer exist? I guess it makes sense to ignore these, but it would be better to log them as a warning.\n\nOrmException is a real error, we probably don\u0027t want to ignore it and rather fail.",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 271,
+        "endChar": 7
+      },
+      "revId": "331a3a088008db3ddab3df4df0c29baa580964ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "571844b4_50396a48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetAccess.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-30T12:56:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df08c440_08683b26",
       "range": {
         "startLine": 269,
         "startChar": 6,

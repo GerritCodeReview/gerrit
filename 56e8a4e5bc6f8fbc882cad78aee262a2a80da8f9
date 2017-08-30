@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "93ac5f19_286f94b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-30T08:07:34Z",
+      "side": 1,
+      "message": "remove this variable?",
+      "range": {
+        "startLine": 323,
+        "startChar": 17,
+        "endLine": 323,
+        "endChar": 22
+      },
+      "revId": "56e8a4e5bc6f8fbc882cad78aee262a2a80da8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d83a70f_18ce6892",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-30T08:07:34Z",
+      "side": 1,
+      "message": "Would this be more readable:\n\n  projects.stream().findFirst().map(pc -\u003e pc.getProjectState()).orElse(null)",
+      "range": {
+        "startLine": 310,
+        "startChar": 20,
+        "endLine": 312,
+        "endChar": 30
+      },
+      "revId": "56e8a4e5bc6f8fbc882cad78aee262a2a80da8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce16d2a3_1622a127",
         "filename": "plugins/singleusergroup",
         "patchSetId": 2

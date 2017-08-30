@@ -486,6 +486,10 @@
       });
     },
 
+    getAccountDetails(userId) {
+      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
+    },
+
     getAccountEmails() {
       return this._fetchSharedCacheURL('/accounts/self/emails');
     },
@@ -577,6 +581,10 @@
               });
             }
           });
+    },
+
+    getAccountStatus(userId) {
+      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
     },
 
     getAccountGroups() {

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-user-header/gr-user-header.html">
 <link rel="import" href="../gr-change-list/gr-change-list.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -46,6 +47,9 @@ limitations under the License.
       nav a:first-of-type {
         margin-right: .5em;
       }
+      gr-user-header.hide {
+        display: none;
+      }
       @media only screen and (max-width: 50em) {
         .loading,
         .error {
@@ -55,6 +59,9 @@ limitations under the License.
     </style>
     <div class="loading" hidden$="[[!_loading]]" hidden>Loading...</div>
     <div hidden$="[[_loading]]" hidden>
+      <gr-user-header
+          user-id="[[_userId]]"
+          class$="[[_computeUserHeaderClass(_userId)]]"></gr-user-header>
       <gr-change-list
           changes="{{_changes}}"
           selected-index="{{viewState.selectedChangeIndex}}"

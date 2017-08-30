@@ -167,6 +167,21 @@ limitations under the License.
       assert.isTrue(showStub.called);
     });
 
+    test('_userId query', done => {
+      assert.isNull(element._userId);
+      element._query = 'owner: foo@bar';
+      element._changes = [{owner: {email: 'foo@bar'}}];
+      flush(() => {
+        assert.equal(element._userId, 'foo@bar');
+
+        element._query = 'foo bar baz';
+        element._changes = [{owner: {email: 'foo@bar'}}];
+        assert.isNull(element._userId);
+
+        done();
+      });
+    });
+
     suite('query based navigation', () => {
       test('Searching for a change ID redirects to change', done => {
         sandbox.stub(element, '_getChanges')

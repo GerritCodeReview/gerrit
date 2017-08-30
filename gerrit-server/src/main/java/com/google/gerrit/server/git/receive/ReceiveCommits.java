@@ -200,7 +200,7 @@ class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
   private static final String BYPASS_REVIEW = "bypass-review";
 
-  private enum Error {
+  private enum ReceiveError {
     CONFIG_UPDATE(
         "You are not allowed to perform this operation.\n"
             + "Configuration changes can only be pushed by project owners\n"
@@ -217,7 +217,7 @@ class ReceiveCommits {
 
     private final String value;
 
-    Error(String value) {
+    ReceiveError(String value) {
       this.value = value;
     }
 
@@ -340,7 +340,7 @@ class ReceiveCommits {
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
   private final List<ValidationMessage> messages;
-  private final ListMultimap<Error, String> errors;
+  private final ListMultimap<ReceiveError, String> errors;
   private final ListMultimap<String, String> pushOptions;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
   private final Set<ObjectId> validCommits;
@@ -546,7 +546,7 @@ class ReceiveCommits {
 
     if (!errors.isEmpty()) {
       logDebug("Handling error conditions: {}", errors.keySet());
-      for (Error error : errors.keySet()) {
+      for (ReceiveError error : errors.keySet()) {
         rp.sendMessage(buildError(error, errors.get(error)));
       }
       rp.sendMessage(String.format("User: %s", displayName(user)));
@@ -751,7 +751,7 @@ class ReceiveCommits {
     }
   }
 
-  private String buildError(Error error, List<String> branches) {
+  private String buildError(ReceiveError error, List<String> branches) {
     StringBuilder sb = new StringBuilder();
     if (branches.size() == 1) {
       sb.append("Branch ").append(branches.get(0)).append(":\n");
@@ -1035,9 +1035,9 @@ class ReceiveCommits {
       actualCommands.add(cmd);
     } else {
       if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
-        errors.put(Error.CONFIG_UPDATE, RefNames.REFS_CONFIG);
+        errors.put(ReceiveError.CONFIG_UPDATE, RefNames.REFS_CONFIG);
       } else {
-        errors.put(Error.UPDATE, cmd.getRefName());
+        errors.put(ReceiveError.UPDATE, cmd.getRefName());
       }
       reject(cmd, "prohibited by Gerrit: ref update access denied");
     }
@@ -1063,7 +1063,7 @@ class ReceiveCommits {
   private void parseDelete(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Deleting {}", cmd);
     if (cmd.getRefName().startsWith(REFS_CHANGES)) {
-      errors.put(Error.DELETE_CHANGES, cmd.getRefName());
+      errors.put(ReceiveError.DELETE_CHANGES, cmd.getRefName());
       reject(cmd, "cannot delete changes");
     } else if (canDelete(cmd)) {
       if (!validRefOperation(cmd)) {
@@ -1073,7 +1073,7 @@ class ReceiveCommits {
     } else if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
       reject(cmd, "cannot delete project configuration");
     } else {
-      errors.put(Error.DELETE, cmd.getRefName());
+      errors.put(ReceiveError.DELETE, cmd.getRefName());
       reject(cmd, "cannot delete references");
     }
   }
@@ -1455,13 +1455,13 @@ class ReceiveCommits {
 
     if (magicBranch.draft) {
       if (!receiveConfig.allowDrafts) {
-        errors.put(Error.CODE_REVIEW, ref);
+        errors.put(ReceiveError.CODE_REVIEW, ref);
         reject(cmd, "draft workflow is disabled");
         return;
       } else if (projectControl
           .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
           .isBlocked(Permission.PUSH)) {
-        errors.put(Error.CODE_REVIEW, ref);
+        errors.put(ReceiveError.CODE_REVIEW, ref);
         reject(cmd, "cannot upload drafts");
         return;
       }
@@ -1470,7 +1470,7 @@ class ReceiveCommits {
     try {
       magicBranch.perm.check(RefPermission.CREATE_CHANGE);
     } catch (AuthException denied) {
-      errors.put(Error.CODE_REVIEW, ref);
+      errors.put(ReceiveError.CODE_REVIEW, ref);
       reject(cmd, denied.getMessage());
       return;
     }

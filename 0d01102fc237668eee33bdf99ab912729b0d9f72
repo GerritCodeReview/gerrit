@@ -46,6 +46,30 @@
       "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23fce8d5_1d44fe98",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-30T16:59:55Z",
+      "side": 1,
+      "message": "Hahah.. no not a blocker from me :)",
+      "parentUuid": "49e8e092_2a3bba03",
+      "range": {
+        "startLine": 115,
+        "startChar": 21,
+        "endLine": 115,
+        "endChar": 22
+      },
+      "revId": "0d01102fc237668eee33bdf99ab912729b0d9f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,13 +19,9 @@ import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.SiteIndexer;
@@ -38,16 +34,14 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -56,15 +50,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -169,11 +157,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       ListenableFuture<?> future =
           executor.submit(
               reindexProject(
-                  indexerFactory.create(executor, index),
-                  project.name,
-                  doneTask,
-                  failedTask,
-                  verboseWriter));
+                  indexerFactory.create(executor, index), project.name, doneTask, failedTask));
       addErrorListener(future, "project " + project.name, projTask, ok);
       futures.add(future);
     }
@@ -208,120 +192,57 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProject(
-      ChangeIndexer indexer,
-      Project.NameKey project,
-      Task done,
-      Task failed,
-      PrintWriter verboseWriter) {
-    return new Callable<Void>() {
-      @Override
-      public Void call() throws Exception {
-        ListMultimap<ObjectId, ChangeData> byId =
-            MultimapBuilder.hashKeys().arrayListValues().build();
-        // TODO(dborowitz): Opening all repositories in a live server may be
-        // wasteful; see if we can determine which ones it is safe to close
-        // with RepositoryCache.close(repo).
-        try (Repository repo = repoManager.openRepository(project);
-            ReviewDb db = schemaFactory.open()) {
-          Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
-          // TODO(dborowitz): Pre-loading all notes is almost certainly a
-          // terrible idea for performance. If we can get rid of walking by
-          // commit (see note below), then all we need to discover here is the
-          // change IDs.
-          for (ChangeNotes cn : notesFactory.scan(repo, db, project)) {
-            Ref r = refs.get(cn.getChange().currentPatchSetId().toRefName());
-            if (r != null) {
-              byId.put(r.getObjectId(), changeDataFactory.create(db, cn));
-            }
-          }
-          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter).call();
-        } catch (RepositoryNotFoundException rnfe) {
-          log.error(rnfe.getMessage());
-        }
-        return null;
-      }
-
-      @Override
-      public String toString() {
-        return "Index all changes of project " + project.get();
-      }
-    };
+      ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
+    return new ProjectIndexer(indexer, project, done, failed);
   }
 
-  private static class ProjectIndexer implements Callable<Void> {
+  private class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
-    private final ListMultimap<ObjectId, ChangeData> byId;
+    private final Project.NameKey project;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
-    private final PrintWriter verboseWriter;
-    private final Repository repo;
 
     private ProjectIndexer(
         ChangeIndexer indexer,
-        ListMultimap<ObjectId, ChangeData> changesByCommitId,
-        Repository repo,
+        Project.NameKey project,
         ProgressMonitor done,
-        ProgressMonitor failed,
-        PrintWriter verboseWriter) {
+        ProgressMonitor failed) {
       this.indexer = indexer;
-      this.byId = changesByCommitId;
-      this.repo = repo;
+      this.project = project;
       this.done = done;
       this.failed = failed;
-      this.verboseWriter = verboseWriter;
     }
 
     @Override
     public Void call() throws Exception {
-      try (RevWalk walk = new RevWalk(repo)) {
-        // Walk only refs first to cover as many changes as we can without having
-        // to mark every single change.
-        for (Ref ref : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
-          RevObject o = walk.parseAny(ref.getObjectId());
-          if (o instanceof RevCommit) {
-            walk.markStart((RevCommit) o);
-          }
-        }
-
-        RevCommit bCommit;
-        while ((bCommit = walk.next()) != null && !byId.isEmpty()) {
-          if (byId.containsKey(bCommit)) {
-            index(bCommit);
-            byId.removeAll(bCommit);
-          }
-        }
-
-        for (ObjectId id : byId.keySet()) {
-          index(id);
-        }
+      try (Repository repo = repoManager.openRepository(project);
+          ReviewDb db = schemaFactory.open()) {
+        // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
+        // not important for indexing, since sites should have a fully populated DiffSummary cache.
+        // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
+        // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
+        // we don't have concrete proof that improving packfile locality would help.
+        notesFactory.scan(repo, db, project).forEach(r -> index(db, r));
+      } catch (RepositoryNotFoundException rnfe) {
+        log.error(rnfe.getMessage());
       }
       return null;
     }
 
-    private void index(ObjectId b) throws Exception {
-      List<ChangeData> cds = Lists.newArrayList(byId.get(b));
+    private void index(ReviewDb db, ChangeNotesResult r) {
+      if (r.error().isPresent()) {
+        fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
+        return;
+      }
       try {
-        if (!cds.isEmpty()) {
-          Iterator<ChangeData> cdit = cds.iterator();
-          for (ChangeData cd; cdit.hasNext(); cdit.remove()) {
-            cd = cdit.next();
-            try {
-              indexer.index(cd);
-              done.update(1);
-              verboseWriter.println("Reindexed change " + cd.getId());
-            } catch (RejectedExecutionException e) {
-              // Server shutdown, don't spam the logs.
-              failSilently();
-            } catch (Exception e) {
-              fail("Failed to index change " + cd.getId(), true, e);
-            }
-          }
-        }
+        indexer.index(changeDataFactory.create(db, r.notes()));
+        done.update(1);
+        verboseWriter.println("Reindexed change " + r.id());
+      } catch (RejectedExecutionException e) {
+        // Server shutdown, don't spam the logs.
+        failSilently();
       } catch (Exception e) {
-        fail("Failed to index commit " + b.name(), false, e);
-        for (ChangeData cd : cds) {
-          fail("Failed to index change " + cd.getId(), true, null);
-        }
+        fail("Failed to index change " + r.id(), true, e);
       }
     }
 
@@ -341,6 +262,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private void failSilently() {
       this.failed.update(1);
+    }
+
+    @Override
+    public String toString() {
+      return "Index all changes of project " + project.get();
     }
   }
 }

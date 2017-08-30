@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a9111bf_8727964e",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-30T07:22:57Z",
+      "side": 1,
+      "message": "The past tense of \"read\" is \"read\".  Yay consistent grammar rules :)\n\nI suspect \"read\" is a python built-in name though, so probably better not to use that.\n\nMaybe \"zip_content\" or something like that?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "2f62f8e7f2ab2546060cc25c25b2c9cc0e9fc557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

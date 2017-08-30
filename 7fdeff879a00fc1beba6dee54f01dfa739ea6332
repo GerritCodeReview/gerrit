@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e37ea31b_732951a4",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-08-30T12:58:13Z",
+      "side": 0,
+      "message": "I think I kinda copied over the comment from the bower2buck original. I don\u0027t really understand what this meant either.",
+      "range": {
+        "startLine": 225,
+        "startChar": 29,
+        "endLine": 225,
+        "endChar": 35
+      },
+      "revId": "7fdeff879a00fc1beba6dee54f01dfa739ea6332",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

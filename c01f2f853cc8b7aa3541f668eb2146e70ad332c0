@@ -22,6 +22,30 @@
       "revId": "c01f2f853cc8b7aa3541f668eb2146e70ad332c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b827cb6_9ba4dcb2",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-30T06:36:47Z",
+      "side": 0,
+      "message": "Yes, I had this question too. Or may be the author wanted to do something later with it, e.g. in later commit?",
+      "parentUuid": "74b7b9df_65af250a",
+      "range": {
+        "startLine": 436,
+        "startChar": 40,
+        "endLine": 436,
+        "endChar": 55
+      },
+      "revId": "c01f2f853cc8b7aa3541f668eb2146e70ad332c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

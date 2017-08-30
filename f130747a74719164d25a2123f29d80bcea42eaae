@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1504092370 +0200\nnonce AJMiPPewv6RbeVJ6gJh7gmrMikIeE+OuWAPZnc2vtAeL+EXnXOgVOyMiI4X12UQKqv1F16/TNSAW\n\n0000000000000000000000000000000000000000 80d6fa8f9b8a53bae9bcdcb936d94aad82d12044 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZpqDSAAoJEFG1/Zeg0O9R2tsIALheqJxlJoMBD2CZ8/lsve6Q\niiiUHz26/PmOV081x1t6dXlFTcXfvPoJL2kiGXLMlvN/rfIDXaAJ+xQ4GDG4CQQP\n2pkSJVvTIF1ohcesZ+LOtmdncJQP1anv4wbgXdDG+lc2GFof2DhFzLH8LvEk05Pt\nVyUKcDydtQR14M2vf8Dj8h7FsESYNNfdvtq8roAn3vXSwDKMccvRtJrDdCCk2l9p\nia6oVXzM/QN3bzkGSemA9kE31R+y0oShSXWkLlcYEFGUqTM1I4AD0zXG8nwnZw/d\nbdBEUuhJp0xpIFpZpjmLVKu457HbCZFg45OUOPzyIyXavruMfzHs3qLtTSpcrRg\u003d\n\u003dGad8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "06c82013_65fa2abe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-08-30T12:43:47Z",
+      "side": 1,
+      "message": "Should these be DELETE FROM? That\u0027s what I usually see. A random Stack Overflow question I found says that DELETE without the FROM only works on MS SQL SERVER:\n\nhttps://stackoverflow.com/questions/39470685/sql-server-difference-between-delete-table-and-delete-from-table",
+      "revId": "f130747a74719164d25a2123f29d80bcea42eaae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

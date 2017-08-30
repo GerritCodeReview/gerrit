@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6c50840_d9dfbf32",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-30T06:44:30Z",
+      "side": 0,
+      "message": "May be undo this removal?",
+      "revId": "c01f2f853cc8b7aa3541f668eb2146e70ad332c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

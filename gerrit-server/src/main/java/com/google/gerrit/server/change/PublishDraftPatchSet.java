@@ -44,6 +44,8 @@ import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -80,6 +82,7 @@ public class PublishDraftPatchSet
   private final Provider<ReviewDb> dbProvider;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final DraftPublished draftPublished;
+  private final ProjectCache projectCache;
 
   @Inject
   public PublishDraftPatchSet(
@@ -91,7 +94,8 @@ public class PublishDraftPatchSet
       PatchSetUtil psUtil,
       Provider<ReviewDb> dbProvider,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      DraftPublished draftPublished) {
+      DraftPublished draftPublished,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
@@ -101,12 +105,13 @@ public class PublishDraftPatchSet
     this.dbProvider = dbProvider;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.draftPublished = draftPublished;
+    this.projectCache = projectCache;
   }
 
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, Input input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, IOException {
     return apply(
         updateFactory,
         rsrc.getUser(),
@@ -117,10 +122,10 @@ public class PublishDraftPatchSet
 
   private Response<?> apply(
       BatchUpdate.Factory updateFactory, CurrentUser u, Change c, PatchSet.Id psId, PatchSet ps)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, IOException {
     try (BatchUpdate bu =
         updateFactory.create(dbProvider.get(), c.getProject(), u, TimeUtil.nowTs())) {
-      bu.addOp(c.getId(), new Op(psId, ps));
+      bu.addOp(c.getId(), new Op(psId, projectCache.checkedGet(c.getProject()), ps));
       bu.execute();
     }
     return Response.none();
@@ -152,7 +157,7 @@ public class PublishDraftPatchSet
     @Override
     protected Response<?> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-        throws RestApiException, UpdateException {
+        throws RestApiException, UpdateException, IOException {
       return publish.apply(
           updateFactory,
           rsrc.getUser(),
@@ -164,6 +169,7 @@ public class PublishDraftPatchSet
 
   private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
+    private final ProjectState projectState;
 
     private PatchSet patchSet;
     private Change change;
@@ -171,8 +177,9 @@ public class PublishDraftPatchSet
     private PatchSetInfo patchSetInfo;
     private MailRecipients recipients;
 
-    private Op(PatchSet.Id psId, @Nullable PatchSet patchSet) {
+    private Op(PatchSet.Id psId, ProjectState projectState, @Nullable PatchSet patchSet) {
       this.psId = psId;
+      this.projectState = projectState;
       this.patchSet = patchSet;
     }
 
@@ -212,7 +219,7 @@ public class PublishDraftPatchSet
     }
 
     private void addReviewers(ChangeContext ctx) throws OrmException, IOException {
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
       Collection<Account.Id> oldReviewers =
           approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all();
       RevCommit commit =

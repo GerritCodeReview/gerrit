@@ -18,14 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -272,29 +269,6 @@ public class ChangeControl {
     return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
-  /** All available label types for this change. */
-  public LabelTypes getLabelTypes() {
-    String destBranch = getChange().getDest().get();
-    List<LabelType> all = getProjectControl().getLabelTypes().getLabelTypes();
-
-    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
-    for (LabelType l : all) {
-      List<String> refs = l.getRefPatterns();
-      if (refs == null) {
-        r.add(l);
-      } else {
-        for (String refPattern : refs) {
-          if (RefConfigSection.isValid(refPattern) && match(destBranch, refPattern)) {
-            r.add(l);
-            break;
-          }
-        }
-      }
-    }
-
-    return new LabelTypes(r);
-  }
-
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     return getRefControl().getLabelRanges(isOwner());
@@ -326,7 +300,11 @@ public class ChangeControl {
 
     for (PatchSetApproval ap :
         approvalsUtil.byPatchSet(db, this, getChange().currentPatchSetId(), null, null)) {
-      LabelType type = getLabelTypes().byLabel(ap.getLabel());
+      LabelType type =
+          getProjectControl()
+              .getProjectState()
+              .getLabelTypes(getNotes(), getUser())
+              .byLabel(ap.getLabel());
       if (type != null
           && ap.getValue() == 1
           && type.getFunctionName().equalsIgnoreCase("PatchSetLock")) {
@@ -401,10 +379,6 @@ public class ChangeControl {
         || getProjectControl().isOwner() // project owner can edit hashtags
         || getRefControl().canEditHashtags() // user can edit hashtag on a specific ref
         || getProjectControl().isAdmin();
-  }
-
-  private boolean match(String destBranch, String refPattern) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destBranch, getUser());
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {

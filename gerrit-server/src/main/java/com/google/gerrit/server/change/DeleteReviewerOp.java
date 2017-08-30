@@ -39,6 +39,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -48,6 +49,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -73,6 +75,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
   private final RemoveReviewerControl removeReviewerControl;
+  private final ProjectCache projectCache;
 
   private final Account reviewer;
   private final DeleteReviewerInput input;
@@ -95,6 +98,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       NotesMigration migration,
       NotifyUtil notifyUtil,
       RemoveReviewerControl removeReviewerControl,
+      ProjectCache projectCache,
       @Assisted Account reviewerAccount,
       @Assisted DeleteReviewerInput input) {
     this.approvalsUtil = approvalsUtil;
@@ -107,14 +111,15 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     this.migration = migration;
     this.notifyUtil = notifyUtil;
     this.removeReviewerControl = removeReviewerControl;
-
+    this.projectCache = projectCache;
     this.reviewer = reviewerAccount;
     this.input = input;
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException {
+      throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
+          IOException {
     Account.Id reviewerId = reviewer.getId();
     if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
       throw new ResourceNotFoundException();
@@ -122,7 +127,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     currChange = ctx.getChange();
     currPs = psUtil.current(ctx.getDb(), ctx.getNotes());
 
-    LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+    LabelTypes labelTypes =
+        projectCache.checkedGet(ctx.getProject()).getLabelTypes(ctx.getNotes(), ctx.getUser());
     // removing a reviewer will remove all her votes
     for (LabelType lt : labelTypes.getLabelTypes()) {
       newApprovals.put(lt.getName(), (short) 0);

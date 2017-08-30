@@ -33,8 +33,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -165,7 +166,7 @@ public class ReviewCommand extends SshCommand {
     customLabels.put(v.label(), v.value());
   }
 
-  @Inject private ProjectControl.Factory projectControlFactory;
+  @Inject private ProjectCache projectCache;
 
   @Inject private AllProjectsName allProjects;
 
@@ -375,14 +376,14 @@ public class ReviewCommand extends SshCommand {
     optionList = new ArrayList<>();
     customLabels = new HashMap<>();
 
-    ProjectControl allProjectsControl;
+    ProjectState allProjectsState;
     try {
-      allProjectsControl = projectControlFactory.controlFor(allProjects);
-    } catch (NoSuchProjectException e) {
+      allProjectsState = projectCache.checkedGet(allProjects);
+    } catch (IOException e) {
       throw die("missing " + allProjects.get());
     }
 
-    for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
+    for (LabelType type : allProjectsState.getLabelTypes().getLabelTypes()) {
       StringBuilder usage = new StringBuilder("score for ").append(type.getName()).append("\n");
 
       for (LabelValue v : type.getValues()) {

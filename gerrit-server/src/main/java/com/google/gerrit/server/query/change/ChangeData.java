@@ -73,6 +73,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gwtorm.server.OrmException;
@@ -405,6 +406,7 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private Integer unresolvedCommentCount;
+  private LabelTypes labelTypes;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -665,7 +667,17 @@ public class ChangeData {
   }
 
   public LabelTypes getLabelTypes() throws OrmException {
-    return changeControl().getLabelTypes();
+    if (labelTypes == null) {
+      ProjectState state;
+      try {
+        state = projectCache.checkedGet(project());
+      } catch (IOException e) {
+        throw new OrmException("project state not available", e);
+      }
+      labelTypes =
+          state.getLabelTypes(changeControl().getChange().getDest(), changeControl().getUser());
+    }
+    return labelTypes;
   }
 
   public ChangeNotes notes() throws OrmException {

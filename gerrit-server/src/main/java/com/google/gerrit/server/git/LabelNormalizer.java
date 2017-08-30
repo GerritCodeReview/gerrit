@@ -112,7 +112,8 @@ public class LabelNormalizer {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
-    LabelTypes labelTypes = ctl.getLabelTypes();
+    LabelTypes labelTypes =
+        ctl.getProjectControl().getProjectState().getLabelTypes(ctl.getNotes(), ctl.getUser());
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
       checkArgument(

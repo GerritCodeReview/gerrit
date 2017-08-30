@@ -245,9 +245,7 @@ public class OutputStreamQuery {
   private ChangeAttribute buildChangeAttribute(
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
       throws OrmException, IOException {
-    ChangeControl cc = d.changeControl().forUser(user);
-
-    LabelTypes labelTypes = cc.getLabelTypes();
+    LabelTypes labelTypes = d.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change());
     eventFactory.extend(c, d.change());
 
@@ -299,6 +297,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
+      ChangeControl cc = d.changeControl().forUser(user);
       if (current != null && cc.isPatchVisible(current, d.db())) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);

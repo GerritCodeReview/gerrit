@@ -52,7 +52,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -103,7 +103,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private final AccountResolver accountResolver;
   private final ApprovalCopier approvalCopier;
   private final ApprovalsUtil approvalsUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
@@ -115,6 +114,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final ProjectCache projectCache;
 
   private final ProjectControl projectControl;
   private final Branch.NameKey dest;
@@ -146,7 +146,6 @@ public class ReplaceOp implements BatchUpdateOp {
       AccountResolver accountResolver,
       ApprovalCopier approvalCopier,
       ApprovalsUtil approvalsUtil,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
@@ -157,6 +156,7 @@ public class ReplaceOp implements BatchUpdateOp {
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       @Assisted ProjectControl projectControl,
       @Assisted Branch.NameKey dest,
@@ -172,7 +172,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.accountResolver = accountResolver;
     this.approvalCopier = approvalCopier;
     this.approvalsUtil = approvalsUtil;
-    this.changeControlFactory = changeControlFactory;
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
@@ -183,6 +182,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
 
     this.projectControl = projectControl;
@@ -304,7 +304,7 @@ public class ReplaceOp implements BatchUpdateOp {
         approvalsUtil.addApprovalsForNewPatchSet(
             ctx.getDb(),
             update,
-            projectControl.getLabelTypes(),
+            projectControl.getProjectState().getLabelTypes(),
             newPatchSet,
             ctx.getControl(),
             approvals);
@@ -318,7 +318,7 @@ public class ReplaceOp implements BatchUpdateOp {
     approvalsUtil.addReviewers(
         ctx.getDb(),
         update,
-        projectControl.getLabelTypes(),
+        projectControl.getProjectState().getLabelTypes(),
         change,
         newPatchSet,
         info,
@@ -409,7 +409,7 @@ public class ReplaceOp implements BatchUpdateOp {
           continue;
         }
 
-        LabelType lt = projectControl.getLabelTypes().byLabel(a.getLabelId());
+        LabelType lt = projectControl.getProjectState().getLabelTypes().byLabel(a.getLabelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         }
@@ -526,7 +526,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private void fireCommentAddedEvent(Context ctx) throws OrmException {
+  private void fireCommentAddedEvent(Context ctx) throws IOException {
     if (approvals.isEmpty()) {
       return;
     }
@@ -536,9 +536,11 @@ public class ReplaceOp implements BatchUpdateOp {
      * For labels that are set in this operation, the value was modified, so
      * show a transition from an oldValue of 0 to the new value.
      */
-    ChangeControl changeControl =
-        changeControlFactory.controlFor(ctx.getDb(), notes.getChange(), ctx.getUser());
-    List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
+    List<LabelType> labels =
+        projectCache
+            .checkedGet(ctx.getProject())
+            .getLabelTypes(notes, ctx.getUser())
+            .getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
     for (LabelType lt : labels) {

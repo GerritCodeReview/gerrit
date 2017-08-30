@@ -94,7 +94,6 @@ public class ChangeInserter implements InsertChangeOp {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
@@ -144,7 +143,6 @@ public class ChangeInserter implements InsertChangeOp {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
@@ -161,7 +159,6 @@ public class ChangeInserter implements InsertChangeOp {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.userFactory = userFactory;
-    this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
@@ -436,7 +433,7 @@ public class ChangeInserter implements InsertChangeOp {
       reviewersToAdd.addAll(extraCC);
     }
 
-    LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
+    LabelTypes labelTypes = ctl.getProjectControl().getProjectState().getLabelTypes();
     approvalsUtil.addReviewers(
         db,
         update,
@@ -493,7 +490,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException {
+  public void postUpdate(Context ctx) throws OrmException, IOException {
     if (sendMail && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
       Runnable sender =
           new Runnable() {
@@ -536,9 +533,11 @@ public class ChangeInserter implements InsertChangeOp {
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
-        ChangeControl changeControl =
-            changeControlFactory.controlFor(ctx.getDb(), change, ctx.getUser());
-        List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
+        List<LabelType> labels =
+            projectCache
+                .checkedGet(ctx.getProject())
+                .getLabelTypes(change.getDest(), ctx.getUser())
+                .getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {

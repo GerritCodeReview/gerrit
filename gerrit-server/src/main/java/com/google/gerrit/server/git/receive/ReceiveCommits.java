@@ -455,7 +455,7 @@ class ReceiveCommits {
     repo = rp.getRepository();
     user = projectControl.getUser().asIdentifiedUser();
     project = projectControl.getProject();
-    labelTypes = projectControl.getLabelTypes();
+    labelTypes = projectControl.getProjectState().getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());

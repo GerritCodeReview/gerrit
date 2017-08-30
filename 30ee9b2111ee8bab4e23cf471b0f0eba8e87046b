@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "55e4fc75_4f0ecc7e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:29:23Z",
+      "side": 1,
+      "message": "Renamed to `DEFAULT` but say catcall in the comment.",
+      "parentUuid": "92b2c55b_e4f1d120",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86328ff1_5833aef2",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 4
@@ -135,6 +159,24 @@
       "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7577403_2f6e5df0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-30T16:29:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86328ff1_5833aef2",
+      "revId": "30ee9b2111ee8bab4e23cf471b0f0eba8e87046b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

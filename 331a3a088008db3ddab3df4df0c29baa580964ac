@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "72e4d55c_16deeb6c",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-08-30T14:36:18Z",
+      "side": 1,
+      "message": "By the way, in javascript once you have deserialized json, maps are in a hashtable and iteration order is lost.\n\nSo in cases where iteration order matters (it sounds like this isn\u0027t one of those, and I haven\u0027t looked closely), it is preferable to use an array.",
+      "parentUuid": "b7c89de4_db340bb4",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 299,
+        "endChar": 10
+      },
+      "revId": "331a3a088008db3ddab3df4df0c29baa580964ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1e0f0b1_021dac57",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 13

@@ -2341,11 +2341,7 @@ class ReceiveCommits {
       try {
         permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
       } catch (AuthException no) {
-        String locked = ".";
-        if (projectControl.controlFor(notes).isPatchSetLocked(db)) {
-          locked = ". Change is patch set locked.";
-        }
-        reject(inputCommand, "cannot add patch set to " + ontoChange + locked);
+        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;
       }
 

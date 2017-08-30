@@ -500,6 +500,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     footers.add("Gerrit-Change-Number: " + Integer.toString(change.getChangeId()));
     footers.add("Gerrit-PatchSet: " + patchSet.getPatchSetId());
     footers.add("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
+    if (change.getAssignee() != null) {
+      footers.add("Gerrit-Assignee: " + getNameEmailFor(change.getAssignee()));
+    }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
       footers.add("Gerrit-Reviewer: " + reviewer);
     }

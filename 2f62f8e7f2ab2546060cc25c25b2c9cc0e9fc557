@@ -22,6 +22,30 @@
       "revId": "2f62f8e7f2ab2546060cc25c25b2c9cc0e9fc557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "741abdb9_f32a0dd7",
+        "filename": "tools/merge_jars.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-30T08:24:11Z",
+      "side": 1,
+      "message": "Thanks, I inlined the read() invocation as it was in the base version.",
+      "parentUuid": "7a9111bf_8727964e",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "2f62f8e7f2ab2546060cc25c25b2c9cc0e9fc557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

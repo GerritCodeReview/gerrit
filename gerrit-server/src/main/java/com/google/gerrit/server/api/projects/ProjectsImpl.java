@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
@@ -122,6 +123,6 @@ class ProjectsImpl implements Projects {
     }
     lp.setFilterType(type);
 
-    return lp.apply();
+    return lp.apply(TopLevelResource.INSTANCE);
   }
 }

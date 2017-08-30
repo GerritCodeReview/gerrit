@@ -15,21 +15,18 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -37,8 +34,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -48,15 +43,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.util.RegexListSearcher;
-import com.google.gerrit.server.util.TreeFormatter;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,9 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -144,12 +130,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
-
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format = OutputFormat.TEXT;
 
   @Option(
     name = "--show-branch",
@@ -264,7 +245,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
@@ -272,7 +252,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
-    this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
   }
 
@@ -288,35 +267,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return showDescription;
   }
 
-  public OutputFormat getFormat() {
-    return format;
-  }
-
-  public ListProjects setFormat(OutputFormat fmt) {
-    format = fmt;
-    return this;
-  }
-
   @Override
-  public Object apply(TopLevelResource resource)
-      throws BadRequestException, PermissionBackendException {
-    if (format == OutputFormat.TEXT) {
-      ByteArrayOutputStream buf = new ByteArrayOutputStream();
-      display(buf);
-      return BinaryResult.create(buf.toByteArray())
-          .setContentType("text/plain")
-          .setCharacterEncoding(UTF_8);
-    }
-    return apply();
-  }
-
-  public SortedMap<String, ProjectInfo> apply()
-      throws BadRequestException, PermissionBackendException {
-    format = OutputFormat.JSON;
-    return display(null);
-  }
-
-  public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
+  public SortedMap<String, ProjectInfo> apply(TopLevelResource resource)
       throws BadRequestException, PermissionBackendException {
     if (groupUuid != null) {
       try {
@@ -326,12 +278,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       } catch (NoSuchGroupException ex) {
         return Collections.emptySortedMap();
       }
-    }
-
-    PrintWriter stdout = null;
-    if (displayOutputStream != null) {
-      stdout =
-          new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
     }
 
     if (type == FilterType.PARENT_CANDIDATES) {
@@ -345,8 +291,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     Map<String, String> hiddenNames = new HashMap<>();
     Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
-    final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
-    try {
+
       for (Project.NameKey projectName : filter(perm)) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
@@ -363,13 +308,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         }
 
         ProjectInfo info = new ProjectInfo();
-        if (showTree && !format.isJson()) {
-          treeMap.put(projectName, projectNodeFactory.create(pctl.getProject(), true));
-          continue;
-        }
 
         info.name = projectName.get();
-        if (showTree && format.isJson()) {
+        info.id = Url.encode(info.name);
+        if (showTree) {
           ProjectState parent = Iterables.getFirst(e.parents(), null);
           if (parent != null) {
             if (isParentAccessible(accessibleParents, perm, parent)) {
@@ -438,51 +380,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           break;
         }
 
-        if (stdout == null || format.isJson()) {
           output.put(info.name, info);
-          continue;
-        }
-
-        if (!showBranch.isEmpty()) {
-          for (String name : showBranch) {
-            String ref = info.branches != null ? info.branches.get(name) : null;
-            if (ref == null) {
-              // Print stub (forty '-' symbols)
-              ref = "----------------------------------------";
-            }
-            stdout.print(ref);
-            stdout.print(' ');
-          }
-        }
-        stdout.print(info.name);
-
-        if (info.description != null) {
-          // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + StringUtil.escapeString(info.description));
-        }
-        stdout.print('\n');
-      }
-
-      for (ProjectInfo info : output.values()) {
-        info.id = Url.encode(info.name);
-        info.name = null;
-      }
-      if (stdout == null) {
-        return output;
-      } else if (format.isJson()) {
-        format
-            .newGson()
-            .toJson(output, new TypeToken<Map<String, ProjectInfo>>() {}.getType(), stdout);
-        stdout.print('\n');
-      } else if (showTree && treeMap.size() > 0) {
-        printProjectTree(stdout, treeMap);
-      }
-      return null;
-    } finally {
-      if (stdout != null) {
-        stdout.flush();
-      }
     }
+      return output;
   }
 
   private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
@@ -565,31 +465,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (!cond) {
       throw new BadRequestException("specify exactly one of p/m/r");
     }
-  }
-
-  private void printProjectTree(
-      final PrintWriter stdout, TreeMap<Project.NameKey, ProjectNode> treeMap) {
-    final SortedSet<ProjectNode> sortedNodes = new TreeSet<>();
-
-    // Builds the inheritance tree using a list.
-    //
-    for (ProjectNode key : treeMap.values()) {
-      if (key.isAllProjects()) {
-        sortedNodes.add(key);
-        continue;
-      }
-
-      ProjectNode node = treeMap.get(key.getParentName());
-      if (node != null) {
-        node.addChild(key);
-      } else {
-        sortedNodes.add(key);
-      }
-    }
-
-    final TreeFormatter treeFormatter = new TreeFormatter(stdout);
-    treeFormatter.printTree(sortedNodes);
-    stdout.flush();
   }
 
   private List<Ref> getBranchRefs(Project.NameKey projectName, ProjectControl projectControl) {

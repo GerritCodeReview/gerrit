@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "486c0630_9c2ffa41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-30T08:50:58Z",
+      "side": 1,
+      "message": "optional: add some explanation of why it didn\u0027t work before.",
+      "revId": "e4933caed1e89f9e346a093d0c734386cb80e1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74b7b9df_65af250a",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-30T06:33:52Z",
+      "side": 0,
+      "message": "Removing this looks correct, because the only place it was called was at L398 with empty string, but I wonder if the intention in the original code was to do something else with the prefix?",
+      "range": {
+        "startLine": 436,
+        "startChar": 40,
+        "endLine": 436,
+        "endChar": 55
+      },
+      "revId": "c01f2f853cc8b7aa3541f668eb2146e70ad332c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

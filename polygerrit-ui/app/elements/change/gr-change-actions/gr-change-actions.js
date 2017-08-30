@@ -291,6 +291,11 @@
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
     ],
 
+    listeners: {
+      'fullscreen-overlay-opened': '_handleHideBackgroundContent',
+      'fullscreen-overlay-closed': '_handleShowBackgroundContent',
+    },
+
     ready() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
       this._loading = false;
@@ -937,6 +942,14 @@
 
     _handleWipTap() {
       this._fireAction('/wip', this.actions.wip, false);
+    },
+
+    _handleHideBackgroundContent() {
+      this.$.mainContent.classList.add('overlayOpen');
+    },
+
+    _handleShowBackgroundContent() {
+      this.$.mainContent.classList.remove('overlayOpen');
     },
 
     /**

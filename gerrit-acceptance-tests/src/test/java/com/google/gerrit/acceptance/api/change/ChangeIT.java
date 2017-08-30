@@ -1446,6 +1446,12 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+
+    // Change status of reviewer and ensure ETag is updated.
+    oldETag = rsrc.getETag();
+    gApi.accounts().id(user.id.get()).setStatus("new status");
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
   }
 
   @Test
@@ -1626,6 +1632,17 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId).isEqualTo(admin.getId().get());
     assertThat(reviewerIt.next()._accountId).isEqualTo(user.getId().get());
     assertThat(c.reviewers).doesNotContainKey(CC);
+  }
+
+  @Test
+  public void eTagChangesWhenOwnerUpdatesAccountStatus() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+    String oldETag = rsrc.getETag();
+
+    gApi.accounts().id(admin.id.get()).setStatus("new status");
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
   }
 
   @Test

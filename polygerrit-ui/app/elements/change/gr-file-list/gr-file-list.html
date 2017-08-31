@@ -142,7 +142,7 @@ limitations under the License.
         display: none;
       }
       label.show-hide {
-        color: #00f;
+        color: var(--color-blue);
         cursor: pointer;
         display: block;
         font-size: .8em;
@@ -170,6 +170,9 @@ limitations under the License.
       }
       #container.editLoaded .hideOnEdit {
         display: none;
+      }
+      .indent {
+        padding-left: calc(var(--default-horizontal-margin));
       }
       @media screen and (max-width: 50em) {
         .desktop {
@@ -202,7 +205,7 @@ limitations under the License.
       }
     </style>
     <header>
-      <div>Files</div>
+      <div class="indent">Files</div>
       <div class="rightControls">
         <template is="dom-if"
             if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
@@ -258,7 +261,7 @@ limitations under the License.
           as="file"
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
-        <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
+        <div class="file-row row indent" data-path$="[[file.__path]]" tabindex="-1">
           <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
             <input
                 type="checkbox"

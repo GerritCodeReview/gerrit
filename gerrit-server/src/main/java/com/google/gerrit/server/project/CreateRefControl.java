@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.inject.Provider;
 import java.io.IOException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,98 +41,74 @@ public class CreateRefControl {
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final Provider<CurrentUser> user;
 
   @Inject
-  CreateRefControl(PermissionBackend permissionBackend, ProjectCache projectCache) {
+  CreateRefControl(
+      PermissionBackend permissionBackend, ProjectCache projectCache, Provider<CurrentUser> user) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.user = user;
   }
 
   /**
-   * Determines whether the user can create a new Git ref.
+   * Checks whether the {@link CurrentUser} can create a new Git ref.
    *
    * @param repo repository on which user want to create
-   * @param object the object the user will start the reference with
-   * @param user the current identified user
    * @param branch the branch the new {@link RevObject} should be created on
-   * @return {@code null} if the user specified can create a new Git ref, or a String describing why
-   *     the creation is not allowed.
-   * @throws PermissionBackendException on failure of permission checks
+   * @param object the object the user will start the reference with
+   * @throws AuthException if creation is denied; the message explains the denial.
+   * @throws PermissionBackendException on failure of permission checks.
    */
-  @Nullable
-  public String canCreateRef(
-      Repository repo, RevObject object, IdentifiedUser user, Branch.NameKey branch)
-      throws PermissionBackendException, NoSuchProjectException, IOException {
+  public void checkCreateRef(Repository repo, Branch.NameKey branch, RevObject object)
+      throws AuthException, PermissionBackendException, NoSuchProjectException, IOException {
     ProjectState ps = projectCache.checkedGet(branch.getParentKey());
     if (ps == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }
     if (!ps.getProject().getState().permitsWrite()) {
-      return "project state does not permit write";
+      throw new AuthException("project state does not permit write");
     }
 
     PermissionBackend.ForRef perm = permissionBackend.user(user).ref(branch);
     if (object instanceof RevCommit) {
-      if (!testAuditLogged(perm, RefPermission.CREATE)) {
-        return user.getAccountId() + " lacks permission: " + Permission.CREATE;
-      }
-      return canCreateCommit(repo, (RevCommit) object, ps, user, perm);
+      perm.check(RefPermission.CREATE);
+      checkCreateCommit(repo, (RevCommit) object, ps, perm);
     } else if (object instanceof RevTag) {
-      final RevTag tag = (RevTag) object;
+      RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        String msg =
-            String.format("RevWalk(%s) for pushing tag %s:", branch.getParentKey(), tag.name());
-        log.error(msg, e);
-
-        return "I/O exception for revwalk";
+        log.error(String.format("RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name()), e);
+        throw e;
       }
 
       // If tagger is present, require it matches the user's email.
-      //
-      final PersonIdent tagger = tag.getTaggerIdent();
-      if (tagger != null) {
-        boolean valid;
-        if (user.isIdentifiedUser()) {
-          final String addr = tagger.getEmailAddress();
-          valid = user.asIdentifiedUser().hasEmailAddress(addr);
-        } else {
-          valid = false;
-        }
-        if (!valid && !testAuditLogged(perm, RefPermission.FORGE_COMMITTER)) {
-          return user.getAccountId() + " lacks permission: " + Permission.FORGE_COMMITTER;
-        }
+      PersonIdent tagger = tag.getTaggerIdent();
+      if (tagger != null
+          && (!user.get().isIdentifiedUser()
+              || !user.get().asIdentifiedUser().hasEmailAddress(tagger.getEmailAddress()))) {
+        perm.check(RefPermission.FORGE_COMMITTER);
       }
 
-      RevObject tagObject = tag.getObject();
-      if (tagObject instanceof RevCommit) {
-        String rejectReason = canCreateCommit(repo, (RevCommit) tagObject, ps, user, perm);
-        if (rejectReason != null) {
-          return rejectReason;
-        }
+      RevObject target = tag.getObject();
+      if (target instanceof RevCommit) {
+        checkCreateCommit(repo, (RevCommit) target, ps, perm);
       } else {
-        String rejectReason = canCreateRef(repo, tagObject, user, branch);
-        if (rejectReason != null) {
-          return rejectReason;
-        }
+        checkCreateRef(repo, branch, target);
       }
 
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
-      //
-      RefControl refControl = ps.controlFor(user).controlForRef(branch);
+      RefControl refControl = ps.controlFor(user.get()).controlForRef(branch);
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return refControl.canPerform(Permission.CREATE_SIGNED_TAG)
-            ? null
-            : user.getAccountId() + " lacks permission: " + Permission.CREATE_SIGNED_TAG;
+        if (!refControl.canPerform(Permission.CREATE_SIGNED_TAG)) {
+          throw new AuthException(Permission.CREATE_SIGNED_TAG + " not permitted");
+        }
+      } else if (!refControl.canPerform(Permission.CREATE_TAG)) {
+        throw new AuthException(Permission.CREATE_TAG + " not permitted");
       }
-      return refControl.canPerform(Permission.CREATE_TAG)
-          ? null
-          : user.getAccountId() + " lacks permission " + Permission.CREATE_TAG;
     }
-
-    return null;
   }
 
   /**
@@ -140,38 +116,29 @@ public class CreateRefControl {
    * the project. If not allowed, returns a string describing why it's not allowed. The userId
    * argument is only used for the error message.
    */
-  @Nullable
-  private String canCreateCommit(
-      Repository repo,
-      RevCommit commit,
-      ProjectState projectState,
-      IdentifiedUser user,
-      PermissionBackend.ForRef forRef)
-      throws PermissionBackendException {
-    if (projectState.controlFor(user).isReachableFromHeadsOrTags(repo, commit)) {
+  private void checkCreateCommit(
+      Repository repo, RevCommit commit, ProjectState projectState, PermissionBackend.ForRef forRef)
+      throws AuthException, PermissionBackendException {
+    try {
+      // If the user has update (push) permission, they can create the ref regardless
+      // of whether they are pushing any new objects along with the create.
+      forRef.check(RefPermission.UPDATE);
+      return;
+    } catch (AuthException denied) {
+      // Fall through to check reachability.
+    }
+
+    if (projectState.controlFor(user.get()).isReachableFromHeadsOrTags(repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
       // even if they don't have push permission.
-      return null;
-    } else if (testAuditLogged(forRef, RefPermission.UPDATE)) {
-      // If the user has push permissions, they can create the ref regardless
-      // of whether they are pushing any new objects along with the create.
-      return null;
+      return;
     }
-    return user.getAccountId()
-        + " lacks permission "
-        + Permission.PUSH
-        + " for creating new commit object";
-  }
 
-  private boolean testAuditLogged(PermissionBackend.ForRef forRef, RefPermission p)
-      throws PermissionBackendException {
-    try {
-      forRef.check(p);
-    } catch (AuthException e) {
-      return false;
-    }
-    return true;
+    throw new AuthException(
+        String.format(
+            "%s for creating new commit object not permitted",
+            RefPermission.UPDATE.describeForException()));
   }
 }

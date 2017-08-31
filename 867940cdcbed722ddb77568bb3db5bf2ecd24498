@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "7a425c66_64e07144",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-31T18:33:55Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\n\nI suppose we can always ungeneralize if necessary.",
+      "parentUuid": "9ef948c0_fe928680",
+      "range": {
+        "startLine": 934,
+        "startChar": 4,
+        "endLine": 934,
+        "endChar": 16
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df48cbb3_01070147",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2

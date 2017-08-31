@@ -16,19 +16,59 @@
 
   const AWAIT_MAX_ITERS = 10;
   const AWAIT_STEP = 5;
+  const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
   Polymer({
     is: 'gr-overlay',
+
+    /**
+     * Fired when a fullscreen overlay is closed
+     *
+     * @event fullscreen-overlay-closed
+     */
+
+    /**
+     * Fired when an overlay is opened in full screen mode
+     *
+     * @event fullscreen-overlay-opened
+     */
+
+    properties: {
+      _fullScreenOpen: {
+        type: Boolean,
+        value: false,
+      },
+    },
 
     behaviors: [
       Polymer.IronOverlayBehavior,
     ],
 
+    listeners: {
+      'iron-overlay-closed': '_close',
+      'iron-overlay-cancelled': '_close',
+    },
+
     open(...args) {
       return new Promise(resolve => {
         Polymer.IronOverlayBehaviorImpl.open.apply(this, args);
+        if (this._isMobile()) {
+          this.fire('fullscreen-overlay-opened');
+          this._fullScreenOpen = true;
+        }
         this._awaitOpen(resolve);
       });
+    },
+
+    _isMobile() {
+      return window.matchMedia(`(max-width: ${BREAKPOINT_FULLSCREEN_OVERLAY})`);
+    },
+
+    _close() {
+      if (this._fullScreenOpen) {
+        this.fire('fullscreen-overlay-closed');
+        this._fullScreenOpen = false;
+      }
     },
 
     /**

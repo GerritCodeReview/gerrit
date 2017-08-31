@@ -74,9 +74,12 @@ limitations under the License.
           margin: .5em;
           text-align: center;
         }
+        #mainContent.mobileOverlayOpened {
+          display: none;
+        }
       }
     </style>
-    <div>
+    <div id="mainContent">
       <span
           id="actionLoadingMessage"
           hidden$="[[!_actionLoadingMessage]]">

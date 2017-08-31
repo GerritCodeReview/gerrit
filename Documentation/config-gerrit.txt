@@ -3541,6 +3541,15 @@ number of changes for review by mistake.
 +
 Default is zero, no limit.
 
+[[receive.maxBatchCommits]]receive.maxBatchCommits::
++
+The maximum number of commits that Gerrit allows to be pushed in a batch
+directly to a branch when link:user-upload.html#bypass_review[bypassing review].
+This limit can be bypassed if a user link:user-upload.html#skip_validation[skips
+validation].
++
+Default is 10000.
+
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
 Maximum allowed Git object size that 'receive-pack' will accept.

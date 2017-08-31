@@ -517,6 +517,44 @@ grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.
 
 
+[[skip_validation]]
+=== Skip Validation
+
+Even when a user has permission to push directly to a branch
+link:#bypass_review[bypassing review], by default Gerrit will still validate any
+new commits, for example to check author/committer identities, and run
+link:config-validation.html#new-commit-validation[validation plugins]. This
+behavior can be bypassed with a push option:
+
+----
+git push -o skip-validation HEAD:master
+----
+
+Using the `skip-validation` option requires the user to have a specific set
+of permissions, *in addition* to those permissions already required to bypass
+review:
+
+* link:access-control.html#category_forge_author[Forge Author]
+* link:access-control.html#category_forge_committer[Forge Committer]
+* link:access-control.html#category_forge_server[Forge Server]
+* link:access-control.html#category_push_merge[Push Merge Commits]
+
+Plus these additional requirements on the project:
+
+* Project must not link:project-configuration.html#require-signed-off-by[require
+Signed-off-by].
+* Project must not have `refs/meta/reject-commits`.
+
+This option only applies when pushing directly to a branch bypassing review.
+Validation also occurs when pushing new changes for review, and that type of
+validation cannot be skipped.
+
+The `skip-validation` option is always required when pushing
+link:error-too-many-commits.html[more than a certain number of commits]. This is
+the recommended approach when pushing lots of old history, since some validators
+would require rewriting history in order to make them pass.
+
+
 [[auto_merge]]
 === Auto-Merge during Push
 

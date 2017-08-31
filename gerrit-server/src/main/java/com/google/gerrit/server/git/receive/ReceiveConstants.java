@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.receive;
 import com.google.common.annotations.VisibleForTesting;
 
 public final class ReceiveConstants {
+  public static final String PUSH_OPTION_SKIP_VALIDATION = "skip-validation";
+
   @VisibleForTesting
   public static final String ONLY_OWNER_CAN_MODIFY_WIP =
       "only change owner can modify Work-in-Progress";

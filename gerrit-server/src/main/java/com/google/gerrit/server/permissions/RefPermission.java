@@ -29,7 +29,7 @@ public enum RefPermission {
   FORGE_COMMITTER(Permission.FORGE_COMMITTER),
   FORGE_SERVER(Permission.FORGE_SERVER),
   MERGE,
-  BYPASS_REVIEW,
+  SKIP_VALIDATION,
 
   /** Create a change to code review a commit. */
   CREATE_CHANGE,

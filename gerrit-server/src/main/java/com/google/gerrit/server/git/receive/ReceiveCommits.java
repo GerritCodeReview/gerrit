@@ -23,6 +23,7 @@ import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
@@ -198,7 +199,6 @@ import org.slf4j.LoggerFactory;
 /** Receives change upload using the Git receive-pack protocol. */
 class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
-  private static final String BYPASS_REVIEW = "bypass-review";
 
   private enum ReceiveError {
     CONFIG_UPDATE(
@@ -362,6 +362,7 @@ class ReceiveCommits {
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private String setFullNameTo;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -586,6 +587,9 @@ class ReceiveCommits {
         logError("Can't update the superprojects", e);
       }
     }
+
+    // Update account info with details discovered during commit walking.
+    updateAccountInfo();
 
     closeProgress.end();
     commandProgress.end();
@@ -2681,11 +2685,11 @@ class ReceiveCommits {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
-        && pushOptions.containsKey(BYPASS_REVIEW)) {
+        && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
       try {
-        perm.check(RefPermission.BYPASS_REVIEW);
+        perm.check(RefPermission.SKIP_VALIDATION);
         if (!Iterables.isEmpty(rejectCommits)) {
-          throw new AuthException("reject-commits prevents " + BYPASS_REVIEW);
+          throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
         }
         logDebug("Short-circuiting new commit validation");
       } catch (AuthException denied) {
@@ -2694,7 +2698,7 @@ class ReceiveCommits {
       return;
     }
 
-    boolean defaultName = Strings.isNullOrEmpty(user.getAccount().getFullName());
+    boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -2706,39 +2710,35 @@ class ReceiveCommits {
       ListMultimap<ObjectId, Ref> existing = changeRefsById();
       walk.markStart((RevCommit) parsedObject);
       markHeadsAsUninteresting(walk, cmd.getRefName());
-      int i = 0;
+      int limit = receiveConfig.maxBatchCommits;
+      int n = 0;
       for (RevCommit c; (c = walk.next()) != null; ) {
-        i++;
+        if (++n > limit) {
+          logDebug("Number of new commits exceeds limit of {}", limit);
+          addMessage(
+              "Cannot push more than "
+                  + limit
+                  + " commits to "
+                  + branch.get()
+                  + " without "
+                  + PUSH_OPTION_SKIP_VALIDATION
+                  + " option");
+          reject(cmd, "too many commits");
+          return;
+        }
         if (existing.keySet().contains(c)) {
           continue;
         } else if (!validCommit(walk, perm, branch, cmd, c)) {
           break;
         }
 
-        if (defaultName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
-          try {
-            String committerName = c.getCommitterIdent().getName();
-            Account account =
-                accountsUpdate
-                    .create()
-                    .update(
-                        user.getAccountId(),
-                        a -> {
-                          if (Strings.isNullOrEmpty(a.getFullName())) {
-                            a.setFullName(committerName);
-                          }
-                        });
-            if (account != null && Strings.isNullOrEmpty(account.getFullName())) {
-              user.getAccount().setFullName(account.getFullName());
-            }
-          } catch (IOException | ConfigInvalidException e) {
-            logWarn("Cannot default full_name", e);
-          } finally {
-            defaultName = false;
-          }
+        if (missingFullName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
+          logDebug("Will update full name of caller");
+          setFullNameTo = c.getCommitterIdent().getName();
+          missingFullName = false;
         }
       }
-      logDebug("Validated {} new commits", i);
+      logDebug("Validated {} new commits", n);
     } catch (IOException err) {
       cmd.setResult(REJECTED_MISSING_OBJECT);
       logError("Invalid pack upload; one or more objects weren't sent", err);
@@ -2877,6 +2877,30 @@ class ReceiveCommits {
       logError("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException | PermissionBackendException e) {
       logError("Can't scan for changes to close", e);
+    }
+  }
+
+  private void updateAccountInfo() {
+    if (setFullNameTo == null) {
+      return;
+    }
+    logDebug("Updating full name of caller");
+    try {
+      Account account =
+          accountsUpdate
+              .create()
+              .update(
+                  user.getAccountId(),
+                  a -> {
+                    if (Strings.isNullOrEmpty(a.getFullName())) {
+                      a.setFullName(setFullNameTo);
+                    }
+                  });
+      if (account != null) {
+        user.getAccount().setFullName(account.getFullName());
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      logWarn("Failed to update full name of caller", e);
     }
   }
 

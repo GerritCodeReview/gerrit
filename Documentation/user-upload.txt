@@ -549,6 +549,11 @@ This option only applies when pushing directly to a branch bypassing review.
 Validation also occurs when pushing new changes for review, and that type of
 validation cannot be skipped.
 
+The `skip-validation` option is always required when pushing
+link:error-too-many-commits.html[more than a certain number of commits]. This is
+the recommended approach when pushing lots of old history, since some validators
+would require rewriting history in order to make them pass.
+
 
 [[auto_merge]]
 === Auto-Merge during Push

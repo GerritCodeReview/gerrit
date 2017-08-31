@@ -45,6 +45,29 @@
       "revId": "6845e75ab5425e1d344413b0f0a4ab51d1f12828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38e84a2e_2a455b1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-31T07:22:03Z",
+      "side": 1,
+      "message": "Sounds like a good excuse to expedite the removal of GWT.",
+      "range": {
+        "startLine": 27,
+        "startChar": 36,
+        "endLine": 27,
+        "endChar": 65
+      },
+      "revId": "6845e75ab5425e1d344413b0f0a4ab51d1f12828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

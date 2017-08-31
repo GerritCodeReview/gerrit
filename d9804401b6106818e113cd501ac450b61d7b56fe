@@ -16,6 +16,24 @@
       "revId": "d9804401b6106818e113cd501ac450b61d7b56fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc72360c_2844f98c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-08-31T06:17:25Z",
+      "side": 1,
+      "message": "I found it useful to be able to see the progress in Eclipse\u0027s console.  Since all the commands are executed in a single @Test method, you don\u0027t really see progress in the JUnit panel.\n\nIt\u0027s not strictly necessary.  I\u0027ll remove it if you don\u0027t think we should keep it.",
+      "parentUuid": "075e2f75_7bbbd8bd",
+      "revId": "d9804401b6106818e113cd501ac450b61d7b56fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

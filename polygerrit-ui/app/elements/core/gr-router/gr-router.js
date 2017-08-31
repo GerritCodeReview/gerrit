@@ -21,6 +21,10 @@
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?/,
 
+    // Pattern for login and logout URLs intended to be passed-through. May
+    // include a return URL.
+    LOG_IN_OR_OUT: /\/log(in|out)(\/(.+))?$/,
+
     // Pattern for a catchall route when no other pattern is matched.
     DEFAULT: /.*/,
 
@@ -507,6 +511,8 @@
 
       this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
 
+      this._mapRoute(RoutePattern.LOG_IN_OR_OUT, '_handlePassThroughRoute');
+
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
       this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
@@ -911,6 +917,14 @@
       const path = ctx.params[0] || '/';
       if (path[0] !== '/') { return; }
       this._redirect(this.getBaseUrl() + path);
+    },
+
+    /**
+     * Handler for routes that should pass through the router and not be caught
+     * by the catchall _handleDefaultRoute handler.
+     */
+    _handlePassThroughRoute() {
+      location.reload();
     },
 
     /**

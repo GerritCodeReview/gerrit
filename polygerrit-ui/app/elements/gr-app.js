@@ -145,12 +145,6 @@
       this.$.header.unfloat();
     },
 
-    _loginTapHandler(e) {
-      e.preventDefault();
-      page.show('/login/' + encodeURIComponent(
-          window.location.pathname + window.location.hash));
-    },
-
     // Argument used for binding update only.
     _computeLoggedIn(account) {
       return !!(account && Object.keys(account).length > 0);

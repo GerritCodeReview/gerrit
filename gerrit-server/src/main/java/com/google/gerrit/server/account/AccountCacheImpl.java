@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
@@ -59,7 +60,6 @@ public class AccountCacheImpl implements AccountCache {
   private static final Logger log = LoggerFactory.getLogger(AccountCacheImpl.class);
 
   private static final String BYID_NAME = "accounts";
-  private static final String BYUSER_NAME = "accounts_byname";
 
   public static Module module() {
     return new CacheModule() {
@@ -68,9 +68,6 @@ public class AccountCacheImpl implements AccountCache {
         cache(BYID_NAME, Account.Id.class, new TypeLiteral<Optional<AccountState>>() {})
             .loader(ByIdLoader.class);
 
-        cache(BYUSER_NAME, String.class, new TypeLiteral<Optional<Account.Id>>() {})
-            .loader(ByNameLoader.class);
-
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
       }
@@ -78,19 +75,19 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
-  private final LoadingCache<String, Optional<Account.Id>> byName;
   private final Provider<AccountIndexer> indexer;
 
   @Inject
   AccountCacheImpl(
       AllUsersName allUsersName,
+      ExternalIds externalIds,
       @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
-      @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
       Provider<AccountIndexer> indexer) {
     this.allUsersName = allUsersName;
+    this.externalIds = externalIds;
     this.byId = byId;
-    this.byName = byUsername;
     this.indexer = indexer;
   }
 
@@ -110,7 +107,7 @@ public class AccountCacheImpl implements AccountCache {
     try {
       return byId.get(accountId).orElse(null);
     } catch (ExecutionException e) {
-      log.warn("Cannot load AccountState for " + accountId, e);
+      log.warn("Cannot load AccountState for ID " + accountId, e);
       return null;
     }
   }
@@ -118,10 +115,13 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public AccountState getByUsername(String username) {
     try {
-      Optional<Account.Id> id = byName.get(username);
-      return id != null && id.isPresent() ? getOrNull(id.get()) : null;
-    } catch (ExecutionException e) {
-      log.warn("Cannot load AccountState for " + username, e);
+      ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
+      if (extId == null) {
+        return null;
+      }
+      return getOrNull(extId.accountId());
+    } catch (IOException | ConfigInvalidException e) {
+      log.warn("Cannot load AccountState for username " + username, e);
       return null;
     }
   }
@@ -137,13 +137,6 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public void evictAllNoReindex() {
     byId.invalidateAll();
-  }
-
-  @Override
-  public void evictByUsername(String username) {
-    if (username != null) {
-      byName.invalidate(username);
-    }
   }
 
   private AccountState missing(Account.Id accountId) {
@@ -165,7 +158,6 @@ public class AccountCacheImpl implements AccountCache {
     private final GroupCache groupCache;
     private final Groups groups;
     private final GeneralPreferencesLoader loader;
-    private final LoadingCache<String, Optional<Account.Id>> byName;
     private final Provider<WatchConfig.Accessor> watchConfig;
     private final ExternalIds externalIds;
 
@@ -177,7 +169,6 @@ public class AccountCacheImpl implements AccountCache {
         GroupCache groupCache,
         Groups groups,
         GeneralPreferencesLoader loader,
-        @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
         Provider<WatchConfig.Accessor> watchConfig,
         ExternalIds externalIds) {
       this.schema = sf;
@@ -186,7 +177,6 @@ public class AccountCacheImpl implements AccountCache {
       this.groupCache = groupCache;
       this.groups = groups;
       this.loader = loader;
-      this.byName = byUsername;
       this.watchConfig = watchConfig;
       this.externalIds = externalIds;
     }
@@ -194,15 +184,7 @@ public class AccountCacheImpl implements AccountCache {
     @Override
     public Optional<AccountState> load(Account.Id key) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Optional<AccountState> state = load(db, key);
-        if (!state.isPresent()) {
-          return state;
-        }
-        String user = state.get().getUserName();
-        if (user != null) {
-          byName.put(user, Optional.of(state.get().getAccount().getId()));
-        }
-        return state;
+        return load(db, key);
       }
     }
 

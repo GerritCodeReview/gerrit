@@ -67,7 +67,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
-  private final AccountCache accountCache;
   private final AccountsUpdate.User accountsUpdate;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
@@ -84,7 +83,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      AccountCache accountCache,
       AccountsUpdate.User accountsUpdate,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
@@ -98,7 +96,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
-    this.accountCache = accountCache;
     this.accountsUpdate = accountsUpdate;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
@@ -196,8 +193,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
         throw new BadRequestException(e.getMessage());
       }
     }
-
-    accountCache.evictByUsername(username);
 
     AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);

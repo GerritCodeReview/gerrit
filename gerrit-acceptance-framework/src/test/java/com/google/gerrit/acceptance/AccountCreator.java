@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -58,7 +57,6 @@ public class AccountCreator {
   private final Groups groups;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final SshKeyCache sshKeyCache;
-  private final AccountCache accountCache;
   private final ExternalIdsUpdate.Server externalIdsUpdate;
   private final boolean sshEnabled;
 
@@ -71,7 +69,6 @@ public class AccountCreator {
       Groups groups,
       @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       SshKeyCache sshKeyCache,
-      AccountCache accountCache,
       ExternalIdsUpdate.Server externalIdsUpdate,
       @SshEnabled boolean sshEnabled) {
     accounts = new HashMap<>();
@@ -82,7 +79,6 @@ public class AccountCreator {
     this.groups = groups;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
-    this.accountCache = accountCache;
     this.externalIdsUpdate = externalIdsUpdate;
     this.sshEnabled = sshEnabled;
   }
@@ -138,10 +134,6 @@ public class AccountCreator {
         sshKey = genSshKey();
         authorizedKeys.addKey(id, publicKey(sshKey, email));
         sshKeyCache.evict(username);
-      }
-
-      if (username != null) {
-        accountCache.evictByUsername(username);
       }
 
       account = new TestAccount(id, username, email, fullName, sshKey, httpPass);

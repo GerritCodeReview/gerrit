@@ -153,6 +153,10 @@
 
     /** @return {!Promise} */
     reload() {
+      if (this.patchRange.patchNum === undefined) {
+        return;
+      }
+
       this.$.diffBuilder.cancel();
       this._safetyBypass = null;
       this._showWarning = false;

@@ -665,50 +665,51 @@ limitations under the License.
       element.fire('change', {}, {node: selectEl.nativeSelect});
     });
 
-    test('don’t reload entire page when patchRange changes', () => {
-      const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
-      const reloadPatchDependentStub = sandbox.stub(element,
-          '_reloadPatchNumDependentResources',
-          () => { return Promise.resolve(); });
-      const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
+    suite.only('_paramsChanged', () => {
+      let reloadStub;
+      let reloadPatchDependentStub;
 
-      const value = {
-        view: Gerrit.Nav.View.CHANGE,
-        patchNum: '1',
-      };
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledOnce);
-      assert.isTrue(relatedClearSpy.calledOnce);
+      setup(() => {
+        reloadStub = sandbox.stub(element, '_reload')
+            .returns(Promise.resolve());
+        reloadPatchDependentStub = sandbox.stub(element,
+            '_reloadPatchNumDependentResources').returns(Promise.resolve());
+        sandbox.stub(element, '_performPostLoadTasks')
+            .returns(Promise.resolve());
+      });
 
-      element._initialLoadComplete = true;
+      test('don’t reload entire page when only the patchRange changes', () => {
+        const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
 
-      value.basePatchNum = '1';
-      value.patchNum = '2';
-      element._paramsChanged(value);
-      assert.isFalse(reloadStub.calledTwice);
-      assert.isTrue(reloadPatchDependentStub.calledOnce);
-      assert.isTrue(relatedClearSpy.calledOnce);
-    });
+        const value = {
+          view: Gerrit.Nav.View.CHANGE,
+          patchNum: '1',
+        };
 
-    test('reload entire page when patchRange doesnt change', () => {
-      const mockPatchRange = {patchNum: '1337', basePatchNum: 'PARENT'};
-      const reloadStub = sandbox.stub(element, '_reload',
-          () => { return Promise.resolve(); });
-      element._patchRange = {};
-      sandbox.stub(element, 'computeLatestPatchNum').returns('1337');
-      const value = {
-        view: Gerrit.Nav.View.CHANGE,
-      };
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledOnce);
-      assert.deepEqual(element._patchRange, mockPatchRange);
+        return element._paramsChanged(value).then(() => {
+          assert.isTrue(reloadStub.calledOnce);
+          assert.isTrue(relatedClearSpy.calledOnce);
 
-      element._initialLoadComplete = true;
-      element._patchRange = {};
-      element._paramsChanged(value);
-      assert.isTrue(reloadStub.calledTwice);
-      assert.deepEqual(element._patchRange, mockPatchRange);
+          element._initialLoadComplete = true;
+
+          value.basePatchNum = '1';
+          value.patchNum = '2';
+          element._paramsChanged(value);
+          assert.isFalse(reloadStub.calledTwice);
+          assert.isTrue(reloadPatchDependentStub.calledOnce);
+          assert.isTrue(relatedClearSpy.calledOnce);
+        });
+      });
+
+      test('reload entire page when patchRange doesnt change', () => {
+        const value = {view: Gerrit.Nav.View.CHANGE};
+        element._paramsChanged(value);
+        assert.isTrue(reloadStub.calledOnce);
+        element._initialLoadComplete = true;
+        element._paramsChanged(value);
+        assert.isTrue(reloadStub.calledTwice);
+        assert.isFalse(reloadPatchDependentStub.called);
+      });
     });
 
     test('include base patch when not parent', () => {

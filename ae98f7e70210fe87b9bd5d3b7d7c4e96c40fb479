@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fb05cbe_c383e4c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-08-31T22:50:10Z",
+      "side": 1,
+      "message": "this change seems unrelated",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6881f449_968f7f89",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-08-31T22:50:10Z",
+      "side": 1,
+      "message": "this change seems unrelated",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb715c8a_43b08a13",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/args4j/ErrorMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-08-31T22:50:10Z",
+      "side": 1,
+      "message": "remove a ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d1d8c5_8f9334c8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-08-31T22:50:10Z",
+      "side": 1,
+      "message": "this change seems unrelated",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

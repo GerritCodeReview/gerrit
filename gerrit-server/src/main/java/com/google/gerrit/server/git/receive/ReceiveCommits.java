@@ -362,6 +362,7 @@ class ReceiveCommits {
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private String setFullNameTo;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -586,6 +587,9 @@ class ReceiveCommits {
         logError("Can't update the superprojects", e);
       }
     }
+
+    // Update account info with details discovered during commit walking.
+    updateAccountInfo();
 
     closeProgress.end();
     commandProgress.end();
@@ -2694,7 +2698,7 @@ class ReceiveCommits {
       return;
     }
 
-    boolean defaultName = Strings.isNullOrEmpty(user.getAccount().getFullName());
+    boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -2715,27 +2719,10 @@ class ReceiveCommits {
           break;
         }
 
-        if (defaultName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
-          try {
-            String committerName = c.getCommitterIdent().getName();
-            Account account =
-                accountsUpdate
-                    .create()
-                    .update(
-                        user.getAccountId(),
-                        a -> {
-                          if (Strings.isNullOrEmpty(a.getFullName())) {
-                            a.setFullName(committerName);
-                          }
-                        });
-            if (account != null && Strings.isNullOrEmpty(account.getFullName())) {
-              user.getAccount().setFullName(account.getFullName());
-            }
-          } catch (IOException | ConfigInvalidException e) {
-            logWarn("Cannot default full_name", e);
-          } finally {
-            defaultName = false;
-          }
+        if (missingFullName && user.hasEmailAddress(c.getCommitterIdent().getEmailAddress())) {
+          logDebug("Will update full name of caller");
+          setFullNameTo = c.getCommitterIdent().getName();
+          missingFullName = false;
         }
       }
       logDebug("Validated {} new commits", i);
@@ -2877,6 +2864,30 @@ class ReceiveCommits {
       logError("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException | PermissionBackendException e) {
       logError("Can't scan for changes to close", e);
+    }
+  }
+
+  private void updateAccountInfo() {
+    if (setFullNameTo == null) {
+      return;
+    }
+    logDebug("Updating full name of caller");
+    try {
+      Account account =
+          accountsUpdate
+              .create()
+              .update(
+                  user.getAccountId(),
+                  a -> {
+                    if (Strings.isNullOrEmpty(a.getFullName())) {
+                      a.setFullName(setFullNameTo);
+                    }
+                  });
+      if (account != null) {
+        user.getAccount().setFullName(account.getFullName());
+      }
+    } catch (IOException | ConfigInvalidException e) {
+      logWarn("Failed to update full name of caller", e);
     }
   }
 

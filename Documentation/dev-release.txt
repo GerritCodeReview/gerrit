@@ -359,6 +359,13 @@ none of the changes/fixes ever get lost.
   git merge stable
 ----
 
+[[update-api-version-in-bazlets-repository]]
+
+Bazlets is used by gerrit plugins to simplify build process. To allow the
+new released version to be used by gerrit plugins,
+link:https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl#8[gerrit_api.bzl]
+must reference the new version. Upload a change to bazlets repository with
+api version upgrade.
 
 GERRIT
 ------

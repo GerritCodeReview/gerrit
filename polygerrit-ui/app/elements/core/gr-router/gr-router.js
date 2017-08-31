@@ -609,7 +609,7 @@
     _handleGroupListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        adminView: 'gr-group-list',
         offset: data.params[1] || 0,
         filter: null,
       });
@@ -618,7 +618,7 @@
     _handleGroupListFilterOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        adminView: 'gr-group-list',
         offset: data.params.offset,
         filter: data.params.filter,
       });
@@ -627,7 +627,7 @@
     _handleGroupListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        adminView: 'gr-group-list',
         filter: data.params.filter || null,
       });
     },

@@ -24,7 +24,7 @@
     name: 'Groups',
     section: 'Groups',
     url: '/admin/groups',
-    view: 'gr-admin-group-list',
+    view: 'gr-group-list',
     children: [],
   }, {
     name: 'Plugins',
@@ -185,7 +185,7 @@
     _paramsChanged(params) {
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
-      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
+      this.set('_showGroupList', params.adminView === 'gr-group-list');
       this.set('_showGroupMembers', params.adminView === 'gr-group-members');
       this.set('_showProjectCommands',
           params.adminView === 'gr-project-commands');

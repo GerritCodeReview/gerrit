@@ -638,7 +638,7 @@ limitations under the License.
           const data = {params: {}};
           assertDataToParams(data, '_handleGroupListOffsetRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-admin-group-list',
+            adminView: 'gr-group-list',
             offset: 0,
             filter: null,
           });
@@ -646,7 +646,7 @@ limitations under the License.
           data.params[1] = 42;
           assertDataToParams(data, '_handleGroupListOffsetRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-admin-group-list',
+            adminView: 'gr-group-list',
             offset: 42,
             filter: null,
           });
@@ -656,7 +656,7 @@ limitations under the License.
           const data = {params: {filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleGroupListFilterOffsetRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-admin-group-list',
+            adminView: 'gr-group-list',
             offset: 42,
             filter: 'foo',
           });
@@ -666,7 +666,7 @@ limitations under the License.
           const data = {params: {filter: 'foo'}};
           assertDataToParams(data, '_handleGroupListFilterRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-admin-group-list',
+            adminView: 'gr-group-list',
             filter: 'foo',
           });
         });

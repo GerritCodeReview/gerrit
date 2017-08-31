@@ -1,0 +1,20 @@
+= too many commits
+
+This error occurs when a push directly to a branch
+link:user-upload.html#bypass_review[bypassing review] contains more commits than
+the server is able to validate in a single batch.
+
+The recommended way to avoid this message is to use the
+link:user-upload.html#skip_validation[`skip-validation` push option]. Depending
+on the number of commits, it may also be feasible to split the push into smaller
+batches.
+
+The actual limit is controlled by a
+link:config-gerrit.html#receive.maxBatchCommits[server config option].
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

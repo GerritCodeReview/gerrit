@@ -2710,9 +2710,22 @@ class ReceiveCommits {
       ListMultimap<ObjectId, Ref> existing = changeRefsById();
       walk.markStart((RevCommit) parsedObject);
       markHeadsAsUninteresting(walk, cmd.getRefName());
-      int i = 0;
+      int limit = receiveConfig.maxBatchCommits;
+      int n = 0;
       for (RevCommit c; (c = walk.next()) != null; ) {
-        i++;
+        if (++n > limit) {
+          logDebug("Number of new commits exceeds limit of {}", limit);
+          addMessage(
+              "Cannot push more than "
+                  + limit
+                  + " commits to "
+                  + branch.get()
+                  + " without "
+                  + BYPASS_REVIEW
+                  + " option");
+          reject(cmd, "too many commits");
+          return;
+        }
         if (existing.keySet().contains(c)) {
           continue;
         } else if (!validCommit(walk, perm, branch, cmd, c)) {
@@ -2725,7 +2738,7 @@ class ReceiveCommits {
           missingFullName = false;
         }
       }
-      logDebug("Validated {} new commits", i);
+      logDebug("Validated {} new commits", n);
     } catch (IOException err) {
       cmd.setResult(REJECTED_MISSING_OBJECT);
       logError("Invalid pack upload; one or more objects weren't sent", err);

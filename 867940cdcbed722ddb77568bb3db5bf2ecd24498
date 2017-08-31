@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf37ca59_4fb6f577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-31T17:31:56Z",
+      "side": 1,
+      "message": "I can think of three alternative approaches to fix this. Let me know if one of them is more desirable than this one.\n\n* Reinstate the click handler. The old broken click handler was clearly designed to bypass the router and ensure it manually loads the login page (although I\u0027m unaware of any former catchall style route). This might be a bit simpler to implement, but has the disadvantage of doing some of the routing in a place that isn\u0027t the router.\n* Rewrite the DEFAULT route to exclude login and logout. The new _passThrough handler is designed so we can easily map more routes to be passed through. It would not be so bad to exclude /login and /logout from DEFAULT right now, but it would get unwieldy if we eventually have to exclude many more routes from it.\n* Scrap the catchall. This\u0027d lose the advantages of the 404 message on malformed routes. It also looks like /login and /logout may be the only routes that need to bypass the catchall at this point.",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

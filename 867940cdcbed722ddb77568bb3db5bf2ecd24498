@@ -22,6 +22,99 @@
       "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f34c247a_196712aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-31T17:40:13Z",
+      "side": 1,
+      "message": "I definitely think this impl. makes the most sense, fwiw.",
+      "parentUuid": "cf37ca59_4fb6f577",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a96fcac_7d16ef96",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-31T17:40:13Z",
+      "side": 1,
+      "message": "Would like a comment enumerating what this does -- mainly because it seems not immediately obvious to me that login/logout routes have any suffix.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce101b94_8b5bb1b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-31T17:40:13Z",
+      "side": 1,
+      "message": "Is there a specific reason for such a general name here?\n\nIt seems to me like the only case for which this is useful is login/logout -- maybe the fn should be named as such.\n\nAlso, as you mentioned yesterday, all of the route handling functions end with \u0027route\u0027.",
+      "range": {
+        "startLine": 934,
+        "startChar": 4,
+        "endLine": 934,
+        "endChar": 16
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df48cbb3_01070147",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-08-31T17:40:13Z",
+      "side": 1,
+      "message": "Could we move this fn above _handleDefaultRoute?",
+      "range": {
+        "startLine": 930,
+        "startChar": 0,
+        "endLine": 936,
+        "endChar": 6
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

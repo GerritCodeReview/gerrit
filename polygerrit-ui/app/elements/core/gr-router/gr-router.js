@@ -20,6 +20,7 @@
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?/,
+    LOG_IN_OR_OUT: /\/log(in|out)(\/(.+))?$/,
 
     // Pattern for a catchall route when no other pattern is matched.
     DEFAULT: /.*/,
@@ -507,6 +508,8 @@
 
       this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
 
+      this._mapRoute(RoutePattern.LOG_IN_OR_OUT, '_passThrough');
+
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
       this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
@@ -922,6 +925,10 @@
       // TODO: Decouple the gr-app error view from network responses.
       this._app.dispatchEvent(new CustomEvent('page-error',
           {detail: {response: {status: 404}}}));
+    },
+
+    _passThrough() {
+      location.reload();
     },
   });
 })();

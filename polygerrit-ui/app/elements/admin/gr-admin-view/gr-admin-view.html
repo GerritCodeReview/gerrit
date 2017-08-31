@@ -27,7 +27,6 @@ limitations under the License.
 <link rel="import" href="../gr-create-group-dialog/gr-create-group-dialog.html">
 <link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
-<link rel="import" href="../gr-admin-project-list/gr-admin-project-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
 <link rel="import" href="../gr-group-members/gr-group-members.html">
@@ -36,6 +35,7 @@ limitations under the License.
 <link rel="import" href="../gr-project-access/gr-project-access.html">
 <link rel="import" href="../gr-project-commands/gr-project-commands.html">
 <link rel="import" href="../gr-project-detail-list/gr-project-detail-list.html">
+<link rel="import" href="../gr-project-list/gr-project-list.html">
 
 <dom-module id="gr-admin-view">
   <template>
@@ -75,8 +75,7 @@ limitations under the License.
     </gr-page-nav>
     <template is="dom-if" if="[[_showProjectList]]" restamp="true">
       <main class="table">
-        <gr-admin-project-list class="table" params="[[params]]">
-        </gr-admin-project-list>
+        <gr-project-list class="table" params="[[params]]"></gr-project-list>
       </main>
     </template>
     <template is="dom-if" if="[[_showProjectMain]]" restamp="true">

@@ -34,6 +34,24 @@
       "revId": "d9804401b6106818e113cd501ac450b61d7b56fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f70681f_d4f0b640",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SshCommandsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-31T06:18:19Z",
+      "side": 1,
+      "message": "No problem with having it.",
+      "parentUuid": "fc72360c_2844f98c",
+      "revId": "d9804401b6106818e113cd501ac450b61d7b56fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -54,6 +54,7 @@ limitations under the License.
       // Stub the network calls into requests that never resolve.
       sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
 
+      element.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
       element.reload();
       assert.isTrue(cancelStub.called);
     });

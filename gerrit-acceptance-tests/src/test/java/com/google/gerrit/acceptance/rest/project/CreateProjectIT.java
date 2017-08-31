@@ -15,9 +15,11 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
@@ -41,6 +43,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collections;
 import java.util.Set;
+import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -84,7 +87,15 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void createProjectHttpWithUnreasonableName_BadRequest() throws Exception {
-    adminRestSession.put("/projects/" + Url.encode(name("invalid/../name"))).assertBadRequest();
+    ImmutableList<String> forbiddenStrings =
+        ImmutableList.of(
+            "/../", "/./", "//", ".git/", "?", "%", "*", ":", "<", ">", "|", "$", "/+", "~");
+    for (String s : forbiddenStrings) {
+      String projectName = name("invalid" + s + "name");
+      assertWithMessage("Expected status code for " + projectName + " to be 400.")
+          .that(adminRestSession.put("/projects/" + Url.encode(projectName)).getStatusCode())
+          .isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    }
   }
 
   @Test

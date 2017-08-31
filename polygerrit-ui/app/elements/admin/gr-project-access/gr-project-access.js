@@ -41,7 +41,12 @@
       Gerrit.URLEncodingBehavior,
     ],
 
+    /**
+     * @param {string} project
+     * @return {!Promise}
+     */
     _projectChanged(project) {
+      if (!project) { return Promise.resolve(); }
       const promises = [];
       if (!this._sections) {
         this._sections = [];

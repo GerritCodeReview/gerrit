@@ -78,7 +78,7 @@ limitations under the License.
         },
       };
       const accessStub = sandbox.stub(element.$.restAPI,
-          'getProjectAccessRights') .returns(Promise.resolve(accessRes));
+          'getProjectAccessRights').returns(Promise.resolve(accessRes));
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities').returns(Promise.resolve(capabilitiesRes));
       const projectStub = sandbox.stub(element.$.restAPI, 'getProject').returns(
@@ -93,6 +93,46 @@ limitations under the License.
         assert.deepEqual(element._sections,
             element.toSortedArray(accessRes.local));
         assert.deepEqual(element._labels, projectRes.labels);
+        done();
+      });
+    });
+
+    test('_projectChanged when project changes to undefined returns', done => {
+      const capabilitiesRes = {
+        accessDatabase: {
+          id: 'accessDatabase',
+          name: 'Access Database',
+        },
+      };
+      const accessRes = {
+        local: {
+          GLOBAL_CAPABILITIES: {
+            permissions: {
+              accessDatabase: {
+                rules: {
+                  123: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      const projectRes = {
+        labels: {
+          'Code-Review': {},
+        },
+      };
+      const accessStub = sandbox.stub(element.$.restAPI,
+          'getProjectAccessRights').returns(Promise.resolve(accessRes));
+      const capabilitiesStub = sandbox.stub(element.$.restAPI,
+          'getCapabilities').returns(Promise.resolve(capabilitiesRes));
+      const projectStub = sandbox.stub(element.$.restAPI, 'getProject').returns(
+          Promise.resolve(projectRes));
+
+      element._projectChanged().then(() => {
+        assert.isFalse(accessStub.called);
+        assert.isFalse(capabilitiesStub.called);
+        assert.isFalse(projectStub.called);
         done();
       });
     });

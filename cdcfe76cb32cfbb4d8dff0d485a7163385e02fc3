@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1504161662 +0200\nnonce AJMiPPfGve670ncr9qfc0YzQYTgAjmhFgBwezZDos1VyZZ/WaZYl3pfVqi5IX1z8pg1bahqxyclZ\n\n0000000000000000000000000000000000000000 f9d892d2ce50977cdc3cb9fd27b184ef0a4937a7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZp69/AAoJEFG1/Zeg0O9Rq6kH/32u1TnDj8JdREQI43ZLugUf\noXfxrScQxbzXxt0mr/28btENDXXIs5OPrlFpG2gNVCsdQUf0sA5CMEj+GOlO5yzp\nw4ylrH7up1OMjbl30jq+dCpEaO87MmiQJsN9AkGL1Vw81tnhQOr54tp5FRoT4/mX\nCOg09fgLnDaXVLYufXIRmRUb1XXtUzZBW9iNFR44nz85dFexzHOinUELsv+6ZSo/\n8Fp0u2KhzobdA7/P7C3A58IqMryH8zo8cOkuojc35iskOBYmklME7NNJdx4/YpZe\nO5JEC5guhhS7Y80KIBSV0lNxIH3VkhVM0HKEKaD9qSOm7s+fCi5iSVmgs3QMBE4\u003d\n\u003d/n07\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9ec576b_5283c7a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/group/GroupQueryBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-08-31T07:11:54Z",
+      "side": 1,
+      "message": "These exceptions are never thrown.\n\nDone.",
+      "range": {
+        "startLine": 164,
+        "startChar": 34,
+        "endLine": 164,
+        "endChar": 83
+      },
+      "revId": "cdcfe76cb32cfbb4d8dff0d485a7163385e02fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

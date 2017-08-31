@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc979a5_adeba694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-31T11:25:24Z",
+      "side": 1,
+      "message": "The last recent Bazel release is 0.5.4.",
+      "revId": "1b2ff658839ff02e183ae17c96a0cfda85a6a27b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

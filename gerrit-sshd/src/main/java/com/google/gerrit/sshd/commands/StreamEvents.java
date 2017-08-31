@@ -169,9 +169,15 @@ final class StreamEvents extends BaseCommand {
             .create();
   }
 
+  private void removeEventListenerRegistration() {
+    if (eventListenerRegistration != null) {
+      eventListenerRegistration.remove();
+    }
+  }
+
   @Override
   protected void onExit(int rc) {
-    eventListenerRegistration.remove();
+    removeEventListenerRegistration();
 
     synchronized (taskLock) {
       done = true;
@@ -182,7 +188,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    eventListenerRegistration.remove();
+    removeEventListenerRegistration();
 
     final boolean exit;
     synchronized (taskLock) {
@@ -230,7 +236,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        eventListenerRegistration.remove();
+        removeEventListenerRegistration();
         flush();
         onExit(0);
         return;

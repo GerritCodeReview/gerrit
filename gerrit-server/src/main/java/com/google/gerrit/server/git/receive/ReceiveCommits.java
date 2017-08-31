@@ -1004,9 +1004,10 @@ class ReceiveCommits {
     }
 
     Branch.NameKey branch = new Branch.NameKey(project.getName(), cmd.getRefName());
-    String rejectReason = createRefControl.canCreateRef(rp.getRepository(), obj, user, branch);
-    if (rejectReason != null) {
-      reject(cmd, "prohibited by Gerrit: " + rejectReason);
+    try {
+      createRefControl.checkCreateRef(rp.getRepository(), branch, obj);
+    } catch (AuthException denied) {
+      reject(cmd, "prohibited by Gerrit: " + denied.getMessage());
       return;
     }
 

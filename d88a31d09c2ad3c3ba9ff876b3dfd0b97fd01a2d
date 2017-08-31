@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e12581a_3f4f8313",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-31T20:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1e404ea_05f73cbe",
+      "range": {
+        "startLine": 77,
+        "startChar": 21,
+        "endLine": 77,
+        "endChar": 34
+      },
+      "revId": "d88a31d09c2ad3c3ba9ff876b3dfd0b97fd01a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69fbc264_b331219e",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.html",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dae49d2a_2f2c2685",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-31T20:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69fbc264_b331219e",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "d88a31d09c2ad3c3ba9ff876b3dfd0b97fd01a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf0a37f_617825e1",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 3
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "748e2f05_c524c951",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-31T20:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcf0a37f_617825e1",
+      "revId": "d88a31d09c2ad3c3ba9ff876b3dfd0b97fd01a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a73f6d68_19600902",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2017-08-31T19:08:31Z",
       "side": 1,
       "message": "Aside: it may be nice to have some of these in a behavior so that elements can share their definition of \"mobile breakpoint\" in JS. Or whatever other special future breakpoints we have.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 6
+      },
+      "revId": "d88a31d09c2ad3c3ba9ff876b3dfd0b97fd01a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecf488e2_c815668d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-08-31T20:33:14Z",
+      "side": 1,
+      "message": "Yeah. Created https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7131",
+      "parentUuid": "a73f6d68_19600902",
       "range": {
         "startLine": 64,
         "startChar": 4,

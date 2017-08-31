@@ -315,9 +315,9 @@ are optional.
 
 The external IDs are maintained by Gerrit, this means users are not
 allowed to manually edit their external IDs. Only users with the
-link:access-control.html#capability_accessDatabase[Access Database] can
-push updates to the `refs/meta/external-ids` branch. However Gerrit
-rejects pushes if:
+link:access-control.html#capability_accessDatabase[Access Database]
+global capability can push updates to the `refs/meta/external-ids`
+branch. However Gerrit rejects pushes if:
 
 * any external ID config file cannot be parsed
 * if a note key does not match the SHA of the external ID key in the

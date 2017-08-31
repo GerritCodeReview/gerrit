@@ -23,6 +23,7 @@ import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
@@ -198,7 +199,6 @@ import org.slf4j.LoggerFactory;
 /** Receives change upload using the Git receive-pack protocol. */
 class ReceiveCommits {
   private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
-  private static final String BYPASS_REVIEW = "bypass-review";
 
   private enum ReceiveError {
     CONFIG_UPDATE(
@@ -2685,11 +2685,11 @@ class ReceiveCommits {
     if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
-        && pushOptions.containsKey(BYPASS_REVIEW)) {
+        && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
       try {
-        perm.check(RefPermission.BYPASS_REVIEW);
+        perm.check(RefPermission.SKIP_VALIDATION);
         if (!Iterables.isEmpty(rejectCommits)) {
-          throw new AuthException("reject-commits prevents " + BYPASS_REVIEW);
+          throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
         }
         logDebug("Short-circuiting new commit validation");
       } catch (AuthException denied) {

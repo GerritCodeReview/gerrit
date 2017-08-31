@@ -609,7 +609,7 @@ public class RefControl {
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef("refs/for/" + getRefName()).canSubmit(true);
 
-        case BYPASS_REVIEW:
+        case SKIP_VALIDATION:
           return canForgeAuthor()
               && canForgeCommitter()
               && canForgeGerritServerIdentity()

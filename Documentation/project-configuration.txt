@@ -224,6 +224,7 @@ maximum Git object size limit that is actually used on the project.
 The defined maximum Git object size limit is inherited by any child
 project.
 
+[[require-signed-off-by]]
 === Require Signed-off-by
 
 The `Require Signed-off-by in commit message` option defines whether a

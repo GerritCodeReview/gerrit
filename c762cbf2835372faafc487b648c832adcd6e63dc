@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523191a9_0564beaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-31T20:22:40Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "c762cbf2835372faafc487b648c832adcd6e63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49fd2630_f80507d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-08-31T20:22:40Z",
+      "side": 1,
+      "message": "Nit: too long line.",
+      "revId": "c762cbf2835372faafc487b648c832adcd6e63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

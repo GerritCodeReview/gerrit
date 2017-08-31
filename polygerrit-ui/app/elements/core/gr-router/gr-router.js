@@ -439,7 +439,7 @@
           '_handleProjectCommandsRoute', true);
 
       this._mapRoute(RoutePattern.PROJECT_ACCESS,
-          '_handleProjectAccessRoute', true);
+          '_handleProjectAccessRoute');
 
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');

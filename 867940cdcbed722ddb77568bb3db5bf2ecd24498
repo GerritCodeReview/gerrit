@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a88a46fa_dbecdc89",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-31T18:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a96fcac_7d16ef96",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce101b94_8b5bb1b7",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9ef948c0_fe928680",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-31T18:10:43Z",
+      "side": 1,
+      "message": "\u003e Is there a specific reason for such a general name here?\n\nIts so general because the idea is that any number of future routes can be mapped to it. That is arguably a premature generalization though.\n\n\u003e Also, as you mentioned yesterday, all of the route handling functions end with \u0027route\u0027.\n\nI didn\u0027t name it that way because it\u0027s not exactly a route that it handles. It\u0027s a route handler for non-routes.\n\nBut what\u0027s in a name? I did say that yesterday, so it\u0027s now called ..\n\n _handlePassThroughRoute",
+      "parentUuid": "ce101b94_8b5bb1b7",
+      "range": {
+        "startLine": 934,
+        "startChar": 4,
+        "endLine": 934,
+        "endChar": 16
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df48cbb3_01070147",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -115,6 +163,30 @@
       "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "515ee828_d6dd674d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-08-31T18:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df48cbb3_01070147",
+      "range": {
+        "startLine": 930,
+        "startChar": 0,
+        "endLine": 936,
+        "endChar": 6
+      },
+      "revId": "867940cdcbed722ddb77568bb3db5bf2ecd24498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

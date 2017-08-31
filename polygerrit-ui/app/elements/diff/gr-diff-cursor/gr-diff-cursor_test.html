@@ -63,6 +63,7 @@ limitations under the License.
       diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
       });
+      diffElement.patchRange = {patchNum: 4, basePatchNum: 'PARENT'};
 
       sandbox.stub(diffElement, '_getDiff', () => {
         return Promise.resolve(mockDiffResponse.diffResponse);

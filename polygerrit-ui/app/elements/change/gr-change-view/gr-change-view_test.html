@@ -649,7 +649,7 @@ limitations under the License.
     });
 
     test('reload entire page when patchRange doesnt change', () => {
-      const mockPatchRange = {patchNum: '1337', basePatchNum: 'PARENT'};
+      const expectedPatchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
       const reloadStub = sandbox.stub(element, '_reload',
           () => { return Promise.resolve(); });
       element._patchRange = {};
@@ -659,13 +659,13 @@ limitations under the License.
       };
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledOnce);
-      assert.deepEqual(element._patchRange, mockPatchRange);
+      assert.deepEqual(element._patchRange, expectedPatchRange);
 
       element._initialLoadComplete = true;
       element._patchRange = {};
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledTwice);
-      assert.deepEqual(element._patchRange, mockPatchRange);
+      assert.deepEqual(element._patchRange, expectedPatchRange);
     });
 
     test('include base patch when not parent', () => {

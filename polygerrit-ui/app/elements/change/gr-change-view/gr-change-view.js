@@ -453,63 +453,94 @@
         return;
       }
 
+      // If true, a full reload of the view is needed.
+      let reloadNeeded = false;
+
+      // Is the new change number different from the old change number?
+      const changeNumChanged = this._changeNum !== value.changeNum;
+
+      // If the new patch range unspecified?
+      const newRangeIsUndefined = value.patchNum === undefined ||
+          value.basePatchNum === undefined;
+
+      // If the change is different, or the patch range is not specified, then
+      // all the change data needs to be reloaded from scratch.
+      if (changeNumChanged || newRangeIsUndefined) {
+        this._initialLoadComplete = false;
+        reloadNeeded = true;
+      }
+
       // If the patch changed, and was not set to undefined/undefined, we need
       // not reload all resources -- only the commit info and the file list.
-      // If the patch range was set to undefined/undefined, the user is looking
-      // to refresh the whole view.
-      const patchChanged = this._patchRange &&
-          (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
+      const patchChanged = this._patchRange && !newRangeIsUndefined &&
           (this._patchRange.patchNum !== value.patchNum ||
           this._patchRange.basePatchNum !== value.basePatchNum);
 
-      if (this._changeNum !== value.changeNum) {
-        this._initialLoadComplete = false;
-      }
+      let patchNum = value.patchNum;
 
-      const patchNum = value.patchNum ||
-          this.computeLatestPatchNum(this._allPatchSets);
+      // If the patchnum is not specified but can be determined from the known
+      // patches, then use the latest known patch.
+      if (!reloadNeeded && !patchNum) {
+        patchNum = this.computeLatestPatchNum(this._allPatchSets);
+      }
 
       const basePatchNum = value.basePatchNum || 'PARENT';
 
       this._patchRange = {patchNum, basePatchNum};
 
-      if (this._initialLoadComplete && patchChanged) {
-        this._reloadPatchNumDependentResources().then(() => {
+      // If a full reload is not needed, then only known patches of the current
+      // change has changed. Reload the data that depends only on the range and
+      // exit the function.
+      if (!reloadNeeded) {
+        return this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
             change: this._change,
             patchNum,
           });
         });
-        return;
       }
+
+      // Otherwise, do a hard reload.
 
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
 
-      this._reload().then(() => {
-        this._performPostLoadTasks();
+      // If this is a new change, proactively close any expanded inline diffs.
+      if (changeNumChanged) {
+        this.$.fileList.collapseAllDiffs();
+      }
+
+      return this._reload().then(() => {
+        return this._performPostLoadTasks();
       });
     },
 
     _performPostLoadTasks() {
-      this.$.relatedChanges.reload();
-      this._maybeShowReplyDialog();
-      this._maybeShowRevertDialog();
+      const promises = [
+        this.$.relatedChanges.reload(),
+        this._maybeShowReplyDialog(),
+        this._maybeShowRevertDialog(),
+      ];
 
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
         change: this._change,
         patchNum: this._patchRange.patchNum,
       });
 
-      this.async(() => {
-        if (this.viewState.scrollTop) {
-          document.documentElement.scrollTop =
-              document.body.scrollTop = this.viewState.scrollTop;
-        } else {
-          this._maybeScrollToMessage(window.location.hash);
-        }
-        this._initialLoadComplete = true;
-      });
+      promises.push(new Promise(resolve => {
+        this.async(() => {
+          if (this.viewState.scrollTop) {
+            document.documentElement.scrollTop =
+                document.body.scrollTop = this.viewState.scrollTop;
+          } else {
+            this._maybeScrollToMessage(window.location.hash);
+          }
+          this._initialLoadComplete = true;
+          resolve();
+        });
+      }));
+
+      return Promise.all(promises);
     },
 
     _paramsAndChangeChanged(value) {
@@ -557,7 +588,7 @@
     },
 
     _maybeShowRevertDialog() {
-      Gerrit.awaitPluginsLoaded()
+      return Gerrit.awaitPluginsLoaded()
           .then(this._getLoggedIn.bind(this))
           .then(loggedIn => {
             if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
@@ -572,7 +603,7 @@
     },
 
     _maybeShowReplyDialog() {
-      this._getLoggedIn().then(loggedIn => {
+      return this._getLoggedIn().then(loggedIn => {
         if (!loggedIn) { return; }
 
         if (this.viewState.showReplyDialog) {

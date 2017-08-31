@@ -143,6 +143,7 @@ def _gwt_binary_impl(ctx):
   output_zip = ctx.outputs.output
   output_dir = output_zip.path + '.gwt_output'
   deploy_dir = output_zip.path + '.gwt_deploy'
+  classpath_dir = output_zip.path + '.gwt_classpath'
 
   deps = _get_transitive_closure(ctx)
 
@@ -157,9 +158,17 @@ def _gwt_binary_impl(ctx):
     gwt_user_agent_modules.append(ua.zip)
     module = ua.module
 
-  cmd = "external/local_jdk/bin/java %s -Dgwt.normalizeTimestamps=true -cp %s %s -war %s -deploy %s " % (
+  cmd = "rm -rf %s\n" % classpath_dir
+  cmd += "root=`pwd`\n"
+  cmd += "mkdir %s\n" % classpath_dir
+  cmd += "cd %s\n" % classpath_dir
+  for p in paths:
+    parts = p.split("/");
+    cmd += "cp $root/%s %s\n" % (p, parts[-2] + "_" + parts[-1])
+  cmd += "cd $root\n"
+  cmd += "external/local_jdk/bin/java %s -Dgwt.normalizeTimestamps=true -classpath \"%s\" %s -war %s -deploy %s " % (
     " ".join(ctx.attr.jvm_args),
-    ":".join(paths),
+    classpath_dir + "/*",
     GWT_COMPILER,
     output_dir,
     deploy_dir,
@@ -172,7 +181,6 @@ def _gwt_binary_impl(ctx):
     " ".join(ctx.attr.compiler_args),
     module + "\n",
     "rm -rf %s/gwt-unitCache\n" % output_dir,
-    "root=`pwd`\n",
     "cd %s; $root/%s Cc ../%s $(find .)\n" % (
       output_dir,
       ctx.executable._zip.path,
@@ -185,7 +193,7 @@ def _gwt_binary_impl(ctx):
     outputs = [output_zip],
     mnemonic = "GwtBinary",
     progress_message = "GWT compiling " + output_zip.short_path,
-    command = "set -e\n" + cmd,
+    command = cmd,
   )
 
 def _get_transitive_closure(ctx):

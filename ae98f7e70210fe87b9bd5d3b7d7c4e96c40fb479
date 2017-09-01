@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9f96551_aa066314",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-01T05:06:39Z",
+      "side": 1,
+      "message": "I consistently changes all args4j messages to start with uppercase letter. I will put a comment on USER_NOT_FOUND property constant.",
+      "parentUuid": "3fb05cbe_c383e4c2",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6881f449_968f7f89",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 9
@@ -59,6 +77,53 @@
     },
     {
       "key": {
+        "uuid": "1b282b09_6e1f9968",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/args4j/ErrorMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-01T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb715c8a_43b08a13",
+      "range": {
+        "startLine": 17,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392d40db_24421805",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/args4j/ErrorMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-01T05:06:39Z",
+      "side": 1,
+      "message": "This is where it was changed.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 5
+      },
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9d1d8c5_8f9334c8",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 9
@@ -70,6 +135,24 @@
       "writtenOn": "2017-08-31T22:50:10Z",
       "side": 1,
       "message": "this change seems unrelated",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "289c2547_9bbdee11",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-01T05:06:39Z",
+      "side": 1,
+      "message": "This change is related. sessionIds is controlled by args4j annotation, and final modifier is not allowed by new args4j version. Without this change, close-connection would fail with: \"Cannot set value to a final field sessionIds\". This was discovered thanks David\u0027s new and shiny test, that was added here: [1].\n\nThis is the commit upstream, where this check was introduced: [2].\n\n* [1] https://gerrit-review.googlesource.com/123810\n* [2] https://github.com/kohsuke/args4j/commit/6e11f89d40dcc518c0e5eb9eef5d74f05d58e6af",
+      "parentUuid": "a9d1d8c5_8f9334c8",
       "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -125,6 +125,8 @@ limitations under the License.
       const shouldRequireAutoAuth = [
         '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
+        '_handleCreateGroupRoute',
+        '_handleCreateProjectRoute',
         '_handleDiffEditRoute',
         '_handleGroupAuditLogRoute',
         '_handleGroupInfoRoute',
@@ -641,6 +643,7 @@ limitations under the License.
             adminView: 'gr-admin-group-list',
             offset: 0,
             filter: null,
+            openCreateModal: false,
           });
 
           data.params[1] = 42;
@@ -649,6 +652,16 @@ limitations under the License.
             adminView: 'gr-admin-group-list',
             offset: 42,
             filter: null,
+            openCreateModal: false,
+          });
+
+          data.hash = 'create';
+          assertDataToParams(data, '_handleGroupListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            offset: 42,
+            filter: null,
+            openCreateModal: true,
           });
         });
 
@@ -812,6 +825,7 @@ limitations under the License.
               adminView: 'gr-project-list',
               offset: 0,
               filter: null,
+              openCreateModal: false,
             });
 
             data.params[1] = 42;
@@ -820,6 +834,16 @@ limitations under the License.
               adminView: 'gr-project-list',
               offset: 42,
               filter: null,
+              openCreateModal: false,
+            });
+
+            data.hash = 'create';
+            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-list',
+              offset: 42,
+              filter: null,
+              openCreateModal: true,
             });
           });
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4e7db96_9e8b80c3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-01T10:35:44Z",
+      "side": 1,
+      "message": "Even though this wont do anything, it fires the function which makes the element return something when called in hidden. I coulden\u0027t find any way else to do this as all my other ways failed.",
+      "range": {
+        "startLine": 54,
+        "startChar": 19,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "700bcfd7fc27416ddc583f1090b55ac6eca10c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26ca69f2_e529ce54",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-01T10:35:44Z",
+      "side": 1,
+      "message": "I could not find a way to do this with just css, so i am doing it with hidden.",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 47
+      },
+      "revId": "700bcfd7fc27416ddc583f1090b55ac6eca10c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

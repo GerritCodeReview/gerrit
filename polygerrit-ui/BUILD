@@ -30,6 +30,8 @@ genrule2(
     name = "fonts",
     srcs = [
         "//lib/fonts:robotomono",
+        "//lib/fonts:robotoregular",
+        "//lib/fonts:robotomedium",
     ],
     outs = ["fonts.zip"],
     cmd = " && ".join([

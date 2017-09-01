@@ -11,3 +11,23 @@ filegroup(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "robotoregular",
+    srcs = [
+        "Roboto.woff",
+        "Roboto.woff2",
+    ],
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "robotomedium",
+    srcs = [
+        "Roboto.woff",
+        "Roboto.woff2",
+    ],
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+)

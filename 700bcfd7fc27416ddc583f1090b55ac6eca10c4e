@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85d2f3d6_f48c181b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T17:31:15Z",
+      "side": 1,
+      "message": "You should add an observer to call computeHideSettingsClass when item.id changes.",
+      "parentUuid": "b4e7db96_9e8b80c3",
+      "range": {
+        "startLine": 54,
+        "startChar": 19,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "700bcfd7fc27416ddc583f1090b55ac6eca10c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ca69f2_e529ce54",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
         "patchSetId": 34
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-01T10:35:44Z",
       "side": 1,
       "message": "I could not find a way to do this with just css, so i am doing it with hidden.",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 47
+      },
+      "revId": "700bcfd7fc27416ddc583f1090b55ac6eca10c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "470fb786_31e43745",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T17:31:15Z",
+      "side": 1,
+      "message": "try the approach above",
+      "parentUuid": "26ca69f2_e529ce54",
       "range": {
         "startLine": 55,
         "startChar": 19,

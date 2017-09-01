@@ -46,6 +46,30 @@
       "revId": "630d2a1acd9ac5b84f7eb4605eaaabec5902fe6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "087690ca_5c7fb4cf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T19:34:18Z",
+      "side": 1,
+      "message": "Yes. this option should still be visible.\n\nif private by default: default to checked\nif not private by default: default to unchecked.",
+      "parentUuid": "95fb9a92_c26213ad",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 96,
+        "endChar": 80
+      },
+      "revId": "630d2a1acd9ac5b84f7eb4605eaaabec5902fe6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

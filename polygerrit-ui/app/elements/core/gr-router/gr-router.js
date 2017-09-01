@@ -72,6 +72,8 @@
     TAG_LIST_FILTER_OFFSET:
         '/admin/projects/:project,tags/q/filter::filter,:offset',
 
+    PLUGINS: /^\/admin\/plugins\/(.+)$/,
+
     PLUGIN_LIST: /^\/admin\/plugins(\/)?$/,
 
     // Matches /admin/plugins[,<offset>][/].
@@ -473,6 +475,8 @@
           '_handleProjectListFilterRoute');
 
       this._mapRoute(RoutePattern.PROJECT, '_handleProjectRoute');
+
+      this._mapRoute(RoutePattern.PLUGINS, '_handlePassThroughRoute', true);
 
       this._mapRoute(RoutePattern.PLUGIN_LIST_OFFSET,
           '_handlePluginListOffsetRoute', true);

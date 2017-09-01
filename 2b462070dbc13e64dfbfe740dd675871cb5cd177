@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d0d0a8_1b947c42",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T23:46:53Z",
+      "side": 1,
+      "message": "Did you mean Robot-Medium.woff?",
+      "revId": "2b462070dbc13e64dfbfe740dd675871cb5cd177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a46ade5_3df686b7",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T23:46:53Z",
+      "side": 1,
+      "message": "Would it be worth rolling this up into a single build target, and seeing if you can have a single cp command below, like cp $(locations //lib/fonts:all) $$TMP/polygerrit_ui/fonts/?",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 33
+      },
+      "revId": "2b462070dbc13e64dfbfe740dd675871cb5cd177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

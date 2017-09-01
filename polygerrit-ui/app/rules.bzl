@@ -72,7 +72,7 @@ def polygerrit_bundle(name, srcs, outs, app):
       name + "_app_sources",
       name + "_css_sources",
       name + "_top_sources",
-      "//lib/fonts:robotomono",
+      "//lib/fonts:robotofonts",
       "//lib/js:highlightjs_files",
       # we extract from the zip, but depend on the component for license checking.
       "@webcomponentsjs//:zipfile",
@@ -82,7 +82,7 @@ def polygerrit_bundle(name, srcs, outs, app):
     cmd = " && ".join([
       "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
       "for f in $(locations " + name + "_app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/"  + appName + ".$$ext; done",
-      "cp $(locations //lib/fonts:robotomono) $$TMP/polygerrit_ui/fonts/",
+      "cp $(locations //lib/fonts:robotofonts) $$TMP/polygerrit_ui/fonts/",
       "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
       "for f in $(locations "+ name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
       "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",

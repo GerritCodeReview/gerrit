@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f7ef3f4_9f0038f0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T18:03:28Z",
+      "side": 1,
+      "message": "How about instead of hiding this, let\u0027s just check the checkbox if private by default is true? There are still push options to override, so can override here as well.",
+      "range": {
+        "startLine": 89,
+        "startChar": 11,
+        "endLine": 96,
+        "endChar": 80
+      },
+      "revId": "630d2a1acd9ac5b84f7eb4605eaaabec5902fe6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

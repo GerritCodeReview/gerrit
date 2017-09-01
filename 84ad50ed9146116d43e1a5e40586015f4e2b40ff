@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8984d7d1_bc1bf8bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-01T18:27:25Z",
+      "side": 1,
+      "message": "How would I reset when a group changes please?",
+      "parentUuid": "d4861683_072bb23e",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 162,
+        "endChar": 50
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbed32ed_aa3e27bf",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
         "patchSetId": 26

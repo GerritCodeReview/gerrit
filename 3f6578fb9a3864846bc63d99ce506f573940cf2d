@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3da26e56_519a8cd2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T21:41:03Z",
+      "side": 1,
+      "message": "I don\u0027t think breaking this out into its own function adds net value.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 20
+      },
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b05883_0d80769f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T21:41:03Z",
+      "side": 1,
+      "message": "This could be if (this.params \u0026\u0026 this.params.hash \u003d\u003d\u003d \u0027create\u0027). This can be tested by assigning to element.params, right?",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219d8360_612c2f37",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T21:41:03Z",
+      "side": 1,
+      "message": "This is a route that exists only for legacy support, so consider adding a LEGACY_ prefix.",
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7efb1c3_3265a8fe",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-01T21:41:03Z",
+      "side": 1,
+      "message": "I favor incorporating \"Legacy\" into these method names, too.",
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

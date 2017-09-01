@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "48915508_8e262f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-01T23:55:35Z",
+      "side": 1,
+      "message": "Curious, is the mocks open for all to see or only for internal?",
+      "revId": "2b462070dbc13e64dfbfe740dd675871cb5cd177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50d0d0a8_1b947c42",
         "filename": "lib/fonts/BUILD",
         "patchSetId": 2

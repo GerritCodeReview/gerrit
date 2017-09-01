@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4861683_072bb23e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T17:54:36Z",
+      "side": 1,
+      "message": "I noticed an issue:\n\nIf you are an owner of one group but not an owner (or admin) of another group.\n\n1) Go to the group you are an owner of, the Audit log appears as expected\n2) Go to the group you are not an owner of, the Audit log still appears.\n\nWe have to reset it when the group changes",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 162,
+        "endChar": 50
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbed32ed_aa3e27bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-01T17:54:36Z",
+      "side": 1,
+      "message": "please use classes here and below.",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 67
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

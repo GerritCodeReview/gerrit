@@ -70,6 +70,7 @@
     attached() {
       this._getCreateGroupCapability();
       this.fire('title-change', {title: 'Groups'});
+      this._maybeOpenCreateOverlay(this.params);
     },
 
     _paramsChanged(params) {
@@ -79,6 +80,16 @@
 
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
+    },
+
+    /**
+     * Opens the create overlay if the route has a hash 'create'
+     * @param {!Object} hash
+     */
+    _maybeOpenCreateOverlay(params) {
+      if (params && params.hash === 'create') {
+        this.$.createOverlay.open();
+      }
     },
 
     _computeGroupUrl(id) {

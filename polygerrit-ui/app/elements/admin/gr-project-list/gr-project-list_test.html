@@ -66,13 +66,11 @@ limitations under the License.
     suite('list with projects', () => {
       setup(done => {
         projects = _.times(26, projectGenerator);
-
         stub('gr-rest-api-interface', {
           getProjects(num, offset) {
             return Promise.resolve(projects);
           },
         });
-
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
@@ -85,6 +83,18 @@ limitations under the License.
 
       test('_shownProjects', () => {
         assert.equal(element._shownProjects.length, 25);
+      });
+
+      test('_maybeOpenCreateOverlay', () => {
+        const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+        element._maybeOpenCreateOverlay();
+        assert.isFalse(overlayOpen.called);
+        let params = {};
+        element._maybeOpenCreateOverlay(params);
+        assert.isFalse(overlayOpen.called);
+        params.hash = 'create';
+        element._maybeOpenCreateOverlay(params);
+        assert.isTrue(overlayOpen.called);
       });
     });
 

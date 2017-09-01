@@ -90,6 +90,18 @@ limitations under the License.
       test('_shownGroups', () => {
         assert.equal(element._shownGroups.length, 25);
       });
+
+      test('_maybeOpenCreateOverlay', () => {
+        const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+        element._maybeOpenCreateOverlay();
+        assert.isFalse(overlayOpen.called);
+        let params = {};
+        element._maybeOpenCreateOverlay(params);
+        assert.isFalse(overlayOpen.called);
+        params.hash = 'create';
+        element._maybeOpenCreateOverlay(params);
+        assert.isTrue(overlayOpen.called);
+      });
     });
 
     suite('test with less then 25 groups', () => {

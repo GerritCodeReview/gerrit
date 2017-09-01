@@ -46,6 +46,12 @@
     GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
     GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
 
+    // Matches /admin/create-project
+    CREATE_PROJECT: /^\/admin\/create-project\/?$/,
+
+    // Matches /admin/create-project
+    CREATE_GROUP: /^\/admin\/create-group\/?$/,
+
     // Matches /admin/projects/<project>
     PROJECT: /^\/admin\/projects\/([^,]+)$/,
 
@@ -320,6 +326,14 @@
           '/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
     },
 
+    _redirectToProjectCreate() {
+      page('/admin/projects#create');
+    },
+
+    _redirectToGroupCreate() {
+      page('/admin/groups#create');
+    },
+
     /**
      * Hashes parsed by page.js exclude "inner" hashes, so a URL like "/a#b#c"
      * is parsed to have a hash of "b" rather than "b#c". Instead, this method
@@ -462,6 +476,12 @@
 
       this._mapRoute(RoutePattern.TAG_LIST_FILTER,
           '_handleTagListFilterRoute');
+
+      this._mapRoute(RoutePattern.CREATE_GROUP,
+          '_handleCreateGroupRoute', true);
+
+      this._mapRoute(RoutePattern.CREATE_PROJECT,
+          '_handleCreateProjectRoute', true);
 
       this._mapRoute(RoutePattern.PROJECT_LIST_OFFSET,
           '_handleProjectListOffsetRoute');
@@ -612,6 +632,7 @@
         adminView: 'gr-admin-group-list',
         offset: data.params[1] || 0,
         filter: null,
+        hash: data.hash || null,
       });
     },
 
@@ -728,6 +749,7 @@
         adminView: 'gr-project-list',
         offset: data.params[1] || 0,
         filter: null,
+        hash: data.hash || null,
       });
     },
 
@@ -746,6 +768,18 @@
         adminView: 'gr-project-list',
         filter: data.params.filter || null,
       });
+    },
+
+    _handleCreateProjectRoute(data) {
+      // Redirects the legacy route to the new route, which displays the project
+      // list with a hash 'create'.
+      this._redirectToProjectCreate();
+    },
+
+    _handleCreateGroupRoute(data) {
+      // Redirects the legacy route to the new route, which displays the group
+      // list with a hash 'create'.
+      this._redirectToGroupCreate();
     },
 
     _handleProjectRoute(data) {

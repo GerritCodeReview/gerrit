@@ -70,6 +70,7 @@
     attached() {
       this._getCreateProjectCapability();
       this.fire('title-change', {title: 'Projects'});
+      this._maybeOpenCreateOverlay(this._getHash(this.params));
     },
 
     _paramsChanged(params) {
@@ -79,6 +80,26 @@
 
       return this._getProjects(this._filter, this._projectsPerPage,
           this._offset);
+    },
+
+    /**
+     * Function for testability
+     * @param {?Object}
+     * @return {string|null}
+     */
+    _getHash(params) {
+      if (!params || !params.hash) { return null; }
+      return params.hash;
+    },
+
+    /**
+     * Opens the create overlay if the route has a hash 'create'
+     * @param {string|null}
+     */
+    _maybeOpenCreateOverlay(hash) {
+      if (hash === 'create') {
+        this.$.createOverlay.open();
+      }
     },
 
     _computeProjectUrl(name) {

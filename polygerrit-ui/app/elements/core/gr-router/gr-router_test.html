@@ -125,6 +125,8 @@ limitations under the License.
       const shouldRequireAutoAuth = [
         '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
+        '_handleCreateGroupRoute',
+        '_handleCreateProjectRoute',
         '_handleDiffEditRoute',
         '_handleGroupAuditLogRoute',
         '_handleGroupInfoRoute',
@@ -641,6 +643,7 @@ limitations under the License.
             adminView: 'gr-admin-group-list',
             offset: 0,
             filter: null,
+            hash: null,
           });
 
           data.params[1] = 42;
@@ -649,6 +652,16 @@ limitations under the License.
             adminView: 'gr-admin-group-list',
             offset: 42,
             filter: null,
+            hash: null,
+          });
+
+          data.hash = 'create';
+          assertDataToParams(data, '_handleGroupListOffsetRoute', {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            offset: 42,
+            filter: null,
+            hash: 'create',
           });
         });
 
@@ -678,6 +691,12 @@ limitations under the License.
             adminView: 'gr-group',
             groupId: 4321,
           });
+        });
+
+        test('_handleCreateGroupRoute', () => {
+          sandbox.stub(element, '_redirectToGroupCreate');
+          element._handleCreateGroupRoute();
+          assert.isTrue(element._redirectToGroupCreate.called);
         });
       });
 
@@ -812,6 +831,7 @@ limitations under the License.
               adminView: 'gr-project-list',
               offset: 0,
               filter: null,
+              hash: null,
             });
 
             data.params[1] = 42;
@@ -820,6 +840,16 @@ limitations under the License.
               adminView: 'gr-project-list',
               offset: 42,
               filter: null,
+              hash: null,
+            });
+
+            data.hash = 'create';
+            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+              view: Gerrit.Nav.View.ADMIN,
+              adminView: 'gr-project-list',
+              offset: 42,
+              filter: null,
+              hash: 'create',
             });
           });
 
@@ -848,6 +878,12 @@ limitations under the License.
               filter: 'foo',
             });
           });
+        });
+
+        test('_handleCreateProjectRoute', () => {
+          sandbox.stub(element, '_redirectToProjectCreate');
+          element._handleCreateProjectRoute();
+          assert.isTrue(element._redirectToProjectCreate.called);
         });
       });
 

@@ -117,6 +117,30 @@
       "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bd9e6ff_5ead2f35",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-02T10:59:27Z",
+      "side": 1,
+      "message": "Actually, managed to get this working now.",
+      "parentUuid": "c8c43515_5c8a7438",
+      "range": {
+        "startLine": 88,
+        "startChar": 20,
+        "endLine": 88,
+        "endChar": 67
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

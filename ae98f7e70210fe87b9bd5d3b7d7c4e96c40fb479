@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "154c5b15_da23d54f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-09-02T12:24:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f9f96551_aa066314",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6881f449_968f7f89",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 9
@@ -174,6 +192,24 @@
       "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4594c7a4_0ab1fecb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-09-02T12:24:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7c16818b_6592f7c8",
+      "revId": "ae98f7e70210fe87b9bd5d3b7d7c4e96c40fb479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

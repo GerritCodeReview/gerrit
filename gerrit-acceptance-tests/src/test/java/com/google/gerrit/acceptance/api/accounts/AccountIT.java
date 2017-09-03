@@ -527,15 +527,20 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertNoReindex();
   }
 
+  private EmailInput newEmailInput(String email) {
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    return input;
+  }
+
   @Test
   public void addEmail() throws Exception {
     List<String> emails = ImmutableList.of("new.email@example.com", "new.email@example.systems");
     Set<String> currentEmails = getEmails();
     for (String email : emails) {
       assertThat(currentEmails).doesNotContain(email);
-      EmailInput input = new EmailInput();
-      input.email = email;
-      input.noConfirmation = true;
+      EmailInput input = newEmailInput(email);
       gApi.accounts().self().addEmail(input);
       accountIndexedCounter.assertReindexOf(admin);
     }
@@ -560,9 +565,7 @@ public class AccountIT extends AbstractDaemonTest {
             // Non-supported TLD  (see tlds-alpha-by-domain.txt)
             "new.email@example.africa");
     for (String email : emails) {
-      EmailInput input = new EmailInput();
-      input.email = email;
-      input.noConfirmation = true;
+      EmailInput input = newEmailInput(email);
       try {
         gApi.accounts().self().addEmail(input);
         fail("Expected BadRequestException for invalid email address: " + email);
@@ -576,9 +579,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void cannotAddNonConfirmedEmailWithoutModifyAccountPermission() throws Exception {
     TestAccount account = accountCreator.create(name("user"));
-    EmailInput input = new EmailInput();
-    input.email = "test@test.com";
-    input.noConfirmation = true;
+    EmailInput input = newEmailInput("test@test.com");
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.accounts().id(account.username).addEmail(input);
@@ -587,9 +588,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void deleteEmail() throws Exception {
     String email = "foo.bar@example.com";
-    EmailInput input = new EmailInput();
-    input.email = email;
-    input.noConfirmation = true;
+    EmailInput input = newEmailInput(email);
     gApi.accounts().self().addEmail(input);
 
     resetCurrentApiUser();

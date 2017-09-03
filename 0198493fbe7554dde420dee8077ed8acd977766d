@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e96e7db_15b61c06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-03T19:41:48Z",
+      "side": 1,
+      "message": "According to the doc, this carn\u0027t be encoded, see https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#_check_if_a_group_is_owned_by_the_calling_user\n\nAlso tested locally to confirm and the doc is correct.\n\ntested with group 1 (notice space). with it encoded i could not change anything but with it not encoded i could.",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 62
+      },
+      "revId": "0198493fbe7554dde420dee8077ed8acd977766d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

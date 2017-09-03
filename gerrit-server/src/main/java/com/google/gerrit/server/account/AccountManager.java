@@ -345,7 +345,8 @@ public class AccountManager {
     ExternalId extId = externalIds.get(who.getExternalIdKey());
     if (extId != null) {
       if (!extId.accountId().equals(to)) {
-        throw new AccountException("Identity in use by another account");
+        throw new AccountException(
+            "Identity '" + extId.key().get() + "' in use by another account");
       }
       update(who, extId);
     } else {

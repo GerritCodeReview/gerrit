@@ -587,10 +587,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void cannotAddEmailAddressUsedByAnotherAccount() throws Exception {
-    EmailInput input = newEmailInput("new.email@example.com");
+    String email = "new.email@example.com";
+    EmailInput input = newEmailInput(email);
     gApi.accounts().self().addEmail(input);
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("in use by another account");
+    exception.expectMessage("Identity 'mailto:" + email + "' in use by another account");
     gApi.accounts().id(user.username).addEmail(input);
   }
 

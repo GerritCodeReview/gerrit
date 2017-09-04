@@ -1112,6 +1112,47 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
   }
 ----
 
+[[check-access]]
+=== Check Access
+--
+'POST /projects/MyProject/check.access'
+--
+
+Runs access checks for other users. This requires administrator
+privileges.
+
+Input for the access checks that should be run must be provided in
+the request body inside a
+link:#access-check-input[AccessCheckInput] entity.
+
+.Request
+----
+  POST /config/server/check HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "project": "medium",
+    "account": "Kristen.Burns@gerritcodereview.com",
+    "ref": "refs/heads/secret/bla"
+  }
+----
+
+The result is a link:#access-check-info[AccessCheckInfo] entity
+detailing the read access of the given user for the given project (or
+project-ref combination).
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "message": "user Kristen Burns \u003cKristen.Burns@gerritcodereview.com\u003e (1000098) cannot see ref refs/heads/secret/master in project medium",
+    "status": 403
+  }
+----
+
 [[index]]
 === Index all changes in a project
 
@@ -2496,6 +2537,34 @@ If the name ends with `.git`, the suffix will be automatically removed.
 
 [[json-entities]]
 == JSON Entities
+
+
+[[access-check-info]]
+=== AccessCheckInfo
+The `AccessCheckInfo` entity is the result of a
+an access check.
+
+[options="header",cols="1,^1,5"]
+|=========================================
+|Field Name                  ||Description
+|`status`||The HTTP status code for the access.
+200 means success, 403 means denied and 404 means the project does not
+exist.
+|`message`|optional|A clarifying message if `status` is not 200.
+|=========================================
+
+[[access-check-input]]
+=== AccessCheckInput
+The `AccessCheckInput` entity is a tuple of (account, project)  or
+(account, project, ref) for which we want to check access.
+
+[options="header",cols="1,^1,5"]
+|=========================================
+|Field Name                  ||Description
+|`account`||The account for which to check access
+|`project`||The project for which to check access
+|`ref`|optional|The refname for which to check access
+|=========================================
 
 [[ban-input]]
 === BanInput

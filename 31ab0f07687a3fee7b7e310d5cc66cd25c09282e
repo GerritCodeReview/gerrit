@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "864af46b_9e2bfd27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "nit: Commit message subjects don\u0027t need a punctuation",
+      "range": {
+        "startLine": 7,
+        "startChar": 66,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff27be0b_6f9eb396",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "Call to permissionBackend are expensive, so this should only be checked once and cached.",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 93
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b30208_ef09bc01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "Please pass in IdentifiedUser and Project.NameKey instead as we try to reduce the usage of {Ref,Change,Project}Control\n\nIt would be nice to rearrange the parameters to have the two Project.NameKeys next to each other.",
+      "range": {
+        "startLine": 114,
+        "startChar": 31,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00917d57_25aa6ffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "@Singleton",
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f2e4cee_c3a6ce5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "(optional) Add a complete JavaDoc (or alternatively just a summary fragment)",
+      "range": {
+        "startLine": 55,
+        "startChar": 22,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de24fbd0_7816666d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "Unused. Please remove",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 36
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2fffdf2_0c71f34b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "nit: remove punctuation",
+      "range": {
+        "startLine": 120,
+        "startChar": 32,
+        "endLine": 120,
+        "endChar": 33
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8dc6d38_25c5fb09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "nit: \u0027cleanup\u0027 sounds like it is just rearranging/compiling information already present. How about \u0027applyModifications\u0027, \u0027modify\u0027 \u0027applyMutations\u0027, \u0027mutate\u0027 or something else that indicates that this method applied removals and additions?\n\nOptionally, add a JavaDoc summary fragment to be in line with other methods.",
+      "range": {
+        "startLine": 153,
+        "startChar": 7,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb6f1e9a_c3802963",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-04T11:59:26Z",
+      "side": 1,
+      "message": "Is there a case where we don\u0027t want to check permissions?",
+      "range": {
+        "startLine": 201,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 30
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

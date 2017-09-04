@@ -66,8 +66,14 @@ GrLinkTextParser.prototype.addItem =
   var htmlOutput = '';
 
   if (href) {
+    let url;
+    if (href.startsWith('http') || href.startsWith('https')) {
+      url = href;
+    } else {
+      url = base + href;
+    }
     var a = document.createElement('a');
-    a.href = href;
+    a.href = url;
     a.textContent = text;
     a.target = '_blank';
     a.rel = 'noopener';

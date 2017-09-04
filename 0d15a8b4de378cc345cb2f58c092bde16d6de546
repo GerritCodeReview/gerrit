@@ -1,0 +1,389 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fbb6618_ecaac359",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "nit: it will be good if the example uses this parameter.\n\nBut why shouldn\u0027t we use \"POST\" and put \"claimedOriginal\" in PureRevert.Input?",
+      "range": {
+        "startLine": 1087,
+        "startChar": 31,
+        "endLine": 1087,
+        "endChar": 72
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804aec94_9956dc53",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "This is a Revision REST endpoint. Should we document it in a separate section?\n\nI\u0027m wondering when \"Revision\" level is necessary? I feel only the current revision will be useful. Do we have user request for this somewhere?",
+      "range": {
+        "startLine": 1107,
+        "startChar": 0,
+        "endLine": 1112,
+        "endChar": 4
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a77c047_08fdaae6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3158,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "nit: this can be write as\n\"merge(r);\"",
+      "range": {
+        "startLine": 3157,
+        "startChar": 4,
+        "endLine": 3158,
+        "endChar": 58
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9ec704_5fff862a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3162,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "Another test? e.g. \"isPureRevert() \u003d false\"?",
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25f9f974_3425e398",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "can be \"merge(r);\"",
+      "range": {
+        "startLine": 1296,
+        "startChar": 4,
+        "endLine": 1297,
+        "endChar": 58
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed71a16a_95f74824",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 1307,
+        "startChar": 4,
+        "endLine": 1308,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6c685a2_b9bfbc90",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "I\u0027m a little confused by this test. \"PureRevert\" is a change created as a \"Revert\"?\nI would expect the logic of this change to be:\n\n1- Create change 1.\n2- Revert change 1 and get change 2.\n3- change 2 (and PS1) is a pure revert for change 1.\n4- PS2 of change 2.\n5- Change 2 (and PS2) is not a pure revert for change 1.",
+      "range": {
+        "startLine": 1312,
+        "startChar": 16,
+        "endLine": 1312,
+        "endChar": 44
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9c841d2_57c5bb54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 1321,
+        "startChar": 3,
+        "endLine": 1322,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c0c4fee_b0d5d23e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "In this change, r3 in this change is unrelated with r1 and r2? Could you add a comment to briefly explain the motivation of this test?",
+      "range": {
+        "startLine": 1330,
+        "startChar": 14,
+        "endLine": 1330,
+        "endChar": 66
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626c255c_fdcfaa6f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "It will be more clear if we just use \"content 1\", \"content 2\", \"content 3\" in this test.",
+      "range": {
+        "startLine": 1331,
+        "startChar": 71,
+        "endLine": 1331,
+        "endChar": 80
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12f556a_8699c9da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 1332,
+        "startChar": 4,
+        "endLine": 1333,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbf38686_aeebb0c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 1336,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "385a5de0_55431cb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "wrong message?",
+      "range": {
+        "startLine": 687,
+        "startChar": 32,
+        "endLine": 687,
+        "endChar": 52
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d68fa2e8_8c7383e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "remove.",
+      "range": {
+        "startLine": 309,
+        "startChar": 13,
+        "endLine": 309,
+        "endChar": 22
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb931d2e_50c3eac9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "wrong message?",
+      "range": {
+        "startLine": 311,
+        "startChar": 32,
+        "endLine": 311,
+        "endChar": 67
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d7342a_010ef3f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "order them to match their declaration?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0891ce6_ccdd2c55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T17:42:44Z",
+      "side": 1,
+      "message": "This is the same with \"String claimedOriginal;\". Use a new name?",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 31
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

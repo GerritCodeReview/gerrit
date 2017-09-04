@@ -36,6 +36,10 @@
       config: Object,
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     observers: [
       '_contentOrConfigChanged(content, config)',
     ],
@@ -54,6 +58,13 @@
       var parser = new GrLinkTextParser(
           config, function(text, href, fragment) {
         if (href) {
+          var url;
+          const base = this.getBaseUrl();
+          if (href.startsWith('http') || href.startsWith('https')) {
+            url = href;
+          } else {
+            url = base + href;
+          }
           var a = document.createElement('a');
           a.href = href;
           a.textContent = text;

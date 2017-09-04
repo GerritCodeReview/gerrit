@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9de231ee_fa3adf62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T15:11:26Z",
+      "side": 1,
+      "message": "Could you add more descriptions about the motivation?",
+      "revId": "70ef2bd7f00a46578d82a430f41f94355b7e2493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4736d8c_410b20ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T15:11:26Z",
+      "side": 1,
+      "message": "Could we do this after permission check?",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "70ef2bd7f00a46578d82a430f41f94355b7e2493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75c143fd_8ebea7cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T15:11:26Z",
+      "side": 1,
+      "message": "By using \"checkedAdmin\", the \"if\" body can be executed at most once. But since \"!checkedAdmin\" is contained in the \"if\" condition, \"else if\" might be called multiple times. This is different from the original behavior. \n\nWe may move \"!checkAdmin\" into the \"if\" body to avoid unnecessary call.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "70ef2bd7f00a46578d82a430f41f94355b7e2493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

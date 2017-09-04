@@ -18,13 +18,11 @@ import com.google.gerrit.common.Nullable;
 
 public class AccessCheckInput {
   public String account;
-  public String project;
 
   @Nullable public String ref;
 
-  public AccessCheckInput(String account, String project, @Nullable String ref) {
+  public AccessCheckInput(String account, @Nullable String ref) {
     this.account = account;
-    this.project = project;
     this.ref = ref;
   }
 

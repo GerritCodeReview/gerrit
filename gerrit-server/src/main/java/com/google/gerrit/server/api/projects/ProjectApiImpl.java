@@ -18,6 +18,8 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.config.AccessCheckInfo;
+import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
@@ -42,6 +44,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.CheckAccess;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.CreateAccessChange;
@@ -96,6 +99,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final DeleteTags deleteTags;
   private final CommitsCollection commitsCollection;
   private final CommitApiImpl.Factory commitApi;
+  private final CheckAccess checkAccess;
 
   @AssistedInject
   ProjectApiImpl(
@@ -122,6 +126,7 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      CheckAccess checkAccess,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -148,6 +153,7 @@ public class ProjectApiImpl implements ProjectApi {
         project,
         commitsCollection,
         commitApi,
+        checkAccess,
         null);
   }
 
@@ -176,6 +182,7 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      CheckAccess checkAccess,
       @Assisted String name) {
     this(
         user,
@@ -202,6 +209,7 @@ public class ProjectApiImpl implements ProjectApi {
         null,
         commitsCollection,
         commitApi,
+        checkAccess,
         name);
   }
 
@@ -230,6 +238,7 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectResource project,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      CheckAccess checkAccess,
       String name) {
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -242,7 +251,6 @@ public class ProjectApiImpl implements ProjectApi {
     this.children = children;
     this.projectJson = projectJson;
     this.project = project;
-    this.name = name;
     this.branchApi = branchApiFactory;
     this.tagApi = tagApiFactory;
     this.getAccess = getAccess;
@@ -256,6 +264,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.commitsCollection = commitsCollection;
     this.commitApi = commitApi;
     this.createAccessChange = createAccessChange;
+    this.checkAccess = checkAccess;
+    this.name = name;
   }
 
   @Override
@@ -300,6 +310,15 @@ public class ProjectApiImpl implements ProjectApi {
       return getAccess.apply(checkExists());
     } catch (Exception e) {
       throw asRestApiException("Cannot get access rights", e);
+    }
+  }
+
+  @Override
+  public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
+    try {
+      return checkAccess.apply(checkExists(), in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check access rights", e);
     }
   }
 

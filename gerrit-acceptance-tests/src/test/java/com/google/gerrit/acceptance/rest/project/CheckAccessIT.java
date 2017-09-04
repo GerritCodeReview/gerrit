@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.account;
+package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
@@ -29,7 +28,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.List;
-import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,12 +81,11 @@ public class CheckAccessIT extends AbstractDaemonTest {
     List<AccessCheckInput> inputs =
         ImmutableList.of(
             new AccessCheckInput(),
-            new AccessCheckInput(user.email, null, null),
-            new AccessCheckInput(null, normalProject.toString(), null),
-            new AccessCheckInput("doesnotexist@invalid.com", normalProject.toString(), null));
+            new AccessCheckInput(null, null),
+            new AccessCheckInput("doesnotexist@invalid.com", null));
     for (AccessCheckInput input : inputs) {
       try {
-        gApi.config().server().checkAccess(input);
+        gApi.projects().name(normalProject.get()).checkAccess(input);
         fail(String.format("want RestApiException for %s", newGson().toJson(input)));
       } catch (RestApiException e) {
 
@@ -96,29 +93,41 @@ public class CheckAccessIT extends AbstractDaemonTest {
     }
   }
 
+  static class TestCase {
+    AccessCheckInput input;
+    String project;
+    int want;
+
+    TestCase(String mail, String project, String ref, int want) {
+      input = new AccessCheckInput(mail, ref);
+      this.project = project;
+      this.want = want;
+    }
+  }
+
   @Test
   public void accessible() {
-    Map<AccessCheckInput, Integer> inputs =
-        ImmutableMap.of(
-            new AccessCheckInput(user.email, normalProject.get(), null), 200,
-            new AccessCheckInput(user.email, secretProject.get(), null), 403,
-            new AccessCheckInput(user.email, "nonexistent", null), 404,
-            new AccessCheckInput(privilegedUser.email, normalProject.get(), null), 200,
-            new AccessCheckInput(privilegedUser.email, secretProject.get(), null), 200);
+    List<TestCase> inputs =
+        ImmutableList.of(
+            new TestCase(user.email, normalProject.get(), null, 200),
+            new TestCase(user.email, secretProject.get(), null, 403),
+            new TestCase(privilegedUser.email, normalProject.get(), null, 200),
+            new TestCase(privilegedUser.email, secretProject.get(), null, 200));
 
-    for (Map.Entry<AccessCheckInput, Integer> entry : inputs.entrySet()) {
-      String in = newGson().toJson(entry.getKey());
+    for (TestCase tc : inputs) {
+      String in = newGson().toJson(tc.input);
       AccessCheckInfo info = null;
 
       try {
-        info = gApi.config().server().checkAccess(entry.getKey());
+        info = gApi.projects().name(tc.project).checkAccess(tc.input);
       } catch (RestApiException e) {
-        fail(String.format("check.check(%s): exception %s", in, e));
+        fail(String.format("check.access(%s, %s): exception %s", tc.project, in, e));
       }
 
-      int want = entry.getValue();
+      int want = tc.want;
       if (want != info.status) {
-        fail(String.format("check.access(%s) = %d, want %d", in, info.status, want));
+        fail(
+            String.format("check.access(%s, %s) = %d, want %d", tc.project, in, info.status, want));
       }
 
       switch (want) {

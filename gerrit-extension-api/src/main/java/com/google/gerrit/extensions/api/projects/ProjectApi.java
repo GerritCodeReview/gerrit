@@ -17,6 +17,8 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.api.config.AccessCheckInfo;
+import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -34,6 +36,8 @@ public interface ProjectApi {
   void description(DescriptionInput in) throws RestApiException;
 
   ProjectAccessInfo access() throws RestApiException;
+
+  AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException;
 
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
@@ -167,6 +171,11 @@ public interface ProjectApi {
 
     @Override
     public ChangeInfo accessChange(ProjectAccessInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccessCheckInfo checkAccess(AccessCheckInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
@@ -48,6 +49,7 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "access").to(GetAccess.class);
     post(PROJECT_KIND, "access").to(SetAccess.class);
+    post(PROJECT_KIND, "check.access").to(CheckAccess.class);
 
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);

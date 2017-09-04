@@ -21,6 +21,7 @@ import static com.google.gerrit.server.config.TopMenuResource.TOP_MENU_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.project.CheckAccess;
 
 public class Module extends RestApiModule {
   @Override
@@ -37,7 +38,6 @@ public class Module extends RestApiModule {
     get(CONFIG_KIND, "version").to(GetVersion.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
-    post(CONFIG_KIND, "check.access").to(CheckAccess.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);

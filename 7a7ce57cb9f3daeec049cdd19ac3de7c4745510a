@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d327b969_02b36b49",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T06:37:07Z",
+      "side": 1,
+      "message": "optional: could we move this to the end of tests and let it stay with other private methods?",
+      "range": {
+        "startLine": 530,
+        "startChar": 1,
+        "endLine": 536,
+        "endChar": 0
+      },
+      "revId": "7a7ce57cb9f3daeec049cdd19ac3de7c4745510a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

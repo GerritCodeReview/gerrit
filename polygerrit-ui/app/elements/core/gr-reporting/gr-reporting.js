@@ -65,6 +65,9 @@
     const context = opt_context || window;
     context.onerror = onError.bind(null, context.onerror);
     context.addEventListener('unhandledrejection', e => {
+      if (!e || e.reason) {
+        return '';
+      }
       const msg = e.reason.message;
       const payload = {
         error: e.reason,

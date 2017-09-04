@@ -45,6 +45,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
@@ -90,6 +91,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -586,6 +588,21 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Identity 'mailto:" + email + "' in use by another account");
     gApi.accounts().id(user.username).addEmail(input);
+  }
+
+  @Test
+  @GerritConfig(
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
+  public void addEmailSendsConfirmationEmail() throws Exception {
+    String email = "new.email@example.com";
+    EmailInput input = newEmailInput(email, false);
+    gApi.accounts().self().addEmail(input);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(new Address(email));
   }
 
   @Test
@@ -1657,11 +1674,15 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(newAccount.getMetaId()).isEqualTo(getMetaId(accountId));
   }
 
-  private EmailInput newEmailInput(String email) {
+  private EmailInput newEmailInput(String email, boolean noConfirmation) {
     EmailInput input = new EmailInput();
     input.email = email;
-    input.noConfirmation = true;
+    input.noConfirmation = noConfirmation;
     return input;
+  }
+
+  private EmailInput newEmailInput(String email) {
+    return newEmailInput(email, true);
   }
 
   private String getMetaId(Account.Id accountId) throws IOException {

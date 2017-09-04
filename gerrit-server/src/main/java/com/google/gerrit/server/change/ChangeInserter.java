@@ -378,7 +378,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, OrmException, IOException, PermissionBackendException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
@@ -444,7 +444,7 @@ public class ChangeInserter implements InsertChangeOp {
         filterOnChangeVisibility(db, ctx.getNotes(), reviewersToAdd),
         Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
-        db, update, labelTypes, patchSet, ctx.getControl(), approvals);
+        db, update, labelTypes, patchSet, ctx.getUser(), approvals);
     // Check if approvals are changing in with this update. If so, add current user to reviewers.
     // Note that this is done separately as addReviewers is filtering out the change owner as
     // reviewer which is needed in several other code paths.

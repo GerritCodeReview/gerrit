@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d6a0403_2b552412",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T08:03:37Z",
+      "side": 1,
+      "message": "Are we ever going to reach this, now that we removed support for buck?",
+      "range": {
+        "startLine": 634,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 25
+      },
+      "revId": "bb330bc9793e91c51c092d687a08548229726e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

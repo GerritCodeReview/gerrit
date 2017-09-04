@@ -191,7 +191,7 @@ def _main():
 
         try:
             gerrit.post("/changes/" + change_id + "/abandon",
-                        data='{"message" : "%s"}' % abandon_message)
+                        data={"message" : "%s" % abandon_message})
             abandoned += 1
         except Exception as e:
             errors += 1

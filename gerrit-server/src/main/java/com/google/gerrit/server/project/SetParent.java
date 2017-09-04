@@ -79,12 +79,18 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     validateParentUpdate(
         rsrc.getProjectState().getProject().getNameKey(), user, parentName, checkIfAdmin);
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
+    return setParent(parentName, input.commitMessage, rsrc.getNameKey(), user);
+  }
+
+  public String setParent(
+      String parentName, String commitMessage, Project.NameKey projectName, IdentifiedUser user)
+      throws IOException, ResourceConflictException, ResourceNotFoundException {
+    try (MetaDataUpdate md = updateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
       project.setParentName(parentName);
 
-      String msg = Strings.emptyToNull(input.commitMessage);
+      String msg = Strings.emptyToNull(commitMessage);
       if (msg == null) {
         msg = String.format("Changed parent to %s.\n", parentName);
       } else if (!msg.endsWith("\n")) {
@@ -93,13 +99,13 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(rsrc.getProjectState().getProject());
+      cache.evict(new Project(projectName));
 
       Project.NameKey parent = project.getParent(allProjects);
       checkNotNull(parent);
       return parent.get();
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(projectName.get());
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));

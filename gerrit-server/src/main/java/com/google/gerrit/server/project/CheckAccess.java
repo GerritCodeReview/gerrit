@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -32,7 +31,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,44 +40,35 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckInput> {
-  private final Provider<IdentifiedUser> currentUser;
+public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckInput> {
   private final AccountResolver accountResolver;
   private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
 
   @Inject
   CheckAccess(
-      Provider<IdentifiedUser> currentUser,
       AccountResolver resolver,
       Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory userFactory,
-      ProjectCache projectCache,
       PermissionBackend permissionBackend) {
-    this.currentUser = currentUser;
     this.accountResolver = resolver;
     this.db = db;
     this.userFactory = userFactory;
-    this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public AccessCheckInfo apply(ConfigResource unused, AccessCheckInput input)
+  public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
       throws OrmException, PermissionBackendException, RestApiException, IOException,
           ConfigInvalidException {
-    permissionBackend.user(currentUser.get()).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.user(rsrc.getUser()).check(GlobalPermission.ADMINISTRATE_SERVER);
 
     if (input == null) {
       throw new BadRequestException("input is required");
     }
     if (Strings.isNullOrEmpty(input.account)) {
       throw new BadRequestException("input requires 'account'");
-    }
-    if (Strings.isNullOrEmpty(input.project)) {
-      throw new BadRequestException("input requires 'project'");
     }
 
     Account match = accountResolver.find(db.get(), input.account);
@@ -89,21 +78,14 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
 
     AccessCheckInfo info = new AccessCheckInfo();
 
-    Project.NameKey key = new Project.NameKey(input.project);
-    if (projectCache.get(key) == null) {
-      info.message = String.format("project %s does not exist", key);
-      info.status = HttpServletResponse.SC_NOT_FOUND;
-      return info;
-    }
-
     IdentifiedUser user = userFactory.create(match.getId());
     try {
-      permissionBackend.user(user).project(key).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.ACCESS);
     } catch (AuthException | PermissionBackendException e) {
       info.message =
           String.format(
               "user %s (%s) cannot see project %s",
-              user.getNameEmail(), user.getAccount().getId(), key);
+              user.getNameEmail(), user.getAccount().getId(), rsrc.getName());
       info.status = HttpServletResponse.SC_FORBIDDEN;
       return info;
     }
@@ -112,14 +94,14 @@ public class CheckAccess implements RestModifyView<ConfigResource, AccessCheckIn
       try {
         permissionBackend
             .user(user)
-            .ref(new Branch.NameKey(key, input.ref))
+            .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
             .check(RefPermission.READ);
       } catch (AuthException | PermissionBackendException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;
         info.message =
             String.format(
                 "user %s (%s) cannot see ref %s in project %s",
-                user.getNameEmail(), user.getAccount().getId(), input.ref, key);
+                user.getNameEmail(), user.getAccount().getId(), input.ref, rsrc.getName());
         return info;
       }
     }

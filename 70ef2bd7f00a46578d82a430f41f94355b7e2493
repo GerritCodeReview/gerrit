@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53659079_38d37d0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T15:29:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9de231ee_fa3adf62",
+      "revId": "70ef2bd7f00a46578d82a430f41f94355b7e2493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4736d8c_410b20ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 7

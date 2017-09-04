@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "dd4f304b_a14ef5e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff27be0b_6f9eb396",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 93
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b30208_ef09bc01",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 4
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "39d80d25_66d90137",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b30208_ef09bc01",
+      "range": {
+        "startLine": 114,
+        "startChar": 31,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00917d57_25aa6ffe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 4
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "28c78c99_776b5512",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00917d57_25aa6ffe",
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f2e4cee_c3a6ce5c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 4
@@ -99,6 +165,30 @@
       "writtenOn": "2017-09-04T11:59:26Z",
       "side": 1,
       "message": "(optional) Add a complete JavaDoc (or alternatively just a summary fragment)",
+      "range": {
+        "startLine": 55,
+        "startChar": 22,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c1c6a66_ea837a4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "declne - the original didn\u0027t have it either.",
+      "parentUuid": "5f2e4cee_c3a6ce5c",
       "range": {
         "startLine": 55,
         "startChar": 22,
@@ -134,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "0461b2e0_bc80dfb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de24fbd0_7816666d",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 36
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2fffdf2_0c71f34b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 4
@@ -154,6 +268,30 @@
       "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2094b36c_b91c5e2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2fffdf2_0c71f34b",
+      "range": {
+        "startLine": 120,
+        "startChar": 32,
+        "endLine": 120,
+        "endChar": 33
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "790ea448_6ffd7672",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8dc6d38_25c5fb09",
+      "range": {
+        "startLine": 153,
+        "startChar": 7,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb6f1e9a_c3802963",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 4
@@ -200,6 +362,30 @@
       "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3b971ef_eb42e78e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T13:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb6f1e9a_c3802963",
+      "range": {
+        "startLine": 201,
+        "startChar": 6,
+        "endLine": 201,
+        "endChar": 30
+      },
+      "revId": "31ab0f07687a3fee7b7e310d5cc66cd25c09282e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

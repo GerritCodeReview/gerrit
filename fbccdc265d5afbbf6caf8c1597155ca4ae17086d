@@ -22,6 +22,52 @@
       "revId": "fbccdc265d5afbbf6caf8c1597155ca4ae17086d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99576453_a4cff9d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T11:08:07Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "fbccdc265d5afbbf6caf8c1597155ca4ae17086d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2184cf2_21594a65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-04T11:08:07Z",
+      "side": 1,
+      "message": "couldn\u0027t you just pass checkIfAdmin\u003dfalse for your purposes?",
+      "range": {
+        "startLine": 74,
+        "startChar": 65,
+        "endLine": 74,
+        "endChar": 77
+      },
+      "revId": "fbccdc265d5afbbf6caf8c1597155ca4ae17086d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

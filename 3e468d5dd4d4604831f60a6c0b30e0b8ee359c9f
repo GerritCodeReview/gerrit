@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4000857e_f41171c7",
+        "filename": ".settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T12:49:51Z",
+      "side": 1,
+      "message": "Unintended change",
+      "revId": "3e468d5dd4d4604831f60a6c0b30e0b8ee359c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

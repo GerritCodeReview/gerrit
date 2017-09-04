@@ -21,6 +21,7 @@ import static com.google.gerrit.server.config.TopMenuResource.TOP_MENU_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.project.CheckAccess;
 
 public class Module extends RestApiModule {
   @Override

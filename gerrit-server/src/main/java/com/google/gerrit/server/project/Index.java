@@ -32,6 +32,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -60,7 +61,11 @@ public class Index implements RestModifyView<ProjectResource, ProjectInput> {
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
     AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);
-    executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
+    // The REST call is just a trigger for async reindexing, so it is safe to ignore the future's
+    // return value.
+    @SuppressWarnings("unused")
+    Future<Void> ignored =
+        executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
     return Response.accepted("Project " + project + " submitted for reindexing");
   }
 }

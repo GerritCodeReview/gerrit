@@ -68,6 +68,30 @@
       "revId": "fbccdc265d5afbbf6caf8c1597155ca4ae17086d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0291010_c9a4c5cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T11:13:23Z",
+      "side": 1,
+      "message": "Yeah. I think it should be enough for me.",
+      "parentUuid": "e2184cf2_21594a65",
+      "range": {
+        "startLine": 74,
+        "startChar": 65,
+        "endLine": 74,
+        "endChar": 77
+      },
+      "revId": "fbccdc265d5afbbf6caf8c1597155ca4ae17086d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

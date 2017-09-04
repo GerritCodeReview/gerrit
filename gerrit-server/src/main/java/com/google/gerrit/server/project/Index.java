@@ -33,6 +33,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.PrintWriter;
+import java.util.concurrent.Future;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
@@ -59,7 +60,11 @@ public class Index implements RestModifyView<ProjectResource, ProjectInput> {
         new MultiProgressMonitor(ByteStreams.nullOutputStream(), "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
     PrintWriter pw = new PrintWriter(CharStreams.nullWriter());
-    executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt, pw));
+    // The REST call is just a trigger for async reindexing, so it is safe to ignore the future's
+    // return value.
+    @SuppressWarnings("unused")
+    Future<Void> ignored =
+        executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt, pw));
     return Response.accepted("Project " + project + " submitted for reindexing");
   }
 }

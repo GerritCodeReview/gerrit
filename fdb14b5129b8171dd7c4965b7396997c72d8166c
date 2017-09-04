@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58047041_23753d67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "nit: move this close to their usage, line#97.",
+      "range": {
+        "startLine": 83,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 76
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4392e21f_44e3ecc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "Since \"projectControl\" is only used once, this can be inlined to line#105.",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 54
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdaf21cd_7a83f47c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "It will be more clear if we remove this and pass input.parent to AccessUtil#setParentName.",
+      "range": {
+        "startLine": 90,
+        "startChar": 3,
+        "endLine": 91,
+        "endChar": 72
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e246ffd_82e7f786",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "Should we also check \"sectionInfo.size() \u003d\u003d 0\" here?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d51ca3_16b23632",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "nit: move this before line#57. \"accessSection\" will never be used when this happens.",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 7
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08406be6_b0996622",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "Should we move this before line#65? If this happens, \"Permission p\" should not be initialized.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 9
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44524d24_8dd94bce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "nit: move this before line#82?",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 70
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "088a24b6_fe190f4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "This can be simplified as:\n\n     if (!isGlobalCapabilities) {\n        if (!AccessSection.isValid(name)) {\n          throw new BadRequestException(\"invalid section name\");\n        }\n        RefPattern.validate(name);\n      } else {\n        // Check all permissions for soundness\n        for (Permission p : section.getPermissions()) {\n          if (!GlobalCapability.isCapability(p.getName())) {\n            throw new BadRequestException(\n                \"Cannot add non-global capability \" + p.getName() + \" to global capabilities\");\n          }\n        }\n      }",
+      "range": {
+        "startLine": 127,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 5
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff204aa_da411a99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "Add \"continue\" after this? The following code should not be called if entire section has been removed.",
+      "range": {
+        "startLine": 150,
+        "startChar": 7,
+        "endLine": 150,
+        "endChar": 66
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f80240a2_be032e69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line.",
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7288fd4_9dc9b681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "This should be \"projectName\" rather than \"allProjects\", right?",
+      "range": {
+        "startLine": 198,
+        "startChar": 42,
+        "endLine": 198,
+        "endChar": 53
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea4185a1_9c25e7fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-04T16:54:05Z",
+      "side": 1,
+      "message": "Why do we need to write like this? \n\"newParentProjectName\" can never be null here. It should be changed to \"newParentProjectName\".",
+      "range": {
+        "startLine": 205,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 81
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

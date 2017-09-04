@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "fe6bca3a_8f8cc1f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "\"or revision resource\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 68,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75e095fd_3c4ce7a5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "What if the given change does not have a revertOf field?",
+      "range": {
+        "startLine": 1086,
+        "startChar": 43,
+        "endLine": 1086,
+        "endChar": 84
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fbb6618_ecaac359",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -25,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "c456673a_86f613b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "Is it likely that in future we will want to return any additional data here?  If so it would be better to make this return a json structure.  See for example the mergeable endpoint [1] which returns a boolean inside a json along with some other info.\n\n[1] http://gerrit-documentation.storage.googleapis.com/Documentation/2.14/rest-api-changes.html#get-mergeable",
+      "range": {
+        "startLine": 1104,
+        "startChar": 2,
+        "endLine": 1104,
+        "endChar": 7
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "804aec94_9956dc53",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +105,30 @@
       "writtenOn": "2017-09-04T17:42:44Z",
       "side": 1,
       "message": "This is a Revision REST endpoint. Should we document it in a separate section?\n\nI\u0027m wondering when \"Revision\" level is necessary? I feel only the current revision will be useful. Do we have user request for this somewhere?",
+      "range": {
+        "startLine": 1107,
+        "startChar": 0,
+        "endLine": 1112,
+        "endChar": 4
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27fae7ff_54611f6e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "\u003e Should we document it in a separate section?\n\nYes, if we have this endpoint it should be documented separately under the \"Revision Endpoints\" section.",
+      "parentUuid": "804aec94_9956dc53",
       "range": {
         "startLine": 1107,
         "startChar": 0,
@@ -272,6 +365,52 @@
     },
     {
       "key": {
+        "uuid": "f71af8e8_4d70315d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "Mention what format this is expected to be?",
+      "range": {
+        "startLine": 263,
+        "startChar": 47,
+        "endLine": 263,
+        "endChar": 62
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a968d8cd_d7fa45cf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "\"claimedOriginal\" for consistency with the ChangeApi?",
+      "range": {
+        "startLine": 62,
+        "startChar": 30,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "385a5de0_55431cb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1
@@ -338,6 +477,29 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faee085e_1f2945c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-04T23:23:25Z",
+      "side": 1,
+      "message": "Instead of making this a member that gets set by an option, pass it in an Input class.  Then the GetPureRevert class can be annotated as @Singleton.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

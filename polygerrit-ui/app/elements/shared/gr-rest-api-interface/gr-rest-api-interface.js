@@ -201,6 +201,23 @@
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
+    getDashboard(project) {
+      const encodeName = encodeURIComponent(project);
+      return this.fetchJSON(`/projects/${encodeName}/dashboards/`)
+          .then(response => {
+            return response;
+          });
+    },
+
+    getProjectDashboard(project, ref, path) {
+      const encodeName = encodeURIComponent(project);
+      return this.fetchJSON(
+          `/projects/${encodeName}/dashboards/${ref}:${path}`)
+            .then(response => {
+              return response;
+            });
+    },
+
     getProject(project) {
       return this._fetchSharedCacheURL(
           '/projects/' + encodeURIComponent(project));

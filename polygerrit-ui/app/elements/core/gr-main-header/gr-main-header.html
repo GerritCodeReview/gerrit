@@ -78,6 +78,9 @@ limitations under the License.
         flex: 1;
         justify-content: flex-end;
       }
+      .rightItems gr-endpoint-decorator:not(:empty) {
+        margin-left: 1em;
+      }
       gr-search-bar {
         flex-grow: 1;
         margin-left: .5em;
@@ -121,6 +124,7 @@ limitations under the License.
         }
         gr-search-bar,
         .browse,
+        .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
           display: none;
         }
@@ -159,6 +163,9 @@ limitations under the License.
       </ul>
       <div class="rightItems">
         <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
+        <gr-endpoint-decorator
+            class="hideOnMobile"
+            name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
           <a class="loginButton" href$="[[_loginURL]]">Sign in</a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>

@@ -16,6 +16,24 @@
       "revId": "27208b1367e44abb76e332b5b89f287e0f82a104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "134c8277_fa3fd853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T14:20:57Z",
+      "side": 0,
+      "message": "This code confused me at first, because it is neither doing checks on the current user, nor on the user of the approval in question.\n\nHere are all the callers of this method:\nPostReviewers#461: ChangeData is initialized in l.468 using the factory call (changeDataFactory.create(dbProvider.get(), notes)).\nPostReviewers#449: ChangeData is initialized in l.438 using the factory call.\nReviewerJson#89:  ChangeData is initialized in l.86 using the factory call.\n\nThe factory call does not initialize the changeControl member inside ChangeData. So it is created when changeData.changeControl() is called, which means that the user in the control stack is set to the change owner.\n\nFor the check that was previously done here, we did not take the account in the approval into consideration. The call was just about the change owner being able to vote on any label on the change. I think this doesn\u0027t make sense and can simply be dropped.\n\nAnother thing that comes into play is that in NoteDb, there are no dummy votes, right?",
+      "parentUuid": "2631f22a_b7a5a8ee",
+      "revId": "27208b1367e44abb76e332b5b89f287e0f82a104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

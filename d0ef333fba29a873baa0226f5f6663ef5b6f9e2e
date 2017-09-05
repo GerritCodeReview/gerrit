@@ -22,6 +22,30 @@
       "revId": "d0ef333fba29a873baa0226f5f6663ef5b6f9e2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e19bcbae_9ca0237c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-05T11:55:04Z",
+      "side": 1,
+      "message": "I thought GWT was adding the support. But seems it is not. Removing this. Thanks, done.",
+      "parentUuid": "086b6228_b325d274",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "d0ef333fba29a873baa0226f5f6663ef5b6f9e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

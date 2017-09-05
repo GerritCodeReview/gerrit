@@ -214,8 +214,8 @@ maven_jar(
 
 maven_jar(
     name = "velocity",
-    artifact = "org.apache.velocity:velocity:1.7",
-    sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",
+    artifact = "org.apache.velocity:velocity-engine-core:2.0",
+    sha1 = "6e5f29e1237b1764a4ce769feeffb85b0b19cfa7",
 )
 
 maven_jar(

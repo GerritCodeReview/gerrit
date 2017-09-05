@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "82ed56eb_89c3bb04",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75e095fd_3c4ce7a5",
+      "range": {
+        "startLine": 1086,
+        "startChar": 43,
+        "endLine": 1086,
+        "endChar": 84
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fbb6618_ecaac359",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "cc6005b9_103d8681",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "There was an example in the revision resource example below. Since this is removed, I moved it up to the change resource example.\n\nI use GET because the call is not changing any server state, rather just computing and retrieving existing information. I find [1] to be a good resource to explain when to use GET, PUT, POST, DELETE.\n\ntl;dr:\nGET: Retrieve information\nPOST: Create a new entity, or update an entity.\nPUT: Create a new entity or update an existing one (idempotent)\nDELETE: Request that a resource be removed\n\nPOST could be suitable as well: \"Request that the resource at the URI do something with the provided entity.\", but I think GET is more intuitive.\n\n[1] https://spring.io/understanding/REST",
+      "parentUuid": "6fbb6618_ecaac359",
+      "range": {
+        "startLine": 1087,
+        "startChar": 31,
+        "endLine": 1087,
+        "endChar": 72
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c456673a_86f613b8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2017-09-04T23:23:25Z",
       "side": 1,
       "message": "Is it likely that in future we will want to return any additional data here?  If so it would be better to make this return a json structure.  See for example the mergeable endpoint [1] which returns a boolean inside a json along with some other info.\n\n[1] http://gerrit-documentation.storage.googleapis.com/Documentation/2.14/rest-api-changes.html#get-mergeable",
+      "range": {
+        "startLine": 1104,
+        "startChar": 2,
+        "endLine": 1104,
+        "endChar": 7
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5967370e_f0b46b0b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "I\u0027m am not sure, but I am +1 on keeping this extensible. Done.",
+      "parentUuid": "c456673a_86f613b8",
       "range": {
         "startLine": 1104,
         "startChar": 2,
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "8dc7d2bc_3df3d212",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "I removed it (see my first comment). I wasn\u0027t sure from the beginning if there is a strong use case.\n\nThe one I had in mind was a script that tells you that the change is not a pure revert because of changes in PS3, so you could get back to that. But on a second thought I think we can just drop that use case.",
+      "parentUuid": "27fae7ff_54611f6e",
+      "range": {
+        "startLine": 1107,
+        "startChar": 0,
+        "endLine": 1112,
+        "endChar": 4
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a77c047_08fdaae6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -164,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "47ef7a0c_22a25d3e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a77c047_08fdaae6",
+      "range": {
+        "startLine": 3157,
+        "startChar": 4,
+        "endLine": 3158,
+        "endChar": 58
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9ec704_5fff862a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -178,6 +298,24 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8855d4d8_6fa7879c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "This was extensively tested in RevisionIT, but since there is not more revision endpoint, I moved the tests over here.\n\nThis test was basically just testing that the \u0027current\u0027 implementation in GetPureRevert was working.",
+      "parentUuid": "6f9ec704_5fff862a",
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -204,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "2cd8f736_f6578dad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25f9f974_3425e398",
+      "range": {
+        "startLine": 1296,
+        "startChar": 4,
+        "endLine": 1297,
+        "endChar": 58
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed71a16a_95f74824",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 1
@@ -224,6 +386,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d951de82_597f03a7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "I\u0027ll always change all occurrences of code that was commented on (I at least try my very best), no need to post it 6 times :)",
+      "parentUuid": "ed71a16a_95f74824",
+      "range": {
+        "startLine": 1307,
+        "startChar": 4,
+        "endLine": 1308,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -250,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "5ba99cd2_fbcd10ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done. You are right, this is more intuitive (though essentially tests the same thing).",
+      "parentUuid": "b6c685a2_b9bfbc90",
+      "range": {
+        "startLine": 1312,
+        "startChar": 16,
+        "endLine": 1312,
+        "endChar": 44
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9c841d2_57c5bb54",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 1
@@ -270,6 +480,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fb976a_7caae5f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c841d2_57c5bb54",
+      "range": {
+        "startLine": 1321,
+        "startChar": 3,
+        "endLine": 1322,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -296,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "7226ff52_cd7213fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "I\u0027ve restructured the test and added some more comments.",
+      "parentUuid": "0c0c4fee_b0d5d23e",
+      "range": {
+        "startLine": 1330,
+        "startChar": 14,
+        "endLine": 1330,
+        "endChar": 66
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "626c255c_fdcfaa6f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 1
@@ -316,6 +574,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60187def_386f0de1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "The test is now a bit different.",
+      "parentUuid": "626c255c_fdcfaa6f",
+      "range": {
+        "startLine": 1331,
+        "startChar": 71,
+        "endLine": 1331,
+        "endChar": 80
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -342,6 +624,30 @@
     },
     {
       "key": {
+        "uuid": "e8bb068b_f6c6055a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12f556a_8699c9da",
+      "range": {
+        "startLine": 1332,
+        "startChar": 4,
+        "endLine": 1333,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf38686_aeebb0c6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 1
@@ -365,6 +671,30 @@
     },
     {
       "key": {
+        "uuid": "4bec1729_6330ce2f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf38686_aeebb0c6",
+      "range": {
+        "startLine": 1336,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 59
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f71af8e8_4d70315d",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 1
@@ -376,6 +706,30 @@
       "writtenOn": "2017-09-04T23:23:25Z",
       "side": 1,
       "message": "Mention what format this is expected to be?",
+      "range": {
+        "startLine": 263,
+        "startChar": 47,
+        "endLine": 263,
+        "endChar": 62
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad8e96da_72ffaadc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f71af8e8_4d70315d",
       "range": {
         "startLine": 263,
         "startChar": 47,
@@ -411,6 +765,30 @@
     },
     {
       "key": {
+        "uuid": "e5b7242f_55a2f420",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Removed it instead :)",
+      "parentUuid": "a968d8cd_d7fa45cf",
+      "range": {
+        "startLine": 62,
+        "startChar": 30,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "385a5de0_55431cb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1
@@ -431,6 +809,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a87e6b_07329e49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385a5de0_55431cb1",
+      "range": {
+        "startLine": 687,
+        "startChar": 32,
+        "endLine": 687,
+        "endChar": 52
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -457,6 +859,30 @@
     },
     {
       "key": {
+        "uuid": "d789c0ad_929cb790",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Removed instead.",
+      "parentUuid": "d68fa2e8_8c7383e8",
+      "range": {
+        "startLine": 309,
+        "startChar": 13,
+        "endLine": 309,
+        "endChar": 22
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb931d2e_50c3eac9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 1
@@ -477,6 +903,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca8d31c_d916f716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Removed instead.",
+      "parentUuid": "eb931d2e_50c3eac9",
+      "range": {
+        "startLine": 311,
+        "startChar": 32,
+        "endLine": 311,
+        "endChar": 67
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -503,6 +953,30 @@
     },
     {
       "key": {
+        "uuid": "b92a9463_b6e51b91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Does this work with GET resources? I looked at others (like GetMergeable) and they all seem to be non-singletons and take query parameters like that.",
+      "parentUuid": "faee085e_1f2945c3",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26d7342a_010ef3f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 1
@@ -526,6 +1000,30 @@
     },
     {
       "key": {
+        "uuid": "f78ced90_e0b42785",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done. Though, the only convention (I know of) is that the order in the arguments must match the order of the constructor body. I don\u0027t think we are picky about class members.",
+      "parentUuid": "26d7342a_010ef3f8",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0891ce6_ccdd2c55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 1
@@ -546,6 +1044,30 @@
       "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d3079d6_1439a108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-05T09:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0891ce6_ccdd2c55",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 31
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

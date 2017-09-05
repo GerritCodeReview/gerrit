@@ -57,6 +57,24 @@
       "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74209690_e5d06813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-05T14:58:24Z",
+      "side": 1,
+      "message": "I guess it\u0027s the same thing then.  In the GWT UI there\u0027s an \"Edit Config\" button on the project\u0027s general tab.  That uses the RPC mentioned in my previous comment.",
+      "parentUuid": "bf1eccc3_d840aa02",
+      "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

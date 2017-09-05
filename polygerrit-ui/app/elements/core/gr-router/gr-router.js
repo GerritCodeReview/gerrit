@@ -17,6 +17,7 @@
   const RoutePattern = {
     ROOT: '/',
     DASHBOARD: '/dashboard/(.*)',
+    ADMIN_DASHBOARD: /^\/admin\/projects\/(.+),dashboards$/,
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?/,
@@ -54,6 +55,10 @@
 
     // Matches /admin/projects/<project>
     PROJECT: /^\/admin\/projects\/([^,]+)$/,
+
+    PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+):(.+)$/,
+
+    PROJECT_ADMIN_DASHBOARD: /^\/admin\/projects\/(.+),dashboards\/(.+):(.+)$/,
 
     // Matches /admin/projects/<project>,commands.
     PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
@@ -427,6 +432,9 @@
 
       this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
+      this._mapRoute(RoutePattern.ADMIN_DASHBOARD,
+          '_handleAdminDashboardRoute');
+
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
@@ -446,6 +454,12 @@
           '_handleGroupListFilterRoute', true);
 
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
+
+      this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
+          '_handleProjectDashboardRoute');
+
+      this._mapRoute(RoutePattern.PROJECT_ADMIN_DASHBOARD,
+          '_handleProjectAdminDashboardRoute');
 
       this._mapRoute(RoutePattern.PROJECT_COMMANDS,
           '_handleProjectCommandsRoute', true);
@@ -574,6 +588,31 @@
         } else {
           this._redirect('/q/status:open');
         }
+      });
+    },
+
+    _handleProjectDashboardRoute(data) {
+      this._redirect('/admin/projects/' + data.params[0] + ',dashboards/' +
+          data.params[1] + ':' + data.params[2]);
+    },
+
+    _handleProjectAdminDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-dashboard',
+        detailType: 'dashboard',
+        project: data.params[0],
+        ref: data.params[1],
+        path: data.params[2],
+      });
+    },
+
+    _handleAdminDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-dashboard',
+        detailType: 'dashboard',
+        project: data.params[0],
       });
     },
 

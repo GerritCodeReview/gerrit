@@ -46,6 +46,12 @@
     GROUP_LIST_FILTER: '/admin/groups/q/filter::filter',
     GROUP_LIST_FILTER_OFFSET: '/admin/groups/q/filter::filter,:offset',
 
+    // Matches /admin/create-project
+    LEGACY_CREATE_PROJECT: /^\/admin\/create-project\/?$/,
+
+    // Matches /admin/create-project
+    LEGACY_CREATE_GROUP: /^\/admin\/create-group\/?$/,
+
     // Matches /admin/projects/<project>
     PROJECT: /^\/admin\/projects\/([^,]+)$/,
 
@@ -465,6 +471,12 @@
       this._mapRoute(RoutePattern.TAG_LIST_FILTER,
           '_handleTagListFilterRoute');
 
+      this._mapRoute(RoutePattern.LEGACY_CREATE_GROUP,
+          '_handleCreateGroupRoute', true);
+
+      this._mapRoute(RoutePattern.LEGACY_CREATE_PROJECT,
+          '_handleCreateProjectRoute', true);
+
       this._mapRoute(RoutePattern.PROJECT_LIST_OFFSET,
           '_handleProjectListOffsetRoute');
 
@@ -616,6 +628,7 @@
         adminView: 'gr-admin-group-list',
         offset: data.params[1] || 0,
         filter: null,
+        openCreateModal: data.hash === 'create',
       });
     },
 
@@ -732,6 +745,7 @@
         adminView: 'gr-project-list',
         offset: data.params[1] || 0,
         filter: null,
+        openCreateModal: data.hash === 'create',
       });
     },
 
@@ -750,6 +764,18 @@
         adminView: 'gr-project-list',
         filter: data.params.filter || null,
       });
+    },
+
+    _handleCreateProjectRoute(data) {
+      // Redirects the legacy route to the new route, which displays the project
+      // list with a hash 'create'.
+      this._redirect('/admin/projects#create');
+    },
+
+    _handleCreateGroupRoute(data) {
+      // Redirects the legacy route to the new route, which displays the group
+      // list with a hash 'create'.
+      this._redirect('/admin/groups#create');
     },
 
     _handleProjectRoute(data) {

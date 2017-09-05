@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71f0ca98_5695444d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-05T17:10:35Z",
+      "side": 1,
+      "message": "SystemGroupBackend.REGISTERED_USERS",
+      "range": {
+        "startLine": 3143,
+        "startChar": 35,
+        "endLine": 3143,
+        "endChar": 90
+      },
+      "revId": "312175a1dd1a977459c554445f573dbc96e0d800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03c8ae13_14473dc7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-05T17:10:35Z",
+      "side": 1,
+      "message": "I would also add an assertion that the permittedLabels for this user on the change match [-1, 0] and [-1, +1], to make it clear that your ACL changes had the intended effect.",
+      "revId": "312175a1dd1a977459c554445f573dbc96e0d800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

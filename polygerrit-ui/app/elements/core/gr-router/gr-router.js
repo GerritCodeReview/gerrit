@@ -61,6 +61,8 @@
     // Matches /admin/projects/<project>,access.
     PROJECT_ACCESS: /^\/admin\/projects\/(.+),access$/,
 
+    PROJECT_DASHBOARD: /^\/admin\/projects\/(.+),dashboards\/(.+):(.+)$/,
+
     // Matches /admin/projects[,<offset>][/].
     PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
     PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
@@ -524,6 +526,9 @@
 
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
+      this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
+          '_handleProjectDashboardRoute');
+
       this._mapRoute(RoutePattern.PROJECT_COMMANDS,
           '_handleProjectCommandsRoute', true);
 
@@ -758,6 +763,17 @@
             user: data.params[0],
           });
         }
+      });
+    },
+
+    _handleProjectDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-dashboard',
+        detailType: 'dashboard',
+        project: data.params[0],
+        ref: data.params[1],
+        path: data.params[2],
       });
     },
 

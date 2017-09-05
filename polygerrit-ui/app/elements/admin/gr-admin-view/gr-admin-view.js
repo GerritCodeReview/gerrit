@@ -69,6 +69,7 @@
       _showGroupList: Boolean,
       _showGroupMembers: Boolean,
       _showProjectCommands: Boolean,
+      _showProjectDashboard: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -193,6 +194,8 @@
       this.set('_showGroupMembers', params.adminView === 'gr-group-members');
       this.set('_showProjectCommands',
           params.adminView === 'gr-project-commands');
+      this.set('_showProjectDashboard',
+          params.adminView === 'gr-project-dashboard');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-project-list');

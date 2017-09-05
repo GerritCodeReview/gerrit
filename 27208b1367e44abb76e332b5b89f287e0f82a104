@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2631f22a_b7a5a8ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-05T13:22:02Z",
+      "side": 0,
+      "message": "This check is meaningful: it checks that the user has permission to vote on the label at all, i.e. that they are granted a non-empty range on the permission. It looks like it omits their vote from the output if they don\u0027t.\n\nI don\u0027t remember if this is true, but I *think* this is because of the way we implemented reviewers in ReviewDb. When adding a reviewer, it picks an arbitrary label and adds a zero vote on that label, and I think it doesn\u0027t (or didn\u0027t) take user permission into account when picking the label. So a reviewer might end up with a dummy 0 vote on a label they have no permissions for, and these need to be filtered out from REST API responses.\n\nEven if my recollection is incorrect, I am pretty sure what you\u0027ve done here is a behavior change, but we don\u0027t have a test that proves it.",
+      "revId": "27208b1367e44abb76e332b5b89f287e0f82a104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -55,6 +55,14 @@ limitations under the License.
               placeholder="Revision (Branch or SHA-1)"
               bind-value="{{_itemRevision}}">
         </section>
+        <section hidden$="[[_hideIfBranch(itemDetail)]]">
+          <span class="title">Annotation</span>
+          <input
+              is="iron-input"
+              id="itemAnnotationInput"
+              placeholder="Annotation (Optional)"
+              bind-value="{{_itemAnnotation}}">
+        </section>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

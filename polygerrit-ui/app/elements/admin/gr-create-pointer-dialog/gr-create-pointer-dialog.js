@@ -33,6 +33,7 @@
       itemDetail: String,
       _itemName: String,
       _itemRevision: String,
+      _itemAnnotation: String,
     },
 
     behaviors: [
@@ -69,14 +70,24 @@
               }
             });
       } else if (this.itemDetail === DETAIL_TYPES.tags) {
+        const USE_ANNOTATION =
+            this._itemAnnotation ? this._itemAnnotation : null;
         return this.$.restAPI.createProjectTag(this.projectName,
-            this._itemName, {revision: USE_HEAD})
+            this._itemName, {revision: USE_HEAD, message: USE_ANNOTATION})
             .then(itemRegistered => {
               if (itemRegistered.status === 201) {
                 page.show(this._computeItemUrl(this.itemDetail));
               }
             });
       }
+    },
+
+    _hideIfBranch(type) {
+      if (type === DETAIL_TYPES.branches) {
+        return true;
+      }
+
+      return false;
     },
   });
 })();

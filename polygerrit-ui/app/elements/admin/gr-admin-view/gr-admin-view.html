@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
 <link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-admin-dashboard/gr-admin-dashboard.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
@@ -128,6 +129,13 @@ limitations under the License.
     <template is="dom-if" if="[[_showProjectAccess]]" restamp="true">
       <main class="table">
         <gr-project-access project="[[params.project]]"></gr-project-access>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showAdminDashboard]]" restamp="true">
+      <main class="table">
+        <gr-admin-dashboard
+            project="[[params.project]]"
+            params="[[params]]"></gr-admin-dashboard>
       </main>
     </template>
     <template is="dom-if" if="[[params.placeholder]]" restamp="true">

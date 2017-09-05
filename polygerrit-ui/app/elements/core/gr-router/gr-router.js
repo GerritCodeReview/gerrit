@@ -17,6 +17,7 @@
   const RoutePattern = {
     ROOT: '/',
     DASHBOARD: '/dashboard/(.*)',
+    ADMIN_DASHBOARD: /^\/admin\/projects\/(.+),dashboards/,
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?/,
@@ -427,6 +428,8 @@
 
       this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
+      this._mapRoute(RoutePattern.ADMIN_DASHBOARD, '_handleAdminDashboardRoute');
+
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
@@ -574,6 +577,15 @@
         } else {
           this._redirect('/q/status:open');
         }
+      });
+    },
+
+    _handleAdminDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-dashboard',
+        detailType: 'dashboard',
+        project: data.params[0],
       });
     },
 

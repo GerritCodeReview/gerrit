@@ -1,0 +1,103 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/gr-change-list-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../gr-admin-dashboard-list-item/gr-admin-dashboard-list-item.html">
+
+<dom-module id="gr-admin-dashboard-list">
+  <template>
+    <style include="shared-styles">
+      #changeList {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .cell {
+        padding: .3em .5em;
+      }
+      th {
+        text-align: left;
+      }
+      .groupHeader {
+        background-color: #eee;
+        border-top: 1em solid #fff;
+      }
+      .groupHeader a {
+        color: #000;
+        text-decoration: none;
+      }
+      .groupHeader a:hover {
+        text-decoration: underline;
+      }
+      .headerRow + tr {
+        border: none;
+      }
+    </style>
+    <style include="gr-change-list-styles"></style>
+    <table id="changeList">
+      <tr class="headerRow">
+        <th class="topHeader keyboard"></th>
+        <th class="name topHeader">
+          Dashboard Name
+        </th>
+        <th class="title topHeader">
+          Dashboard Title
+        </th>
+        <th class="description topHeader">
+          Dashboard Description
+        </th>
+        <th class="inheritedFrom topHeader">
+          Inherited From
+        </th>
+      </tr>
+      <template is="dom-repeat" items="[[sections]]" as="changeSection"
+          index-as="sectionIndex">
+        <tr class="groupHeader">
+          <td class="cell"
+              colspan$="[[_computeColspan(dashboardTableColumns, labelNames)]]">
+            Default
+          </td>
+        </tr>
+        <template is="dom-if" if="[[!changeSection.results.length]]">
+          <tr class="noChanges">
+            <td class="cell"
+                colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+              No changes
+            </td>
+          </tr>
+        </template>
+        <template is="dom-repeat" items="[[changeSection.results]]" as="dashboard">
+          <gr-dashboard-list-item
+              project-name="[[projectName]]"
+              selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
+              dashboard="[[dashboard]]"
+              visible-change-table-columns="[[visibleChangeTableColumns]]">
+          </gr-dashboard-list-item>
+        </template>
+      </template>
+    </table>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-admin-dashboard-list.js"></script>
+</dom-module>

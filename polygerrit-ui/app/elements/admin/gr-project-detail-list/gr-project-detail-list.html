@@ -21,7 +21,9 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -56,6 +58,9 @@ limitations under the License.
       .deleteButton:not(.show) {
         display: none;
       }
+      .hideItem {
+        display: none;
+      }
     </style>
     <style include="gr-table-styles"></style>
     <gr-list-view
@@ -71,6 +76,10 @@ limitations under the License.
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
           <th class="description topHeader">Revision</th>
+          <th class="message topHeader [[_hideIfBranch(detailType)]]">
+            Message</th>
+          <th class="tagger topHeader [[_hideIfBranch(detailType)]]">
+            Tagger</th>
           <th class="repositoryBrowser topHeader">
             Repository Browser</th>
           <th class="delete topHeader"></th>
@@ -111,6 +120,18 @@ limitations under the License.
                     Cancel
                   </gr-button>
                 </span>
+              </td>
+              <td class$="message [[_hideIfBranch(detailType)]]">
+                [[item.message]]
+              </td>
+              <td class$="tagger [[_hideIfBranch(detailType)]]">
+                <gr-account-link account="[[item.tagger]]" hidden$="[[!item.tagger]]">
+                </gr-account-link>
+                <gr-date-formatter
+                    has-tooltip
+                    date-str="[[item.tagger.date]]"
+                    hidden$="[[!item.tagger]]">
+                </gr-date-formatter>
               </td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"

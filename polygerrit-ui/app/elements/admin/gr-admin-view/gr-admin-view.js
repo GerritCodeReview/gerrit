@@ -60,11 +60,13 @@
         type: Boolean,
         value: false,
       },
+      _showAdminDashboard: Boolean,
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
       _showGroupMembers: Boolean,
       _showProjectCommands: Boolean,
+      _showProjectDashboard: Boolean,
       _showProjectMain: Boolean,
       _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
@@ -139,6 +141,19 @@
                   `${this.encodeURL(this._projectName, true)},tags`,
             }],
           };
+          let dashboard = 'gr-admin-dashboard';
+          if (this._showProjectDashboard) {
+            dashboard = 'gr-project-dashboard';
+          }
+          linkCopy.subsection.children.push(
+              {
+                name: 'Dashboards',
+                detailType: 'dashboard',
+                view: dashboard,
+                url: '/admin/projects/' +
+                    `${this.encodeURL(this._projectName, true)},dashboards`,
+              }
+          );
         }
         if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
           linkCopy.subsection = {
@@ -183,12 +198,16 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showAdminDashboard',
+          params.adminView === 'gr-admin-dashboard');
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showGroupMembers', params.adminView === 'gr-group-members');
       this.set('_showProjectCommands',
           params.adminView === 'gr-project-commands');
+      this.set('_showProjectDashboard',
+          params.adminView === 'gr-project-dashboard');
       this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showProjectList',
           params.adminView === 'gr-project-list');

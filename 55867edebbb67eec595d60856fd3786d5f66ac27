@@ -22,6 +22,29 @@
       "revId": "55867edebbb67eec595d60856fd3786d5f66ac27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42f08b89_585d77a1",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-05T22:19:52Z",
+      "side": 1,
+      "message": "Maybe this is the source of the missing underlines. What\u0027s the reason for this line?",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 30
+      },
+      "revId": "55867edebbb67eec595d60856fd3786d5f66ac27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -123,7 +123,6 @@ public class ReviewerJson {
       throws OrmException, PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
-    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : cd.changeControl().getLabelRanges()) {

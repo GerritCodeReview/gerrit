@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4a14906_6d63002b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-05T14:51:55Z",
+      "side": 1,
+      "message": "I said this in a different way elsewhere on this review thread, but let me rephrase it as a response to this argument: removing lowest votes does not create a new security hole. If a user has a change on branch X with CR-2, it is already trivial for them to create a change on branch Y that does not have CR-2, simply by pushing the same commit to refs/for/Y.",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "0f159ced7a8712a360748a6ac8a69977bc75c7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

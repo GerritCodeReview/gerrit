@@ -39,6 +39,24 @@
       "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf1eccc3_d840aa02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-05T14:51:25Z",
+      "side": 1,
+      "message": "this was a request from the polygerrit team. The idea is to provide a way for a GUI change to be proposed as a change to maintainers, who can then merge it using the review flow.",
+      "parentUuid": "350f3465_9e832c13",
+      "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

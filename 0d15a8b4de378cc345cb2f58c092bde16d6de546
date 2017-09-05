@@ -977,6 +977,30 @@
     },
     {
       "key": {
+        "uuid": "f3b7e477_864b69a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-05T10:11:49Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m not sure.  Let\u0027s leave it like this for now.",
+      "parentUuid": "b92a9463_b6e51b91",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26d7342a_010ef3f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 1

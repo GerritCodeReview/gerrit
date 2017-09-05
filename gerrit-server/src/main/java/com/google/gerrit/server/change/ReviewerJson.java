@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -126,13 +125,9 @@ public class ReviewerJson {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
-      for (PermissionRange pr : cd.changeControl().getLabelRanges()) {
-        if (!pr.isEmpty()) {
-          LabelType at = labelTypes.byLabel(ca.getLabelId());
-          if (at != null) {
-            out.approvals.put(at.getName(), formatValue(ca.getValue()));
-          }
-        }
+      LabelType at = labelTypes.byLabel(ca.getLabelId());
+      if (at != null) {
+        out.approvals.put(at.getName(), formatValue(ca.getValue()));
       }
     }
 

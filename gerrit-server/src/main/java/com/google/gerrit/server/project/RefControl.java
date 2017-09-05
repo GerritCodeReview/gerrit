@@ -323,27 +323,6 @@ public class RefControl {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);
   }
 
-  /** All value ranges of any allowed label permission. */
-  List<PermissionRange> getLabelRanges(boolean isChangeOwner) {
-    List<PermissionRange> r = new ArrayList<>();
-    for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
-      if (Permission.isLabel(e.getKey())) {
-        int min = 0;
-        int max = 0;
-        for (PermissionRule rule : e.getValue()) {
-          if (projectControl.match(rule, isChangeOwner)) {
-            min = Math.min(min, rule.getMin());
-            max = Math.max(max, rule.getMax());
-          }
-        }
-        if (min != 0 || max != 0) {
-          r.add(new PermissionRange(e.getKey(), min, max));
-        }
-      }
-    }
-    return r;
-  }
-
   /** The range of permitted values associated with a label permission. */
   PermissionRange getRange(String permission) {
     return getRange(permission, false);

@@ -218,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "d340f458_c59d20b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-05T13:41:44Z",
+      "side": 1,
+      "message": "yes, but seems like a cheap line of code.",
+      "parentUuid": "4a1945a3_181a605e",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "fdb14b5129b8171dd7c4965b7396997c72d8166c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55d51ca3_16b23632",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 10

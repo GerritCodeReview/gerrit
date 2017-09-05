@@ -201,6 +201,12 @@
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
+    getDashboard(project) {
+      const encodeName = encodeURIComponent(project)
+      return this.send('GET', `/projects/${encodeName}/dashboards/`)
+          .then(response => this.getResponseObject(response));
+    },
+
     getProject(project) {
       return this._fetchSharedCacheURL(
           '/projects/' + encodeURIComponent(project));

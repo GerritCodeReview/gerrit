@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6be70026_761ccbb5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d78a46e1_6b45cce6",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 6
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7435cf_3c16e940",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "84856701_f09629ff",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7435cf_3c16e940",
+      "range": {
+        "startLine": 635,
+        "startChar": 8,
+        "endLine": 635,
+        "endChar": 32
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4114a949_2106257e",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd135c83_e8dfd284",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "I thought it would be easier to make an assertion that the function was doing the correct thing in tests, and though it fit the style of the rest of the router better. However, I have no problem changing it.",
+      "parentUuid": "4114a949_2106257e",
+      "range": {
+        "startLine": 776,
+        "startChar": 6,
+        "endLine": 776,
+        "endChar": 38
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "675234d6_264a8567",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Ah yeah, my problem was I was passing params.hash to _maybeOpenCreateOverlay, but I can avoid the problem by just passing params.",
+      "parentUuid": "3da26e56_519a8cd2",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 20
+      },
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28b05883_0d80769f",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "06bf7755_541fab44",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28b05883_0d80769f",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "219d8360_612c2f37",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0b416e9e_7e3722c8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "219d8360_612c2f37",
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7efb1c3_3265a8fe",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7e2e935_65a4d261",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-05T16:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7efb1c3_3265a8fe",
+      "revId": "3f6578fb9a3864846bc63d99ce506f573940cf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

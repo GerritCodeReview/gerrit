@@ -24,7 +24,6 @@ import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,53 +65,5 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
       throw new ProvisionException("Cannot configure Velocity templates", err);
     }
     return ri;
-  }
-
-  /** Connects Velocity to sfl4j. */
-  public static class Slf4jLogChute implements LogChute {
-    // Logger should be named 'velocity' for consistency with log4j config
-    private static final Logger log = LoggerFactory.getLogger("velocity");
-
-    @Override
-    public void init(RuntimeServices rs) {}
-
-    @Override
-    public boolean isLevelEnabled(int level) {
-      switch (level) {
-        default:
-        case DEBUG_ID:
-          return log.isDebugEnabled();
-        case INFO_ID:
-          return log.isInfoEnabled();
-        case WARN_ID:
-          return log.isWarnEnabled();
-        case ERROR_ID:
-          return log.isErrorEnabled();
-      }
-    }
-
-    @Override
-    public void log(int level, String message) {
-      log(level, message, null);
-    }
-
-    @Override
-    public void log(int level, String msg, Throwable err) {
-      switch (level) {
-        default:
-        case DEBUG_ID:
-          log.debug(msg, err);
-          break;
-        case INFO_ID:
-          log.info(msg, err);
-          break;
-        case WARN_ID:
-          log.warn(msg, err);
-          break;
-        case ERROR_ID:
-          log.error(msg, err);
-          break;
-      }
-    }
   }
 }

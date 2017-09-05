@@ -52,6 +52,24 @@
       "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b1115ad_02823c7e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T08:07:57Z",
+      "side": 0,
+      "message": "OK. Then let\u0027s always do as \"input.strict\u003dtrue\".",
+      "parentUuid": "41a1157b_530d720b",
+      "revId": "f73f8cf663d130575bc5f922813c061b1b671f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

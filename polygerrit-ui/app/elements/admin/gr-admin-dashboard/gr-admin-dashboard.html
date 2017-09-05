@@ -1,0 +1,53 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-admin-dashboard">
+  <template>
+    <style include="shared-styles">
+      :host {
+        background-color: var(--view-background-color);
+        display: block;
+      }
+      .loading {
+        color: #666;
+        padding: 1em var(--default-horizontal-margin);
+      }
+      gr-change-list {
+        width: 100%;
+      }
+      @media only screen and (max-width: 50em) {
+        .loading {
+          padding: 0 var(--default-horizontal-margin);
+        }
+      }
+    </style>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <gr-dashboard-list
+          account="[[account]]"
+          selected-index="{{viewState.selectedChangeIndex}}"
+          sections="[[_results]]"
+          project-name="[[projectName]]"></gr-dashboard-list>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-admin-dashboard.js"></script>
+</dom-module>

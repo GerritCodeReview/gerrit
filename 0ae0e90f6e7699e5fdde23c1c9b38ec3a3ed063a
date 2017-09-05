@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78a46e1_6b45cce6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-05T16:16:44Z",
+      "side": 1,
+      "message": "Can these use `this._redirect` instead of `page`?",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 335,
+        "endChar": 6
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7435cf_3c16e940",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-05T16:16:44Z",
+      "side": 1,
+      "message": "Optional: because \"hash\" is about the route, and the params should be (relatively) decoupled from the route patterns, what if we used an optional \"create\" boolean instead:\n\n openCreateModal: data.hash \u003d\u003d\u003d \u0027create\u0027 ? true : undefined,\n\nor just\n\n  create: data.hash \u003d\u003d\u003d \u0027create\u0027",
+      "range": {
+        "startLine": 635,
+        "startChar": 8,
+        "endLine": 635,
+        "endChar": 32
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4114a949_2106257e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-05T16:16:44Z",
+      "side": 1,
+      "message": "If this is all the function does, why the separate `_redirectToProjectCreate` method? Why not just trigger the redirect directly here?",
+      "range": {
+        "startLine": 776,
+        "startChar": 6,
+        "endLine": 776,
+        "endChar": 38
+      },
+      "revId": "0ae0e90f6e7699e5fdde23c1c9b38ec3a3ed063a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

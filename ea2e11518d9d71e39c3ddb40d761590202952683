@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad2a903b_ceef03fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "optional: I\u0027m thinking whether \"Check Pure Revert\" would be better.",
+      "range": {
+        "startLine": 1081,
+        "startChar": 4,
+        "endLine": 1081,
+        "endChar": 7
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb8ba6e_3702c12a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "I think it\u0027s necessary to explain priority of `o` and \u0027revertOf\u0027. Based on the commit message, `o` has higher priority?",
+      "range": {
+        "startLine": 1087,
+        "startChar": 16,
+        "endLine": 1087,
+        "endChar": 35
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0924d96_e91baf74",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "This and below can be removed. createChange() has done this. But amendChange(String) doesn\u0027t.",
+      "range": {
+        "startLine": 3134,
+        "startChar": 4,
+        "endLine": 3134,
+        "endChar": 23
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2483aa41_a641cc34",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3160,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "Also \"With query parameter\"? I feel we may also need tests for both \"o\" and \"revertOf\" present.\n1- \"o\" expects true, while \"revertOf\" expects false.\n2- \"o\" expects false, while \"revertOf\" expects true.",
+      "range": {
+        "startLine": 3160,
+        "startChar": 4,
+        "endLine": 3160,
+        "endChar": 80
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5163689f_88b4a1ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3175,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "How about pureRevertReturnsFalseWithRebaseConflict?\n\nI think we need another test like:\npureRevertReturnsFalseWithRebaseDiff (We may need a better name)",
+      "range": {
+        "startLine": 3175,
+        "startChar": 14,
+        "endLine": 3175,
+        "endChar": 62
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa1c6881_17496ff9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "This class should be annotated by @Singleton.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18752467_50a07f60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "optional: We can also use this return value. It will be false if there is any conflict.\n\nhttp://download.eclipse.org/jgit/site/4.2.0-SNAPSHOT/apidocs/org/eclipse/jgit/merge/ThreeWayMerger.html",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 63
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

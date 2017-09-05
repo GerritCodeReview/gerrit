@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8ad4ade3_b1c53b07",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-05T17:36:46Z",
+      "side": 1,
+      "message": "We have a similar endpoint using POST. It posts the rules and tests submittable status.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#test-submit-type",
+      "parentUuid": "cc6005b9_103d8681",
+      "range": {
+        "startLine": 1087,
+        "startChar": 31,
+        "endLine": 1087,
+        "endChar": 72
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c456673a_86f613b8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

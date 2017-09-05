@@ -34,6 +34,24 @@
       "revId": "27208b1367e44abb76e332b5b89f287e0f82a104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77859217_4f107d43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-05T17:06:11Z",
+      "side": 0,
+      "message": "Thanks for digging into the callers.\n\n\u003e The call was just about the change owner being able to vote on any label on the change. I think this doesn\u0027t make sense and can simply be dropped.\n\nAgreed that given the callers you identified, the current behavior makes no sense. I think it\u0027s ok to go ahead with this change, and we can tackle the dummy approval issue separately if necessary (which I don\u0027t currently think it is).\n\n\u003e Another thing that comes into play is that in NoteDb, there are no dummy votes, right?\n\nNot quite true. Under full NoteDb no new dummy votes will be created, but dummy votes on old changes are migrated as-is.",
+      "parentUuid": "134c8277_fa3fd853",
+      "revId": "27208b1367e44abb76e332b5b89f287e0f82a104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

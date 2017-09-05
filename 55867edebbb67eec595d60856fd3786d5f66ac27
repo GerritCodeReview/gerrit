@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfb61999_5ad50979",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-05T22:15:26Z",
+      "side": 1,
+      "message": "Nit: Should this be the following?\n\n s/everywhere/as the default sans-serif font/",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "55867edebbb67eec595d60856fd3786d5f66ac27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

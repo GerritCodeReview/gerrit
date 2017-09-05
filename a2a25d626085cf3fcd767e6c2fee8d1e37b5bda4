@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2722a41_29e86689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-05T14:45:26Z",
+      "side": 1,
+      "message": "subject should be a single line",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350f3465_9e832c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-05T14:45:26Z",
+      "side": 1,
+      "message": "Is the intention of the endpoint to replace the functionality in ProjectAdminServiceImpl?",
+      "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

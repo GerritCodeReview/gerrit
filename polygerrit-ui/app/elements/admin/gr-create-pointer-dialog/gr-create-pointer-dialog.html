@@ -35,8 +35,10 @@ limitations under the License.
       input {
         width: 20em;
       }
+      .hideItem {
+        display: none;
+      }
     </style>
-
     <div class="gr-form-styles">
       <div id="form">
         <section>
@@ -54,6 +56,14 @@ limitations under the License.
               id="itemRevisionInput"
               placeholder="Revision (Branch or SHA-1)"
               bind-value="{{_itemRevision}}">
+        </section>
+        <section class$="[[_hideIfBranch(itemDetail)]]">
+          <span class="title">Annotation</span>
+          <input
+              is="iron-input"
+              id="itemAnnotationInput"
+              placeholder="Annotation (Optional)"
+              bind-value="{{_itemAnnotation}}">
         </section>
       </div>
     </div>

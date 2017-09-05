@@ -247,5 +247,13 @@
     _handleCreateClicked() {
       this.$.createOverlay.open();
     },
+
+    _hideIfBranch(type) {
+      if (type === DETAIL_TYPES.BRANCHES) {
+        return 'hideItem';
+      }
+
+      return '';
+    },
   });
 })();

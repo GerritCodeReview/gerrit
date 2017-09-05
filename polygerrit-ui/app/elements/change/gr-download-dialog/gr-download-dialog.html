@@ -77,10 +77,15 @@ limitations under the License.
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
-          <a id="download" href$="[[_computeDownloadLink(change, patchNum)]]">
+          <a
+              id="download"
+              href$="[[_computeDownloadLink(change, patchNum)]]"
+              download>
             [[_computeDownloadFilename(change, patchNum)]]
           </a>
-          <a href$="[[_computeZipDownloadLink(change, patchNum)]]">
+          <a
+              href$="[[_computeZipDownloadLink(change, patchNum)]]"
+              download>
             [[_computeZipDownloadFilename(change, patchNum)]]
           </a>
         </div>
@@ -89,7 +94,9 @@ limitations under the License.
         <label>Archive</label>
         <div id="archives" class="archives">
           <template is="dom-repeat" items="[[config.archives]]" as="format">
-            <a href$="[[_computeArchiveDownloadLink(change, patchNum, format)]]">
+            <a
+                href$="[[_computeArchiveDownloadLink(change, patchNum, format)]]"
+                download>
               [[format]]
             </a>
           </template>

@@ -115,31 +115,39 @@ limitations under the License.
     let sandbox;
 
     setup(() => {
-      element = fixture('basic');
       sandbox = sinon.sandbox.create();
+
+      element = fixture('basic');
+      element.patchNum = '1';
+      element.config = {
+        schemes: {
+          'anonymous http': {},
+          'http': {},
+          'repo': {},
+          'ssh': {},
+        },
+        archives: ['tgz', 'tar', 'tbz2', 'txz'],
+      };
+
+      flushAsynchronousOperations();
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
+    test('anchors use download attribute', () => {
+      const anchors = Polymer.dom(element.root).querySelectorAll('a');
+      assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
+    });
+
     suite('gr-download-dialog tests with no fetch options', () => {
       setup(() => {
         element.change = getChangeObjectNoFetch();
-        element.patchNum = '1';
-        element.config = {
-          schemes: {
-            'anonymous http': {},
-            'http': {},
-            'repo': {},
-            'ssh': {},
-          },
-          archives: ['tgz', 'tar', 'tbz2', 'txz'],
-        };
+        flushAsynchronousOperations();
       });
 
       test('focuses on first download link if no copy links', () => {
-        flushAsynchronousOperations();
         const focusStub = sandbox.stub(element.$.download, 'focus');
         element.focus();
         assert.isTrue(focusStub.called);
@@ -150,20 +158,10 @@ limitations under the License.
     suite('gr-download-dialog with fetch options', () => {
       setup(() => {
         element.change = getChangeObject();
-        element.patchNum = '1';
-        element.config = {
-          schemes: {
-            'anonymous http': {},
-            'http': {},
-            'repo': {},
-            'ssh': {},
-          },
-          archives: ['tgz', 'tar', 'tbz2', 'txz'],
-        };
+        flushAsynchronousOperations();
       });
 
       test('focuses on first copy link', () => {
-        flushAsynchronousOperations();
         const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
         element.focus();
         flushAsynchronousOperations();

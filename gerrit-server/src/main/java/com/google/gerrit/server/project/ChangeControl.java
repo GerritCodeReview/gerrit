@@ -48,7 +48,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -267,11 +266,6 @@ public class ChangeControl {
   private boolean canRestore(ReviewDb db) throws OrmException {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
     return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
-  }
-
-  /** All value ranges of any allowed label permission. */
-  public List<PermissionRange> getLabelRanges() {
-    return getRefControl().getLabelRanges(isOwner());
   }
 
   /** The range of permitted values associated with a label permission. */

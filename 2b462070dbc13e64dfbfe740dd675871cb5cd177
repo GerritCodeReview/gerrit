@@ -116,6 +116,30 @@
       "revId": "2b462070dbc13e64dfbfe740dd675871cb5cd177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea0b01f3_2c9be814",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-05T21:53:21Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I wanted. :)",
+      "parentUuid": "8a6654dd_dd012d6c",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 33
+      },
+      "revId": "2b462070dbc13e64dfbfe740dd675871cb5cd177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

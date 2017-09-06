@@ -4,6 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "pgm",
     labels = ["pgm"],
+    vm_args = ["-Xmx512m"],
     deps = [":util"],
 )
 

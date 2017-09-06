@@ -45,6 +45,10 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 public class MigrateToNoteDb extends SiteProgram {
+  static final String TRIAL_USAGE =
+      "Trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as the"
+          + " source of truth";
+
   @Option(name = "--threads", usage = "Number of threads to use for rebuilding NoteDb")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -72,12 +76,7 @@ public class MigrateToNoteDb extends SiteProgram {
   )
   private boolean force;
 
-  @Option(
-    name = "--trial",
-    usage =
-        "trial mode: migrate changes and turn on reading from NoteDb, but leave ReviewDb as"
-            + " the source of truth"
-  )
+  @Option(name = "--trial", usage = TRIAL_USAGE)
   private boolean trial;
 
   @Option(

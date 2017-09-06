@@ -13,24 +13,16 @@
 // limitations under the License.
 (function(window) {
   'use strict';
-
-  // Prevent redefinition.
-  if (window.GrThemeApi) { return; }
-
-  function GrThemeApi(plugin) {
-    this.plugin = plugin;
-  }
-
-  GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
-    this.plugin.hook('header-title', {replace: true}).onAttached(
-        element => {
-          const customHeader =
-                document.createElement('gr-custom-plugin-header');
-          customHeader.logoUrl = logoUrl;
-          customHeader.title = title;
-          element.appendChild(customHeader);
-        });
-  };
-
-  window.GrThemeApi = GrThemeApi;
+  Polymer({
+    is: 'gr-plugin-popup',
+    get opened() {
+      return this.$.overlay.opened;
+    },
+    open() {
+      return this.$.overlay.open();
+    },
+    close() {
+      this.$.overlay.close();
+    },
+  });
 })(window);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c862f2e_a5805d55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T17:58:35Z",
+      "side": 1,
+      "message": "Naive question: what does `gt` stand for (as opposed to `gr`)?",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "f3407cfb981ce6645e5ca29621b5441e413bfdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

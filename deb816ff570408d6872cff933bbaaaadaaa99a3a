@@ -46,6 +46,30 @@
       "revId": "deb816ff570408d6872cff933bbaaaadaaa99a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290dde5c_f76db122",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-06T23:33:26Z",
+      "side": 1,
+      "message": "oh it works with gerrit, it\u0027s when upgrading gerrit which shows the problem. Since sometimes it can complain about varchers.\n\nSee https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d6603",
+      "parentUuid": "53bb1f26_3211128d",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "deb816ff570408d6872cff933bbaaaadaaa99a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

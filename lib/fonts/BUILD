@@ -5,8 +5,8 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 filegroup(
     name = "robotofonts",
     srcs = [
-        "Roboto.woff",
-        "Roboto.woff2",
+        "Roboto-Regular.woff",
+        "Roboto-Regular.woff2",
         "Roboto-Medium.woff",
         "Roboto-Medium.woff2",
         "RobotoMono-Regular.woff",

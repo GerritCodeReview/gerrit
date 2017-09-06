@@ -120,6 +120,26 @@ limitations under the License.
       });
     });
 
+    test('delete works', () => {
+      const response = {status: 204};
+      sendStub.returns(Promise.resolve(response));
+      return plugin.delete('/url', r => {
+        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+        assert.strictEqual(r, response);
+      });
+    });
+
+    test('delete fails', () => {
+      sendStub.returns(Promise.resolve(
+          {status: 400, text() { return Promise.resolve('text'); }}));
+      return plugin.delete('/url', r => {
+        throw new Error('Should not resolve');
+      }).catch(err => {
+        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+        assert.equal('text', err);
+      });
+    });
+
     test('history event', done => {
       plugin.on(element.EventType.HISTORY, throwErrFn);
       plugin.on(element.EventType.HISTORY, path => {

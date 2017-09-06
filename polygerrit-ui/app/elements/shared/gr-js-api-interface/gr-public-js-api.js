@@ -143,6 +143,24 @@
     return this._send('POST', url, opt_callback, payload);
   },
 
+  Plugin.prototype.delete = function(url, opt_callback) {
+    return getRestAPI().send('DELETE', url, opt_callback).then(response => {
+      if (response.status !== 204) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(text);
+          } else {
+            return Promise.reject(response.status);
+          }
+        });
+      }
+      if (opt_callback) {
+        opt_callback(response);
+      }
+      return response;
+    });
+  },
+
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(Plugin._sharedAPIElement.getElement(
         Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));

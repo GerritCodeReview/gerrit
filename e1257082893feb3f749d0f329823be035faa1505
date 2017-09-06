@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b750848_edc8c4fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-06T21:59:05Z",
+      "side": 1,
+      "message": "No, there\u0027s no particular spot for current PolyGerrit plugin API, since things are still in flux.\nI\u0027d prefer to stabilize the interface before documenting it in detail.\nPlease reopen if you feel strongly about this.",
+      "parentUuid": "76e7a203_f4ca9ae7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 72
+      },
+      "revId": "e1257082893feb3f749d0f329823be035faa1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1660af3e_98edb27f",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-06T18:53:47Z",
       "side": 1,
       "message": "Nit: consider \n\n console.warn",
+      "range": {
+        "startLine": 193,
+        "startChar": 12,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "e1257082893feb3f749d0f329823be035faa1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e495cd7_01703e19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-06T21:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1660af3e_98edb27f",
       "range": {
         "startLine": 193,
         "startChar": 12,

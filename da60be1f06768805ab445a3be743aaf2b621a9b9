@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "277b2fc4_53dcd5eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-06T17:53:10Z",
+      "side": 1,
+      "message": "Please could you explain why you are reverting this?",
+      "revId": "da60be1f06768805ab445a3be743aaf2b621a9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93feb003_74928f7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-06T17:53:10Z",
+      "side": 1,
+      "message": "Add Bug: Issue 6969",
+      "revId": "da60be1f06768805ab445a3be743aaf2b621a9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

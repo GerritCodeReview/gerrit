@@ -173,7 +173,7 @@ limitations under the License.
         display: initial;
       }
       .patchInfo-header,
-      gr-file-list {
+      .fileList {
         padding: .5em calc(var(--default-horizontal-margin) / 2);
       }
       .patchInfo-header {
@@ -251,6 +251,27 @@ limitations under the License.
       }
       .editLoaded .showOnEdit {
         display: initial;
+      }
+      .fileList-header {
+        display: flex;
+        font-weight: bold;
+        justify-content: space-between;
+        margin-bottom: .5em;
+      }
+      .rightControls {
+        display: flex;
+        flex-wrap: wrap;
+        font-weight: normal;
+        justify-content: flex-end;
+      }
+      .separator {
+        margin: 0 .25em;
+      }
+      .expandInline {
+        padding-right: .25em;
+      }
+      .patchSetSelect {
+        max-width: 8em;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -527,20 +548,76 @@ limitations under the License.
             </span>
           </div>
         </div>
-        <gr-file-list id="fileList"
-            diff-prefs="{{_diffPrefs}}"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            patch-range="{{_patchRange}}"
-            comments="[[_comments]]"
-            drafts="[[_diffDrafts]]"
-            revisions="[[_sortedRevisions]]"
-            project-config="[[_projectConfig]]"
-            selected-index="{{viewState.selectedFileIndex}}"
-            diff-view-mode="{{viewState.diffMode}}"
-            edit-loaded="[[_editLoaded]]"
-            num-files-shown="{{_numFilesShown}}"
-            file-list-increment="{{_numFilesShown}}"></gr-file-list>
+        <div class="fileList">
+          <div class="fileList-header">
+            <div>Files</div>
+            <div class="rightControls">
+              <template is="dom-if"
+                  if="[[_fileListActionsVisible(_shownFileCount, _maxFilesForBulkActions)]]">
+                <gr-button
+                    id="expandDiffs"
+                    link
+                    on-tap="_expandAllDiffs">Show diffs</gr-button>
+                <span class="separator">/</span>
+                <gr-button
+                    id="collapseDiffs"
+                    link
+                    on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+              </template>
+              <template is="dom-if"
+                  if="[[!_fileListActionsVisible(_shownFileCount, _maxFilesForBulkActions)]]">
+                <div class="warning">
+                  Bulk actions disabled because there are too many files.
+                </div>
+              </template>
+              <span class="separator">/</span>
+              <gr-select
+                  id="modeSelect"
+                  bind-value="{{viewState.diffMode}}">
+                <select>
+                  <option value="SIDE_BY_SIDE">Side By Side</option>
+                  <option value="UNIFIED_DIFF">Unified</option>
+                </select>
+              </gr-select>
+              <span class="separator">/</span>
+              <label>
+                Diff against
+                <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
+                    class="patchSetSelect" on-change="_handleBasePatchChange">
+                  <select>
+                    <option value="PARENT">Base</option>
+                    <template
+                        is="dom-repeat"
+                        items="[[_allPatchSets]]"
+                        as="patchNum">
+                      <option
+                          disabled$="[[_computeBasePatchDisabled(patchNum.num, _patchRange.patchNum, _sortedRevisions)]]"
+                          value$="[[patchNum.num]]">
+                        [[patchNum.num]]
+                        [[patchNum.desc]]
+                      </option>
+                    </template>
+                  </select>
+                </gr-select>
+              </label>
+            </div>
+          </div>
+          <gr-file-list id="fileList"
+              diff-prefs="{{_diffPrefs}}"
+              change="[[_change]]"
+              change-num="[[_changeNum]]"
+              patch-range="{{_patchRange}}"
+              comments="[[_comments]]"
+              drafts="[[_diffDrafts]]"
+              revisions="[[_sortedRevisions]]"
+              project-config="[[_projectConfig]]"
+              selected-index="{{viewState.selectedFileIndex}}"
+              diff-view-mode="[[viewState.diffMode]]"
+              edit-loaded="[[_editLoaded]]"
+              num-files-shown="{{_numFilesShown}}"
+              file-list-increment="{{_numFilesShown}}"
+              on-files-shown-changed="_setShownFiles"></gr-file-list>
+        </div>
       </section>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"

@@ -141,6 +141,30 @@
       "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "778391ac_70e52672",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T22:15:20Z",
+      "side": 1,
+      "message": "Changed to deep cloning using Viktar\u0027s suggestion of stringifying and re-parsing.\n\nStoring the original string as Viktar also suggests would be a nice upgrade in the future, but will involve larger changes to the ETag decorator\u0027s interface.",
+      "parentUuid": "baf3cbc6_a214b234",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

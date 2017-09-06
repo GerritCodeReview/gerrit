@@ -481,6 +481,7 @@
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || 'PARENT',
       };
+      this.$.fileList.collapseAllDiffs();
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {

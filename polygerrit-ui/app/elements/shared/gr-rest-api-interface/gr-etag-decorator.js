@@ -55,7 +55,16 @@
   };
 
   GrEtagDecorator.prototype.getCachedPayload = function(url) {
-    return this._payloadCache.get(url);
+    let payload = this._payloadCache.get(url);
+
+    if (typeof payload === 'object') {
+      // Note: For the sake of cache transparency, shallow clone the respomse
+      // object so that cache hits are not equal object references. Some code
+      // expects every network response to deserialize to a fresh object.
+      payload = Object.assign({}, payload);
+    }
+
+    return payload;
   };
 
   GrEtagDecorator.prototype._truncateCache = function() {

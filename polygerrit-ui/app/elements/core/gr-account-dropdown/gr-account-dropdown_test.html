@@ -83,14 +83,20 @@ limitations under the License.
       // Unparameterized switch account link.
       let links = element._getLinks('/switch-account');
       assert.equal(links.length, 3);
-      assert.deepEqual(links[1],
-          {name: 'Switch account', url: '/switch-account'});
+      assert.deepEqual(links[1], {
+        name: 'Switch account',
+        url: '/switch-account',
+        external: true,
+      });
 
       // Parameterized switch account link.
       links = element._getLinks('/switch-account${path}', '/c/123');
       assert.equal(links.length, 3);
-      assert.deepEqual(links[1],
-          {name: 'Switch account', url: '/switch-account/c/123'});
+      assert.deepEqual(links[1], {
+        name: 'Switch account',
+        url: '/switch-account/c/123',
+        external: true,
+      });
     });
 
     test('_interpolateUrl', () => {

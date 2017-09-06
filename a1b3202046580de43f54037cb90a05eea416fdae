@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1de8550c_bb2d6daa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:42:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b6fbae6_547be3ea",
+      "range": {
+        "startLine": 61,
+        "startChar": 69,
+        "endLine": 61,
+        "endChar": 77
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a36efb4c_a394d896",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
         "patchSetId": 7
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yes, payloads can be very deep. And we modify responses, on many levels.\nDeep-cloning would fix this, but probably best would be to use JSON.parse(JSON.stringify()) or just to store strings and parse every time.",
       "parentUuid": "a36efb4c_a394d896",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6feb66_c3880494",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:42:03Z",
+      "side": 1,
+      "message": "The shallow clone is enough to fix this issue, since the top-level object reference is what caused the bug.\n\nHowever you make a good point that the deep clone would also fix bugs in any observers on sub-properties. (I\u0027m not aware of any currently.)\n\nWould this be suitable as a follow up change?",
+      "parentUuid": "40c2add8_da8749c1",
       "range": {
         "startLine": 64,
         "startChar": 34,

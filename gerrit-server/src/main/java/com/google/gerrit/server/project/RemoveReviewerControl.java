@@ -87,7 +87,9 @@ public class RemoveReviewerControl {
       }
     }
     // The change owner may remove any zero or positive score.
-    if (changeControl.isOwner() && 0 <= value) {
+    if (currentUser.isIdentifiedUser()
+        && currentUser.getAccountId().equals(notes.getChange().getOwner())
+        && 0 <= value) {
       return true;
     }
     // Users with the remove reviewer permission, the branch owner, project

@@ -16,6 +16,24 @@
       "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a12a6e14_44208541",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-06T17:00:24Z",
+      "side": 1,
+      "message": "Nope, i experienced this in the console screen when i was on /login/ on chrome not safari.",
+      "parentUuid": "6d193b91_71802b5e",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "4c13c2e13ff76659bbec6bf6704015c7fbbbf6c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89aed77_e0ed26ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-06T20:37:40Z",
+      "side": 1,
+      "message": "This whole file needs that treatment, but let\u0027s not block submission of this urgent fix on account of that, it\u0027s not made much worse by this change.",
+      "parentUuid": "932ae73f_fc8bb834",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 19
+      },
+      "revId": "4c13c2e13ff76659bbec6bf6704015c7fbbbf6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

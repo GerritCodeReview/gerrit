@@ -51,6 +51,24 @@
       "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85da11be_36d20593",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-06T17:19:52Z",
+      "side": 1,
+      "message": "It said e.reason.message was undefined implying e.reason might be undefined.",
+      "parentUuid": "5dfbc63a_13830b2f",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

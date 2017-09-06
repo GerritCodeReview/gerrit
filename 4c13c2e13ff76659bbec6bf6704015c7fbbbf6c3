@@ -46,6 +46,30 @@
       "revId": "4c13c2e13ff76659bbec6bf6704015c7fbbbf6c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b67ca2af_ec4b18d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:38:46Z",
+      "side": 1,
+      "message": "I\u0027ll follow up to JSDoc this file.",
+      "parentUuid": "b89aed77_e0ed26ab",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 19
+      },
+      "revId": "4c13c2e13ff76659bbec6bf6704015c7fbbbf6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

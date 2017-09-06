@@ -16,6 +16,24 @@
       "revId": "33fd684988b32461cb199ef66f88a48e0a0cf390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "735ec0ed_a65d08b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-06T16:55:19Z",
+      "side": 1,
+      "message": "Feel free to merge once this is fixed.",
+      "parentUuid": "7cfefeb9_d64fc556",
+      "revId": "33fd684988b32461cb199ef66f88a48e0a0cf390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

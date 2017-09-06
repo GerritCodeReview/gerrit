@@ -49,7 +49,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
@@ -94,6 +94,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(NoteDbMigrator.class);
 
   private static final String AUTO_MIGRATE = "autoMigrate";
+  private static final String TRIAL = "trial";
 
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
@@ -101,6 +102,14 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private static void setAutoMigrate(Config cfg, boolean autoMigrate) {
     cfg.setBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, autoMigrate);
+  }
+
+  public static boolean getTrialMode(Config cfg) {
+    return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), TRIAL, false);
+  }
+
+  public static void setTrialMode(Config cfg, boolean trial) {
+    cfg.setBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), TRIAL, trial);
   }
 
   public static class Builder {
@@ -128,7 +137,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
     @Inject
     Builder(
-        @GerritServerConfig Config cfg,
+        GerritServerConfigProvider configProvider,
         SitePaths sitePaths,
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
@@ -139,7 +148,10 @@ public class NoteDbMigrator implements AutoCloseable {
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator) {
-      this.cfg = cfg;
+      // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
+      // migration in the same process modified the on-disk contents. This ensures the defaults for
+      // trial/autoMigrate get set correctly below.
+      this.cfg = configProvider.get();
       this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
       this.repoManager = repoManager;
@@ -150,6 +162,8 @@ public class NoteDbMigrator implements AutoCloseable {
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
       this.primaryStorageMigrator = primaryStorageMigrator;
+      this.trial = getTrialMode(cfg);
+      this.autoMigrate = getAutoMigrate(cfg);
     }
 
     /**
@@ -416,12 +430,7 @@ public class NoteDbMigrator implements AutoCloseable {
       throw new MigrationException(
           "Cannot force rebuild changes; NoteDb is already the primary storage for some changes");
     }
-    if (autoMigrate) {
-      if (trial) {
-        throw new MigrationException("Auto-migration cannot be used with trial mode");
-      }
-      enableAutoMigrate();
-    }
+    setControlFlags();
 
     boolean rebuilt = false;
     while (state.compareTo(NOTE_DB) < 0) {
@@ -614,13 +623,16 @@ public class NoteDbMigrator implements AutoCloseable {
     }
   }
 
-  private void enableAutoMigrate() throws MigrationException {
-    try {
-      noteDbConfig.load();
-      setAutoMigrate(noteDbConfig, true);
-      noteDbConfig.save();
-    } catch (ConfigInvalidException | IOException e) {
-      throw new MigrationException("Error saving auto-migration config", e);
+  private void setControlFlags() throws MigrationException {
+    synchronized (globalNotesMigration) {
+      try {
+        noteDbConfig.load();
+        setAutoMigrate(noteDbConfig, autoMigrate);
+        setTrialMode(noteDbConfig, trial);
+        noteDbConfig.save();
+      } catch (ConfigInvalidException | IOException e) {
+        throw new MigrationException("Error saving auto-migration config", e);
+      }
     }
   }
 

@@ -23,6 +23,8 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -32,25 +34,37 @@ import org.slf4j.LoggerFactory;
 public class OnlineNoteDbMigrator implements LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(OnlineNoteDbMigrator.class);
 
+  private static final String TRIAL = "OnlineNoteDbMigrator/trial";
+
   public static class Module extends LifecycleModule {
+    private final boolean trial;
+
+    public Module(boolean trial) {
+      this.trial = trial;
+    }
+
     @Override
     public void configure() {
       listener().to(OnlineNoteDbMigrator.class);
+      bindConstant().annotatedWith(Names.named(TRIAL)).to(trial);
     }
   }
 
   private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   private final OnlineUpgrader indexUpgrader;
   private final boolean upgradeIndex;
+  private final boolean trial;
 
   @Inject
   OnlineNoteDbMigrator(
       @GerritServerConfig Config cfg,
       Provider<NoteDbMigrator.Builder> migratorBuilderProvider,
-      OnlineUpgrader indexUpgrader) {
+      OnlineUpgrader indexUpgrader,
+      @Named(TRIAL) boolean trial) {
     this.migratorBuilderProvider = migratorBuilderProvider;
     this.indexUpgrader = indexUpgrader;
     this.upgradeIndex = VersionManager.getOnlineUpgrade(cfg);
+    this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
   }
 
   @Override
@@ -68,7 +82,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     }
     Stopwatch sw = Stopwatch.createStarted();
     // TODO(dborowitz): Tune threads, maybe expose a progress monitor somewhere.
-    try (NoteDbMigrator migrator = migratorBuilderProvider.get().setAutoMigrate(true).build()) {
+    try (NoteDbMigrator migrator =
+        migratorBuilderProvider.get().setAutoMigrate(true).setTrialMode(trial).build()) {
       migrator.migrate();
     } catch (Exception e) {
       log.error("Error in online NoteDb migration", e);

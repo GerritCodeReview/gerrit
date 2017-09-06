@@ -35,12 +35,6 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<test-fixture id="blank">
-  <template>
-    <div></div>
-  </template>
-</test-fixture>
-
 <script>
   suite('gr-file-list tests', () => {
     let element;
@@ -653,44 +647,6 @@ limitations under the License.
       }
     });
 
-    test('diff against dropdown', done => {
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
-      element.change = {
-        revisions: {
-          rev1: {_number: 1},
-          rev2: {_number: 2},
-          rev3: {_number: 'edit', basePatchNum: 2},
-          rev4: {_number: 3},
-        },
-      };
-      element.revisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: 'edit', basePatchNum: 2},
-        {_number: 3},
-      ];
-
-      flush(() => {
-        const selectEl = element.$.patchChange;
-        assert.equal(selectEl.nativeSelect.value, 'PARENT');
-        assert.isTrue(element.$$('option[value="3"]').hasAttribute('disabled'));
-        selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.nativeSelect.value, 'edit');
-          assert(navStub.lastCall.calledWithExactly(element.change, '3', 'edit'),
-              'Should navigate to /c/42/edit..3');
-          navStub.restore();
-          done();
-        });
-        selectEl.nativeSelect.value = 'edit';
-        element.fire('change', {}, {node: selectEl.nativeSelect});
-      });
-    });
-
     test('checkbox shows/hides diff inline', () => {
       element._files = [
         {__path: 'myfile.txt'},
@@ -737,57 +693,11 @@ limitations under the License.
       flushAsynchronousOperations();
       const diffDisplay = element.diffs[0];
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
-      assert.equal(element.diffViewMode, 'SIDE_BY_SIDE');
-      assert.equal(diffDisplay.viewMode, 'SIDE_BY_SIDE');
       element.set('diffViewMode', 'UNIFIED_DIFF');
       assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
       assert.isTrue(element._updateDiffPreferences.called);
     });
 
-    test('diff mode selector initializes from preferences', () => {
-      let resolvePrefs;
-      const prefsPromise = new Promise(resolve => {
-        resolvePrefs = resolve;
-      });
-      sandbox.stub(element, '_getPreferences').returns(prefsPromise);
-
-      // Attach a new gr-file-list so we can intercept the preferences fetch.
-      const view = document.createElement('gr-file-list');
-      const select = view.$.modeSelect;
-      fixture('blank').appendChild(view);
-      flushAsynchronousOperations();
-
-      // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-
-      // Receive the overriding preference.
-      resolvePrefs({default_diff_view: 'UNIFIED'});
-      flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-      document.getElementById('blank').restore();
-    });
-
-    test('show/hide diffs disabled for large amounts of files', done => {
-      const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
-      element._files = [];
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
-      element.$.fileCursor.setCursorAtIndex(0);
-      flush(() => {
-        assert.isTrue(computeSpy.lastCall.returnValue);
-        const arr = [];
-        _.times(element._maxFilesForBulkActions + 1, () => {
-          arr.push({__path: 'myfile.txt'});
-        });
-        element._files = arr;
-        element.numFilesShown = arr.length;
-        assert.isFalse(computeSpy.lastCall.returnValue);
-        done();
-      });
-    });
 
     test('expanded attribute not set on path when not expanded', () => {
       element._files = [
@@ -796,19 +706,6 @@ limitations under the License.
       assert.isNotOk(element.$$('.expanded'));
     });
 
-    test('_getDiffViewMode', () => {
-      // No user prefs or diff view mode set.
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
-      // User prefs but no diff view mode set.
-      element.diffViewMode = null;
-      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
-      assert.equal(
-          element._getDiffViewMode(null, element._userPrefs), 'UNIFIED_DIFF');
-      // User prefs and diff view mode set.
-      element.diffViewMode = 'SIDE_BY_SIDE';
-      assert.equal(element._getDiffViewMode(
-          element.diffViewMode, element._userPrefs), 'SIDE_BY_SIDE');
-    });
     test('expand_inline_diffs user preference', () => {
       element._files = [
         {__path: '/COMMIT_MSG'},

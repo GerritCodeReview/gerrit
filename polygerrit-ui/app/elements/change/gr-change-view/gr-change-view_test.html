@@ -672,6 +672,7 @@ limitations under the License.
           '_reloadPatchNumDependentResources',
           () => { return Promise.resolve(); });
       const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
+      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
 
       const value = {
         view: Gerrit.Nav.View.CHANGE,
@@ -689,12 +690,13 @@ limitations under the License.
       assert.isFalse(reloadStub.calledTwice);
       assert.isTrue(reloadPatchDependentStub.calledOnce);
       assert.isTrue(relatedClearSpy.calledOnce);
+      assert.isTrue(collapseStub.calledTwice);
     });
 
     test('reload entire page when patchRange doesnt change', () => {
       const reloadStub = sandbox.stub(element, '_reload',
           () => { return Promise.resolve(); });
-
+      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
       const value = {
         view: Gerrit.Nav.View.CHANGE,
       };
@@ -703,6 +705,7 @@ limitations under the License.
       element._initialLoadComplete = true;
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledTwice);
+      assert.isTrue(collapseStub.calledTwice);
     });
 
     test('include base patch when not parent', () => {

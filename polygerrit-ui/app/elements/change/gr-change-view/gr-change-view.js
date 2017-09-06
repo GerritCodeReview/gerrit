@@ -123,6 +123,7 @@
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
             '_editingCommitMessage, _change)',
       },
+      _diffAgainst: String,
       /** @type {?string} */
       _latestCommitMessage: {
         type: String,
@@ -133,6 +134,13 @@
         type: String,
         computed:
           '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
+      },
+      // Caps the number of files that can be shown and have the 'show diffs' /
+      // 'hide diffs' buttons still be functional.
+      _maxFilesForBulkActions: {
+        type: Number,
+        readOnly: true,
+        value: 225,
       },
         /** @type {?} */
       _patchRange: {
@@ -162,6 +170,7 @@
         computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
       },
       _selectedPatchSet: String,
+      _shownFileCount: Number,
       _initialLoadComplete: {
         type: Boolean,
         value: false,
@@ -241,6 +250,7 @@
             this._account = acct;
           });
         }
+        this._setDiffViewMode();
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
@@ -261,6 +271,20 @@
 
       if (this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
+      }
+    },
+
+    _setDiffViewMode() {
+      if (!this.viewState.diffViewMode) {
+        return this.$.restAPI.getPreferences().then( prefs => {
+          if (!this.viewState.diffMode) {
+            this.set('viewState.diffMode', prefs.default_diff_view);
+          }
+        }).then(() => {
+          if (!this.viewState.diffMode) {
+            this.set('viewState.diffMode', 'SIDE_BY_SIDE');
+          }
+        });
       }
     },
 
@@ -385,8 +409,12 @@
       this._diffDrafts = diffDrafts;
     },
 
+    _handleBasePatchChange(e) {
+      this._changePatchNum(this._selectedPatchSet, e.target.value, true);
+    },
+
     _handlePatchChange(e) {
-      this._changePatchNum(e.target.value, true);
+      this._changePatchNum(e.target.value, this._diffAgainst, true);
     },
 
     _handleReplyTap(e) {
@@ -460,6 +488,22 @@
       this.debounce('scroll', () => {
         this.viewState.scrollTop = document.body.scrollTop;
       }, 150);
+    },
+
+    _setShownFiles(e) {
+      this._shownFileCount = e.detail.length;
+    },
+
+    _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
+      return shownFileCount <= maxFilesForBulkActions;
+    },
+
+    _expandAllDiffs() {
+      this.$.fileList.expandAllDiffs();
+    },
+
+    _collapseAllDiffs() {
+      this.$.fileList.collapseAllDiffs();
     },
 
     _paramsChanged(value) {
@@ -630,12 +674,13 @@
 
     /**
      * Change active patch to the provided patch num.
-     * @param {number|string} patchNum the patchn number to be viewed.
+     * @param {number|string} basePatchNum the base patch to be viewed.
+     * @param {number|string} patchNum the patch number to be viewed.
      * @param {boolean} opt_forceParams When set to true, the resulting URL will
      *     always include the patch range, even if the requested patchNum is
      *     known to be the latest.
      */
-    _changePatchNum(patchNum, opt_forceParams) {
+    _changePatchNum(patchNum, basePatchNum, opt_forceParams) {
       if (!opt_forceParams) {
         let currentPatchNum;
         if (this._change.current_revision) {
@@ -645,13 +690,13 @@
           currentPatchNum = this.computeLatestPatchNum(this._allPatchSets);
         }
         if (this.patchNumEquals(patchNum, currentPatchNum) &&
-            this._patchRange.basePatchNum === 'PARENT') {
+            basePatchNum === 'PARENT') {
           Gerrit.Nav.navigateToChange(this._change);
           return;
         }
       }
       Gerrit.Nav.navigateToChange(this._change, patchNum,
-          this._patchRange.basePatchNum);
+          basePatchNum);
     },
 
     _computeChangeUrl(change) {
@@ -732,6 +777,11 @@
 
       return this.findSortedIndex(patchNum, this._sortedRevisions) <=
           this.findSortedIndex(basePatchNum, this._sortedRevisions);
+    },
+
+    _computeBasePatchDisabled(patchNum, currentPatchNum) {
+      return this.findSortedIndex(patchNum, this._sortedRevisions) >=
+          this.findSortedIndex(currentPatchNum, this._sortedRevisions);
     },
 
     _computeLabelNames(labels) {
@@ -1115,6 +1165,7 @@
 
     _updateSelected() {
       this._selectedPatchSet = this._patchRange.patchNum;
+      this._diffAgainst = this._patchRange.basePatchNum;
     },
 
     _computePatchSetDescription(change, patchNum) {

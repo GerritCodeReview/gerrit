@@ -36,10 +36,7 @@
 
     properties: {
       /** @type {?} */
-      patchRange: {
-        type: Object,
-        observer: '_updateSelected',
-      },
+      patchRange: Object,
       patchNum: String,
       changeNum: String,
       comments: Object,
@@ -76,7 +73,6 @@
         type: Array,
         value() { return []; },
       },
-      _diffAgainst: String,
       diffPrefs: {
         type: Object,
         notify: true,
@@ -107,13 +103,6 @@
       _shownFiles: {
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
-      },
-      // Caps the number of files that can be shown and have the 'show diffs' /
-      // 'hide diffs' buttons still be functional.
-      _maxFilesForBulkActions: {
-        type: Number,
-        readOnly: true,
-        value: 225,
       },
       _expandedFilePaths: {
         type: Array,
@@ -188,9 +177,6 @@
 
       promises.push(this._getPreferences().then(prefs => {
         this._userPrefs = prefs;
-        if (!this.diffViewMode) {
-          this.set('diffViewMode', prefs.default_diff_view);
-        }
       }));
 
       return Promise.all(promises).then(() => {
@@ -239,11 +225,6 @@
       return this.$.restAPI.getPreferences();
     },
 
-    _computePatchSetDisabled(patchNum, currentPatchNum) {
-      return this.findSortedIndex(patchNum, this.revisions) >=
-          this.findSortedIndex(currentPatchNum, this.revisions);
-    },
-
     _togglePathExpanded(path) {
       // Is the path in the list of expanded diffs? IF so remove it, otherwise
       // add it to the list.
@@ -257,14 +238,6 @@
 
     _togglePathExpandedByIndex(index) {
       this._togglePathExpanded(this._files[index].__path);
-    },
-
-    _handlePatchChange(e) {
-      const patchRange = Object.assign({}, this.patchRange);
-      patchRange.basePatchNum = Polymer.dom(e).rootTarget.value;
-
-      Gerrit.Nav.navigateToChange(this.change, patchRange.patchNum,
-          patchRange.basePatchNum);
     },
 
     _updateDiffPreferences() {
@@ -287,7 +260,7 @@
       }
     },
 
-    _expandAllDiffs() {
+    expandAllDiffs() {
       this._showInlineDiffs = true;
 
       // Find the list of paths that are in the file list, but not in the
@@ -642,7 +615,7 @@
       if (this._showInlineDiffs) {
         this.collapseAllDiffs();
       } else {
-        this._expandAllDiffs();
+        this.expandAllDiffs();
       }
     },
 
@@ -751,7 +724,9 @@
     },
 
     _computeFilesShown(numFilesShown, files) {
-      return files.base.slice(0, numFilesShown);
+      const filesShown = files.base.slice(0, numFilesShown);
+      this.fire('files-shown-changed', {length: filesShown.length});
+      return filesShown;
     },
 
     _setReviewedFiles(shownFiles, files, reviewedRecord, loggedIn) {
@@ -814,35 +789,6 @@
 
     _showAllFiles() {
       this.numFilesShown = this._files.length;
-    },
-
-    _updateSelected(patchRange) {
-      this._diffAgainst = patchRange.basePatchNum;
-    },
-
-    /**
-     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
-     * the current state.
-     *
-     * The expected behavior is to use the mode specified in the user's
-     * preferences unless they have manually chosen the alternative view.
-     *
-     * Use side-by-side if there is no view mode or preferences.
-     *
-     * @return {string}
-     */
-    _getDiffViewMode(diffViewMode, userPrefs) {
-      if (diffViewMode) {
-        return diffViewMode;
-      } else if (userPrefs) {
-        return this.diffViewMode = userPrefs.default_diff_view;
-      }
-      return 'SIDE_BY_SIDE';
-    },
-
-    _fileListActionsVisible(shownFilesRecord,
-        maxFilesForBulkActions) {
-      return shownFilesRecord.base.length <= maxFilesForBulkActions;
     },
 
     _computePatchSetDescription(revisions, patchNum) {

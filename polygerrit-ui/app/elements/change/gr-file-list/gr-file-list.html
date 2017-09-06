@@ -44,21 +44,6 @@ limitations under the License.
       :host(.loading) .row {
         opacity: .5;
       };
-      header {
-        display: flex;
-        font-weight: bold;
-        justify-content: space-between;
-        margin-bottom: .5em;
-      }
-      .rightControls {
-        display: flex;
-        flex-wrap: wrap;
-        font-weight: normal;
-        justify-content: flex-end;
-      }
-      .separator {
-        margin: 0 .25em;
-      }
       .reviewed,
       .status {
         align-items: center;
@@ -132,9 +117,6 @@ limitations under the License.
         padding-right: 2.6em;
         text-align: right;
       }
-      .expandInline {
-        padding-right: .25em;
-      }
       .warning {
         color: #666;
       }
@@ -154,9 +136,6 @@ limitations under the License.
         display: block;
         margin: .25em 0 1em;
         overflow-x: auto;
-      }
-      .patchSetSelect {
-        max-width: 8em;
       }
       .truncatedFileName {
         display: none;
@@ -201,53 +180,6 @@ limitations under the License.
         }
       }
     </style>
-    <header>
-      <div>Files</div>
-      <div class="rightControls">
-        <template is="dom-if"
-            if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
-          <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
-          <span class="separator">/</span>
-          <gr-button link on-tap="collapseAllDiffs">Hide diffs</gr-button>
-        </template>
-        <template is="dom-if"
-            if="[[!_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
-          <div class="warning">
-            Bulk actions disabled because there are too many files.
-          </div>
-        </template>
-        <span class="separator">/</span>
-        <gr-select
-            id="modeSelect"
-            bind-value="{{diffViewMode}}">
-          <select>
-            <option value="SIDE_BY_SIDE">Side By Side</option>
-            <option value="UNIFIED_DIFF">Unified</option>
-          </select>
-        </gr-select>
-        <span class="separator">/</span>
-        <label>
-          Diff against
-          <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
-              class="patchSetSelect" on-change="_handlePatchChange">
-            <select>
-              <option value="PARENT">Base</option>
-              <template
-                  is="dom-repeat"
-                  items="[[computeAllPatchSets(change)]]"
-                  as="patchNum">
-                <option
-                    disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.patchNum, revisions)]]"
-                    value$="[[patchNum.num]]">
-                  [[patchNum.num]]
-                  [[patchNum.desc]]
-                </option>
-              </template>
-            </select>
-          </gr-select>
-        </label>
-      </div>
-    </header>
     <div
         id="container"
         class$="[[_computeContainerClass(editLoaded)]]"
@@ -351,7 +283,7 @@ limitations under the License.
               project-config="[[projectConfig]]"
               on-line-selected="_onLineSelected"
               no-render-on-prefs-change
-              view-mode="[[_getDiffViewMode(diffViewMode, _userPrefs)]]"></gr-diff>
+              view-mode="[[diffViewMode]]"></gr-diff>
         </template>
       </template>
     </div>

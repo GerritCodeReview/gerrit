@@ -22,6 +22,30 @@
       "revId": "9d52e6c1fe1f3cd3e746c48936a216900813ccf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aabe408a_ca6069c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:47:39Z",
+      "side": 1,
+      "message": "Oops. I misspelled \"derived\" also. Fixed.",
+      "parentUuid": "c2419266_e753f249",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "9d52e6c1fe1f3cd3e746c48936a216900813ccf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

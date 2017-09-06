@@ -117,15 +117,19 @@ switch to the online process.
 [[trial-migration]]
 ==== Trial mode
 
-The offline migration tool also supports "trial mode", where changes are
+The migration tool also supports "trial mode", where changes are
 migrated to NoteDb and read from NoteDb at runtime, but their primary storage
 location is still ReviewDb, and data is kept in sync between the two locations.
 
-To run the offline migration in trial mode, add `--trial` to
-`migrate-to-note-db`:
+To run the migration in trial mode, add `--trial` to `migrate-to-note-db` or
+`daemon`:
 ----
   java -jar gerrit.war migrate-to-note-db --trial /path/to/site
+  # OR
+  java -jar gerrit.war daemon -d /path/to/site --migrate-to-note-db --trial
 ----
+
+Or, set `noteDb.changes.trial=true` in `gerrit.config`.
 
 There are several use cases for trial mode:
 

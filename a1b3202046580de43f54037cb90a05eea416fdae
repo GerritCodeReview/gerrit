@@ -165,6 +165,30 @@
       "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5803d633_e405b339",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T23:33:24Z",
+      "side": 1,
+      "message": "\u003e Alternatively, .collect method could store original response instead to avoid stringification.\n\nThat\u0027s essentially what I mean by \"Storing the original string\". This makes total sense to me as an upgrade to the ETag decorator, but seeing how it would change the decorator\u0027s interface, as well as its tests it wouldn\u0027t be so trivial.\n\nDo you think I can file an issue a follow up on this change? Or are you saying that it\u0027s a blocker and needs to be done here?",
+      "parentUuid": "778391ac_70e52672",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

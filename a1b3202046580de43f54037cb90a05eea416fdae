@@ -45,6 +45,30 @@
       "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c2add8_da8749c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-06T18:52:32Z",
+      "side": 1,
+      "message": "Yes, payloads can be very deep. And we modify responses, on many levels.\nDeep-cloning would fix this, but probably best would be to use JSON.parse(JSON.stringify()) or just to store strings and parse every time.",
+      "parentUuid": "a36efb4c_a394d896",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

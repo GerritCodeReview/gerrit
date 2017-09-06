@@ -69,6 +69,24 @@
       "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f387b30a_cde2ed60",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-06T17:21:33Z",
+      "side": 1,
+      "message": "Right... But why was it undefined? What did the stack trace tell you?",
+      "parentUuid": "85da11be_36d20593",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -486,19 +486,19 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     //// BatchUpdate transaction, but it was rebuilt during read for the
     //// subsequent reindex. Thus it's impossible to actually observe an
     //// out-of-date state in the caller.
-    //assertChangeUpToDate(true, id);
+    // assertChangeUpToDate(true, id);
 
     //// Check that the bundles are equal.
-    //ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
-    //ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
-    //ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
-    //assertThat(actual.differencesFrom(expected)).isEmpty();
-    //assertThat(
+    // ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    // ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
+    // ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
+    // assertThat(actual.differencesFrom(expected)).isEmpty();
+    // assertThat(
     //        Iterables.transform(
     //            notes.getChangeMessages(),
     //            ChangeMessage::getMessage))
     //    .contains(msg);
-    //assertThat(actual.getChange().getTopic()).isEqualTo(topic);
+    // assertThat(actual.getChange().getTopic()).isEqualTo(topic);
   }
 
   @Test

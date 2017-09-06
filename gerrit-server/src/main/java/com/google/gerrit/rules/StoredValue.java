@@ -58,7 +58,7 @@ public class StoredValue<T> {
   public T get(Prolog engine) {
     T obj = getOrNull(engine);
     if (obj == null) {
-      //unless createValue() is overridden, will return null
+      // unless createValue() is overridden, will return null
       obj = createValue(engine);
       if (obj == null) {
         throw new SystemException("No " + key + " available");

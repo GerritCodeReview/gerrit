@@ -73,7 +73,7 @@ public class ReviewerRecommender {
       new double[] {
         BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,
       };
-  private static final long PLUGIN_QUERY_TIMEOUT = 500; //ms
+  private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
 
   private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;

@@ -22,6 +22,30 @@
       "revId": "0f159ced7a8712a360748a6ac8a69977bc75c7d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37ba59d1_cfcd621e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-09-06T21:43:07Z",
+      "side": 1,
+      "message": "I disagree with this reasoning.  As I have also pointed out elsewhere, if we go down this line of thinking, then why are we maintaining blocking votes for new patchsets?  Likely because while it is possible to do what you propose, it is not trivial.",
+      "parentUuid": "d4a14906_6d63002b",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "0f159ced7a8712a360748a6ac8a69977bc75c7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

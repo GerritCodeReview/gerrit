@@ -188,12 +188,60 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     assertAutoMigrateConfig(noteDbConfig, false);
   }
 
+  @Test
+  public void onlineMigrationTrialModeViaFlag() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoTrialConfig(gerritConfig);
+
+    assertNoAutoMigrateConfig(noteDbConfig);
+    assertNoTrialConfig(noteDbConfig);
+
+    testOnlineMigration(
+        u -> startServer(u.module(), "--migrate-to-note-db", "--trial"),
+        NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoTrialConfig(gerritConfig);
+
+    assertAutoMigrateConfig(noteDbConfig, true);
+    assertTrialConfig(noteDbConfig, true);
+  }
+
+  @Test
+  public void onlineMigrationTrialModeViaConfig() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoTrialConfig(gerritConfig);
+
+    assertNoAutoMigrateConfig(noteDbConfig);
+    assertNoTrialConfig(noteDbConfig);
+
+    testOnlineMigration(
+        u -> {
+          gerritConfig.setBoolean("noteDb", "changes", "autoMigrate", true);
+          gerritConfig.setBoolean("noteDb", "changes", "trial", true);
+          gerritConfig.save();
+          return startServer(u.module());
+        },
+        NotesMigrationState.READ_WRITE_NO_SEQUENCE);
+
+    assertAutoMigrateConfig(gerritConfig, true);
+    assertTrialConfig(gerritConfig, true);
+
+    assertAutoMigrateConfig(noteDbConfig, true);
+    assertTrialConfig(noteDbConfig, true);
+  }
+
   @FunctionalInterface
   private interface StartServerWithMigration {
     ServerContext start(IndexUpgradeController u) throws Exception;
   }
 
   private void testOnlineMigration(StartServerWithMigration start) throws Exception {
+    testOnlineMigration(start, NotesMigrationState.NOTE_DB);
+  }
+
+  private void testOnlineMigration(
+      StartServerWithMigration start, NotesMigrationState expectedEndState) throws Exception {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     int prevVersion = ChangeSchemaDefinitions.INSTANCE.getPrevious().getVersion();
     int currVersion = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
@@ -218,7 +266,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
       u.runUpgrades();
 
       assertThat(indexes.getSearchIndex().getSchema().getVersion()).isEqualTo(currVersion);
-      assertNotesMigrationState(NotesMigrationState.NOTE_DB);
+      assertNotesMigrationState(expectedEndState);
     }
   }
 
@@ -261,6 +309,17 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     cfg.load();
     assertThat(cfg.getString("noteDb", "changes", "autoMigrate")).isNotNull();
     assertThat(cfg.getBoolean("noteDb", "changes", "autoMigrate", false)).isEqualTo(expected);
+  }
+
+  private static void assertNoTrialConfig(StoredConfig cfg) throws Exception {
+    cfg.load();
+    assertThat(cfg.getString("noteDb", "changes", "trial")).isNull();
+  }
+
+  private static void assertTrialConfig(StoredConfig cfg, boolean expected) throws Exception {
+    cfg.load();
+    assertThat(cfg.getString("noteDb", "changes", "trial")).isNotNull();
+    assertThat(cfg.getBoolean("noteDb", "changes", "trial", false)).isEqualTo(expected);
   }
 
   private void setOnlineUpgradeConfig(boolean enable) throws Exception {

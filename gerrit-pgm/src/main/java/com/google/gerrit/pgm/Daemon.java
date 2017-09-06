@@ -175,6 +175,9 @@ public class Daemon extends SiteProgram {
   )
   private boolean migrateToNoteDb;
 
+  @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
+  private boolean trial;
+
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -462,7 +465,7 @@ public class Daemon extends SiteProgram {
     }
     modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     if (migrateToNoteDb()) {
-      modules.add(new OnlineNoteDbMigrator.Module());
+      modules.add(new OnlineNoteDbMigrator.Module(trial));
     }
     if (testSysModule != null) {
       modules.add(testSysModule);

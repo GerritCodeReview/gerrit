@@ -94,7 +94,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     // Unlike in the running server, for tests, we don't stack notedb.config on gerrit.config.
     noteDbConfig = new FileBasedConfig(sitePaths.notedb_config.toFile(), FS.detect());
-    assertNotesMigrationState(REVIEW_DB);
+    assertNotesMigrationState(REVIEW_DB, false, false);
   }
 
   @Test
@@ -105,10 +105,6 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
         "Cannot rebuild without noteDb.changes.write=true", b -> b, NoteDbMigrator::rebuild);
     assertMigrationException(
         "Cannot set both changes and projects", b -> b.setChanges(cs).setProjects(ps), m -> {});
-    assertMigrationException(
-        "Auto-migration cannot be used with trial mode",
-        b -> b.setAutoMigrate(true).setTrialMode(true),
-        m -> {});
     assertMigrationException(
         "Cannot set changes or projects during full migration",
         b -> b.setChanges(cs),
@@ -143,10 +139,8 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
 
-    try (NoteDbMigrator migrator = migratorBuilderProvider.get().setTrialMode(true).build()) {
-      migrator.migrate();
-    }
-    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
+    migrate(b -> b.setTrialMode(true));
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE, false, true);
 
     ObjectId oldMetaId;
     try (Repository repo = repoManager.openRepository(project);
@@ -170,7 +164,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
 
     migrate(b -> b.setTrialMode(true));
-    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE, false, true);
 
     try (Repository repo = repoManager.openRepository(project);
         ReviewDb db = schemaFactory.open()) {
@@ -181,7 +175,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
 
     migrate(b -> b.setTrialMode(true).setForceRebuild(true));
-    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE, false, true);
 
     try (Repository repo = repoManager.openRepository(project);
         ReviewDb db = schemaFactory.open()) {
@@ -194,6 +188,49 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       assertThat(state).isNotNull();
       assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
       assertThat(state.getRefState()).hasValue(RefState.create(newMetaId, ImmutableMap.of()));
+    }
+  }
+
+  @Test
+  public void autoMigrateTrialMode() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    migrate(b -> b.setAutoMigrate(true).setTrialMode(true).setStopAtStateForTesting(WRITE));
+    assertNotesMigrationState(WRITE, true, true);
+
+    migrate(b -> b);
+    // autoMigrate is still enabled so that we can continue the migration by only unsetting trial.
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE, true, true);
+
+    ObjectId metaId;
+    try (Repository repo = repoManager.openRepository(project);
+        ReviewDb db = schemaFactory.open()) {
+      Ref ref = repo.exactRef(RefNames.changeMetaRef(id));
+      assertThat(ref).isNotNull();
+      metaId = ref.getObjectId();
+      NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
+      assertThat(state).isNotNull();
+      assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
+      assertThat(state.getRefState()).hasValue(RefState.create(metaId, ImmutableMap.of()));
+    }
+
+    // Unset trial mode and the next migration runs to completion.
+    noteDbConfig.load();
+    NoteDbMigrator.setTrialMode(noteDbConfig, false);
+    noteDbConfig.save();
+
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB, false, false);
+
+    try (Repository repo = repoManager.openRepository(project);
+        ReviewDb db = schemaFactory.open()) {
+      Ref ref = repo.exactRef(RefNames.changeMetaRef(id));
+      assertThat(ref).isNotNull();
+      assertThat(ref.getObjectId()).isEqualTo(metaId);
+      NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
+      assertThat(state).isNotNull();
+      assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.NOTE_DB);
     }
   }
 
@@ -316,7 +353,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id2 = r2.getChange().getId();
 
     migrate(b -> b.setThreads(threads));
-    assertNotesMigrationState(NOTE_DB);
+    assertNotesMigrationState(NOTE_DB, false, false);
 
     assertThat(sequences.nextChangeId()).isEqualTo(503);
 
@@ -367,22 +404,26 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     createChange();
 
     migrate(b -> b.setStopAtStateForTesting(WRITE));
-    assertNotesMigrationState(WRITE);
-    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isFalse();
+    assertNotesMigrationState(WRITE, false, false);
 
     migrate(b -> b.setAutoMigrate(true).setStopAtStateForTesting(READ_WRITE_NO_SEQUENCE));
-    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
-    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isTrue();
+    assertNotesMigrationState(READ_WRITE_NO_SEQUENCE, true, false);
 
     migrate(b -> b);
-    assertNotesMigrationState(NOTE_DB);
-    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isFalse();
+    assertNotesMigrationState(NOTE_DB, false, false);
   }
 
-  private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
+  private void assertNotesMigrationState(
+      NotesMigrationState expected, boolean autoMigrate, boolean trialMode) throws Exception {
     assertThat(NotesMigrationState.forNotesMigration(notesMigration)).hasValue(expected);
     noteDbConfig.load();
     assertThat(NotesMigrationState.forConfig(noteDbConfig)).hasValue(expected);
+    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig))
+        .named("noteDb.changes.autoMigrate")
+        .isEqualTo(autoMigrate);
+    assertThat(NoteDbMigrator.getTrialMode(noteDbConfig))
+        .named("noteDb.changes.trial")
+        .isEqualTo(trialMode);
   }
 
   private void setNotesMigrationState(NotesMigrationState state) throws Exception {

@@ -33,8 +33,15 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Provides {@link Config} annotated with {@link GerritServerConfig}. */
-class GerritServerConfigProvider implements Provider<Config> {
+/**
+ * Provides {@link Config} annotated with {@link GerritServerConfig}.
+ *
+ * <p>Note that this class is not a singleton, so the few callers that need a reloaded-on-demand
+ * config can inject a {@code GerritServerConfigProvider}. However, most callers won't need this,
+ * and will just inject {@code @GerritServerConfig Config} directly, which is bound as a singleton
+ * in {@link GerritServerConfigModule}.
+ */
+public class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log = LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
   private final SitePaths site;

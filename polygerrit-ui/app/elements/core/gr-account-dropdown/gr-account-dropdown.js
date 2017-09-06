@@ -66,7 +66,7 @@
       if (switchAccountUrl) {
         const replacements = {path};
         const url = this._interpolateUrl(switchAccountUrl, replacements);
-        links.push({name: 'Switch account', url});
+        links.push({name: 'Switch account', url, external: true});
       }
       links.push({name: 'Sign out', url: '/logout'});
       return links;

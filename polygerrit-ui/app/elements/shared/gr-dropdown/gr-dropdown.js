@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const REL_NOOPENER = 'noopener';
+  const REL_EXTERNAL = 'external';
+
   Polymer({
     is: 'gr-dropdown',
 
@@ -168,7 +171,10 @@
     },
 
     _computeLinkRel(link) {
-      return link.target ? 'noopener' : null;
+      // Note: noopener takes precedence over external.
+      if (link.target) { return REL_NOOPENER; }
+      if (link.external) { return REL_EXTERNAL; }
+      return null;
     },
 
     _handleItemTap(e) {

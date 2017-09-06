@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bce84cc1_6d5ff22f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "277b2fc4_53dcd5eb",
+      "revId": "da60be1f06768805ab445a3be743aaf2b621a9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93feb003_74928f7f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-06T17:53:10Z",
       "side": 1,
       "message": "Add Bug: Issue 6969",
+      "revId": "da60be1f06768805ab445a3be743aaf2b621a9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e3ff09_aa9c5c56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-06T20:41:45Z",
+      "side": 1,
+      "message": "This change doesn\u0027t fix that bug, I8a400e6ec does. But I\u0027ve added a reference to issue 7027 here.",
+      "parentUuid": "93feb003_74928f7f",
       "revId": "da60be1f06768805ab445a3be743aaf2b621a9b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -481,6 +481,7 @@
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || 'PARENT',
       };
+      this.$.fileList.collapseAllDiffs();
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
@@ -615,16 +616,23 @@
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
-      this.set('_patchRange.basePatchNum',
-          this._patchRange.basePatchNum || 'PARENT');
-      this.set('_patchRange.patchNum',
-          this._patchRange.patchNum ||
-              this.computeLatestPatchNum(this._allPatchSets));
-
-      this._updateSelected();
+      this._initializePatchRange(change);
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    _initializePatchRange(change) {
+      this.set('_patchRange.basePatchNum',
+          this._patchRange.basePatchNum || 'PARENT');
+
+      if (this._patchRange.patchNum === null ||
+          this._patchRange.patchNum === undefined) {
+        this.set('_patchRange.patchNum',
+            this.computeLatestPatchNum(this.computeAllPatchSets(change)));
+      }
+
+      this._updateSelected();
     },
 
     /**

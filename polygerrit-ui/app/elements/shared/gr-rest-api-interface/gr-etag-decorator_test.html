@@ -84,13 +84,26 @@ limitations under the License.
     });
 
     test('getCachedPayload', () => {
-      const payload = {};
+      const payload = 'payload';
       etag.collect('/foo', fakeRequest('bar'), payload);
       assert.strictEqual(etag.getCachedPayload('/foo'), payload);
       etag.collect('/foo', fakeRequest('bar', 304), 'garbage');
       assert.strictEqual(etag.getCachedPayload('/foo'), payload);
       etag.collect('/foo', fakeRequest('bar', 200), 'new payload');
       assert.strictEqual(etag.getCachedPayload('/foo'), 'new payload');
+    });
+
+    test('getCachedPayload does not preserve object equality', () => {
+      const payload = {foo: 'bar'};
+      etag.collect('/foo', fakeRequest('bar'), payload);
+      assert.deepEqual(etag.getCachedPayload('/foo'), payload);
+      assert.notStrictEqual(etag.getCachedPayload('/foo'), payload);
+      etag.collect('/foo', fakeRequest('bar', 304), {foo: 'baz'});
+      assert.deepEqual(etag.getCachedPayload('/foo'), payload);
+      assert.notStrictEqual(etag.getCachedPayload('/foo'), payload);
+      etag.collect('/foo', fakeRequest('bar', 200), {foo: 'bar baz'});
+      assert.deepEqual(etag.getCachedPayload('/foo'), {foo: 'bar baz'});
+      assert.notStrictEqual(etag.getCachedPayload('/foo'), {foo: 'bar baz'});
     });
   });
 </script>

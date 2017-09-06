@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -31,6 +32,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -81,6 +83,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -3125,6 +3128,49 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("new and existing commit message are the same");
     gApi.changes().id(r.getChangeId()).setMessage(getCommitMessage(r.getChangeId()));
+  }
+
+  @Test
+  public void fourByteEmoji() throws Exception {
+    // U+1F601 GRINNING FACE WITH SMILING EYES
+    String smile = new String(Character.toChars(0x1f601));
+    assertThat(smile).isEqualTo("😁");
+    assertThat(smile).hasLength(2); // Thanks, Java.
+    assertThat(smile.getBytes(UTF_8)).hasLength(4);
+
+    String subject = "A happy change " + smile;
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, subject, FILE_NAME, FILE_CONTENT)
+            .to("refs/for/master");
+    r.assertOkStatus();
+    String id = r.getChangeId();
+
+    ReviewInput ri = ReviewInput.approve();
+    ri.message = "I like it " + smile;
+    ReviewInput.CommentInput ci = new ReviewInput.CommentInput();
+    ci.path = FILE_NAME;
+    ci.side = Side.REVISION;
+    ci.message = "Good " + smile;
+    ri.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(ci));
+    gApi.changes().id(id).current().review(ri);
+
+    ChangeInfo info =
+        gApi.changes()
+            .id(id)
+            .get(
+                EnumSet.of(
+                    ListChangesOption.MESSAGES,
+                    ListChangesOption.CURRENT_COMMIT,
+                    ListChangesOption.CURRENT_REVISION));
+    assertThat(info.subject).isEqualTo(subject);
+    assertThat(Iterables.getLast(info.messages).message).endsWith(ri.message);
+    assertThat(Iterables.getOnlyElement(info.revisions.values()).commit.message)
+        .startsWith(subject);
+
+    List<CommentInfo> comments =
+        Iterables.getOnlyElement(gApi.changes().id(id).comments().values());
+    assertThat(Iterables.getOnlyElement(comments).message).isEqualTo(ci.message);
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

@@ -672,6 +672,7 @@ limitations under the License.
           '_reloadPatchNumDependentResources',
           () => { return Promise.resolve(); });
       const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
+      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
 
       const value = {
         view: Gerrit.Nav.View.CHANGE,
@@ -689,26 +690,22 @@ limitations under the License.
       assert.isFalse(reloadStub.calledTwice);
       assert.isTrue(reloadPatchDependentStub.calledOnce);
       assert.isTrue(relatedClearSpy.calledOnce);
+      assert.isTrue(collapseStub.calledTwice);
     });
 
     test('reload entire page when patchRange doesnt change', () => {
-      const mockPatchRange = {patchNum: '1337', basePatchNum: 'PARENT'};
       const reloadStub = sandbox.stub(element, '_reload',
           () => { return Promise.resolve(); });
-      element._patchRange = {};
-      sandbox.stub(element, 'computeLatestPatchNum').returns('1337');
+      const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
       const value = {
         view: Gerrit.Nav.View.CHANGE,
       };
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledOnce);
-      assert.deepEqual(element._patchRange, mockPatchRange);
-
       element._initialLoadComplete = true;
-      element._patchRange = {};
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledTwice);
-      assert.deepEqual(element._patchRange, mockPatchRange);
+      assert.isTrue(collapseStub.calledTwice);
     });
 
     test('include base patch when not parent', () => {

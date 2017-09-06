@@ -481,24 +481,29 @@
         this._initialLoadComplete = false;
       }
 
-      const patchNum = value.patchNum ||
-          this.computeLatestPatchNum(this._allPatchSets);
+      const patchRange = {
+        patchNum: value.patchNum,
+        basePatchNum: value.basePatchNum || 'PARENT',
+      };
 
-      const basePatchNum = value.basePatchNum || 'PARENT';
-
-      this._patchRange = {patchNum, basePatchNum};
+      this.$.fileList.collapseAllDiffs();
 
       if (this._initialLoadComplete && patchChanged) {
+        if (patchRange.patchNum == null) {
+          patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
+        }
+        this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
             change: this._change,
-            patchNum,
+            patchNum: patchRange.patchNum,
           });
         });
         return;
       }
 
       this._changeNum = value.changeNum;
+      this._patchRange = patchRange;
       this.$.relatedChanges.clear();
 
       this._reload().then(() => {
@@ -616,16 +621,23 @@
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
-      this.set('_patchRange.basePatchNum',
-          this._patchRange.basePatchNum || 'PARENT');
-      this.set('_patchRange.patchNum',
-          this._patchRange.patchNum ||
-              this.computeLatestPatchNum(this._allPatchSets));
-
-      this._updateSelected();
+      this._initializePatchRange(change);
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
+    },
+
+    _initializePatchRange(change) {
+      this.set('_patchRange.basePatchNum',
+          this._patchRange.basePatchNum || 'PARENT');
+
+      if (this._patchRange.patchNum === null ||
+          this._patchRange.patchNum === undefined) {
+        this.set('_patchRange.patchNum',
+            this.computeLatestPatchNum(this.computeAllPatchSets(change)));
+      }
+
+      this._updateSelected();
     },
 
     /**

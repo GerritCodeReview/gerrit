@@ -34,6 +34,23 @@
       "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dfbc63a_13830b2f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-06T17:05:39Z",
+      "side": 1,
+      "message": "In what situation is e or e.reason undefined?",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -75,6 +75,24 @@
       "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4baa3d4a_f6fa47af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-06T11:07:30Z",
+      "side": 1,
+      "message": "\u003cgoes looking\u003e \n\nCurious, for some reason I have never seen this on googlesource.com . It also behaves weirdly if you try to use it as administrator.",
+      "parentUuid": "74209690_e5d06813",
+      "revId": "a2a25d626085cf3fcd767e6c2fee8d1e37b5bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b6fbae6_547be3ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-06T18:17:15Z",
+      "side": 1,
+      "message": "Nit: typo",
+      "range": {
+        "startLine": 61,
+        "startChar": 69,
+        "endLine": 61,
+        "endChar": 77
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36efb4c_a394d896",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-06T18:17:15Z",
+      "side": 1,
+      "message": "Is the payload ever so deep that a shallow clone is not enough?",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

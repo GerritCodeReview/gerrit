@@ -162,7 +162,7 @@
 
       this._loading = true;
 
-      this._collapseAllDiffs();
+      this.collapseAllDiffs();
       const promises = [];
 
       promises.push(this._getFiles().then(files => {
@@ -304,7 +304,7 @@
       this.splice(...['_expandedFilePaths', 0, 0].concat(newPaths));
     },
 
-    _collapseAllDiffs() {
+    collapseAllDiffs() {
       this._showInlineDiffs = false;
       this._expandedFilePaths = [];
       this.$.diffCursor.handleDiffUpdate();
@@ -640,7 +640,7 @@
 
     _toggleInlineDiffs() {
       if (this._showInlineDiffs) {
-        this._collapseAllDiffs();
+        this.collapseAllDiffs();
       } else {
         this._expandAllDiffs();
       }

@@ -105,6 +105,24 @@
       "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ca2af8_90f0f166",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-06T17:28:31Z",
+      "side": 1,
+      "message": "If you can\u0027t reproduce the issue this change is supposed to fix, then I think we ought to not merge this change.\n\nI\u0027m worried that this fix may mask larger issues. Returning an empty string here doesn\u0027t really make too much sense in the context of what this function is supposed to do, and I\u0027m still not entirely sure why e would be undefined. \n\nI think the right way to fix this issue is to find a concrete way to reproduce it, diagnose why e or e.reason may be undefined, and go from there. It\u0027s possible that we\u0027d want to instead modify the code throwing the error to supply a reason instead, for example.",
+      "parentUuid": "043ca7ac_12fd8763",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "deb816ff570408d6872cff933bbaaaadaaa99a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53bb1f26_3211128d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-06T23:29:45Z",
+      "side": 1,
+      "message": "Good question. Paladox was saying that there is some other reason that utf8mb4 doesn\u0027t work with Gerrit. Probably it should be documented regardless, but of course that is beyond the scope of this change.\n\nWe don\u0027t have any way in Gerrit to run tests against a non-H2 database backend. If we were to write a cross-DB test of emoji storage, that probably belongs in the gwtorm project, which is able to run tests against multiple backends.",
+      "parentUuid": "1b0160e9_9676336f",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "deb816ff570408d6872cff933bbaaaadaaa99a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

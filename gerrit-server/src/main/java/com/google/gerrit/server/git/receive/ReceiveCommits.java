@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -93,13 +94,13 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
@@ -318,7 +319,6 @@ class ReceiveCommits {
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SshInfo sshInfo;
-  private final String canonicalWebUrl;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
   private final CreateRefControl createRefControl;
@@ -370,10 +370,10 @@ class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
+  private final ChangeReportFormatter changeFormatter;
 
   @Inject
   ReceiveCommits(
-      @CanonicalWebUrl String canonicalWebUrl,
       AccountResolver accountResolver,
       AccountsUpdate.Server accountsUpdate,
       AllProjectsName allProjectsName,
@@ -406,6 +406,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       CreateRefControl createRefControl,
+      DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       @Assisted ProjectControl projectControl,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
@@ -416,9 +417,10 @@ class ReceiveCommits {
     this.accountsUpdate = accountsUpdate;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.canonicalWebUrl = canonicalWebUrl;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.changeFormatter = changeFormatterProvider.get();
+    this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
@@ -454,7 +456,6 @@ class ReceiveCommits {
 
     // Immutable fields derived from constructor arguments.
     repo = rp.getRepository();
-    user = projectControl.getUser().asIdentifiedUser();
     project = projectControl.getProject();
     labelTypes = projectControl.getProjectState().getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
@@ -604,13 +605,7 @@ class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(
-            formatChangeMessage(
-                canonicalWebUrl,
-                c.change,
-                c.change.getSubject(),
-                c.change.getStatus() == Change.Status.DRAFT,
-                false));
+        addMessage(changeFormatter.newChange(new ChangeReportFormatter.Input(c.change)));
       }
       addMessage("");
     }
@@ -640,38 +635,15 @@ class ReceiveCommits {
           subject = u.info.getSubject();
         }
         addMessage(
-            formatChangeMessage(
-                canonicalWebUrl,
-                u.notes.getChange(),
-                subject,
-                u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
-                edit));
+            changeFormatter.changeUpdated(
+                new ChangeReportFormatter.Input(
+                    u.notes.getChange(),
+                    subject,
+                    u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
+                    edit)));
       }
       addMessage("");
     }
-  }
-
-  private static String formatChangeMessage(
-      String url, Change change, String subject, boolean draft, boolean edit) {
-    StringBuilder m =
-        new StringBuilder()
-            .append("  ")
-            .append(ChangeUtil.formatChangeUrl(url, change))
-            .append(" ")
-            .append(ChangeUtil.cropSubject(subject));
-    if (draft) {
-      m.append(" [DRAFT]");
-    }
-    if (edit) {
-      m.append(" [EDIT]");
-    }
-    if (change.isPrivate()) {
-      m.append(" [PRIVATE]");
-    }
-    if (change.isWorkInProgress()) {
-      m.append(" [WIP]");
-    }
-    return m.toString();
   }
 
   private void insertChangesAndPatchSets() {
@@ -1683,7 +1655,7 @@ class ReceiveCommits {
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(cmd, "change " + ChangeUtil.formatChangeUrl(canonicalWebUrl, change) + " closed");
+      reject(cmd, changeFormatter.changeClosed(new ChangeReportFormatter.Input(change)));
       return false;
     }
 

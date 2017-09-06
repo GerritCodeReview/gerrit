@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "044dd006_03dba124",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-06T16:21:17Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 2544,
+        "startChar": 46,
+        "endLine": 2544,
+        "endChar": 47
+      },
+      "revId": "aec082770086444ac1f35ef3bd6e8f63e2950c4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea5eb389_d3aaca63",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-06T16:21:17Z",
+      "side": 1,
+      "message": "remove this debug code",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 50
+      },
+      "revId": "aec082770086444ac1f35ef3bd6e8f63e2950c4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

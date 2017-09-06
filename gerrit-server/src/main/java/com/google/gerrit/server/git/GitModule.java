@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import org.eclipse.jgit.transport.PostUploadHook;
 
@@ -27,5 +28,7 @@ public class GitModule extends FactoryModule {
     bind(MetaDataUpdate.Server.class);
     bind(ReceiveConfig.class);
     DynamicSet.bind(binder(), PostUploadHook.class).to(UploadPackMetricsHook.class);
+    DynamicItem.itemOf(binder(), ChangeReportFormatter.class);
+    DynamicItem.bind(binder(), ChangeReportFormatter.class).to(DefaultChangeReportFormatter.class);
   }
 }

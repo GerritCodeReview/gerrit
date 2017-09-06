@@ -18,6 +18,7 @@ import static java.util.Comparator.comparingInt;
 
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -39,6 +40,10 @@ public class ChangeUtil {
 
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::getPatchSetId));
+
+  public static String formatChangeUrl(String canonicalWebUrl, Change change) {
+    return canonicalWebUrl + change.getChangeId();
+  }
 
   /** @return a new unique identifier for change message entities. */
   public static String messageUuid() {

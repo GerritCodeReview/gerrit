@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -86,7 +87,6 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -299,7 +299,6 @@ public class ReceiveCommits {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
-  private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final TagCache tagCache;
@@ -351,6 +350,7 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
+  private final ChangeReportFormatter changeFormatter;
 
   @Inject
   ReceiveCommits(
@@ -370,7 +370,6 @@ public class ReceiveCommits {
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
       RefOperationValidators.Factory refValidatorsFactory,
-      @CanonicalWebUrl String canonicalWebUrl,
       RequestScopePropagator requestScopePropagator,
       SshInfo sshInfo,
       AllProjectsName allProjectsName,
@@ -390,7 +389,8 @@ public class ReceiveCommits {
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
       ReplaceOp.Factory replaceOpFactory,
-      MergedByPushOp.Factory mergedByPushOpFactory)
+      MergedByPushOp.Factory mergedByPushOpFactory,
+      DynamicItem<ChangeReportFormatter> changeFormatterProvider)
       throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
@@ -403,7 +403,6 @@ public class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
-    this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
@@ -437,6 +436,7 @@ public class ReceiveCommits {
     this.indexer = indexer;
 
     this.messageSender = new ReceivePackMessageSender();
+    this.changeFormatter = changeFormatterProvider.get();
 
     ProjectState ps = projectControl.getProjectState();
 
@@ -687,13 +687,7 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(
-            formatChangeUrl(
-                canonicalWebUrl,
-                c.change,
-                c.change.getSubject(),
-                c.change.getStatus() == Change.Status.DRAFT,
-                false));
+        addMessage(changeFormatter.newChange(new ChangeReportFormatter.Input(c.change)));
       }
       addMessage("");
     }
@@ -722,34 +716,16 @@ public class ReceiveCommits {
         } else {
           subject = u.info.getSubject();
         }
-        addMessage(
-            formatChangeUrl(
-                canonicalWebUrl,
-                u.notes.getChange(),
-                subject,
-                u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
-                edit));
+
+        ChangeReportFormatter.Input input =
+            new ChangeReportFormatter.Input(u.notes.getChange())
+                .setSubject(subject)
+                .setDraft(u.replaceOp != null && u.replaceOp.getPatchSet().isDraft())
+                .setEdit(edit);
+        addMessage(changeFormatter.changeUpdated(input));
       }
       addMessage("");
     }
-  }
-
-  private static String formatChangeUrl(
-      String url, Change change, String subject, boolean draft, boolean edit) {
-    StringBuilder m =
-        new StringBuilder()
-            .append("  ")
-            .append(url)
-            .append(change.getChangeId())
-            .append(" ")
-            .append(ChangeUtil.cropSubject(subject));
-    if (draft) {
-      m.append(" [DRAFT]");
-    }
-    if (edit) {
-      m.append(" [EDIT]");
-    }
-    return m.toString();
   }
 
   private void insertChangesAndPatchSets() {
@@ -1701,7 +1677,7 @@ public class ReceiveCommits {
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(cmd, "change " + canonicalWebUrl + change.getId() + " closed");
+      reject(cmd, changeFormatter.changeClosed(new ChangeReportFormatter.Input(change)));
       return false;
     }
 

@@ -619,7 +619,6 @@ public final class GerritLauncher {
 
     // If the build system provides us with a source root, use that.
     try (InputStream stream = self.getResourceAsStream(SOURCE_ROOT_RESOURCE)) {
-      System.err.println("URL: " + stream);
       if (stream != null) {
         try (Scanner scan = new Scanner(stream, UTF_8.name()).useDelimiter("\n")) {
           if (scan.hasNext()) {

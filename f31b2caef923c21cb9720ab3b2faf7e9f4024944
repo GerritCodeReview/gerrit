@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d193b91_71802b5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-06T16:59:23Z",
+      "side": 1,
+      "message": "Is there a bug that this change corresponds to?",
+      "revId": "f31b2caef923c21cb9720ab3b2faf7e9f4024944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

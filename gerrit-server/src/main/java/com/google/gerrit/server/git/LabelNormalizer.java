@@ -24,14 +24,12 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -44,12 +42,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Normalizes votes on labels according to project config and permissions.
+ * Normalizes votes on labels according to project config.
  *
  * <p>Votes are recorded in the database for a user based on the state of the project at that time:
- * what labels are defined for the project, and what the user is allowed to vote on. Both of those
- * can change between the time a vote is originally made and a later point, for example when a
- * change is submitted. This class normalizes old votes against current project configuration.
+ * what labels are defined for the project. The label definition can change between the time a vote
+ * is originally made and a later point, for example when a change is submitted. This class
+ * normalizes old votes against current project configuration.
  */
 @Singleton
 public class LabelNormalizer {
@@ -97,9 +95,8 @@ public class LabelNormalizer {
   /**
    * @param notes change containing the given approvals.
    * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type and permissions
-   *     for the user. Approvals for unknown labels are not included in the output, nor are
-   *     approvals where the user has no permissions for that label.
+   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
+   *     unknown labels are not included in the output.
    * @throws OrmException
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
@@ -112,9 +109,8 @@ public class LabelNormalizer {
    * @param notes change notes containing the given approvals.
    * @param user current user.
    * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type and permissions
-   *     for the user. Approvals for unknown labels are not included in the output, nor are
-   *     approvals where the user has no permissions for that label.
+   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
+   *     unknown labels are not included in the output.
    */
   public Result normalize(
       ChangeNotes notes, CurrentUser user, Collection<PatchSetApproval> approvals)
@@ -142,9 +138,7 @@ public class LabelNormalizer {
       }
       PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
-      if (!applyRightFloor(notes, label, copy)) {
-        deleted.add(psa);
-      } else if (copy.getValue() != psa.getValue()) {
+      if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
       } else {
         unchanged.add(psa);
@@ -155,26 +149,6 @@ public class LabelNormalizer {
 
   private PatchSetApproval copy(PatchSetApproval src) {
     return new PatchSetApproval(src.getPatchSetId(), src);
-  }
-
-  private boolean applyRightFloor(ChangeNotes notes, LabelType lt, PatchSetApproval a)
-      throws PermissionBackendException {
-    PermissionBackend.ForChange forChange =
-        permissionBackend.user(userFactory.create(a.getAccountId())).database(db).change(notes);
-    // Check if the user is allowed to vote on the label at all
-    try {
-      forChange.check(new LabelPermission(lt.getName()));
-    } catch (AuthException e) {
-      return false;
-    }
-    // Squash vote to nearest allowed value
-    try {
-      forChange.check(new LabelPermission.WithValue(lt.getName(), a.getValue()));
-      return true;
-    } catch (AuthException e) {
-      a.setValue(forChange.squashThenCheck(lt, a.getValue()));
-      return true;
-    }
   }
 
   private void applyTypeFloor(LabelType lt, PatchSetApproval a) {

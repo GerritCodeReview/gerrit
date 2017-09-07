@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c3fd462_b6bc6d67",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "Gson will convert this to is_pure_revert. IOW I think you cheated and hand-wrote this response instead of copy/pasting from a test server (nothing to be ashamed of, we all do it :)",
+      "range": {
+        "startLine": 1106,
+        "startChar": 5,
+        "endLine": 1106,
+        "endChar": 17
+      },
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c4ee78e_2528e67a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6597,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "is_pure_revert",
+      "range": {
+        "startLine": 6597,
+        "startChar": 2,
+        "endLine": 6597,
+        "endChar": 14
+      },
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3399bd_d84857b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "I think for emphasis you should also assert that isPureRevert is true when you don\u0027t pass a claimedOriginal.",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7f75a1_7b91c50f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "I was a little surprised this doesn\u0027t return a boolean, which would be more natural for a Java API. Of course, this is more future-proof if PureRevertInfo eventually contains more than a single boolean field, so the question boils down to how likely do you think it will be that PureRevertInfo changes in the future.",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "110e2de1_52d12e0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "Why on ChangeResource instead of RevisionResource? What if someone wants to check this for a non-current patch set?\n\nWe have some other examples of Rest*View\u003cRevisionResource\u003e where there is also a \u003cChangeResource\u003e wrapper that calls the \u003cRevisionResource\u003e version on the current revision.",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eef0736_b5e5db24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "Convention is --lower-with-hyphens per `find . -name \\*.java | xargs grep -ho \u0027name \u003d \"--[^\"]\\+\"\u0027`",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960257bd_5e264916",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:03:11Z",
+      "side": 1,
+      "message": "private",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

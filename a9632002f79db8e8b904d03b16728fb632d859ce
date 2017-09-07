@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "948f6b75_cd45928e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-07T17:48:54Z",
+      "side": 1,
+      "message": "This type now applies to groups rather than _inheritsFrom and looks like lint passes. Can the type be removed then?",
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

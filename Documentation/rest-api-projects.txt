@@ -1112,6 +1112,73 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
   }
 ----
 
+
+[[create-access-change]]
+=== Create Access Rights Change for review.
+--
+'PUT /projects/link:rest-api-projects.html#project-name[\{project-name\}]/access:review
+--
+
+Sets access rights for the project using the diff schema provided by
+link:#project-access-input[ProjectAccessInput]
+
+This takes the same input as link:#set-access[Update Access Rights], but creates a pending
+change for review. Like link:#create-change[Create Change], it returns
+a link:#change-info[ChangeInfo] entity describing the resulting change.
+
+.Request
+----
+  PUT /projects/MyProject/access:review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "add":{
+      "refs/heads/*":{
+        "permissions":{
+          "read":{
+            "rules":{
+              "global:Anonymous-Users": {
+                "action":"DENY",
+                "force":false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "testproj~refs%2Fmeta%2Fconfig~Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "project": "testproj",
+    "branch": "refs/meta/config",
+    "hashtags": [],
+    "change_id": "Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "subject": "Review access change",
+    "status": "NEW",
+    "created": "2017-09-07 14:31:11.852000000",
+    "updated": "2017-09-07 14:31:11.852000000",
+    "submit_type": "CHERRY_PICK",
+    "mergeable": true,
+    "insertions": 2,
+    "deletions": 0,
+    "unresolved_comment_count": 0,
+    "has_review_started": true,
+    "_number": 7,
+    "owner": {
+      "_account_id": 1000000
+    }
+  }
+----
+
+
 [[index]]
 === Index all changes in a project
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e837132_c2078285",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:28:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "605da43f_565c0a0c",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12a4d42e_307af08f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-07T12:49:49Z",
       "side": 1,
       "message": "I assume fixing this (and others) is later on the roadmap?",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ce328a_3815e052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:28:38Z",
+      "side": 1,
+      "message": "Yes, I always have to stop at some boundary because otherwise I\u0027d just work on a single large change all the time :)",
+      "parentUuid": "12a4d42e_307af08f",
       "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -50,6 +86,24 @@
       "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b8a0832_098b084d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:28:38Z",
+      "side": 1,
+      "message": "It isn\u0027t. I removed it. It was driven by my desire to pass primary keys to plugins instead of entities :)",
+      "parentUuid": "0a301612_c6f8a03c",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -122,6 +122,24 @@
       "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48373218_adaa988b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:38:06Z",
+      "side": 1,
+      "message": "\u003e That said, if we do this it should probably be in a separate change as it\u0027s not really anything to do with the change described in the commit message.\n\nThat is the main reason I removed it. Besides that I think there will be more breakages to plugins in the near-future ;)",
+      "parentUuid": "c1e28a7c_3f744476",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

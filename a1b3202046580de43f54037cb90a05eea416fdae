@@ -189,6 +189,30 @@
       "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d976dbcf_fc415c53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-07T17:45:10Z",
+      "side": 1,
+      "message": "Etag decorator already receives response in collect(), so interface change isn\u0027t required.\nThe problem is that gr-rest-api-interface reads body via response.text(), thus blocking reusing.\nThis can be avoided if response is cloned in getResponseObject(), like this:\n\n    getResponseObject(response) {\n      return response.clone().text().then(text \u003d\u003e {\n\nUp to you though, this isn\u0027t a submission blocker certainly.",
+      "parentUuid": "5803d633_e405b339",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "a1b3202046580de43f54037cb90a05eea416fdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

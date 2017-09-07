@@ -58,9 +58,9 @@ limitations under the License.
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
       ].map(element._fixMyMenuItem), [
-        {url: '/q/owner:self+is:draft'},
-        {url: 'https://awesometown.com/#hashyhash'},
-        {url: 'url'},
+        {url: '/q/owner:self+is:draft', external: true},
+        {url: 'https://awesometown.com/#hashyhash', external: true},
+        {url: 'url', external: true},
       ]);
     });
 

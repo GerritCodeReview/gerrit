@@ -104,6 +104,24 @@
       "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1e28a7c_3f744476",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-07T13:33:18Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to be too concerned about this breaking plugins.  There have been so many other breakages caused by recent restructuring that this one would be just a drop in the ocean.\n\nThat said, if we do this it should probably be in a separate change as it\u0027s not really anything to do with the change described in the commit message.",
+      "parentUuid": "9b8a0832_098b084d",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

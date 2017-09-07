@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1e80d36_8b76ddbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T12:06:08Z",
+      "side": 1,
+      "message": "We are definitely going to want a bulk check method in ForChange eventually. Do you think it\u0027s worth leaving a TODO here to help with future cleanup?",
+      "revId": "30463ebcf819c0893cf64e316e002bfbc70fcdda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -526,7 +526,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         try (Repository git = args.repoManager.openRepository(getProject())) {
           git.setGitwebDescription(p.getProject().getDescription());
         } catch (IOException e) {
-          log.error("cannot update description of " + p.getProject().getName(), e);
+          log.error("cannot update description of " + p.getName(), e);
         }
       }
     }

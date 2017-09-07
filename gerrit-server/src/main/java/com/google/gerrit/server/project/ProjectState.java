@@ -180,7 +180,7 @@ public class ProjectState {
   }
 
   private boolean isRevisionOutOfDate() {
-    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
+    try (Repository git = gitMgr.openRepository(getNameKey())) {
       Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
       if (ref == null || ref.getObjectId() == null) {
         return true;
@@ -203,7 +203,7 @@ public class ProjectState {
   public PrologEnvironment newPrologEnvironment() throws CompileException {
     PrologMachineCopy pmc = rulesMachine;
     if (pmc == null) {
-      pmc = rulesCache.loadMachine(getProject().getNameKey(), config.getRulesId());
+      pmc = rulesCache.loadMachine(getNameKey(), config.getRulesId());
       rulesMachine = pmc;
     }
     return envFactory.create(pmc);
@@ -226,6 +226,14 @@ public class ProjectState {
     return config.getProject();
   }
 
+  public Project.NameKey getNameKey() {
+    return getProject().getNameKey();
+  }
+
+  public String getName() {
+    return getNameKey().get();
+  }
+
   public ProjectConfig getConfig() {
     return config;
   }
@@ -236,10 +244,10 @@ public class ProjectState {
     }
 
     ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
-    try (Repository git = gitMgr.openRepository(getProject().getNameKey())) {
+    try (Repository git = gitMgr.openRepository(getNameKey())) {
       cfg.load(git);
     } catch (IOException | ConfigInvalidException e) {
-      log.warn("Failed to load " + fileName + " for " + getProject().getName(), e);
+      log.warn("Failed to load " + fileName + " for " + getName(), e);
     }
 
     configs.put(fileName, cfg);
@@ -268,7 +276,7 @@ public class ProjectState {
           section.setPermissions(copy);
         }
 
-        SectionMatcher matcher = SectionMatcher.wrap(getProject().getNameKey(), section);
+        SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);
         if (matcher != null) {
           sm.add(matcher);
         }

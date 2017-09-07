@@ -145,7 +145,7 @@ public class MergeValidators {
       if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
         try {
-          ProjectConfig cfg = new ProjectConfig(destProject.getProject().getNameKey());
+          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
           cfg.load(repo, commit);
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
@@ -256,7 +256,7 @@ public class MergeValidators {
         IdentifiedUser caller)
         throws MergeValidationException {
       Account.Id accountId = Account.Id.fromRef(destBranch.get());
-      if (!allUsersName.equals(destProject.getProject().getNameKey()) || accountId == null) {
+      if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
         return;
       }
 

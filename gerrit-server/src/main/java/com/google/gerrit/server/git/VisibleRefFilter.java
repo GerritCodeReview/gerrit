@@ -188,7 +188,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
       TagMatcher tags =
           tagCache
-              .get(projectState.getProject().getNameKey())
+              .get(projectState.getNameKey())
               .matcher(
                   tagCache,
                   git,
@@ -268,7 +268,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
-    Project.NameKey project = projectState.getProject().getNameKey();
+    Project.NameKey project = projectState.getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
@@ -286,7 +286,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan() {
-    Project.NameKey p = projectState.getProject().getNameKey();
+    Project.NameKey p = projectState.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
       s = changeNotesFactory.scan(git, db.get(), p);

@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "023e4bfa_8f645b91",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "This endpoint is different because it accepts a plaintext body. That is hard to map into a URL parameter and even if it is possible it\u0027s ugly because the caller needs to URL-encode the parameter making it unreadable.\n\nOur case is different, we just have a single parameter which needs no encoding. So I\u0027d prefer to stay with GET.",
+      "parentUuid": "8ad4ade3_b1c53b07",
+      "range": {
+        "startLine": 1087,
+        "startChar": 31,
+        "endLine": 1087,
+        "endChar": 72
+      },
+      "revId": "0d15a8b4de378cc345cb2f58c092bde16d6de546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c456673a_86f613b8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

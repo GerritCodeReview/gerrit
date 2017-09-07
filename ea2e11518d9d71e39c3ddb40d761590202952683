@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dd350fe0_4c6892c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ad2a903b_ceef03fc",
+      "range": {
+        "startLine": 1081,
+        "startChar": 4,
+        "endLine": 1081,
+        "endChar": 7
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eb8ba6e_3702c12a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c9fd296_f3854d85",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb8ba6e_3702c12a",
+      "range": {
+        "startLine": 1087,
+        "startChar": 16,
+        "endLine": 1087,
+        "endChar": 35
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6852e7b4_e4e51c25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0924d96_e91baf74",
+      "range": {
+        "startLine": 3134,
+        "startChar": 4,
+        "endLine": 3134,
+        "endChar": 23
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2483aa41_a641cc34",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ccc91b_0f946437",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3160,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "I\u0027ve added a test to check that the parameter takes precedence.",
+      "parentUuid": "2483aa41_a641cc34",
+      "range": {
+        "startLine": 3160,
+        "startChar": 4,
+        "endLine": 3160,
+        "endChar": 80
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a63de2da_b57abb09",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "Done. I\u0027ve changed the name, and added another test for a clean rebase. I think we have sufficient test coverage now.",
+      "parentUuid": "5163689f_88b4a1ff",
+      "range": {
+        "startLine": 3175,
+        "startChar": 14,
+        "endLine": 3175,
+        "endChar": 62
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa1c6881_17496ff9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 3
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "496af170_bc7497e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "If this class is annotated with @Singleton, we create a race. This is because of the query parameter being a class member. In a singleton, two concurrent requests would set the parameter and then enter execution in #apply(). The outcome then depends on the execution order.",
+      "parentUuid": "aa1c6881_17496ff9",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18752467_50a07f60",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 3
@@ -160,6 +304,30 @@
       "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1f5434_3d414133",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:49:16Z",
+      "side": 1,
+      "message": "Yes, but I don\u0027t want to change ThreeWayMerger internal state inside an if condition:\n\n   if (!merger.merge(...)) {}\n\nThe other option would be to factor our a boolean, but then we get more code, not less.",
+      "parentUuid": "18752467_50a07f60",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 63
+      },
+      "revId": "ea2e11518d9d71e39c3ddb40d761590202952683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

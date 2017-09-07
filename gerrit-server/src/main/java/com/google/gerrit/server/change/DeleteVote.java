@@ -127,7 +127,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
+            db.get(), change.getProject(), r.getChangeResource().getUser(), TimeUtil.nowTs())) {
       bu.addOp(
           change.getId(),
           new Op(

@@ -114,13 +114,4 @@ public class ReviewerResource implements RestResource {
   public boolean isByEmail() {
     return user == null;
   }
-
-  /**
-   * Get the control for the caller's user.
-   *
-   * @return the control for the caller's user.
-   */
-  public ChangeControl getControl() {
-    return change.getControl();
-  }
 }

@@ -859,6 +859,24 @@ limitations under the License.
       assert.notInclude(element._expandedFilePaths, path);
     });
 
+    test('collapseAllDiffs', () => {
+      sandbox.stub(element, '_renderInOrder')
+          .returns(Promise.resolve());
+      const cursorUpdateStub = sandbox.stub(element.$.diffCursor,
+          'handleDiffUpdate');
+
+      const path = 'path/to/my/file.txt';
+      element.files = [{__path: path}];
+      element._expandedFilePaths = [path];
+      element._showInlineDiffs = true;
+
+      element.collapseAllDiffs();
+      flushAsynchronousOperations();
+      assert.equal(element._expandedFilePaths.length, 0);
+      assert.isFalse(element._showInlineDiffs);
+      assert.isTrue(cursorUpdateStub.calledOnce);
+    });
+
     test('_expandedPathsChanged', done => {
       sandbox.stub(element, '_reviewFile');
       const path = 'path/to/my/file.txt';

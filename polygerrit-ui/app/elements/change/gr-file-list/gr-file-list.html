@@ -208,7 +208,7 @@ limitations under the License.
             if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
           <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
           <span class="separator">/</span>
-          <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+          <gr-button link on-tap="collapseAllDiffs">Hide diffs</gr-button>
         </template>
         <template is="dom-if"
             if="[[!_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">

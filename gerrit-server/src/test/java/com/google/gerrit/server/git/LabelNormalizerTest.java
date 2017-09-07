@@ -146,7 +146,7 @@ public class LabelNormalizerTest {
   }
 
   @Test
-  public void normalizeByPermission() throws Exception {
+  public void noNormalizeByPermission() throws Exception {
     ProjectConfig pc = loadAllProjects();
     allow(pc, forLabel("Code-Review"), -1, 1, REGISTERED_USERS, "refs/heads/*");
     allow(pc, forLabel("Verified"), -1, 1, REGISTERED_USERS, "refs/heads/*");
@@ -154,8 +154,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 2);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(
-        Result.create(list(v), list(copy(cr, 1)), list()), norm.normalize(change, list(cr, v)));
+    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -173,10 +172,10 @@ public class LabelNormalizerTest {
   }
 
   @Test
-  public void emptyPermissionRangeOmitsResult() throws Exception {
+  public void emptyPermissionRangeKeepsResult() throws Exception {
     PatchSetApproval cr = psa(userId, "Code-Review", 1);
     PatchSetApproval v = psa(userId, "Verified", 1);
-    assertEquals(Result.create(list(), list(), list(cr, v)), norm.normalize(change, list(cr, v)));
+    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(change, list(cr, v)));
   }
 
   @Test
@@ -187,7 +186,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, "Code-Review", 0);
     PatchSetApproval v = psa(userId, "Verified", 0);
-    assertEquals(Result.create(list(cr), list(), list(v)), norm.normalize(change, list(cr, v)));
+    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(change, list(cr, v)));
   }
 
   private ProjectConfig loadAllProjects() throws Exception {

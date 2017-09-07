@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27062f76_dd2bda5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T10:19:21Z",
+      "side": 1,
+      "message": "All of the unused imports are still present in this file",
+      "revId": "a8fc174605286ed2362bbb1cea3f8092a7c992af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

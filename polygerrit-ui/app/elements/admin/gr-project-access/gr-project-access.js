@@ -25,6 +25,7 @@
 
       _capabilities: Object,
       /** @type {?} */
+      _groups: Object,
       _inheritsFrom: Object,
       _labels: Object,
       _local: Object,
@@ -54,6 +55,7 @@
       promises.push(this.$.restAPI.getProjectAccessRights(project).then(res => {
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;
+        this._groups = res.groups;
         return this.toSortedArray(this._local);
       }));
 

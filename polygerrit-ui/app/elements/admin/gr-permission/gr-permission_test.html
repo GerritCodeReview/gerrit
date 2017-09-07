@@ -158,6 +158,12 @@ limitations under the License.
             'editing deleted');
       });
 
+      test('_computeGroupName', () => {
+        const groups = {
+          '123': {name: 'test group'},
+        };
+        assert.equal(element._computeGroupName(groups, '123'), 'test group');
+      });
 
       test('_computeGroupsWithRules', () => {
         const rules = [

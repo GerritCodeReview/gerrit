@@ -57,7 +57,8 @@
         type: Boolean,
         value: false,
       },
-      group: String,
+      groupId: String,
+      groupName: String,
       permission: String,
       /** @type {?} */
       rule: {
@@ -78,6 +79,8 @@
 
     behaviors: [
       Gerrit.AccessBehavior,
+      Gerrit.BaseUrlBehavior,
+      Gerrit.URLEncodingBehavior,
     ],
 
     observers: [
@@ -105,6 +108,10 @@
 
     _computeForceClass(permission) {
       return this._computeForce(permission) ? 'force' : '';
+    },
+
+    _computeGroupPath(group) {
+      return `${this.getBaseUrl()}/admin/groups/${this.encodeURL(group, true)}`;
     },
 
     _computeSectionClass(editing, deleted) {

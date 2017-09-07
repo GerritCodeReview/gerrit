@@ -92,7 +92,8 @@ limitations under the License.
             <gr-rule-editor
                 label="[[_label]]"
                 editing="[[editing]]"
-                group="[[rule.id]]"
+                group-id="[[rule.id]]"
+                group-name="[[_computeGroupName(groups, rule.id)]]"
                 permission="[[permission.id]]"
                 rule="{{rule}}"
                 section="[[section]]"></gr-rule-editor>

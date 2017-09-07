@@ -28,6 +28,7 @@
         observer: '_sortPermission',
         notify: true,
       },
+      groups: Object,
       section: String,
       editing: {
         type: Boolean,
@@ -127,6 +128,11 @@
         groups[rule.id] = true;
       }
       return groups;
+    },
+
+    _computeGroupName(groups, groupId) {
+      return groups && groups[groupId] ?
+          groups[groupId].name : '';
     },
 
     _getGroupSuggestions() {

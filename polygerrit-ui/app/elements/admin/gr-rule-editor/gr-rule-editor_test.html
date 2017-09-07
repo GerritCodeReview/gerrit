@@ -240,6 +240,12 @@ limitations under the License.
         MockInteractions.tap(element.$.undoRemoveBtn);
         assert.isNotOk(element.rule.value.deleted);
       });
+
+      test('_computeGroupPath', () => {
+        const group = '123';
+        assert.equal(element._computeGroupPath(group),
+            `/admin/groups/123`);
+      });
     });
 
     suite('new edit rule', () => {

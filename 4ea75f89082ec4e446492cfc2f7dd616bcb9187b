@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "605da43f_565c0a0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T12:51:40Z",
+      "side": 1,
+      "message": "In ChangeInserter when we create the CommitReceivedEvent we are using the project cache to look it up. ISTM that approach should work here as well.",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12a4d42e_307af08f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
         "patchSetId": 1

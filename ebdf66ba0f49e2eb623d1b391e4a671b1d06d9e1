@@ -70,6 +70,30 @@
       "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22dfecb9_2bfcdba9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-07T13:08:33Z",
+      "side": 1,
+      "message": "We support fetching html for the aggreements in gwtui. Doing it here like this is the only way to do it. Do you know how to make it safer please?",
+      "parentUuid": "71feac39_236a39d3",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

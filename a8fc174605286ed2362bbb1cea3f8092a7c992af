@@ -16,6 +16,24 @@
       "revId": "a8fc174605286ed2362bbb1cea3f8092a7c992af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97227ee9_fbf719ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-07T12:07:14Z",
+      "side": 1,
+      "message": "sorry - forgot the R(nename) status in my gjf command-line. Fixed now.",
+      "parentUuid": "27062f76_dd2bda5b",
+      "revId": "a8fc174605286ed2362bbb1cea3f8092a7c992af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

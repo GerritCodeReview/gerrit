@@ -22,6 +22,30 @@
       "revId": "c6cda429b12d9a80f4cca8a2d37cc786afd0dc92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "400b3f4e_66c21fc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T12:54:00Z",
+      "side": 1,
+      "message": "I certainly hope so, otherwise it\u0027s probably worth reporting as a bug in gjf.",
+      "parentUuid": "9263a614_27d7b480",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 25
+      },
+      "revId": "c6cda429b12d9a80f4cca8a2d37cc786afd0dc92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

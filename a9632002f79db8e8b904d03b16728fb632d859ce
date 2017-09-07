@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4a889cec_0d205524",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-07T23:57:53Z",
+      "side": 1,
+      "message": "Does this use an empty string as the group name? How does this happen? Would it be more useful to show \"Unnamed group\" or the (ugly) group ID as before?",
+      "range": {
+        "startLine": 135,
+        "startChar": 33,
+        "endLine": 135,
+        "endChar": 35
+      },
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b83b9f4_cbb784d0",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
         "patchSetId": 1

@@ -24,13 +24,10 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -138,9 +135,7 @@ public class LabelNormalizer {
       }
       PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
-      if (!applyRightFloor(ctl.getNotes(), label, copy)) {
-        deleted.add(psa);
-      } else if (copy.getValue() != psa.getValue()) {
+      if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
       } else {
         unchanged.add(psa);
@@ -151,26 +146,6 @@ public class LabelNormalizer {
 
   private PatchSetApproval copy(PatchSetApproval src) {
     return new PatchSetApproval(src.getPatchSetId(), src);
-  }
-
-  private boolean applyRightFloor(ChangeNotes notes, LabelType lt, PatchSetApproval a)
-      throws PermissionBackendException {
-    PermissionBackend.ForChange forChange =
-        permissionBackend.user(userFactory.create(a.getAccountId())).database(db).change(notes);
-    // Check if the user is allowed to vote on the label at all
-    try {
-      forChange.check(new LabelPermission(lt.getName()));
-    } catch (AuthException e) {
-      return false;
-    }
-    // Squash vote to nearest allowed value
-    try {
-      forChange.check(new LabelPermission.WithValue(lt.getName(), a.getValue()));
-      return true;
-    } catch (AuthException e) {
-      a.setValue(forChange.squashThenCheck(lt, a.getValue()));
-      return true;
-    }
   }
 
   private void applyTypeFloor(LabelType lt, PatchSetApproval a) {

@@ -77,6 +77,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
+  private final PermissionBackend.ForProject perm;
   private final ProjectState projectState;
   private final Repository git;
   private ProjectControl projectCtl;
@@ -100,6 +101,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.db = db;
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.perm =
+        permissionBackend.user(user).database(db).project(projectState.getProject().getNameKey());
     this.projectState = projectState;
     this.git = git;
   }
@@ -265,31 +268,25 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
-    Project project = projectCtl.getProject();
+    Project.NameKey project = projectState.getProject().getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
-      for (ChangeData cd : changeCache.getChangeData(db.get(), project.getNameKey())) {
-        if (permissionBackend
-            .user(user)
-            .indexedChange(cd, changeNotesFactory.createFromIndexedChange(cd.change()))
-            .database(db)
-            .test(ChangePermission.READ)) {
+      for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
+        ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
+        if (perm.indexedChange(cd, notes).test(ChangePermission.READ)) {
           visibleChanges.put(cd.getId(), cd.change().getDest());
         }
       }
       return visibleChanges;
     } catch (OrmException | PermissionBackendException e) {
       log.error(
-          "Cannot load changes for project "
-              + project.getName()
-              + ", assuming no changes are visible",
-          e);
+          "Cannot load changes for project " + project + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan() {
-    Project.NameKey p = projectCtl.getProject().getNameKey();
+    Project.NameKey p = projectState.getProject().getNameKey();
     Stream<ChangeNotesResult> s;
     try {
       s = changeNotesFactory.scan(git, db.get(), p);
@@ -309,7 +306,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return null;
     }
     try {
-      if (permissionBackend.user(user).change(r.notes()).database(db).test(ChangePermission.READ)) {
+      if (perm.change(r.notes()).test(ChangePermission.READ)) {
         return r.notes();
       }
     } catch (PermissionBackendException e) {
@@ -330,17 +327,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
   private boolean canReadRef(String ref) {
     try {
-      permissionBackend
-          .user(user)
-          .project(projectCtl.getProject().getNameKey())
-          .ref(ref)
-          .check(RefPermission.READ);
+      perm.ref(ref).check(RefPermission.READ);
+      return true;
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
       log.error("unable to check permissions", e);
       return false;
     }
-    return true;
   }
 }

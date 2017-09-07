@@ -268,6 +268,15 @@ public abstract class PermissionBackend {
       return ref(notes.getChange().getDest().get()).change(notes);
     }
 
+    /**
+     * @return instance scoped for the change loaded from index, and its destination ref and
+     *     project. This method should only be used when database access is harmful and potentially
+     *     stale data from the index is acceptable.
+     */
+    public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
+      return ref(notes.getChange().getDest().get()).indexedChange(cd, notes);
+    }
+
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(ProjectPermission perm)
         throws AuthException, PermissionBackendException;

@@ -16,6 +16,24 @@
       "revId": "30463ebcf819c0893cf64e316e002bfbc70fcdda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "634cd059_3bc652d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T12:11:46Z",
+      "side": 1,
+      "message": "I think so too. I think it is OK without a TODO. When we add a bulk-check method we\u0027d need to look at all check calls anyway and see if they can be optimized (e.g. the loop might be in a parent method of the place that calls check).",
+      "parentUuid": "b1e80d36_8b76ddbd",
+      "revId": "30463ebcf819c0893cf64e316e002bfbc70fcdda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

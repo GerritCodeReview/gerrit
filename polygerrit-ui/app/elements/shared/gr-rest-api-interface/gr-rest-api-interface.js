@@ -186,15 +186,32 @@
      * @return {?}
      */
     getResponseObject(response) {
+      return this._readResponsePayload(response)
+          .then(payload => payload.object);
+    },
+
+    /**
+     * @param {!Object} response
+     * @return {!Object}
+     */
+    _readResponsePayload(response) {
       return response.text().then(text => {
         let result;
         try {
-          result = JSON.parse(text.substring(JSON_PREFIX.length));
+          result = this._parsePrefixedJSON(text);
         } catch (_) {
           result = null;
         }
-        return result;
+        return {object: result, rawResponse: text};
       });
+    },
+
+    /**
+     * @param {!string} source
+     * @return {?}
+     */
+    _parsePrefixedJSON(source) {
+      return JSON.parse(source.substring(JSON_PREFIX.length));
     },
 
     getConfig() {
@@ -820,8 +837,8 @@
             this._etags.getOptions(urlWithParams))
             .then(response => {
               if (response && response.status === 304) {
-                return Promise.resolve(
-                    this._etags.getCachedPayload(urlWithParams));
+                return Promise.resolve(this._parsePrefixedJSON(
+                    this._etags.getCachedPayload(urlWithParams)));
               }
 
               if (response && !response.ok) {
@@ -834,13 +851,18 @@
               }
 
               const payloadPromise = response ?
-                  this.getResponseObject(response) :
-                  Promise.resolve();
-              payloadPromise.then(payload => {
-                this._etags.collect(urlWithParams, response, payload);
+                  this._readResponsePayload(response) :
+                  Promise.resolve(null);
+
+              return payloadPromise.then(payload => {
+                if (!payload) { return null; }
+
+                this._etags.collect(urlWithParams, response,
+                    payload.rawResponse);
                 this._maybeInsertInLookup(payload);
+
+                return payload.object;
               });
-              return payloadPromise;
             });
       });
     },

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CommitsCollection;
+import com.google.gerrit.server.project.CreateAccessChange;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.DeleteBranches;
 import com.google.gerrit.server.project.DeleteTags;
@@ -85,6 +87,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final TagApiImpl.Factory tagApi;
   private final GetAccess getAccess;
   private final SetAccess setAccess;
+  private final CreateAccessChange createAccessChange;
   private final GetConfig getConfig;
   private final PutConfig putConfig;
   private final ListBranches listBranches;
@@ -110,6 +113,7 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
       ListBranches listBranches,
@@ -134,6 +138,7 @@ public class ProjectApiImpl implements ProjectApi {
         tagApiFactory,
         getAccess,
         setAccess,
+        createAccessChange,
         getConfig,
         putConfig,
         listBranches,
@@ -162,6 +167,7 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
       ListBranches listBranches,
@@ -186,6 +192,7 @@ public class ProjectApiImpl implements ProjectApi {
         tagApiFactory,
         getAccess,
         setAccess,
+        createAccessChange,
         getConfig,
         putConfig,
         listBranches,
@@ -213,6 +220,7 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
       ListBranches listBranches,
@@ -247,6 +255,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.deleteTags = deleteTags;
     this.commitsCollection = commitsCollection;
     this.commitApi = commitApi;
+    this.createAccessChange = createAccessChange;
   }
 
   @Override
@@ -300,6 +309,15 @@ public class ProjectApiImpl implements ProjectApi {
       return setAccess.apply(checkExists(), p);
     } catch (Exception e) {
       throw asRestApiException("Cannot put access rights", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo accessChange(ProjectAccessInput p) throws RestApiException {
+    try {
+      return createAccessChange.apply(checkExists(), p).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put access right change", e);
     }
   }
 

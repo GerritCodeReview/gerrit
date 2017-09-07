@@ -455,8 +455,10 @@ limitations under the License.
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
       element._path = 'glados.txt';
       flushAsynchronousOperations();
-      assert.equal(element.$$('.downloadLink').getAttribute('href'),
+      const link = element.$$('.downloadLink');
+      assert.equal(link.getAttribute('href'),
           '/changes/42/revisions/10/patch?zip&path=glados.txt');
+      assert.isTrue(link.hasAttribute('download'));
     });
 
     test('file review status', done => {

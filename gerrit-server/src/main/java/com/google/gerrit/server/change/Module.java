@@ -70,6 +70,7 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
     get(CHANGE_KIND, "check").to(Check.class);
+    get(CHANGE_KIND, "pure_revert").to(GetPureRevert.class);
     post(CHANGE_KIND, "check").to(Check.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);

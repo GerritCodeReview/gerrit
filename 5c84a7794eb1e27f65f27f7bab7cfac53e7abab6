@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5f38128_82fb335c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-07T15:19:53Z",
+      "side": 1,
+      "message": "This confuses me. This change doesn\u0027t abandon/create a change. Why do we need to check those permissions?",
+      "range": {
+        "startLine": 114,
+        "startChar": 5,
+        "endLine": 114,
+        "endChar": 56
+      },
+      "revId": "5c84a7794eb1e27f65f27f7bab7cfac53e7abab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

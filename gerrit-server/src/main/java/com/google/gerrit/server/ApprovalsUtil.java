@@ -31,8 +31,6 @@ import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -48,6 +46,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -308,7 +307,7 @@ public class ApprovalsUtil {
    * @param update change update.
    * @param labelTypes label types for the containing project.
    * @param ps patch set being approved.
-   * @param changeCtl change control for user adding approvals.
+   * @param user user adding approvals.
    * @param approvals approvals to add.
    * @throws RestApiException
    * @throws OrmException
@@ -318,10 +317,10 @@ public class ApprovalsUtil {
       ChangeUpdate update,
       LabelTypes labelTypes,
       PatchSet ps,
-      ChangeControl changeCtl,
+      CurrentUser user,
       Map<String, Short> approvals)
-      throws RestApiException, OrmException {
-    Account.Id accountId = changeCtl.getUser().getAccountId();
+      throws RestApiException, OrmException, PermissionBackendException {
+    Account.Id accountId = user.getAccountId();
     checkArgument(
         accountId.equals(ps.getUploader()),
         "expected user %s to match patch set uploader %s",
@@ -330,12 +329,12 @@ public class ApprovalsUtil {
     if (approvals.isEmpty()) {
       return ImmutableList.of();
     }
-    checkApprovals(approvals, changeCtl);
+    checkApprovals(approvals, permissionBackend.user(user).database(db).change(update.getNotes()));
     List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
     Date ts = update.getWhen();
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(newApproval(ps.getId(), changeCtl.getUser(), lt.getLabelId(), vote.getValue(), ts));
+      cells.add(newApproval(ps.getId(), user, lt.getLabelId(), vote.getValue(), ts));
     }
     for (PatchSetApproval psa : cells) {
       update.putApproval(psa.getLabel(), psa.getValue());
@@ -356,13 +355,15 @@ public class ApprovalsUtil {
     }
   }
 
-  private static void checkApprovals(Map<String, Short> approvals, ChangeControl changeCtl)
-      throws AuthException {
+  private static void checkApprovals(
+      Map<String, Short> approvals, PermissionBackend.ForChange forChange)
+      throws AuthException, PermissionBackendException {
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       String name = vote.getKey();
       Short value = vote.getValue();
-      PermissionRange range = changeCtl.getRange(Permission.forLabel(name));
-      if (range == null || !range.contains(value)) {
+      try {
+        forChange.check(new LabelPermission.WithValue(name, value));
+      } catch (AuthException e) {
         throw new AuthException(
             String.format("applying label \"%s\": %d is restricted", name, value));
       }

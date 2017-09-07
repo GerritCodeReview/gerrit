@@ -269,7 +269,7 @@ public class ChangeControl {
   }
 
   /** The range of permitted values associated with a label permission. */
-  public PermissionRange getRange(String permission) {
+  private PermissionRange getRange(String permission) {
     return getRefControl().getRange(permission, isOwner());
   }
 

@@ -48,6 +48,7 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "access").to(GetAccess.class);
     post(PROJECT_KIND, "access").to(SetAccess.class);
+    put(PROJECT_KIND, "access:review").to(CreateAccessChange.class);
 
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
@@ -96,7 +97,6 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
-
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
 
     factory(DeleteRef.Factory.class);

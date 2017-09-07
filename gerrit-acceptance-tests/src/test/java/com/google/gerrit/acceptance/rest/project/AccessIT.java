@@ -14,27 +14,36 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.config.AccessCheckInfo;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gwtorm.server.Access;
 import java.util.HashMap;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -84,6 +93,65 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         p.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  public void createAccessChangeBasic() throws Exception {
+    // User can see the branch
+    setApiUser(user);
+    gApi.projects().name(newProjectName).branch("refs/heads/master").get();
+
+    ProjectAccessInput accessInput = newProjectAccessInput();
+
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+
+    // Deny read to registered users.
+    PermissionInfo read = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    read.exclusive = true;
+    accessSection.permissions.put(Permission.READ, read);
+    accessInput.add.put(REFS_HEADS, accessSection);
+
+    setApiUser(user);
+    ChangeInfo out = pApi.accessChange(accessInput);
+
+    assertThat(out.project).isEqualTo(newProjectName);
+    assertThat(out.branch).isEqualTo(RefNames.REFS_CONFIG);
+    assertThat(out.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(out.submitted).isNull();
+
+    setApiUser(admin );
+
+    ReviewInput reviewIn = new ReviewInput();
+    reviewIn.label("Code-Review", (short) 2);
+    gApi.changes().id(out._number).current().review(reviewIn);
+    gApi.changes().id(out._number).current().submit();
+
+    // check that the change took effect.
+    setApiUser(user);
+    try {
+      BranchInfo info = gApi.projects().name(newProjectName).branch("refs/heads/master").get();
+      fail("wanted failure, got "  + newGson().toJson(info));
+    } catch (ResourceNotFoundException e) {
+      // OK.
+    }
+
+    // Restore.
+    accessInput.add.clear();
+    accessInput.remove.put(REFS_HEADS, accessSection);
+    setApiUser(user);
+
+    pApi.accessChange(accessInput);
+
+    setApiUser(admin);
+    out = pApi.accessChange(accessInput);
+    gApi.changes().id(out._number).current().review(reviewIn);
+    gApi.changes().id(out._number).current().submit();
+
+    // Now it works again.
+    setApiUser(user);
+    gApi.projects().name(newProjectName).branch("refs/heads/master").get();
   }
 
   @Test

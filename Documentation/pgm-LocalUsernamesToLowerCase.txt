@@ -7,7 +7,7 @@ account to lower case
 == SYNOPSIS
 [verse]
 --
-_java_ -jar gerrit.war _LocalUsernamesToLowerCase
+_java_ -jar gerrit.war _LocalUsernamesToLowerCase_
   -d <SITE_PATH>
 --
 

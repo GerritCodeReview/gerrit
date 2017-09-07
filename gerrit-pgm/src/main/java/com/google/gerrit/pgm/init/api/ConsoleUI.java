@@ -199,7 +199,7 @@ public abstract class ConsoleUI {
         T def, A options, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {
-        String r = console.readLine("%-30s [%s/?]: ", prompt, def.toString());
+        String r = console.readLine("%-30s [%s/?]: ", prompt, def.toString().toLowerCase());
         if (r == null) {
           throw abort();
         }

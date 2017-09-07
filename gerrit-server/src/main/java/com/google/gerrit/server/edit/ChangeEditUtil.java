@@ -180,7 +180,7 @@ public class ChangeEditUtil {
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
           patchSetInserterFactory
-              .create(ctl, psId, squashed)
+              .create(ctl.getNotes(), psId, squashed)
               .setNotify(notify)
               .setAccountsToNotify(accountsToNotify);
 

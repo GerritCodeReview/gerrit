@@ -2330,7 +2330,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     PatchSetInserter inserter =
         patchSetFactory
-            .create(ctl, new PatchSet.Id(c.getId(), n), commit)
+            .create(ctl.getNotes(), new PatchSet.Id(c.getId(), n), commit)
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
             .setValidate(false);

@@ -154,7 +154,7 @@ public class CreateMergePatchSet
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.getId());
       PatchSetInserter psInserter =
-          patchSetInserterFactory.create(rsrc.getControl(), nextPsId, newCommit);
+          patchSetInserterFactory.create(rsrc.getNotes(), nextPsId, newCommit);
       try (BatchUpdate bu = updateFactory.create(db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);
         bu.addOp(

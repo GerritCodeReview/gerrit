@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38e16a7a_fdc22ccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "Commit message feels like documentation. Perhaps add it as such (developer docs)?",
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "042e8884_42581021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "(suggestion)\n\n Adjust primary key (index) for table account_patch_reviews\n\n This should improve performance, most notably when clearing review flags for a patch set.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02c8f41d_8db1df4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "implicitly",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f89f1291_285f5fa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "PostgreSQL",
+      "range": {
+        "startLine": 13,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a14e423a_0604b137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "MySQL",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2508de73_7dd4f650",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "end of sentence here I think.",
+      "range": {
+        "startLine": 16,
+        "startChar": 71,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7afdfe12_fe7936b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "(suggestion)\n\n This is when having the right indices are getting important.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27e1aaaf_911d7802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "index(change_id, patch_set_id) is a different index as proposed with this patch. It\u0027s nice that you add some performance metrics to compare, but it should be relevant.",
+      "range": {
+        "startLine": 19,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d098052e_62e41e16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "brings",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2207911f_a1bec2a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "remove these words, as it\u0027s already a single index.",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00597265_1ad10f5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "columns",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92845b8a_6960ccb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-09-07T20:22:59Z",
+      "side": 1,
+      "message": "Will it be documented somewhere *how* to do this?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 63
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

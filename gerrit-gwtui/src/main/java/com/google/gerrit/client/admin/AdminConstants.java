@@ -31,6 +31,8 @@ public interface AdminConstants extends Constants {
 
   String defaultRevisionSpec();
 
+  String annotation();
+
   String buttonDeleteIncludedGroup();
 
   String buttonAddIncludedGroup();
@@ -182,6 +184,8 @@ public interface AdminConstants extends Constants {
   String columnTagName();
 
   String columnTagRevision();
+
+  String columnTagAnnotation();
 
   String initialRevision();
 

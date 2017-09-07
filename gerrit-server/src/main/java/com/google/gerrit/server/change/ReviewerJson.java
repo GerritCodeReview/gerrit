@@ -83,7 +83,7 @@ public class ReviewerJson {
     ChangeData cd = null;
     for (ReviewerResource rsrc : rsrcs) {
       if (cd == null || !cd.getId().equals(rsrc.getChangeId())) {
-        cd = changeDataFactory.create(db.get(), rsrc.getControl().getNotes());
+        cd = changeDataFactory.create(db.get(), rsrc.getChangeResource().getNotes());
       }
       ReviewerInfo info =
           format(

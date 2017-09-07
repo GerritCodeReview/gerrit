@@ -103,7 +103,7 @@ public class ProjectWatch {
           } catch (QueryParseException e) {
             log.warn(
                 "Project {} has invalid notify {} filter \"{}\": {}",
-                state.getProject().getName(),
+                state.getName(),
                 nc.getName(),
                 nc.getFilter(),
                 e.getMessage());

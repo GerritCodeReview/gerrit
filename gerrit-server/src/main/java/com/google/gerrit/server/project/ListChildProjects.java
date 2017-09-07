@@ -77,7 +77,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     for (Project.NameKey name : projectCache.all()) {
       ProjectState c = projectCache.get(name);
       if (c != null && parent.equals(c.getProject().getParent(allProjects))) {
-        children.put(c.getProject().getNameKey(), c.getProject());
+        children.put(c.getNameKey(), c.getProject());
       }
     }
     return permissionBackend
@@ -105,7 +105,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     for (Project.NameKey name : projectCache.all()) {
       ProjectState c = projectCache.get(name);
       if (c != null) {
-        projects.put(c.getProject().getNameKey(), c.getProject());
+        projects.put(c.getNameKey(), c.getProject());
       }
     }
     return projects;

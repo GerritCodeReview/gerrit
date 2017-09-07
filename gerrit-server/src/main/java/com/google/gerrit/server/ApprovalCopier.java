@@ -183,7 +183,7 @@ public class ApprovalCopier {
 
         ChangeKind kind =
             changeKindCache.getChangeKind(
-                project.getProject().getNameKey(),
+                project.getNameKey(),
                 rw,
                 repoConfig,
                 ObjectId.fromString(priorPs.getRevision().get()),

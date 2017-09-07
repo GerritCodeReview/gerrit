@@ -135,7 +135,7 @@ public class ReviewerRecommender {
                   .getProvider()
                   .get()
                   .suggestReviewers(
-                      projectState.getProject().getNameKey(),
+                      projectState.getNameKey(),
                       changeNotes.getChangeId(),
                       query,
                       reviewerScores.keySet()));
@@ -239,8 +239,7 @@ public class ReviewerRecommender {
     List<Predicate<ChangeData>> predicates = new ArrayList<>();
     for (Account.Id id : candidates) {
       try {
-        Predicate<ChangeData> projectQuery =
-            changeQueryBuilder.project(projectState.getProject().getName());
+        Predicate<ChangeData> projectQuery = changeQueryBuilder.project(projectState.getName());
 
         // Get all labels for this project and create a compound OR query to
         // fetch all changes where users have applied one of these labels

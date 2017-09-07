@@ -93,7 +93,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
   private Collection<ProjectState> tree(ProjectResource rsrc) throws PermissionBackendException {
     Map<Project.NameKey, ProjectState> tree = new LinkedHashMap<>();
     for (ProjectState ps : rsrc.getProjectState().tree()) {
-      tree.put(ps.getProject().getNameKey(), ps);
+      tree.put(ps.getNameKey(), ps);
     }
     tree.keySet()
         .retainAll(permissionBackend.user(user).filter(ProjectPermission.ACCESS, tree.keySet()));
@@ -102,10 +102,8 @@ class ListDashboards implements RestReadView<ProjectResource> {
 
   private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
-    Project.NameKey projectName = state.getProject().getNameKey();
-    PermissionBackend.ForProject perm =
-        permissionBackend.user(user).project(state.getProject().getNameKey());
-    try (Repository git = gitManager.openRepository(projectName);
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(state.getNameKey());
+    try (Repository git = gitManager.openRepository(state.getNameKey());
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {

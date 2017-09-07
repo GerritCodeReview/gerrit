@@ -24,13 +24,15 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -76,15 +78,18 @@ public class LabelNormalizer {
   private final Provider<ReviewDb> db;
   private final ChangeControl.GenericFactory changeFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   LabelNormalizer(
       Provider<ReviewDb> db,
       ChangeControl.GenericFactory changeFactory,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      PermissionBackend permissionBackend) {
     this.db = db;
     this.changeFactory = changeFactory;
     this.userFactory = userFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   /**
@@ -96,7 +101,7 @@ public class LabelNormalizer {
    * @throws OrmException
    */
   public Result normalize(Change change, Collection<PatchSetApproval> approvals)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
     IdentifiedUser user = userFactory.create(change.getOwner());
     return normalize(changeFactory.controlFor(db.get(), change, user), approvals);
   }
@@ -108,7 +113,8 @@ public class LabelNormalizer {
    *     for the user. Approvals for unknown labels are not included in the output, nor are
    *     approvals where the user has no permissions for that label.
    */
-  public Result normalize(ChangeControl ctl, Collection<PatchSetApproval> approvals) {
+  public Result normalize(ChangeControl ctl, Collection<PatchSetApproval> approvals)
+      throws PermissionBackendException {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
@@ -132,7 +138,7 @@ public class LabelNormalizer {
       }
       PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
-      if (!applyRightFloor(ctl, label, copy)) {
+      if (!applyRightFloor(ctl.getNotes(), label, copy)) {
         deleted.add(psa);
       } else if (copy.getValue() != psa.getValue()) {
         updated.add(copy);
@@ -147,19 +153,24 @@ public class LabelNormalizer {
     return new PatchSetApproval(src.getPatchSetId(), src);
   }
 
-  private PermissionRange getRange(ChangeControl ctl, LabelType lt, Account.Id id) {
-    String permission = Permission.forLabel(lt.getName());
-    IdentifiedUser user = userFactory.create(id);
-    return ctl.forUser(user).getRange(permission);
-  }
-
-  private boolean applyRightFloor(ChangeControl ctl, LabelType lt, PatchSetApproval a) {
-    PermissionRange range = getRange(ctl, lt, a.getAccountId());
-    if (range.isEmpty()) {
+  private boolean applyRightFloor(ChangeNotes notes, LabelType lt, PatchSetApproval a)
+      throws PermissionBackendException {
+    PermissionBackend.ForChange forChange =
+        permissionBackend.user(userFactory.create(a.getAccountId())).database(db).change(notes);
+    // Check if the user is allowed to vote on the label at all
+    try {
+      forChange.check(new LabelPermission(lt.getName()));
+    } catch (AuthException e) {
       return false;
     }
-    a.setValue((short) range.squash(a.getValue()));
-    return true;
+    // Squash vote to nearest allowed value
+    try {
+      forChange.check(new LabelPermission.WithValue(lt.getName(), a.getValue()));
+      return true;
+    } catch (AuthException e) {
+      a.setValue(forChange.squashThenCheck(lt, a.getValue()));
+      return true;
+    }
   }
 
   private void applyTypeFloor(LabelType lt, PatchSetApproval a) {

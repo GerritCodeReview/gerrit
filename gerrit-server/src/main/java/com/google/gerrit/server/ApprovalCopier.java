@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -204,7 +205,7 @@ public class ApprovalCopier {
         }
       }
       return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new OrmException(e);
     }
   }

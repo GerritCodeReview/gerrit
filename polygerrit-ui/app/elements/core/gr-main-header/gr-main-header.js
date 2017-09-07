@@ -219,6 +219,12 @@
       // makes assumptions that work for the GWT UI, but not PolyGerrit,
       // so we'll just disable it altogether for now.
       delete linkObj.target;
+
+      // Becasue the "my menu" links may be arbitrary URLs, we don't know
+      // whether they correspond to any client routes. Mark all such links as
+      // external.
+      linkObj.external = true;
+
       return linkObj;
     },
 

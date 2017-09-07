@@ -22,6 +22,30 @@
       "revId": "b9e002444bf93eccb9abca96a0136a2bd760257e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be44d2b_2100b598",
+        "filename": "Documentation/pgm-LocalUsernamesToLowerCase.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-07T14:48:16Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "4ec8008b_928c5d6c",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "b9e002444bf93eccb9abca96a0136a2bd760257e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

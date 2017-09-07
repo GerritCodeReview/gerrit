@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f08d8ca4_298b7437",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-07T00:53:21Z",
+      "side": 1,
+      "message": "It looks like this sets the inner HTML of a div to the URL. Why does it do this?\n\nSetting innerHTML like this is very dangerous and should not be done.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -567,7 +567,7 @@ public class ChangeInserter implements InsertChangeOp {
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,
-              projectCache.checkedGet(ctx.getProject()).getProject(),
+              ctx.getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

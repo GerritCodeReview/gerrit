@@ -834,7 +834,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(ctl.getChange().getOwner())) {
       ins =
           patchSetInserterFactory
-              .create(ctl, nextPatchSetId(ctl), commit)
+              .create(ctl.getNotes(), nextPatchSetId(ctl), commit)
               .setValidate(false)
               .setFireRevisionCreated(false)
               .setNotify(NotifyHandling.NONE);

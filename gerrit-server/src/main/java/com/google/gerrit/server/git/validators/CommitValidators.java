@@ -375,7 +375,7 @@ public class CommitValidators {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
-          ProjectConfig cfg = new ProjectConfig(receiveEvent.project.getNameKey());
+          ProjectConfig cfg = new ProjectConfig(receiveEvent.project);
           cfg.load(rw, receiveEvent.command.getNewId());
           if (!cfg.getValidationErrors().isEmpty()) {
             addError("Invalid project configuration:", messages);
@@ -391,7 +391,7 @@ public class CommitValidators {
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "
-                  + receiveEvent.project.getName(),
+                  + receiveEvent.project,
               e);
           throw new CommitValidationException("invalid project configuration", messages);
         }
@@ -680,7 +680,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (allUsers.equals(receiveEvent.project.getNameKey())
+      if (allUsers.equals(receiveEvent.project)
           && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
         try {
           List<ConsistencyProblemInfo> problems =
@@ -720,7 +720,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+      if (!allUsers.equals(receiveEvent.project)) {
         return Collections.emptyList();
       }
 

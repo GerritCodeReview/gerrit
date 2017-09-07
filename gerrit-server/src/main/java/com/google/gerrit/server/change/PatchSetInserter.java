@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -44,6 +43,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -70,7 +70,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private static final Logger log = LoggerFactory.getLogger(PatchSetInserter.class);
 
   public interface Factory {
-    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId, ObjectId commitId);
+    PatchSetInserter create(ChangeNotes notes, PatchSet.Id psId, ObjectId commitId);
   }
 
   // Injected fields.
@@ -88,9 +88,9 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final PatchSet.Id psId;
   private final ObjectId commitId;
   // Read prior to running the batch update, so must only be used during
-  // updateRepo; updateChange and later must use the control from the
+  // updateRepo; updateChange and later must use the notes from the
   // ChangeContext.
-  private final ChangeControl origCtl;
+  private final ChangeNotes origNotes;
 
   // Fields exposed as setters.
   private String message;
@@ -123,7 +123,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
       RevisionCreated revisionCreated,
-      @Assisted ChangeControl ctl,
+      @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
     this.permissionBackend = permissionBackend;
@@ -136,7 +136,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.revisionCreated = revisionCreated;
 
-    this.origCtl = ctl;
+    this.origNotes = notes;
     this.psId = psId;
     this.commitId = commitId.copy();
   }
@@ -316,7 +316,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       permissionBackend
           .user(ctx.getUser())
           .database(ctx.getDb())
-          .change(origCtl.getNotes())
+          .change(origNotes)
           .check(ChangePermission.ADD_PATCH_SET);
     }
     if (!validate) {
@@ -324,7 +324,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     PermissionBackend.ForRef perm =
-        permissionBackend.user(ctx.getUser()).ref(origCtl.getChange().getDest());
+        permissionBackend.user(ctx.getUser()).ref(origNotes.getChange().getDest());
 
     String refName = getPatchSetId().toRefName();
     try (CommitReceivedEvent event =
@@ -333,16 +333,15 @@ public class PatchSetInserter implements BatchUpdateOp {
                 ObjectId.zeroId(),
                 commitId,
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-            origCtl.getProjectControl().getProject(),
-            origCtl.getRefControl().getRefName(),
+            origNotes.getProjectName(),
+            origNotes.getChange().getDest().get(),
             ctx.getRevWalk().getObjectReader(),
             commitId,
             ctx.getIdentifiedUser())) {
       commitValidatorsFactory
           .forGerritCommits(
               perm,
-              new Branch.NameKey(
-                  origCtl.getProject().getNameKey(), origCtl.getRefControl().getRefName()),
+              origNotes.getChange().getDest(),
               ctx.getIdentifiedUser(),
               new NoSshInfo(),
               ctx.getRevWalk())

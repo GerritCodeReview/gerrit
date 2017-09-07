@@ -26,7 +26,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   static final String TYPE = "commit-received";
   public ReceiveCommand command;
-  public Project project;
+  public Project.NameKey project;
   public String refName;
   public RevWalk revWalk;
   public RevCommit commit;
@@ -38,7 +38,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
 
   public CommitReceivedEvent(
       ReceiveCommand command,
-      Project project,
+      Project.NameKey project,
       String refName,
       ObjectReader reader,
       ObjectId commitId,
@@ -56,7 +56,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return project.getNameKey();
+    return project;
   }
 
   @Override

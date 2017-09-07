@@ -2762,7 +2762,8 @@ class ReceiveCommits {
     rw.parseBody(c);
 
     try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.get(), rw.getObjectReader(), c, user)) {
+        new CommitReceivedEvent(
+            cmd, project.getNameKey(), branch.get(), rw.getObjectReader(), c, user)) {
       boolean isMerged =
           magicBranch != null
               && cmd.getRefName().equals(magicBranch.cmd.getRefName())

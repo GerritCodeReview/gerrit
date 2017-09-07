@@ -141,8 +141,7 @@ public class PutMessage
         PatchSet.Id psId = ChangeUtil.nextPatchSetId(repository, ps.getId());
         ObjectId newCommit =
             createCommit(objectInserter, patchSetCommit, sanitizedCommitMessage, ts);
-        PatchSetInserter inserter =
-            psInserterFactory.create(resource.getControl(), psId, newCommit);
+        PatchSetInserter inserter = psInserterFactory.create(resource.getNotes(), psId, newCommit);
         inserter.setMessage(
             String.format("Patch Set %s: Commit message was updated.", psId.getId()));
         inserter.setDescription("Edit commit message");

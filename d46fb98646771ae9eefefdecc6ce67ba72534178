@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84db1ab2_bbaf615e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:41:26Z",
+      "side": 1,
+      "message": "Since we now more frequently use ProjectState and access #getProject().getNameKey() I think I\u0027d be nice to add #getNameKey() to ProjectState to spare an additional call. I\u0027ll create a separate change.",
+      "range": {
+        "startLine": 105,
+        "startChar": 58,
+        "endLine": 105,
+        "endChar": 96
+      },
+      "revId": "d46fb98646771ae9eefefdecc6ce67ba72534178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

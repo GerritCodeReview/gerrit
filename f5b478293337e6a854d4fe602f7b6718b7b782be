@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4334ee8e_4263853d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c3fd462_b6bc6d67",
+      "range": {
+        "startLine": 1106,
+        "startChar": 5,
+        "endLine": 1106,
+        "endChar": 17
+      },
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c4ee78e_2528e67a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8e1f72aa_d5021c01",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6597,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c4ee78e_2528e67a",
+      "range": {
+        "startLine": 6597,
+        "startChar": 2,
+        "endLine": 6597,
+        "endChar": 14
+      },
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f3399bd_d84857b6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 4
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "b7877a6e_57fe9840",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3263,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f3399bd_d84857b6",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec7f75a1_7b91c50f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 4
@@ -76,6 +142,24 @@
       "writtenOn": "2017-09-07T13:03:11Z",
       "side": 1,
       "message": "I was a little surprised this doesn\u0027t return a boolean, which would be more natural for a Java API. Of course, this is more future-proof if PureRevertInfo eventually contains more than a single boolean field, so the question boils down to how likely do you think it will be that PureRevertInfo changes in the future.",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f9d3ee_fbbad932",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "I had it like that in the beginning. David suggested this and I was fond of keeping it future proof. One thing I could imaging we can do in the future is return a list of PS and the respective results:\n\n  {\n    is_pure_revert: false\n    details : [\n      PS1: true,\n      PS2: false,\n      PS3: false,\n    ]\n  }\nso callers know when things went wrong.\n\nOr give a more compound reason why it is not a pure revert (e.g. rebase conflict)",
+      "parentUuid": "ec7f75a1_7b91c50f",
       "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "9b6f16d8_08f710ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "I had it like that in the beginning. Changcheng said that he doesn\u0027t think there is a strong use case for this to be per-revision.\n\nFor now I agree, but I mean we can always add this back in the future. From what I heard from users (the people who requested this) this doesn\u0027t need to be per-revision ATM.\n\nIf you fee there is a strong use right now, I can add it back.",
+      "parentUuid": "110e2de1_52d12e0a",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5eef0736_b5e5db24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 4
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "86a34ff7_d2c8a5a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eef0736_b5e5db24",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960257bd_5e264916",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 4
@@ -130,6 +250,24 @@
       "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "155a19b6_7117f54f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-07T13:16:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "960257bd_5e264916",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

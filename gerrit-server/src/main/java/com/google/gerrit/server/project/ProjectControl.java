@@ -274,8 +274,7 @@ public class ProjectControl {
     if (!canPerformOnAnyRef(Permission.PUSH)
         && !canPerformOnAnyRef(Permission.CREATE_TAG)
         && !isOwner()) {
-      String pName = state.getProject().getName();
-      return new Capable("Upload denied for project '" + pName + "'");
+      return new Capable("Upload denied for project '" + state.getName() + "'");
     }
     if (state.isUseContributorAgreements()) {
       return verifyActiveContributorAgreement();

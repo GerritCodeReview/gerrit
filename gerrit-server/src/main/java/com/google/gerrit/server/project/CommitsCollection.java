@@ -101,7 +101,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
 
   /** @return true if {@code commit} is visible to the caller. */
   public boolean canRead(ProjectState state, Repository repo, RevCommit commit) {
-    Project.NameKey project = state.getProject().getNameKey();
+    Project.NameKey project = state.getNameKey();
 
     // Look for changes associated with the commit.
     try {
@@ -126,7 +126,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       log.error(
           String.format(
               "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), state.getProject().getNameKey()),
+              commit.name(), state.getNameKey()),
           e);
       return false;
     }

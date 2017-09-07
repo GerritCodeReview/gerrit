@@ -56,7 +56,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
     }
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    r.add(new ProjectPredicate(projectState.getProject().getName()));
+    r.add(new ProjectPredicate(projectState.getName()));
     try {
       ProjectResource proj = new ProjectResource(projectState.controlFor(self.get()));
       ListChildProjects children = listChildProjects.get();

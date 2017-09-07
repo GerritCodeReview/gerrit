@@ -105,7 +105,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   public ConfigInfo apply(ProjectState projectState, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
-    Project.NameKey projectName = projectState.getProject().getNameKey();
+    Project.NameKey projectName = projectState.getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
@@ -309,7 +309,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throw new BadRequestException(
           String.format(
               "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
-              parameterName, pluginName, projectState.getProject().getName()));
+              parameterName, pluginName, projectState.getName()));
     }
   }
 

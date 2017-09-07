@@ -600,8 +600,7 @@ public class SubmitRuleEvaluator {
       try {
         parentEnv = parentState.newPrologEnvironment();
       } catch (CompileException err) {
-        throw new RuleEvalException(
-            "Cannot consult rules.pl for " + parentState.getProject().getName(), err);
+        throw new RuleEvalException("Cannot consult rules.pl for " + parentState.getName(), err);
       }
 
       parentEnv.copyStoredValues(childEnv);
@@ -619,12 +618,12 @@ public class SubmitRuleEvaluator {
         throw new RuleEvalException(
             String.format(
                 "%s on change %d of %s",
-                err.getMessage(), cd.getId().get(), parentState.getProject().getName()));
+                err.getMessage(), cd.getId().get(), parentState.getName()));
       } catch (RuntimeException err) {
         throw new RuleEvalException(
             String.format(
                 "Exception calling %s on change %d of %s",
-                filterRule, cd.getId().get(), parentState.getProject().getName()),
+                filterRule, cd.getId().get(), parentState.getName()),
             err);
       } finally {
         reductionsConsumed += env.getReductions();
@@ -690,6 +689,6 @@ public class SubmitRuleEvaluator {
   }
 
   private String getProjectName() {
-    return control.getProjectControl().getProjectState().getProject().getName();
+    return control.getProjectControl().getProjectState().getName();
   }
 }

@@ -48,7 +48,6 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected Repository repo;
   protected ProjectState state;
   protected Project.NameKey projectName;
-  protected Project project;
 
   @Override
   public void start(Environment env) {
@@ -69,8 +68,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
             @Override
             public Project.NameKey getProjectName() {
-              Project project = projectControl.getProjectState().getProject();
-              return project.getNameKey();
+              return projectControl.getProjectState().getNameKey();
             }
           });
     } finally {
@@ -90,13 +88,12 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   private void service() throws IOException, PermissionBackendException, Failure {
     state = projectControl.getProjectState();
-    project = state.getProject();
-    projectName = project.getNameKey();
+    projectName = state.getProject().getNameKey();
 
     try {
       repo = repoManager.openRepository(projectName);
     } catch (RepositoryNotFoundException e) {
-      throw new Failure(1, "fatal: '" + project.getName() + "': not a git archive", e);
+      throw new Failure(1, "fatal: '" + projectName.get() + "': not a git archive", e);
     }
 
     try {

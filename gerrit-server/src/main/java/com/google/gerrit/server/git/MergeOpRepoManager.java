@@ -95,7 +95,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
 
     Project.NameKey getProjectName() {
-      return project.getProject().getNameKey();
+      return project.getNameKey();
     }
 
     public CodeReviewRevWalk getCodeReviewRevWalk() {

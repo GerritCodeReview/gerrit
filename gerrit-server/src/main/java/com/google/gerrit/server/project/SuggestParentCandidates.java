@@ -62,7 +62,7 @@ public class SuggestParentCandidates {
     for (Project.NameKey p : projectCache.all()) {
       ProjectState ps = projectCache.get(p);
       if (ps != null) {
-        Project.NameKey parent = ps.getProject().getParent();
+        Project.NameKey parent = ps.getParent();
         if (parent != null) {
           parents.add(parent);
         }

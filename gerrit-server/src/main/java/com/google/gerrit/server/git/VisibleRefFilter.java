@@ -185,7 +185,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeparately)) {
       TagMatcher tags =
           tagCache
-              .get(projectState.getProject().getNameKey())
+              .get(projectState.getNameKey())
               .matcher(
                   tagCache,
                   git,

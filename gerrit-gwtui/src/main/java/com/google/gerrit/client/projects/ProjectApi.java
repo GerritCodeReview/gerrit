@@ -62,9 +62,14 @@ public class ProjectApi {
 
   /** Create a new tag */
   public static void createTag(
-      Project.NameKey name, String ref, String revision, AsyncCallback<TagInfo> cb) {
+      Project.NameKey name,
+      String ref,
+      String revision,
+      String annotation,
+      AsyncCallback<TagInfo> cb) {
     TagInput input = TagInput.create();
     input.setRevision(revision);
+    input.setMessage(annotation);
     project(name).view("tags").id(ref).ifNoneMatch().put(input, cb);
   }
 
@@ -381,6 +386,8 @@ public class ProjectApi {
     protected TagInput() {}
 
     final native void setRevision(String r) /*-{ if(r)this.revision=r; }-*/;
+
+    final native void setMessage(String m) /*-{ if(m)this.message=m; }-*/;
   }
 
   private static class BranchInput extends JavaScriptObject {

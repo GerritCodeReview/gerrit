@@ -71,6 +71,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   private Button addTag;
   private HintTextBox nameTxtBox;
   private HintTextBox irevTxtBox;
+  private HintTextBox annotationTxtBox;
   private FlowPanel addPanel;
   private NpTextBox filterTxt;
   private Query query;
@@ -105,6 +106,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     addTag.setEnabled(true);
     nameTxtBox.setEnabled(true);
     irevTxtBox.setEnabled(true);
+    annotationTxtBox.setEnabled(true);
   }
 
   @Override
@@ -120,14 +122,11 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
 
     addPanel = new FlowPanel();
 
-    Grid addGrid = new Grid(2, 2);
+    Grid addGrid = new Grid(3, 2);
     addGrid.setStyleName(Gerrit.RESOURCES.css().addBranch());
     int texBoxLength = 50;
 
-    nameTxtBox = new HintTextBox();
-    nameTxtBox.setVisibleLength(texBoxLength);
-    nameTxtBox.setHintText(AdminConstants.I.defaultTagName());
-    nameTxtBox.addKeyPressHandler(
+    KeyPressHandler onKeyPress =
         new KeyPressHandler() {
           @Override
           public void onKeyPress(KeyPressEvent event) {
@@ -135,24 +134,28 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
               doAddNewTag();
             }
           }
-        });
+        };
+
+    nameTxtBox = new HintTextBox();
+    nameTxtBox.setVisibleLength(texBoxLength);
+    nameTxtBox.setHintText(AdminConstants.I.defaultTagName());
+    nameTxtBox.addKeyPressHandler(onKeyPress);
     addGrid.setText(0, 0, AdminConstants.I.columnTagName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
     irevTxtBox = new HintTextBox();
     irevTxtBox.setVisibleLength(texBoxLength);
     irevTxtBox.setHintText(AdminConstants.I.defaultRevisionSpec());
-    irevTxtBox.addKeyPressHandler(
-        new KeyPressHandler() {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-              doAddNewTag();
-            }
-          }
-        });
+    irevTxtBox.addKeyPressHandler(onKeyPress);
     addGrid.setText(1, 0, AdminConstants.I.revision() + ":");
     addGrid.setWidget(1, 1, irevTxtBox);
+
+    annotationTxtBox = new HintTextBox();
+    annotationTxtBox.setVisibleLength(texBoxLength);
+    annotationTxtBox.setHintText(AdminConstants.I.annotation());
+    annotationTxtBox.addKeyPressHandler(onKeyPress);
+    addGrid.setText(2, 0, AdminConstants.I.columnTagAnnotation() + ":");
+    addGrid.setWidget(2, 1, annotationTxtBox);
 
     addTag = new Button(AdminConstants.I.buttonAddTag());
     addTag.addClickHandler(
@@ -237,17 +240,24 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       return;
     }
 
+    String annotation = annotationTxtBox.getText().trim();
+    if (annotation.isEmpty()) {
+      annotation = null;
+    }
+
     addTag.setEnabled(false);
     ProjectApi.createTag(
         getProjectKey(),
         tagName,
         rev,
+        annotation,
         new GerritCallback<TagInfo>() {
           @Override
           public void onSuccess(TagInfo tag) {
             showAddedTag(tag);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
+            annotationTxtBox.setText("");
             query = new Query(match).start(start).run();
           }
 

@@ -33,6 +33,7 @@
         notify: true,
         observer: '_sectionChanged',
       },
+      groups: Object,
       labels: Object,
       editing: {
         type: Boolean,

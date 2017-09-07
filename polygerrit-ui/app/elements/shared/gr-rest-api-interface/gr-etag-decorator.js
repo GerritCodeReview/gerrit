@@ -25,6 +25,14 @@
     this._payloadCache = new Map();
   }
 
+  /**
+   * Get or upgrade fetch options to include an ETag in a request.
+   * @param {!string} url The URL being fetched.
+   * @param {Object=} opt_options Optional options object in which to include
+   *     the ETag request header. If omitted, the result will be a fresh option
+   *     set.
+   * @return {!Object}
+   */
   GrEtagDecorator.prototype.getOptions = function(url, opt_options) {
     const etag = this._etags.get(url);
     if (!etag) {
@@ -36,6 +44,16 @@
     return options;
   };
 
+  /**
+   * Handle a response to a request with ETag headers, potentially incorporating
+   * its result in the payload cache.
+   *
+   * @param {!string} url The URL of the request.
+   * @param {!Response} response The response object.
+   * @param {!string} payload The raw, unparsed JSON contained in the response
+   *     body. Note: because response.text() cannot be read twice, thi smust be
+   *     provided separately.
+   */
   GrEtagDecorator.prototype.collect = function(url, response, payload) {
     if (!response ||
         !response.ok ||
@@ -54,19 +72,19 @@
     }
   };
 
+  /**
+   * Get the cached payload for a given URL.
+   * @param {!string} url
+   * @return {string|undefined} Returns the unparsed JSON payload from the
+   *     cache.
+   */
   GrEtagDecorator.prototype.getCachedPayload = function(url) {
-    let payload = this._payloadCache.get(url);
-
-    if (typeof payload === 'object') {
-      // Note: For the sake of cache transparency, deep clone the response
-      // object so that cache hits are not equal object references. Some code
-      // expects every network response to deserialize to a fresh object.
-      payload = JSON.parse(JSON.stringify(payload));
-    }
-
-    return payload;
+    return this._payloadCache.get(url);
   };
 
+  /**
+   * Limit the cache size to MAX_CACHE_SIZE.
+   */
   GrEtagDecorator.prototype._truncateCache = function() {
     for (const url of this._etags.keys()) {
       if (this._etags.size <= MAX_CACHE_SIZE) {

@@ -140,6 +140,24 @@
       "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb071efa_734e87aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T17:26:59Z",
+      "side": 1,
+      "message": "I agree that we are ok with breaking plugins in general but in this case it is unnecessary to break them, so I am in favor of doing just a tiny bit of extra work to avoid them.\n\nApart from breaking external plugins, which we mostly just don\u0027t care about, gratuitously breaking core plugins means your series have to contain submodule changes, which are more of a pain to work with, particularly if you have several in a row. (For example, https://gerrit-review.googlesource.com/c/gerrit/+/119034 was extremely painful to develop.)",
+      "parentUuid": "48373218_adaa988b",
+      "revId": "4ea75f89082ec4e446492cfc2f7dd616bcb9187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

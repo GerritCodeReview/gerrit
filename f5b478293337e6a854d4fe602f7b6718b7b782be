@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "50557014_40692783",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-07T13:17:39Z",
+      "side": 1,
+      "message": "Yeah, we can wait till someone wants it.",
+      "parentUuid": "9b6f16d8_08f710ab",
+      "revId": "f5b478293337e6a854d4fe602f7b6718b7b782be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eef0736_b5e5db24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
         "patchSetId": 4

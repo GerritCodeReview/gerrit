@@ -34,7 +34,7 @@ public class FileResource implements RestResource {
   public static FileResource create(
       GitRepositoryManager repoManager, ProjectState projectState, ObjectId rev, String path)
       throws ResourceNotFoundException, IOException {
-    try (Repository repo = repoManager.openRepository(projectState.getProject().getNameKey());
+    try (Repository repo = repoManager.openRepository(projectState.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
       RevTree tree = rw.parseTree(rev);
       if (TreeWalk.forPath(repo, path, tree) != null) {

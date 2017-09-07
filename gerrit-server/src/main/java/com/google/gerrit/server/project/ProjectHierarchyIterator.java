@@ -44,7 +44,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     allProjectsName = all;
 
     seen = Sets.newLinkedHashSet();
-    seen.add(firstResult.getProject().getNameKey());
+    seen.add(firstResult.getNameKey());
     next = firstResult;
   }
 

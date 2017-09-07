@@ -373,12 +373,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           ProjectState parent = Iterables.getFirst(e.parents(), null);
           if (parent != null) {
             if (isParentAccessible(accessibleParents, perm, parent)) {
-              info.parent = parent.getProject().getName();
+              info.parent = parent.getName();
             } else {
-              info.parent = hiddenNames.get(parent.getProject().getName());
+              info.parent = hiddenNames.get(parent.getName());
               if (info.parent == null) {
                 info.parent = "?-" + (hiddenNames.size() + 1);
-                hiddenNames.put(parent.getProject().getName(), info.parent);
+                hiddenNames.put(parent.getName(), info.parent);
               }
             }
           }
@@ -506,8 +506,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           } else {
             log.warn(
                 String.format(
-                    "parent project %s of project %s not found",
-                    parent.get(), ps.getProject().getName()));
+                    "parent project %s of project %s not found", parent.get(), ps.getName()));
           }
         }
       }
@@ -518,7 +517,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private boolean isParentAccessible(
       Map<Project.NameKey, Boolean> checked, PermissionBackend.WithUser perm, ProjectState p)
       throws PermissionBackendException {
-    Project.NameKey name = p.getProject().getNameKey();
+    Project.NameKey name = p.getNameKey();
     Boolean b = checked.get(name);
     if (b == null) {
       try {

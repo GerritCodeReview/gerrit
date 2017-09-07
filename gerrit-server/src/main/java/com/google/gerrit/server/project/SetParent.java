@@ -77,8 +77,7 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    validateParentUpdate(
-        rsrc.getProjectState().getProject().getNameKey(), user, parentName, checkIfAdmin);
+    validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
@@ -128,11 +127,11 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
       if (Iterables.tryFind(
               parent.tree(),
               p -> {
-                return p.getProject().getNameKey().equals(project);
+                return p.getNameKey().equals(project);
               })
           .isPresent()) {
         throw new ResourceConflictException(
-            "cycle exists between " + project.get() + " and " + parent.getProject().getName());
+            "cycle exists between " + project.get() + " and " + parent.getName());
       }
     }
   }

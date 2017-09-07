@@ -315,6 +315,6 @@ public class FileContentUtil {
 
   private Repository openRepository(ProjectState project)
       throws RepositoryNotFoundException, IOException {
-    return repoManager.openRepository(project.getProject().getNameKey());
+    return repoManager.openRepository(project.getNameKey());
   }
 }

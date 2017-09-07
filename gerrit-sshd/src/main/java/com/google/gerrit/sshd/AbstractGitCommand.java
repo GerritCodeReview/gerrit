@@ -69,8 +69,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
             @Override
             public Project.NameKey getProjectName() {
-              Project project = projectControl.getProjectState().getProject();
-              return project.getNameKey();
+              return projectControl.getProjectState().getNameKey();
             }
           });
     } finally {

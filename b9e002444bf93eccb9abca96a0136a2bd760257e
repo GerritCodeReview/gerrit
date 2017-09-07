@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ec8008b_928c5d6c",
+        "filename": "Documentation/pgm-LocalUsernamesToLowerCase.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-07T14:45:54Z",
+      "side": 0,
+      "message": "Add the trailing underscore instead.\n\n _LocalUsernamesToLowerCase_\n\nThe intention is to make it render in italic.  See the other command documentation for example:\n\nhttp://gerrit-documentation.storage.googleapis.com/Documentation/2.14/pgm-SwitchSecureStore.html",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "b9e002444bf93eccb9abca96a0136a2bd760257e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

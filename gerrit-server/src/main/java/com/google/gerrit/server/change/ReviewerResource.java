@@ -118,21 +118,9 @@ public class ReviewerResource implements RestResource {
   /**
    * Get the control for the caller's user.
    *
-   * @return the control for the caller's user (as opposed to the reviewer's user as returned by
-   *     {@link #getReviewerControl()}).
+   * @return the control for the caller's user.
    */
   public ChangeControl getControl() {
     return change.getControl();
-  }
-
-  /**
-   * Get the control for the reviewer's user.
-   *
-   * @return the control for the reviewer's user (as opposed to the caller's user as returned by
-   *     {@link #getControl()}).
-   */
-  public ChangeControl getReviewerControl() {
-    checkArgument(user != null, "no user provided");
-    return change.getControl().forUser(user);
   }
 }

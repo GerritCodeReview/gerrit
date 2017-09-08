@@ -480,6 +480,11 @@ public class PushOneCommit {
       assertThat(message(refUpdate).toLowerCase()).contains(expectedMessage.toLowerCase());
     }
 
+    public void assertNotMessage(String message) {
+      RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(message(refUpdate).toLowerCase()).doesNotContain(message.toLowerCase());
+    }
+
     public String getMessage() {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       return message(refUpdate);

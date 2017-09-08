@@ -610,7 +610,9 @@ class ReceiveCommits {
                 c.change,
                 c.change.getSubject(),
                 c.change.getStatus() == Change.Status.DRAFT,
-                false));
+                false, // edit
+                c.change.isPrivate(),
+                c.change.isWorkInProgress()));
       }
       addMessage("");
     }
@@ -626,6 +628,20 @@ class ReceiveCommits {
       addMessage("");
       addMessage("Updated Changes:");
       boolean edit = magicBranch != null && magicBranch.edit;
+      Boolean isPrivate = null;
+      Boolean wip = null;
+      if (magicBranch != null) {
+        if (magicBranch.isPrivate) {
+          isPrivate = true;
+        } else if (magicBranch.removePrivate) {
+          isPrivate = false;
+        }
+        if (magicBranch.workInProgress) {
+          wip = true;
+        } else if (magicBranch.ready) {
+          wip = false;
+        }
+      }
       for (ReplaceRequest u : updated) {
         String subject;
         if (edit) {
@@ -639,20 +655,34 @@ class ReceiveCommits {
         } else {
           subject = u.info.getSubject();
         }
+        if (isPrivate == null) {
+          isPrivate = u.notes.getChange().isPrivate();
+        }
+        if (wip == null) {
+          wip = u.notes.getChange().isWorkInProgress();
+        }
         addMessage(
             formatChangeMessage(
                 canonicalWebUrl,
                 u.notes.getChange(),
                 subject,
                 u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
-                edit));
+                edit,
+                isPrivate,
+                wip));
       }
       addMessage("");
     }
   }
 
   private static String formatChangeMessage(
-      String url, Change change, String subject, boolean draft, boolean edit) {
+      String url,
+      Change change,
+      String subject,
+      boolean draft,
+      boolean edit,
+      boolean isPrivate,
+      boolean wip) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
@@ -664,6 +694,12 @@ class ReceiveCommits {
     }
     if (edit) {
       m.append(" [EDIT]");
+    }
+    if (isPrivate) {
+      m.append(" [PRIVATE]");
+    }
+    if (wip) {
+      m.append(" [WIP]");
     }
     return m.toString();
   }

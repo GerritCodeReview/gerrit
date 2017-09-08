@@ -23,8 +23,6 @@
   const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
   const DEFAULT_NUM_FILES_SHOWN = 200;
 
-  // Maximum length for patch set descriptions.
-  const PATCH_DESC_MAX_LENGTH = 500;
   const REVIEWERS_REGEX = /^(R|CC)=/gm;
   const MIN_CHECK_INTERVAL_SECS = 0;
 
@@ -135,17 +133,9 @@
         computed:
           '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
       },
-      // Caps the number of files that can be shown and have the 'show diffs' /
-      // 'hide diffs' buttons still be functional.
-      _maxFilesForBulkActions: {
-        type: Number,
-        readOnly: true,
-        value: 225,
-      },
         /** @type {?} */
       _patchRange: {
         type: Object,
-        observer: '_updateSelected',
       },
       _relatedChangesLoading: {
         type: Boolean,
@@ -174,10 +164,6 @@
       _initialLoadComplete: {
         type: Boolean,
         value: false,
-      },
-      _descriptionReadOnly: {
-        type: Boolean,
-        computed: '_computeDescriptionReadOnly(_loggedIn, _change, _account)',
       },
       _replyDisabled: {
         type: Boolean,
@@ -293,10 +279,6 @@
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
     },
 
-    _computePrefsButtonHidden(prefs, loggedIn) {
-      return !loggedIn || !prefs;
-    },
-
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
@@ -336,11 +318,6 @@
       }
 
       return false;
-    },
-
-    _handlePrefsTap(e) {
-      e.preventDefault();
-      this.$.fileList.openDiffPrefs();
     },
 
     _handleCommentSave(e) {
@@ -409,21 +386,16 @@
       this._diffDrafts = diffDrafts;
     },
 
-    _handleBasePatchChange(e) {
-      this._changePatchNum(this._selectedPatchSet, e.target.value, true);
-    },
-
-    _handlePatchChange(e) {
-      this._changePatchNum(e.target.value, this._diffAgainst, true);
-    },
-
     _handleReplyTap(e) {
       e.preventDefault();
       this._openReplyDialog();
     },
 
-    _handleDownloadTap(e) {
-      e.preventDefault();
+    _handleOpenDiffPrefs() {
+      this.$.fileList.openDiffPrefs();
+    },
+
+    _handleOpenDownloadDialog() {
       this.$.downloadOverlay.open().then(() => {
         this.$.downloadOverlay
             .setFocusStops(this.$.downloadDialog.getFocusStops());
@@ -492,10 +464,6 @@
 
     _setShownFiles(e) {
       this._shownFileCount = e.detail.length;
-    },
-
-    _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
-      return shownFileCount <= maxFilesForBulkActions;
     },
 
     _expandAllDiffs() {
@@ -666,37 +634,10 @@
           this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
-      this._updateSelected();
+      this.$.fileListHeader.updateSelected();
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
-    },
-
-    /**
-     * Change active patch to the provided patch num.
-     * @param {number|string} basePatchNum the base patch to be viewed.
-     * @param {number|string} patchNum the patch number to be viewed.
-     * @param {boolean} opt_forceParams When set to true, the resulting URL will
-     *     always include the patch range, even if the requested patchNum is
-     *     known to be the latest.
-     */
-    _changePatchNum(patchNum, basePatchNum, opt_forceParams) {
-      if (!opt_forceParams) {
-        let currentPatchNum;
-        if (this._change.current_revision) {
-          currentPatchNum =
-              this._change.revisions[this._change.current_revision]._number;
-        } else {
-          currentPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-        }
-        if (this.patchNumEquals(patchNum, currentPatchNum) &&
-            basePatchNum === 'PARENT') {
-          Gerrit.Nav.navigateToChange(this._change);
-          return;
-        }
-      }
-      Gerrit.Nav.navigateToChange(this._change, patchNum,
-          basePatchNum);
     },
 
     _computeChangeUrl(change) {
@@ -763,25 +704,6 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
-    },
-
-    /**
-     * Determines if a patch number should be disabled based on value of the
-     * basePatchNum from gr-file-list.
-     * @param {number} patchNum Patch number available in dropdown
-     * @param {number|string} basePatchNum Base patch number from file list
-     * @return {boolean}
-     */
-    _computePatchSetDisabled(patchNum, basePatchNum) {
-      if (basePatchNum === 'PARENT') { return false; }
-
-      return this.findSortedIndex(patchNum, this._sortedRevisions) <=
-          this.findSortedIndex(basePatchNum, this._sortedRevisions);
-    },
-
-    _computeBasePatchDisabled(patchNum, currentPatchNum) {
-      return this.findSortedIndex(patchNum, this._sortedRevisions) >=
-          this.findSortedIndex(currentPatchNum, this._sortedRevisions);
     },
 
     _computeLabelNames(labels) {
@@ -1163,43 +1085,6 @@
       ]);
     },
 
-    _updateSelected() {
-      this._selectedPatchSet = this._patchRange.patchNum;
-      this._diffAgainst = this._patchRange.basePatchNum;
-    },
-
-    _computePatchSetDescription(change, patchNum) {
-      const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-      return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
-
-    _computePatchSetCommentsString(allComments, patchNum) {
-      let numComments = 0;
-      let numUnresolved = 0;
-      for (const file in allComments) {
-        if (allComments.hasOwnProperty(file)) {
-          numComments += this.$.fileList.getCommentsForPath(
-              allComments, patchNum, file).length;
-          numUnresolved += this.$.fileList.computeUnresolvedNum(
-              allComments, {}, patchNum, file);
-        }
-      }
-      let commentsStr = '';
-      if (numComments > 0) {
-        commentsStr = '(' + numComments + ' comments';
-        if (numUnresolved > 0) {
-          commentsStr += ', ' + numUnresolved + ' unresolved';
-        }
-        commentsStr += ')';
-      }
-      return commentsStr;
-    },
-
-    _computeDescriptionPlaceholder(readOnly) {
-      return (readOnly ? 'No' : 'Add a') + ' patch set description';
-    },
-
     _handleDescriptionChanged(e) {
       const desc = e.detail.trim();
       const rev = this.getRevisionByPatchNum(this._change.revisions,
@@ -1232,10 +1117,6 @@
     _computeCanStartReview(loggedIn, change, account) {
       return !!(loggedIn && change.work_in_progress &&
           change.owner._account_id === account._account_id);
-    },
-
-    _computeDescriptionReadOnly(loggedIn, change, account) {
-      return !(loggedIn && (account._account_id === change.owner._account_id));
     },
 
     _computeReplyDisabled() { return false; },

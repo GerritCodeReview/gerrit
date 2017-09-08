@@ -37,6 +37,7 @@ limitations under the License.
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
+<link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
@@ -78,7 +79,7 @@ limitations under the License.
       .header-title {
         flex: 1;
         font-size: 1.2em;
-        font-weight: bold;
+        font-family: var(--font-family-bold);
       }
       .prefsButton {
         float: right;
@@ -488,120 +489,27 @@ limitations under the License.
       </section>
       <section class$="patchInfo hideOnMobileOverlay [[_computePatchInfoClass(_patchRange.patchNum,
           _allPatchSets)]]">
-        <div class="patchInfo-header">
-          <div class="patchInfo-header-wrapper">
-            <label class="patchSelectLabel" for="patchSetSelect">
-              Patch set
-            </label>
-            <gr-select
-                id="patchSetSelect"
-                bind-value="{{_selectedPatchSet}}"
-                class="patchSetSelect"
-                on-change="_handlePatchChange">
-              <select>
-                <template is="dom-repeat" items="[[_allPatchSets]]"
-                    as="patchNum">
-                  <option
-                      value$="[[patchNum.num]]"
-                      disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum, _sortedRevisions)]]">
-                    [[patchNum.num]]
-                    /
-                    [[computeLatestPatchNum(_allPatchSets)]]
-                    [[_computePatchSetCommentsString(_comments, patchNum.num)]]
-                    [[_computePatchSetDescription(_change, patchNum.num)]]
-                  </option>
-                </template>
-              </select>
-            </gr-select>
-            /
-            <gr-commit-info
-                change="[[_change]]"
-                server-config="[[_serverConfig]]"
-                commit-info="[[_commitInfo]]"></gr-commit-info>
-            <span class="latestPatchContainer">
-              /
-              <a href$="[[_computeChangeUrl(_change)]]">Go to latest patch set</a>
-            </span>
-            <span class="downloadContainer desktop">
-              /
-              <gr-button link
-                  class="download"
-                  on-tap="_handleDownloadTap">Download</gr-button>
-            </span>
-            <span class="descriptionContainer hideOnEdit">
-              /
-              <gr-editable-label
-                  id="descriptionLabel"
-                  class="descriptionLabel"
-                  value="[[_computePatchSetDescription(_change, _selectedPatchSet)]]"
-                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-                  read-only="[[_descriptionReadOnly]]"
-                  on-changed="_handleDescriptionChanged"></gr-editable-label>
-            </span>
-            <span id="diffPrefsContainer"
-                class="hideOnEdit"
-                hidden$="[[_computePrefsButtonHidden(_diffPrefs, _loggedIn)]]"
-                hidden>
-              <gr-button link
-                  class="prefsButton desktop"
-                  on-tap="_handlePrefsTap">Diff Preferences</gr-button>
-            </span>
-          </div>
-        </div>
         <div class="fileList">
-          <div class="fileList-header">
-            <div>Files</div>
-            <div class="rightControls">
-              <template is="dom-if"
-                  if="[[_fileListActionsVisible(_shownFileCount, _maxFilesForBulkActions)]]">
-                <gr-button
-                    id="expandBtn"
-                    link
-                    on-tap="_expandAllDiffs">Show diffs</gr-button>
-                <span class="separator">/</span>
-                <gr-button
-                    id="collapseBtn"
-                    link
-                    on-tap="_collapseAllDiffs">Hide diffs</gr-button>
-              </template>
-              <template is="dom-if"
-                  if="[[!_fileListActionsVisible(_shownFileCount, _maxFilesForBulkActions)]]">
-                <div class="warning">
-                  Bulk actions disabled because there are too many files.
-                </div>
-              </template>
-              <span class="separator">/</span>
-              <gr-select
-                  id="modeSelect"
-                  bind-value="{{viewState.diffMode}}">
-                <select>
-                  <option value="SIDE_BY_SIDE">Side By Side</option>
-                  <option value="UNIFIED_DIFF">Unified</option>
-                </select>
-              </gr-select>
-              <span class="separator">/</span>
-              <label>
-                Diff against
-                <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
-                    class="patchSetSelect" on-change="_handleBasePatchChange">
-                  <select>
-                    <option value="PARENT">Base</option>
-                    <template
-                        is="dom-repeat"
-                        items="[[_allPatchSets]]"
-                        as="patchNum">
-                      <option
-                          disabled$="[[_computeBasePatchDisabled(patchNum.num, _patchRange.patchNum, _sortedRevisions)]]"
-                          value$="[[patchNum.num]]">
-                        [[patchNum.num]]
-                        [[patchNum.desc]]
-                      </option>
-                    </template>
-                  </select>
-                </gr-select>
-              </label>
-            </div>
-          </div>
+          <gr-file-list-header
+              id="fileListHeader"
+              account="[[_account]]"
+              all-patch-sets="[[_allPatchSets]]"
+              change="[[_change]]"
+              comments="[[_comments]]"
+              commit-info="[[_commitInfo]]"
+              change-url="[[_computeChangeUrl(_change)]]"
+              logged-in="[[_loggedIn]]"
+              server-config="[[_serverConfig]]"
+              shown-file-count="[[_shownFileCount]]"
+              diff-prefs="[[_diffPrefs]]"
+              diff-view-mode="{{viewState.diffMode}}"
+              patch-range="{{_patchRange}}"
+              revisions="[[_sortedRevisions]]"
+              on-open-diff-prefs="_handleOpenDiffPrefs"
+              on-open-download-dialog="_handleOpenDownloadDialog"
+              on-expand-diffs="_expandAllDiffs"
+              on-collapse-diffs="_collapseAllDiffs">
+          </gr-file-list-header>
           <gr-file-list id="fileList"
               diff-prefs="{{_diffPrefs}}"
               change="[[_change]]"

@@ -198,6 +198,10 @@
     return new GrAttributeHelper(element);
   };
 
+  Plugin.prototype.eventHelper = function(element) {
+    return new GrEventHelper(element);
+  };
+
   Plugin.prototype.popup = function(moduleName) {
     if (typeof moduleName !== 'string') {
       throw new Error('deprecated, use deprecated.popup');

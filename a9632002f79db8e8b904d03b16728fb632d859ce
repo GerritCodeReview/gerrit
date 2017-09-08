@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "360ce8f6_3b60e9d9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-08T15:15:05Z",
+      "side": 1,
+      "message": "Object keys always become strings, so if the key is all digits, I think our style is to write it without quotes.",
+      "parentUuid": "4e3b131d_f2d4cffd",
+      "range": {
+        "startLine": 163,
+        "startChar": 9,
+        "endLine": 163,
+        "endChar": 15
+      },
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "948f6b75_cd45928e",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
         "patchSetId": 1

@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="../gr-repo-commands/gr-repo-commands.html">
 <link rel="import" href="../gr-repo-detail-list/gr-repo-detail-list.html">
 <link rel="import" href="../gr-repo-list/gr-repo-list.html">
+<link rel="import" href="../gr-repo-others/gr-repo-others.html">
 
 <dom-module id="gr-admin-view">
   <template>
@@ -130,6 +131,12 @@ limitations under the License.
         <gr-repo-access
             path="[[path]]"
             repo="[[params.repo]]"></gr-repo-access>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showRepoOthers]]" restamp="true">
+      <main>
+        <gr-repo-others
+            repo="[[params.repo]]"></gr-repo-others>
       </main>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

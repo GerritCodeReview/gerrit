@@ -256,7 +256,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void output() throws Exception {
-    String url = canonicalWebUrl.get();
+    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
     PushOneCommit.Result r1 = pushTo("refs/for/master");
     Change.Id id1 = r1.getChange().getId();

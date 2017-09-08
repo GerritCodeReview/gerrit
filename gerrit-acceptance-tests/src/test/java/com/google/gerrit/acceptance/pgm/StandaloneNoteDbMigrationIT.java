@@ -61,6 +61,7 @@ import org.junit.Test;
 @NoHttpd
 public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
   private StoredConfig gerritConfig;
+  private StoredConfig noteDbConfig;
 
   private Project.NameKey project;
   private Change.Id changeId;
@@ -69,10 +70,14 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+    // Unlike in the running server, for tests, we don't stack notedb.config on gerrit.config.
+    noteDbConfig = new FileBasedConfig(sitePaths.notedb_config.toFile(), FS.detect());
   }
 
   @Test
   public void rebuildOneChangeTrialMode() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoAutoMigrateConfig(noteDbConfig);
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     setUpOneChange();
 
@@ -101,6 +106,8 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
 
   @Test
   public void migrateOneChange() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoAutoMigrateConfig(noteDbConfig);
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     setUpOneChange();
 
@@ -128,6 +135,8 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
         assertThat(db.changes().get(id2)).isNull();
       }
     }
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertAutoMigrateConfig(noteDbConfig, false);
   }
 
   @Test
@@ -151,6 +160,40 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
 
   @Test
   public void onlineMigrationViaDaemon() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoAutoMigrateConfig(noteDbConfig);
+
+    testOnlineMigration(u -> startServer(u.module(), "--migrate-to-note-db", "true"));
+
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertAutoMigrateConfig(noteDbConfig, false);
+  }
+
+  @Test
+  public void onlineMigrationViaConfig() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoAutoMigrateConfig(noteDbConfig);
+
+    testOnlineMigration(
+        u -> {
+          gerritConfig.setBoolean("noteDb", "changes", "autoMigrate", true);
+          gerritConfig.save();
+          return startServer(u.module());
+        });
+
+    // Auto-migration is turned off in notedb.config, which takes precedence, but is still on in
+    // gerrit.config. This means Puppet can continue overwriting gerrit.config without turning
+    // auto-migration back on.
+    assertAutoMigrateConfig(gerritConfig, true);
+    assertAutoMigrateConfig(noteDbConfig, false);
+  }
+
+  @FunctionalInterface
+  private interface StartServerWithMigration {
+    ServerContext start(IndexUpgradeController u) throws Exception;
+  }
+
+  private void testOnlineMigration(StartServerWithMigration start) throws Exception {
     assertNotesMigrationState(NotesMigrationState.REVIEW_DB);
     int prevVersion = ChangeSchemaDefinitions.INSTANCE.getPrevious().getVersion();
     int currVersion = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
@@ -166,7 +209,7 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     setOnlineUpgradeConfig(true);
 
     IndexUpgradeController u = new IndexUpgradeController(1);
-    try (ServerContext ctx = startServer(u.module(), "--migrate-to-note-db", "true")) {
+    try (ServerContext ctx = start.start(u)) {
       ChangeIndexCollection indexes = ctx.getInjector().getInstance(ChangeIndexCollection.class);
       assertThat(indexes.getSearchIndex().getSchema().getVersion()).isEqualTo(prevVersion);
 
@@ -199,14 +242,25 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
   }
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
-    gerritConfig.load();
-    assertThat(NotesMigrationState.forConfig(gerritConfig)).hasValue(expected);
+    noteDbConfig.load();
+    assertThat(NotesMigrationState.forConfig(noteDbConfig)).hasValue(expected);
   }
 
   private ReviewDb openUnderlyingReviewDb(ServerContext ctx) throws Exception {
     return ctx.getInjector()
         .getInstance(Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}, ReviewDbFactory.class))
         .open();
+  }
+
+  private static void assertNoAutoMigrateConfig(StoredConfig cfg) throws Exception {
+    cfg.load();
+    assertThat(cfg.getString("noteDb", "changes", "autoMigrate")).isNull();
+  }
+
+  private static void assertAutoMigrateConfig(StoredConfig cfg, boolean expected) throws Exception {
+    cfg.load();
+    assertThat(cfg.getString("noteDb", "changes", "autoMigrate")).isNotNull();
+    assertThat(cfg.getBoolean("noteDb", "changes", "autoMigrate", false)).isEqualTo(expected);
   }
 
   private void setOnlineUpgradeConfig(boolean enable) throws Exception {

@@ -53,6 +53,7 @@ public final class SitePaths {
 
   public final Path gerrit_config;
   public final Path secure_config;
+  public final Path notedb_config;
 
   public final Path ssl_keystore;
   public final Path ssh_key;
@@ -100,6 +101,7 @@ public final class SitePaths {
 
     gerrit_config = etc_dir.resolve("gerrit.config");
     secure_config = etc_dir.resolve("secure.config");
+    notedb_config = etc_dir.resolve("notedb.config");
 
     ssl_keystore = etc_dir.resolve("keystore");
     ssh_key = etc_dir.resolve("ssh_host_key");

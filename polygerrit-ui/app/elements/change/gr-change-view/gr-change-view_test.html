@@ -33,6 +33,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-change-view tests', () => {
     let element;
@@ -46,6 +52,7 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({test: 'config'}); },
         getAccount() { return Promise.resolve(null); },
+        _fetchSharedCacheURL() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
@@ -665,6 +672,132 @@ limitations under the License.
       element.fire('change', {}, {node: selectEl.nativeSelect});
     });
 
+    test('diffMode defaults to side by side without preferences', done => {
+      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+          Promise.resolve({}));
+      // No user prefs or diff view mode set.
+
+      element._setDiffViewMode().then(() => {
+        assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+        done();
+      });
+    });
+
+    test('diffMode defaults to preference when not already set', done => {
+      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+          Promise.resolve({default_diff_view: 'UNIFIED'}));
+
+      element._setDiffViewMode().then(() => {
+        assert.equal(element.viewState.diffMode, 'UNIFIED');
+        done();
+      });
+    });
+
+    test('existing diffMode overrides preference', done => {
+      element.viewState.diffMode = 'SIDE_BY_SIDE';
+      sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+          Promise.resolve({default_diff_view: 'UNIFIED'}));
+      element._setDiffViewMode().then(() => {
+        assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+        done();
+      });
+    });
+
+    test('diff against dropdown', done => {
+      element._changeNum = '42';
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+          rev3: {_number: 'edit', basePatchNum: 2},
+          rev4: {_number: 3},
+        },
+        status: 'NEW',
+        labels: {},
+      };
+
+      flush(() => {
+        const selectEl = element.$.patchChange;
+        assert.equal(selectEl.nativeSelect.value, 'PARENT');
+        assert.isTrue(element.$$('#patchChange option[value="3"]')
+            .hasAttribute('disabled'));
+        selectEl.addEventListener('change', () => {
+          assert.equal(selectEl.nativeSelect.value, 'edit');
+          assert(navigateToChangeStub.lastCall.calledWithExactly(
+              element._change, '3', 'edit'),
+              'Should navigate to /c/42/edit..3');
+          done();
+        });
+        selectEl.nativeSelect.value = 'edit';
+        element.fire('change', {}, {node: selectEl.nativeSelect});
+      });
+    });
+
+    test('expandAllDiffs called when expand button clicked', () => {
+      element._shownFileCount = 1;
+      flushAsynchronousOperations();
+      sandbox.stub(element.$.fileList, 'expandAllDiffs');
+      MockInteractions.tap(Polymer.dom(element.root).querySelector(
+          '#expandBtn'));
+      assert.isTrue(element.$.fileList.expandAllDiffs.called);
+    });
+
+    test('collapseAllDiffs called when expand button clicked', () => {
+      element._shownFileCount = 1;
+      flushAsynchronousOperations();
+      sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+      MockInteractions.tap(Polymer.dom(element.root).querySelector(
+          '#collapseBtn'));
+      assert.isTrue(element.$.fileList.collapseAllDiffs.called);
+    });
+
+    test('show/hide diffs disabled for large amounts of files', done => {
+      const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
+      element._files = [];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element._shownFileCount = 1;
+      flush(() => {
+        assert.isTrue(computeSpy.lastCall.returnValue);
+        _.times(element._maxFilesForBulkActions + 1, () => {
+          element._shownFileCount = element._shownFileCount + 1;
+        });
+        assert.isFalse(computeSpy.lastCall.returnValue);
+        done();
+      });
+    });
+
+    test('diff mode selector initializes from preferences', () => {
+      let resolvePrefs;
+      const prefsPromise = new Promise(resolve => {
+        resolvePrefs = resolve;
+      });
+      sandbox.stub(element.$.restAPI, 'getPreferences').returns(prefsPromise);
+
+      // Attach a new gr-change-view so we can intercept the preferences fetch.
+      const view = document.createElement('gr-change-view');
+      const select = view.$.modeSelect;
+      fixture('blank').appendChild(view);
+      flushAsynchronousOperations();
+
+      // At this point the diff mode doesn't yet have the user's preference.
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
+
+      // Receive the overriding preference.
+      resolvePrefs({default_diff_view: 'UNIFIED'});
+      flushAsynchronousOperations();
+      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
+      document.getElementById('blank').restore();
+    });
+
     test('don’t reload entire page when patchRange changes', () => {
       const reloadStub = sandbox.stub(element, '_reload',
           () => { return Promise.resolve(); });
@@ -726,13 +859,13 @@ limitations under the License.
         labels: {},
       };
 
-      element._changePatchNum(13);
+      element._changePatchNum(13, 2);
       assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element._change, 13, '2'));
+          element._change, 13, 2));
 
       element._patchRange.basePatchNum = 'PARENT';
 
-      element._changePatchNum(3);
+      element._changePatchNum(3, 'PARENT');
       assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
           element._change, 3, 'PARENT'));
     });

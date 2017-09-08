@@ -159,22 +159,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       checkArgument(project != null, "project is required");
       Change change = readOneReviewDbChange(db, changeId);
 
-      if (change == null && args.migration.readChanges()) {
-        // Change isn't in ReviewDb, but its primary storage might be in NoteDb.
-        // Prepopulate the change exists with proper noteDbState field.
-        change = newNoteDbOnlyChange(project, changeId);
-      } else {
-        checkNotNull(change, "change %s not found in ReviewDb", changeId);
-        checkArgument(
-            change.getProject().equals(project),
-            "passed project %s when creating ChangeNotes for %s, but actual project is %s",
-            project,
-            changeId,
-            change.getProject());
+      if (change == null) {
+        if (args.migration.readChanges()) {
+          return newNoteDbOnlyChange(project, changeId);
+        }
+        throw new NoSuchChangeException(changeId);
       }
-
-      // TODO: Throw NoSuchChangeException when the change is not found in the
-      // database
+      checkArgument(
+          change.getProject().equals(project),
+          "passed project %s when creating ChangeNotes for %s, but actual project is %s",
+          project,
+          changeId,
+          change.getProject());
       return change;
     }
 

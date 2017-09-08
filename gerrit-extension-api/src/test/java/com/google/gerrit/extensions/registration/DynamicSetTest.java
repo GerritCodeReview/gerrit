@@ -34,7 +34,7 @@ public class DynamicSetTest {
   @Test
   public void containsWithEmpty() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
-    assertThat(ds.contains(2)).isFalse(); //See above comment about ds.contains
+    assertThat(ds.contains(2)).isFalse(); // See above comment about ds.contains
   }
 
   @Test
@@ -42,7 +42,7 @@ public class DynamicSetTest {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
-    assertThat(ds.contains(2)).isTrue(); //See above comment about ds.contains
+    assertThat(ds.contains(2)).isTrue(); // See above comment about ds.contains
   }
 
   @Test
@@ -50,7 +50,7 @@ public class DynamicSetTest {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
-    assertThat(ds.contains(3)).isFalse(); //See above comment about ds.contains
+    assertThat(ds.contains(3)).isFalse(); // See above comment about ds.contains
   }
 
   @Test
@@ -59,7 +59,7 @@ public class DynamicSetTest {
     ds.add(2);
     ds.add(4);
 
-    assertThat(ds.contains(4)).isTrue(); //See above comment about ds.contains
+    assertThat(ds.contains(4)).isTrue(); // See above comment about ds.contains
   }
 
   @Test
@@ -68,7 +68,7 @@ public class DynamicSetTest {
     ds.add(2);
     ds.add(4);
 
-    assertThat(ds.contains(3)).isFalse(); //See above comment about ds.contains
+    assertThat(ds.contains(3)).isFalse(); // See above comment about ds.contains
   }
 
   @Test
@@ -82,12 +82,12 @@ public class DynamicSetTest {
     ds.add(6);
 
     // At first, 4 is contained.
-    assertThat(ds.contains(4)).isTrue(); //See above comment about ds.contains
+    assertThat(ds.contains(4)).isTrue(); // See above comment about ds.contains
 
     // Then we remove 4.
     handle.remove();
 
     // And now 4 should no longer be contained.
-    assertThat(ds.contains(4)).isFalse(); //See above comment about ds.contains
+    assertThat(ds.contains(4)).isFalse(); // See above comment about ds.contains
   }
 }

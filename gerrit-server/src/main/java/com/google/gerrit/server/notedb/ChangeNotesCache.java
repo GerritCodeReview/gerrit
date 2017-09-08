@@ -268,7 +268,7 @@ public class ChangeNotesCache {
           + P
           + ident // author
           + P
-          + ident //realAuthor
+          + ident // realAuthor
           + P
           + T // writtenOn
           + 2 // side

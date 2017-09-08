@@ -34,6 +34,6 @@ public interface RepoOnlyOp {
    *
    * @param ctx context
    */
-  //TODO(dborowitz): Support async operations?
+  // TODO(dborowitz): Support async operations?
   default void postUpdate(Context ctx) throws Exception {}
 }

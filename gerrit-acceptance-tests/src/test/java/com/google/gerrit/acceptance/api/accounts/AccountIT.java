@@ -1699,7 +1699,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertGroups(
         admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));
 
-    //TODO: update when test user is fixed to be included in "Anonymous Users" and
+    // TODO: update when test user is fixed to be included in "Anonymous Users" and
     //      "Registered Users" groups
     assertGroups(user.username, ImmutableList.of());
 

@@ -15,7 +15,7 @@
   'use strict';
 
   // Possible static search options for auto complete.
-  const SEARCH_OPERATORS = [
+  const ops = [
     'added:',
     'age:',
     'age:1week', // Give an example age
@@ -82,6 +82,8 @@
     'topic:',
     'tr:',
   ];
+
+  const SEARCH_OPERATORS = ops.concat(ops.map(op => `-${op}`));
 
   const SELF_EXPRESSION = 'self';
   const ME_EXPRESSION = 'me';

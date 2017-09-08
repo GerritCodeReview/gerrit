@@ -131,11 +131,12 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
 
       // Any differences between claimed original's parent and the rebase result indicate that the
       // claimedRevert is not a pure revert but made content changes
-      DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream());
-      df.setRepository(repo);
-      List<DiffEntry> entries =
-          df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
-      return new PureRevertInfo(entries.isEmpty());
+      try (DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream())) {
+        df.setRepository(repo);
+        List<DiffEntry> entries =
+            df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
+        return new PureRevertInfo(entries.isEmpty());
+      }
     }
   }
 

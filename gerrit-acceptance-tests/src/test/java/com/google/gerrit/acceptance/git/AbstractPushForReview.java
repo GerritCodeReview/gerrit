@@ -486,26 +486,31 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Push a private change.
     PushOneCommit.Result r = pushTo("refs/for/master%private");
     r.assertOkStatus();
+    r.assertMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isTrue();
 
     // Pushing a new patch set without --private doesn't remove the privacy flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
+    r.assertMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isTrue();
 
     // Remove the privacy flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master%remove-private");
     r.assertOkStatus();
+    r.assertNotMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isFalse();
 
     // Normal push: privacy flag is not added back.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
+    r.assertNotMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isFalse();
 
     // Make the change private again.
     r = pushTo("refs/for/master%private");
     r.assertOkStatus();
+    r.assertMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isTrue();
 
     // Can't use --private and --remove-private together.
@@ -518,6 +523,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Push a work-in-progress change.
     PushOneCommit.Result r = pushTo("refs/for/master%wip");
     r.assertOkStatus();
+    r.assertMessage(" [WiP]");
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 

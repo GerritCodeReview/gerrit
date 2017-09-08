@@ -17,10 +17,11 @@ package com.google.gerrit.server.git.strategy;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.ApprovalsUtil.convertPatchSet;
+import static com.google.gerrit.server.ApprovalsUtil.newApproval;
+import static com.google.gerrit.server.ApprovalsUtil.zero;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -33,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -362,8 +362,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       byKey.put(psa.getKey(), psa);
     }
 
-    submitter =
-        ApprovalsUtil.newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
+    submitter = newApproval(psId, ctx.getUser(), LabelId.legacySubmit(), 1, ctx.getWhen());
     byKey.put(submitter.getKey(), submitter);
 
     // Flatten out existing approvals for this patch set based upon the current
@@ -402,31 +401,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
       }
     }
-  }
-
-  private static Function<PatchSetApproval, PatchSetApproval> convertPatchSet(
-      final PatchSet.Id psId) {
-    return psa -> {
-      if (psa.getPatchSetId().equals(psId)) {
-        return psa;
-      }
-      return new PatchSetApproval(psId, psa);
-    };
-  }
-
-  private static Iterable<PatchSetApproval> convertPatchSet(
-      Iterable<PatchSetApproval> approvals, PatchSet.Id psId) {
-    return Iterables.transform(approvals, convertPatchSet(psId));
-  }
-
-  private static Iterable<PatchSetApproval> zero(Iterable<PatchSetApproval> approvals) {
-    return Iterables.transform(
-        approvals,
-        a -> {
-          PatchSetApproval copy = new PatchSetApproval(a.getPatchSetId(), a);
-          copy.setValue((short) 0);
-          return copy;
-        });
   }
 
   private String getByAccountName() {

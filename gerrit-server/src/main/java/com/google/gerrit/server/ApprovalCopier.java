@@ -210,19 +210,7 @@ public class ApprovalCopier {
     }
   }
 
-  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) throws OrmException {
-    Collection<PatchSet> patchSets = cd.patchSets();
-    TreeMap<Integer, PatchSet> result = new TreeMap<>();
-    for (PatchSet ps : patchSets) {
-      result.put(ps.getId().get(), ps);
-    }
-    return result;
-  }
-
-  private static boolean canCopy(
-      ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
-    int n = psa.getKey().getParentKey().get();
-    checkArgument(n != psId.get());
+  public static boolean canCopy(ProjectState project, PatchSetApproval psa, ChangeKind kind) {
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
@@ -246,6 +234,22 @@ public class ApprovalCopier {
       default:
         return false;
     }
+  }
+
+  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) throws OrmException {
+    Collection<PatchSet> patchSets = cd.patchSets();
+    TreeMap<Integer, PatchSet> result = new TreeMap<>();
+    for (PatchSet ps : patchSets) {
+      result.put(ps.getId().get(), ps);
+    }
+    return result;
+  }
+
+  private static boolean canCopy(
+      ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
+    int n = psa.getKey().getParentKey().get();
+    checkArgument(n != psId.get());
+    return canCopy(project, psa, kind);
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {

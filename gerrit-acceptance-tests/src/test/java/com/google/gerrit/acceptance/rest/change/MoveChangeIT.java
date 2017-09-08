@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -225,6 +226,82 @@ public class MoveChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
+  }
+
+  @Test
+  public void moveChangeUpdatesPatchSetApprovals() throws Exception {
+    createBranch(new Branch.NameKey(project, "foo"));
+
+    String verifiedLabel = "Verified";
+    String codeReviewLabel = "Code-Review";
+    configLabel(verifiedLabel, "MaxWithBlock");
+
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg, Permission.forLabel(verifiedLabel), -1, +1, registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(codeReviewLabel), -2, +2, registered, "refs/heads/master");
+    Util.allow(cfg, Permission.forLabel(codeReviewLabel), -1, +1, registered, "refs/heads/foo");
+    saveProjectConfig(cfg);
+
+    String changeId = createChange().getChangeId();
+
+    // Verify user's permitted range on the 'master' branch.
+    setApiUser(user);
+    assertPermitted(gApi.changes().id(changeId).get(), verifiedLabel, -1, 0, 1);
+    assertPermitted(gApi.changes().id(changeId).get(), codeReviewLabel, -2, -1, 0, 1, 2);
+
+    // user adds -2 for 'Code-Review' on patch set 1.
+    gApi.changes().id(changeId).current().review(ReviewInput.reject());
+
+    amendChange(changeId);
+
+    // user adds -1 for 'Verified' on patch set 2.
+    ReviewInput input = new ReviewInput();
+    input.label(verifiedLabel, -1);
+    gApi.changes().id(changeId).current().review(input);
+
+    // admin adds -2 for 'Code-Review' and +1 for 'Verified' on patch set 2.
+    setApiUser(admin);
+    input.label(codeReviewLabel, -2);
+    input.label(verifiedLabel, 1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly(codeReviewLabel, verifiedLabel);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) 1);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().keySet())
+        .containsExactly(codeReviewLabel, verifiedLabel);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) -2, (short) -1);
+
+    // Move the change to the 'foo' branch.
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
+    move(changeId, "foo");
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("foo");
+
+    // Verify admin's and user's current permitted range on the 'foo' branch.
+    assertPermitted(gApi.changes().id(changeId).get(), verifiedLabel, -1, 0, 1);
+    assertPermitted(gApi.changes().id(changeId).get(), codeReviewLabel, -2, -1, 0, 1, 2);
+    setApiUser(user);
+    assertPermitted(gApi.changes().id(changeId).get(), verifiedLabel, -1, 0, 1);
+    assertPermitted(gApi.changes().id(changeId).get(), codeReviewLabel, -1, 0, 1);
+
+    // 'Verified' label will be removed since it's not sticky. user's -2 for 'Code-Review' will be
+    // removed because it doesn't have permission for -2 on the 'foo' branch.
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) 0);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) 0, (short) 0);
+
+    // Move the change back to 'master', no vote should be removed.
+    setApiUser(admin);
+    move(changeId, "master");
+    assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -2, (short) 0);
+    assertThat(gApi.changes().id(changeId).current().reviewer(user.email).votes().values())
+        .containsExactly((short) 0, (short) 0);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

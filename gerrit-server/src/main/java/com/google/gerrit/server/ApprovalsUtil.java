@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -454,5 +455,30 @@ public class ApprovalsUtil {
       }
     }
     return msgs.toString();
+  }
+
+  public static Function<PatchSetApproval, PatchSetApproval> convertPatchSet(
+      final PatchSet.Id psId) {
+    return psa -> {
+      if (psa.getPatchSetId().equals(psId)) {
+        return psa;
+      }
+      return new PatchSetApproval(psId, psa);
+    };
+  }
+
+  public static Iterable<PatchSetApproval> convertPatchSet(
+      Iterable<PatchSetApproval> approvals, PatchSet.Id psId) {
+    return Iterables.transform(approvals, convertPatchSet(psId));
+  }
+
+  public static Iterable<PatchSetApproval> zero(Iterable<PatchSetApproval> approvals) {
+    return Iterables.transform(
+        approvals,
+        a -> {
+          PatchSetApproval copy = new PatchSetApproval(a.getPatchSetId(), a);
+          copy.setValue((short) 0);
+          return copy;
+        });
   }
 }

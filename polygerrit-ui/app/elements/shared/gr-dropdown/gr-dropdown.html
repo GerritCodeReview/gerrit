@@ -13,15 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-dropdown">
   <template>
@@ -150,13 +151,15 @@ limitations under the License.
                   on-tap="_handleItemTap"
                   hidden$="[[link.url]]"
                   tabindex="-1">[[link.name]]</span>
-              <a
-                  class="itemAction"
-                  href$="[[_computeLinkURL(link)]]"
-                  rel$="[[_computeLinkRel(link)]]"
-                  target$="[[link.target]]"
-                  hidden$="[[!link.url]]"
-                  tabindex="-1">[[link.name]]</a>
+              <gr-endpoint-decorator name="action-[[link.id]]">
+                <a
+                    class="itemAction"
+                    href$="[[_computeLinkURL(link)]]"
+                    rel$="[[_computeLinkRel(link)]]"
+                    target$="[[link.target]]"
+                    hidden$="[[!link.url]]"
+                    tabindex="-1">[[link.name]]</a>
+              </gr-endpoint-decorator>
             </li>
           </template>
         </ul>

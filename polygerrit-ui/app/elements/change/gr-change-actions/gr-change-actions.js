@@ -591,6 +591,7 @@
     },
 
     _handleActionTap(e) {
+      console.log('action tap');
       e.preventDefault();
       const el = Polymer.dom(e).rootTarget;
       const key = el.getAttribute('data-action-key');

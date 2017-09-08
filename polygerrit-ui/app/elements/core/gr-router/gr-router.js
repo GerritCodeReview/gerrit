@@ -91,7 +91,7 @@
     QUERY_OFFSET: '/q/:query,:offset',
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    CHNAGE_LEGACY: /^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
     // Matches
@@ -112,6 +112,10 @@
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
+
+    // Matches /c/<changeNum>/ /<URL tail>
+    // Catches improperly encoded URLs (context: Issue 7100)
+    IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/\ \/(.+)$/,
   };
 
   /**
@@ -514,7 +518,7 @@
 
       this._mapRoute(RoutePattern.CHANGE_OR_DIFF, '_handleChangeOrDiffRoute');
 
-      this._mapRoute(RoutePattern.CHNAGE_LEGACY, '_handleChangeLegacyRoute');
+      this._mapRoute(RoutePattern.CHANGE_LEGACY, '_handleChangeLegacyRoute');
 
       this._mapRoute(RoutePattern.DIFF_LEGACY, '_handleDiffLegacyRoute');
 
@@ -528,6 +532,9 @@
       this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
 
       this._mapRoute(RoutePattern.LOG_IN_OR_OUT, '_handlePassThroughRoute');
+
+      this._mapRoute(RoutePattern.IMPROPERLY_ENCODED_PLUS,
+          '_handleImproperlyEncodedPlusRoute');
 
       // Note: this route should appear last so it only catches URLs unmatched
       // by other patterns.
@@ -955,6 +962,15 @@
      */
     _handlePassThroughRoute() {
       location.reload();
+    },
+
+
+    /**
+     * URL may sometimes have /+/ encoded to / /.
+     * Context: Issue 6888, Issue 7100
+     */
+    _handleImproperlyEncodedPlusRoute(ctx) {
+      this._redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}`);
     },
 
     /**

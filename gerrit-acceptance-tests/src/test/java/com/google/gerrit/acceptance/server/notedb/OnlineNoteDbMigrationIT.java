@@ -87,12 +87,13 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   @Inject private Sequences sequences;
 
-  private FileBasedConfig gerritConfig;
+  private FileBasedConfig noteDbConfig;
 
   @Before
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
-    gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+    // Unlike in the running server, for tests, we don't stack notedb.config on gerrit.config.
+    noteDbConfig = new FileBasedConfig(sitePaths.notedb_config.toFile(), FS.detect());
     assertNotesMigrationState(REVIEW_DB);
   }
 
@@ -367,27 +368,27 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
     migrate(b -> b.setStopAtStateForTesting(WRITE));
     assertNotesMigrationState(WRITE);
-    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isFalse();
+    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isFalse();
 
     migrate(b -> b.setAutoMigrate(true).setStopAtStateForTesting(READ_WRITE_NO_SEQUENCE));
     assertNotesMigrationState(READ_WRITE_NO_SEQUENCE);
-    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isTrue();
+    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isTrue();
 
     migrate(b -> b);
     assertNotesMigrationState(NOTE_DB);
-    assertThat(NoteDbMigrator.getAutoMigrate(gerritConfig)).isFalse();
+    assertThat(NoteDbMigrator.getAutoMigrate(noteDbConfig)).isFalse();
   }
 
   private void assertNotesMigrationState(NotesMigrationState expected) throws Exception {
     assertThat(NotesMigrationState.forNotesMigration(notesMigration)).hasValue(expected);
-    gerritConfig.load();
-    assertThat(NotesMigrationState.forConfig(gerritConfig)).hasValue(expected);
+    noteDbConfig.load();
+    assertThat(NotesMigrationState.forConfig(noteDbConfig)).hasValue(expected);
   }
 
   private void setNotesMigrationState(NotesMigrationState state) throws Exception {
-    gerritConfig.load();
-    state.setConfigValues(gerritConfig);
-    gerritConfig.save();
+    noteDbConfig.load();
+    state.setConfigValues(noteDbConfig);
+    noteDbConfig.save();
     notesMigration.setFrom(state);
   }
 

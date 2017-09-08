@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3698d2f3_95e4c170",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-08T16:56:03Z",
+      "side": 1,
+      "message": "Here and in other places:\nstring isn\u0027t nullable, so no ! is needed.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "cdba38895c5e8fb89639135b3fb719e20e10c9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a90d3a2c_0acd79b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-08T16:56:03Z",
+      "side": 1,
+      "message": "this should be either {?Object\u003d} or {!Object\u003d} for cases nulls can be passed in or not, respectively.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "cdba38895c5e8fb89639135b3fb719e20e10c9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f62eedfa_5a31e6a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-08T16:56:03Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 54,
+        "startChar": 67,
+        "endLine": 54,
+        "endChar": 70
+      },
+      "revId": "cdba38895c5e8fb89639135b3fb719e20e10c9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "184c5540_4c720d4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-08T16:56:03Z",
+      "side": 1,
+      "message": "How about using {parsed, raw} as keys instead? rawResponse sounds a repetition, and object isn\u0027t 100% correct, since response can be non-object (string, number)",
+      "revId": "cdba38895c5e8fb89639135b3fb719e20e10c9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5d6e79a_d244f8ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-08T16:56:03Z",
+      "side": 1,
+      "message": "This one is getting a bit too large.",
+      "revId": "cdba38895c5e8fb89639135b3fb719e20e10c9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

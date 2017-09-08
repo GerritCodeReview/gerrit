@@ -21,6 +21,7 @@ import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,17 +33,23 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -55,7 +62,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import java.util.Collections;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -71,6 +78,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final ApprovalsUtil approvalsUtil;
+  private final ProjectCache projectCache;
 
   @Inject
   Move(
@@ -81,7 +91,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       Provider<InternalChangeQuery> queryProvider,
       ChangeMessagesUtil cmUtil,
       RetryHelper retryHelper,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      IdentifiedUser.GenericFactory userFactory,
+      ApprovalsUtil approvalsUtil,
+      ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -90,6 +103,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.queryProvider = queryProvider;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
+    this.userFactory = userFactory;
+    this.approvalsUtil = approvalsUtil;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -138,7 +154,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
+        throws OrmException, ResourceConflictException, IOException, PermissionBackendException {
       change = ctx.getChange();
       if (change.getStatus() != Status.NEW) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
@@ -192,6 +208,8 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       update.setBranch(newDestKey.get());
       change.setDest(newDestKey);
 
+      updateApprovals(ctx, update, patchSetId);
+
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Change destination moved from ");
       msgBuf.append(changePrevDest.getShortName());
@@ -206,6 +224,75 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
       return true;
+    }
+
+    private void updateApprovals(ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId)
+        throws OrmException, IOException, PermissionBackendException {
+      for (PatchSetApproval psa :
+          approvalsUtil.byPatchSet(
+              ctx.getDb(),
+              ctx.getNotes(),
+              ctx.getUser(),
+              psId,
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig())) {
+        ProjectState projectState = projectCache.checkedGet(ctx.getProject());
+        LabelType lt =
+            projectState.getLabelTypes(ctx.getNotes(), ctx.getUser()).byLabel(psa.getLabelId());
+        if (lt == null) {
+          continue; // Label no longer exists; leave it alone.
+        }
+
+        // Squash on the new branch based on the 'originalValue'.
+        if (applyRightFloor(ctx.getNotes(), lt, psa)) {
+          ctx.getDb().patchSetApprovals().upsert(Collections.singleton(psa));
+          update.squashApprovalFor(
+              psa.getAccountId(), psa.getLabel(), psa.getValue(), psa.getOriginalValue());
+        }
+      }
+    }
+
+    private boolean applyRightFloor(ChangeNotes notes, LabelType lt, PatchSetApproval a)
+        throws PermissionBackendException {
+      PermissionBackend.ForChange forChange =
+          permissionBackend
+              .user(userFactory.create(a.getAccountId()))
+              .database(dbProvider.get())
+              .change(notes);
+      // Check if the user is allowed to vote on the label at all
+      try {
+        forChange.check(new LabelPermission(lt.getName()));
+      } catch (AuthException e) {
+        a.setValue((short) 0);
+        return true;
+      }
+      // Squash vote to nearest allowed value
+      try {
+        // Check if the reviewer holds permission for the originalValue on the new branch.
+        forChange.check(new LabelPermission.WithValue(lt.getName(), a.getOriginalValue()));
+        // Restore the originalValue.
+        if (a.getValue() != a.getOriginalValue()) {
+          a.setValue(a.getOriginalValue());
+          return true;
+        }
+        return false;
+      } catch (AuthException e) {
+        // Squash *original* value, so that moving a change from A->B->A returns all votes to their
+        // original values.
+        a.setValue(nearest(forChange.testLabels(Collections.singleton(lt)), a.getOriginalValue()));
+        return true;
+      }
+    }
+
+    private short nearest(Iterable<LabelPermission.WithValue> possible, short wanted) {
+      short s = 0;
+      for (LabelPermission.WithValue v : possible) {
+        if ((wanted < 0 && v.value() < 0 && wanted <= v.value() && v.value() < s)
+            || (wanted > 0 && v.value() > 0 && wanted >= v.value() && v.value() > s)) {
+          s = v.value();
+        }
+      }
+      return s;
     }
   }
 

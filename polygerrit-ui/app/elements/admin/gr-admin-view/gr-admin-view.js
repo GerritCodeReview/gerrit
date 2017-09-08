@@ -79,6 +79,7 @@
       _showRepoDetailList: Boolean,
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
+      _showRepoOthers: Boolean,
       _showPluginList: Boolean,
     },
 
@@ -149,6 +150,12 @@
               view: Gerrit.Nav.View.REPO,
               detailType: Gerrit.Nav.RepoDetailView.DASHBOARDS,
               url: Gerrit.Nav.getUrlForRepoDashboards(this._repoName),
+            },
+            {
+              name: 'Others',
+              view: Gerrit.Nav.View.REPO,
+              detailType: Gerrit.Nav.RepoDetailView.OTHERS,
+              url: Gerrit.Nav.getUrlForRepoOthers(this._repoName),
             }],
           };
         }
@@ -197,6 +204,8 @@
       const isRepoView = params.view === Gerrit.Nav.View.REPO;
       const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
 
+      this.set('_showAdminOther', params.adminView === 'gr-admin-other');
+
       this.set('_showGroup', isGroupView && !params.detail);
       this.set('_showGroupAuditLog', isGroupView &&
           params.detail === Gerrit.Nav.GroupDetailView.LOG);
@@ -219,6 +228,8 @@
 
       this.set('_showRepoList', isAdminView &&
           params.adminView === 'gr-repo-list');
+
+      this.set('_showRepoOthers', params.adminView === 'gr-repo-others');
 
       this.set('_showPluginList', isAdminView &&
           params.adminView === 'gr-plugin-list');

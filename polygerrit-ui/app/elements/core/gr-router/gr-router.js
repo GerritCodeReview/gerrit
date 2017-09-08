@@ -75,6 +75,8 @@
     REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
     REPO_LIST_FILTER_OFFSET: '/admin/repos/q/filter::filter,:offset',
 
+    REPO_OTHER: /^\/admin\/repos\/(.+),others/,
+
     // Matches /admin/repos/<repo>,branches[,<offset>].
     BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
     BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
@@ -749,6 +751,8 @@
       this._mapRoute(RoutePattern.LEGACY_CREATE_PROJECT,
           '_handleCreateProjectRoute', true);
 
+      this._mapRoute(RoutePattern.REPO_OTHER, '_handleRepoOthersRoute', true);
+
       this._mapRoute(RoutePattern.REPO_LIST_OFFSET,
           '_handleRepoListOffsetRoute');
 
@@ -1047,6 +1051,15 @@
       } else {
         this._redirect('/admin/repos');
       }
+    },
+
+    _handleRepoOthersRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-repo-others',
+        detailType: 'others',
+        repo: data.params[0],
+      });
     },
 
     _handleRepoCommandsRoute(data) {

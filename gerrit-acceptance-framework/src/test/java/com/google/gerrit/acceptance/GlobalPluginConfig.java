@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Repeatable(GlobalPluginConfigs.class)
 public @interface GlobalPluginConfig {
-  /** Name of the plugin, corresponding to {@code $site/etc/@pluginName.comfig}. */
+  /** Name of the plugin, corresponding to {@code $site/etc/@pluginName.config}. */
   String pluginName();
 
   /** @see GerritConfig#name() */

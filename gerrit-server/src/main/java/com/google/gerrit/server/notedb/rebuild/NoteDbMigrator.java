@@ -320,6 +320,7 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   private final FileBasedConfig gerritConfig;
+  private final FileBasedConfig noteDbConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjects;
@@ -374,7 +375,6 @@ public class NoteDbMigrator implements AutoCloseable {
     this.userFactory = userFactory;
     this.globalNotesMigration = globalNotesMigration;
     this.primaryStorageMigrator = primaryStorageMigrator;
-    this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
@@ -384,6 +384,11 @@ public class NoteDbMigrator implements AutoCloseable {
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
+
+    // Stack notedb.config over gerrit.config, in the same way as GerritServerConfigProvider.
+    this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+    this.noteDbConfig =
+        new FileBasedConfig(gerritConfig, sitePaths.notedb_config.toFile(), FS.detect());
   }
 
   @Override
@@ -564,9 +569,10 @@ public class NoteDbMigrator implements AutoCloseable {
   private Optional<NotesMigrationState> loadState() throws IOException {
     try {
       gerritConfig.load();
-      return NotesMigrationState.forConfig(gerritConfig);
+      noteDbConfig.load();
+      return NotesMigrationState.forConfig(noteDbConfig);
     } catch (ConfigInvalidException | IllegalArgumentException e) {
-      log.warn("error reading NoteDb migration options from " + gerritConfig.getFile(), e);
+      log.warn("error reading NoteDb migration options from " + noteDbConfig.getFile(), e);
       return Optional.empty();
     }
   }
@@ -597,9 +603,9 @@ public class NoteDbMigrator implements AutoCloseable {
                     ? "But found this state:\n" + actualOldState.get().toText()
                     : "But could not parse the current state"));
       }
-      newState.setConfigValues(gerritConfig);
-      additionalUpdates.accept(gerritConfig);
-      gerritConfig.save();
+      newState.setConfigValues(noteDbConfig);
+      additionalUpdates.accept(noteDbConfig);
+      noteDbConfig.save();
 
       // Only set in-memory state once it's been persisted to storage.
       globalNotesMigration.setFrom(newState);
@@ -610,9 +616,9 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private void enableAutoMigrate() throws MigrationException {
     try {
-      gerritConfig.load();
-      setAutoMigrate(gerritConfig, true);
-      gerritConfig.save();
+      noteDbConfig.load();
+      setAutoMigrate(noteDbConfig, true);
+      noteDbConfig.save();
     } catch (ConfigInvalidException | IOException e) {
       throw new MigrationException("Error saving auto-migration config", e);
     }

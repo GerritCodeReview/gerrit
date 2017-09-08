@@ -232,6 +232,17 @@
     },
 
     /**
+     * @param {!string} id
+     * @param {!string} commit_message
+     */
+    createDashboard(name, id, commit_message) {
+      const encodeName = encodeURIComponent(name);
+      return this.send('PUT', `/projects/${encodeName}/dashboards/default`,
+          {id, commit_message})
+          .then(response => this.getResponseObject(response));
+    },
+
+    /**
      * @param {?Object} config
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx

@@ -48,7 +48,6 @@ import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -246,8 +245,7 @@ public class CherryPickChange {
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            ChangeControl destCtl = projectControl.controlFor(destChanges.get(0).notes());
-            result = insertPatchSet(bu, git, destCtl, cherryPickCommit, input);
+            result = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit, input);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -321,15 +319,15 @@ public class CherryPickChange {
   private Change.Id insertPatchSet(
       BatchUpdate bu,
       Repository git,
-      ChangeControl destCtl,
+      ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
       CherryPickInput input)
       throws IOException, OrmException, BadRequestException, ConfigInvalidException {
-    Change destChange = destCtl.getChange();
+    Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSet current = psUtil.current(dbProvider.get(), destCtl.getNotes());
+    PatchSet current = psUtil.current(dbProvider.get(), destNotes);
 
-    PatchSetInserter inserter = patchSetInserterFactory.create(destCtl, psId, cherryPickCommit);
+    PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter
         .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
         .setDraft(current.isDraft())

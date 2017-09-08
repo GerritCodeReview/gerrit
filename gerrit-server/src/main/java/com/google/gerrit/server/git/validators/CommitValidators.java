@@ -391,7 +391,7 @@ public class CommitValidators {
                   + " tried to push an invalid project configuration "
                   + receiveEvent.command.getNewId().name()
                   + " for project "
-                  + receiveEvent.project.getName(),
+                  + receiveEvent.project,
               e);
           throw new CommitValidationException("invalid project configuration", messages);
         }

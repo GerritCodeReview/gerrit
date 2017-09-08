@@ -515,7 +515,7 @@ public class ConsistencyChecker {
           (psIdToDelete != null && reuseOldPsId)
               ? psIdToDelete
               : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
-      PatchSetInserter inserter = patchSetInserterFactory.create(ctl, psId, commit);
+      PatchSetInserter inserter = patchSetInserterFactory.create(ctl.getNotes(), psId, commit);
       try (BatchUpdate bu = newBatchUpdate()) {
         bu.setRepository(repo, rw, oi);
 

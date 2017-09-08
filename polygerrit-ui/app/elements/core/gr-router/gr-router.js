@@ -960,7 +960,17 @@
     /**
      * Catchall route for when no other route is matched.
      */
-    _handleDefaultRoute() {
+    _handleDefaultRoute(data) {
+      data = data || {canonicalPath: ''};
+      // URL may sometimes need to be manually decoded, especially when '+' is
+      // encoded. In addition, path decodes all '+' to ' ' -- this breaks
+      // project-based URLs.
+      // Context: Issue 6888, Issue 7100
+      const decodedPath = decodeURI(data.canonicalPath).replace('/ /', '/+/');
+      if (decodedPath !== data.canonicalPath) {
+        this._redirect(decodedPath);
+        return;
+      }
       // Note: the app's 404 display is tightly-coupled with catching 404
       // network responses, so we simulate a 404 response status to display it.
       // TODO: Decouple the gr-app error view from network responses.

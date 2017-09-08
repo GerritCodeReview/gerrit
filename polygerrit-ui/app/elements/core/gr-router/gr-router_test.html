@@ -433,6 +433,24 @@ limitations under the License.
             404);
       });
 
+      test('_handleDefaultRoute with encoded URL', () => {
+        // Regression test for Issue 7100.
+        element._handleDefaultRoute({canonicalPath: '/c/test/%20/42'});
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(
+            redirectStub.lastCall.args[0],
+            '/c/test/+/42');
+
+        // Ensure redirect is not called when the URL is not improperly encoded.
+        element._app = {dispatchEvent: sinon.stub()};
+        element._handleDefaultRoute({canonicalPath: '/an/invalid/url'});
+        assert.isTrue(redirectStub.calledOnce);
+        assert.isTrue(element._app.dispatchEvent.calledOnce);
+        assert.equal(
+            element._app.dispatchEvent.lastCall.args[0].detail.response.status,
+            404);
+      });
+
       suite('_handleRootRoute', () => {
         test('closes for closeAfterLogin', () => {
           const data = {querystring: 'closeAfterLogin', canonicalPath: ''};
@@ -547,10 +565,10 @@ limitations under the License.
       });
 
       suite('_handleDashboardRoute', () => {
-        let reidrectToLoginStub;
+        let redirectToLoginStub;
 
         setup(() => {
-          reidrectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+          redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
         });
 
         test('no user specified', () => {
@@ -558,7 +576,7 @@ limitations under the License.
           const result = element._handleDashboardRoute(data);
           assert.isNotOk(result);
           assert.isFalse(setParamsStub.called);
-          assert.isFalse(reidrectToLoginStub.called);
+          assert.isFalse(redirectToLoginStub.called);
           assert.isTrue(redirectStub.called);
           assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
         });
@@ -570,7 +588,7 @@ limitations under the License.
           const result = element._handleDashboardRoute(data);
           assert.isOk(result);
           return result.then(() => {
-            assert.isTrue(reidrectToLoginStub.calledOnce);
+            assert.isTrue(redirectToLoginStub.calledOnce);
             assert.isFalse(redirectStub.called);
             assert.isFalse(setParamsStub.called);
           });
@@ -583,7 +601,7 @@ limitations under the License.
           const result = element._handleDashboardRoute(data);
           assert.isOk(result);
           return result.then(() => {
-            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(setParamsStub.called);
             assert.isTrue(redirectStub.calledOnce);
             assert.equal(redirectStub.lastCall.args[0], '/q/owner:foo');
@@ -597,7 +615,7 @@ limitations under the License.
           const result = element._handleDashboardRoute(data);
           assert.isOk(result);
           return result.then(() => {
-            assert.isFalse(reidrectToLoginStub.called);
+            assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
             assert.deepEqual(setParamsStub.lastCall.args[0], {

@@ -158,6 +158,14 @@ limitations under the License.
             'editing deleted');
       });
 
+      test('_computeGroupName', () => {
+        const groups = {
+          abc123: {name: 'test group'},
+          bcd234: {},
+        };
+        assert.equal(element._computeGroupName(groups, 'abc123'), 'test group');
+        assert.equal(element._computeGroupName(groups, 'bcd234'), 'bcd234');
+      });
 
       test('_computeGroupsWithRules', () => {
         const rules = [

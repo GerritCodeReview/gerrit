@@ -16,7 +16,9 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-access-behavior/gr-access-behavior.html">
+<link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -64,6 +66,9 @@ limitations under the License.
       #deletedContainer.deleted {
         display: block;
       }
+      .groupPath {
+        color: #666;
+      }
     </style>
     <style include="gr-form-styles"></style>
     <div id="mainContainer"
@@ -100,7 +105,9 @@ limitations under the License.
             </select>
           </gr-select>
         </template>
-        <span>[[group]]</span>
+        <a class="groupPath" href$="[[_computeGroupPath(groupId)]]">
+          [[groupName]]
+        </a>
         <gr-select
             id="force"
             class$="[[_computeForceClass(permission)]]"
@@ -126,7 +133,7 @@ limitations under the License.
     <div
         id="deletedContainer"
         class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">
-      [[group]] was deleted
+      [[groupName]] was deleted
       <gr-button id="undoRemoveBtn" on-tap="_handleUndoRemove">Undo</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

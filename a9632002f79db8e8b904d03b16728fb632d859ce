@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49a97ea8_7047fb0b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-08T00:52:44Z",
+      "side": 1,
+      "message": "Sure, done. I\u0027m not sure if this will ever happen but it seems like a reasonable fallback if it does.",
+      "parentUuid": "4a889cec_0d205524",
+      "range": {
+        "startLine": 135,
+        "startChar": 33,
+        "endLine": 135,
+        "endChar": 35
+      },
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b83b9f4_cbb784d0",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-07T21:42:54Z",
       "side": 1,
       "message": "Remove quotes please.",
+      "range": {
+        "startLine": 163,
+        "startChar": 9,
+        "endLine": 163,
+        "endChar": 15
+      },
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e3b131d_f2d4cffd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-08T00:52:44Z",
+      "side": 1,
+      "message": "this is actually meant to be a string, because they are typically UUIDs, but I will add characters to make it more clear.",
+      "parentUuid": "9b83b9f4_cbb784d0",
       "range": {
         "startLine": 163,
         "startChar": 9,
@@ -62,6 +110,24 @@
       "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "328c6d9b_9fbef727",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-08T00:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "948f6b75_cd45928e",
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,8 @@
     // Matches /admin/create-project
     LEGACY_CREATE_GROUP: /^\/admin\/create-group\/?$/,
 
+    OTHER: /^\/admin\/projects\/(.+),other/,
+
     // Matches /admin/projects/<project>
     PROJECT: /^\/admin\/projects\/([^,]+)$/,
 
@@ -477,6 +479,8 @@
       this._mapRoute(RoutePattern.LEGACY_CREATE_PROJECT,
           '_handleCreateProjectRoute', true);
 
+      this._mapRoute(RoutePattern.OTHER, '_handleAdminOtherRoute', true);
+
       this._mapRoute(RoutePattern.PROJECT_LIST_OFFSET,
           '_handleProjectListOffsetRoute');
 
@@ -654,6 +658,15 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group',
         groupId: data.params[0],
+      });
+    },
+
+    _handleAdminOtherRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-other',
+        detailType: 'other',
+        project: data.params[0],
       });
     },
 

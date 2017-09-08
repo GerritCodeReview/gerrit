@@ -232,6 +232,16 @@
     },
 
     /**
+     * @param {!string} query
+     * @param {!string} commitMessage
+     */
+    createDashboard(query, commitMessage) {
+      return this.send('POST', '/changes/',
+          {id: query, commit_message: commitMessage})
+          .then(response => this.getResponseObject(response));
+    },
+
+    /**
      * @param {?Object} config
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx

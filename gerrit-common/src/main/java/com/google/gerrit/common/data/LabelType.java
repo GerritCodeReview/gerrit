@@ -262,11 +262,11 @@ public class LabelType {
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {
-    return maxNegative == ca.getValue();
+    return maxNegative == ca.getOriginalValue(); // use the original value from the reviewer.
   }
 
   public boolean isMaxPositive(PatchSetApproval ca) {
-    return maxPositive == ca.getValue();
+    return maxPositive == ca.getOriginalValue(); // use the original value from the reviewer.
   }
 
   public LabelValue getValue(short value) {

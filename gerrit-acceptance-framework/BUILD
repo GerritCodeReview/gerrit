@@ -1,6 +1,11 @@
 load("//tools/bzl:java.bzl", "java_library2")
 
-SRCS = glob(["src/test/java/com/google/gerrit/acceptance/*.java"])
+TEST_SRCS = ["src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java"]
+
+SRCS = glob(
+    ["src/test/java/com/google/gerrit/acceptance/*.java"],
+    exclude = TEST_SRCS,
+)
 
 PROVIDED = [
     "//gerrit-common:annotations",
@@ -76,4 +81,16 @@ java_doc(
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",
     visibility = ["//visibility:public"],
+)
+
+junit_tests(
+    name = "acceptance-framework-tests",
+    srcs = TEST_SRCS,
+    deps = [
+        ":lib",
+        "//gerrit-server:testutil",
+        "//lib:guava",
+        "//lib:truth",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+    ],
 )

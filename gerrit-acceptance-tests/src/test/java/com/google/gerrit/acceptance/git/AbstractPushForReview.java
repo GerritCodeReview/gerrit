@@ -295,6 +295,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + " "
             + newMsg
             + "\n");
+
+    testRepo.reset(initialHead);
+    newMsg = r2.getCommit().getShortMessage() + " v3";
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .message(newMsg)
+        .insertChangeId(r2.getChangeId().substring(1))
+        .create();
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, "another commit", "b.txt", "bbb");
+    push.setPushOptions(ImmutableList.of("private", "wip"));
+    PushOneCommit.Result r3 = push.to("refs/for/master");
+    r3.assertOkStatus();
+    r3.assertChange(Change.Status.NEW, null);
+    r3.assertMessage(" [PRIVATE]");
+    r3.assertMessage(" [WIP]");
   }
 
   @Test

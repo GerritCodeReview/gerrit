@@ -665,6 +665,12 @@ class ReceiveCommits {
     if (edit) {
       m.append(" [EDIT]");
     }
+    if (change.isPrivate()) {
+      m.append(" [PRIVATE]");
+    }
+    if (change.isWorkInProgress()) {
+      m.append(" [WIP]");
+    }
     return m.toString();
   }
 

@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.config;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -41,19 +46,50 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
+    FileBasedConfig baseConfig = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
+    FileBasedConfig noteDbConfigOverBaseConfig =
+        new FileBasedConfig(baseConfig, site.notedb_config.toFile(), FS.DETECTED);
 
-    if (!cfg.getFile().exists()) {
+    if (!baseConfig.getFile().exists()) {
       log.info("No " + site.gerrit_config.toAbsolutePath() + "; assuming defaults");
-      return new GerritConfig(cfg, secureStore);
+    } else {
+      load(baseConfig);
+    }
+    if (noteDbConfigOverBaseConfig.getFile().exists()) {
+      load(noteDbConfigOverBaseConfig);
+      checkNoteDbConfig(noteDbConfigOverBaseConfig);
     }
 
+    return new GerritConfig(noteDbConfigOverBaseConfig, baseConfig, secureStore);
+  }
+
+  private static void load(FileBasedConfig cfg) {
     try {
       cfg.load();
     } catch (IOException | ConfigInvalidException e) {
       throw new ProvisionException(e.getMessage(), e);
     }
+  }
 
-    return new GerritConfig(cfg, secureStore);
+  private static void checkNoteDbConfig(FileBasedConfig noteDbConfig) {
+    List<String> bad = new ArrayList<>();
+    for (String section : noteDbConfig.getSections()) {
+      if (section.equals(NotesMigration.SECTION_NOTE_DB)) {
+        continue;
+      }
+      for (String subsection : noteDbConfig.getSubsections(section)) {
+        noteDbConfig
+            .getNames(section, subsection, false)
+            .forEach(n -> bad.add(section + "." + subsection + "." + n));
+      }
+      noteDbConfig.getNames(section, false).forEach(n -> bad.add(section + "." + n));
+    }
+    if (!bad.isEmpty()) {
+      throw new ProvisionException(
+          "Non-NoteDb config options not allowed in "
+              + noteDbConfig.getFile()
+              + ":\n"
+              + bad.stream().collect(joining("\n")));
+    }
   }
 }

@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -65,6 +66,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @Sandboxed
+@UseLocalDisk
 @NoHttpd
 public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   private static final String INVALID_STATE = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";

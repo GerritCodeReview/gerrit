@@ -42,6 +42,10 @@ public class ChangeUtil {
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::getPatchSetId));
 
+  public static String formatChangeUrl(String canonicalWebUrl, Change change) {
+    return canonicalWebUrl + "#/c/" + change.getProject().get() + "/+/" + change.getChangeId();
+  }
+
   /** @return a new unique identifier for change message entities. */
   public static String messageUuid() {
     byte[] buf = new byte[8];

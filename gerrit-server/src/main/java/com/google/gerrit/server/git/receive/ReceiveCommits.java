@@ -605,7 +605,7 @@ class ReceiveCommits {
       addMessage("New Changes:");
       for (CreateRequest c : created) {
         addMessage(
-            formatChangeUrl(
+            formatChangeMessage(
                 canonicalWebUrl,
                 c.change,
                 c.change.getSubject(),
@@ -640,7 +640,7 @@ class ReceiveCommits {
           subject = u.info.getSubject();
         }
         addMessage(
-            formatChangeUrl(
+            formatChangeMessage(
                 canonicalWebUrl,
                 u.notes.getChange(),
                 subject,
@@ -651,13 +651,12 @@ class ReceiveCommits {
     }
   }
 
-  private static String formatChangeUrl(
+  private static String formatChangeMessage(
       String url, Change change, String subject, boolean draft, boolean edit) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
-            .append(url)
-            .append(change.getChangeId())
+            .append(ChangeUtil.formatChangeUrl(url, change))
             .append(" ")
             .append(ChangeUtil.cropSubject(subject));
     if (draft) {

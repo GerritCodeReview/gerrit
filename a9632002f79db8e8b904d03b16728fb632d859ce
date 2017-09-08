@@ -152,6 +152,24 @@
       "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f15595e9_017f1325",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-08T20:26:13Z",
+      "side": 1,
+      "message": "Oddly when I removed, it seems to fail. adding back (in proper place).\n\nhttps://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/7328/consoleText\n\nit makes sense, as _inheritsFrom.name is referenced in the template.",
+      "parentUuid": "328c6d9b_9fbef727",
+      "revId": "a9632002f79db8e8b904d03b16728fb632d859ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

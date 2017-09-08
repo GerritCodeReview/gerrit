@@ -60,16 +60,17 @@
         type: Boolean,
         value: false,
       },
+      _showAdminOther: Boolean,
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
       _showGroupMembers: Boolean,
+      _showProjectAccess: Boolean,
       _showProjectCommands: Boolean,
       _showProjectMain: Boolean,
-      _showProjectList: Boolean,
       _showProjectDetailList: Boolean,
+      _showProjectList: Boolean,
       _showPluginList: Boolean,
-      _showProjectAccess: Boolean,
     },
 
     behaviors: [
@@ -137,6 +138,13 @@
               view: 'gr-project-detail-list',
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},tags`,
+            },
+            {
+              name: 'Other',
+              detailType: 'other',
+              view: 'gr-admin-other',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},other`,
             }],
           };
         }
@@ -183,19 +191,20 @@
     },
 
     _paramsChanged(params) {
+      this.set('_showAdminOther', params.adminView === 'gr-admin-other');
       this.set('_showGroup', params.adminView === 'gr-group');
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showGroupMembers', params.adminView === 'gr-group-members');
+      this.set('_showProjectAccess', params.adminView === 'gr-project-access');
       this.set('_showProjectCommands',
           params.adminView === 'gr-project-commands');
-      this.set('_showProjectMain', params.adminView === 'gr-project');
-      this.set('_showProjectList',
-          params.adminView === 'gr-project-list');
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
+      this.set('_showProjectList',
+          params.adminView === 'gr-project-list');
+      this.set('_showProjectMain', params.adminView === 'gr-project');
       this.set('_showPluginList', params.adminView === 'gr-plugin-list');
-      this.set('_showProjectAccess', params.adminView === 'gr-project-access');
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.

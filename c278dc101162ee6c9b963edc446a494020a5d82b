@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcc2ee3_14b8808c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-08T21:13:45Z",
+      "side": 1,
+      "message": "Oops, good catch. :P\n\nWhen we move to polymer 2.0, this sort of thing will be easier to lint.",
+      "revId": "c278dc101162ee6c9b963edc446a494020a5d82b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

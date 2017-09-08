@@ -137,6 +137,13 @@
               view: 'gr-project-detail-list',
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},tags`,
+            },
+            {
+              name: 'Other',
+              detailType: 'other',
+              view: 'gr-admin-other',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},other`,
             }],
           };
         }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c04b85cd_20999186",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "I am not sure where to put this in the developer doc and if it would be relevant. Gerrit is moving out of database so I am not sure that adding documentation about database indices is good idea.",
+      "parentUuid": "38e16a7a_fdc22ccc",
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "042e8884_42581021",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f0615fb9_706fd079",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "I prefer to keep it as is.",
+      "parentUuid": "042e8884_42581021",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c8f41d_8db1df4c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-09-07T20:22:59Z",
       "side": 1,
       "message": "implicitly",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bea9e9fb_63d2d35b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c8f41d_8db1df4c",
       "range": {
         "startLine": 12,
         "startChar": 47,
@@ -111,6 +177,54 @@
     },
     {
       "key": {
+        "uuid": "031111c9_e94eb01e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a14e423a_0604b137",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb98ed50_4d73670e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f89f1291_285f5fa7",
+      "range": {
+        "startLine": 13,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2508de73_7dd4f650",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "70de731f_666814d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2508de73_7dd4f650",
+      "range": {
+        "startLine": 16,
+        "startChar": 71,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7afdfe12_fe7936b3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -145,6 +283,30 @@
       "writtenOn": "2017-09-07T20:22:59Z",
       "side": 1,
       "message": "(suggestion)\n\n This is when having the right indices are getting important.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "836487f6_225cc069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7afdfe12_fe7936b3",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -203,6 +365,54 @@
     },
     {
       "key": {
+        "uuid": "dc46ec6a_4e432008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "This is just to prove that having an index improve this query a lot. Changing the order of the implicit index results in the same performance improvement.",
+      "parentUuid": "27e1aaaf_911d7802",
+      "range": {
+        "startLine": 19,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc2a964b_259878b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d098052e_62e41e16",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2207911f_a1bec2a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -214,6 +424,30 @@
       "writtenOn": "2017-09-07T20:22:59Z",
       "side": 1,
       "message": "remove these words, as it\u0027s already a single index.",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95e75f26_c7a3fa05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2207911f_a1bec2a9",
       "range": {
         "startLine": 23,
         "startChar": 27,
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "730ee636_c3244d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00597265_1ad10f5b",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92845b8a_6960ccb3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -260,6 +518,30 @@
       "writtenOn": "2017-09-07T20:22:59Z",
       "side": 1,
       "message": "Will it be documented somewhere *how* to do this?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 63
+      },
+      "revId": "12ed517c432ff3e7aca437a84a275c0f431f54b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fdc0c9_cd4622b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-08T11:42:42Z",
+      "side": 1,
+      "message": "I was thinking of adding this info in the release notes of the version this commit will be included in.",
+      "parentUuid": "92845b8a_6960ccb3",
       "range": {
         "startLine": 45,
         "startChar": 0,

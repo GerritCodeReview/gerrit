@@ -1,0 +1,71 @@
+#!/bin/sh
+#
+# Copyright (C) 2017 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# --------------------------------------------------------
+# Install this hook script as post-receive hook in replicated repositories
+# hosted by a gerrit slave which are updated by push replication from the
+# corresponding gerrit master.
+#
+# In the gerrit master configure the replication plugin to push changes from
+# refs/changes/ to refs/tmp/changes/
+#   remote.NAME.push = +refs/changes/*:refs/tmp/changes/*
+#   remote.NAME.push = +refs/heads/*:refs/heads/*
+#   remote.NAME.push = +refs/tags/*:refs/tags/*
+#
+# In the replicated repository in the gerrit slave configure
+#    receive.hideRefs = refs/changes/
+# in order to not advertise the big number of refs in this namespace when
+# the gerrit master's replication plugin is pushing a change
+#
+# Whenever a ref under refs/tmp/changes/ is arriving this hook will move it
+# to refs/changes/. This helps to avoid the large overhead of advertising all
+# refs/changes/ refs to the gerrit master when it replicates changes to the
+# slave..
+#
+# Make this script executable then link to it in the repository you would like
+# to use it in.
+#   cd /path/to/your/repository.git
+#   ln -sf <shared hooks directory>/post-receive-move-tmp-refs hooks/post-receive
+
+readonly NULL_SHA1=0000000000000000000000000000000000000000
+
+# move new changes arriving under refs/tmp/changes/ to refs/changes/
+mv_tmp_refs()
+{
+	oldrev=$1
+	newrev=$2
+	refname=$3
+	case "$refname","$oldrev" in
+		refs/tmp/changes/*,$NULL_SHA1)
+			short_refname=${refname##refs/tmp/changes/}
+			$(git update-ref refs/changes/$short_refname $newrev $NULL_SHA1 2>/dev/null)
+			$(git update-ref -d $refname $newrev 2>/dev/null)
+			echo "moved \"$refname\" to \"refs/changes/$short_refname\""
+			;;
+	esac
+	return 0
+}
+
+GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+if [ -z "$GIT_DIR" ]; then
+	echo >&2 "fatal: post-receive: GIT_DIR not set"
+	exit 1
+fi
+
+# read ref updates passed to post-receive hook
+while read oldrev newrev refname
+do
+	mv_tmp_refs $oldrev $newrev $refname || continue
+done

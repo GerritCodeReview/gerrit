@@ -69,6 +69,7 @@
         type: Boolean,
         value: false,
       },
+      _showAdminOther: Boolean,
       _showGroup: Boolean,
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
@@ -143,6 +144,14 @@
               view: Gerrit.Nav.View.REPO,
               detailType: Gerrit.Nav.RepoDetailView.TAGS,
               url: Gerrit.Nav.getUrlForRepoTags(this._repoName),
+            },
+            {
+              name: 'Other',
+              detailType: 'other',
+              view: 'gr-admin-other',
+              url: `/admin/projects/` +
+                  `${this.encodeURL(this._projectName, true)},other`,
+>>>>>>> bafbf13103... PolyGerrit: Add support for adding and deleting project dashboards
             }],
           };
         }
@@ -189,6 +198,8 @@
     _paramsChanged(params) {
       const isGroupView = params.view === Gerrit.Nav.View.GROUP;
       const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
+
+      this.set('_showAdminOther', params.adminView === 'gr-admin-other');
 
       this.set('_showGroup', isGroupView && !params.detail);
       this.set('_showGroupAuditLog', isGroupView &&

@@ -55,6 +55,8 @@
     // Matches /admin/create-project
     LEGACY_CREATE_GROUP: /^\/admin\/create-group\/?$/,
 
+    OTHER: /^\/admin\/projects\/(.+),other/,
+
     PROJECT_OLD: /^\/admin\/(projects)\/?(.+)?$/,
 
     // Matches /admin/repos/<repo>
@@ -727,6 +729,8 @@
       this._mapRoute(RoutePattern.LEGACY_CREATE_PROJECT,
           '_handleCreateProjectRoute', true);
 
+      this._mapRoute(RoutePattern.OTHER, '_handleAdminOtherRoute', true);
+
       this._mapRoute(RoutePattern.REPO_LIST_OFFSET,
           '_handleRepoListOffsetRoute');
 
@@ -1010,6 +1014,15 @@
       } else {
         this._redirect('/admin/repos');
       }
+    },
+
+    _handleAdminOtherRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-admin-other',
+        detailType: 'other',
+        project: data.params[0],
+      });
     },
 
     _handleRepoCommandsRoute(data) {

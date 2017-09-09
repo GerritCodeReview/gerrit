@@ -261,6 +261,7 @@ public class Dispatcher {
       projects(token);
 
     } else if (matchExact(SETTINGS, token)
+        || matchPrefix("/settings", token)
         || matchPrefix("/settings/", token)
         || matchExact(MY_GROUPS, token)
         || matchExact("register", token)
@@ -580,7 +581,7 @@ public class Dispatcher {
           }
 
           private Screen select() {
-            if (matchExact(SETTINGS, token)) {
+            if (matchExact(SETTINGS, token) || matchExact("/settings", token)) {
               return new MyProfileScreen();
             }
 

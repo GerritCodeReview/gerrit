@@ -714,7 +714,6 @@ public class ChangeJson {
 
   private Map<String, LabelWithStatus> initLabels(
       ChangeData cd, LabelTypes labelTypes, boolean standard) throws OrmException {
-    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {

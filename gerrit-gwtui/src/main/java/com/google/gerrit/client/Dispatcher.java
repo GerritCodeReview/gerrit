@@ -261,6 +261,7 @@ public class Dispatcher {
       projects(token);
 
     } else if (matchExact(SETTINGS, token)
+        || matchPrefix("/settings", token)
         || matchPrefix("/settings/", token)
         || matchExact(MY_GROUPS, token)
         || matchExact("register", token)

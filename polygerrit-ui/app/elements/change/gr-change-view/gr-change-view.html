@@ -273,6 +273,9 @@ limitations under the License.
       .patchSetSelect {
         max-width: 8em;
       }
+      .scrollable {
+        overflow: auto;
+      }
       @media screen and (min-width: 80em) {
         .commitMessage {
           max-width: var(--commit-message-max-width, 100ch);
@@ -343,9 +346,6 @@ limitations under the License.
         .commitMessage {
           flex: initial;
           margin-right: 0;
-        }
-        .scrollable {
-          overflow: auto;
         }
         /* Change actions are the only thing thant need to remain visible due
         to the fact that they may have the currently visible overlay open. */

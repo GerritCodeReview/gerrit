@@ -32,6 +32,12 @@ limitations under the License.
   <style include="shared-styles"></style>
     <style include="gr-menu-page-styles"></style>
     <main>
+      <template is="dom-if" if="[[_inheritsFrom]]">
+        <h3 id="inheritsFrom">Rights Inherit From
+          <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
+              [[_inheritsFrom.name]]</a>
+        </h3>
+      </template>
       <template
           is="dom-repeat"
           items="{{_sections}}"
@@ -42,12 +48,6 @@ limitations under the License.
             labels="[[_labels]]"
             editing="[[_editing]]"
             groups="[[_groups]]"></gr-access-section>
-      </template>
-      <template is="dom-if" if="[[_inheritsFrom]]">
-        <h3 id="inheritsFrom">Rights Inherit From
-          <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
-              [[_inheritsFrom.name]]</a>
-        </h3>
       </template>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

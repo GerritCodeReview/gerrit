@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f46c394_7ccd4967",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-09T00:15:40Z",
+      "side": 1,
+      "message": "Instead of incorporating this logic into the catchall function, can we write a route pattern that recognizes this malformed URL and move it up near the top of the route list?\n\nThis kind of route normalization is nice to do more explicitly, similar to how the root route handler deals with GWT links.",
+      "range": {
+        "startLine": 963,
+        "startChar": 4,
+        "endLine": 963,
+        "endChar": 23
+      },
+      "revId": "e417f4a2f836f04e799a52b04fda3d5b9691552a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

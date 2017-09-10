@@ -123,11 +123,11 @@ public class PageLinks {
   }
 
   public static String toProjectDashboard(Project.NameKey name, String id) {
-    return PROJECTS + name.get() + DASHBOARDS + id;
+    return ADMIN_PROJECTS + name.get() + DASHBOARDS + id;
   }
 
   public static String toProjectDefaultDashboard(Project.NameKey name) {
-    return PROJECTS + name.get() + DASHBOARDS + "default";
+    return ADMIN_PROJECTS + name.get() + DASHBOARDS + "default";
   }
 
   public static String projectQuery(Project.NameKey proj) {

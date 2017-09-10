@@ -820,6 +820,46 @@ public class Dispatcher {
               if (ProjectScreen.DASHBOARDS.equals(panel)) {
                 return new ProjectDashboardsScreen(k);
               }
+
+              rest = rest.substring(c);
+              if (DASHBOARDS.equals(rest) || matchPrefix(DASHBOARDS, rest)) {
+                final String dashboardId = skip(rest);
+                final String project = URL.decodePathSegment(rest.substring(1, c));
+                GerritCallback<DashboardInfo> cb =
+                    new GerritCallback<DashboardInfo>() {
+                      @Override
+                      public void onSuccess(DashboardInfo result) {
+                        if (matchPrefix("/dashboard/", result.url())) {
+                          String params = skip(result.url()).substring(1);
+                          ProjectDashboardScreen dash =
+                              new ProjectDashboardScreen(new Project.NameKey(project), params);
+                          Gerrit.display(token, dash);
+                        }
+                      }
+
+                      @Override
+                      public void onFailure(Throwable caught) {
+                        if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
+                          Gerrit.display(
+                              PageLinks.toChangeQuery(
+                                  PageLinks.projectQuery(new Project.NameKey(project))));
+                        } else {
+                          super.onFailure(caught);
+                        }
+                      }
+                    };
+                if ("default".equals(dashboardId)) {
+                  DashboardList.getDefault(new Project.NameKey(project), cb);
+                } else {
+                  c = dashboardId.indexOf(":");
+                  if (0 <= c) {
+                    final String ref = URL.decodeQueryString(dashboardId.substring(0, c));
+                    final String path = URL.decodeQueryString(dashboardId.substring(c + 1));
+                    DashboardList.get(new Project.NameKey(project), ref + ":" + path, cb);
+                  }
+                }
+                Gerrit.display(token, new NotFoundScreen());
+              }
             }
             return new NotFoundScreen();
           }

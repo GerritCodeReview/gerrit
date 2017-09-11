@@ -164,6 +164,30 @@
       "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2465436b_da346eeb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:18:49Z",
+      "side": 1,
+      "message": "Thanks, the way i did it was the only way i can get it to work. It dosen\u0027t seem to work if i do\n\nif (admin || owner) {\nreturn false;\n}\n\nreturn true;\n\nit does work if i do return admin || owner;\n\nI tryed alot of way to get it working, which is why i did it this way.",
+      "parentUuid": "f4a6a2d7_f23c27cf",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

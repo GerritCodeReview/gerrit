@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf55c26a_e50d267a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-11T21:16:32Z",
+      "side": 1,
+      "message": "Acknowledging that this stems partly from my suggestion 😳 this regex oughtta be in a constant.",
+      "range": {
+        "startLine": 974,
+        "startChar": 36,
+        "endLine": 974,
+        "endChar": 56
+      },
+      "revId": "51ca21c1c7b9ec9ad49c9f3a97702cb06fcdec97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d94fe102_269b7bad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T15:02:07Z",
+      "side": 1,
+      "message": "Second \u0027and\u0027. ;-)",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "c79fe5638f96e623617d4c7f65c518c85e02d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16edaddc_6bc91328",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T15:02:07Z",
+      "side": 1,
+      "message": "Exception",
+      "range": {
+        "startLine": 971,
+        "startChar": 13,
+        "endLine": 971,
+        "endChar": 34
+      },
+      "revId": "c79fe5638f96e623617d4c7f65c518c85e02d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ae95a26_742fcab7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T15:02:07Z",
+      "side": 1,
+      "message": "Exception",
+      "range": {
+        "startLine": 976,
+        "startChar": 66,
+        "endLine": 976,
+        "endChar": 87
+      },
+      "revId": "c79fe5638f96e623617d4c7f65c518c85e02d131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

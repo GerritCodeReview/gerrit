@@ -212,6 +212,30 @@
       "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419f1200_03f8ea59",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:56:05Z",
+      "side": 1,
+      "message": "Actually my mistake, i was doing\n\njava -jar gerrit.war init -d review_site\n\nbut i am currently using\n\nreview_site2\n\nfixed by doing java -jar gerrit.war init -d review_site2\n\ni was using review_site for reviewdb and review_site2 for notedb (when i developed the hashtag feature in polygerrit).",
+      "parentUuid": "cf66b9a7_33692aef",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "e417f4a2f836f04e799a52b04fda3d5b9691552a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68bf78e_522041f9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-11T17:14:22Z",
+      "side": 1,
+      "message": "There are pros and cons to that approach -- I decided to go with this approach as a (maybe premature) generalization for the case when a URL is not decoded enough, which was only *part* of the issue causing this bug.\n\nStaying with this impl. may catch improperly decoded routes in the future, whereas going with your recommendation is definitely more explicit, but may miss future errors with similar situations. FWIW I haven\u0027t seen any other cases in which a URL is improperly decoded yet, but the fact that this issue exists proves that it\u0027s possible.",
+      "parentUuid": "4f46c394_7ccd4967",
+      "range": {
+        "startLine": 963,
+        "startChar": 4,
+        "endLine": 963,
+        "endChar": 23
+      },
+      "revId": "e417f4a2f836f04e799a52b04fda3d5b9691552a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

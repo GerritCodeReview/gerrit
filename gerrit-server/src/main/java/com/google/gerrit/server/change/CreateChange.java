@@ -52,11 +52,11 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -194,19 +194,15 @@ public class CreateChange
       ObjectId parentCommit;
       List<String> groups;
       if (input.baseChange != null) {
-        List<ChangeControl> ctls = changeFinder.find(input.baseChange, rsrc.getUser());
-        if (ctls.size() != 1) {
+        List<ChangeNotes> notes = changeFinder.find(input.baseChange);
+        if (notes.size() != 1) {
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
-        ChangeControl ctl = Iterables.getOnlyElement(ctls);
-        if (!permissionBackend
-            .user(user)
-            .change(ctl.getNotes())
-            .database(db)
-            .test(ChangePermission.READ)) {
+        ChangeNotes change = Iterables.getOnlyElement(notes);
+        if (!permissionBackend.user(user).change(change).database(db).test(ChangePermission.READ)) {
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
-        PatchSet ps = psUtil.current(db.get(), ctl.getNotes());
+        PatchSet ps = psUtil.current(db.get(), change);
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
       } else {

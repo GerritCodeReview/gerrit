@@ -232,6 +232,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected Abandon changeAbandoner;
+  @Inject protected ChangeControl.GenericFactory changeControlFactory;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -1116,9 +1117,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
-    List<ChangeControl> ctls = changeFinder.find(changeId, atrScope.get().getUser());
-    assertThat(ctls).hasSize(1);
-    return changeResourceFactory.create(ctls.get(0));
+    List<ChangeNotes> notes = changeFinder.find(changeId);
+    assertThat(notes).hasSize(1);
+    return changeResourceFactory.create(
+        changeControlFactory.controlFor(notes.get(0), atrScope.get().getUser()));
   }
 
   protected String createGroup(String name) throws Exception {

@@ -24,7 +24,6 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -141,8 +140,8 @@ public class PatchSetParser {
       return notesFactory.create(db.get(), projectControl.getProject().getNameKey(), changeId);
     }
     try {
-      ChangeControl ctl = changeFinder.findOne(changeId, self.get());
-      return notesFactory.create(db.get(), ctl.getProject().getNameKey(), changeId);
+      ChangeNotes notes = changeFinder.findOne(changeId);
+      return notesFactory.create(db.get(), notes.getProjectName(), changeId);
     } catch (NoSuchChangeException e) {
       throw error("\"" + changeId + "\" no such change");
     }

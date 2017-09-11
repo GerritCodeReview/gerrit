@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.AbandonUtil;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
@@ -64,14 +63,10 @@ public class AbandonIT extends AbstractDaemonTest {
   public void batchAbandon() throws Exception {
     CurrentUser user = atrScope.get().getUser();
     PushOneCommit.Result a = createChange();
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
     PushOneCommit.Result b = createChange();
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
+    List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
     changeAbandoner.batchAbandon(
-        batchUpdateFactory, controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
+        batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
 
     ChangeInfo info = get(a.getChangeId());
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
@@ -95,12 +90,8 @@ public class AbandonIT extends AbstractDaemonTest {
 
     CurrentUser user = atrScope.get().getUser();
     PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
     PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list = ImmutableList.of(controlA.get(0), controlB.get(0));
+    List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
     exception.expect(ResourceConflictException.class);
     exception.expectMessage(
         String.format("Project name \"%s\" doesn't match \"%s\"", project2Name, project1Name));

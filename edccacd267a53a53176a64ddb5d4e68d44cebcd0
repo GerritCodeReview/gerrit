@@ -16,6 +16,24 @@
       "revId": "edccacd267a53a53176a64ddb5d4e68d44cebcd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bb0aae3_3b895488",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-11T07:03:27Z",
+      "side": 1,
+      "message": "Good point.  Actually the \"EDIT\" part is already covered in pushForMasterAsEdit, so I can remove this whole block and add the missing test for the \"PRIVATE\" part in pushPrivateChange.",
+      "parentUuid": "919d4a5d_3c5be11e",
+      "revId": "edccacd267a53a53176a64ddb5d4e68d44cebcd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

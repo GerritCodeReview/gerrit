@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c3f1731_a054bbb6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:04:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "34f99a9b_cec5d60d",
+      "range": {
+        "startLine": 60,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "4fb00238fd57b8623d739e7398a5fd2c37cf1cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df5dfa00_bd6c42bc",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.js",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-11T22:47:46Z",
       "side": 1,
       "message": "what is an item annotation?",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 21
+      },
+      "revId": "4fb00238fd57b8623d739e7398a5fd2c37cf1cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a4e29b_b72d0e1f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:04:10Z",
+      "side": 1,
+      "message": "It is when you annotate a tag, it has a message and a date and the person who tagged it.",
+      "parentUuid": "df5dfa00_bd6c42bc",
       "range": {
         "startLine": 36,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a6ff293f_dc9291d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:04:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "367cf446_2a5c148e",
+      "range": {
+        "startLine": 76,
+        "startChar": 57,
+        "endLine": 76,
+        "endChar": 72
+      },
+      "revId": "4fb00238fd57b8623d739e7398a5fd2c37cf1cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4333130_b557c696",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.js",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2017-09-11T22:47:46Z",
       "side": 1,
       "message": "can be simplified:\n\nreturn type \u003d\u003d\u003d DETAIL_TYPES.branches ? \u0027hideItem\u0027 : \u0027\u0027\u0027",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 16
+      },
+      "revId": "4fb00238fd57b8623d739e7398a5fd2c37cf1cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0353e18b_4a72b548",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:04:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b4333130_b557c696",
       "range": {
         "startLine": 86,
         "startChar": 6,

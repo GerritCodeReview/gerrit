@@ -23,6 +23,30 @@
       "revId": "3b979d9cba5e3089c2f6f6da88f51a91730e98ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b7ef18_dfec6262",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-11T16:51:11Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me that that would reduce the number of copies in practice. This argument is ultimately passed to the ChangeJson constructor, where it calls Sets.immutableEnumSet(options). If the argument to immutableEnumSet is already an EnumSet, it gets cloned; otherwise it is populated element-by-element.",
+      "parentUuid": "75764088_ac2aa334",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "3b979d9cba5e3089c2f6f6da88f51a91730e98ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

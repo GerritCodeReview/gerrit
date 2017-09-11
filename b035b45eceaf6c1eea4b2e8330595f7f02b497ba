@@ -22,6 +22,30 @@
       "revId": "b035b45eceaf6c1eea4b2e8330595f7f02b497ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fb055c1_0a34d0a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1680,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-11T05:14:32Z",
+      "side": 1,
+      "message": "Fixing this in a separate commit.",
+      "parentUuid": "29021e13_179ef2c6",
+      "range": {
+        "startLine": 1680,
+        "startChar": 18,
+        "endLine": 1680,
+        "endChar": 76
+      },
+      "revId": "b035b45eceaf6c1eea4b2e8330595f7f02b497ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

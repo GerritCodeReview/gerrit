@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52c6489f_3a47ebb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-11T14:30:06Z",
+      "side": 0,
+      "message": "Shouldn\u0027t it still return 404 for a nonexistent project? The difference is which method will throw the exception, presumably it would be .name(tc.project) now.",
+      "revId": "058039807bfe711ee3b9dae3e5e451a4a02523ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -29,9 +29,9 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -79,7 +79,8 @@ public class ApprovalCopier {
    * Apply approval copy settings from prior PatchSets to a new PatchSet.
    *
    * @param db review database.
-   * @param ctl change control for user uploading PatchSet
+   * @param notes change notes for user uploading PatchSet
+   * @param user user uploading PatchSet
    * @param ps new PatchSet
    * @param rw open walk that can read the patch set commit; null to open the repo on demand.
    * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
@@ -87,19 +88,21 @@ public class ApprovalCopier {
    */
   public void copyInReviewDb(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    copyInReviewDb(db, ctl, ps, rw, repoConfig, Collections.emptyList());
+    copyInReviewDb(db, notes, user, ps, rw, repoConfig, Collections.emptyList());
   }
 
   /**
    * Apply approval copy settings from prior PatchSets to a new PatchSet.
    *
    * @param db review database.
-   * @param ctl change control for user uploading PatchSet
+   * @param notes change notes for user uploading PatchSet
+   * @param user user uploading PatchSet
    * @param ps new PatchSet
    * @param rw open walk that can read the patch set commit; null to open the repo on demand.
    * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
@@ -108,52 +111,57 @@ public class ApprovalCopier {
    */
   public void copyInReviewDb(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    if (PrimaryStorage.of(ctl.getChange()) == PrimaryStorage.REVIEW_DB) {
-      db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps, rw, repoConfig, dontCopy));
+    if (PrimaryStorage.of(notes.getChange()) == PrimaryStorage.REVIEW_DB) {
+      db.patchSetApprovals().insert(getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy));
     }
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    return getForPatchSet(db, ctl, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
+    return getForPatchSet(
+        db, notes, user, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
-    PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
+    PatchSet ps = psUtil.get(db, notes, psId);
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, ctl, ps, rw, repoConfig, dontCopy);
+    return getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
     checkNotNull(ps, "ps should not be null");
-    ChangeData cd = changeDataFactory.create(db, ctl);
+    ChangeData cd = changeDataFactory.create(db, notes);
     try {
       ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
@@ -204,7 +212,7 @@ public class ApprovalCopier {
           byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
         }
       }
-      return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
+      return labelNormalizer.normalize(notes, user, byUser.values()).getNormalized();
     } catch (IOException | PermissionBackendException e) {
       throw new OrmException(e);
     }

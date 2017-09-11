@@ -28,16 +28,18 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -76,57 +78,59 @@ public class LabelNormalizer {
   }
 
   private final Provider<ReviewDb> db;
-  private final ChangeControl.GenericFactory changeFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   LabelNormalizer(
       Provider<ReviewDb> db,
-      ChangeControl.GenericFactory changeFactory,
       IdentifiedUser.GenericFactory userFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.db = db;
-    this.changeFactory = changeFactory;
     this.userFactory = userFactory;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   /**
-   * @param change change containing the given approvals.
+   * @param notes change containing the given approvals.
    * @param approvals list of approvals.
    * @return copies of approvals normalized to the defined ranges for the label type and permissions
    *     for the user. Approvals for unknown labels are not included in the output, nor are
    *     approvals where the user has no permissions for that label.
    * @throws OrmException
    */
-  public Result normalize(Change change, Collection<PatchSetApproval> approvals)
-      throws OrmException, PermissionBackendException {
-    IdentifiedUser user = userFactory.create(change.getOwner());
-    return normalize(changeFactory.controlFor(db.get(), change, user), approvals);
+  public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
+      throws OrmException, PermissionBackendException, IOException {
+    IdentifiedUser user = userFactory.create(notes.getChange().getOwner());
+    return normalize(notes, user, approvals);
   }
 
   /**
-   * @param ctl change control containing the given approvals.
+   * @param notes change notes containing the given approvals.
+   * @param user current user.
    * @param approvals list of approvals.
    * @return copies of approvals normalized to the defined ranges for the label type and permissions
    *     for the user. Approvals for unknown labels are not included in the output, nor are
    *     approvals where the user has no permissions for that label.
    */
-  public Result normalize(ChangeControl ctl, Collection<PatchSetApproval> approvals)
-      throws PermissionBackendException {
+  public Result normalize(
+      ChangeNotes notes, CurrentUser user, Collection<PatchSetApproval> approvals)
+      throws PermissionBackendException, IOException {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
     LabelTypes labelTypes =
-        ctl.getProjectControl().getProjectState().getLabelTypes(ctl.getNotes(), ctl.getUser());
+        projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes, user);
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
       checkArgument(
-          changeId.equals(ctl.getId()),
+          changeId.equals(notes.getChangeId()),
           "Approval %s does not match change %s",
           psa.getKey(),
-          ctl.getChange().getKey());
+          notes.getChange().getKey());
       if (psa.isLegacySubmit()) {
         unchanged.add(psa);
         continue;
@@ -138,7 +142,7 @@ public class LabelNormalizer {
       }
       PatchSetApproval copy = copy(psa);
       applyTypeFloor(label, copy);
-      if (!applyRightFloor(ctl.getNotes(), label, copy)) {
+      if (!applyRightFloor(notes, label, copy)) {
         deleted.add(psa);
       } else if (copy.getValue() != psa.getValue()) {
         updated.add(copy);

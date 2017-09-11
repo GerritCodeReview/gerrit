@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class ChangeArgumentParser {
   private final CurrentUser currentUser;
@@ -85,9 +84,8 @@ public class ChangeArgumentParser {
       ProjectControl projectControl,
       boolean useIndex)
       throws UnloggedFailure, OrmException, PermissionBackendException {
-    List<ChangeControl> matched =
-        useIndex ? changeFinder.find(id, currentUser) : changeFromNotesFactory(id, currentUser);
-    List<ChangeControl> toAdd = new ArrayList<>(changes.size());
+    List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
+    List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
     try {
       permissionBackend.user(currentUser).check(GlobalPermission.MAINTAIN_SERVER);
@@ -95,16 +93,16 @@ public class ChangeArgumentParser {
     } catch (AuthException | PermissionBackendException e) {
       canMaintainServer = false;
     }
-    for (ChangeControl ctl : matched) {
-      if (!changes.containsKey(ctl.getId())
-          && inProject(projectControl, ctl.getProject())
+    for (ChangeNotes notes : matched) {
+      if (!changes.containsKey(notes.getChangeId())
+          && inProject(projectControl, notes.getProjectName())
           && (canMaintainServer
               || permissionBackend
                   .user(currentUser)
-                  .change(ctl.getNotes())
+                  .change(notes)
                   .database(db)
                   .test(ChangePermission.READ))) {
-        toAdd.add(ctl);
+        toAdd.add(notes);
       }
     }
 
@@ -113,19 +111,18 @@ public class ChangeArgumentParser {
     } else if (toAdd.size() > 1) {
       throw new UnloggedFailure(1, "\"" + id + "\" matches multiple changes");
     }
-    ChangeControl ctl = toAdd.get(0);
-    changes.put(ctl.getId(), changesCollection.parse(ctl));
+    Change.Id cId = toAdd.get(0).getChangeId();
+    ChangeResource changeResource;
+    try {
+      changeResource = changesCollection.parse(cId);
+    } catch (ResourceNotFoundException e) {
+      throw new UnloggedFailure(1, "\"" + id + "\" no such change");
+    }
+    changes.put(cId, changeResource);
   }
 
-  private List<ChangeControl> changeFromNotesFactory(String id, CurrentUser currentUser)
-      throws OrmException, UnloggedFailure {
-    return changeNotesFactory
-        .create(db, parseId(id))
-        .stream()
-        .map(changeNote -> controlForChange(changeNote, currentUser))
-        .filter(changeControl -> changeControl.isPresent())
-        .map(changeControl -> changeControl.get())
-        .collect(toList());
+  private List<ChangeNotes> changeFromNotesFactory(String id) throws OrmException, UnloggedFailure {
+    return changeNotesFactory.create(db, parseId(id)).stream().collect(toList());
   }
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {
@@ -136,17 +133,9 @@ public class ChangeArgumentParser {
     }
   }
 
-  private Optional<ChangeControl> controlForChange(ChangeNotes change, CurrentUser user) {
-    try {
-      return Optional.of(changeControlFactory.controlFor(change, user));
-    } catch (NoSuchChangeException e) {
-      return Optional.empty();
-    }
-  }
-
-  private boolean inProject(ProjectControl projectControl, Project project) {
+  private boolean inProject(ProjectControl projectControl, Project.NameKey project) {
     if (projectControl != null) {
-      return projectControl.getProject().getNameKey().equals(project.getNameKey());
+      return projectControl.getProject().getNameKey().equals(project);
     }
 
     // No --project option, so they want every project.

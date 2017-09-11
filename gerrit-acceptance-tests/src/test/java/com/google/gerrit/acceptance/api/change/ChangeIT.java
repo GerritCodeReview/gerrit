@@ -115,8 +115,8 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -3304,9 +3304,10 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private ChangeResource parseResource(PushOneCommit.Result r) throws Exception {
-    List<ChangeControl> ctls = changeFinder.find(r.getChangeId(), atrScope.get().getUser());
-    assertThat(ctls).hasSize(1);
-    return changeResourceFactory.create(ctls.get(0));
+    List<ChangeNotes> notes = changeFinder.find(r.getChangeId());
+    assertThat(notes).hasSize(1);
+    return changeResourceFactory.create(
+        changeControlFactory.controlFor(notes.get(0), atrScope.get().getUser()));
   }
 
   private Optional<ReviewerState> getReviewerState(String changeId, Account.Id accountId)

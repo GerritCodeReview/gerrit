@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d64873d_26284764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-11T10:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29cec994_716ca07a",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "8a62cc4874a83b61335af20565f33633832cf270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc8a4fb3_81890f71",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
         "patchSetId": 9
@@ -190,6 +214,30 @@
       "revId": "8a62cc4874a83b61335af20565f33633832cf270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b5277f_569f9377",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-11T10:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa5e6e6f_8b968267",
+      "range": {
+        "startLine": 312,
+        "startChar": 39,
+        "endLine": 312,
+        "endChar": 43
+      },
+      "revId": "8a62cc4874a83b61335af20565f33633832cf270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

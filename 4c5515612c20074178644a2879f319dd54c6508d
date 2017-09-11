@@ -267,6 +267,30 @@
     },
     {
       "key": {
+        "uuid": "f51bcda7_9e1cb992",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T12:36:28Z",
+      "side": 1,
+      "message": "This is why I said you could adapt it to also accept a change id :) Certainly optional though.",
+      "parentUuid": "5b6930d9_b71b675c",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d71eee8_16277d64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
         "patchSetId": 10

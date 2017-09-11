@@ -22,6 +22,30 @@
       "revId": "5fd2ba7dfae845e994daf84c3bf335e17fdd21a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a210495_f95b7987",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:09:28Z",
+      "side": 1,
+      "message": "Not sure, i presume if it is not found, it should return false.",
+      "parentUuid": "aeb7920c_72a99382",
+      "range": {
+        "startLine": 95,
+        "startChar": 28,
+        "endLine": 95,
+        "endChar": 77
+      },
+      "revId": "5fd2ba7dfae845e994daf84c3bf335e17fdd21a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

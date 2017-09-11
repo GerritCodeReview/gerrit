@@ -1084,5 +1084,88 @@ limitations under the License.
         });
       });
     });
+
+    suite('_send', () => {
+      let cleanup;
+      let payload;
+      let onShowAlert;
+
+      setup(() => {
+        cleanup = sinon.stub();
+        element.changeNum = 42;
+        element.patchNum = 12;
+        payload = {foo: 'bar'};
+
+        onShowAlert = sinon.stub();
+        element.addEventListener('show-alert', onShowAlert);
+      });
+
+      suite('happy path', () => {
+        let sendStub;
+
+        setup(() => {
+          sandbox.stub(element, 'fetchIsLatestKnown')
+              .returns(Promise.resolve(true));
+          sendStub = sandbox.stub(element.$.restAPI, 'getChangeURLAndSend')
+              .returns(Promise.resolve({}));
+        });
+
+        test('change action', () => {
+          return element._send('DELETE', payload, '/endpoint', false, cleanup)
+              .then(() => {
+                assert.isFalse(onShowAlert.called);
+                assert.isTrue(cleanup.calledOnce);
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', null,
+                    '/endpoint', payload));
+              });
+        });
+
+        test('revision action', () => {
+          return element._send('DELETE', payload, '/endpoint', true, cleanup)
+              .then(() => {
+                assert.isFalse(onShowAlert.called);
+                assert.isTrue(cleanup.calledOnce);
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', 12, '/endpoint',
+                    payload));
+              });
+        });
+      });
+
+      suite('failure modes', () => {
+        test('non-latest', () => {
+          sandbox.stub(element, 'fetchIsLatestKnown')
+              .returns(Promise.resolve(false));
+          const sendStub = sandbox.stub(element.$.restAPI,
+              'getChangeURLAndSend');
+
+          return element._send('DELETE', payload, '/endpoint', true, cleanup)
+              .then(() => {
+                assert.isTrue(onShowAlert.calledOnce);
+                assert.isTrue(cleanup.calledOnce);
+                assert.isFalse(sendStub.called);
+              });
+        });
+
+        test('send fails', () => {
+          sandbox.stub(element, 'fetchIsLatestKnown')
+              .returns(Promise.resolve(true));
+          const sendStub = sandbox.stub(element.$.restAPI,
+              'getChangeURLAndSend',
+                (num, method, patchNum, endpoint, payload, onErr) => {
+                  onErr();
+                  return Promise.resolve(null);
+                });
+          const handleErrorStub = sandbox.stub(element, '_handleResponseError');
+
+          return element._send('DELETE', payload, '/endpoint', true, cleanup)
+              .then(() => {
+                assert.isFalse(onShowAlert.called);
+                assert.isTrue(cleanup.called);
+                assert.isTrue(sendStub.calledOnce);
+                assert.isTrue(handleErrorStub.called);
+              });
+        });
+      });
+    });
   });
 </script>

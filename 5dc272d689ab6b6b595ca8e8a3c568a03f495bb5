@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5771fcf_4cecd1e2",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "optional: This variable could be \u0027private\u0027 if ChangeIT didn\u0027t use it as I suggested in another comment.",
+      "range": {
+        "startLine": 235,
+        "startChar": 10,
+        "endLine": 235,
+        "endChar": 19
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef92623_6fb00cb6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3310,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "optional: Can\u0027t we replace this by\n\n return parseChangeResource(r.getChangeId());\n\n?",
+      "range": {
+        "startLine": 3307,
+        "startChar": 4,
+        "endLine": 3310,
+        "endChar": 81
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "382b0064_ea7997f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "Are the IllegalArgumentExceptions with these messages still thrown in the new code path? I found the matching assertions in ChangeNotes#loadChangeFromDb but ChangeNotes.Factory#createChecked(ReviewDb, NameKey, Id) doesn\u0027t seem to end up in that method. Did I miss something?",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d89d656_f80e415a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "The name of this method isn\u0027t accurate anymore.",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 44
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "204fbfd1_23fe122a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "This method call can potentially throw a NoSuchChangeException (e.g. when the project isn\u0027t found). Don\u0027t we have to explicitly catch that exception and map it to a ResourceNotFoundException?",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd74c9b7_9314df2a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "range": {
+        "startLine": 125,
+        "startChar": 53,
+        "endLine": 125,
+        "endChar": 80
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8be11f16_717621fb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PatchSetParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:55:14Z",
+      "side": 1,
+      "message": "Unused field.",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

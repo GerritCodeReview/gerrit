@@ -188,6 +188,30 @@
       "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf66b9a7_33692aef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T23:35:00Z",
+      "side": 1,
+      "message": "It seems it does not work regardless if i do return true or false.\n\nIt does work if i do return admin || owner;\n\nSo i will leave it like this for now. Unless you might know why it is not working as we think it should? :)",
+      "parentUuid": "2465436b_da346eeb",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -141,6 +141,29 @@
       "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4a6a2d7_f23c27cf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-11T22:51:17Z",
+      "side": 1,
+      "message": "this function should be called computeGroupDisabled and should not be negated (the function should be written to return true if it should be disabled).\n\nHere and below.",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "84ad50ed9146116d43e1a5e40586015f4e2b40ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

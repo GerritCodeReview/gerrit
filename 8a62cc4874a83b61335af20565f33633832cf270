@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "29cec994_716ca07a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T10:53:31Z",
+      "side": 1,
+      "message": "nit: remove punctuation",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "8a62cc4874a83b61335af20565f33633832cf270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc8a4fb3_81890f71",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
         "patchSetId": 9
@@ -143,6 +166,30 @@
       "revId": "8a62cc4874a83b61335af20565f33633832cf270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5e6e6f_8b968267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T10:53:31Z",
+      "side": 1,
+      "message": "It should not because this method is solely invoked by the Java API (The HTTP REST implementation is bound directly to CheckAccess in Module.java)",
+      "parentUuid": "bb158633_c2b2d530",
+      "range": {
+        "startLine": 312,
+        "startChar": 39,
+        "endLine": 312,
+        "endChar": 43
+      },
+      "revId": "8a62cc4874a83b61335af20565f33633832cf270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

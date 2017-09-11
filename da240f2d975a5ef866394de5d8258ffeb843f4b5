@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "843016cf_cf16f7d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_139.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-11T23:34:38Z",
+      "side": 1,
+      "message": "Will it definitely always be upper case?\n\nI.e. we don\u0027t need to do equalsIgnoreCase here?",
+      "range": {
+        "startLine": 204,
+        "startChar": 21,
+        "endLine": 204,
+        "endChar": 22
+      },
+      "revId": "da240f2d975a5ef866394de5d8258ffeb843f4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

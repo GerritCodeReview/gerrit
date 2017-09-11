@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6d382f5_051ed4b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-11T21:56:48Z",
+      "side": 1,
+      "message": "I just discovered one more little wrinkle: sorry. This drops the hash (e.g. line numbers).\n\nThe following seems to work ..\n\n let hash \u003d this._getHashFromCanonicalPath(ctx.canonicalPath);\n if (hash.length) { hash \u003d \u0027#\u0027 + hash; }\n this._redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}${hash}`);\n\n.. we can also probably include a test for this too.",
+      "revId": "8d356add68ddeadbf906fa855c322351892503b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

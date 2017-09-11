@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1be607f4_db3bf934",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "optional: We could get rid of this use of ChangeControl as well by using ChangeContext#getChange and ChangeContext#getNotes().",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 43
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7557a60f_b3d40d81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "optional: If this was ctx.getNotes(), we could remove the use of ChangeControl from this class.",
+      "range": {
+        "startLine": 264,
+        "startChar": 52,
+        "endLine": 264,
+        "endChar": 66
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9bc7d6d_5130c36b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "This method returns null if the project isn\u0027t found. The previous code threw a NoSuchChangeException instead when creating the ChangeControl instance. Can we be absolutely sure that the project exists when this line of code is executed?",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 31
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a570b7_955821ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/MergedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "optional: Can\u0027t we directly create the user object e.g. retrieve the owner of the change and create the user via the IdentifiedUser factory? Maybe we could add such a method to ChangeData as we probably need it somewhere else too.",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd280269_53e735d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "optional: Please see my comment on MergedSender.",
+      "range": {
+        "startLine": 722,
+        "startChar": 35,
+        "endLine": 722,
+        "endChar": 60
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5ba824_dfaefceb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LabelNormalizerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T13:22:08Z",
+      "side": 1,
+      "message": "If this was moved below db.changes().insert(), could we use changeNotesFactory.createChecked(db, change) instead?",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 63
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

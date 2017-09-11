@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
@@ -39,7 +40,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -64,7 +64,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import java.util.EnumSet;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.After;
@@ -545,8 +544,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     setApiUser(accountCreator.user2());
     gApi.changes().id(r.getChangeId()).revision(r.getPatchSetId().getId()).review(in);
 
-    ChangeInfo info =
-        gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.MESSAGES));
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(MESSAGES);
     assertThat(info.messages).hasSize(2);
 
     ChangeMessageInfo changeMessageInfo = Iterables.getLast(info.messages);

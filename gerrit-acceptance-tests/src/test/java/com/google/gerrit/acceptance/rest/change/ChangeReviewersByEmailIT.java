@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -28,13 +29,11 @@ import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import java.util.EnumSet;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,8 +61,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      ChangeInfo info =
-          gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
       // All reviewers added by email should be removable
       assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(acc));
@@ -89,8 +87,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       inputById.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(inputById);
 
-      ChangeInfo info =
-          gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(byId, byEmail)));
       // All reviewers (both by id and by email) should be removable
       assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(byId, byEmail));
@@ -112,8 +109,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
       gApi.changes().id(r.getChangeId()).reviewer(acc.email).remove();
 
-      ChangeInfo info =
-          gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
       assertThat(info.reviewers).isEmpty();
     }
   }
@@ -135,8 +131,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     modifyInput.state = ReviewerState.REVIEWER;
     gApi.changes().id(r.getChangeId()).addReviewer(modifyInput);
 
-    ChangeInfo info =
-        gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
     assertThat(info.reviewers)
         .isEqualTo(ImmutableMap.of(ReviewerState.REVIEWER, ImmutableList.of(acc)));
   }
@@ -329,10 +324,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       try {
         ChangeInfo info =
             Iterables.getOnlyElement(
-                gApi.changes()
-                    .query(r.getChangeId())
-                    .withOption(ListChangesOption.DETAILED_LABELS)
-                    .get());
+                gApi.changes().query(r.getChangeId()).withOption(DETAILED_LABELS).get());
         assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
       } finally {
         notesMigration.setFailOnLoadForTest(false);

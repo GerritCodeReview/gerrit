@@ -45,6 +45,30 @@
       "revId": "9159d0122f1a1f3183b2fa5ecae8170fbceceaa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "054e8d77_ad434e47",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-11T16:47:15Z",
+      "side": 1,
+      "message": "It should be is:wip (and -is:wip).",
+      "parentUuid": "1d1177f2_8b3bf8ce",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 10
+      },
+      "revId": "9159d0122f1a1f3183b2fa5ecae8170fbceceaa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

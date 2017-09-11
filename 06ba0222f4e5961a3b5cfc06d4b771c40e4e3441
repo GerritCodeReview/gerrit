@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eceff03c_bd1d7a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:02:11Z",
+      "side": 1,
+      "message": "Given this commit message, I would have expected ConsistencyCheckerIT to not use ChangeControl anymore. However, the use of ChangeControl is only reduced and the instantiation of such an object is delayed as much as possible. Could you please rephrase the commit message to make that clear?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "06ba0222f4e5961a3b5cfc06d4b771c40e4e3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07baa6ec_192bf557",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:02:11Z",
+      "side": 1,
+      "message": "Unused variable.",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 318,
+        "endChar": 23
+      },
+      "revId": "06ba0222f4e5961a3b5cfc06d4b771c40e4e3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fddc3356_088b0624",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:02:11Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t make sense anymore. Should this comment be moved to controlForNotes()?",
+      "range": {
+        "startLine": 822,
+        "startChar": 4,
+        "endLine": 822,
+        "endChar": 52
+      },
+      "revId": "06ba0222f4e5961a3b5cfc06d4b771c40e4e3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6c65ac_f3331782",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-11T14:02:11Z",
+      "side": 1,
+      "message": "In tests, we typically use Exception for the signature of private helper methods.",
+      "range": {
+        "startLine": 963,
+        "startChar": 6,
+        "endLine": 963,
+        "endChar": 34
+      },
+      "revId": "06ba0222f4e5961a3b5cfc06d4b771c40e4e3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41b2e6b7_242d6df2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-11T08:51:48Z",
+      "side": 1,
+      "message": "This could be just:\n\nassertThat(checker.check(ctl, null).problems())\n        .containsExactly(problem(\"Destination repository not found: \" + name));",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 19
+      },
+      "revId": "f9a0df53eae3b978bb7c757838255dea9c1e23f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

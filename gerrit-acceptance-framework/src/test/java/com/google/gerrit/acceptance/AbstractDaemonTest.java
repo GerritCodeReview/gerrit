@@ -253,6 +253,7 @@ public abstract class AbstractDaemonTest {
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private ChangeControl.GenericFactory changeControlFactory;
 
   private List<Repository> toClose;
 
@@ -1116,9 +1117,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
-    List<ChangeControl> ctls = changeFinder.find(changeId, atrScope.get().getUser());
-    assertThat(ctls).hasSize(1);
-    return changeResourceFactory.create(ctls.get(0));
+    List<ChangeNotes> notes = changeFinder.find(changeId);
+    assertThat(notes).hasSize(1);
+    return changeResourceFactory.create(
+        changeControlFactory.controlFor(notes.get(0), atrScope.get().getUser()));
   }
 
   protected String createGroup(String name) throws Exception {

@@ -172,7 +172,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         // Prepopulate the change exists with proper noteDbState field.
         change = newNoteDbOnlyChange(project, changeId);
       } else {
-        checkArgument(change != null, "change %s not found in ReviewDb", changeId);
+        checkNotNull(change, "change %s not found in ReviewDb", changeId);
         checkArgument(
             change.getProject().equals(project),
             "passed project %s when creating ChangeNotes for %s, but actual project is %s",

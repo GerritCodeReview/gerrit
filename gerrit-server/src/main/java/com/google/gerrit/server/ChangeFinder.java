@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.change.ChangeTriplet;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -59,7 +59,7 @@ public class ChangeFinder {
   private final Cache<Change.Id, String> changeIdProjectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   @Inject
   ChangeFinder(
@@ -67,24 +67,22 @@ public class ChangeFinder {
       @Named(CACHE_NAME) Cache<Change.Id, String> changeIdProjectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> reviewDb,
-      ChangeControl.GenericFactory changeControlFactory) {
+      ChangeNotes.Factory changeNotesFactory) {
     this.indexConfig = indexConfig;
     this.changeIdProjectCache = changeIdProjectCache;
     this.queryProvider = queryProvider;
     this.reviewDb = reviewDb;
-    this.changeControlFactory = changeControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
   }
 
   /**
    * Find changes matching the given identifier.
    *
    * @param id change identifier, either a numeric ID, a Change-Id, or project~branch~id triplet.
-   * @param user user to wrap in controls.
-   * @return possibly-empty list of controls for all matching changes, corresponding to the given
-   *     user; may or may not be visible.
+   * @return possibly-empty list of notes for all matching changes; may or may not be visible.
    * @throws OrmException if an error occurred querying the database.
    */
-  public List<ChangeControl> find(String id, CurrentUser user) throws OrmException {
+  public List<ChangeNotes> find(String id) throws OrmException {
     if (id.isEmpty()) {
       return Collections.emptyList();
     }
@@ -95,7 +93,7 @@ public class ChangeFinder {
       // Try project~numericChangeId
       Integer n = Ints.tryParse(id.substring(z + 1));
       if (n != null) {
-        return fromProjectNumber(user, id.substring(0, z), n.intValue());
+        return fromProjectNumber(id.substring(0, z), n.intValue());
       }
     }
 
@@ -103,7 +101,7 @@ public class ChangeFinder {
       // Try numeric changeId
       Integer n = Ints.tryParse(id);
       if (n != null) {
-        return find(new Change.Id(n), user);
+        return find(new Change.Id(n));
       }
     }
 
@@ -115,33 +113,22 @@ public class ChangeFinder {
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);
       if (triplet.isPresent()) {
         ChangeTriplet t = triplet.get();
-        return asChangeControls(query.byBranchKey(t.branch(), t.id()), user);
+        return asChangeNotes(query.byBranchKey(t.branch(), t.id()));
       }
     }
 
     // Try isolated Ihash... format ("Change-Id: Ihash").
-    return asChangeControls(query.byKeyPrefix(id), user);
+    return asChangeNotes(query.byKeyPrefix(id));
   }
 
-  private List<ChangeControl> fromProjectNumber(CurrentUser user, String project, int changeNumber)
+  private List<ChangeNotes> fromProjectNumber(String project, int changeNumber)
       throws OrmException {
     Change.Id cId = new Change.Id(changeNumber);
     try {
       return ImmutableList.of(
-          changeControlFactory.controlFor(
-              reviewDb.get(), Project.NameKey.parse(project), cId, user));
+          changeNotesFactory.createChecked(reviewDb.get(), Project.NameKey.parse(project), cId));
     } catch (NoSuchChangeException e) {
       return Collections.emptyList();
-    } catch (IllegalArgumentException e) {
-      String changeNotFound = String.format("change %s not found in ReviewDb", cId);
-      String projectNotFound =
-          String.format(
-              "passed project %s when creating ChangeNotes for %s, but actual project is",
-              project, cId);
-      if (e.getMessage().equals(changeNotFound) || e.getMessage().startsWith(projectNotFound)) {
-        return Collections.emptyList();
-      }
-      throw e;
     } catch (OrmException e) {
       // Distinguish between a RepositoryNotFoundException (project argument invalid) and
       // other OrmExceptions (failure in the persistence layer).
@@ -152,18 +139,18 @@ public class ChangeFinder {
     }
   }
 
-  public ChangeControl findOne(Change.Id id, CurrentUser user) throws OrmException {
-    List<ChangeControl> ctls = find(id, user);
-    if (ctls.size() != 1) {
+  public ChangeNotes findOne(Change.Id id) throws OrmException {
+    List<ChangeNotes> notes = find(id);
+    if (notes.size() != 1) {
       throw new NoSuchChangeException(id);
     }
-    return ctls.get(0);
+    return notes.get(0);
   }
 
-  public List<ChangeControl> find(Change.Id id, CurrentUser user) throws OrmException {
+  public List<ChangeNotes> find(Change.Id id) throws OrmException {
     String project = changeIdProjectCache.getIfPresent(id);
     if (project != null) {
-      return fromProjectNumber(user, project, id.get());
+      return fromProjectNumber(project, id.get());
     }
 
     // Use the index to search for changes, but don't return any stored fields,
@@ -173,17 +160,16 @@ public class ChangeFinder {
     if (r.size() == 1) {
       changeIdProjectCache.put(id, r.get(0).project().get());
     }
-    return asChangeControls(r, user);
+    return asChangeNotes(r);
   }
 
-  private List<ChangeControl> asChangeControls(List<ChangeData> cds, CurrentUser user)
-      throws OrmException {
-    List<ChangeControl> ctls = new ArrayList<>(cds.size());
+  private List<ChangeNotes> asChangeNotes(List<ChangeData> cds) throws OrmException {
+    List<ChangeNotes> notes = new ArrayList<>(cds.size());
     if (!indexConfig.separateChangeSubIndexes()) {
       for (ChangeData cd : cds) {
-        checkedAdd(cd, ctls, user);
+        notes.add(cd.notes());
       }
-      return ctls;
+      return notes;
     }
 
     // If an index implementation uses separate non-atomic subindexes, it's possible to temporarily
@@ -195,18 +181,9 @@ public class ChangeFinder {
     Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
       if (seen.add(cd.getId())) {
-        checkedAdd(cd, ctls, user);
+        notes.add(cd.notes());
       }
     }
-    return ctls;
-  }
-
-  private static void checkedAdd(ChangeData cd, List<ChangeControl> ctls, CurrentUser user)
-      throws OrmException {
-    try {
-      ctls.add(cd.changeControl(user));
-    } catch (NoSuchChangeException e) {
-      // Ignore
-    }
+    return notes;
   }
 }

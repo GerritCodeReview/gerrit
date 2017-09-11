@@ -21,10 +21,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -44,7 +42,6 @@ public class PatchSetParser {
   private final ChangeNotes.Factory notesFactory;
   private final PatchSetUtil psUtil;
   private final ChangeFinder changeFinder;
-  private final Provider<CurrentUser> self;
 
   @Inject
   PatchSetParser(
@@ -52,14 +49,12 @@ public class PatchSetParser {
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       PatchSetUtil psUtil,
-      ChangeFinder changeFinder,
-      Provider<CurrentUser> self) {
+      ChangeFinder changeFinder) {
     this.db = db;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
     this.changeFinder = changeFinder;
-    this.self = self;
   }
 
   public PatchSet parsePatchSet(String token, ProjectControl projectControl, String branch)
@@ -141,8 +136,8 @@ public class PatchSetParser {
       return notesFactory.create(db.get(), projectControl.getProject().getNameKey(), changeId);
     }
     try {
-      ChangeControl ctl = changeFinder.findOne(changeId, self.get());
-      return notesFactory.create(db.get(), ctl.getProject().getNameKey(), changeId);
+      ChangeNotes notes = changeFinder.findOne(changeId);
+      return notesFactory.create(db.get(), notes.getProjectName(), changeId);
     } catch (NoSuchChangeException e) {
       throw error("\"" + changeId + "\" no such change");
     }

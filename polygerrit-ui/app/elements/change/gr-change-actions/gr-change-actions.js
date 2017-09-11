@@ -892,6 +892,12 @@
      */
     _send(method, payload, actionEndpoint, revisionAction, cleanupFn,
         opt_errorFn) {
+
+      const handleError = response => {
+        cleanupFn.call(this);
+        this._handleResponseError(response);
+      };
+
       return this.fetchIsLatestKnown(this.change, this.$.restAPI)
           .then(isLatest => {
             if (!isLatest) {
@@ -904,13 +910,17 @@
                   Gerrit.Nav.navigateToChange(this.change);
                 },
               });
+
+              // Because this is not a network error, call the cleanup function
+              // but not the error handler.
               cleanupFn();
+
               return Promise.resolve();
             }
             const patchNum = revisionAction ? this.patchNum : null;
             return this.$.restAPI.getChangeURLAndSend(this.changeNum, method,
-                patchNum, actionEndpoint, payload, this._handleResponseError,
-                this).then(response => {
+                patchNum, actionEndpoint, payload, handleError, this)
+                .then(response => {
                   cleanupFn.call(this);
                   return response;
                 });

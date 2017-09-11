@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3676ad1_1c8f7f43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-11T10:09:26Z",
+      "side": 1,
+      "message": "I wonder should i remove this instead?",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 3
+      },
+      "revId": "565d7aaa5cd06f9ff566efa424ddde559894b81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

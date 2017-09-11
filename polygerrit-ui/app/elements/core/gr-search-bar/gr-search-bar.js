@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  // Possible static search options for auto complete.
+  // Possible static search options for auto complete, without negations.
   const SEARCH_OPERATORS = [
     'added:',
     'age:',
@@ -56,6 +56,7 @@
     'is:reviewer',
     'is:starred',
     'is:watched',
+    'is:wip',
     'label:',
     'message:',
     'owner:',
@@ -82,6 +83,10 @@
     'topic:',
     'tr:',
   ];
+
+  // All of the ops, with corresponding negations.
+  const SEARCH_OPERATORS_WITH_NEGATIONS =
+      SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
 
   const SELF_EXPRESSION = 'self';
   const ME_EXPRESSION = 'me';
@@ -269,7 +274,7 @@
           return this._fetchAccounts(predicate, expression);
 
         default:
-          return Promise.resolve(SEARCH_OPERATORS
+          return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
               .filter(operator => operator.includes(input)));
       }
     },

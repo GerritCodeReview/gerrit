@@ -298,6 +298,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void autoclose() throws Exception {
+    // Create a change
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    // Force push it, closing it
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    // Attempt to push amended commit to same change
+    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertErrorStatus("change " + url + " closed");
+  }
+
+  @Test
   public void pushForMasterWithTopic() throws Exception {
     // specify topic in ref
     String topic = "my/topic";

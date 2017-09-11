@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "16cb356a_b2125846",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 34
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-11T23:40:17Z",
+      "side": 1,
+      "message": "No, not stupid. However _hideSettings doesn\u0027t work here anyway, as each row can reset previous rows.  \n\nI\u0027ve uploaded a draft of a way to do this here https://gerrit-review.googlesource.com/c/gerrit/+/126610\n\nYou can determine whether to show or hide settings prior to rendering the plugins with a promise.all\n\nAnother approach would be to create a sub-element that does the api request itself and sets its own property.  I\u0027m not sure this warrants a separate element, as it\u0027s quite simple.\n\nI did not add tests, I will leave that to you so you can understand how this works.",
+      "parentUuid": "6c95d79e_cdf62e76",
+      "range": {
+        "startLine": 54,
+        "startChar": 19,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "700bcfd7fc27416ddc583f1090b55ac6eca10c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26ca69f2_e529ce54",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
         "patchSetId": 34

@@ -1311,7 +1311,8 @@ public class PostReview
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
-              ctx.getControl(),
+              ctx.getNotes(),
+              ctx.getUser(),
               psId,
               user.getAccountId(),
               ctx.getRevWalk(),

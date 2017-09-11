@@ -718,7 +718,8 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(db, changeControl(), c.currentPatchSetId(), null, null));
+                  approvalsUtil.byPatchSet(
+                      db, notes(), changeControl().getUser(), c.currentPatchSetId(), null, null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();

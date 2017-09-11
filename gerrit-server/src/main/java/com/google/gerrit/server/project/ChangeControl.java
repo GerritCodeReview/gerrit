@@ -293,7 +293,8 @@ public class ChangeControl {
     }
 
     for (PatchSetApproval ap :
-        approvalsUtil.byPatchSet(db, this, getChange().currentPatchSetId(), null, null)) {
+        approvalsUtil.byPatchSet(
+            db, getNotes(), getUser(), getChange().currentPatchSetId(), null, null)) {
       LabelType type =
           getProjectControl()
               .getProjectState()

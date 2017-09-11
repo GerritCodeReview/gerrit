@@ -49,7 +49,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -228,7 +227,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, OrmException, IOException {
     ReviewDb db = ctx.getDb();
-    ChangeControl ctl = ctx.getControl();
 
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -261,7 +259,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             description);
 
     if (notify != NotifyHandling.NONE) {
-      oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
+      oldReviewers = approvalsUtil.getReviewers(db, ctx.getNotes());
     }
 
     if (message != null) {
@@ -283,7 +281,12 @@ public class PatchSetInserter implements BatchUpdateOp {
     change.setCurrentPatchSet(patchSetInfo);
     if (copyApprovals) {
       approvalCopier.copyInReviewDb(
-          db, ctl, patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig());
+          db,
+          ctx.getNotes(),
+          ctx.getUser(),
+          patchSet,
+          ctx.getRevWalk(),
+          ctx.getRepoView().getConfig());
     }
     if (changeMessage != null) {
       cmUtil.addChangeMessage(db, update, changeMessage);

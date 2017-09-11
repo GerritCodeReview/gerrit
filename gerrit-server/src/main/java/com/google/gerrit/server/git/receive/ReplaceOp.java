@@ -311,7 +311,8 @@ public class ReplaceOp implements BatchUpdateOp {
             approvals);
     approvalCopier.copyInReviewDb(
         ctx.getDb(),
-        ctx.getControl(),
+        ctx.getNotes(),
+        ctx.getUser(),
         newPatchSet,
         ctx.getRevWalk(),
         ctx.getRepoView().getConfig(),
@@ -401,7 +402,8 @@ public class ReplaceOp implements BatchUpdateOp {
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
-              ctx.getControl(),
+              ctx.getNotes(),
+              ctx.getUser(),
               priorPatchSetId,
               ctx.getAccountId(),
               ctx.getRevWalk(),

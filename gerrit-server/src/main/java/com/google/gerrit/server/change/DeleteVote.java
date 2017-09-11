@@ -41,7 +41,6 @@ import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -164,10 +163,9 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, AuthException, ResourceNotFoundException, IOException,
             PermissionBackendException {
-      ChangeControl ctl = ctx.getControl();
-      change = ctl.getChange();
+      change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
-      ps = psUtil.current(db.get(), ctl.getNotes());
+      ps = psUtil.current(db.get(), ctx.getNotes());
 
       boolean found = false;
       LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
@@ -175,7 +173,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
-              ctl,
+              ctx.getNotes(),
+              ctx.getUser(),
               psId,
               account.getId(),
               ctx.getRevWalk(),

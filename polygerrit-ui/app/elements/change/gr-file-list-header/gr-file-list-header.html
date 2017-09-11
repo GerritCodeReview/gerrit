@@ -1,0 +1,226 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+
+
+<dom-module id="gr-file-list-header">
+  <template>
+    <style include="shared-styles">
+      .prefsButton {
+        float: right;
+      }
+      .collapseToggleButton {
+        text-decoration: none;
+      }
+      .patchInfoEdit.patchInfo-header {
+        background-color: #fcfad6;
+      }
+      .patchInfoOldPatchSet.patchInfo-header {
+        background-color: #fff9c4;
+      }
+      .patchInfoOldPatchSet .latestPatchContainer {
+        display: initial;
+      }
+      .patchInfo-header {
+        padding: .5em calc(var(--default-horizontal-margin) / 2);
+      }
+      .patchInfo-header {
+        background-color: #f6f6f6;
+        border-bottom: 1px solid #ebebeb;
+        display: flex;
+        justify-content: space-between;
+      }
+      .latestPatchContainer {
+        display: none;
+      }
+      .patchSetSelect {
+        max-width: 8em;
+      }
+      gr-editable-label.descriptionLabel {
+        max-width: 100%;
+      }
+      .mobile {
+        display: none;
+      }
+      #diffPrefsContainer,
+      .rightControls {
+        margin: auto 0 auto auto;
+      }
+      .patchInfo-header-wrapper {
+        width: 100%;
+      }
+      .showOnEdit {
+        display: none;
+      }
+      .editLoaded .hideOnEdit {
+        display: none;
+      }
+      .editLoaded .showOnEdit {
+        display: initial;
+      }
+      .fileList-header {
+        display: flex;
+        font-weight: bold;
+        justify-content: space-between;
+        margin: .5em calc(var(--default-horizontal-margin) / 2);
+      }
+      .rightControls {
+        display: flex;
+        flex-wrap: wrap;
+        font-weight: normal;
+        justify-content: flex-end;
+      }
+      .separator {
+        margin: 0 .25em;
+      }
+      .expandInline {
+        padding-right: .25em;
+      }
+      .patchSetSelect {
+        max-width: 8em;
+      }
+      .editLoaded .hideOnEdit {
+        display: none;
+      }
+      .editLoaded .showOnEdit {
+        display: initial;
+      }
+    </style>
+    <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchRange.patchNum, allPatchSets)]]">
+      <div class="patchInfo-header-wrapper">
+        <label class="patchSelectLabel" for="patchSetSelect">
+          Patch set
+        </label>
+        <gr-select
+            id="patchSetSelect"
+            bind-value="{{_selectedPatchSet}}"
+            class="patchSetSelect"
+            on-change="_handlePatchChange">
+          <select>
+            <template is="dom-repeat" items="[[allPatchSets]]"
+                as="patchNum">
+              <option
+                  value$="[[patchNum.num]]"
+                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.basePatchNum, revisions)]]">
+                [[patchNum.num]]
+                /
+                [[computeLatestPatchNum(allPatchSets)]]
+                [[_computePatchSetCommentsString(comments, patchNum.num)]]
+                [[_computePatchSetDescription(change, patchNum.num)]]
+              </option>
+            </template>
+          </select>
+        </gr-select>
+        /
+        <gr-commit-info
+            change="[[change]]"
+            server-config="[[serverConfig]]"
+            commit-info="[[commitInfo]]"></gr-commit-info>
+        <span class="latestPatchContainer">
+          /
+          <a href$="[[changeUrl]]">Go to latest patch set</a>
+        </span>
+        <span class="downloadContainer desktop">
+          /
+          <gr-button link
+              class="download"
+              on-tap="_handleDownloadTap">Download</gr-button>
+        </span>
+        <span class="descriptionContainer hideOnEdit">
+          /
+          <gr-editable-label
+              id="descriptionLabel"
+              class="descriptionLabel"
+              value="[[_computePatchSetDescription(change, _selectedPatchSet)]]"
+              placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+              read-only="[[_descriptionReadOnly]]"
+              on-changed="_handleDescriptionChanged"></gr-editable-label>
+        </span>
+        <span id="diffPrefsContainer"
+            class="hideOnEdit"
+            hidden$="[[_computePrefsButtonHidden(diffPrefs, loggedIn)]]"
+            hidden>
+          <gr-button link
+              class="prefsButton desktop"
+              on-tap="_handlePrefsTap">Diff Preferences</gr-button>
+        </span>
+      </div>
+    </div>
+    <div class="fileList-header">
+      <div>Files</div>
+      <div class="rightControls">
+        <template is="dom-if"
+            if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+          <gr-button
+              id="expandBtn"
+              link
+              on-tap="_expandAllDiffs">Show diffs</gr-button>
+          <span class="separator">/</span>
+          <gr-button
+              id="collapseBtn"
+              link
+              on-tap="_collapseAllDiffs">Hide diffs</gr-button>
+        </template>
+        <template is="dom-if"
+            if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+          <div class="warning">
+            Bulk actions disabled because there are too many files.
+          </div>
+        </template>
+        <span class="separator">/</span>
+        <gr-select
+            id="modeSelect"
+            bind-value="{{diffViewMode}}">
+          <select>
+            <option value="SIDE_BY_SIDE">Side By Side</option>
+            <option value="UNIFIED_DIFF">Unified</option>
+          </select>
+        </gr-select>
+        <span class="separator">/</span>
+        <label>
+          Diff against
+          <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
+              class="patchSetSelect" on-change="_handleBasePatchChange">
+            <select>
+              <option value="PARENT">Base</option>
+              <template
+                  is="dom-repeat"
+                  items="[[allPatchSets]]"
+                  as="patchNum">
+                <option
+                    disabled$="[[_computeBasePatchDisabled(patchNum.num, patchRange.patchNum, revisions)]]"
+                    value$="[[patchNum.num]]">
+                  [[patchNum.num]]
+                  [[patchNum.desc]]
+                </option>
+              </template>
+            </select>
+          </gr-select>
+        </label>
+      </div>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-file-list-header.js"></script>
+</dom-module>

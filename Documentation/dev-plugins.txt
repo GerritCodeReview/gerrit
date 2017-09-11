@@ -2389,7 +2389,7 @@ link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Ela
 and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite].
 
 There is also a working example of reporting metrics to the console in the
-link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+/master/src/main/java/com/googlesource/gerrit/plugins/cookbook/ConsoleMetricReporter.jave[
+link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+/master/src/main/java/com/googlesource/gerrit/plugins/cookbook/ConsoleMetricReporter.java[
 cookbook plugin].
 
 === Providing own metrics

@@ -292,7 +292,8 @@ public class MailProcessor {
       approvalsUtil
           .byPatchSetUser(
               ctx.getDb(),
-              changeControl,
+              changeControl.getNotes(),
+              changeControl.getUser(),
               psId,
               ctx.getAccountId(),
               ctx.getRevWalk(),

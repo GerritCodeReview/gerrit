@@ -358,7 +358,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :
         args.approvalsUtil.byPatchSet(
-            ctx.getDb(), ctx.getControl(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
+            ctx.getDb(),
+            ctx.getNotes(),
+            ctx.getUser(),
+            psId,
+            ctx.getRevWalk(),
+            ctx.getRepoView().getConfig())) {
       byKey.put(psa.getKey(), psa);
     }
 
@@ -372,7 +377,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // was added. So we need to make sure votes are accurate now. This way if
     // permissions get modified in the future, historical records stay accurate.
     LabelNormalizer.Result normalized =
-        args.labelNormalizer.normalize(ctx.getControl(), byKey.values());
+        args.labelNormalizer.normalize(ctx.getNotes(), ctx.getUser(), byKey.values());
     update.putApproval(submitter.getLabel(), submitter.getValue());
     saveApprovals(normalized, ctx, update, false);
     return normalized;

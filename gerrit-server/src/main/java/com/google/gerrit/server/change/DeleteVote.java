@@ -175,7 +175,8 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
-              ctl,
+              ctx.getNotes(),
+              ctx.getUser(),
               psId,
               account.getId(),
               ctx.getRevWalk(),

@@ -283,7 +283,12 @@ public class PatchSetInserter implements BatchUpdateOp {
     change.setCurrentPatchSet(patchSetInfo);
     if (copyApprovals) {
       approvalCopier.copyInReviewDb(
-          db, ctl, patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig());
+          db,
+          ctx.getNotes(),
+          ctx.getUser(),
+          patchSet,
+          ctx.getRevWalk(),
+          ctx.getRepoView().getConfig());
     }
     if (changeMessage != null) {
       cmUtil.addChangeMessage(db, update, changeMessage);

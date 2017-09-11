@@ -111,7 +111,7 @@ public class ReviewerJson {
         perm,
         cd,
         approvalsUtil.byPatchSetUser(
-            db.get(), ctl, psId, new Account.Id(out._accountId), null, null));
+            db.get(), cd.notes(), ctl.getUser(), psId, new Account.Id(out._accountId), null, null));
   }
 
   public ReviewerInfo format(

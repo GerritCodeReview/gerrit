@@ -1080,11 +1080,16 @@ public class ChangeJson {
   private Map<String, Short> currentLabels(PermissionBackend.ForChange perm, ChangeData cd)
       throws OrmException {
     IdentifiedUser user = perm.user().asIdentifiedUser();
-    ChangeControl ctl = cd.changeControl().forUser(user);
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
-            db.get(), ctl, cd.change().currentPatchSetId(), user.getAccountId(), null, null)) {
+            db.get(),
+            cd.notes(),
+            user,
+            cd.change().currentPatchSetId(),
+            user.getAccountId(),
+            null,
+            null)) {
       result.put(psa.getLabel(), psa.getValue());
     }
     return result;

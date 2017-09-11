@@ -1,0 +1,377 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc3a675d_b13919ed",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "This sentence looks cut off?",
+      "range": {
+        "startLine": 1127,
+        "startChar": 61,
+        "endLine": 1127,
+        "endChar": 63
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8b1c0ad_b50737df",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "nit: don\u0027t use tabs, but use blanks instead",
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d37f734d_36571e7a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "nit: don\u0027t use tabs, but use blanks instead",
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e358a9_3cd4294c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Are you planing to add more tests? Otherwise I\u0027d remove \u0027Basic\u0027.",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 37
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaae6ac7_12f44290",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "(optional) Adapt merge(PushResult) to also accept a change Id so you can just do\n\n  merge(out.changeId)",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3053598d_6d9e66d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Remove and use rsrc.getUser() instead",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 56
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b4d656b_a8c860a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Can \u0027input\u0027 be null?",
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b8bf437_b155033e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Use rsrc.getUser() instead",
+      "range": {
+        "startLine": 104,
+        "startChar": 18,
+        "endLine": 104,
+        "endChar": 42
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45c20080_49fc3e03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Use rsrc.getNameKey() instead",
+      "range": {
+        "startLine": 105,
+        "startChar": 21,
+        "endLine": 105,
+        "endChar": 61
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ec64b1_9160c7b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Use rsrc.getControl() inline here to limit the user of controls",
+      "range": {
+        "startLine": 112,
+        "startChar": 9,
+        "endLine": 112,
+        "endChar": 23
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2311300_d11783a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "nit: Start with a capital letter",
+      "range": {
+        "startLine": 135,
+        "startChar": 21,
+        "endLine": 135,
+        "endChar": 22
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1486c9c1_5e36d52e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "nit: Shorter: rsrc.getNameKey()",
+      "range": {
+        "startLine": 148,
+        "startChar": 17,
+        "endLine": 148,
+        "endChar": 50
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f55f2f_4433f5d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "rsrc.getUser() (Use *Control only where explicitly needed - e.g. when calling #isOwner() on it)",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 42
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "072bd41e_b6fd75a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "It looks like this is deprecated. Is it still OK to use?",
+      "range": {
+        "startLine": 153,
+        "startChar": 60,
+        "endLine": 153,
+        "endChar": 72
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70833f9_e24cdaf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Optional: Inline:\n\n  Response.created(jsonFactory.noOptions().format(ins.getChange()))",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 50
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9e4c4f9_c41735bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "I think we can just throw those exceptions and let the REST API layer handle conversion and retries.",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 7
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "549d0669_2af758df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T09:55:31Z",
+      "side": 1,
+      "message": "Use a period instead",
+      "range": {
+        "startLine": 51,
+        "startChar": 29,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

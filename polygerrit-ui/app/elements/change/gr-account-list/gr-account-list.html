@@ -37,12 +37,15 @@ limitations under the License.
       .pending-add {
         font-style: italic;
       }
+      .list {
+        @apply --account-list-style;
+      }
     </style>
     <!--
       NOTE(Issue 6419): Nest the inner dom-repeat template in a div rather than
       as a direct child of the dom-module's template.
     -->
-    <div>
+    <div class="list">
       <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
         <gr-account-chip
             account="[[account]]"

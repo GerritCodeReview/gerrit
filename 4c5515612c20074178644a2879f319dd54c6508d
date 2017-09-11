@@ -613,6 +613,30 @@
     },
     {
       "key": {
+        "uuid": "7c5281f7_05a32912",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-11T11:12:50Z",
+      "side": 1,
+      "message": "good question. What should I do as an alternative, though?",
+      "parentUuid": "072bd41e_b6fd75a6",
+      "range": {
+        "startLine": 153,
+        "startChar": 60,
+        "endLine": 153,
+        "endChar": 72
+      },
+      "revId": "4c5515612c20074178644a2879f319dd54c6508d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a70833f9_e24cdaf7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
         "patchSetId": 10

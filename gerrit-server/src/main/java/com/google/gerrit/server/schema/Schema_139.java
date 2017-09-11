@@ -15,6 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
@@ -92,11 +94,11 @@ public class Schema_139 extends SchemaVersion {
             ProjectWatch.builder()
                 .project(new Project.NameKey(rs.getString(2)))
                 .filter(rs.getString(3))
-                .notifyAbandonedChanges(rs.getBoolean(4))
-                .notifyAllComments(rs.getBoolean(5))
-                .notifyNewChanges(rs.getBoolean(6))
-                .notifyNewPatchSets(rs.getBoolean(7))
-                .notifySubmittedChanges(rs.getBoolean(8));
+                .notifyAbandonedChanges(getBoolean(rs.getString(4)))
+                .notifyAllComments(getBoolean(rs.getString(5)))
+                .notifyNewChanges(getBoolean(rs.getString(6)))
+                .notifyNewPatchSets(getBoolean(rs.getString(7))
+                .notifySubmittedChanges(getBoolean(rs.getString(8)));
         imports.put(accountId, b.build());
       }
     }
@@ -195,5 +197,10 @@ public class Schema_139 extends SchemaVersion {
 
       abstract ProjectWatch build();
     }
+  }
+
+  private static boolean toBoolean(String v) {
+    Preconditions.checkState(!Strings.isNullOrEmpty(v));
+    return v.equals("Y");
   }
 }

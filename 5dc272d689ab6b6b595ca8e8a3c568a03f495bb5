@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8606fe1b_a98c00e3",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5771fcf_4cecd1e2",
+      "range": {
+        "startLine": 235,
+        "startChar": 10,
+        "endLine": 235,
+        "endChar": 19
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ef92623_6fb00cb6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e756484_9e33f8ec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3310,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef92623_6fb00cb6",
+      "range": {
+        "startLine": 3307,
+        "startChar": 4,
+        "endLine": 3310,
+        "endChar": 81
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0e265ed6_a94127e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Ahh what a relieve :). I think you are right and removed the code. I also changed the assertation back to checkNotNull as it was before this check was added.",
+      "parentUuid": "382b0064_ea7997f4",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d89d656_f80e415a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f7db95f3_abf511fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d89d656_f80e415a",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 44
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "204fbfd1_23fe122a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-11T14:55:14Z",
       "side": 1,
       "message": "This method call can potentially throw a NoSuchChangeException (e.g. when the project isn\u0027t found). Don\u0027t we have to explicitly catch that exception and map it to a ResourceNotFoundException?",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbe1839_0c78a3fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Hmm, since we have valid change notes I don\u0027t think there is a chance that the change/project can\u0027t be found. Can you think of anything I am missing?",
+      "parentUuid": "204fbfd1_23fe122a",
       "range": {
         "startLine": 100,
         "startChar": 40,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "2662b3fe_f233123c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd74c9b7_9314df2a",
+      "range": {
+        "startLine": 125,
+        "startChar": 53,
+        "endLine": 125,
+        "endChar": 80
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8be11f16_717621fb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PatchSetParser.java",
         "patchSetId": 1
@@ -160,6 +304,30 @@
       "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad08e898_82274e47",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PatchSetParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-11T15:26:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be11f16_717621fb",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

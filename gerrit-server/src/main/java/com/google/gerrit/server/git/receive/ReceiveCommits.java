@@ -1683,7 +1683,7 @@ class ReceiveCommits {
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(cmd, "change " + canonicalWebUrl + change.getId() + " closed");
+      reject(cmd, "change " + ChangeUtil.formatChangeUrl(canonicalWebUrl, change) + " closed");
       return false;
     }
 

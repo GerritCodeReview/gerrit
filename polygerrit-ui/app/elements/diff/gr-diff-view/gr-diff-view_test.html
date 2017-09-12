@@ -336,15 +336,6 @@ limitations under the License.
             '42-glados.txt-10-PARENT');
         assert.equal(linkEls[2].getAttribute('href'),
             '42-wheatley.md-10-PARENT');
-
-        assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-            '/foo/bar/baz');
-        assert.equal(element._computeFileDisplayName('/foobarbaz'),
-            '/foobarbaz');
-        assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
-            'Commit message');
-        assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
-            'Merge list');
       });
 
       test('jump to file dropdown with patch range', () => {

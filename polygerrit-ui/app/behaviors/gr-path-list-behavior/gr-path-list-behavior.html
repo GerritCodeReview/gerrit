@@ -20,6 +20,10 @@ limitations under the License.
   window.Gerrit = window.Gerrit || {};
   /** @polymerBehavior Gerrit.PathListBehavior */
   Gerrit.PathListBehavior = {
+
+    COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
+    MERGE_LIST_PATH: '/MERGE_LIST',
+
     /**
      * @param {string} a
      * @param {string} b
@@ -27,20 +31,18 @@ limitations under the License.
      */
     specialFilePathCompare(a, b) {
       // The commit message always goes first.
-      const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-      if (a === COMMIT_MESSAGE_PATH) {
+      if (a === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
         return -1;
       }
-      if (b === COMMIT_MESSAGE_PATH) {
+      if (b === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
         return 1;
       }
 
       // The merge list always comes next.
-      const MERGE_LIST_PATH = '/MERGE_LIST';
-      if (a === MERGE_LIST_PATH) {
+      if (a === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
         return -1;
       }
-      if (b === MERGE_LIST_PATH) {
+      if (b === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
         return 1;
       }
 
@@ -66,6 +68,19 @@ limitations under the License.
         }
       }
       return aFile.localeCompare(bFile) || a.localeCompare(b);
+    },
+
+    computeFileDisplayName(path) {
+      if (path === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
+        return 'Commit message';
+      } else if (path === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
+        return 'Merge list';
+      }
+      return path;
+    },
+
+    computeTruncatedFileDisplayName(path) {
+      return util.truncatePath(this.computeFileDisplayName(path));
     },
   };
 })(window);

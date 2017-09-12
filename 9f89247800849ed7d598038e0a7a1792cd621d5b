@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fce8f43f_9914de44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T12:29:02Z",
+      "side": 1,
+      "message": "I managed to convert it to AutoValue, but to be honest, it seems like more code than this.",
+      "parentUuid": "f39ee94a_ae99522a",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "9f89247800849ed7d598038e0a7a1792cd621d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61338b3e_759bd559",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
         "patchSetId": 3

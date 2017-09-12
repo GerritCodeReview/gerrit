@@ -580,7 +580,9 @@
     },
 
     _computeAvailablePatches(revs) {
-      return this.sortRevisions(Object.values(revs)).map(e => e._number);
+      return this.sortRevisions(Object.values(revs)).map(e => {
+        return {num: e._number};
+      });
     },
 
     /**
@@ -670,6 +672,16 @@
 
     _showDropdownTapHandler(e) {
       this.$.dropdown.open();
+    },
+
+    _handlePatchChange(e) {
+      const rightPatch = e.detail.rightPatch;
+      const leftPatch = e.detail.leftPatch;
+      let rangeStr = rightPatch;
+      if (leftPatch != 'PARENT') {
+        rangeStr = leftPatch + '..' + rangeStr;
+      }
+      page.show('/c/' + this._changeNum + '/' + rangeStr + '/' + this._path);
     },
 
     _handlePrefsTap(e) {

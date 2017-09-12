@@ -17,26 +17,32 @@
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
 
+  /**
+   * Fired when the patch range changes
+   *
+   * @event patch-range-change
+   */
+
   Polymer({
     is: 'gr-patch-range-select',
 
     properties: {
       availablePatches: Array,
       changeNum: String,
+      comments: Array,
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
-      path: String,
-      patchRange: {
-        type: Object,
-        observer: '_updateSelected',
-      },
+      patchRange: Object,
       revisions: Object,
       _sortedRevisions: Array,
       _rightSelected: String,
       _leftSelected: String,
     },
 
-    observers: ['_updateSortedRevisions(revisions.*)'],
+    observers: [
+      '_updateSortedRevisions(revisions.*)',
+      '_updateSelected(patchRange.*)',
+    ],
 
     behaviors: [Gerrit.PatchSetBehavior],
 
@@ -53,24 +59,20 @@
     _handlePatchChange(e) {
       const leftPatch = this._leftSelected;
       const rightPatch = this._rightSelected;
-      let rangeStr = rightPatch;
-      if (leftPatch != 'PARENT') {
-        rangeStr = leftPatch + '..' + rangeStr;
-      }
-      page.show('/c/' + this.changeNum + '/' + rangeStr + '/' + this.path);
+      this.fire('patch-range-change', {rightPatch, leftPatch});
       e.target.blur();
     },
 
-    _computeLeftDisabled(patchNum, patchRange) {
-      return this.findSortedIndex(patchNum, this._sortedRevisions) >=
-          this.findSortedIndex(patchRange.patchNum, this._sortedRevisions);
+    _computeLeftDisabled(patchNum, patchRange, sortedRevisions) {
+      return this.findSortedIndex(patchNum, sortedRevisions) >=
+          this.findSortedIndex(patchRange.patchNum, sortedRevisions);
     },
 
-    _computeRightDisabled(patchNum, patchRange) {
+    _computeRightDisabled(patchNum, patchRange, sortedRevisions) {
       if (patchRange.basePatchNum == 'PARENT') { return false; }
 
-      return this.findSortedIndex(patchNum, this._sortedRevisions) <=
-          this.findSortedIndex(patchRange.basePatchNum, this._sortedRevisions);
+      return this.findSortedIndex(patchNum, sortedRevisions) <=
+          this.findSortedIndex(patchRange.basePatchNum, sortedRevisions);
     },
 
     // On page load, the dom-if for options getting added occurs after
@@ -84,6 +86,66 @@
 
     _synchronizeSelectionLeft() {
       this.$.leftPatchSelect.value = this._leftSelected;
+    },
+
+    // Copied from gr-file-list
+    _getCommentsForPath(comments, patchNum, path) {
+      return (comments[path] || []).filter(c => {
+        return this.patchNumEquals(c.patch_set, patchNum);
+      });
+    },
+
+    // Copied from gr-file-list
+    _computeUnresolvedNum(comments, drafts, patchNum, path) {
+      comments = this._getCommentsForPath(comments, patchNum, path);
+      drafts = this._getCommentsForPath(drafts, patchNum, path);
+      comments = comments.concat(drafts);
+
+      // Create an object where every comment ID is the key of an unresolved
+      // comment.
+
+      const idMap = comments.reduce((acc, comment) => {
+        if (comment.unresolved) {
+          acc[comment.id] = true;
+        }
+        return acc;
+      }, {});
+
+      // Set false for the comments that are marked as parents.
+      for (const comment of comments) {
+        idMap[comment.in_reply_to] = false;
+      }
+
+      // The unresolved comments are the comments that still have true.
+      const unresolvedLeaves = Object.keys(idMap).filter(key => {
+        return idMap[key];
+      });
+
+      return unresolvedLeaves.length;
+    },
+
+    _computePatchSetCommentsString(allComments, patchNum) {
+      // todo (beckysiegel) get comment strings for diff view also.
+      if (!allComments) { return ''; }
+      let numComments = 0;
+      let numUnresolved = 0;
+      for (const file in allComments) {
+        if (allComments.hasOwnProperty(file)) {
+          numComments += this._getCommentsForPath(
+              allComments, patchNum, file).length;
+          numUnresolved += this._computeUnresolvedNum(
+              allComments, {}, patchNum, file);
+        }
+      }
+      let commentsStr = '';
+      if (numComments > 0) {
+        commentsStr = '(' + numComments + ' comments';
+        if (numUnresolved > 0) {
+          commentsStr += ', ' + numUnresolved + ' unresolved';
+        }
+        commentsStr += ')';
+      }
+      return commentsStr;
     },
 
     _computePatchSetDescription(revisions, patchNum) {

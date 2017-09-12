@@ -119,6 +119,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
+      Gerrit.PathListBehavior,
     ],
 
     observers: [
@@ -663,19 +664,6 @@
       return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
     },
 
-    _computeFileDisplayName(path) {
-      if (path === COMMIT_MESSAGE_PATH) {
-        return 'Commit message';
-      } else if (path === MERGE_LIST_PATH) {
-        return 'Merge list';
-      }
-      return path;
-    },
-
-    _computeTruncatedFileDisplayName(path) {
-      return util.truncatePath(this._computeFileDisplayName(path));
-    },
-
     _formatBytes(bytes) {
       if (bytes == 0) return '+/-0 B';
       const bits = 1024;
@@ -704,7 +692,7 @@
 
     _computeClass(baseClass, path) {
       const classes = [baseClass];
-      if (path === COMMIT_MESSAGE_PATH || path === MERGE_LIST_PATH) {
+      if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
         classes.push('invisible');
       }
       return classes.join(' ');

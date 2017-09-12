@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "024e4b87_550dda72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-12T21:27:00Z",
+      "side": 1,
+      "message": "Can the commit message describe the bug it fixes a little more?",
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "633e7eb9_844c6429",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-12T21:27:00Z",
+      "side": 1,
+      "message": "s/fix/Fix/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f377cfeb_13faaf5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-12T21:27:00Z",
+      "side": 1,
+      "message": "Optional: consider negating this so it can return rather than nesting the whole function.\n\n if (!opt_reset \u0026\u0026 this.viewState.diffViewMode) { return; }",
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

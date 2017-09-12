@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a93949f_a730e6fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T12:48:18Z",
+      "side": 1,
+      "message": "Ideally none of these should be public, to force callers to call the wrappers below, but I\u0027m not sure how to do that.\n\nIt doesn\u0027t compile if they are private, and are still accessible if protected.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "ffb4298a02de936f2acc2f22f4e0c0e6fa98346d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff3d860f_056af2cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T12:48:18Z",
+      "side": 1,
+      "message": "This is redundant.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "ffb4298a02de936f2acc2f22f4e0c0e6fa98346d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

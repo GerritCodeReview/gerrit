@@ -260,18 +260,21 @@
       }
     },
 
-    _setDiffViewMode() {
-      if (!this.viewState.diffViewMode) {
-        return this.$.restAPI.getPreferences().then( prefs => {
-          if (!this.viewState.diffMode) {
-            this.set('viewState.diffMode', prefs.default_diff_view);
-          }
-        }).then(() => {
-          if (!this.viewState.diffMode) {
-            this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-          }
-        });
-      }
+    /**
+     * @param {boolean=} opt_reset
+     */
+    _setDiffViewMode(opt_reset) {
+      if (!opt_reset && this.viewState.diffViewMode) { return; }
+
+      return this.$.restAPI.getPreferences().then( prefs => {
+        if (!this.viewState.diffMode) {
+          this.set('viewState.diffMode', prefs.default_diff_view);
+        }
+      }).then(() => {
+        if (!this.viewState.diffMode) {
+          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
+        }
+      });
     },
 
     _updateSortedRevisions(revisionsRecord) {
@@ -619,7 +622,7 @@
           this.viewState.changeNum !== this._changeNum) {
         // Reset the diff mode to null when navigating from one change to
         // another, so that the user's preference is restored.
-        this.set('viewState.diffMode', null);
+        this._setDiffViewMode(true);
         this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
       }
       this.set('viewState.changeNum', this._changeNum);

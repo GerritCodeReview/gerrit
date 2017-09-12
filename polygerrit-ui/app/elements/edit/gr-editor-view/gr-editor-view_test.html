@@ -1,0 +1,183 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-editor-view</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="gr-editor-view.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-editor-view></gr-editor-view>
+  </template>
+</test-fixture>
+
+<script>
+suite('gr-editor-view tests', () => {
+  let element;
+  let sandbox;
+  let savePathStub;
+  let saveFileStub;
+  let changeDetailStub;
+  let navigateStub;
+  const mockParams = {
+    changeNum: '42',
+    path: 'foo/bar.baz',
+  };
+
+  setup(() => {
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(true); },
+    });
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    savePathStub = sandbox.stub(element.$.restAPI, 'renameFileInChangeEdit');
+    saveFileStub = sandbox.stub(element.$.restAPI, 'saveChangeEdit');
+    changeDetailStub = sandbox.stub(element.$.restAPI, 'getDiffChangeDetail');
+    navigateStub = sandbox.stub(element, '_viewEditInChangeView');
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  suite('_paramsChanged', () => {
+    test('incorrect view returns immediately', () => {
+      element._paramsChanged(
+          Object.assign({}, mockParams, {view: Gerrit.Nav.View.DIFF}));
+      assert.notOk(element._changeNum);
+    });
+
+    test('good params proceed', () => {
+      changeDetailStub.returns(Promise.resolve({}));
+      const fileStub = sandbox.stub(element, '_getFileContent')
+          .returns(Promise.resolve('text'));
+
+      const promises = element._paramsChanged(
+          Object.assign({}, mockParams, {view: Gerrit.Nav.View.EDIT}));
+
+      flushAsynchronousOperations();
+      assert.equal(element._changeNum, mockParams.changeNum);
+      assert.equal(element._path, mockParams.path);
+      assert.deepEqual(changeDetailStub.lastCall.args[0],
+          mockParams.changeNum);
+      assert.deepEqual(fileStub.lastCall.args,
+          [mockParams.changeNum, mockParams.path]);
+
+      return promises.then(() => {
+        assert.equal(element._content, 'text');
+        assert.equal(element._newContent, 'text');
+      });
+    });
+  });
+
+  test('edit file path', done => {
+    element._changeNum = mockParams.changeNum;
+    element._path = mockParams.path;
+    savePathStub.onFirstCall().returns(Promise.resolve({}));
+    savePathStub.onSecondCall().returns(Promise.resolve({ok: true}));
+
+    // Calling with the same path should not navigate.
+    element._handlePathChanged({detail: mockParams.path}).then(() => {
+      assert.isFalse(savePathStub.called);
+        // !ok response
+      element._handlePathChanged({detail: 'newPath'}).then(() => {
+        assert.isTrue(savePathStub.called);
+        assert.isFalse(navigateStub.called);
+        // ok response
+        element._handlePathChanged({detail: 'newPath'}).then(() => {
+          assert.isTrue(navigateStub.called);
+          done();
+        });
+      });
+    });
+  });
+
+  suite('edit file content', () => {
+    const originalText = 'file text';
+    const newText = 'file text changed';
+
+    setup(() => {
+      element._changeNum = mockParams.changeNum;
+      element._path = mockParams.path;
+      element._content = originalText;
+      element._newContent = originalText;
+      flushAsynchronousOperations();
+    });
+
+    test('initial load', () => {
+      assert.equal(element.$.file.value, originalText);
+      assert.isTrue(element.$.save.hasAttribute('disabled'));
+    });
+
+    test('file modification and save, !ok response', done => {
+      const saveSpy = sandbox.spy(element, '_saveEdit');
+      saveFileStub.returns(Promise.resolve({ok: false}));
+      element._newContent = newText;
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.file.value, newText);
+      assert.isFalse(element.$.save.hasAttribute('disabled'));
+
+      MockInteractions.tap(element.$.save);
+      assert(saveSpy.called);
+      saveSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(saveFileStub.called);
+        assert.deepEqual(saveFileStub.lastCall.args,
+            [mockParams.changeNum, mockParams.path, newText]);
+        assert.isFalse(navigateStub.called);
+        done();
+      });
+    });
+
+    test('file modification and save', done => {
+      const saveSpy = sandbox.spy(element, '_saveEdit');
+      saveFileStub.returns(Promise.resolve({ok: true}));
+      element._newContent = newText;
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.file.value, newText);
+      assert.isFalse(element.$.save.hasAttribute('disabled'));
+
+      MockInteractions.tap(element.$.save);
+      assert.isTrue(saveSpy.called);
+      saveSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(saveFileStub.called);
+        assert.isTrue(navigateStub.called);
+        done();
+      });
+    });
+
+    test('file modification and cancel', () => {
+      const cancelSpy = sandbox.spy(element, '_handleCancelTap');
+      element._newContent = newText;
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.file.value, newText);
+      assert.isFalse(element.$.save.hasAttribute('disabled'));
+
+      MockInteractions.tap(element.$.cancel);
+      assert.isTrue(cancelSpy.called);
+      assert.isFalse(saveFileStub.called);
+      assert.isTrue(navigateStub.called);
+    });
+  });
+});
+</script>

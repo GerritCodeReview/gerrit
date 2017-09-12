@@ -637,8 +637,6 @@
           this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
-      this.$.fileListHeader.updateSelected();
-
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },

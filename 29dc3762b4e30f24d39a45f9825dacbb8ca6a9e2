@@ -22,6 +22,30 @@
       "revId": "29dc3762b4e30f24d39a45f9825dacbb8ca6a9e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b8378a_6e3091a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-12T17:12:41Z",
+      "side": 0,
+      "message": "ahh... good catch. tricky Polymer (class$ doesn\u0027t work when nothing is computed...). fixed in next patch.",
+      "parentUuid": "82b450ad_4ee4cbc1",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 7
+      },
+      "revId": "29dc3762b4e30f24d39a45f9825dacbb8ca6a9e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

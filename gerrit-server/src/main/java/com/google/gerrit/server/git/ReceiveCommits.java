@@ -687,7 +687,9 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(changeFormatter.newChange(new ChangeReportFormatter.Input(c.change)));
+        addMessage(
+            changeFormatter.newChange(
+                ChangeReportFormatter.Input.builder().setChange(c.change).build()));
       }
       addMessage("");
     }
@@ -718,10 +720,12 @@ public class ReceiveCommits {
         }
 
         ChangeReportFormatter.Input input =
-            new ChangeReportFormatter.Input(u.notes.getChange())
+            ChangeReportFormatter.Input.builder()
+                .setChange(u.notes.getChange())
                 .setSubject(subject)
-                .setDraft(u.replaceOp != null && u.replaceOp.getPatchSet().isDraft())
-                .setEdit(edit);
+                .setIsDraft(u.replaceOp != null && u.replaceOp.getPatchSet().isDraft())
+                .setIsEdit(edit)
+                .build();
         addMessage(changeFormatter.changeUpdated(input));
       }
       addMessage("");
@@ -1677,7 +1681,10 @@ public class ReceiveCommits {
   private boolean requestReplace(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
-      reject(cmd, changeFormatter.changeClosed(new ChangeReportFormatter.Input(change)));
+      reject(
+          cmd,
+          changeFormatter.changeClosed(
+              ChangeReportFormatter.Input.builder().setChange(change).build()));
       return false;
     }
 

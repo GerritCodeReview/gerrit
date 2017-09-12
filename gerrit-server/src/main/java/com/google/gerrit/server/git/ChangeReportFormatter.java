@@ -14,48 +14,55 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 
 public interface ChangeReportFormatter {
-  public static class Input {
-    private final Change change;
-    private String subject;
-    private Boolean draft;
-    private Boolean edit;
+  @AutoValue
+  public abstract static class Input {
+    public abstract Change change();
 
-    public Input(Change change) {
-      this.change = change;
+    @Nullable
+    public abstract String subject();
+
+    @Nullable
+    public abstract Boolean isDraft();
+
+    @Nullable
+    public abstract Boolean isEdit();
+
+    public static Builder builder() {
+      return new AutoValue_ChangeReportFormatter_Input.Builder();
     }
 
-    public Input setDraft(boolean draft) {
-      this.draft = draft;
-      return this;
-    }
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder setChange(Change val);
 
-    public Input setEdit(boolean edit) {
-      this.edit = edit;
-      return this;
-    }
+      public abstract Builder setSubject(String val);
 
-    public Input setSubject(String subject) {
-      this.subject = subject;
-      return this;
-    }
+      public abstract Builder setIsDraft(Boolean val);
 
-    public Change getChange() {
-      return change;
-    }
+      public abstract Builder setIsEdit(Boolean val);
 
-    public String getSubject() {
-      return subject == null ? change.getSubject() : subject;
-    }
+      abstract Change change();
 
-    public boolean isDraft() {
-      return draft == null ? Change.Status.DRAFT == change.getStatus() : draft;
-    }
+      abstract String subject();
 
-    public boolean isEdit() {
-      return edit == null ? false : edit;
+      abstract Boolean isDraft();
+
+      abstract Boolean isEdit();
+
+      abstract Input autoBuild();
+
+      public Input build() {
+        setChange(change());
+        setSubject(subject() == null ? change().getSubject() : subject());
+        setIsDraft(isDraft() == null ? Change.Status.DRAFT == change().getStatus() : isDraft());
+        setIsEdit(isEdit() == null ? false : isEdit());
+        return autoBuild();
+      }
     }
   }
 

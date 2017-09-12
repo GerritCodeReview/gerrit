@@ -35,7 +35,6 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -104,8 +103,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     if (!change.getStatus().isOpen()) {
       throw new PreconditionFailedException("change is " + ChangeUtil.status(change));
     }
-    ChangeControl control = rsrc.getControl();
-    if (!control.getUser().isIdentifiedUser()) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
       throw new MethodNotAllowedException("Anonymous users cannot submit");
     }
 
@@ -116,8 +114,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
       throws OrmException, RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
     ReviewDb db = dbProvider.get();
-    ChangeControl control = rsrc.getControl();
-    IdentifiedUser caller = control.getUser().asIdentifiedUser();
+    IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
     @SuppressWarnings("resource") // Returned BinaryResult takes ownership and handles closing.

@@ -35,6 +35,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -70,6 +72,8 @@ public class PutMessage
   private final PermissionBackend permissionBackend;
   private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
+  private final ProjectCache projectCache;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   PutMessage(
@@ -81,7 +85,9 @@ public class PutMessage
       PermissionBackend permissionBackend,
       @GerritPersonIdent PersonIdent gerritIdent,
       PatchSetUtil psUtil,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      ProjectCache projectCache,
+      ChangeControl.GenericFactory changeControlFactory) {
     super(retryHelper);
     this.repositoryManager = repositoryManager;
     this.currentUserProvider = currentUserProvider;
@@ -91,6 +97,8 @@ public class PutMessage
     this.permissionBackend = permissionBackend;
     this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
+    this.projectCache = projectCache;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -101,7 +109,9 @@ public class PutMessage
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
-    } else if (!resource.getControl().isPatchVisible(ps, db.get())) {
+    } else if (!changeControlFactory
+        .controlFor(resource.getNotes(), resource.getUser())
+        .isPatchVisible(ps, db.get())) {
       throw new AuthException("current revision not accessible");
     }
 
@@ -112,7 +122,7 @@ public class PutMessage
 
     ensureCanEditCommitMessage(resource.getNotes());
     ensureChangeIdIsCorrect(
-        resource.getControl().getProjectControl().getProjectState().isRequireChangeID(),
+        projectCache.checkedGet(resource.getProject()).isRequireChangeID(),
         resource.getChange().getKey().get(),
         sanitizedCommitMessage);
 

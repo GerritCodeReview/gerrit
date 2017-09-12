@@ -198,7 +198,7 @@ public class ActionJson {
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
-    if (!rsrc.getControl().getUser().isIdentifiedUser()) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
       return ImmutableMap.of();
     }
 

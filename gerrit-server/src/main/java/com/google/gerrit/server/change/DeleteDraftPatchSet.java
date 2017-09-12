@@ -36,6 +36,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -67,6 +68,7 @@ public class DeleteDraftPatchSet
   private final Provider<DeleteChangeOp> deleteChangeOpProvider;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final boolean allowDrafts;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   public DeleteDraftPatchSet(
@@ -76,7 +78,8 @@ public class DeleteDraftPatchSet
       PatchSetUtil psUtil,
       Provider<DeleteChangeOp> deleteChangeOpProvider,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      ChangeControl.GenericFactory changeControlFactory) {
     super(retryHelper);
     this.db = db;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -84,6 +87,7 @@ public class DeleteDraftPatchSet
     this.deleteChangeOpProvider = deleteChangeOpProvider;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -220,7 +224,9 @@ public class DeleteDraftPatchSet
               allowDrafts
                   && rsrc.getPatchSet().isDraft()
                   && psUtil.byChange(db.get(), rsrc.getNotes()).size() > 1
-                  && rsrc.getControl().canDeleteDraft(db.get()));
+                  && changeControlFactory
+                      .controlFor(rsrc.getNotes(), rsrc.getUser())
+                      .canDeleteDraft(db.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

@@ -44,6 +44,7 @@ import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -83,6 +84,7 @@ public class PublishDraftPatchSet
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final DraftPublished draftPublished;
   private final ProjectCache projectCache;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   public PublishDraftPatchSet(
@@ -95,7 +97,8 @@ public class PublishDraftPatchSet
       Provider<ReviewDb> dbProvider,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       DraftPublished draftPublished,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ChangeControl.GenericFactory changeControlFactory) {
     super(retryHelper);
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
@@ -106,6 +109,7 @@ public class PublishDraftPatchSet
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.draftPublished = draftPublished;
     this.projectCache = projectCache;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -138,7 +142,10 @@ public class PublishDraftPatchSet
           .setLabel("Publish")
           .setTitle(String.format("Publish revision %d", rsrc.getPatchSet().getPatchSetId()))
           .setVisible(
-              rsrc.getPatchSet().isDraft() && rsrc.getControl().canPublish(dbProvider.get()));
+              rsrc.getPatchSet().isDraft()
+                  && changeControlFactory
+                      .controlFor(rsrc.getNotes(), rsrc.getUser())
+                      .canPublish(dbProvider.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

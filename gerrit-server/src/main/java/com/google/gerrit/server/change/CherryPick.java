@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -53,6 +54,7 @@ public class CherryPick
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
   CherryPick(
@@ -60,12 +62,14 @@ public class CherryPick
       Provider<CurrentUser> user,
       RetryHelper retryHelper,
       CherryPickChange cherryPickChange,
-      ChangeJson.Factory json) {
+      ChangeJson.Factory json,
+      ProjectControl.GenericFactory projectControlFactory) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
+    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
@@ -81,7 +85,7 @@ public class CherryPick
     }
 
     String refName = RefNames.fullName(input.destination);
-    CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
+    CreateChange.checkValidCLA(projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
     permissionBackend
         .user(user)
         .project(rsrc.getChange().getProject())

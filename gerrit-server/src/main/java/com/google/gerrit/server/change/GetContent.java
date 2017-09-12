@@ -28,6 +28,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,6 +45,7 @@ public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager gitManager;
   private final PatchSetUtil psUtil;
   private final FileContentUtil fileContentUtil;
+  private final ProjectCache projectCache;
 
   @Option(name = "--parent")
   private Integer parent;
@@ -53,11 +55,13 @@ public class GetContent implements RestReadView<FileResource> {
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       PatchSetUtil psUtil,
-      FileContentUtil fileContentUtil) {
+      FileContentUtil fileContentUtil,
+      ProjectCache projectCache) {
     this.db = db;
     this.gitManager = gitManager;
     this.psUtil = psUtil;
     this.fileContentUtil = fileContentUtil;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -76,7 +80,7 @@ public class GetContent implements RestReadView<FileResource> {
           .base64();
     }
     return fileContentUtil.getContent(
-        rsrc.getRevision().getControl().getProjectControl().getProjectState(),
+        projectCache.checkedGet(rsrc.getRevision().getProject()),
         ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
         path,
         parent);

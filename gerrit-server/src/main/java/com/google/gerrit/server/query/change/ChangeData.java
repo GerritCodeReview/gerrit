@@ -60,6 +60,7 @@ import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -76,6 +77,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -282,10 +284,12 @@ public class ChangeData {
 
   public static class Factory {
     private final AssistedFactory assistedFactory;
+    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
-    Factory(AssistedFactory assistedFactory) {
+    Factory(AssistedFactory assistedFactory, ChangeControl.GenericFactory changeControlFactory) {
       this.assistedFactory = assistedFactory;
+      this.changeControlFactory = changeControlFactory;
     }
 
     public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
@@ -309,6 +313,15 @@ public class ChangeData {
           control.getChange(),
           control.getNotes(),
           control);
+    }
+
+    // TODO(hiesel): Remove these after ChangeControl is removed from ChangeData
+    public ChangeData create(ReviewDb db, ChangeResource rsrc) throws NoSuchChangeException {
+      return create(db, changeControlFactory.controlFor(rsrc.getNotes(), rsrc.getUser()));
+    }
+
+    public ChangeData create(ReviewDb db, ChangeContext ctx) throws NoSuchChangeException {
+      return create(db, changeControlFactory.controlFor(ctx.getNotes(), ctx.getUser()));
     }
   }
 

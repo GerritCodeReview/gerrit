@@ -30,6 +30,7 @@ import com.google.gerrit.server.fixes.FixReplacementInterpreter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -46,17 +47,20 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
   private final FixReplacementInterpreter fixReplacementInterpreter;
   private final ChangeEditModifier changeEditModifier;
   private final ChangeEditJson changeEditJson;
+  private final ProjectCache projectCache;
 
   @Inject
   public ApplyFix(
       GitRepositoryManager gitRepositoryManager,
       FixReplacementInterpreter fixReplacementInterpreter,
       ChangeEditModifier changeEditModifier,
-      ChangeEditJson changeEditJson) {
+      ChangeEditJson changeEditJson,
+      ProjectCache projectCache) {
     this.gitRepositoryManager = gitRepositoryManager;
     this.fixReplacementInterpreter = fixReplacementInterpreter;
     this.changeEditModifier = changeEditModifier;
     this.changeEditJson = changeEditJson;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -65,7 +69,7 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
           ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
-    ProjectState projectState = revisionResource.getControl().getProjectControl().getProjectState();
+    ProjectState projectState = projectCache.checkedGet(project);
     PatchSet patchSet = revisionResource.getPatchSet();
     ObjectId patchSetCommitId = ObjectId.fromString(patchSet.getRevision().get());
 

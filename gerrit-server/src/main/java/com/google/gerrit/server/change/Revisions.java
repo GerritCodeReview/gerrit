@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,17 +46,20 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private final Provider<ReviewDb> dbProvider;
   private final ChangeEditUtil editUtil;
   private final PatchSetUtil psUtil;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   Revisions(
       DynamicMap<RestView<RevisionResource>> views,
       Provider<ReviewDb> dbProvider,
       ChangeEditUtil editUtil,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.views = views;
     this.dbProvider = dbProvider;
     this.editUtil = editUtil;
     this.psUtil = psUtil;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -97,7 +101,9 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   }
 
   private boolean visible(ChangeResource change, PatchSet ps) throws OrmException {
-    return change.getControl().isPatchVisible(ps, dbProvider.get());
+    return changeControlFactory
+        .controlFor(change.getNotes(), change.getUser())
+        .isPatchVisible(ps, dbProvider.get());
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)

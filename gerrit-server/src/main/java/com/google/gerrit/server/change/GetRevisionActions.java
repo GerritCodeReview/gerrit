@@ -65,7 +65,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   @Override
   public String getETag(RevisionResource rsrc) {
     Hasher h = Hashing.murmur3_128().newHasher();
-    CurrentUser user = rsrc.getControl().getUser();
+    CurrentUser user = rsrc.getUser();
     try {
       rsrc.getChangeResource().prepareETag(h, user);
       h.putBoolean(Submit.wholeTopicEnabled(config));

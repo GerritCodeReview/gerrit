@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -83,6 +84,7 @@ public class GetDiff implements RestReadView<FileResource> {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
   private final WebLinks webLinks;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -111,11 +113,13 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
       Revisions revisions,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
     this.webLinks = webLinks;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -135,33 +139,20 @@ public class GetDiff implements RestReadView<FileResource> {
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
+    ChangeControl ctl =
+        changeControlFactory.controlFor(
+            resource.getRevision().getNotes(), resource.getRevision().getUser());
+    PatchSet.Id pId = resource.getPatchKey().getParentKey();
+    String fileName = resource.getPatchKey().getFileName();
     if (base != null) {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
-      psf =
-          patchScriptFactoryFactory.create(
-              resource.getRevision().getControl(),
-              resource.getPatchKey().getFileName(),
-              basePatchSet.getId(),
-              resource.getPatchKey().getParentKey(),
-              prefs);
+      psf = patchScriptFactoryFactory.create(ctl, fileName, basePatchSet.getId(), pId, prefs);
     } else if (parentNum > 0) {
-      psf =
-          patchScriptFactoryFactory.create(
-              resource.getRevision().getControl(),
-              resource.getPatchKey().getFileName(),
-              parentNum - 1,
-              resource.getPatchKey().getParentKey(),
-              prefs);
+      psf = patchScriptFactoryFactory.create(ctl, fileName, parentNum - 1, pId, prefs);
     } else {
-      psf =
-          patchScriptFactoryFactory.create(
-              resource.getRevision().getControl(),
-              resource.getPatchKey().getFileName(),
-              null,
-              resource.getPatchKey().getParentKey(),
-              prefs);
+      psf = patchScriptFactoryFactory.create(ctl, fileName, null, pId, prefs);
     }
 
     try {

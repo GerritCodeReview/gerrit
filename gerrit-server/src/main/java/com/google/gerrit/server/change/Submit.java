@@ -55,6 +55,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -321,7 +322,12 @@ public class Submit
     }
 
     ReviewDb db = dbProvider.get();
-    ChangeData cd = changeDataFactory.create(db, resource.getControl());
+    ChangeData cd;
+    try {
+      cd = changeDataFactory.create(db, resource.getChangeResource());
+    } catch (NoSuchChangeException e) {
+      return null; // submit not visible
+    }
     try {
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
@@ -333,7 +339,7 @@ public class Submit
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getControl().getUser());
+      cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getUser());
     } catch (OrmException | IOException | PermissionBackendException e) {
       throw new OrmRuntimeException(
           "Could not determine complete set of changes to be submitted", e);
@@ -508,17 +514,20 @@ public class Submit
     private final Submit submit;
     private final ChangeJson.Factory json;
     private final PatchSetUtil psUtil;
+    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
     CurrentRevision(
         Provider<ReviewDb> dbProvider,
         Submit submit,
         ChangeJson.Factory json,
-        PatchSetUtil psUtil) {
+        PatchSetUtil psUtil,
+        ChangeControl.GenericFactory changeControlFactory) {
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
       this.psUtil = psUtil;
+      this.changeControlFactory = changeControlFactory;
     }
 
     @Override
@@ -528,7 +537,9 @@ public class Submit
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
+      } else if (!changeControlFactory
+          .controlFor(rsrc.getNotes(), rsrc.getUser())
+          .isPatchVisible(ps, dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
 

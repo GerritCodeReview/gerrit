@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,6 +51,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
+  private final ProjectCache projectCache;
 
   @Inject
   SuggestChangeReviewers(
@@ -59,10 +61,12 @@ public class SuggestChangeReviewers extends SuggestReviewers
       PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
-      ReviewersUtil reviewersUtil) {
+      ReviewersUtil reviewersUtil,
+      ProjectCache projectCache) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
     this.permissionBackend = permissionBackend;
     this.self = self;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -74,7 +78,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
     return reviewersUtil.suggestReviewers(
         rsrc.getNotes(),
         this,
-        rsrc.getControl().getProjectControl().getProjectState(),
+        projectCache.checkedGet(rsrc.getProject()),
         getVisibility(rsrc),
         excludeGroups);
   }

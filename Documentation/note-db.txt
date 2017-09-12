@@ -137,14 +137,23 @@ There are several use cases for trial mode:
 To continue with the full migration after running the trial migration, use
 either the online or offline migration steps as normal. To revert to
 ReviewDb-only, remove `noteDb.changes.read` and `noteDb.changes.write` from
-`gerrit.config` and restart Gerrit.
+`notedb.config` and restart Gerrit.
 
 == Configuration
 
-The migration process works by setting a configuration option in `gerrit.config`
+The migration process works by setting a configuration option in `notedb.config`
 for each step in the process, then performing the corresponding data migration.
-In general, users should not set these options manually; this section serves
-primarily as a reference.
+
+Config options are read from `notedb.config` first, falling back to
+`gerrit.config`. If editing config manually, you may edit either file, but the
+migration process itself only touches `notedb.config`. This means if your
+`gerrit.config` is managed with Puppet or a similar tool, it can overwrite
+`gerrit.config` without affecting the migration process. You should not manage
+`notedb.config` with Puppet, but you may copy values back into `gerrit.config`
+and delete `notedb.config` at some later point after completing the migration.
+
+In general, users should not set the options described below manually; this
+section serves primarily as a reference.
 
 - `noteDb.changes.write=true`: During a ReviewDb write, the state of the change
   in NoteDb is written to the `note_db_state` field in the `Change` entity.

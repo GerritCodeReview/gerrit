@@ -440,10 +440,18 @@ limitations under the License.
       element.params = {changeNum: '2'};
       element._change.newProp = '2';
       flushAsynchronousOperations();
-      assert.isNull(element.viewState.diffMode);
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
       assert.equal(element.viewState.changeNum, '2');
       assert.equal(element.viewState.numFilesShown, 200);
       assert.equal(element._numFilesShown, 200);
+    });
+
+    test('_setDiffViewMode is called with reset when new change is loaded', () => {
+      sandbox.stub(element, '_setDiffViewMode');
+      element.viewState = {changeNum: 1};
+      element._changeNum = 2;
+      element._resetFileListViewState();
+      assert.isTrue(element._setDiffViewMode.lastCall.calledWithExactly(true));
     });
 
     test('diffMode defaults to side by side without preferences', done => {

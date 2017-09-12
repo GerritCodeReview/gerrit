@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../diff/gr-patch-range-select/gr-patch-range-select.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -53,9 +54,6 @@ limitations under the License.
       }
       .latestPatchContainer {
         display: none;
-      }
-      .patchSetSelect {
-        max-width: 8em;
       }
       gr-editable-label.descriptionLabel {
         max-width: 100%;
@@ -97,41 +95,29 @@ limitations under the License.
       .expandInline {
         padding-right: .25em;
       }
-      .patchSetSelect {
-        max-width: 8em;
-      }
       .editLoaded .hideOnEdit {
         display: none;
       }
       .editLoaded .showOnEdit {
         display: initial;
       }
+      @media screen and (max-width: 50em) {
+        .desktop {
+          display: none;
+        }
+      }
     </style>
     <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchRange.patchNum, allPatchSets)]]">
       <div class="patchInfo-header-wrapper">
-        <label class="patchSelectLabel" for="patchSetSelect">
-          Patch set
-        </label>
-        <gr-select
-            id="patchSetSelect"
-            bind-value="{{_selectedPatchSet}}"
-            class="patchSetSelect"
-            on-change="_handlePatchChange">
-          <select>
-            <template is="dom-repeat" items="[[allPatchSets]]"
-                as="patchNum">
-              <option
-                  value$="[[patchNum.num]]"
-                  disabled$="[[_computePatchSetDisabled(patchNum.num, patchRange.basePatchNum, revisions)]]">
-                [[patchNum.num]]
-                /
-                [[computeLatestPatchNum(allPatchSets)]]
-                [[_computePatchSetCommentsString(comments, patchNum.num)]]
-                [[_computePatchSetDescription(change, patchNum.num)]]
-              </option>
-            </template>
-          </select>
-        </gr-select>
+        <gr-patch-range-select
+            id="rangeSelect"
+            comments="[[comments]]"
+            change-num="[[changeNum]]"
+            patch-range="[[patchRange]]"
+            available-patches="[[allPatchSets]]"
+            revisions="[[change.revisions]]"
+            on-patch-range-change="_handlePatchChange">
+        </gr-patch-range-select>
         /
         <gr-commit-info
             change="[[change]]"
@@ -197,27 +183,6 @@ limitations under the License.
             <option value="UNIFIED_DIFF">Unified</option>
           </select>
         </gr-select>
-        <span class="separator">/</span>
-        <label>
-          Diff against
-          <gr-select id="patchChange" bind-value="{{_diffAgainst}}"
-              class="patchSetSelect" on-change="_handleBasePatchChange">
-            <select>
-              <option value="PARENT">Base</option>
-              <template
-                  is="dom-repeat"
-                  items="[[allPatchSets]]"
-                  as="patchNum">
-                <option
-                    disabled$="[[_computeBasePatchDisabled(patchNum.num, patchRange.patchNum, revisions)]]"
-                    value$="[[patchNum.num]]">
-                  [[patchNum.num]]
-                  [[patchNum.desc]]
-                </option>
-              </template>
-            </select>
-          </gr-select>
-        </label>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

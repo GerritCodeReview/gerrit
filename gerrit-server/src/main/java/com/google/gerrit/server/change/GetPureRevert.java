@@ -93,20 +93,30 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
         .isPatchVisible(currentPatchSet, dbProvider.get())) {
       throw new AuthException("current revision not accessible");
     }
+    return getPureRevert(rsrc.getNotes());
+  }
+
+  public PureRevertInfo getPureRevert(ChangeNotes notes)
+      throws OrmException, IOException, BadRequestException, AuthException,
+          ResourceConflictException {
+    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
+    if (currentPatchSet == null) {
+      throw new ResourceConflictException("current revision is missing");
+    }
 
     if (claimedOriginal == null) {
-      if (rsrc.getChange().getRevertOf() == null) {
+      if (notes.getChange().getRevertOf() == null) {
         throw new BadRequestException("no ID was provided and change isn't a revert");
       }
       PatchSet ps =
           psUtil.current(
               dbProvider.get(),
               notesFactory.createChecked(
-                  dbProvider.get(), rsrc.getProject(), rsrc.getChange().getRevertOf()));
+                  dbProvider.get(), notes.getProjectName(), notes.getChange().getRevertOf()));
       claimedOriginal = ps.getRevision().get();
     }
 
-    try (Repository repo = repoManager.openRepository(rsrc.getProject());
+    try (Repository repo = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = repo.newObjectInserter();
         RevWalk rw = new RevWalk(repo)) {
       RevCommit claimedOriginalCommit;
@@ -126,7 +136,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
       // Rebase claimed revert onto claimed original
       ThreeWayMerger merger =
           mergeUtilFactory
-              .create(projectCache.checkedGet(rsrc.getProject()))
+              .create(projectCache.checkedGet(notes.getProjectName()))
               .newThreeWayMerger(oi, repo.getConfig());
       merger.setBase(claimedRevertCommit.getParent(0));
       merger.merge(claimedRevertCommit, claimedOriginalCommit);

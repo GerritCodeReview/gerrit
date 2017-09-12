@@ -135,7 +135,22 @@
         type: Boolean,
         value: false,
       },
+
+      /** The DOM element of the selected suggestion. */
       _selected: Object,
+
+      _textChangedSinceCommit: {
+        type: Boolean,
+        value: false,
+      },
+    },
+
+    observers: [
+      '_textChanged(text)',
+    ],
+
+    _textChanged() {
+      this._textChangedSinceCommit = true;
     },
 
     attached() {
@@ -275,6 +290,9 @@
      * @param {boolean=} opt_tabComplete
      */
     _handleInputCommit(opt_tabComplete) {
+      // Nothing to do if new input hasn't been entered.
+      if (!this._textChangedSinceCommit) { return; }
+
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);
     },
@@ -341,6 +359,8 @@
       if (!opt_silent) {
         this.fire('commit', {value});
       }
+
+      this._textChangedSinceCommit = false;
     },
   });
 })();

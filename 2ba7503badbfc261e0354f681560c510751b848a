@@ -68,6 +68,30 @@
       "revId": "2ba7503badbfc261e0354f681560c510751b848a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "751339eb_e65a11bd",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T06:53:56Z",
+      "side": 1,
+      "message": "Yep, will do. I only know the requirements for Mariadb and MySQL.",
+      "parentUuid": "27cc12c4_0cdbd171",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "2ba7503badbfc261e0354f681560c510751b848a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

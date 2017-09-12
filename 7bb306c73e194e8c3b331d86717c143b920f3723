@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a9cd12c_e156b516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T12:52:36Z",
+      "side": 1,
+      "message": "-1 because I don\u0027t like that callers can call these, bypassing the logic in the methods below.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "7bb306c73e194e8c3b331d86717c143b920f3723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

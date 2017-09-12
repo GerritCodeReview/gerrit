@@ -45,6 +45,30 @@
       "revId": "ffb4298a02de936f2acc2f22f4e0c0e6fa98346d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43a964f3_ac8b6c1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T12:52:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff3d860f_056af2cf",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "ffb4298a02de936f2acc2f22f4e0c0e6fa98346d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

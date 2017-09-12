@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bf25e9dd_fca0a72b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T06:37:06Z",
+      "side": 1,
+      "message": "database-setup.txt, looks like a good place. :)",
+      "parentUuid": "0ee3870b_9d553eb6",
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07519e9c_6dd9c328",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

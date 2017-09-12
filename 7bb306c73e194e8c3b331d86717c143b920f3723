@@ -22,6 +22,30 @@
       "revId": "7bb306c73e194e8c3b331d86717c143b920f3723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "407ba7a0_4d848e9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T13:10:55Z",
+      "side": 1,
+      "message": "Fixed by following the example at:\n\nhttps://github.com/google/auto/blob/master/value/userguide/builders-howto.md#-normalize-modify-a-property-value-at-build-time",
+      "parentUuid": "8a9cd12c_e156b516",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "7bb306c73e194e8c3b331d86717c143b920f3723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

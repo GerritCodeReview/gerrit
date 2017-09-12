@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7226856b_00813c44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T13:10:55Z",
+      "side": 1,
+      "message": "This has to be prefixed with underscore because \"private\" is a reserved word.",
+      "range": {
+        "startLine": 36,
+        "startChar": 28,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "b9b0dd70613d9304a31c19a15477482d9828494c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

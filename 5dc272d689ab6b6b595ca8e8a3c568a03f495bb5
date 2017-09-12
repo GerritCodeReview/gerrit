@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "0d5d253a_db336a1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T08:43:32Z",
+      "side": 1,
+      "message": "If I understood it correctly, any IOException would be mapped to NoSuchChangeException. This could even be another issue which occurs when accessing the project. Considering If1a8bac25e2641c358be5c94ae461c6cf26425f7, I would rather be safe than sorry.",
+      "parentUuid": "1cbe1839_0c78a3fa",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd74c9b7_9314df2a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 1

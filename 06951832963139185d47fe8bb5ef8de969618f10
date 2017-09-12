@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1505219959 -0400\nnonce AJMiPPejw3dHKzyLU4HfbvHjNMUxdG7GAoLFU28Hl82+9MfcPvNVKgAKCwxlYcbj7rDzwy64n3Kb\n\n0000000000000000000000000000000000000000 06951832963139185d47fe8bb5ef8de969618f10 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZt9V3AAoJEF/XxZqaEoiM0sAP/jmWLn/vyMXZIRHTnodc46NL\nYgHBJ43rHkE0jdDvh8rIzKBjEAIJxCzgTT8fzuXSqXNx4W6GeWhRU9tdF7mjuLYb\nVm2zw8a9sRqJrUj5IleqEsudbqY1xpsI5Q58J9zLwuHH2TnoyI5L0tNZqT4KAfqW\nrH2D4AuFCSF0LsMILzPz7bW+WZ8/zHTC5cHu7yNZj0fjT/B4khuSibq2O/B2TCkR\nSOwQBUuTpfKsOIEzeXAVJvnUbHhqaKimvAlbNWm6wtKzDRZIwspYP+7tMmBmkTrn\nc6M24pcGaiu8n1scfHd7tjjcXnUdQYBc97ABPHhCFgIvwfJkxqZgM4IWlAcU1jR9\nM2cR4kkU36eEXBWxvtjiLF1QkHR6pjV2Ougeq/5eBrhmhxJIPfyyeF2VQ1zDTaWV\nZgcoWF8H3xyV8tFk681aXza6vaMe/Q+yepmfWSBJOfEP4CGHsB3A+9J3xW+zcPve\nkF8WKNbXXwpsulunJVS2dkF1nX/c4pL1vtFDMfyqVHVJOxemAF/UK9dvOLkIXgLJ\n7VHUdVubD+e1cxVsPnuILqyfapFUpcGhABrTsg/BrdRkMMyVN0operSg6icVKXj5\nmwJTsZ+K8DaHJtEG1XvQN2Tm8uCt+xQNt6dgLsDtivBlGoHRD6jvEluK2X/T05sa\nIbs8uW0skXqkkyOeiuyf\n\u003dkFts\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb533cf6_bdf993ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T13:35:55Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused here. I would have either expected that noteDbConfigOverBaseConfig is skipped completely and not used inside GerritConfig if it doesn\u0027t exist, or that it is loaded with empty values and it automatically delegates to the parent if noteDbConfigOverBaseConfig doesn\u0027t exist. Is the internal state of the object correct for this mixed use?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 81
+      },
+      "revId": "06951832963139185d47fe8bb5ef8de969618f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25418861_ccae1a0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T13:35:55Z",
+      "side": 1,
+      "message": "Why do we need to check for the existence of noteDbConfig in GerritServerConfigProvider but not here?",
+      "range": {
+        "startLine": 572,
+        "startChar": 6,
+        "endLine": 572,
+        "endChar": 26
+      },
+      "revId": "06951832963139185d47fe8bb5ef8de969618f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

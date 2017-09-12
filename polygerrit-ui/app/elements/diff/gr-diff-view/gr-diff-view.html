@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
@@ -229,7 +230,7 @@ limitations under the License.
               hidden$="[[!_loggedIn]]" hidden>
           <div class="jumpToFileContainer desktop">
             <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
-              <span>[[_computeFileDisplayName(_path)]]</span>
+              <span>[[computeDisplayPath(_path)]]</span>
               <span class="downArrow">&#9660;</span>
             </gr-button>
             <!-- *-align="" to disable iron-dropdown's element positioning. -->
@@ -246,7 +247,7 @@ limitations under the License.
                   <a href$="[[_computeDiffURL(_change, _patchRange.*, path)]]"
                     selected$="[[_computeFileSelected(path, _path)]]"
                     data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                    on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
+                    on-tap="_handleFileTap">[[computeDisplayPath(path)]]</a>
                 </template>
               </div>
             </iron-dropdown>
@@ -257,7 +258,7 @@ limitations under the License.
                 <option
                     value$="[[path]]"
                     selected$="[[_computeFileSelected(path, _path)]]">
-                  [[_computeTruncatedFileDisplayName(path)]]
+                  [[computeTruncatedPath(path)]]
                 </option>
               </template>
             </select>
@@ -331,7 +332,7 @@ limitations under the License.
         <a class="mobileNavLink"
           href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
           &lt;</a>
-        <div class="fullFileName mobile">[[_computeFileDisplayName(_path)]]
+        <div class="fullFileName mobile">[[computeDisplayPath(_path)]]
         </div>
         <a class="mobileNavLink"
             href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]">

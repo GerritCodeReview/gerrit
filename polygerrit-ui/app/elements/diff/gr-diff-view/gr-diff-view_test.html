@@ -336,15 +336,6 @@ limitations under the License.
             '42-glados.txt-10-PARENT');
         assert.equal(linkEls[2].getAttribute('href'),
             '42-wheatley.md-10-PARENT');
-
-        assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-            '/foo/bar/baz');
-        assert.equal(element._computeFileDisplayName('/foobarbaz'),
-            '/foobarbaz');
-        assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
-            'Commit message');
-        assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
-            'Merge list');
       });
 
       test('jump to file dropdown with patch range', () => {
@@ -612,25 +603,6 @@ limitations under the License.
       element._initCursor({leftSide: false, lineNum: 123});
       assert.equal(element.$.cursor.initialLineNumber, 123);
       assert.equal(element.$.cursor.side, 'right');
-    });
-
-    test('_shortenPath with long path should add ellipsis', () => {
-      let path = 'level1/level2/level3/level4/file.js';
-      let shortenedPath = util.truncatePath(path);
-      // The expected path is truncated with an ellipsis.
-      const expectedPath = '\u2026/file.js';
-      assert.equal(shortenedPath, expectedPath);
-
-      path = 'level2/file.js';
-      shortenedPath = util.truncatePath(path);
-      assert.equal(shortenedPath, expectedPath);
-    });
-
-    test('_shortenPath with short path should not add ellipsis', () => {
-      const path = 'file.js';
-      const expectedPath = 'file.js';
-      const shortenedPath = util.truncatePath(path);
-      assert.equal(shortenedPath, expectedPath);
     });
 
     test('_onLineSelected', () => {

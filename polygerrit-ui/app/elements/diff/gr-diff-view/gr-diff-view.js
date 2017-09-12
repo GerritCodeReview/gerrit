@@ -14,9 +14,6 @@
 (function() {
   'use strict';
 
-  const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-  const MERGE_LIST_PATH = '/MERGE_LIST';
-
   const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
   const MSG_LOADING_BLAME = 'Loading blame...';
   const MSG_LOADED_BLAME = 'Blame loaded';
@@ -142,6 +139,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
+      Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -638,19 +636,6 @@
 
     _computeChangePath(change, patchRangeRecord, revisions) {
       return this._getChangePath(change, patchRangeRecord.base, revisions);
-    },
-
-    _computeFileDisplayName(path) {
-      if (path === COMMIT_MESSAGE_PATH) {
-        return 'Commit message';
-      } else if (path === MERGE_LIST_PATH) {
-        return 'Merge list';
-      }
-      return path;
-    },
-
-    _computeTruncatedFileDisplayName(path) {
-      return util.truncatePath(this._computeFileDisplayName(path));
     },
 
     _computeFileSelected(path, currentPath) {

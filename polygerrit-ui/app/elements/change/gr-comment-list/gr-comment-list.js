@@ -46,7 +46,7 @@
           file, patchNum);
     },
 
-    _computeFileDisplayName(path) {
+    computeFileDisplayName(path) {
       if (path === COMMIT_MESSAGE_PATH) {
         return 'Commit message';
       } else if (path === MERGE_LIST_PATH) {

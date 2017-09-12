@@ -663,7 +663,7 @@
       return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
     },
 
-    _computeFileDisplayName(path) {
+    computeFileDisplayName(path) {
       if (path === COMMIT_MESSAGE_PATH) {
         return 'Commit message';
       } else if (path === MERGE_LIST_PATH) {
@@ -673,7 +673,7 @@
     },
 
     _computeTruncatedFileDisplayName(path) {
-      return util.truncatePath(this._computeFileDisplayName(path));
+      return util.truncatePath(this.computeFileDisplayName(path));
     },
 
     _formatBytes(bytes) {

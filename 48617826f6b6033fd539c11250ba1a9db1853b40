@@ -46,6 +46,30 @@
       "revId": "48617826f6b6033fd539c11250ba1a9db1853b40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f261a405_d18031bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T14:19:07Z",
+      "side": 1,
+      "message": "It\u0027s probably better to go with the is.. prefix.  I was initially going to do that, but I wasn\u0027t sure it if would be appropriate for setter methods.",
+      "parentUuid": "d5582fd5_72fe6aef",
+      "range": {
+        "startLine": 38,
+        "startChar": 28,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "48617826f6b6033fd539c11250ba1a9db1853b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

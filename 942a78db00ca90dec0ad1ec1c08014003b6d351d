@@ -33,6 +33,24 @@
       "revId": "942a78db00ca90dec0ad1ec1c08014003b6d351d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63ec9c17_d0133348",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-12T20:06:58Z",
+      "side": 1,
+      "message": "Never mind this has been done already. My bad.",
+      "parentUuid": "9e77cbcf_9a9ea025",
+      "revId": "942a78db00ca90dec0ad1ec1c08014003b6d351d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

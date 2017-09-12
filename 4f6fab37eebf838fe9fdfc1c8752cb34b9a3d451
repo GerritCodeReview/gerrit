@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cef358d_a1e03b50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateAccessChange.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T02:30:21Z",
+      "side": 1,
+      "message": "this is causing a deprecation warning.",
+      "range": {
+        "startLine": 142,
+        "startChar": 59,
+        "endLine": 142,
+        "endChar": 79
+      },
+      "revId": "4f6fab37eebf838fe9fdfc1c8752cb34b9a3d451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

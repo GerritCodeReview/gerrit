@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d1d8de4_531c645d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 57
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T21:35:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "37425215_c26eee33",
+      "range": {
+        "startLine": 237,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 13
+      },
+      "revId": "276c12e250a1a31aa8e12cc2d821ea463728f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81ef2114_56b51244",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
         "patchSetId": 57
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-12T21:22:10Z",
       "side": 1,
       "message": "Since the function returns a string, this isn\u0027t really true (here and below).",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 32
+      },
+      "revId": "276c12e250a1a31aa8e12cc2d821ea463728f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b64586_54d3fde7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_test.html",
+        "patchSetId": 57
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T21:35:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "81ef2114_56b51244",
       "range": {
         "startLine": 156,
         "startChar": 20,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "18f832f3_c3314e1a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 57
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T21:35:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5b5ad410_b5928a65",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 24
+      },
+      "revId": "276c12e250a1a31aa8e12cc2d821ea463728f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e56f1d9_2fa3ac52",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
         "patchSetId": 57
@@ -82,6 +154,30 @@
       "writtenOn": "2017-09-12T21:22:10Z",
       "side": 1,
       "message": "nit: can be\n\nreturn admin || owner ? false : true;",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 204,
+        "endChar": 7
+      },
+      "revId": "276c12e250a1a31aa8e12cc2d821ea463728f413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f53897_234c09f4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 57
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T21:35:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9e56f1d9_2fa3ac52",
       "range": {
         "startLine": 200,
         "startChar": 6,

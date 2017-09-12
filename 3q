@@ -1,0 +1,16 @@
+PolyGerrit: Add settings column to plugins list
+
+Becky draft
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Author:    Paladox <thomasmulhall410@yahoo.com>
+# Date:      Mon Aug 7 13:53:48 2017 +0100
+#
+# HEAD detached at 97666e72a8
+# Changes to be committed:
+#	modified:   polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html
+#	modified:   polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js
+#	modified:   polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html
+#

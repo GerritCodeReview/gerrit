@@ -49,7 +49,6 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.FooterConstants;
@@ -2979,33 +2978,20 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(approval.permittedVotingRange).isNull();
   }
 
-  @Sandboxed
   @Test
   public void unresolvedCommentsBlocked() throws Exception {
-    RevCommit oldHead = getRemoteHead();
-    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
-    testRepo.reset("config");
-    PushOneCommit push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            testRepo,
-            "Configure",
-            "rules.pl",
-            "submit_rule(submit(R)) :- \n"
-                + "gerrit:unresolved_comments_count(0), \n"
-                + "!,"
-                + "gerrit:commit_author(A), \n"
-                + "R = label('All-Comments-Resolved', ok(A)).\n"
-                + "submit_rule(submit(R)) :- \n"
-                + "gerrit:unresolved_comments_count(U), \n"
-                + "U > 0,"
-                + "R = label('All-Comments-Resolved', need(_)). \n\n");
+    modifySubmitRules(
+        "submit_rule(submit(R)) :- \n"
+            + "gerrit:unresolved_comments_count(0), \n"
+            + "!,"
+            + "gerrit:commit_author(A), \n"
+            + "R = label('All-Comments-Resolved', ok(A)).\n"
+            + "submit_rule(submit(R)) :- \n"
+            + "gerrit:unresolved_comments_count(U), \n"
+            + "U > 0,"
+            + "R = label('All-Comments-Resolved', need(_)). \n\n");
 
-    push.to(RefNames.REFS_CONFIG);
-    testRepo.reset(oldHead);
-
-    oldHead = getRemoteHead();
+    String oldHead = getRemoteHead().name();
     PushOneCommit.Result result1 =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
@@ -3018,10 +3004,58 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result1.getChangeId()).current().submit();
 
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage(
-        "Failed to submit 1 change due to the following problems:\n"
-            + "Change 2: needs All-Comments-Resolved");
+    exception.expectMessage("Failed to submit 1 change due to the following problems");
+    exception.expectMessage("needs All-Comments-Resolved");
     gApi.changes().id(result2.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pureRevertFactBlocksSubmissionOfNonReverts() throws Exception {
+    addPureRevertSubmitRule();
+
+    // Create a change that is not a revert of another change
+    PushOneCommit.Result r1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    approve(r1.getChangeId());
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Failed to submit 1 change due to the following problems");
+    exception.expectMessage("needs Is-Pure-Revert");
+    gApi.changes().id(r1.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pureRevertFactBlocksSubmissionOfNonPureReverts() throws Exception {
+    PushOneCommit.Result r1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    merge(r1);
+
+    addPureRevertSubmitRule();
+
+    // Create a revert and push a content change
+    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
+    amendChange(revertId);
+    approve(revertId);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Failed to submit 1 change due to the following problems");
+    exception.expectMessage("needs Is-Pure-Revert");
+    gApi.changes().id(revertId).current().submit();
+  }
+
+  @Test
+  public void pureRevertFactAllowsSubmissionOfPureReverts() throws Exception {
+    // Create a change that we can later revert
+    PushOneCommit.Result r1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    merge(r1);
+
+    addPureRevertSubmitRule();
+
+    // Create a revert and submit it
+    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
+    approve(revertId);
+    gApi.changes().id(revertId).current().submit();
   }
 
   @Test
@@ -3350,6 +3384,33 @@ public class ChangeIT extends AbstractDaemonTest {
       ctx.getUpdate(currentPatchSetId).setStatus(newStatus);
 
       return true;
+    }
+  }
+
+  private void addPureRevertSubmitRule() throws Exception {
+    modifySubmitRules(
+        "submit_rule(submit(R)) :- \n"
+            + "gerrit:pure_revert(1), \n"
+            + "!,"
+            + "gerrit:commit_author(A), \n"
+            + "R = label('Is-Pure-Revert', ok(A)).\n"
+            + "submit_rule(submit(R)) :- \n"
+            + "gerrit:pure_revert(U), \n"
+            + "U \\= 1,"
+            + "R = label('Is-Pure-Revert', need(_)). \n\n");
+  }
+
+  private void modifySubmitRules(String newContent) throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository testRepo = new TestRepository<>((InMemoryRepository) repo);
+      testRepo
+          .branch(RefNames.REFS_CONFIG)
+          .commit()
+          .author(admin.getIdent())
+          .committer(admin.getIdent())
+          .add("rules.pl", newContent)
+          .message("Modify rules.pl")
+          .create();
     }
   }
 

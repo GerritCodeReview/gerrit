@@ -35,6 +35,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -60,6 +63,7 @@ import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -336,7 +340,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, null, project, id, null, null, null);
+            null, null, null, null, null, null, null, project, id, null, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -361,6 +365,7 @@ public class ChangeData {
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
+  private final GetPureRevert pureRevert;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -432,6 +437,7 @@ public class ChangeData {
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
+      GetPureRevert pureRevert,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -457,6 +463,7 @@ public class ChangeData {
     this.projectCache = projectCache;
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
+    this.pureRevert = pureRevert;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
@@ -1255,6 +1262,22 @@ public class ChangeData {
       }
     }
     return starsOf.stars();
+  }
+
+  /**
+   * @return {@code null} if {@code revertOf} is {@code null}; true if the change is a pure revert;
+   *     false otherwise.
+   */
+  @Nullable
+  public Boolean isPureRevert() throws OrmException {
+    if (change().getRevertOf() == null) {
+      return null;
+    }
+    try {
+      return pureRevert.getPureRevert(notes()).isPureRevert;
+    } catch (IOException | BadRequestException | AuthException | ResourceConflictException e) {
+      throw new OrmException("could not compute pure revert", e);
+    }
   }
 
   @Override

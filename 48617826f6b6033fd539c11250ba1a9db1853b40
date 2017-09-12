@@ -22,6 +22,30 @@
       "revId": "48617826f6b6033fd539c11250ba1a9db1853b40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5582fd5_72fe6aef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-12T14:14:46Z",
+      "side": 1,
+      "message": "Haha, that made me lough :)\n\nYeah I think it is better than _private. Another alternative would be to prefix all with \u0027is\u0027\n\nSo one calls input.isPrivate()\n\nAnd sets builder.setIsPrivate(true)\n\nI defer to your preference :)",
+      "parentUuid": "f29e0a27_29ed4a1c",
+      "range": {
+        "startLine": 38,
+        "startChar": 28,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "48617826f6b6033fd539c11250ba1a9db1853b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

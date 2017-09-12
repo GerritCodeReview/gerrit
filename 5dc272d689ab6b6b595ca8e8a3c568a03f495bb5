@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "a21b2346_3f1ca12f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T09:30:18Z",
+      "side": 1,
+      "message": "I would rather question why the IOException is mapped to a NoSuchChangeException if we wanted to know about some other internal issues. Nevertheless, we previously explicitly caught the NoSuchChangeException from changeControl() in ChangeFinder#checkedAdd which is called inside ChangeFinder#find which is called at the beginning of this method. According to I52d4c944f5af9b19750231bb37d05e255553864a, gracefully returning no change seemed to be a deliberate decision. I\u0027m fine with changing that decision if the reason for introducing I52d4c944f5af9b19750231bb37d05e255553864a doesn\u0027t apply here.",
+      "parentUuid": "0cac99bd_197153f6",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd74c9b7_9314df2a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 1

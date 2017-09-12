@@ -3024,6 +3024,39 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(result2.getChangeId()).current().submit();
   }
 
+  @Sandboxed
+  @Test
+  public void pureRevertFactBlocksSubmissionOfNonPureReverts() throws Exception {
+    pushPureRevertSubmitRule();
+
+    // Create a change that is not a revert of another change
+    PushOneCommit.Result r1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    approve(r1.getChangeId());
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change 1: needs Is-Pure-Revert");
+    gApi.changes().id(r1.getChangeId()).current().submit();
+  }
+
+  @Sandboxed
+  @Test
+  public void pureRevertFactAllowsSubmissionOfPureReverts() throws Exception {
+    // Create a change that we can later revert
+    PushOneCommit.Result r1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    merge(r1);
+
+    pushPureRevertSubmitRule();
+
+    // Create a revert and submit it
+    String revertId = gApi.changes().id(r1.getChangeId()).revert().get().changeId;
+    approve(revertId);
+    gApi.changes().id(revertId).current().submit();
+  }
+
   @Test
   public void changeCommitMessage() throws Exception {
     // Tests mutating the commit message as both the owner of the change and a regular user with
@@ -3351,6 +3384,30 @@ public class ChangeIT extends AbstractDaemonTest {
 
       return true;
     }
+  }
+
+  private void pushPureRevertSubmitRule() throws Exception {
+    String oldHead = getRemoteHead().name();
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "Configure",
+            "rules.pl",
+            "submit_rule(submit(R)) :- \n"
+                + "gerrit:pure_revert(1), \n"
+                + "!,"
+                + "gerrit:commit_author(A), \n"
+                + "R = label('Is-Pure-Revert', ok(A)).\n"
+                + "submit_rule(submit(R)) :- \n"
+                + "gerrit:pure_revert(U), \n"
+                + "U \\= 1,"
+                + "R = label('Is-Pure-Revert', need(_)). \n\n");
+    push.to(RefNames.REFS_CONFIG);
+    testRepo.reset(oldHead);
   }
 
   @Test

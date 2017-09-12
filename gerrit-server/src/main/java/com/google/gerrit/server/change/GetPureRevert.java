@@ -22,10 +22,12 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,6 +54,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   private final ChangeNotes.Factory notesFactory;
   private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Option(
     name = "--claimed-original",
@@ -68,39 +71,49 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.mergeUtilFactory = mergeUtilFactory;
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
     this.psUtil = psUtil;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
   public PureRevertInfo apply(ChangeResource rsrc)
       throws ResourceConflictException, IOException, BadRequestException, OrmException,
           AuthException {
-    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
+    return getPureRevert(rsrc.getNotes(), rsrc.getUser());
+  }
+
+  public PureRevertInfo getPureRevert(ChangeNotes notes, CurrentUser user)
+      throws OrmException, IOException, BadRequestException, AuthException,
+          ResourceConflictException {
+    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");
-    } else if (!rsrc.getControl().isPatchVisible(currentPatchSet, dbProvider.get())) {
+    } else if (!changeControlFactory
+        .controlFor(notes, user)
+        .isPatchVisible(currentPatchSet, dbProvider.get())) {
       throw new AuthException("current revision not accessible");
     }
 
     if (claimedOriginal == null) {
-      if (rsrc.getChange().getRevertOf() == null) {
+      if (notes.getChange().getRevertOf() == null) {
         throw new BadRequestException("no ID was provided and change isn't a revert");
       }
       PatchSet ps =
           psUtil.current(
               dbProvider.get(),
               notesFactory.createChecked(
-                  dbProvider.get(), rsrc.getProject(), rsrc.getChange().getRevertOf()));
+                  dbProvider.get(), notes.getProjectName(), notes.getChange().getRevertOf()));
       claimedOriginal = ps.getRevision().get();
     }
 
-    try (Repository repo = repoManager.openRepository(rsrc.getProject());
+    try (Repository repo = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = repo.newObjectInserter();
         RevWalk rw = new RevWalk(repo)) {
       RevCommit claimedOriginalCommit;
@@ -120,7 +133,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
       // Rebase claimed revert onto claimed original
       ThreeWayMerger merger =
           mergeUtilFactory
-              .create(projectCache.checkedGet(rsrc.getProject()))
+              .create(projectCache.checkedGet(notes.getProjectName()))
               .newThreeWayMerger(oi, repo.getConfig());
       merger.setBase(claimedRevertCommit.getParent(0));
       merger.merge(claimedRevertCommit, claimedOriginalCommit);

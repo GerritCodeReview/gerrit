@@ -39,26 +39,26 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   @Override
   public String changeClosed(ChangeReportFormatter.Input input) {
     return String.format(
-        "change %s closed", ChangeUtil.formatChangeUrl(canonicalWebUrl, input.getChange()));
+        "change %s closed", ChangeUtil.formatChangeUrl(canonicalWebUrl, input.change()));
   }
 
   private String formatChangeUrl(String url, Input input) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
-            .append(ChangeUtil.formatChangeUrl(url, input.getChange()))
+            .append(ChangeUtil.formatChangeUrl(url, input.change()))
             .append(" ")
-            .append(ChangeUtil.cropSubject(input.getSubject()));
-    if (input.isDraft()) {
+            .append(ChangeUtil.cropSubject(input.subject()));
+    if (input.draft()) {
       m.append(" [DRAFT]");
     }
-    if (input.isEdit()) {
+    if (input.edit()) {
       m.append(" [EDIT]");
     }
-    if (input.isPrivate()) {
+    if (input._private()) {
       m.append(" [PRIVATE]");
     }
-    if (input.isWorkInProgress()) {
+    if (input.wip()) {
       m.append(" [WIP]");
     }
     return m.toString();

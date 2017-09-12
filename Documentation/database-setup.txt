@@ -55,6 +55,8 @@ using PostgreSQL.
 [[createdb_mysql]]
 === MySQL
 
+Requirements: 5.1+
+
 This option is also more complicated than the H2 option. Just as with
 PostgreSQL it's also recommended for larger installations.
 
@@ -76,6 +78,8 @@ information regarding using MySQL.
 
 [[createdb_mariadb]]
 === MariaDB
+
+Requirements: mariadb 5.5+
 
 Refer to MySQL section above how to create MariaDB database.
 

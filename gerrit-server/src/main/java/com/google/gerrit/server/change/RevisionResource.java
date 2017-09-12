@@ -27,7 +27,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
@@ -62,12 +61,8 @@ public class RevisionResource implements RestResource, HasETag {
     return change;
   }
 
-  public ChangeControl getControl() {
-    return getChangeResource().getControl();
-  }
-
   public Change getChange() {
-    return getControl().getChange();
+    return getChangeResource().getChange();
   }
 
   public Project.NameKey getProject() {
@@ -100,7 +95,7 @@ public class RevisionResource implements RestResource, HasETag {
   }
 
   CurrentUser getUser() {
-    return getControl().getUser();
+    return getChangeResource().getUser();
   }
 
   RevisionResource doNotCache() {

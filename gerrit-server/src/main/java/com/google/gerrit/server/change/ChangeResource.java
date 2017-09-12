@@ -91,30 +91,26 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(getControl().getUser()).change(getNotes());
-  }
-
-  public ChangeControl getControl() {
-    return control;
+    return permissionBackend.user(control.getUser()).change(getNotes());
   }
 
   public CurrentUser getUser() {
-    return getControl().getUser();
+    return control.getUser();
   }
 
   public Change.Id getId() {
-    return getControl().getId();
+    return control.getId();
   }
 
   /** @return true if {@link #getUser()} is the change's owner. */
   public boolean isUserOwner() {
-    CurrentUser user = getControl().getUser();
+    CurrentUser user = control.getUser();
     Account.Id owner = getChange().getOwner();
     return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);
   }
 
   public Change getChange() {
-    return getControl().getChange();
+    return control.getChange();
   }
 
   public Project.NameKey getProject() {
@@ -122,7 +118,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public ChangeNotes getNotes() {
-    return getControl().getNotes();
+    return control.getNotes();
   }
 
   // This includes all information relevant for ETag computation

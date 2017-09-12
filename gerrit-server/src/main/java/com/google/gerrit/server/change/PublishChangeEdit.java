@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -75,20 +77,27 @@ public class PublishChangeEdit
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;
+    private final ProjectControl.GenericFactory projectControlFactory;
 
     @Inject
-    Publish(RetryHelper retryHelper, ChangeEditUtil editUtil, NotifyUtil notifyUtil) {
+    Publish(
+        RetryHelper retryHelper,
+        ChangeEditUtil editUtil,
+        NotifyUtil notifyUtil,
+        ProjectControl.GenericFactory projectControlFactory) {
       super(retryHelper);
       this.editUtil = editUtil;
       this.notifyUtil = notifyUtil;
+      this.projectControlFactory = projectControlFactory;
     }
 
     @Override
     protected Response<?> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
-        throws IOException, OrmException, RestApiException, UpdateException,
-            ConfigInvalidException {
-      CreateChange.checkValidCLA(rsrc.getControl().getProjectControl());
+        throws IOException, OrmException, RestApiException, UpdateException, ConfigInvalidException,
+            NoSuchProjectException {
+      CreateChange.checkValidCLA(
+          projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(
@@ -99,7 +108,8 @@ public class PublishChangeEdit
       }
       editUtil.publish(
           updateFactory,
-          rsrc.getControl(),
+          rsrc.getNotes(),
+          rsrc.getUser(),
           edit.get(),
           in.notify,
           notifyUtil.resolveAccounts(in.notifyDetails));

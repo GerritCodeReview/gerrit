@@ -282,10 +282,12 @@ public class ChangeData {
 
   public static class Factory {
     private final AssistedFactory assistedFactory;
+    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
-    Factory(AssistedFactory assistedFactory) {
+    Factory(AssistedFactory assistedFactory, ChangeControl.GenericFactory changeControlFactory) {
       this.assistedFactory = assistedFactory;
+      this.changeControlFactory = changeControlFactory;
     }
 
     public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
@@ -309,6 +311,11 @@ public class ChangeData {
           control.getChange(),
           control.getNotes(),
           control);
+    }
+
+    public ChangeData create(ReviewDb db, ChangeNotes notes, CurrentUser user)
+        throws NoSuchChangeException {
+      return create(db, changeControlFactory.controlFor(notes, user));
     }
   }
 

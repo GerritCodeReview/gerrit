@@ -17,8 +17,9 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -27,22 +28,23 @@ import org.kohsuke.args4j.Option;
 
 public class DownloadContent implements RestReadView<FileResource> {
   private final FileContentUtil fileContentUtil;
+  private final ProjectCache projectCache;
 
   @Option(name = "--parent")
   private Integer parent;
 
   @Inject
-  DownloadContent(FileContentUtil fileContentUtil) {
+  DownloadContent(FileContentUtil fileContentUtil, ProjectCache projectCache) {
     this.fileContentUtil = fileContentUtil;
+    this.projectCache = projectCache;
   }
 
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
     String path = rsrc.getPatchKey().get();
-    ProjectState projectState =
-        rsrc.getRevision().getControl().getProjectControl().getProjectState();
+    Project.NameKey project = rsrc.getRevision().getProject();
     ObjectId revstr = ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get());
-    return fileContentUtil.downloadContent(projectState, revstr, path, parent);
+    return fileContentUtil.downloadContent(projectCache.checkedGet(project), revstr, path, parent);
   }
 }

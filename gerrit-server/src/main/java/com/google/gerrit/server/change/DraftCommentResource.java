@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 
 public class DraftCommentResource implements RestResource {
@@ -35,12 +35,12 @@ public class DraftCommentResource implements RestResource {
     this.comment = c;
   }
 
-  public ChangeControl getControl() {
-    return rev.getControl();
+  public CurrentUser getUser() {
+    return rev.getUser();
   }
 
   public Change getChange() {
-    return getControl().getChange();
+    return rev.getChange();
   }
 
   public PatchSet getPatchSet() {
@@ -56,6 +56,6 @@ public class DraftCommentResource implements RestResource {
   }
 
   Account.Id getAuthorId() {
-    return getControl().getUser().getAccountId();
+    return rev.getUser().getAccountId();
   }
 }

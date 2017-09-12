@@ -162,6 +162,7 @@ public class PostReview
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   PostReview(
@@ -182,7 +183,8 @@ public class PostReview
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ChangeControl.GenericFactory changeControlFactory) {
     super(retryHelper);
     this.db = db;
     this.changes = changes;
@@ -201,6 +203,7 @@ public class PostReview
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -470,7 +473,7 @@ public class PostReview
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
     }
 
-    ChangeControl ctl = rev.getControl().forUser(reviewer);
+    ChangeControl ctl = changeControlFactory.controlFor(rev.getNotes(), reviewer);
     return new RevisionResource(changes.parse(ctl), rev.getPatchSet());
   }
 
@@ -571,7 +574,8 @@ public class PostReview
   }
 
   private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
-    ChangeData changeData = changeDataFactory.create(db.get(), revision.getControl());
+    ChangeData changeData =
+        changeDataFactory.create(db.get(), revision.getNotes(), revision.getUser());
     return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
@@ -1108,7 +1112,7 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx.getControl());
+      ChangeData cd = changeDataFactory.create(db.get(), ctx.getNotes(), ctx.getUser());
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;

@@ -117,7 +117,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       return result;
     }
 
-    ChangeData cd = changeDataFactory.create(db.get(), resource.getControl());
+    ChangeData cd = changeDataFactory.create(db.get(), resource.getNotes(), resource.getUser());
     result.submitType = getSubmitType(cd, ps);
 
     try (Repository git = gitManager.openRepository(change.getProject())) {

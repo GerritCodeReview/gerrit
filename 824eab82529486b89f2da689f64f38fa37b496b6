@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d9e608e_767ef433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T02:15:56Z",
+      "side": 1,
+      "message": "I wonder if we should also mention the minimum MySQL version somewhere in the documentation?  It should definitely be mentioned in the 2.15 release notes.",
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07519e9c_6dd9c328",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T02:15:56Z",
+      "side": 1,
+      "message": "This is basically saying the same as the previous sentence.  Remove the previous one.\n\nAlso, s/then/than/",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31544348_a24a6d81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T02:15:56Z",
+      "side": 1,
+      "message": "It also adds support for Java 8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

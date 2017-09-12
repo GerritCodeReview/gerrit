@@ -278,6 +278,30 @@
     },
     {
       "key": {
+        "uuid": "55006e6a_10fd7e0b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2621,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T12:13:50Z",
+      "side": 1,
+      "message": "I thought Input should go first, then Response. But we don\u0027t have clear rule in this file. So it\u0027s fine do keep like it is.",
+      "parentUuid": "692da3b1_3c734e37",
+      "range": {
+        "startLine": 2621,
+        "startChar": 0,
+        "endLine": 2621,
+        "endChar": 22
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3346969b_f3d237d4",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 13

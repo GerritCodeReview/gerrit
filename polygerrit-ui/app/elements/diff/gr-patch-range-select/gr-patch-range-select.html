@@ -22,9 +22,6 @@ limitations under the License.
 <dom-module id="gr-patch-range-select">
   <template>
     <style include="shared-styles">
-      :host {
-        display: block;
-      }
       .patchRange {
         display: inline-block;
       }
@@ -47,10 +44,11 @@ limitations under the License.
         <select>
           <option value="PARENT">Base</option>
           <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
-            <option value$="[[patchNum]]"
-                disabled$="[[_computeLeftDisabled(patchNum, patchRange)]]">
-              [[patchNum]]
-              [[_computePatchSetDescription(revisions, patchNum)]]
+            <option value$="[[patchNum.num]]"
+                disabled$="[[_computeLeftDisabled(patchNum.num, patchRange, _sortedRevisions)]]">
+              [[patchNum.num]]
+              [[_computePatchSetCommentsString(comments, patchNum.num)]]
+              [[_computePatchSetDescription(revisions, patchNum.num)]]
             </option>
           </template>
         </select>
@@ -68,10 +66,11 @@ limitations under the License.
           on-change="_handlePatchChange">
         <select>
           <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
-            <option value$="[[patchNum]]"
-                disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">
-              [[patchNum]]
-              [[_computePatchSetDescription(revisions, patchNum)]]
+            <option value$="[[patchNum.num]]"
+                disabled$="[[_computeRightDisabled(patchNum.num, patchRange, _sortedRevisions)]]">
+              [[patchNum.num]]
+              [[_computePatchSetCommentsString(comments, patchNum.num)]]
+              [[_computePatchSetDescription(revisions, patchNum.num)]]
             </option>
           </template>
         </select>

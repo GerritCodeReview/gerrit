@@ -47,6 +47,30 @@
       "revId": "3b979d9cba5e3089c2f6f6da88f51a91730e98ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2de7da9_d4b093b5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T09:52:59Z",
+      "side": 1,
+      "message": "I thought that we could avoid the creation of the intermediate (mutable) EnumSet. As ChangeJson.Factory#create allows to pass an Iterable which is directly converted to an ImmutableEnumSet, we could simply pass on the Iterable. Consider that someone passes an ImmutableEnumSet to get(). We would copy all elements to an EnumSet (as an ImmutableEnumSet isn\u0027t an EnumSet) which is cloned again before it is wrapped in an ImmutableEnumSet in ChangeJson. If we passed on the Iterable, we wouldn\u0027t copy the original ImmutableEnumSet at all.\n\nArguably, that optimization isn\u0027t important. I was just thinking of your efforts in I2953a47d43639f727b72375100ef54c67e0274e8 to limit copying of ListChangesOptions and hence thought I should mention it.",
+      "parentUuid": "53b7ef18_dfec6262",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 24
+      },
+      "revId": "3b979d9cba5e3089c2f6f6da88f51a91730e98ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

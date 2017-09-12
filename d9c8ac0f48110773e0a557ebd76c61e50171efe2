@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "2a60bf22_25a68002",
+        "filename": "gerrit-acceptance-framework/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-12T12:34:41Z",
+      "side": 1,
+      "message": "In the short term, the structure here is consistent with elsewhere, e.g. //gerrit-server has both a test library (:testutil) and tests (:server_tests) with sources under test/....",
+      "parentUuid": "b2a01c1c_ca83fb8c",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "d9c8ac0f48110773e0a557ebd76c61e50171efe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dd6f345_9ea6a01d",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java",
         "patchSetId": 3

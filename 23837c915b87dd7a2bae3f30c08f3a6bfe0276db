@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3617601c_c304db60",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-12T07:22:29Z",
+      "side": 1,
+      "message": "Please remove conflict markers",
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2622794_fe20cb82",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 13

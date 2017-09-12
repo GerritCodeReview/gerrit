@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "1dd855eb_42859907",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "A better choice could be:\n\nlink:#project-name[\\{project-name\\}]",
+      "range": {
+        "startLine": 1183,
+        "startChar": 16,
+        "endLine": 1183,
+        "endChar": 25
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8992ba10_1e101b2c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "Now it\u0027s a project endpoint, this needs to be updated.",
+      "range": {
+        "startLine": 1195,
+        "startChar": 7,
+        "endLine": 1195,
+        "endChar": 27
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81407209_c108c98f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "This field has been contained in the URL and removed from AccessCheckInput. It can be removed now.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 4,
+        "endLine": 1199,
+        "endChar": 24
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3617601c_c304db60",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 13
@@ -13,6 +82,213 @@
       "writtenOn": "2017-09-12T07:22:29Z",
       "side": 1,
       "message": "Please remove conflict markers",
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22b67bb4_cb2c2a92",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "Keep this and other following columns aligned.",
+      "range": {
+        "startLine": 2615,
+        "startChar": 9,
+        "endLine": 2615,
+        "endChar": 47
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "382bda8a_b42b60ee",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2621,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "Move this above of \"AccessCheckInfo\".",
+      "range": {
+        "startLine": 2621,
+        "startChar": 0,
+        "endLine": 2621,
+        "endChar": 22
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3346969b_f3d237d4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2622,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "This input needs to be updated because \u0027project\u0027 field is not needed any more.",
+      "range": {
+        "startLine": 2622,
+        "startChar": 0,
+        "endLine": 2622,
+        "endChar": 20
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fd62b8_b9cbd8ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "This class should not be in this package because it tests with java API rather than REST session. It should be moved to package:\n\ngerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb410666_361a23c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "Can we use \"exception.expect(RestApiException.class)\" instead of catch RestApiException here?\n\nThis test should also \"throws Exception\".",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 7
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a555f464_61336d3f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "This inner class should be class private instead of package private? Also I guess it\u0027s better to move it to the end of this class.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 23
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d528ed84_6a612452",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "To keep consistent, this would be \"this.input\".",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 11
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ace4c0fa_baabb4b2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckAccessIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "I agree with Alice. Every test should test only one behavior. This test can split into four and they can share some common methods with each other.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d78fcd_38d1cd07",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/config/AccessCheckInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "optional: since \u0027ref\u0027 could be null, we could annotate this field by @Default. By doing this, when clients post a string without following JSON format, the string will be assigned to \u0027account\u0027 field.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 24
+      },
       "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -39,6 +315,76 @@
       "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ea32725_9b000c23",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "+1, needs to run java formatter.",
+      "parentUuid": "a2622794_fe20cb82",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542da280_ba619d13",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "Putting it here breaks \"access()\" and \"access(ProjectAccessInput p)\". It should be in line#45. There it will be consistent with line#178.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 75
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6798db4_2128e198",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckAccess.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-12T08:24:11Z",
+      "side": 1,
+      "message": "This should work. But most of our endpoints wrap as Response\u003cT\u003e, which will make the response code more clear.\nEven though there is a \u0027status\u0027 in AccessCheckInfo, I think we still need to return Response.ok(info) explicitly.",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "23837c915b87dd7a2bae3f30c08f3a6bfe0276db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

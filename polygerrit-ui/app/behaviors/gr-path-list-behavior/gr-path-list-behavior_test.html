@@ -44,5 +44,13 @@ limitations under the License.
             '/mrPeanutbutter.py',
           ]);
     });
+
+    test('file display name', () => {
+      const name = Gerrit.PathListBehavior.computeFileDisplayName;
+      assert.equal(name('/foo/bar/baz'), '/foo/bar/baz');
+      assert.equal(name('/foobarbaz'), '/foobarbaz');
+      assert.equal(name('/COMMIT_MSG'), 'Commit message');
+      assert.equal(name('/MERGE_LIST'), 'Merge list');
+    });
   });
 </script>

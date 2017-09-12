@@ -60,15 +60,6 @@ limitations under the License.
       assert.deepEqual(element._computeFilesFromComments(null), []);
     });
 
-    test('_computeFileDisplayName', () => {
-      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
-          'Commit message');
-      assert.equal(element._computeFileDisplayName('/MERGE_LIST'),
-          'Merge list');
-      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-          '/foo/bar/baz');
-    });
-
     test('_computePatchDisplayName', () => {
       const comment = {line: 123, side: 'REVISION', patch_set: 10};
 

@@ -39,11 +39,13 @@ import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -355,7 +357,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (PatchSetApproval a : safeGetApprovals(ctl, psId)) {
+    for (PatchSetApproval a : safeGetApprovals(ctl.getNotes(), ctl.getUser(), psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -448,9 +450,10 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private Iterable<PatchSetApproval> safeGetApprovals(ChangeControl ctl, PatchSet.Id psId) {
+  private Iterable<PatchSetApproval> safeGetApprovals(
+      ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), ctl, psId, null, null);
+      return approvalsUtil.byPatchSet(db.get(), notes, user, psId, null, null);
     } catch (OrmException e) {
       log.error("Can't read approval records for " + psId, e);
       return Collections.emptyList();

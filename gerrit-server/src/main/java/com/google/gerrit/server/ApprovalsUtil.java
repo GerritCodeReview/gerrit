@@ -49,7 +49,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -385,7 +384,8 @@ public class ApprovalsUtil {
 
   public Iterable<PatchSetApproval> byPatchSet(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
@@ -393,12 +393,13 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return copier.getForPatchSet(db, ctl, psId, rw, repoConfig);
+    return copier.getForPatchSet(db, notes, user, psId, rw, repoConfig);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
       ReviewDb db,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PatchSet.Id psId,
       Account.Id accountId,
       @Nullable RevWalk rw,
@@ -407,7 +408,7 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }
-    return filterApprovals(byPatchSet(db, ctl, psId, rw, repoConfig), accountId);
+    return filterApprovals(byPatchSet(db, notes, user, psId, rw, repoConfig), accountId);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {

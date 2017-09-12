@@ -171,6 +171,20 @@ limitations under the License.
         assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
       });
 
+      test('expand all messages when expand-diffs fired', () => {
+        const handleExpand =
+            sandbox.stub(element.$.fileList, 'expandAllDiffs');
+        element.$.fileListHeader.fire('expand-diffs');
+        assert.isTrue(handleExpand.called);
+      });
+
+      test('collapse all messages when collapse-diffs fired', () => {
+        const handleCollapse =
+        sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+        element.$.fileListHeader.fire('collapse-diffs');
+        assert.isTrue(handleCollapse.called);
+      });
+
       test('X should expand all messages', () => {
         const handleExpand =
             sandbox.stub(element.$.messageList, 'handleExpandCollapse');
@@ -238,77 +252,11 @@ limitations under the License.
       });
     });
 
-    test('Diff preferences hidden when no prefs or logged out', () => {
-      element._loggedIn = false;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-      element._loggedIn = true;
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-      element._loggedIn = false;
-      element._diffPrefs = {font_size: '12'};
-      flushAsynchronousOperations();
-      assert.isTrue(element.$.diffPrefsContainer.hidden);
-
-      element._loggedIn = true;
-      flushAsynchronousOperations();
-      assert.isFalse(element.$.diffPrefsContainer.hidden);
-    });
-
-    test('prefsButton opens gr-diff-preferences', () => {
-      const handlePrefsTapSpy = sandbox.spy(element, '_handlePrefsTap');
+    test('diff preferences open when open-diff-prefs is fired', () => {
       const overlayOpenStub = sandbox.stub(element.$.fileList,
           'openDiffPrefs');
-      const prefsButton = Polymer.dom(element.root).querySelectorAll(
-          '.prefsButton')[0];
-
-      MockInteractions.tap(prefsButton);
-
-      assert.isTrue(handlePrefsTapSpy.called);
+      element.$.fileListHeader.fire('open-diff-prefs');
       assert.isTrue(overlayOpenStub.called);
-    });
-
-    test('_computeDescriptionReadOnly', () => {
-      assert.equal(element._computeDescriptionReadOnly(false,
-          {owner: {_account_id: 1}}, {_account_id: 1}), true);
-      assert.equal(element._computeDescriptionReadOnly(true,
-          {owner: {_account_id: 0}}, {_account_id: 1}), true);
-      assert.equal(element._computeDescriptionReadOnly(true,
-          {owner: {_account_id: 1}}, {_account_id: 1}), false);
-    });
-
-    test('_computeDescriptionPlaceholder', () => {
-      assert.equal(element._computeDescriptionPlaceholder(true),
-          'No patch set description');
-      assert.equal(element._computeDescriptionPlaceholder(false),
-          'Add a patch set description');
-    });
-
-    test('_computePatchSetDisabled', () => {
-      element._sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
-      let basePatchNum = 'PARENT';
-      let patchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = 2;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = element.EDIT_NAME;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = '3';
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
     });
 
     test('_prepareCommitMsgForLinkify', () => {
@@ -324,80 +272,6 @@ limitations under the License.
       result = element._prepareCommitMsgForLinkify(commitMessage);
       assert.equal(result, 'CC=\u200Btest@google.com');
     }),
-
-    test('_computePatchSetCommentsString', () => {
-      // Test string with unresolved comments.
-      comments = {
-        foo: 'foo comments',
-        bar: 'bar comments',
-        xyz: 'xyz comments',
-      };
-      sandbox.stub(element.$.fileList, 'getCommentsForPath', (c, p, f) => {
-        if (f == 'foo') {
-          return ['comment1', 'comment2'];
-        } else if (f == 'bar') {
-          return ['comment1'];
-        } else {
-          return [];
-        }
-      });
-      sandbox.stub(element.$.fileList, 'computeUnresolvedNum', (c, d, p, f) => {
-        if (f == 'foo') {
-          return 0;
-        } else if (f == 'bar') {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(3 comments, 1 unresolved)');
-
-      // Test string with no unresolved comments.
-      delete comments['bar'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(2 comments)');
-
-      // Test string with no comments.
-      delete comments['foo'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1), '');
-    });
-
-    test('_handleDescriptionChanged', () => {
-      const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
-          .returns(Promise.resolve({ok: true}));
-      sandbox.stub(element, '_computeDescriptionReadOnly');
-
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      element._selectedPatchNum = '1';
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1, description: 'test', commit: {commit: 'rev1'}},
-        },
-        current_revision: 'rev1',
-        status: 'NEW',
-        labels: {},
-        actions: {},
-        owner: {_account_id: 1},
-      };
-      element._account = {_account_id: 1};
-      element._loggedIn = true;
-
-      flushAsynchronousOperations();
-      const label = element.$.descriptionLabel;
-      assert.equal(label.value, 'test');
-      label.editing = true;
-      label._inputText = 'test2';
-      label._save();
-      flushAsynchronousOperations();
-      assert.isTrue(putDescStub.called);
-      assert.equal(putDescStub.args[0][2], 'test2');
-    });
 
     test('_updateRebaseAction', () => {
       const currentRevisionActions = {
@@ -572,106 +446,6 @@ limitations under the License.
       assert.equal(element._numFilesShown, 200);
     });
 
-    test('patch num change', done => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
-        },
-        current_revision: 'rev3',
-        status: 'NEW',
-        labels: {},
-      };
-      element.viewState.diffMode = 'UNIFIED';
-      flushAsynchronousOperations();
-
-      const selectEl = element.$$('.patchInfo-header gr-select');
-      assert.ok(selectEl);
-      const optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
-      assert.equal(optionEls.length, 4);
-      const select = element.$$('.patchInfo-header #patchSetSelect').bindValue;
-      assert.notEqual(select, 1);
-      assert.equal(select, 2);
-      assert.notEqual(select, 3);
-      assert.equal(optionEls[3].value, 13);
-
-      let numEvents = 0;
-      selectEl.addEventListener('change', e => {
-        assert.equal(element.viewState.diffMode, 'UNIFIED');
-        numEvents++;
-        if (numEvents == 1) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, '1', 'PARENT'));
-          selectEl.nativeSelect.value = '3';
-          element.fire('change', {}, {node: selectEl.nativeSelect});
-        } else if (numEvents == 2) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, '3', 'PARENT'));
-          done();
-        }
-      });
-      selectEl.nativeSelect.value = '1';
-      element.fire('change', {}, {node: selectEl.nativeSelect});
-    });
-
-    test('patch num change with missing current_revision', done => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
-        },
-        status: 'NEW',
-        labels: {},
-      };
-      flushAsynchronousOperations();
-      const selectEl = element.$$('.patchInfo-header gr-select');
-      assert.ok(selectEl);
-      const optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
-      assert.equal(optionEls.length, 4);
-      assert.notEqual(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 1);
-      assert.equal(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 2);
-      assert.notEqual(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 3);
-      assert.equal(optionEls[3].value, 13);
-
-      let numEvents = 0;
-      selectEl.addEventListener('change', e => {
-        numEvents++;
-        if (numEvents == 1) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, '1', 'PARENT'));
-          selectEl.nativeSelect.value = '3';
-          element.fire('change', {}, {node: selectEl.nativeSelect});
-        } else if (numEvents == 2) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, '3', 'PARENT'));
-          done();
-        }
-      });
-      selectEl.nativeSelect.value = '1';
-      element.fire('change', {}, {node: selectEl.nativeSelect});
-    });
-
     test('diffMode defaults to side by side without preferences', done => {
       sandbox.stub(element.$.restAPI, 'getPreferences').returns(
           Promise.resolve({}));
@@ -701,101 +475,6 @@ limitations under the License.
         assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
         done();
       });
-    });
-
-    test('diff against dropdown', done => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev1: {_number: 1},
-          rev2: {_number: 2},
-          rev3: {_number: 'edit', basePatchNum: 2},
-          rev4: {_number: 3},
-        },
-        status: 'NEW',
-        labels: {},
-      };
-
-      flush(() => {
-        const selectEl = element.$.patchChange;
-        assert.equal(selectEl.nativeSelect.value, 'PARENT');
-        assert.isTrue(element.$$('#patchChange option[value="3"]')
-            .hasAttribute('disabled'));
-        selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.nativeSelect.value, 'edit');
-          assert(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change, '3', 'edit'),
-              'Should navigate to /c/42/edit..3');
-          done();
-        });
-        selectEl.nativeSelect.value = 'edit';
-        element.fire('change', {}, {node: selectEl.nativeSelect});
-      });
-    });
-
-    test('expandAllDiffs called when expand button clicked', () => {
-      element._shownFileCount = 1;
-      flushAsynchronousOperations();
-      sandbox.stub(element.$.fileList, 'expandAllDiffs');
-      MockInteractions.tap(Polymer.dom(element.root).querySelector(
-          '#expandBtn'));
-      assert.isTrue(element.$.fileList.expandAllDiffs.called);
-    });
-
-    test('collapseAllDiffs called when expand button clicked', () => {
-      element._shownFileCount = 1;
-      flushAsynchronousOperations();
-      sandbox.stub(element.$.fileList, 'collapseAllDiffs');
-      MockInteractions.tap(Polymer.dom(element.root).querySelector(
-          '#collapseBtn'));
-      assert.isTrue(element.$.fileList.collapseAllDiffs.called);
-    });
-
-    test('show/hide diffs disabled for large amounts of files', done => {
-      const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
-      element._files = [];
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
-      element._shownFileCount = 1;
-      flush(() => {
-        assert.isTrue(computeSpy.lastCall.returnValue);
-        _.times(element._maxFilesForBulkActions + 1, () => {
-          element._shownFileCount = element._shownFileCount + 1;
-        });
-        assert.isFalse(computeSpy.lastCall.returnValue);
-        done();
-      });
-    });
-
-    test('diff mode selector initializes from preferences', () => {
-      let resolvePrefs;
-      const prefsPromise = new Promise(resolve => {
-        resolvePrefs = resolve;
-      });
-      sandbox.stub(element.$.restAPI, 'getPreferences').returns(prefsPromise);
-
-      // Attach a new gr-change-view so we can intercept the preferences fetch.
-      const view = document.createElement('gr-change-view');
-      const select = view.$.modeSelect;
-      fixture('blank').appendChild(view);
-      flushAsynchronousOperations();
-
-      // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-
-      // Receive the overriding preference.
-      resolvePrefs({default_diff_view: 'UNIFIED'});
-      flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-      document.getElementById('blank').restore();
     });
 
     test('don’t reload entire page when patchRange changes', () => {
@@ -841,35 +520,6 @@ limitations under the License.
       assert.isTrue(collapseStub.calledTwice);
     });
 
-    test('include base patch when not parent', () => {
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: '2',
-        patchNum: '3',
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
-        },
-        status: 'NEW',
-        labels: {},
-      };
-
-      element._changePatchNum(13, 2);
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element._change, 13, 2));
-
-      element._patchRange.basePatchNum = 'PARENT';
-
-      element._changePatchNum(3, 'PARENT');
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element._change, 3, 'PARENT'));
-    });
-
     test('related changes are updated and new patch selected after rebase',
         done => {
           element._changeNum = '42';
@@ -888,7 +538,6 @@ limitations under the License.
 
     test('related changes are not updated after other action', done => {
       sandbox.stub(element, '_reload', () => { return Promise.resolve(); });
-      sandbox.stub(element, '_updateSelected');
       sandbox.stub(element.$.relatedChanges, 'reload');
       const e = {detail: {action: 'abandon'}};
       element._handleReloadChange(e).then(() => {
@@ -1090,15 +739,6 @@ limitations under the License.
       element._handleShowReplyDialog(e);
       assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
-    });
-
-    test('class is applied to file list on old patch set', () => {
-      const allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
-      assert.equal(element._computePatchInfoClass('1', allPatchSets),
-          'patchInfoOldPatchSet');
-      assert.equal(element._computePatchInfoClass('2', allPatchSets),
-          'patchInfoOldPatchSet');
-      assert.equal(element._computePatchInfoClass('4', allPatchSets), '');
     });
 
     test('getUrlParameter functionality', () => {
@@ -1510,30 +1150,14 @@ limitations under the License.
       assert.equal(element._patchRange.patchNum, 'baz');
     });
 
-    suite('editLoaded behavior', () => {
-      setup(() => {
-        element._loggedIn = true;
-        element._diffPrefs = {};
-      });
+    test('_editLoaded set when patchNum is an edit', () => {
+      sandbox.stub(element, 'computeLatestPatchNum').returns('2');
+      element._patchRange = {patchNum: element.EDIT_NAME};
 
-      const isVisible = el => {
-        assert.ok(el);
-        return getComputedStyle(el).getPropertyValue('display') !== 'none';
-      };
+      assert.isTrue(element._editLoaded);
+      element.set('_patchRange.patchNum', 1);
 
-      test('patch specific elements', () => {
-        sandbox.stub(element, 'computeLatestPatchNum').returns('2');
-        element._patchRange = {patchNum: element.EDIT_NAME};
-        flushAsynchronousOperations();
-
-        assert.isFalse(isVisible(element.$.diffPrefsContainer));
-        assert.isFalse(isVisible(element.$$('.descriptionContainer')));
-        element.set('_patchRange.patchNum', 1);
-        flushAsynchronousOperations();
-
-        assert.isTrue(isVisible(element.$$('.descriptionContainer')));
-        assert.isTrue(isVisible(element.$.diffPrefsContainer));
-      });
+      assert.isFalse(element._editLoaded);
     });
   });
 </script>

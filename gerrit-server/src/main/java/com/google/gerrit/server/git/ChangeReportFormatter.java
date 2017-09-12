@@ -14,68 +14,61 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
+import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 
 public interface ChangeReportFormatter {
-  public static class Input {
-    private final Change change;
-    private String subject;
-    private Boolean draft;
-    private Boolean edit;
-    private Boolean isPrivate;
-    private Boolean wip;
+  @AutoValue
+  abstract class Input {
+    public abstract Change change();
 
-    public Input(Change change) {
-      this.change = change;
+    @Nullable
+    public abstract String subject();
+
+    @Nullable
+    public abstract Boolean draft();
+
+    @Nullable
+    public abstract Boolean edit();
+
+    @Nullable
+    public abstract Boolean _private();
+
+    @Nullable
+    public abstract Boolean wip();
+
+    public static Builder builder() {
+      return new AutoValue_ChangeReportFormatter_Input.Builder();
     }
 
-    public Input setPrivate(boolean isPrivate) {
-      this.isPrivate = isPrivate;
-      return this;
-    }
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder setChange(Change val);
 
-    public Input setDraft(boolean draft) {
-      this.draft = draft;
-      return this;
-    }
+      public abstract Builder setSubject(String val);
 
-    public Input setEdit(boolean edit) {
-      this.edit = edit;
-      return this;
-    }
+      public abstract Builder setDraft(Boolean val);
 
-    public Input setWorkInProgress(boolean wip) {
-      this.wip = wip;
-      return this;
-    }
+      public abstract Builder setEdit(Boolean val);
 
-    public Input setSubject(String subject) {
-      this.subject = subject;
-      return this;
-    }
+      public abstract Builder set_private(Boolean val);
 
-    public Change getChange() {
-      return change;
-    }
+      public abstract Builder setWip(Boolean val);
 
-    public String getSubject() {
-      return subject == null ? change.getSubject() : subject;
-    }
+      abstract Input autoBuild();
 
-    public boolean isDraft() {
-      return draft == null ? Change.Status.DRAFT == change.getStatus() : draft;
-    }
-
-    public boolean isEdit() {
-      return edit == null ? false : edit;
-    }
-
-    public boolean isPrivate() {
-      return isPrivate == null ? change.isPrivate() : isPrivate;
-    }
-
-    public boolean isWorkInProgress() {
-      return wip == null ? change.isWorkInProgress() : wip;
+      public Input build() {
+        Input input = autoBuild();
+        setSubject(firstNonNull(input.subject(), input.change().getSubject()));
+        setDraft(firstNonNull(input.draft(), Change.Status.DRAFT == input.change().getStatus()));
+        setEdit(firstNonNull(input.edit(), false));
+        set_private(firstNonNull(input._private(), input.change().isPrivate()));
+        setWip(firstNonNull(input.wip(), input.change().isWorkInProgress()));
+        return autoBuild();
+      }
     }
   }
 

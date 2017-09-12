@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c3b33e4_35b6a1af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-12T22:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "024e4b87_550dda72",
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633e7eb9_844c6429",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "abccee51_8cc79774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-12T22:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633e7eb9_844c6429",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f377cfeb_13faaf5c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -53,6 +95,24 @@
       "writtenOn": "2017-09-12T21:27:00Z",
       "side": 1,
       "message": "Optional: consider negating this so it can return rather than nesting the whole function.\n\n if (!opt_reset \u0026\u0026 this.viewState.diffViewMode) { return; }",
+      "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2486d7b9_693e404a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-12T22:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f377cfeb_13faaf5c",
       "revId": "b6af6df6fee09d03460a5dde267f2ad2e3645c8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

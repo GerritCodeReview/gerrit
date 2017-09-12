@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "b755f6e5_853a0f2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T09:12:53Z",
+      "side": 1,
+      "message": "Let\u0027s hope that we never use ChangeNotes which were constructed from a stale index as input. As one of the code paths goes through ApprovalCopier#getForPatchSet, which also doesn\u0027t care about null values for the project, we can probably assume that we don\u0027t get a null value here. It just doesn\u0027t feel good to me to rely on the current state of the calling methods.",
+      "parentUuid": "92a230b7_2464d4e8",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 31
+      },
+      "revId": "65a141f0c5233c32e41182ed1d8bbada19ae5787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a570b7_955821ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/MergedSender.java",
         "patchSetId": 1

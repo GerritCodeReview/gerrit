@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "0cac99bd_197153f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-12T08:49:48Z",
+      "side": 1,
+      "message": "\u003e If I understood it correctly, any IOException would be mapped to NoSuchChangeException.\n\nBut this is fine, right? We want an IOException to cause HTTP 500 and not some known graceful exception. In this case we\u0027d throw an OrmException (because NSCE is a subclass) which provokes HTTP 500.",
+      "parentUuid": "0d5d253a_db336a1b",
+      "range": {
+        "startLine": 100,
+        "startChar": 40,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "5dc272d689ab6b6b595ca8e8a3c568a03f495bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd74c9b7_9314df2a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
         "patchSetId": 1

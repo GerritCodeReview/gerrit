@@ -22,6 +22,53 @@
       "revId": "9f89247800849ed7d598038e0a7a1792cd621d5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f39ee94a_ae99522a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T11:43:32Z",
+      "side": 1,
+      "message": "No, we have not considered that.\n\nLooking at for example PostReviewersOp, it seems we can reduce a lot of boiler plate code for the set methods, but I don\u0027t see any examples of how to override the get implementations.",
+      "parentUuid": "cd27bd12_2e5007d3",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "9f89247800849ed7d598038e0a7a1792cd621d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61338b3e_759bd559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T11:43:32Z",
+      "side": 1,
+      "message": "For example how would we implement this when using the AutoValue.Builder?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "9f89247800849ed7d598038e0a7a1792cd621d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

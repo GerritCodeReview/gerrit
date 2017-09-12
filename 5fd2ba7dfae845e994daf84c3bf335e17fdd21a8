@@ -46,6 +46,30 @@
       "revId": "5fd2ba7dfae845e994daf84c3bf335e17fdd21a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25589269_a49e6c96",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T09:42:01Z",
+      "side": 1,
+      "message": "testing locally and seems to work. when i enable that in projects config, it shows in the create dialog. when i turn it false, it unchecks it.",
+      "parentUuid": "4a210495_f95b7987",
+      "range": {
+        "startLine": 95,
+        "startChar": 28,
+        "endLine": 95,
+        "endChar": 77
+      },
+      "revId": "5fd2ba7dfae845e994daf84c3bf335e17fdd21a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

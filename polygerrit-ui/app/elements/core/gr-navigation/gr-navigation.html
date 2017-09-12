@@ -211,6 +211,21 @@ limitations under the License.
       },
 
       /**
+       * Gets the link to load a file in an editor.
+       *
+       * @param {{ _number: number, project: string }} change The change object.
+       * @param {string} path The file path.
+       * @param {number=} opt_patchNum
+       * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
+       *     used for none.
+       * @return {string}
+       */
+      getEditUrlForDiff(change, path, opt_patchNum, opt_basePatchNum) {
+        return this.getUrlForDiffById(change._number, change.project, path,
+            opt_patchNum, opt_basePatchNum, null, null, true);
+      },
+
+      /**
        * @param {number} changeNum
        * @param {string} project The name of the project.
        * @param {string} path The file path.
@@ -219,10 +234,11 @@ limitations under the License.
        *     used for none.
        * @param {number=} opt_lineNum
        * @param {boolean=} opt_leftSide
+       * @param {boolean=} opt_edit
        * @return {string}
        */
       getUrlForDiffById(changeNum, project, path, opt_patchNum,
-          opt_basePatchNum, opt_lineNum, opt_leftSide) {
+          opt_basePatchNum, opt_lineNum, opt_leftSide, opt_edit) {
         if (opt_basePatchNum === PARENT_PATCHNUM) {
           opt_basePatchNum = undefined;
         }
@@ -237,6 +253,7 @@ limitations under the License.
           basePatchNum: opt_basePatchNum,
           lineNum: opt_lineNum,
           leftSide: opt_leftSide,
+          edit: opt_edit,
         });
       },
 

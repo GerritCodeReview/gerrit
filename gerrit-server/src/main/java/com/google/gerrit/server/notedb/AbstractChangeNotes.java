@@ -151,17 +151,18 @@ public abstract class AbstractChangeNotes<T> {
     if (args.migration.failOnLoad()) {
       throw new OrmException("Reading from NoteDb is disabled");
     }
+    if (!read) {
+      loadDefaults();
+      loaded = true;
+      return self();
+    }
     try (Timer1.Context timer = args.metrics.readLatency.start(CHANGES);
         Repository repo = args.repoManager.openRepository(getProjectName());
         // Call openHandle even if reading is disabled, to trigger
         // auto-rebuilding before this object may get passed to a ChangeUpdate.
         LoadHandle handle = openHandle(repo)) {
-      if (read) {
-        revision = handle.id();
-        onLoad(handle);
-      } else {
-        loadDefaults();
-      }
+      revision = handle.id();
+      onLoad(handle);
       loaded = true;
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);

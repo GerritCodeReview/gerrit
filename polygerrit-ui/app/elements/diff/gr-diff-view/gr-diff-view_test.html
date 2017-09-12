@@ -446,6 +446,18 @@ limitations under the License.
       });
     });
 
+    test('_handlePatchChange calls navigateToDiff correctly', () => {
+      let leftPatch = 'PARENT';
+      const rightPatch = '3';
+      const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._path = 'path/to/file.txt';
+      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
+
+      assert(navigateStub.lastCall.calledWithExactly(element._change,
+          element._path, rightPatch, leftPatch));
+    });
+
     test('download link', () => {
       element._changeNum = '42';
       element._patchRange = {

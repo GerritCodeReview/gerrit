@@ -123,42 +123,6 @@ limitations under the License.
           false);
     });
 
-    test('_computePatchSetCommentsString', () => {
-      // Test string with unresolved comments.
-
-      comments = {
-        foo: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-          unresolved: true,
-        }],
-        bar: [{
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-        },
-        {
-          id: '27dcee4d_f7b77cfa',
-          message: 'test',
-          patch_set: 1,
-        }],
-        abc: [],
-      };
-
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(3 comments, 1 unresolved)');
-
-      // Test string with no unresolved comments.
-      delete comments['foo'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(2 comments)');
-
-      // Test string with no comments.
-      delete comments['bar'];
-      assert.equal(element._computePatchSetCommentsString(comments, 1), '');
-    });
-
     test('_handleDescriptionChanged', () => {
       const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
           .returns(Promise.resolve({ok: true}));
@@ -169,7 +133,6 @@ limitations under the License.
         basePatchNum: 'PARENT',
         patchNum: 1,
       };
-      element._selectedPatchNum = '1';
       element.change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -193,130 +156,6 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isTrue(putDescStub.called);
       assert.equal(putDescStub.args[0][2], 'test2');
-    });
-
-    test('patch num change', done => {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-
-      element.allPatchSets = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 13},
-      ];
-
-      flushAsynchronousOperations();
-
-      const selectEl = element.$$('.patchInfo-header gr-select');
-      assert.ok(selectEl);
-      const optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
-      assert.equal(optionEls.length, 4);
-      const select = element.$$('.patchInfo-header #patchSetSelect').bindValue;
-      assert.notEqual(select, 1);
-      assert.equal(select, 2);
-      assert.notEqual(select, 3);
-      assert.equal(optionEls[3].value, 13);
-
-      let numEvents = 0;
-      selectEl.addEventListener('change', e => {
-        assert.equal(element.diffViewMode, 'SIDE_BY_SIDE');
-        numEvents++;
-        if (numEvents == 1) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element.change, '1', 'PARENT'));
-          selectEl.nativeSelect.value = '3';
-          element.fire('change', {}, {node: selectEl.nativeSelect});
-        } else if (numEvents == 2) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element.change, '3', 'PARENT'));
-          done();
-        }
-      });
-      selectEl.nativeSelect.value = '1';
-      element.fire('change', {}, {node: selectEl.nativeSelect});
-    });
-
-    test('patch num change with missing current_revision', done => {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-
-      element.allPatchSets = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 13},
-      ];
-      flushAsynchronousOperations();
-      const selectEl = element.$$('.patchInfo-header gr-select');
-      assert.ok(selectEl);
-      const optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
-      assert.equal(optionEls.length, 4);
-      assert.notEqual(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 1);
-      assert.equal(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 2);
-      assert.notEqual(
-          element.$$('.patchInfo-header #patchSetSelect').bindValue, 3);
-      assert.equal(optionEls[3].value, 13);
-
-      let numEvents = 0;
-      selectEl.addEventListener('change', e => {
-        numEvents++;
-        if (numEvents == 1) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element.change, '1', 'PARENT'));
-          selectEl.nativeSelect.value = '3';
-          element.fire('change', {}, {node: selectEl.nativeSelect});
-        } else if (numEvents == 2) {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element.change, '3', 'PARENT'));
-          done();
-        }
-      });
-      selectEl.nativeSelect.value = '1';
-      element.fire('change', {}, {node: selectEl.nativeSelect});
-    });
-
-    test('diff against dropdown', done => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.allPatchSets = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
-      ];
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
-
-      flush(() => {
-        const selectEl = element.$.patchChange;
-        assert.equal(selectEl.nativeSelect.value, 'PARENT');
-        assert.isTrue(element.$$('#patchChange option[value="3"]')
-            .hasAttribute('disabled'));
-        selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.nativeSelect.value, 'edit');
-          assert(navigateToChangeStub.lastCall.calledWithExactly(
-              element.change, '3', 'edit'),
-              'Should navigate to /c/42/edit..3');
-          done();
-        });
-        selectEl.nativeSelect.value = 'edit';
-        element.fire('change', {}, {node: selectEl.nativeSelect});
-      });
     });
 
     test('expandAllDiffs called when expand button clicked', () => {
@@ -367,6 +206,15 @@ limitations under the License.
       assert.equal(select.nativeSelect.value, 'UNIFIED_DIFF');
     });
 
+    test('_changePatchNum called when range select changes', () => {
+      const leftPatch = 1;
+      const rightPatch = 2;
+      sandbox.stub(element, '_changePatchNum');
+      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
+      assert.isTrue(element._changePatchNum.lastCall
+          .calledWithExactly(1, 2, true));
+    });
+
     test('include base patch when not parent', () => {
       element.changeNum = '42';
       element.patchRange = {
@@ -385,13 +233,13 @@ limitations under the License.
         labels: {},
       };
 
-      element._changePatchNum(13, 2);
+      element._changePatchNum(2, 13);
       assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
           element.change, 13, 2));
 
       element.patchRange.basePatchNum = 'PARENT';
 
-      element._changePatchNum(3, 'PARENT');
+      element._changePatchNum('PARENT', 3);
       assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
           element.change, 3, 'PARENT'));
     });

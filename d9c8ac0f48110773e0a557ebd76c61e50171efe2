@@ -123,6 +123,30 @@
     },
     {
       "key": {
+        "uuid": "97664814_c9b575ed",
+        "filename": "gerrit-acceptance-framework/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-12T21:41:56Z",
+      "side": 1,
+      "message": "\u003e I agree it\u0027s unfortunate.\n \u003e \n \u003e Long term I would like to adopt the Google internal style and have\n \u003e all test utilities under java/com/google/gerrit/foo/testing, and\n \u003e actual tests under javatests/com/google/com/google/gerrit, which\n \u003e would imply that tests of test utilities are under\n \u003e javatests/.../testing . (I thought I had mentioned this in my\n \u003e proposal[1], but rereading it I see that I hadn\u0027t. Anyway, you know\n \u003e what I\u0027m talking about.)\n \u003e \n \u003e To get to that state, we would need to move everything in SRCS to a\n \u003e different Java package, which is a much larger change than I want\n \u003e to make right now. It would make more sense as part of David\n \u003e Ostrovsky\u0027s existing series to rearrange the package layout[2].\n\nDone. In a new patch set, those directories were separated.",
+      "parentUuid": "b2a01c1c_ca83fb8c",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "d9c8ac0f48110773e0a557ebd76c61e50171efe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dd6f345_9ea6a01d",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java",
         "patchSetId": 3

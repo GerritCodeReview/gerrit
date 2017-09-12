@@ -296,6 +296,32 @@ limitations under the License.
       assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
     });
 
+    test('changing input sets _textChangedSinceCommit', () => {
+      element._textChangedSinceCommit = false;
+      element.text = 'foo bar baz';
+      assert.isTrue(element._textChangedSinceCommit);
+    });
+
+    test('_handleInputCommit with no change does nothing', () => {
+      const commitStub = sandbox.stub(element, '_commit');
+      element._textChangedSinceCommit = false;
+      element._handleInputCommit();
+      assert.isFalse(commitStub.called);
+    });
+
+    test('_textChangedSinceCommit reset after commit', () => {
+      element._textChangedSinceCommit = true;
+      element._commit();
+      assert.isFalse(element._textChangedSinceCommit);
+    });
+
+    test('_handleInputCommit with change to text', () => {
+      const commitStub = sandbox.stub(element, '_commit');
+      element._textChangedSinceCommit = true;
+      element._handleInputCommit();
+      assert.isTrue(commitStub.calledOnce);
+    });
+
     suite('focus', () => {
       let commitSpy;
       let focusSpy;

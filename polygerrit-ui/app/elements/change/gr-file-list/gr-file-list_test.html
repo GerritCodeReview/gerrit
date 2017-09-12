@@ -577,11 +577,6 @@ limitations under the License.
       assert.equal(element._computeFileStatus(undefined), 'M');
       assert.equal(element._computeFileStatus(null), 'M');
 
-      assert.equal(element._computeFileDisplayName('/foo/bar/baz'),
-          '/foo/bar/baz');
-      assert.equal(element._computeFileDisplayName('/COMMIT_MSG'),
-          'Commit message');
-
       assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
       assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
           'clazz invisible');

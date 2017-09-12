@@ -19,8 +19,6 @@
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
   const WARN_SHOW_ALL_THRESHOLD = 1000;
-  const COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
-  const MERGE_LIST_PATH = '/MERGE_LIST';
   const LOADING_DEBOUNCE_INTERVAL = 100;
 
   const FileStatus = {
@@ -122,6 +120,7 @@
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
+      Gerrit.PathListBehavior,
     ],
 
     observers: [
@@ -665,19 +664,6 @@
       return Gerrit.Nav.getUrlForDiff(change, path, patchNum, basePatchNum);
     },
 
-    _computeFileDisplayName(path) {
-      if (path === COMMIT_MESSAGE_PATH) {
-        return 'Commit message';
-      } else if (path === MERGE_LIST_PATH) {
-        return 'Merge list';
-      }
-      return path;
-    },
-
-    _computeTruncatedFileDisplayName(path) {
-      return util.truncatePath(this._computeFileDisplayName(path));
-    },
-
     _formatBytes(bytes) {
       if (bytes == 0) return '+/-0 B';
       const bits = 1024;
@@ -706,7 +692,7 @@
 
     _computeClass(baseClass, path) {
       const classes = [baseClass];
-      if (path === COMMIT_MESSAGE_PATH || path === MERGE_LIST_PATH) {
+      if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
         classes.push('invisible');
       }
       return classes.join(' ');

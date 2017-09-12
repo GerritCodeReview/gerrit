@@ -38,25 +38,5 @@
     }
     return '';
   };
-
-  /**
-   * Truncates URLs to display filename only
-   * Example
-   * // returns '.../text.html'
-   * util.truncatePath.('dir/text.html');
-   * Example
-   * // returns 'text.html'
-   * util.truncatePath.('text.html');
-   * @return {string} Returns the truncated value of a URL.
-   */
-  util.truncatePath = function(path) {
-    const pathPieces = path.split('/');
-
-    if (pathPieces.length < 2) {
-      return path;
-    }
-    // Character is an ellipsis.
-    return '\u2026/' + pathPieces[pathPieces.length - 1];
-  };
   window.util = util;
 })(window);

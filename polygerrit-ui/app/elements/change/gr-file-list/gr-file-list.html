@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
@@ -240,13 +241,13 @@ limitations under the License.
               data-url="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]"
               class$="[[_computePathClass(file.__path, _expandedFilePaths.*)]]">
             <a href$="[[_computeDiffURL(change, patchRange.patchNum, patchRange.basePatchNum, file.__path)]]">
-              <span title$="[[_computeFileDisplayName(file.__path)]]"
+              <span title$="[[computeDisplayPath(file.__path)]]"
                   class="fullFileName">
-                [[_computeFileDisplayName(file.__path)]]
+                [[computeDisplayPath(file.__path)]]
               </span>
-              <span title$="[[_computeFileDisplayName(file.__path)]]"
+              <span title$="[[computeDisplayPath(file.__path)]]"
                   class="truncatedFileName">
-                [[_computeTruncatedFileDisplayName(file.__path)]]
+                [[computeTruncatedPath(file.__path)]]
               </span>
             </a>
             <div class="oldPath" hidden$="[[!file.old_path]]" hidden

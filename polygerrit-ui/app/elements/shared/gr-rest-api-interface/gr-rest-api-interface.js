@@ -1237,9 +1237,18 @@
           .then(response => this.getResponseObject(response));
     },
 
-    getFileInChangeEdit(changeNum, path) {
+    /**
+     * Gets a file in a change edit.
+     * @param {number|string} changeNum
+     * @param {string} path
+     * @param {boolean=} opt_base If specified, file contents come from change
+     *     edit's base patchset.
+     */
+    getFileInChangeEdit(changeNum, path, opt_base) {
       const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e);
+      let payload = null;
+      if (opt_base) { payload = {base: true}; }
+      return this.getChangeURLAndSend(changeNum, 'GET', null, e, payload);
     },
 
     rebaseChangeEdit(changeNum) {
@@ -1267,7 +1276,8 @@
 
     saveChangeEdit(changeNum, path, contents) {
       const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents);
+      return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents, null,
+          null, 'text/plain');
     },
 
     // Deprecated, prefer to use putChangeCommitMessage instead.
@@ -1833,7 +1843,7 @@
      * @param {?string} endpoint gets passed as null.
      * @param {?Object|number|string=} opt_payload gets passed as null, string,
      *    Object, or number.
-     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      * @param {?=} opt_contentType
      * @return {!Promise<!Object>}

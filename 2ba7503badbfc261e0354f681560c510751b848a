@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c306bdd7_4bb58879",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T06:45:57Z",
+      "side": 1,
+      "message": "support",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "2ba7503badbfc261e0354f681560c510751b848a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ef77e1_03f99a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T06:45:57Z",
+      "side": 1,
+      "message": "than",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "2ba7503badbfc261e0354f681560c510751b848a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27cc12c4_0cdbd171",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-12T06:45:57Z",
+      "side": 1,
+      "message": "mariadb\n\nBut this is an unrelated change and should be in a separate commit.\n\nMaybe better to make a separate commit before this one, to add minimum versions of all the DBs?  Or at least for the ones where we know it.",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "2ba7503badbfc261e0354f681560c510751b848a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

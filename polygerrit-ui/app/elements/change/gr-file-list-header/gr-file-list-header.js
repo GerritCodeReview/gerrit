@@ -23,6 +23,7 @@
     properties: {
       account: Object,
       allPatchSets: Array,
+      /** @type {?} */
       change: Object,
       changeNum: String,
       changeUrl: String,
@@ -35,10 +36,7 @@
       diffPrefs: Object,
       diffViewMode: String,
       /** @type {?} */
-      patchRange: {
-        type: Object,
-        observer: 'updateSelected',
-      },
+      patchRange: Object,
       revisions: Array,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
@@ -51,8 +49,6 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
       },
-      _selectedPatchSet: String,
-      _diffAgainst: String,
     },
 
     behaviors: [
@@ -65,11 +61,6 @@
 
     _collapseAllDiffs() {
       this.fire('collapse-diffs');
-    },
-
-    updateSelected() {
-      this._selectedPatchSet = this.patchRange.patchNum;
-      this._diffAgainst = this.patchRange.basePatchNum;
     },
 
     _computeDescriptionPlaceholder(readOnly) {
@@ -124,63 +115,6 @@
       return !loggedIn || !prefs;
     },
 
-    // Copied from gr-file-list
-    _getCommentsForPath(comments, patchNum, path) {
-      return (comments[path] || []).filter(c => {
-        return this.patchNumEquals(c.patch_set, patchNum);
-      });
-    },
-
-    // Copied from gr-file-list
-    _computeUnresolvedNum(comments, drafts, patchNum, path) {
-      comments = this._getCommentsForPath(comments, patchNum, path);
-      drafts = this._getCommentsForPath(drafts, patchNum, path);
-      comments = comments.concat(drafts);
-
-      // Create an object where every comment ID is the key of an unresolved
-      // comment.
-
-      const idMap = comments.reduce((acc, comment) => {
-        if (comment.unresolved) {
-          acc[comment.id] = true;
-        }
-        return acc;
-      }, {});
-
-      // Set false for the comments that are marked as parents.
-      for (const comment of comments) {
-        idMap[comment.in_reply_to] = false;
-      }
-
-      // The unresolved comments are the comments that still have true.
-      const unresolvedLeaves = Object.keys(idMap).filter(key => {
-        return idMap[key];
-      });
-
-      return unresolvedLeaves.length;
-    },
-
-    _computePatchSetCommentsString(allComments, patchNum) {
-      let numComments = 0;
-      let numUnresolved = 0;
-      for (const file in allComments) {
-        if (allComments.hasOwnProperty(file)) {
-          numComments += this._getCommentsForPath(
-              allComments, patchNum, file).length;
-          numUnresolved += this._computeUnresolvedNum(
-              allComments, {}, patchNum, file);
-        }
-      }
-      let commentsStr = '';
-      if (numComments > 0) {
-        commentsStr = '(' + numComments + ' comments';
-        if (numUnresolved > 0) {
-          commentsStr += ', ' + numUnresolved + ' unresolved';
-        }
-        commentsStr += ')';
-      }
-      return commentsStr;
-    },
 
     _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
       return shownFileCount <= maxFilesForBulkActions;
@@ -208,7 +142,8 @@
      *     always include the patch range, even if the requested patchNum is
      *     known to be the latest.
      */
-    _changePatchNum(patchNum, basePatchNum, opt_forceParams) {
+    _changePatchNum(basePatchNum, patchNum, opt_forceParams) {
+      debugger
       if (!opt_forceParams) {
         let currentPatchNum;
         if (this.change.current_revision) {
@@ -227,12 +162,8 @@
           basePatchNum);
     },
 
-    _handleBasePatchChange(e) {
-      this._changePatchNum(this._selectedPatchSet, e.target.value, true);
-    },
-
     _handlePatchChange(e) {
-      this._changePatchNum(e.target.value, this._diffAgainst, true);
+      this._changePatchNum(e.detail.leftPatch, e.detail.rightPatch, true);
     },
 
     _handlePrefsTap(e) {

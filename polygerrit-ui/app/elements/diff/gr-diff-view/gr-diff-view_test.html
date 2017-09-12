@@ -446,6 +446,26 @@ limitations under the License.
       });
     });
 
+    test('_handlePatchChange triggers correct routes', () => {
+      let leftPatch = 'PARENT';
+      const rightPatch = '3';
+      const showStub = sandbox.stub(page, 'show');
+      element._changeNum = 42;
+      element._path = 'path/to/file.txt';
+      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
+
+      assert(showStub.lastCall.calledWithExactly(
+          '/c/42/3/path/to/file.txt'),
+          'Should navigate to /c/42/3/path/to/file.txt');
+
+      leftPatch = '1';
+      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
+      assert(showStub.lastCall.calledWithExactly(
+          '/c/42/1..3/path/to/file.txt'),
+          'Should navigate to /c/42/1..3/path/to/file.txt');
+
+    });
+
     test('download link', () => {
       element._changeNum = '42';
       element._patchRange = {

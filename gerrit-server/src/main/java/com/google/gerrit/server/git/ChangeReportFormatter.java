@@ -14,68 +14,73 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 
 public interface ChangeReportFormatter {
-  public static class Input {
-    private final Change change;
-    private String subject;
-    private Boolean draft;
-    private Boolean edit;
-    private Boolean isPrivate;
-    private Boolean wip;
+  @AutoValue
+  public abstract static class Input {
+    public abstract Change change();
 
-    public Input(Change change) {
-      this.change = change;
-    }
+    @Nullable
+    public abstract String subject();
 
-    public Input setPrivate(boolean isPrivate) {
-      this.isPrivate = isPrivate;
-      return this;
-    }
+    @Nullable
+    public abstract Boolean draft();
 
-    public Input setDraft(boolean draft) {
-      this.draft = draft;
-      return this;
-    }
+    @Nullable
+    public abstract Boolean edit();
 
-    public Input setEdit(boolean edit) {
-      this.edit = edit;
-      return this;
-    }
+    @Nullable
+    public abstract Boolean _private();
 
-    public Input setWorkInProgress(boolean wip) {
-      this.wip = wip;
-      return this;
-    }
-
-    public Input setSubject(String subject) {
-      this.subject = subject;
-      return this;
-    }
+    @Nullable
+    public abstract Boolean wip();
 
     public Change getChange() {
-      return change;
+      return change();
     }
 
     public String getSubject() {
-      return subject == null ? change.getSubject() : subject;
+      return subject() == null ? change().getSubject() : subject();
     }
 
     public boolean isDraft() {
-      return draft == null ? Change.Status.DRAFT == change.getStatus() : draft;
+      return draft() == null ? Change.Status.DRAFT == change().getStatus() : draft();
     }
 
     public boolean isEdit() {
-      return edit == null ? false : edit;
+      return edit() == null ? false : edit();
     }
 
     public boolean isPrivate() {
-      return isPrivate == null ? change.isPrivate() : isPrivate;
+      return _private() == null ? change().isPrivate() : _private();
     }
 
     public boolean isWorkInProgress() {
-      return wip == null ? change.isWorkInProgress() : wip;
+      return wip() == null ? change().isWorkInProgress() : wip();
+    }
+
+    public static Builder builder() {
+      return new AutoValue_ChangeReportFormatter_Input.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      public abstract Builder change(Change val);
+
+      public abstract Builder subject(String val);
+
+      public abstract Builder draft(Boolean val);
+
+      public abstract Builder edit(Boolean val);
+
+      public abstract Builder _private(Boolean val);
+
+      public abstract Builder wip(Boolean val);
+
+      public abstract Input build();
     }
   }
 

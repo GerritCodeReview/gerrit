@@ -39,14 +39,14 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   @Override
   public String changeClosed(ChangeReportFormatter.Input input) {
     return String.format(
-        "change %s closed", ChangeUtil.formatChangeUrl(canonicalWebUrl, input.getChange()));
+        "change %s closed", ChangeUtil.formatChangeUrl(canonicalWebUrl, input.change()));
   }
 
   private String formatChangeUrl(String url, Input input) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
-            .append(ChangeUtil.formatChangeUrl(url, input.getChange()))
+            .append(ChangeUtil.formatChangeUrl(url, input.change()))
             .append(" ")
             .append(ChangeUtil.cropSubject(input.getSubject()));
     if (input.isDraft()) {

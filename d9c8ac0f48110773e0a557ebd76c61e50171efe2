@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1505153215 -0400\nnonce AJMiPPcefnVDxt6bvVPsG6shmsQEY43vMglujRP6EbPuOzyUlDw3BXj/QPfQcWeZw7DYItzz2NA5\n\n0000000000000000000000000000000000000000 5c0af2f53dd3188139a65dc38f34add63a795450 refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZttC/AAoJEF/XxZqaEoiMFt4P/26NtJGO+CKe2bdpYVUGglmD\nA8hHu6rscZt5j+JhdeQMcTRXnAxW7ykv00LifVbTV/44RfMMPivd7Bsyh267E16L\n3FR/xpt+o6Cga6fPvwfRRMPShE6Al/tPtj8Z2mGFNi4RIpPXQVaqM8xheN0XSDxC\nu0UNyZsN/B64ClrfkLcNsWjPquDoJ2dpbZ4c27UdZr3aqyUKnOu+h/Ef8MyScXxI\neBU5ZOiTETd+UM7BQGqfhzo5IDRArvFpRWRKUjVYwihvld+FGvel5k7p87Da039u\nTKOizFEQXMfNJRcU+ZFDzh07NJTeAwSQG6TJkHUfrEFS81I+0uGWqS5+RZIHGiRx\nl9te73uE54WubY1wfMESCW/a8P6/YYrB97Hk1Z4UyGn2BLaPNS7TFvt22X2K6Me/\nacJjV3EkP/GBdd0LM9R8E0i2OV2kBotO01IBdiWo43GS+hjM3X4jGaFJw4YjG+KO\npL20HgiizFZmhO9jFocyopPl8QWbeF2bI6jGmo6GXq9hI8UB1ar7LvRbfg99Bctg\nqHQ7xOMYL9Ppbjbk8REQLW7TIvv6sf5pEISNDFjLVFhWuH5ZsFvyGRKJbhof8PBu\nfo4q4H4DGyOPGBrD7UcggblVj7AijsgFJXVDKez/dPBqJ/2/NrNThezZtR4QjE7K\n5FJgDR2/i4T+zeWYcYZ8\n\u003dx5bu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba4c0999_f08c05e8",
+        "filename": "gerrit-acceptance-framework/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T12:03:42Z",
+      "side": 1,
+      "message": "It\u0027s a bit unfortunate that we mix classes for a test framework with tests for those classes, especially since their names don\u0027t indicate to which category they belong. The most common way is probably to not place the classes of the test framework in the \u0027test\u0027 folder but in the \u0027main\u0027 folder (as e.g. Truth does). Would that be a possibility? Alternatively, could we at least use another package for the unit tests?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "d9c8ac0f48110773e0a557ebd76c61e50171efe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dd6f345_9ea6a01d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T12:03:42Z",
+      "side": 1,
+      "message": "The name of the test isn\u0027t used anywhere. What do we need this rule for?",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "d9c8ac0f48110773e0a557ebd76c61e50171efe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14bb299f_1d11e59c",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/MergeableFileBasedConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-12T12:03:42Z",
+      "side": 1,
+      "message": "Can\u0027t we use a temporary file here which is created by File#createTempFile or Files#createTempFile?",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 77
+      },
+      "revId": "d9c8ac0f48110773e0a557ebd76c61e50171efe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

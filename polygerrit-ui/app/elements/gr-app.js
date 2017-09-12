@@ -56,6 +56,7 @@
       _showSettingsView: Boolean,
       _showAdminView: Boolean,
       _showCLAView: Boolean,
+      _showEditorView: Boolean,
       /** @type {?} */
       _viewState: Object,
       /** @type {?} */
@@ -139,6 +140,7 @@
       this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
       this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
+      this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
       if (this.params.justRegistered) {
         this.$.registration.open();
       }

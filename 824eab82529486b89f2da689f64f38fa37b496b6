@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0ee3870b_9d553eb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T06:29:45Z",
+      "side": 1,
+      "message": "Yeh, we should specify it in the docs, but which docs though?",
+      "parentUuid": "5d9e608e_767ef433",
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07519e9c_6dd9c328",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "4982bc5b_bb9d3153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T06:29:45Z",
+      "side": 1,
+      "message": "Thanks, done",
+      "parentUuid": "07519e9c_6dd9c328",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31544348_a24a6d81",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -53,6 +95,30 @@
       "writtenOn": "2017-09-12T02:15:56Z",
       "side": 1,
       "message": "It also adds support for Java 8",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "824eab82529486b89f2da689f64f38fa37b496b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b5423c1_573ddacb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-12T06:29:45Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "31544348_a24a6d81",
       "range": {
         "startLine": 15,
         "startChar": 0,

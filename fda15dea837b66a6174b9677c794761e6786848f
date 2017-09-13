@@ -93,6 +93,30 @@
       "revId": "fda15dea837b66a6174b9677c794761e6786848f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7830703a_4475fbbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-13T13:20:22Z",
+      "side": 1,
+      "message": "Sasa wrote this generic primary key column order fix for ReviewDb entities: [1]. We can\u0027t use it as is, because this is not ReviewDb controlled entity and we don\u0027t have meta data.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/61361",
+      "parentUuid": "9c5e98c6_96b9e613",
+      "range": {
+        "startLine": 186,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "fda15dea837b66a6174b9677c794761e6786848f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

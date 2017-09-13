@@ -92,6 +92,30 @@
       "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb55a99_a04dcd65",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T20:47:21Z",
+      "side": 1,
+      "message": "It fails with\n\nError: Attempted to wrap getSuggestedAccounts which is already wrapped\n  checkWrappedMethod at /components/sinonjs/sinon.js:1326\n   Object.wrapMethod at /components/sinonjs/sinon.js:1366\n         Object.stub at /components/sinonjs/sinon.js:3426\n              F.stub at /components/sinonjs/sinon.js:4167\n        Context.done at gr-search-bar_test.html:221\n   Object.wrapMethod at /components/sinonjs/sinon.js:1385\n         Object.stub at /components/sinonjs/sinon.js:3426\n              F.stub at /components/sinonjs/sinon.js:4167\n       Context.setup at gr-search-bar_test.html:120",
+      "parentUuid": "1d38a004_d6e77f27",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 238,
+        "endChar": 7
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -351,6 +351,8 @@ limitations under the License.
                 commit-num="[[_commitInfo.commit]]"
                 patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
                 commit-message="[[_latestCommitMessage]]"
+                edit-loaded="[[_editLoaded]]"
+                has-rebase-edit="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
                 on-reload-change="_handleReloadChange"
                 on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
           </div>

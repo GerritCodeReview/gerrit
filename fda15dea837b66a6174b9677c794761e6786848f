@@ -22,6 +22,29 @@
       "revId": "fda15dea837b66a6174b9677c794761e6786848f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60307754_de378e42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T05:36:11Z",
+      "side": 1,
+      "message": "Before executing this, can we check if the table exists and make sure it has the expected primary key?  This would avoid having to manually remove and re-add the primary key.",
+      "range": {
+        "startLine": 186,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "fda15dea837b66a6174b9677c794761e6786848f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

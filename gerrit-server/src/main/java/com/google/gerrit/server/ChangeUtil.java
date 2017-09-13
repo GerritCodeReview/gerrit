@@ -32,6 +32,8 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class ChangeUtil {
+  public static final int TOPIC_MAX_LENGTH = 2048;
+
   private static final Random UUID_RANDOM = new SecureRandom();
   private static final BaseEncoding UUID_ENCODING = BaseEncoding.base16().lowerCase();
 

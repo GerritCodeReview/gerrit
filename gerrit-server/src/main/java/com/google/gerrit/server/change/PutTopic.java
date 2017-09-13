@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutTopic.Input;
 import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -69,6 +71,14 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
       BatchUpdate.Factory updateFactory, ChangeResource req, Input input)
       throws UpdateException, RestApiException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
+
+    if (input != null
+        && input.topic != null
+        && input.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
+      throw new BadRequestException(
+          String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
+    }
+
     Op op = new Op(input != null ? input : new Input());
     try (BatchUpdate u =
         updateFactory.create(

@@ -88,6 +88,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -342,6 +344,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, "myTopic");
     r.assertPushOptions(pushOptions);
+  }
+
+  @Test
+  public void pushForMasterWithTopicInRefExceedLimitFails() throws Exception {
+    String topic =
+        Stream.generate(() -> String.valueOf('t')).limit(2049).collect(Collectors.joining());
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
+    r.assertErrorStatus("topic length exceeds the limit (2048)");
+  }
+
+  @Test
+  public void pushForMasterWithTopicAsOptionExceedLimitFails() throws Exception {
+    String topic =
+        Stream.generate(() -> String.valueOf('t')).limit(2049).collect(Collectors.joining());
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic);
+    r.assertErrorStatus("topic length exceeds the limit (2048)");
   }
 
   @Test

@@ -56,6 +56,7 @@
     MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
+    PUBLISH_EDIT: 'editPublish',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -116,6 +117,15 @@
     __key: 'download',
     __primary: false,
     __type: 'revision',
+  };
+
+  const PUBLISH_EDIT = {
+    enabled: true,
+    label: 'Publish Edit',
+    title: 'Publish change edit',
+    __key: 'editPublish',
+    __primary: true,
+    __type: 'change',
   };
 
   const AWAIT_CHANGE_ATTEMPTS = 5;
@@ -210,6 +220,10 @@
           const value = [
             {
               type: ActionType.CHANGE,
+              key: ChangeActions.PUBLISH_EDIT,
+            },
+            {
+              type: ActionType.CHANGE,
               key: ChangeActions.WIP,
             },
             {
@@ -276,6 +290,7 @@
         type: Array,
         value() { return []; },
       },
+      editLoaded: Boolean,
     },
 
     ActionType,
@@ -288,7 +303,7 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, editLoaded)',
     ],
 
     listeners: {
@@ -422,7 +437,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord) {
+        additionalActionsChangeRecord, editLoaded) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -435,6 +450,13 @@
       if (Object.keys(revisionActions).length !== 0 &&
           !revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
+      }
+      const changeActions = actionsChangeRecord.base || {};
+      if (Object.keys(changeActions).length !== 0 &&
+          !changeActions.editPublish) {
+        if (editLoaded) {
+          this.set('actions.editPublish', PUBLISH_EDIT);
+        }
       }
     },
 

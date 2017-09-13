@@ -42,12 +42,6 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getChangeRevisionActions() {
           return Promise.resolve({
-            '/': {
-              method: 'DELETE',
-              label: 'Delete',
-              title: 'Delete draft revision 2',
-              enabled: true,
-            },
             'cherrypick': {
               method: 'POST',
               label: 'Cherry Pick',
@@ -141,35 +135,6 @@ limitations under the License.
       });
     });
 
-    test('hide menu action', done => {
-      flush(() => {
-        const buttonEl =
-            element.$.moreActions.$$('span[data-id="delete-revision"]');
-        assert.isOk(buttonEl);
-        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
-        element.setActionHidden(element.ActionType.CHANGE,
-            element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenActions, 1);
-        element.setActionHidden(element.ActionType.CHANGE,
-            element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenActions, 1);
-        flush(() => {
-          const buttonEl =
-              element.$.moreActions.$$('span[data-id="delete-revision"]');
-          assert.isNotOk(buttonEl);
-
-          element.setActionHidden(element.ActionType.CHANGE,
-              element.RevisionActions.DELETE, false);
-          flush(() => {
-            const buttonEl =
-                element.$.moreActions.$$('span[data-id="delete-revision"]');
-            assert.isOk(buttonEl);
-            done();
-          });
-        });
-      });
-    });
-
     test('buttons exist', done => {
       element._loading = false;
       flush(() => {
@@ -190,11 +155,9 @@ limitations under the License.
         assert.equal(deleteItems.length, 2);
         assert.notEqual(deleteItems[0].name, deleteItems[1].name);
         assert.isTrue(
-            deleteItems[0].name === 'Delete Revision' ||
             deleteItems[0].name === 'Delete Change'
         );
         assert.isTrue(
-            deleteItems[1].name === 'Delete Revision' ||
             deleteItems[1].name === 'Delete Change'
         );
         done();

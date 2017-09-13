@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5d85da04_c0c461c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 67
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T16:25:52Z",
+      "side": 1,
+      "message": "Actually, it\u0027s not as bad as I thought. The status is a char, which means that we wouldn\u0027t get an exception during deserialization, only when calling Status#forCode via Change#getStatus. That means we can override the ProtobufCodec to replace \u0027d\u0027 with \u0027n\u0027 before returning the Change to the caller.",
+      "parentUuid": "4ba671e2_a2b0b8d9",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 66
+      },
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dd85473_4864c9a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 67
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "This would be probably a schema migration?",
       "parentUuid": "f863679e_45d0d555",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93360908_75cefd2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 67
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T16:25:52Z",
+      "side": 1,
+      "message": "Yes, that\u0027s fine, we have used ReviewDb schema migrations in the past to edit permissions, this is a similar thing.\n\n(Still kicking the can down the road for how to do schema migrations post-3.0.)",
+      "parentUuid": "66a6fcb7_2270e823",
       "range": {
         "startLine": 21,
         "startChar": 0,

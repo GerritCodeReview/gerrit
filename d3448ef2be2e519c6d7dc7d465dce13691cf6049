@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6a6beacd_80ff39f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T16:25:52Z",
+      "side": 0,
+      "message": "I meant after rebasing on 104497, since we decided to keep the --draft option at least temporarily:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/104497/37/gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#1158",
+      "parentUuid": "31639dfe_90bf77ef",
+      "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf23bf13_f8967770",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 67

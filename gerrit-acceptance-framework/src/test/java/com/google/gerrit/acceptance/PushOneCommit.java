@@ -129,7 +129,7 @@ public class PushOneCommit {
     }
   }
 
-  private static AtomicInteger CHANGE_ID_COUNTER = new AtomicInteger();
+  private static final AtomicInteger CHANGE_ID_COUNTER = new AtomicInteger();
 
   private static String nextChangeId() {
     // Tests use a variety of mechanisms for setting temporary timestamps, so we can't guarantee

@@ -69,6 +69,30 @@
       "revId": "fda15dea837b66a6174b9677c794761e6786848f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c5e98c6_96b9e613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-09-13T13:09:03Z",
+      "side": 1,
+      "message": "This can be done but the problem is the implementation will be database implementation specific. I do not think we can do this with general SQL statement that is supported by all db implementation.",
+      "parentUuid": "60307754_de378e42",
+      "range": {
+        "startLine": 186,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "fda15dea837b66a6174b9677c794761e6786848f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

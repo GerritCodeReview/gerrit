@@ -35,6 +35,7 @@ public class ChangeUtil {
   private static final Random UUID_RANDOM = new SecureRandom();
   private static final BaseEncoding UUID_ENCODING = BaseEncoding.base16().lowerCase();
 
+  public static final int TOPIC_MAX_LENGTH = 2048;
   private static final int SUBJECT_MAX_LENGTH = 80;
   private static final String SUBJECT_CROP_APPENDIX = "...";
   private static final int SUBJECT_CROP_RANGE = 10;

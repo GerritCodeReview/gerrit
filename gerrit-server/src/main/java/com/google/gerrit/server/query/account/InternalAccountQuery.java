@@ -22,6 +22,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
@@ -123,7 +124,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
    * @throws OrmException if query cannot be parsed
    */
   public List<AccountState> byPreferredEmail(String email) throws OrmException {
-    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+    if (hasPreferredEmailExact()) {
       return query(AccountPredicates.preferredEmailExact(email));
     }
 
@@ -144,7 +145,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   public Multimap<String, AccountState> byPreferredEmail(String... emails) throws OrmException {
     List<String> emailList = Arrays.asList(emails);
 
-    if (schema().hasField(AccountField.PREFERRED_EMAIL_EXACT)) {
+    if (hasPreferredEmailExact()) {
       List<List<AccountState>> r =
           query(
               emailList
@@ -175,5 +176,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
 
   public List<AccountState> byWatchedProject(Project.NameKey project) throws OrmException {
     return query(AccountPredicates.watchedProject(project));
+  }
+
+  private boolean hasPreferredEmailExact() {
+    Schema<AccountState> s = schema();
+    return (s != null && s.hasField(AccountField.PREFERRED_EMAIL_EXACT));
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -38,7 +39,9 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class RebaseChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource>,
+        AcceptsPost<ChangeResource>,
+        UiAction<ChangeResource> {
 
   private final Rebase rebase;
 
@@ -93,5 +96,10 @@ public class RebaseChangeEdit
       }
       return Response.none();
     }
+  }
+
+  @Override
+  public Description getDescription(ChangeResource rsrc) {
+    return new UiAction.Description().setLabel("Publish Edit").setTitle("Publish change edit");
   }
 }

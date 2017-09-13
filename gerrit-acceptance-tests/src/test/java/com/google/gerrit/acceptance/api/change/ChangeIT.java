@@ -149,6 +149,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -3286,6 +3287,16 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("no ID was provided and change isn't a revert");
     gApi.changes().id(createChange().getChangeId()).pureRevert();
+  }
+
+  @Test
+  public void putTopicExceedLimitFails() throws Exception {
+    String changeId = createChange().getChangeId();
+    String topic = Stream.generate(() -> "t").limit(2049).collect(Collectors.joining());
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("topic length exceeds the limit");
+    gApi.changes().id(changeId).topic(topic);
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

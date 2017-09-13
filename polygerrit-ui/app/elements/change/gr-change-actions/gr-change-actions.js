@@ -67,7 +67,6 @@
   const RevisionActions = {
     CHERRYPICK: 'cherrypick',
     DELETE: '/',
-    PUBLISH: 'publish',
     REBASE: 'rebase',
     SUBMIT: 'submit',
     DOWNLOAD: 'download',
@@ -78,7 +77,6 @@
     cherrypick: 'Cherry-Picking...',
     delete: 'Deleting...',
     move: 'Moving..',
-    publish: 'Publishing...',
     rebase: 'Rebasing...',
     restore: 'Restoring...',
     revert: 'Reverting...',

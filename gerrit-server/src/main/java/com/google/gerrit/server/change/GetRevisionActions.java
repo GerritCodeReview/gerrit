@@ -72,7 +72,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
       for (ChangeData cd : cs.changes()) {
-        changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
+        changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
       }
       h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException | PermissionBackendException e) {

@@ -102,7 +102,6 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.PatchSetState;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -253,7 +252,6 @@ public abstract class AbstractDaemonTest {
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
   @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
-  @Inject private ChangeControl.GenericFactory changeControlFactory;
 
   private List<Repository> toClose;
 
@@ -1119,8 +1117,7 @@ public abstract class AbstractDaemonTest {
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
     List<ChangeNotes> notes = changeFinder.find(changeId);
     assertThat(notes).hasSize(1);
-    return changeResourceFactory.create(
-        changeControlFactory.controlFor(notes.get(0), atrScope.get().getUser()));
+    return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
   }
 
   protected String createGroup(String name) throws Exception {

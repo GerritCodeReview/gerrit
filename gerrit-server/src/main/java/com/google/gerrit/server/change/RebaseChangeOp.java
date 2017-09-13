@@ -163,7 +163,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
     rebasedCommit = rebaseCommit(ctx, original, baseCommit, newCommitMessage);
     Base base =
         rebaseUtil.parseBase(
-            new RevisionResource(changeResourceFactory.create(ctl), originalPatchSet),
+            new RevisionResource(
+                changeResourceFactory.create(ctl.getNotes(), ctl.getUser()), originalPatchSet),
             baseCommitId.name());
 
     rebasedPatchSetId =

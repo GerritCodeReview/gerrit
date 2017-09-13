@@ -157,6 +157,19 @@ limitations under the License.
           Do you really want to delete the change?
         </div>
       </gr-confirm-dialog>
+      <gr-confirm-dialog
+          id="confirmDeleteEditDialog"
+          class="confirmDialog"
+          confirm-label="DeleteEdit"
+          on-cancel="_handleConfirmDialogCancel"
+          on-confirm="_handleDeleteEditConfirm">
+        <div class="header">
+          Delete Change Edit
+        </div>
+        <div class="main">
+          Do you really want to delete the edit?
+        </div>
+      </gr-confirm-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa58caae_82d7c7d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DownloadContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T00:44:03Z",
+      "side": 1,
+      "message": "This is only used once.  Better to factor out rsrc.getRevision() to a local variable and reuse that at lines 47 and 48?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 27
+      },
+      "revId": "f14979b7e3ce04afe46bc88bf5acecf1dfee8e12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebf331b5_d8c9c251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DraftCommentResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T00:44:03Z",
+      "side": 1,
+      "message": "just \"getUser()\"?",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "f14979b7e3ce04afe46bc88bf5acecf1dfee8e12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a4c1044_ab39dafc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T00:44:03Z",
+      "side": 1,
+      "message": "optional: is it worth adding a ChangeDataFactory constructor that takes a ChangeContext?",
+      "range": {
+        "startLine": 1115,
+        "startChar": 57,
+        "endLine": 1115,
+        "endChar": 86
+      },
+      "revId": "f14979b7e3ce04afe46bc88bf5acecf1dfee8e12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

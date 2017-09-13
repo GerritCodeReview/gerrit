@@ -34,7 +34,6 @@ limitations under the License.
 
     ChangeStatus: {
       ABANDONED: 'ABANDONED',
-      DRAFT: 'DRAFT',
       MERGED: 'MERGED',
       NEW: 'NEW',
     },
@@ -117,8 +116,7 @@ limitations under the License.
     },
 
     changeIsOpen(status) {
-      return status === this.ChangeStatus.NEW ||
-          status === this.ChangeStatus.DRAFT;
+      return status === this.ChangeStatus.NEW;
     },
 
     changeStatusString(change) {
@@ -133,7 +131,6 @@ limitations under the License.
       }
       if (change.work_in_progress) { states.push('WIP'); }
       if (change.is_private) { states.push('Private'); }
-      if (change.status === this.ChangeStatus.DRAFT) { states.push('Draft'); }
       return states.join(', ');
     },
   },

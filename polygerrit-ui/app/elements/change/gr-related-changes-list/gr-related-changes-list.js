@@ -211,8 +211,6 @@
           return 'Merged';
         case this.ChangeStatus.ABANDONED:
           return 'Abandoned';
-        case this.ChangeStatus.DRAFT:
-          return 'Draft';
       }
       if (change._revision_number != change._current_revision_number) {
         return 'Not current';

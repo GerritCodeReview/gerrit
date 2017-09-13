@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6eb07e1b_c61d4598",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T17:38:52Z",
+      "side": 1,
+      "message": "I mean the total + / - at the bottom row.",
+      "parentUuid": "8676ba44_c6a24dd3",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "06879330384213b05fdbc10025e2bfee2ccc7b88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea07787b_104ce67a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +88,54 @@
         "startChar": 4,
         "endLine": 10,
         "endChar": 7
+      },
+      "revId": "06879330384213b05fdbc10025e2bfee2ccc7b88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab71f7d_a0aa8614",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T17:38:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4b13a0b_947803db",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "06879330384213b05fdbc10025e2bfee2ccc7b88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59929d6e_b04fcc60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T17:38:52Z",
+      "side": 1,
+      "message": "the expand inline diffs option in settings.",
+      "parentUuid": "ea07787b_104ce67a",
+      "range": {
+        "startLine": 10,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 70
       },
       "revId": "06879330384213b05fdbc10025e2bfee2ccc7b88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

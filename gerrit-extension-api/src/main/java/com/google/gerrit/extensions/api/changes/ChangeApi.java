@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +171,14 @@ public interface ChangeApi {
   SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
+
+  default ChangeInfo get(Iterable<ListChangesOption> options) throws RestApiException {
+    return get(Sets.newEnumSet(options, ListChangesOption.class));
+  }
+
+  default ChangeInfo get(ListChangesOption... options) throws RestApiException {
+    return get(Arrays.asList(options));
+  }
 
   /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
   ChangeInfo get() throws RestApiException;

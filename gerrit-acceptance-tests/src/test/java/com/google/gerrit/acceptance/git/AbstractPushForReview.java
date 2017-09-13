@@ -22,6 +22,8 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -1640,8 +1642,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String ref = "refs/for/master%merged";
     assertPushOk(pushHead(testRepo, ref, false), ref);
 
-    EnumSet<ListChangesOption> opts = EnumSet.of(ListChangesOption.ALL_REVISIONS);
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(opts);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(ALL_REVISIONS);
     assertThat(info.currentRevision).isEqualTo(c2.name());
     assertThat(info.revisions.keySet()).containsExactly(c1.name(), c2.name());
     // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
@@ -1849,12 +1850,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private String getLastMessage(String changeId) throws Exception {
     return Streams.findLast(
-            gApi.changes()
-                .id(changeId)
-                .get(EnumSet.of(ListChangesOption.MESSAGES))
-                .messages
-                .stream()
-                .map(m -> m.message))
+            gApi.changes().id(changeId).get(MESSAGES).messages.stream().map(m -> m.message))
         .get();
   }
 

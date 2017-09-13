@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -26,7 +27,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -39,7 +39,6 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -280,7 +279,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   private List<String> getMessages(Change.Id id) throws Exception {
     return gApi.changes()
         .id(id.get())
-        .get(EnumSet.of(ListChangesOption.MESSAGES))
+        .get(MESSAGES)
         .messages
         .stream()
         .map(m -> m.message)

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -30,7 +31,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -644,11 +644,7 @@ public abstract class AbstractDaemonTest {
 
   private List<Boolean> getPatchSetDraftStatuses(Change.Id id) throws Exception {
     Collection<RevisionInfo> revisionInfos =
-        gApi.changes()
-            .id(id.get())
-            .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
-            .revisions
-            .values();
+        gApi.changes().id(id.get()).get(ALL_REVISIONS).revisions.values();
     return revisionInfos.stream().map(revisionInfo -> revisionInfo.draft).collect(toList());
   }
 
@@ -805,9 +801,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected ChangeInfo get(String id, ListChangesOption... options) throws RestApiException {
-    return gApi.changes()
-        .id(id)
-        .get(Sets.newEnumSet(Arrays.asList(options), ListChangesOption.class));
+    return gApi.changes().id(id).get(options);
   }
 
   protected List<ChangeInfo> query(String q) throws RestApiException {

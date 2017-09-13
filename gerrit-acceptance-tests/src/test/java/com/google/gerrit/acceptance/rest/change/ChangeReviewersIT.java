@@ -48,7 +48,6 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -806,6 +805,6 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   private Map<String, LabelInfo> getChangeLabels(String changeId) throws Exception {
-    return gApi.changes().id(changeId).get(EnumSet.of(DETAILED_LABELS)).labels;
+    return gApi.changes().id(changeId).get(DETAILED_LABELS).labels;
   }
 }

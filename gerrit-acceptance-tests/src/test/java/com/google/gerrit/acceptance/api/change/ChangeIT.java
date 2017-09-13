@@ -22,6 +22,20 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
+import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTERS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
@@ -74,7 +88,6 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -129,7 +142,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -703,17 +715,11 @@ public class ChangeIT extends AbstractDaemonTest {
     rebase.call(changeId);
 
     // Second change should have 2 patch sets and an approval
-    ChangeInfo c2 =
-        gApi.changes()
-            .id(changeId)
-            .get(EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.DETAILED_LABELS));
+    ChangeInfo c2 = gApi.changes().id(changeId).get(CURRENT_REVISION, DETAILED_LABELS);
     assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
     // ...and the committer and description should be correct
-    ChangeInfo info =
-        gApi.changes()
-            .id(changeId)
-            .get(EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT));
+    ChangeInfo info = gApi.changes().id(changeId).get(CURRENT_REVISION, CURRENT_COMMIT);
     GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
     assertThat(committer.name).isEqualTo(admin.fullName);
     assertThat(committer.email).isEqualTo(admin.email);
@@ -2059,15 +2065,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(result.actions).isNull();
     assertThat(result.revisions).isNull();
 
-    EnumSet<ListChangesOption> options =
-        EnumSet.of(
-            ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.CHANGE_ACTIONS,
-            ListChangesOption.CURRENT_ACTIONS,
-            ListChangesOption.DETAILED_LABELS,
-            ListChangesOption.MESSAGES);
     result =
-        Iterables.getOnlyElement(gApi.changes().query(r.getChangeId()).withOptions(options).get());
+        Iterables.getOnlyElement(
+            gApi.changes()
+                .query(r.getChangeId())
+                .withOptions(
+                    ALL_REVISIONS, CHANGE_ACTIONS, CURRENT_ACTIONS, DETAILED_LABELS, MESSAGES)
+                .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet())).isEqualTo("Code-Review");
     assertThat(result.messages).hasSize(1);
     assertThat(result.actions).isNotEmpty();
@@ -2193,8 +2197,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void check() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).get().problems).isNull();
-    assertThat(gApi.changes().id(r.getChangeId()).get(EnumSet.of(ListChangesOption.CHECK)).problems)
-        .isEmpty();
+    assertThat(gApi.changes().id(r.getChangeId()).get(CHECK).problems).isEmpty();
   }
 
   @Test
@@ -2232,9 +2235,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.label("Custom2", 1);
     gApi.changes().id(r2.getChangeId()).current().review(in);
 
-    EnumSet<ListChangesOption> options =
-        EnumSet.of(ListChangesOption.ALL_REVISIONS, ListChangesOption.COMMIT_FOOTERS);
-    ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(options);
+    ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(ALL_REVISIONS, COMMIT_FOOTERS);
     assertThat(actual.revisions).hasSize(2);
 
     // No footers except on latest patch set.
@@ -2277,9 +2278,7 @@ public class ChangeIT extends AbstractDaemonTest {
             });
     ChangeInfo actual;
     try {
-      EnumSet<ListChangesOption> options =
-          EnumSet.of(ListChangesOption.ALL_REVISIONS, ListChangesOption.COMMIT_FOOTERS);
-      actual = gApi.changes().id(change.getChangeId()).get(options);
+      actual = gApi.changes().id(change.getChangeId()).get(ALL_REVISIONS, COMMIT_FOOTERS);
     } finally {
       handle.remove();
     }
@@ -2320,9 +2319,9 @@ public class ChangeIT extends AbstractDaemonTest {
                   .query()
                   .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
                   // Options should match defaults in AccountDashboardScreen.
-                  .withOption(ListChangesOption.LABELS)
-                  .withOption(ListChangesOption.DETAILED_ACCOUNTS)
-                  .withOption(ListChangesOption.REVIEWED)
+                  .withOption(LABELS)
+                  .withOption(DETAILED_ACCOUNTS)
+                  .withOption(REVIEWED)
                   .get())
           .hasSize(2);
     } finally {
@@ -2335,7 +2334,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
     gApi.changes().id(triplet).addReviewer(user.username);
-    ChangeInfo c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get("Code-Review");
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -2345,7 +2344,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.blockLabel(cfg, "Code-Review", REGISTERED_USERS, "refs/heads/*");
     saveProjectConfig(project, cfg);
-    c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     codeReview = c.labels.get("Code-Review");
     assertThat(codeReview.all).hasSize(1);
     approval = codeReview.all.get(0);
@@ -2360,10 +2359,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = amendChange(r1.getChangeId());
 
-    ChangeInfo info =
-        gApi.changes()
-            .id(r1.getChangeId())
-            .get(EnumSet.of(ListChangesOption.ALL_REVISIONS, ListChangesOption.PUSH_CERTIFICATES));
+    ChangeInfo info = gApi.changes().id(r1.getChangeId()).get(ALL_REVISIONS, PUSH_CERTIFICATES);
 
     RevisionInfo rev1 = info.revisions.get(r1.getCommit().name());
     assertThat(rev1).isNotNull();
@@ -2675,13 +2671,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.subject = "update change by merge ps2";
     gApi.changes().id(changeId).createMergePatchSet(in);
     ChangeInfo changeInfo =
-        gApi.changes()
-            .id(changeId)
-            .get(
-                EnumSet.of(
-                    ListChangesOption.ALL_REVISIONS,
-                    ListChangesOption.CURRENT_COMMIT,
-                    ListChangesOption.CURRENT_REVISION));
+        gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
     assertThat(changeInfo.revisions.size()).isEqualTo(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
@@ -2718,13 +2708,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.inheritParent = true;
     gApi.changes().id(changeId).createMergePatchSet(in);
     ChangeInfo changeInfo =
-        gApi.changes()
-            .id(changeId)
-            .get(
-                EnumSet.of(
-                    ListChangesOption.ALL_REVISIONS,
-                    ListChangesOption.CURRENT_COMMIT,
-                    ListChangesOption.CURRENT_REVISION));
+        gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
 
     assertThat(changeInfo.revisions.size()).isEqualTo(2);
     assertThat(changeInfo.subject).isEqualTo(in.subject);
@@ -2930,7 +2914,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     gApi.changes().id(triplet).addReviewer(user.username);
 
-    ChangeInfo c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get("Code-Review");
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -2950,7 +2934,7 @@ public class ChangeIT extends AbstractDaemonTest {
         heads);
     saveProjectConfig(project, cfg);
 
-    c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     codeReview = c.labels.get("Code-Review");
     assertThat(codeReview.all).hasSize(1);
     approval = codeReview.all.get(0);
@@ -2971,7 +2955,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     gApi.changes().id(triplet).addReviewer(user.username);
 
-    ChangeInfo c = gApi.changes().id(triplet).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    ChangeInfo c = gApi.changes().id(triplet).get(DETAILED_LABELS);
     LabelInfo codeReview = c.labels.get("Code-Review");
     assertThat(codeReview.all).hasSize(1);
     ApprovalInfo approval = codeReview.all.get(0);
@@ -3155,14 +3139,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ri.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(ci));
     gApi.changes().id(id).current().review(ri);
 
-    ChangeInfo info =
-        gApi.changes()
-            .id(id)
-            .get(
-                EnumSet.of(
-                    ListChangesOption.MESSAGES,
-                    ListChangesOption.CURRENT_COMMIT,
-                    ListChangesOption.CURRENT_REVISION));
+    ChangeInfo info = gApi.changes().id(id).get(MESSAGES, CURRENT_COMMIT, CURRENT_REVISION);
     assertThat(info.subject).isEqualTo(subject);
     assertThat(Iterables.getLast(info.messages).message).endsWith(ri.message);
     assertThat(Iterables.getOnlyElement(info.revisions.values()).commit.message)
@@ -3308,7 +3285,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private Optional<ReviewerState> getReviewerState(String changeId, Account.Id accountId)
       throws Exception {
-    ChangeInfo c = gApi.changes().id(changeId).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    ChangeInfo c = gApi.changes().id(changeId).get(DETAILED_LABELS);
     Set<ReviewerState> states =
         c.reviewers
             .entrySet()
@@ -3369,8 +3346,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
 
-    ChangeInfo change =
-        gApi.changes().id(result.getChangeId()).get(EnumSet.of(ListChangesOption.TRACKING_IDS));
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get(TRACKING_IDS);
     Collection<TrackingIdInfo> trackingIds = change.trackingIds;
     assertThat(trackingIds).isNotNull();
     assertThat(trackingIds).hasSize(1);

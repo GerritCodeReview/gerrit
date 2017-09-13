@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 
@@ -316,7 +317,7 @@ public class ActionsIT extends AbstractDaemonTest {
   @Test
   public void changeActionVisitor() throws Exception {
     String id = createChange().getChangeId();
-    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    ChangeInfo origChange = gApi.changes().id(id).get(CHANGE_ACTIONS);
 
     class Visitor implements ActionVisitor {
       @Override
@@ -362,7 +363,7 @@ public class ActionsIT extends AbstractDaemonTest {
   public void currentRevisionActionVisitor() throws Exception {
     String id = createChange().getChangeId();
     amendChange(id);
-    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    ChangeInfo origChange = gApi.changes().id(id).get(CHANGE_ACTIONS);
     Change.Id changeId = new Change.Id(origChange._number);
 
     class Visitor implements ActionVisitor {
@@ -429,7 +430,7 @@ public class ActionsIT extends AbstractDaemonTest {
   public void oldRevisionActionVisitor() throws Exception {
     String id = createChange().getChangeId();
     amendChange(id);
-    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    ChangeInfo origChange = gApi.changes().id(id).get(CHANGE_ACTIONS);
 
     class Visitor implements ActionVisitor {
       @Override

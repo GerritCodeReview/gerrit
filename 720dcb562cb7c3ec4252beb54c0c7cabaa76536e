@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9a1cd95_e173e20f",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:46:34Z",
+      "side": 1,
+      "message": "Link to where this term is defined?",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 62,
+        "endChar": 16
+      },
+      "revId": "720dcb562cb7c3ec4252beb54c0c7cabaa76536e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac6228e_35e5f929",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3027,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:46:34Z",
+      "side": 1,
+      "message": "Why do these need to be sandboxed? Each test method gets its own project, and you\u0027re pushing the submit rules to that project (rather than All-Projects), so there shouldn\u0027t be cross-contamination between tests.",
+      "revId": "720dcb562cb7c3ec4252beb54c0c7cabaa76536e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8242db65_e1b06edb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3059,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:46:34Z",
+      "side": 1,
+      "message": "Missing: test for a change that is a revert but not a pure revert.",
+      "revId": "720dcb562cb7c3ec4252beb54c0c7cabaa76536e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a654f383_f133e4cc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3409,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:46:34Z",
+      "side": 1,
+      "message": "You don\u0027t have to go through the indirection of fetching/pushing, you can just open the server\u0027s copy of the repo with repoManager and create a TestRepository over that.",
+      "revId": "720dcb562cb7c3ec4252beb54c0c7cabaa76536e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad0fca0_26680948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPureRevert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:46:34Z",
+      "side": 1,
+      "message": "In ChangeData you have to create a CurrentUser from the owner just so you can pass it in here. If you instead move this check into #apply, you can eliminate the CurrentUser arg to this method.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "720dcb562cb7c3ec4252beb54c0c7cabaa76536e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

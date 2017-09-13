@@ -3251,6 +3251,16 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(createChange().getChangeId()).pureRevert();
   }
 
+  @Test
+  public void putTopicExceedLimitFails() throws Exception {
+    String changeId = createChange().getChangeId();
+    String topic = String.format("%1$2049s", "topic");
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("topic length exceeds the limit");
+    gApi.changes().id(changeId).topic(topic);
+  }
+
   private String getCommitMessage(String changeId) throws RestApiException, IOException {
     return gApi.changes().id(changeId).current().file("/COMMIT_MSG").content().asString();
   }

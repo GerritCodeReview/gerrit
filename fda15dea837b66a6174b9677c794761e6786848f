@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2bf91d1_88c6b1b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T02:27:44Z",
+      "side": 1,
+      "message": "Is this mandatory, or is it only necessary to do this to take advantage of the performance improvement?\n\nIn other words, is there any consequence of not doing this on an existing site?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "fda15dea837b66a6174b9677c794761e6786848f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

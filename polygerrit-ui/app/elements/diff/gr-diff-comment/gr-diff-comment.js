@@ -15,6 +15,12 @@
   'use strict';
 
   const STORAGE_DEBOUNCE_INTERVAL = 400;
+  const TOAST_DEBOUNCE_INTERVAL = 200;
+
+  const SAVING_MESSAGE = 'Saving';
+  const DRAFT_SINGULAR = 'draft...';
+  const DRAFT_PLURAL = 'drafts...';
+  const SAVED_MESSAGE = 'All changes saved';
 
   Polymer({
     is: 'gr-diff-comment',
@@ -108,6 +114,11 @@
       resolved: {
         type: Boolean,
         observer: '_toggleResolved',
+      },
+
+      _numPendingDiffRequests: {
+        type: Object,
+        value: {number: 0}, // Intentional to share the object across instances.
       },
     },
 
@@ -424,13 +435,52 @@
       });
     },
 
+    _getSavingMessage(numPending) {
+      if (numPending === 0) { return SAVED_MESSAGE; }
+      return [
+        SAVING_MESSAGE,
+        numPending,
+        numPending === 1 ? DRAFT_SINGULAR : DRAFT_PLURAL
+      ].join(' ');
+    },
+
+    _showStartRequest() {
+      const numPending = ++this._numPendingDiffRequests.number;
+      this._updateRequestToast(numPending);
+    },
+
+    _showEndRequest() {
+      const numPending = --this._numPendingDiffRequests.number;
+      this._updateRequestToast(numPending);
+    },
+
+    _updateRequestToast(numPending) {
+      const message = this._getSavingMessage(numPending);
+      this.debounce('draft-toast', () => {
+        // Note: the event is fired on the body rather than this element because
+        // this element may not be attached by the time this executes, in which
+        // case the event would not bubble.
+        document.body.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message}, bubbles: true}));
+      }, TOAST_DEBOUNCE_INTERVAL);
+    },
+
     _saveDraft(draft) {
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft);
+      this._showStartRequest();
+      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
+          .then(result => {
+            this._showEndRequest();
+            return result;
+          });
     },
 
     _deleteDraft(draft) {
+      this._showStartRequest();
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
-          draft);
+          draft).then(result => {
+            this._showEndRequest();
+            return result;
+          });
     },
 
     _getPatchNum() {

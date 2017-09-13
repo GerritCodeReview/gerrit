@@ -360,6 +360,73 @@ limitations under the License.
       assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
+    suite('change edits', () => {
+      let fireActionStub;
+      const deleteEditAction = {
+        enabled: true,
+        label: 'Delete Edit',
+        title: 'Delete change edit',
+        __key: 'deleteEdit',
+        __primary: false,
+        __type: 'change',
+        method: 'DELETE',
+      };
+      const publishEditAction = {
+        enabled: true,
+        label: 'Publish Edit',
+        title: 'Publish change edit',
+        __key: 'publishEdit',
+        __primary: false,
+        __type: 'change',
+        method: 'POST',
+      };
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        element.patchNum = 'edit';
+        element.editLoaded = true;
+      });
+
+      test('does not delete edit on action', () => {
+        element._handleDeleteEditTap();
+        assert.isFalse(fireActionStub.called);
+      });
+
+      test('shows confirm dialog for delete edit', () => {
+        element._handleDeleteEditTap();
+        assert.isFalse(element.$$('#confirmDeleteEditDialog').hidden);
+        assert.ok(element.$$('gr-button[data-action-key="deleteEdit"]'));
+        MockInteractions.tap(
+            element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+        assert.isTrue(fireActionStub.calledWith('/edit', deleteEditAction, false));
+      });
+
+      test('show publish edit', () => {
+        const publishEditButton = element.$$('gr-button[data-action-key="publishEdit"]');
+        assert.ok(publishEditButton);
+        MockInteractions.tap(publishEditButton);
+        element._handlePublishEditTap();
+        flushAsynchronousOperations();
+
+        assert.isTrue(fireActionStub.calledWith('/edit:publish', publishEditAction, false));
+      });
+
+      test('do not show delete edit on a non change edit', () => {
+        element.editLoaded = false;
+        flushAsynchronousOperations();
+        const deleteEditButton = element.$$('gr-button[data-action-key="deleteEdit"]');
+        assert.isNotOk(deleteEditButton);
+      });
+
+      test('do not show publish edit on a non change edit', () => {
+        element.editLoaded = false;
+        flushAsynchronousOperations();
+        const publishEditButton = element.$$('gr-button[data-action-key="publishEdit"]');
+        assert.isNotOk(publishEditButton);
+      });
+    });
+
     suite('cherry-pick', () => {
       let fireActionStub;
 

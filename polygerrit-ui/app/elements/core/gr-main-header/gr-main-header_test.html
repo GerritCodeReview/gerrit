@@ -54,11 +54,9 @@ limitations under the License.
 
     test('fix my menu item', () => {
       assert.deepEqual([
-        {url: '#/q/owner:self+is:draft'},
         {url: 'https://awesometown.com/#hashyhash'},
         {url: 'url', target: '_blank'},
       ].map(element._fixMyMenuItem), [
-        {url: '/q/owner:self+is:draft', external: true},
         {url: 'https://awesometown.com/#hashyhash', external: true},
         {url: 'url', external: true},
       ]);
@@ -66,12 +64,10 @@ limitations under the License.
 
     test('filter unsupported urls', () => {
       assert.deepEqual([
-        {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: '/groups/self'},
         {url: 'https://awesometown.com/#hashyhash'},
       ].filter(element._isSupportedLink), [
-        {url: '/q/owner:self+is:draft'},
         {url: '/c/331788/'},
         {url: 'https://awesometown.com/#hashyhash'},
       ]);

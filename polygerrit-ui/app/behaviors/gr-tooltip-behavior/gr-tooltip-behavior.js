@@ -105,6 +105,9 @@
     },
 
     _positionTooltip(tooltip) {
+      // This flush is needed for tooltips to be positioned correctly in Firefox
+      // and Safari.
+      Polymer.dom.flush();
       const rect = this.getBoundingClientRect();
       const boxRect = tooltip.getBoundingClientRect();
       const parentRect = tooltip.parentElement.getBoundingClientRect();

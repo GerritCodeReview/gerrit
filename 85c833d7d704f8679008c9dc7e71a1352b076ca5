@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a50c949_f0b99d2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeEdit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T22:20:11Z",
+      "side": 1,
+      "message": "Hmm this adds a button and does not change the buttons on the top header. @David Ostrovsky or @David Pursehouse do you know how i can do that please?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 3
+      },
+      "revId": "85c833d7d704f8679008c9dc7e71a1352b076ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

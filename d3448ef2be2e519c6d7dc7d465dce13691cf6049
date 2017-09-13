@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31639dfe_90bf77ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-13T15:57:50Z",
+      "side": 0,
+      "message": "I guess, I don\u0027t understand why?",
+      "parentUuid": "4b1397ef_48c3975f",
+      "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf23bf13_f8967770",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 67
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-13T15:33:22Z",
       "side": 0,
       "message": "This is the part I am most happy about :)",
+      "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "333dcff7_d7a4c9d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-13T15:57:50Z",
+      "side": 0,
+      "message": ";-)",
+      "parentUuid": "bf23bf13_f8967770",
       "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

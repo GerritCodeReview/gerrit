@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "95a2db4d_1c85bb6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 67
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-13T15:57:50Z",
+      "side": 1,
+      "message": "I just wrote this issue: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7210",
+      "parentUuid": "7289dbcb_a491dfd6",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc325421_60012109",
         "filename": "/COMMIT_MSG",
         "patchSetId": 67
@@ -229,6 +253,24 @@
       "writtenOn": "2017-09-13T15:33:22Z",
       "side": 1,
       "message": "Curious...do most people run init with --batch when upgrading Gerrit? If so, do we need to mention in the release notes that they might not want to do that because there are migration-related questions that they might want to answer?",
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d23bf6_1bec1051",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-13T15:57:50Z",
+      "side": 1,
+      "message": "We should start writing the 2.15 release notes to not forget all this.",
+      "parentUuid": "d7b7e4f1_0256e50c",
       "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

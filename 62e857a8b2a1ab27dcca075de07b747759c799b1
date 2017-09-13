@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35638bd2_00b5b3ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T19:03:17Z",
+      "side": 1,
+      "message": "thanks!",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32e4cc75_74afe2e8",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T19:03:17Z",
+      "side": 1,
+      "message": "Can you add another test for with an email?",
+      "range": {
+        "startLine": 221,
+        "startChar": 33,
+        "endLine": 221,
+        "endChar": 46
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d38a004_d6e77f27",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T19:03:17Z",
+      "side": 1,
+      "message": "I don\u0027t think this really needs its own suite? you can still sandbox.stub in the test itself before calling _getSearchSuggestions",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 238,
+        "endChar": 7
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

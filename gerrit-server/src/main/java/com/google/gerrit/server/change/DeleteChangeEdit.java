@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.DeleteChangeEdit.Input;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -28,7 +29,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Singleton
-public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
+public class DeleteChangeEdit
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   public static class Input {}
 
   private final ChangeEditUtil editUtil;
@@ -49,5 +51,10 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
     }
 
     return Response.none();
+  }
+
+  @Override
+  public Description getDescription(ChangeResource rsrc) {
+    return new UiAction.Description().setLabel("Delete Edit").setTitle("Delete change edit");
   }
 }

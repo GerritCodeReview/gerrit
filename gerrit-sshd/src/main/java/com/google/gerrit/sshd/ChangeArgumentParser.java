@@ -28,7 +28,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
@@ -44,7 +43,6 @@ public class ChangeArgumentParser {
   private final ChangeFinder changeFinder;
   private final ReviewDb db;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final PermissionBackend permissionBackend;
 
   @Inject
@@ -54,14 +52,12 @@ public class ChangeArgumentParser {
       ChangeFinder changeFinder,
       ReviewDb db,
       ChangeNotes.Factory changeNotesFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       PermissionBackend permissionBackend) {
     this.currentUser = currentUser;
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
     this.db = db;
     this.changeNotesFactory = changeNotesFactory;
-    this.changeControlFactory = changeControlFactory;
     this.permissionBackend = permissionBackend;
   }
 

@@ -25,21 +25,30 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 
 public class Check
     implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
-  Check(PermissionBackend permissionBackend, Provider<CurrentUser> user, ChangeJson.Factory json) {
+  Check(
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
+      ChangeJson.Factory json,
+      ProjectControl.GenericFactory projectControlFactory) {
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.jsonFactory = json;
+    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
@@ -49,8 +58,10 @@ public class Check
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
-      throws RestApiException, OrmException, PermissionBackendException {
-    if (!rsrc.isUserOwner() && !rsrc.getControl().getProjectControl().isOwner()) {
+      throws RestApiException, OrmException, PermissionBackendException, NoSuchProjectException,
+          IOException {
+    if (!rsrc.isUserOwner()
+        && !projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner()) {
       permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
     }
     return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));

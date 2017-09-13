@@ -91,10 +91,7 @@ public class PutDraftComment
 
     try (BatchUpdate bu =
         updateFactory.create(
-            db.get(),
-            rsrc.getChange().getProject(),
-            rsrc.getControl().getUser(),
-            TimeUtil.nowTs())) {
+            db.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

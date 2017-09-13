@@ -39,7 +39,6 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.RepoContext;
@@ -149,7 +148,8 @@ public class ChangeEditUtil {
    * Promote change edit to patch set, by squashing the edit into its parent.
    *
    * @param updateFactory factory for creating updates.
-   * @param ctl the {@code ChangeControl} of the change to which the change edit belongs
+   * @param notes the {@code ChangeNotes} of the change to which the change edit belongs
+   * @param user the current user
    * @param edit change edit to publish
    * @param notify Notify handling that defines to whom email notifications should be sent after the
    *     change edit is published.
@@ -161,7 +161,8 @@ public class ChangeEditUtil {
    */
   public void publish(
       BatchUpdate.Factory updateFactory,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       final ChangeEdit edit,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
@@ -180,7 +181,7 @@ public class ChangeEditUtil {
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
           patchSetInserterFactory
-              .create(ctl.getNotes(), psId, squashed)
+              .create(notes, psId, squashed)
               .setNotify(notify)
               .setAccountsToNotify(accountsToNotify);
 
@@ -202,7 +203,7 @@ public class ChangeEditUtil {
       }
 
       try (BatchUpdate bu =
-          updateFactory.create(db.get(), change.getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+          updateFactory.create(db.get(), change.getProject(), user, TimeUtil.nowTs())) {
         bu.setRepository(repo, rw, oi);
         bu.addOp(
             change.getId(),

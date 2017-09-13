@@ -31,7 +31,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -98,7 +97,7 @@ public class ChangesCollection
     if (!canRead(change)) {
       throw new ResourceNotFoundException(id);
     }
-    return changeResourceFactory.create(controlFor(change));
+    return changeResourceFactory.create(change, user.get());
   }
 
   public ChangeResource parse(Change.Id id)
@@ -114,15 +113,15 @@ public class ChangesCollection
     if (!canRead(change)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
-    return changeResourceFactory.create(controlFor(change));
+    return changeResourceFactory.create(change, user.get());
   }
 
   private static IdString toIdString(Change.Id id) {
     return IdString.fromDecoded(id.toString());
   }
 
-  public ChangeResource parse(ChangeControl control) {
-    return changeResourceFactory.create(control);
+  public ChangeResource parse(ChangeNotes notes, CurrentUser user) {
+    return changeResourceFactory.create(notes, user);
   }
 
   @SuppressWarnings("unchecked")
@@ -133,14 +132,5 @@ public class ChangesCollection
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
     return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
-  }
-
-  private ChangeControl controlFor(ChangeNotes notes) throws ResourceNotFoundException {
-    try {
-      return changeControlFactory.controlFor(notes, user.get());
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(
-          String.format("Change %s not found", notes.getChangeId()));
-    }
   }
 }

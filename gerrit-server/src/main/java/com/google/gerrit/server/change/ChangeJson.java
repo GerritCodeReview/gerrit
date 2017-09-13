@@ -346,7 +346,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getControl());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getChangeResource());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
@@ -1318,7 +1318,7 @@ public class ChangeJson {
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
       if (setCommit) {
-        out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
+        out.commit = toCommit(project, rw, commit, has(WEB_LINKS), fillCommit);
       }
       if (addFooters) {
         Ref ref = repo.exactRef(ctl.getChange().getDest().get());
@@ -1345,7 +1345,9 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(
-          changeInfo, out, new RevisionResource(changeResourceFactory.create(ctl), in));
+          changeInfo,
+          out,
+          new RevisionResource(changeResourceFactory.create(ctl.getNotes(), ctl.getUser()), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
@@ -1362,9 +1364,8 @@ public class ChangeJson {
   }
 
   CommitInfo toCommit(
-      ChangeControl ctl, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
+      Project.NameKey project, RevWalk rw, RevCommit commit, boolean addLinks, boolean fillCommit)
       throws IOException {
-    Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
       info.commit = commit.name();

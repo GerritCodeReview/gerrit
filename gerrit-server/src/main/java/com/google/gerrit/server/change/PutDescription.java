@@ -28,7 +28,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -71,11 +70,10 @@ public class PutDescription
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 
-    ChangeControl ctl = rsrc.getControl();
     Op op = new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
     try (BatchUpdate u =
         updateFactory.create(
-            dbProvider.get(), rsrc.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+            dbProvider.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       u.addOp(rsrc.getChange().getId(), op);
       u.execute();
     }

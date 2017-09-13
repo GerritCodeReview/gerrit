@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -62,8 +61,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
   @Override
   public BinaryResult apply(RevisionResource rsrc)
       throws ResourceConflictException, IOException, ResourceNotFoundException {
-    Project.NameKey project = rsrc.getControl().getProject().getNameKey();
-    final Repository repo = repoManager.openRepository(project);
+    final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;
     try {
       final RevWalk rw = new RevWalk(repo);

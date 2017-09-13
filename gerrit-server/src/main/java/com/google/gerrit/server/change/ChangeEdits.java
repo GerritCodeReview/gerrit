@@ -48,6 +48,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -378,6 +379,7 @@ public class ChangeEdits
 
   public static class Get implements RestReadView<ChangeEditResource> {
     private final FileContentUtil fileContentUtil;
+    private final ProjectCache projectCache;
 
     @Option(
       name = "--base",
@@ -387,8 +389,9 @@ public class ChangeEdits
     private boolean base;
 
     @Inject
-    Get(FileContentUtil fileContentUtil) {
+    Get(FileContentUtil fileContentUtil, ProjectCache projectCache) {
       this.fileContentUtil = fileContentUtil;
+      this.projectCache = projectCache;
     }
 
     @Override
@@ -397,7 +400,7 @@ public class ChangeEdits
         ChangeEdit edit = rsrc.getChangeEdit();
         return Response.ok(
             fileContentUtil.getContent(
-                rsrc.getChangeResource().getControl().getProjectControl().getProjectState(),
+                projectCache.checkedGet(rsrc.getChangeResource().getProject()),
                 base
                     ? ObjectId.fromString(edit.getBasePatchSet().getRevision().get())
                     : edit.getEditCommit(),

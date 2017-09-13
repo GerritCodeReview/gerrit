@@ -97,7 +97,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -146,7 +145,7 @@ public class PostReview
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
   private final Provider<ReviewDb> db;
-  private final ChangesCollection changes;
+  private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -167,7 +166,7 @@ public class PostReview
   PostReview(
       Provider<ReviewDb> db,
       RetryHelper retryHelper,
-      ChangesCollection changes,
+      ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -185,7 +184,7 @@ public class PostReview
       ProjectCache projectCache) {
     super(retryHelper);
     this.db = db;
-    this.changes = changes;
+    this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -470,8 +469,8 @@ public class PostReview
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
     }
 
-    ChangeControl ctl = rev.getControl().forUser(reviewer);
-    return new RevisionResource(changes.parse(ctl), rev.getPatchSet());
+    return new RevisionResource(
+        changeResourceFactory.create(rev.getNotes(), reviewer), rev.getPatchSet());
   }
 
   private void checkLabels(
@@ -571,7 +570,7 @@ public class PostReview
   }
 
   private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
-    ChangeData changeData = changeDataFactory.create(db.get(), revision.getControl());
+    ChangeData changeData = changeDataFactory.create(db.get(), revision.getChangeResource());
     return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
@@ -1108,7 +1107,7 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx.getControl());
+      ChangeData cd = changeDataFactory.create(db.get(), ctx);
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;

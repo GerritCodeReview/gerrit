@@ -46,7 +46,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -111,14 +110,13 @@ public class MergeUtil {
     }
 
     public String generate(
-        RevCommit original, RevCommit mergeTip, ChangeControl ctl, String current) {
+        RevCommit original, RevCommit mergeTip, Branch.NameKey dest, String current) {
       checkNotNull(original.getRawBuffer());
       if (mergeTip != null) {
         checkNotNull(mergeTip.getRawBuffer());
       }
       for (ChangeMessageModifier changeMessageModifier : changeMessageModifiers) {
-        current =
-            changeMessageModifier.onSubmit(current, original, mergeTip, ctl.getChange().getDest());
+        current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
         checkNotNull(
             current,
             changeMessageModifier.getClass().getName()
@@ -312,12 +310,14 @@ public class MergeUtil {
    * </ul>
    *
    * @param n
-   * @param ctl
+   * @param notes
+   * @param user
    * @param psId
    * @return new message
    */
-  private String createDetailedCommitMessage(RevCommit n, ChangeControl ctl, PatchSet.Id psId) {
-    Change c = ctl.getChange();
+  private String createDetailedCommitMessage(
+      RevCommit n, ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
+    Change c = notes.getChange();
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
@@ -357,7 +357,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (PatchSetApproval a : safeGetApprovals(ctl.getNotes(), ctl.getUser(), psId)) {
+    for (PatchSetApproval a : safeGetApprovals(notes, user, psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -420,7 +420,12 @@ public class MergeUtil {
   }
 
   public String createCommitMessageOnSubmit(CodeReviewCommit n, RevCommit mergeTip) {
-    return createCommitMessageOnSubmit(n, mergeTip, n.getControl(), n.getPatchsetId());
+    return createCommitMessageOnSubmit(
+        n,
+        mergeTip,
+        n.notes(),
+        identifiedUserFactory.create(n.notes().getChange().getOwner()),
+        n.getPatchsetId());
   }
 
   /**
@@ -432,14 +437,15 @@ public class MergeUtil {
    *
    * @param n
    * @param mergeTip
-   * @param ctl
+   * @param notes
+   * @param user
    * @param id
    * @return new message
    */
   public String createCommitMessageOnSubmit(
-      RevCommit n, RevCommit mergeTip, ChangeControl ctl, Id id) {
+      RevCommit n, RevCommit mergeTip, ChangeNotes notes, CurrentUser user, Id id) {
     return commitMessageGenerator.generate(
-        n, mergeTip, ctl, createDetailedCommitMessage(n, ctl, id));
+        n, mergeTip, notes.getChange().getDest(), createDetailedCommitMessage(n, notes, user, id));
   }
 
   private static boolean isCodeReview(LabelId id) {
@@ -673,7 +679,7 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
-    mergeResult.setControl(n.getControl());
+    mergeResult.setNotes(n.getNotes());
     return mergeResult;
   }
 

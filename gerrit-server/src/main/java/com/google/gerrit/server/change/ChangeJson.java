@@ -1330,7 +1330,8 @@ public class ChangeJson {
         out.commitWithFooters =
             mergeUtilFactory
                 .create(projectCache.get(project))
-                .createCommitMessageOnSubmit(commit, mergeTip, ctl, in.getId());
+                .createCommitMessageOnSubmit(
+                    commit, mergeTip, ctl.getNotes(), ctl.getUser(), in.getId());
       }
     }
 

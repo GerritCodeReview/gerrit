@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -110,8 +109,7 @@ public class CodeReviewCommit extends RevCommit {
    */
   private PatchSet.Id patchsetId;
 
-  /** Change control for the change owner. */
-  private ChangeControl control;
+  private ChangeNotes notes;
 
   /**
    * The result status for this commit.
@@ -125,7 +123,7 @@ public class CodeReviewCommit extends RevCommit {
   }
 
   public ChangeNotes notes() {
-    return getControl().getNotes();
+    return notes;
   }
 
   public CommitMergeStatus getStatusCode() {
@@ -145,20 +143,20 @@ public class CodeReviewCommit extends RevCommit {
   }
 
   public void copyFrom(CodeReviewCommit src) {
-    control = src.control;
+    notes = src.notes;
     patchsetId = src.patchsetId;
     statusCode = src.statusCode;
   }
 
   public Change change() {
-    return getControl().getChange();
+    return getNotes().getChange();
   }
 
-  public ChangeControl getControl() {
-    return control;
+  public ChangeNotes getNotes() {
+    return notes;
   }
 
-  public void setControl(ChangeControl control) {
-    this.control = control;
+  public void setNotes(ChangeNotes notes) {
+    this.notes = notes;
   }
 }

@@ -63,8 +63,8 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -710,10 +710,10 @@ public class MergeOp implements AutoCloseable {
     ChangeData choseSubmitTypeFrom = null;
     for (ChangeData cd : submitted) {
       Change.Id changeId = cd.getId();
-      ChangeControl ctl;
+      ChangeNotes notes;
       Change chg;
       try {
-        ctl = cd.changeControl();
+        notes = cd.notes();
         chg = cd.change();
       } catch (OrmException e) {
         commitStatus.logProblem(changeId, e);
@@ -791,8 +791,7 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
 
-      // TODO(dborowitz): Consider putting ChangeData in CodeReviewCommit.
-      commit.setControl(ctl);
+      commit.setNotes(notes);
       commit.setPatchsetId(ps.getId());
       commitStatus.put(commit);
 

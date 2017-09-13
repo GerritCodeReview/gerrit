@@ -166,7 +166,7 @@ public class CherryPick extends SubmitStrategy {
       // Don't copy approvals, as this is already taken care of by
       // SubmitStrategyOp.
 
-      newCommit.setControl(ctx.getControl());
+      newCommit.setNotes(ctx.getNotes());
       return newPs;
     }
   }

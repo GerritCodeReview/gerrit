@@ -61,6 +61,9 @@
     UNIGNORE: 'unignore',
     UNMUTE: 'unmute',
     WIP: 'wip',
+    DELETE_EDIT: 'deleteEdit',
+    REBASE_EDIT: 'rebaseEdit',
+    PUBLISH_EDIT: 'publishEdit',
   };
 
   // TODO(andybons): Add the rest of the revision actions.
@@ -116,6 +119,36 @@
     __key: 'download',
     __primary: false,
     __type: 'revision',
+  };
+
+  const REBASE_EDIT = {
+    enabled: true,
+    label: 'Rebase Edit',
+    title: 'Rebase change edit',
+    __key: 'rebaseEdit',
+    __primary: false,
+    __type: 'change',
+    method: 'POST',
+  };
+
+  const PUBLISH_EDIT = {
+    enabled: true,
+    label: 'Publish Edit',
+    title: 'Publish change edit',
+    __key: 'publishEdit',
+    __primary: false,
+    __type: 'change',
+    method: 'POST',
+  };
+
+  const DELETE_EDIT = {
+    enabled: true,
+    label: 'Delete Edit',
+    title: 'Delete change edit',
+    __key: 'deleteEdit',
+    __primary: false,
+    __type: 'change',
+    method: 'DELETE',
   };
 
   const AWAIT_CHANGE_ATTEMPTS = 5;
@@ -276,6 +309,11 @@
         type: Array,
         value() { return []; },
       },
+      editLoaded: {
+        type: Boolean,
+        value: false,
+      },
+      hasRebaseEdit: Boolean,
     },
 
     ActionType,
@@ -288,7 +326,8 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
+          'editLoaded, change.*)',
     ],
 
     listeners: {
@@ -422,7 +461,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord) {
+        additionalActionsChangeRecord, editLoaded, change) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -435,6 +474,47 @@
       if (Object.keys(revisionActions).length !== 0 &&
           !revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
+      }
+
+      const changeActions = actionsChangeRecord.base || {};
+      if (Object.keys(changeActions).length !== 0) {
+        if (editLoaded) {
+          if (this.changeIsOpen(change.status)) {
+            if (this.hasRebaseEdit) {
+              if (!changeActions.publishEdit) {
+                this.set('actions.publishEdit', PUBLISH_EDIT);
+              }
+              if (changeActions.rebaseEdit) {
+                delete this.actions.rebaseEdit;
+                this.notifyPath('actions.rebaseEdit');
+              }
+            } else {
+              if (!changeActions.rebasEdit) {
+                this.set('actions.rebaseEdit', REBASE_EDIT);
+              }
+              if (changeActions.publishEdit) {
+                delete this.actions.publishEdit;
+                this.notifyPath('actions.publishEdit');
+              }
+            }
+          }
+          if (!changeActions.deleteEdit) {
+            this.set('actions.deleteEdit', DELETE_EDIT);
+          }
+        } else {
+          if (changeActions.publishEdit) {
+            delete this.actions.publishEdit;
+            this.notifyPath('actions.publishEdit');
+          }
+          if (changeActions.rebaseEdit) {
+            delete this.actions.rebaseEdit;
+            this.notifyPath('actions.rebaseEdit');
+          }
+          if (changeActions.deleteEdit) {
+            delete this.actions.deleteEdit;
+            this.notifyPath('actions.deleteEdit');
+          }
+        }
       }
     },
 
@@ -638,11 +718,20 @@
         case ChangeActions.DELETE:
           this._handleDeleteTap();
           break;
+        case ChangeActions.DELETE_EDIT:
+          this._handleDeleteEditTap();
+          break;
         case ChangeActions.WIP:
           this._handleWipTap();
           break;
         case ChangeActions.MOVE:
           this._handleMoveTap();
+          break;
+        case ChangeActions.PUBLISH_EDIT:
+          this._handlePublishEditTap();
+          break;
+        case ChangeActions.REBASE_EDIT:
+          this._handleRebaseEditTap();
           break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
@@ -775,6 +864,12 @@
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
     },
 
+    _handleDeleteEditConfirm() {
+      this._hideAllDialogs();
+
+      this._fireAction('/edit', this.actions.deleteEdit, false);
+    },
+
     _getActionOverflowIndex(type, key) {
       return this._overflowActions.findIndex(action => {
         return action.type === type && action.key === key;
@@ -862,6 +957,8 @@
             }
             break;
           case ChangeActions.WIP:
+          case ChangeActions.DELETE_EDIT:
+          case ChangeActions.PUBLISH_EDIT:
             page.show(this.changePath(this.changeNum));
             break;
           default:
@@ -949,8 +1046,20 @@
       this._showActionDialog(this.$.confirmDeleteDialog);
     },
 
+    _handleDeleteEditTap() {
+      this._showActionDialog(this.$.confirmDeleteEditDialog);
+    },
+
     _handleWipTap() {
       this._fireAction('/wip', this.actions.wip, false);
+    },
+
+    _handlePublishEditTap() {
+      this._fireAction('/edit:publish', this.actions.publishEdit, false);
+    },
+
+    _handleRebaseEditTap() {
+      this._fireAction('/edit:rebase', this.actions.rebaseEdit, false);
     },
 
     _handleHideBackgroundContent() {

@@ -51,11 +51,14 @@
   const ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
+    DELETE_EDIT: 'deleteEdit',
     IGNORE: 'ignore',
     MOVE: 'move',
     MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
+    PUBLISH_EDIT: 'editPublish',
+    REBASE_EDIT: 'rebaseEdit',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -118,6 +121,33 @@
     __type: 'revision',
   };
 
+  const PUBLISH_EDIT = {
+    enabled: true,
+    label: 'Publish Edit',
+    title: 'Publish change edit',
+    __key: 'publishEdit',
+    __primary: true,
+    __type: 'change',
+  };
+
+  const DELETE_EDIT = {
+    enabled: true,
+    label: 'Delete Edit',
+    title: 'Delete change edit',
+    __key: 'deleteEdit',
+    __primary: false,
+    __type: 'change',
+  };
+
+  const REBASE_EDIT = {
+    enabled: true,
+    label: 'Rebase Edit',
+    title: 'Rebase change edit',
+    __key: 'rebaseEdit',
+    __primary: true,
+    __type: 'change',
+  };
+
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
@@ -153,6 +183,8 @@
         type: Array,
         value() {
           return [
+            ChangeActions.PUBLISH_EDIT,
+            ChangeActions.REBASE_EDIT,
             RevisionActions.PUBLISH,
             RevisionActions.SUBMIT,
           ];
@@ -217,6 +249,10 @@
               key: ChangeActions.DELETE,
             },
             {
+              type: ActionType.CHANGE,
+              key: ChangeActions.DELETE_EDIT,
+            },
+            {
               type: ActionType.REVISION,
               key: RevisionActions.DELETE,
             },
@@ -276,6 +312,7 @@
         type: Array,
         value() { return []; },
       },
+      editLoaded: Boolean,
     },
 
     ActionType,
@@ -288,7 +325,8 @@
     ],
 
     observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
+      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*,' +
+          'editLoaded)',
     ],
 
     listeners: {
@@ -422,7 +460,7 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord) {
+        additionalActionsChangeRecord, editLoaded) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -435,6 +473,20 @@
       if (Object.keys(revisionActions).length !== 0 &&
           !revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
+      }
+      const changeActions = actionsChangeRecord.base || {};
+      if (Object.keys(changeActions).length !== 0) {
+        if (editLoaded) {
+          if (!changeActions.publishEdit) {
+            this.set('actions.publishEdit', PUBLISH_EDIT);
+          }
+          if (!changeActions.deleteEdit) {
+            this.set('actions.deleteEdit', DELETE_EDIT);
+          }
+          if (!changeActions.rebaseEdit) {
+            this.set('actions.rebaseEdit', REBASE_EDIT);
+          }
+        }
       }
     },
 

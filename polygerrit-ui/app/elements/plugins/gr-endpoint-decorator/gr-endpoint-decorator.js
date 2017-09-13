@@ -40,18 +40,39 @@
 
     _initDecoration(name, plugin) {
       const el = document.createElement(name);
-      el.plugin = plugin;
-      el.content = this.getContentChildren()[0];
+      this._initProperties(el, plugin, this.getContentChildren().find(
+          el => el.nodeName != 'GR-ENDPOINT-PARAM'));
       this._appendChild(el);
       return el;
     },
 
     _initReplacement(name, plugin) {
-      this.getContentChildren().forEach(node => node.remove());
+      this.getContentChildNodes().forEach(node => node.remove());
       const el = document.createElement(name);
-      el.plugin = plugin;
+      this._initProperties(el, plugin);
       this._appendChild(el);
       return el;
+    },
+
+    _getEndpointParams() {
+      return Polymer.dom(this).querySelectorAll('gr-endpoint-param').map(el => {
+        return {name: el.getAttribute('name'), value: el.value};
+      });
+    },
+
+    /**
+     * @param {!Element} el
+     * @param {!Object} plugin
+     * @param {!Element=} opt_content
+     */
+    _initProperties(el, plugin, opt_content) {
+      el.plugin = plugin;
+      if (opt_content) {
+        el.content = opt_content;
+      }
+      for (const {name, value} of this._getEndpointParams()) {
+        el[name] = value;
+      }
     },
 
     _appendChild(el) {

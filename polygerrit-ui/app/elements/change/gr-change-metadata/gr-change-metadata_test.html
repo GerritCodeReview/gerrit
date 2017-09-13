@@ -52,7 +52,6 @@ limitations under the License.
 
     test('computed fields', () => {
       assert.isFalse(element._computeHideStrategy({status: 'NEW'}));
-      assert.isFalse(element._computeHideStrategy({status: 'DRAFT'}));
       assert.isTrue(element._computeHideStrategy({status: 'MERGED'}));
       assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
       assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),

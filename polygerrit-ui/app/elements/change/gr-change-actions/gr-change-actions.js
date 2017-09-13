@@ -69,8 +69,6 @@
   // TODO(andybons): Add the rest of the revision actions.
   const RevisionActions = {
     CHERRYPICK: 'cherrypick',
-    DELETE: '/',
-    PUBLISH: 'publish',
     REBASE: 'rebase',
     SUBMIT: 'submit',
     DOWNLOAD: 'download',
@@ -81,7 +79,6 @@
     cherrypick: 'Cherry-Picking...',
     delete: 'Deleting...',
     move: 'Moving..',
-    publish: 'Publishing...',
     rebase: 'Rebasing...',
     restore: 'Restoring...',
     revert: 'Reverting...',
@@ -186,7 +183,6 @@
         type: Array,
         value() {
           return [
-            RevisionActions.PUBLISH,
             RevisionActions.SUBMIT,
           ];
         },
@@ -248,10 +244,6 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.DELETE,
-            },
-            {
-              type: ActionType.REVISION,
-              key: RevisionActions.DELETE,
             },
             {
               type: ActionType.REVISION,
@@ -623,8 +615,6 @@
           // more explicit to the user.
           if (type === ActionType.CHANGE) {
             actions[a].label += ' Change';
-          } else if (type === ActionType.REVISION) {
-            actions[a].label += ' Revision';
           }
         }
         // Triggers a re-render by ensuring object inequality.
@@ -746,9 +736,6 @@
       switch (key) {
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
-          break;
-        case RevisionActions.DELETE:
-          this._handleDeleteConfirm();
           break;
         case RevisionActions.CHERRYPICK:
           this._handleCherrypickTap();
@@ -953,11 +940,8 @@
             });
             break;
           case ChangeActions.DELETE:
-          case RevisionActions.DELETE:
             if (action.__type === ActionType.CHANGE) {
               page.show('/');
-            } else {
-              page.show(this.changePath(this.changeNum));
             }
             break;
           case ChangeActions.WIP:

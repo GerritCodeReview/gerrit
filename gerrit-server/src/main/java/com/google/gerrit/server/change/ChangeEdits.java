@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -346,7 +347,7 @@ public class ChangeEdits
    */
   @Singleton
   public static class DeleteContent
-      implements RestModifyView<ChangeEditResource, DeleteContent.Input> {
+      implements RestModifyView<ChangeEditResource, DeleteContent.Input>, UiAction<ChangeResource> {
     public static class Input {}
 
     private final ChangeEditModifier editModifier;
@@ -374,6 +375,14 @@ public class ChangeEdits
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
+    }
+
+    @Override
+    public Description getDescription(ChangeResource rsrc) {
+      return new UiAction.Description()
+          .setLabel("Delete Edit")
+          .setTitle("Delete Change Edit")
+          .setVisible("");
     }
   }
 

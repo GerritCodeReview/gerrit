@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -41,7 +42,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource>, UiAction<ChangeResource> {
 
   private final Publish publish;
 
@@ -115,5 +116,13 @@ public class PublishChangeEdit
           notifyUtil.resolveAccounts(in.notifyDetails));
       return Response.none();
     }
+  }
+
+  @Override
+  public Description getDescription(ChangeResource rsrc) {
+    return new UiAction.Description()
+        .setLabel("Publish Edit")
+        .setTitle("Publish change edit")
+        .setVisible("");
   }
 }

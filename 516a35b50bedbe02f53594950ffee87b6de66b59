@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b6fa268_6a864b54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T11:33:00Z",
+      "side": 1,
+      "message": "Just `user`?",
+      "range": {
+        "startLine": 120,
+        "startChar": 11,
+        "endLine": 120,
+        "endChar": 20
+      },
+      "revId": "516a35b50bedbe02f53594950ffee87b6de66b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72d007cf_020b211e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-13T11:33:00Z",
+      "side": 1,
+      "message": "`notes`\n\nsame in various places where the method is used.",
+      "range": {
+        "startLine": 125,
+        "startChar": 11,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "516a35b50bedbe02f53594950ffee87b6de66b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

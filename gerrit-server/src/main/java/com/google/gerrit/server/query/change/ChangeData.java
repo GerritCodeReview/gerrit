@@ -35,7 +35,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -1288,7 +1287,7 @@ public class ChangeData {
     }
     try {
       return pureRevert.getPureRevert(notes()).isPureRevert;
-    } catch (IOException | BadRequestException | AuthException | ResourceConflictException e) {
+    } catch (IOException | BadRequestException | ResourceConflictException e) {
       throw new OrmException("could not compute pure revert", e);
     }
   }

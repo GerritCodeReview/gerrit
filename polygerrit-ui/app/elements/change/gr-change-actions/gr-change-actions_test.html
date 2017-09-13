@@ -42,25 +42,19 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getChangeRevisionActions() {
           return Promise.resolve({
-            '/': {
-              method: 'DELETE',
-              label: 'Delete',
-              title: 'Delete draft revision 2',
-              enabled: true,
-            },
-            'cherrypick': {
+            cherrypick: {
               method: 'POST',
               label: 'Cherry Pick',
               title: 'Cherry pick change to a different branch',
               enabled: true,
             },
-            'rebase': {
+            rebase: {
               method: 'POST',
               label: 'Rebase',
               title: 'Rebase onto tip of branch or parent change',
               enabled: true,
             },
-            'submit': {
+            submit: {
               method: 'POST',
               label: 'Submit',
               title: 'Submit patch set 2 into master',
@@ -94,8 +88,8 @@ limitations under the License.
       element.actions = {
         '/': {
           method: 'DELETE',
-          label: 'Delete',
-          title: 'Delete draft change 42',
+          label: 'Delete Change',
+          title: 'Delete change X_X',
           enabled: true,
         },
       };
@@ -141,42 +135,13 @@ limitations under the License.
       });
     });
 
-    test('hide menu action', done => {
-      flush(() => {
-        const buttonEl =
-            element.$.moreActions.$$('span[data-id="delete-revision"]');
-        assert.isOk(buttonEl);
-        assert.throws(element.setActionHidden.bind(element, 'invalid type'));
-        element.setActionHidden(element.ActionType.CHANGE,
-            element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenActions, 1);
-        element.setActionHidden(element.ActionType.CHANGE,
-            element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenActions, 1);
-        flush(() => {
-          const buttonEl =
-              element.$.moreActions.$$('span[data-id="delete-revision"]');
-          assert.isNotOk(buttonEl);
-
-          element.setActionHidden(element.ActionType.CHANGE,
-              element.RevisionActions.DELETE, false);
-          flush(() => {
-            const buttonEl =
-                element.$.moreActions.$$('span[data-id="delete-revision"]');
-            assert.isOk(buttonEl);
-            done();
-          });
-        });
-      });
-    });
-
     test('buttons exist', done => {
       element._loading = false;
       flush(() => {
         const buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
         const menuItems = element.$.moreActions.items;
-        assert.equal(buttonEls.length + menuItems.length, 7);
+        assert.equal(buttonEls.length + menuItems.length, 6);
         assert.isFalse(element.hidden);
         done();
       });
@@ -187,15 +152,10 @@ limitations under the License.
         const deleteItems = element.$.moreActions.items.filter(item => {
           return item.id.startsWith('delete');
         });
-        assert.equal(deleteItems.length, 2);
-        assert.notEqual(deleteItems[0].name, deleteItems[1].name);
+        assert.equal(deleteItems.length, 1);
+        assert.notEqual(deleteItems[0].name);
         assert.isTrue(
-            deleteItems[0].name === 'Delete Revision' ||
             deleteItems[0].name === 'Delete Change'
-        );
-        assert.isTrue(
-            deleteItems[1].name === 'Delete Revision' ||
-            deleteItems[1].name === 'Delete Change'
         );
         done();
       });
@@ -1050,7 +1010,7 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.isNotOk(element.$$('[data-action-key="submit"]'));
         assert.strictEqual(
-            element.$.moreActions.items[4].id, 'submit-revision');
+            element.$.moreActions.items[3].id, 'submit-revision');
       });
 
       suite('_waitForChangeReachable', () => {

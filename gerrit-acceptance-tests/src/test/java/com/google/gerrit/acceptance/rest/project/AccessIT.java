@@ -14,6 +14,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -118,6 +120,9 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(out.submitted).isNull();
 
     setApiUser(admin);
+
+    ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
+    assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
 
     ReviewInput reviewIn = new ReviewInput();
     reviewIn.label("Code-Review", (short) 2);

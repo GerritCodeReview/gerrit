@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.errors.InvalidNameException;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
@@ -149,8 +151,12 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
   // ProjectConfig doesn't currently support fusing into a BatchUpdate.
   @SuppressWarnings("deprecation")
   private ChangeInserter newInserter(Change.Id changeId, RevCommit commit) {
-    ChangeInserter ins = changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG);
-    ins.setMessage("First patchset").setValidate(false).setUpdateRef(false);
-    return ins;
+    return changeInserterFactory
+        .create(changeId, commit, RefNames.REFS_CONFIG)
+        .setMessage(
+            // Same message as in ReceiveCommits.CreateRequest.
+            ApprovalsUtil.renderMessageWithApprovals(1, ImmutableMap.of(), ImmutableMap.of()))
+        .setValidate(false)
+        .setUpdateRef(false);
   }
 }

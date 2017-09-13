@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "201a08a6_a74add98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/TopicIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:56:19Z",
+      "side": 1,
+      "message": "Please put this in one of the test methods that uses the Java API, there is nothing REST-specific about this test.",
+      "revId": "e62a3dfd15218c98ec46547fbf59edb9a0a35452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58de3b31_4d9d1a10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T14:56:19Z",
+      "side": 1,
+      "message": "Are these changes necessary? ISTM you could just insert these lines above:\n\n if (input !\u003d null \u0026\u0026 input.topic.length() \u003e MAX_TOPIC_LENGTH) {\n   throw new BadRequestException(...)\n }\n\nand not have to change anything else.",
+      "revId": "e62a3dfd15218c98ec46547fbf59edb9a0a35452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

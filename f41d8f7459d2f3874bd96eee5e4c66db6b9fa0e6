@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7db72b7_bf594a69",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-13T15:16:05Z",
+      "side": 1,
+      "message": "Test for pushing a new patch set to refs/drafts/ creating a new edit?\n\n...nevermind I see that there is a test for this in DraftChangeIT. Still a little surprising to not see that here, but it\u0027s fine.",
+      "revId": "f41d8f7459d2f3874bd96eee5e4c66db6b9fa0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

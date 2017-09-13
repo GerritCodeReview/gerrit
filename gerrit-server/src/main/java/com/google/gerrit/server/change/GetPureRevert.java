@@ -97,8 +97,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   }
 
   public PureRevertInfo getPureRevert(ChangeNotes notes)
-      throws OrmException, IOException, BadRequestException, AuthException,
-          ResourceConflictException {
+      throws OrmException, IOException, BadRequestException, ResourceConflictException {
     PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");

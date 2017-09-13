@@ -214,11 +214,6 @@ limitations under the License.
         },
         {
           _number: 3,
-          status: 'DRAFT',
-          owner: {_account_id: 42},
-        },
-        {
-          _number: 4,
           status: 'ABANDONED',
           owner: {_account_id: 0},
         },
@@ -238,8 +233,7 @@ limitations under the License.
       assert.isFalse(elementItems[0].hasAttribute('needs-review'));
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-      assert.isTrue(elementItems[3].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
+      assert.isFalse(elementItems[3].hasAttribute('needs-review'));
 
       element.account = {_account_id: 42};
       elementItems = Polymer.dom(element.root).querySelectorAll(
@@ -249,7 +243,6 @@ limitations under the License.
       assert.isTrue(elementItems[1].hasAttribute('needs-review'));
       assert.isFalse(elementItems[2].hasAttribute('needs-review'));
       assert.isFalse(elementItems[3].hasAttribute('needs-review'));
-      assert.isFalse(elementItems[4].hasAttribute('needs-review'));
     });
 
     test('no changes', () => {
@@ -464,11 +457,6 @@ limitations under the License.
         },
         {
           _number: 1,
-          status: 'DRAFT',
-          owner: {_account_id: 42},
-        },
-        {
-          _number: 2,
           status: 'ABANDONED',
           owner: {_account_id: 0},
         },

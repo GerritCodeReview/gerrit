@@ -51,11 +51,14 @@
   const ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
+    DELETE_EDIT: 'edit',
     IGNORE: 'ignore',
     MOVE: 'move',
     MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
+    PUBLISH_EDIT: 'edit:publish',
+    REBASE_EDIT: 'edit:rebase',
     RESTORE: 'restore',
     REVERT: 'revert',
     UNIGNORE: 'unignore',
@@ -74,15 +77,18 @@
   };
 
   const ActionLoadingLabels = {
-    abandon: 'Abandoning...',
-    cherrypick: 'Cherry-Picking...',
-    delete: 'Deleting...',
-    move: 'Moving..',
-    publish: 'Publishing...',
-    rebase: 'Rebasing...',
-    restore: 'Restoring...',
-    revert: 'Reverting...',
-    submit: 'Submitting...',
+    'abandon': 'Abandoning...',
+    'cherrypick': 'Cherry-Picking...',
+    'delete': 'Deleting...',
+    'edit': 'Deleting Change Edit...',
+    'edit:rebase': 'Rebasing Change Edit',
+    'edit:publish': 'Publishing Change Edit...',
+    'move': 'Moving..',
+    'publish': 'Publishing...',
+    'rebase': 'Rebasing...',
+    'restore': 'Restoring...',
+    'revert': 'Reverting...',
+    'submit': 'Submitting...',
   };
 
   const ActionType = {
@@ -221,6 +227,10 @@
               key: RevisionActions.DELETE,
             },
             {
+              type: ActionType.CHANGE,
+              key: ChangeActions.DELETE_EDIT,
+            },
+            {
               type: ActionType.REVISION,
               key: RevisionActions.CHERRYPICK,
             },
@@ -255,6 +265,14 @@
             {
               type: ActionType.CHANGE,
               key: ChangeActions.PRIVATE_DELETE,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.PUBLISH_EDIT,
+            },
+            {
+              type: ActionType.CHANGE,
+              key: ChangeActions.REBASE_EDIT,
             },
           ];
           return value;

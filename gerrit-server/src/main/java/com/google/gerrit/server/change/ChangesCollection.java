@@ -30,7 +30,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -49,7 +48,6 @@ public class ChangesCollection
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
-  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   ChangesCollection(
@@ -60,8 +58,7 @@ public class ChangesCollection
       ChangeFinder changeFinder,
       CreateChange createChange,
       ChangeResource.Factory changeResourceFactory,
-      PermissionBackend permissionBackend,
-      ChangeControl.GenericFactory changeControlFactory) {
+      PermissionBackend permissionBackend) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -70,7 +67,6 @@ public class ChangesCollection
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
-    this.changeControlFactory = changeControlFactory;
   }
 
   @Override

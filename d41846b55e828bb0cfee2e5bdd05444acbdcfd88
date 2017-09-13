@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fef138f_d2028de2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T21:59:35Z",
+      "side": 1,
+      "message": "@David Ostrovsky or @David Pursehouse what would i put here please?\n\nI am unsure what permission checks to do and how to do them please?",
+      "range": {
+        "startLine": 385,
+        "startChar": 22,
+        "endLine": 385,
+        "endChar": 24
+      },
+      "revId": "d41846b55e828bb0cfee2e5bdd05444acbdcfd88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d2248f3_3a9e8628",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T21:59:35Z",
+      "side": 1,
+      "message": "@David Ostrovsky or @David Pursehouse what would i put here please?\n\nI am unsure what permission checks to do and how to do them please?",
+      "range": {
+        "startLine": 126,
+        "startChar": 20,
+        "endLine": 126,
+        "endChar": 22
+      },
+      "revId": "d41846b55e828bb0cfee2e5bdd05444acbdcfd88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b0e3376_a14d223e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T21:59:35Z",
+      "side": 1,
+      "message": "@David Ostrovsky or @David Pursehouse what would i put here please?\n\nI am unsure what permission checks to do and how to do them please?",
+      "range": {
+        "startLine": 104,
+        "startChar": 20,
+        "endLine": 104,
+        "endChar": 22
+      },
+      "revId": "d41846b55e828bb0cfee2e5bdd05444acbdcfd88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

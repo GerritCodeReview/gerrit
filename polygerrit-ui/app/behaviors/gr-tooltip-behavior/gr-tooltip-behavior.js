@@ -105,6 +105,7 @@
     },
 
     _positionTooltip(tooltip) {
+      Polymer.dom.flush();
       const rect = this.getBoundingClientRect();
       const boxRect = tooltip.getBoundingClientRect();
       const parentRect = tooltip.parentElement.getBoundingClientRect();

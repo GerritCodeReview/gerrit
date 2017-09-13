@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2940f978_d6b187db",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "These could be combined in a Promise.all and then when both are resolved, set _isAdmin, _groupOwner, and reload.",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 15
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17fd4640_102dd0ab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "should these default to false?",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55168b9b_3504a644",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "Nit:\n\nreturn admin || owner ? \u0027\u0027 : \u0027hideItem\u0027",
+      "range": {
+        "startLine": 238,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 7
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7a33e13_bc623358",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 60
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "should this depend on groupOwner or isAdmin and options?",
+      "range": {
+        "startLine": 143,
+        "startChar": 32,
+        "endLine": 143,
+        "endChar": 41
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1243ba_cb00436f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "should this default to false?",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 27
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b73e1f_bb02202f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-13T18:53:23Z",
+      "side": 1,
+      "message": "should this default to false?",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 24
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

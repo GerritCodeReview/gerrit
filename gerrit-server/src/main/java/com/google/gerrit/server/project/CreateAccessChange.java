@@ -138,12 +138,19 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
           BatchUpdate bu =
               updateFactory.create(db.get(), rsrc.getNameKey(), rsrc.getUser(), TimeUtil.nowTs())) {
         bu.setRepository(md.getRepository(), rw, objInserter);
-        ChangeInserter ins = changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG);
-        ins.setMessage("First patchset").setValidate(false).setUpdateRef(false);
+        ChangeInserter ins = newInserter(changeId, commit);
         bu.insertChange(ins);
         bu.execute();
         return Response.created(jsonFactory.noOptions().format(ins.getChange()));
       }
     }
+  }
+
+  // ProjectConfig doesn't currently support fusing into a BatchUpdate.
+  @SuppressWarnings("deprecation")
+  private ChangeInserter newInserter(Change.Id changeId, RevCommit commit) {
+    ChangeInserter ins = changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG);
+    ins.setMessage("First patchset").setValidate(false).setUpdateRef(false);
+    return ins;
   }
 }

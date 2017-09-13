@@ -36,4 +36,14 @@ public class TopicIT extends AbstractDaemonTest {
     response = adminRestSession.put(endpoint, "");
     response.assertNoContent();
   }
+
+  @Test
+  public void putTopicExceedLimitFails() throws Exception {
+    Result result = createChange();
+    String endpoint = "/changes/" + result.getChangeId() + "/topic";
+    String topic = String.format("%1$2049s", "topic");
+    RestResponse response = adminRestSession.put(endpoint, topic);
+    response.assertBadRequest();
+    response.getEntityContent().contains("topic length exceeds the limit");
+  }
 }

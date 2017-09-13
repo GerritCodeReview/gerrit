@@ -16,6 +16,8 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 
 <dom-module id="gr-commit-info">
   <template>
@@ -25,12 +27,21 @@ limitations under the License.
       }
     </style>
     <template is="dom-if" if="[[_showWebLink]]">
-      <a target="_blank" rel="noopener"
-         href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
-    </template>
-    <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(commitInfo)]]
-    </template>
+      <gr-endpoint-decorator name="commit-weblink">
+        <gr-endpoint-param name="commitInfo" value="[[commitInfo]]">
+        </gr-endpoint-param>
+        <a target="_blank" rel="noopener"
+           href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]
+        </a>
+      </gr-endpoint-decorator>
+      </template>
+      <template is="dom-if" if="[[!_showWebLink]]">
+        <gr-endpoint-decorator name="commit-weblink">
+          <gr-endpoint-param name="commitInfo" value="[[commitInfo]]">
+          </gr-endpoint-param>
+          <span>[[_computeShortHash(commitInfo)]]</span>
+        </gr-endpoint-decorator>
+      </template>
   </template>
   <script src="gr-commit-info.js"></script>
 </dom-module>

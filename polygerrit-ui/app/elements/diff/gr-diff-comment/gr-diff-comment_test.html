@@ -602,5 +602,34 @@ limitations under the License.
       element.comment = {unresolved: true};
       assert.isFalse(element.$$('.resolve input').checked);
     });
+
+    suite('draft saving messages', () => {
+      test('_getSavingMessage', () => {
+        assert.equal(element._getSavingMessage(0), 'All changes saved');
+        assert.equal(element._getSavingMessage(1), 'Saving 1 draft...');
+        assert.equal(element._getSavingMessage(2), 'Saving 2 drafts...');
+        assert.equal(element._getSavingMessage(3), 'Saving 3 drafts...');
+      });
+
+      test('_show{Start,End}Request', () => {
+        const updateStub = sandbox.stub(element, '_updateRequestToast');
+        element._numPendingDiffRequests.number = 1;
+
+        element._showStartRequest();
+        assert.isTrue(updateStub.calledOnce);
+        assert.equal(updateStub.lastCall.args[0], 2);
+        assert.equal(element._numPendingDiffRequests.number, 2);
+
+        element._showEndRequest();
+        assert.isTrue(updateStub.calledTwice);
+        assert.equal(updateStub.lastCall.args[0], 1);
+        assert.equal(element._numPendingDiffRequests.number, 1);
+
+        element._showEndRequest();
+        assert.isTrue(updateStub.calledThrice);
+        assert.equal(updateStub.lastCall.args[0], 0);
+        assert.equal(element._numPendingDiffRequests.number, 0);
+      });
+    });
   });
 </script>

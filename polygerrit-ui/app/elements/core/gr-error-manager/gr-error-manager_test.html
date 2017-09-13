@@ -272,20 +272,11 @@ limitations under the License.
       });
     });
 
-    test('dismissOnNavigation respected', () => {
-      const asyncStub = sandbox.stub(element, 'async');
-      const hideSpy = sandbox.spy(element, '_hideAlert');
-      // No async call when dismissOnNavigation supplied.
-      element._showAlert('test', null, null, true);
-      assert.isFalse(asyncStub.called);
-
-      // When page nav happens, clear alert.
-      document.dispatchEvent(new CustomEvent('location-change'));
-      assert.isTrue(hideSpy.called);
-
-      // When timeout is not supplied, use HIDE_ALERT_TIMEOUT_MS.
-      element._showAlert('test');
-      assert.isTrue(asyncStub.called);
+    test('_showAlert hides existing alerts', () => {
+      element._alertElement = element._createToastAlert();
+      const hideStub = sandbox.stub(element, '_hideAlert');
+      element._showAlert();
+      assert.isTrue(hideStub.calledOnce);
     });
   });
 </script>

@@ -165,7 +165,7 @@ public class ActionJson {
     }
 
     Iterable<UiAction.Description> descs =
-        uiActions.from(changeViews, changeResourceFactory.create(ctl));
+        uiActions.from(changeViews, changeResourceFactory.create(ctl.getNotes(), ctl.getUser()));
 
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the

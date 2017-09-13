@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -35,18 +36,23 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeResource implements RestResource, HasETag {
+  private static final Logger log = LoggerFactory.getLogger(ChangeResource.class);
+
   /**
    * JSON format version number for ETag computations.
    *
@@ -59,7 +65,7 @@ public class ChangeResource implements RestResource, HasETag {
       new TypeLiteral<RestView<ChangeResource>>() {};
 
   public interface Factory {
-    ChangeResource create(ChangeControl ctl);
+    ChangeResource create(ChangeNotes notes, CurrentUser user);
   }
 
   private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
@@ -70,7 +76,9 @@ public class ChangeResource implements RestResource, HasETag {
   private final PatchSetUtil patchSetUtil;
   private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
-  private final ChangeControl control;
+  private final ProjectCache projectCache;
+  private final ChangeNotes notes;
+  private final CurrentUser user;
 
   @Inject
   ChangeResource(
@@ -80,37 +88,41 @@ public class ChangeResource implements RestResource, HasETag {
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
       StarredChangesUtil starredChangesUtil,
-      @Assisted ChangeControl control) {
+      ProjectCache projectCache,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user) {
     this.db = db;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
     this.starredChangesUtil = starredChangesUtil;
-    this.control = control;
+    this.projectCache = projectCache;
+    this.notes = notes;
+    this.user = user;
   }
 
   public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(control.getUser()).change(getNotes());
+    return permissionBackend.user(getUser()).change(getNotes());
   }
 
   public CurrentUser getUser() {
-    return control.getUser();
+    return user;
   }
 
   public Change.Id getId() {
-    return control.getId();
+    return getNotes().getChangeId();
   }
 
   /** @return true if {@link #getUser()} is the change's owner. */
   public boolean isUserOwner() {
-    CurrentUser user = control.getUser();
     Account.Id owner = getChange().getOwner();
-    return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);
+    return getUser().isIdentifiedUser()
+        && getUser().asIdentifiedUser().getAccountId().equals(owner);
   }
 
   public Change getChange() {
-    return control.getChange();
+    return getNotes().getChange();
   }
 
   public Project.NameKey getProject() {
@@ -118,7 +130,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public ChangeNotes getNotes() {
-    return control.getNotes();
+    return notes;
   }
 
   // This includes all information relevant for ETag computation
@@ -171,19 +183,26 @@ public class ChangeResource implements RestResource, HasETag {
     // TODO(dborowitz): Include more NoteDb and other related refs, e.g. drafts
     // and edits.
 
-    for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
+    Iterable<ProjectState> projectStateTree;
+    try {
+      projectStateTree = projectCache.checkedGet(getProject()).tree();
+    } catch (IOException e) {
+      log.error(String.format("could not load project %s while computing etag", getProject()));
+      projectStateTree = ImmutableList.of();
+    }
+
+    for (ProjectState p : projectStateTree) {
       hashObjectId(h, p.getConfig().getRevision(), buf);
     }
   }
 
   @Override
   public String getETag() {
-    CurrentUser user = control.getUser();
     Hasher h = Hashing.murmur3_128().newHasher();
     if (user.isIdentifiedUser()) {
-      h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
+      h.putString(starredChangesUtil.getObjectId(getUser().getAccountId(), getId()).name(), UTF_8);
     }
-    prepareETag(h, user);
+    prepareETag(h, getUser());
     return h.hash().toString();
   }
 

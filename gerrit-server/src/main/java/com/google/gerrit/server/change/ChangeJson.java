@@ -1345,7 +1345,9 @@ public class ChangeJson {
         && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(
-          changeInfo, out, new RevisionResource(changeResourceFactory.create(ctl), in));
+          changeInfo,
+          out,
+          new RevisionResource(changeResourceFactory.create(ctl.getNotes(), ctl.getUser()), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {

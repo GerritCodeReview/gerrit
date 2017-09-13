@@ -3379,7 +3379,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void modifySubmitRules(String newContent) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      TestRepository testRepo = new TestRepository<>((InMemoryRepository) repo);
+      TestRepository<?> testRepo = new TestRepository<>((InMemoryRepository) repo);
       testRepo
           .branch(RefNames.REFS_CONFIG)
           .commit()

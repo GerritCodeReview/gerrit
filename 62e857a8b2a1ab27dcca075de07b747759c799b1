@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "325c5d22_650767af",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-13T20:42:35Z",
+      "side": 1,
+      "message": "Your welcome :).",
+      "parentUuid": "35638bd2_00b5b3ab",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32e4cc75_74afe2e8",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 30

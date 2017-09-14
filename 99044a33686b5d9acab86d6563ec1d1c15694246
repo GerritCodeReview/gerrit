@@ -357,6 +357,24 @@
       "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034b2bc9_2162d2b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T12:40:52Z",
+      "side": 1,
+      "message": "I believe this SQL statement should do the job (untested):\n\n  UPDATE changes SET private \u003d \u0027Y\u0027 WHERE status \u003d \u0027d\u0027\n  or EXISTS (SELECT * FROM patch_sets WHERE\n  patch_sets.change_id \u003d changes.change_id and patch_sets.draft \u003d \u0027Y\u0027);",
+      "parentUuid": "eec89b0a_7df2244e",
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

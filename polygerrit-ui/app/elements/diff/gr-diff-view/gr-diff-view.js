@@ -125,6 +125,12 @@
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
       },
+
+      _blame: Object,
+      _isBlameSupported: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -158,6 +164,10 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
+      });
+
+      this.$.restAPI.getConfig().then(config => {
+        this._isBlameSupported = config.change.allow_blame;
       });
 
       this.$.cursor.push('diffs', this.$.diff);
@@ -804,6 +814,16 @@
      */
     _computeContainerClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
+    },
+
+    _loadBlame() {
+      this.$.restAPI.getBlame(this._changeNum, this._patchRange.patchNum,
+          this._path, true)
+          .then(blame => { this._blame = blame; });
+    },
+
+    _computeBlameLoaderClass(blameSupported) {
+      return blameSupported ? 'blameSupported' : '';
     },
   });
 })();

@@ -18,6 +18,8 @@
   const MERGE_LIST_PATH = '/MERGE_LIST';
 
   const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
+  const MSG_LOADING_BLAME = 'Loading blame...';
+  const MSG_LOADED_BLAME = 'Blame loaded';
 
   const PARENT = 'PARENT';
 
@@ -125,6 +127,16 @@
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
       },
+
+      _isBlameSupported: {
+        type: Boolean,
+        value: false,
+      },
+      _isBlameLoaded: Boolean,
+      _isBlameLoading: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -158,6 +170,10 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
+      });
+
+      this.$.restAPI.getConfig().then(config => {
+        this._isBlameSupported = config.change.allow_blame;
       });
 
       this.$.cursor.push('diffs', this.$.diff);
@@ -804,6 +820,37 @@
      */
     _computeContainerClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
+    },
+
+    _computeBlameToggleLabel(loaded, loading) {
+      if (loaded) { return 'Hide blame'; }
+      return 'Show blame';
+    },
+
+    /**
+     * Load and display blame information if it has not already been loaded.
+     * Otherwise hide it.
+     */
+    _toggleBlame() {
+      if (this._isBlameLoaded) {
+        this.$.diff.clearBlame();
+        return;
+      }
+
+      this._isBlameLoading = true;
+      this.fire('show-alert', {message: MSG_LOADING_BLAME});
+      this.$.diff.loadBlame()
+          .then(() => {
+            this._isBlameLoading = false;
+            this.fire('show-alert', {message: MSG_LOADED_BLAME});
+          })
+          .catch(() => {
+            this._isBlameLoading = false;
+          });
+    },
+
+    _computeBlameLoaderClass(isImageDiff, supported) {
+      return !isImageDiff && supported ? 'show' : '';
     },
   });
 })();

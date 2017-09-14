@@ -37,6 +37,7 @@
     this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
+    this._blameInfo = null;
 
     this.layers = layers || [];
 
@@ -623,6 +624,106 @@
     return str.replace(HTML_ENTITY_PATTERN, s => {
       return HTML_ENTITY_MAP[s];
     });
+  };
+
+  /**
+   * Set the blame information for the diff. For any already-rednered line,
+   * re-render its blame cell content.
+   * @param {Object} blame
+   */
+  GrDiffBuilder.prototype.setBlame = function(blame) {
+    this._blameInfo = blame;
+
+    // TODO(wyatta): make this loop asynchronous.
+    for (const commit of blame) {
+      for (const range of commit.ranges) {
+        for (let i = range.start; i <= range.end; i++) {
+          // TODO(wyatta): this query is expensive, but, when traversing a
+          // range, the lines are consecutive, and given the previous blame
+          // cell, the next one can be reached cheaply.
+          const el = this._getBlameByLineNum(i);
+          if (!el) { continue; }
+          // Remove the element's children (if any).
+          while (el.hasChildNodes()) {
+            el.removeChild(el.lastChild);
+          }
+          const blame = this._getBlameForBaseLine(i, commit);
+          el.appendChild(blame);
+        }
+      }
+    }
+  };
+
+  /**
+   * Find the blame cell for a given line number.
+   * @param {number} lineNum
+   * @return {HTMLTableDataCellElement}
+   */
+  GrDiffBuilder.prototype._getBlameByLineNum = function(lineNum) {
+    const root = Polymer.dom(this._outputEl);
+    return root.querySelector(`td.blame[data-line-number="${lineNum}"]`);
+  };
+
+  /**
+   * Given a base line number, return the commit containing that line in the
+   * current set of blame information. If no blame information has been
+   * provided, null is returned.
+   * @param {number} lineNum
+   * @return {Object} The commit information.
+   */
+  GrDiffBuilder.prototype._getBlameCommitForBaseLine = function(lineNum) {
+    if (!this._blameInfo) { return null; }
+
+    for (const blameCommit of this._blameInfo) {
+      for (const range of blameCommit.ranges) {
+        if (range.start <= lineNum && range.end >= lineNum) {
+          return blameCommit;
+        }
+      }
+    }
+    return null;
+  };
+
+  /**
+   * Given the number of a base line, get the content for the blame cell of that
+   * line. If there is no blame information for that line, returns null.
+   * @param {number} lineNum
+   * @param {Object=} opt_commit Optionally provide the commit object, so that
+   *     it does not need to be searched.
+   * @return {HTMLSpanElement}
+   */
+  GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum, opt_commit) {
+    const commit = opt_commit || this._getBlameCommitForBaseLine(lineNum);
+    if (!commit) { return null; }
+
+    const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
+
+    const date = (new Date(commit.time * 1000)).toLocaleDateString();
+    const blameNode = this._createElement('span',
+        isStartOfRange ? 'startOfRange' : '');
+    const shaNode = this._createElement('span', 'sha');
+    shaNode.innerText = commit.id.substr(0, 7);
+    blameNode.appendChild(shaNode);
+    blameNode.append(` on ${date} by ${commit.author}`);
+    return blameNode;
+  };
+
+  /**
+   * Create a blame cell for the given base line. Blame information will be
+   * included in the cell if available.
+   * @param {GrDiffLine} line
+   * @return {HTMLTableDataCellElement}
+   */
+  GrDiffBuilder.prototype._createBlameCell = function(line) {
+    const blameTd = this._createElement('td', 'blame');
+    blameTd.setAttribute('data-line-number', line.beforeNumber);
+    if (line.beforeNumber) {
+      const content = this._getBlameForBaseLine(line.beforeNumber);
+      if (content) {
+        blameTd.appendChild(content);
+      }
+    }
+    return blameTd;
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

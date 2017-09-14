@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "20cef005_77965b4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T20:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5c687d8_ec59b826",
+      "revId": "225f7f6acb5bccb54bfa23ab6a268602f190a59c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c42d5cd2_4609384e",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-14T20:31:37Z",
       "side": 1,
       "message": "Curious why you have the event here, rather than setting a two way binding on `patchRange`. This approach looks like it may be less problematic, though.",
+      "revId": "225f7f6acb5bccb54bfa23ab6a268602f190a59c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84eb0ff1_25740b22",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T20:54:58Z",
+      "side": 1,
+      "message": "I thought it would be easier to observe the action, and let the parent element determine how to handle it (reload page, re-render file list, etc.)",
+      "parentUuid": "c42d5cd2_4609384e",
       "revId": "225f7f6acb5bccb54bfa23ab6a268602f190a59c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -50,6 +86,24 @@
       "revId": "225f7f6acb5bccb54bfa23ab6a268602f190a59c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a642f5af_e2c9124d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T20:54:58Z",
+      "side": 1,
+      "message": "It was to denote that we have duplicate code, and that at some point will want to clean it up. Adding todo to clean up.",
+      "parentUuid": "f0a07365_2d210699",
+      "revId": "225f7f6acb5bccb54bfa23ab6a268602f190a59c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30720879_37cc1da3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-14T18:20:03Z",
+      "side": 1,
+      "message": "For router abstraction, this should use:\n\nGerrit.Nav.navigateToDiff(\n    this._changeNum, this._path, rightPatch, leftPatch);",
+      "range": {
+        "startLine": 680,
+        "startChar": 6,
+        "endLine": 684,
+        "endChar": 77
+      },
+      "revId": "ddb014d5caaec9fc16b8bc6218175ed07dd444f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

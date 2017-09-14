@@ -20,13 +20,13 @@ import static com.google.gerrit.server.project.DashboardsCollection.isDefaultDas
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;

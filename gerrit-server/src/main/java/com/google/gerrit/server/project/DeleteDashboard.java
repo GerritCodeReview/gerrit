@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -22,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

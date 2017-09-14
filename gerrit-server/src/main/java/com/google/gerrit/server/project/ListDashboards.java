@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;

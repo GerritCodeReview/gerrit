@@ -15,6 +15,7 @@
 package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+import static com.google.gerrit.server.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
@@ -462,6 +463,11 @@ public class ProjectApiImpl implements ProjectApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot parse dashboard", e);
     }
+  }
+
+  @Override
+  public DashboardApi defaultDashboard() throws RestApiException {
+    return dashboard(DEFAULT_DASHBOARD_NAME);
   }
 
   private ProjectResource checkExists() throws ResourceNotFoundException {

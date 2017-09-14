@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.api.project;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -31,5 +33,14 @@ public class DashboardIT extends AbstractDaemonTest {
   public void dashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
     gApi.projects().name(project.get()).dashboard("dashboard").get();
+  }
+
+  @Test
+  @Ignore
+  //TODO(dpursehouse) enable when it's possible to create a new dashboard
+  public void cannotUseInheritedWithNonDefault() throws Exception {
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("inherited flag can only be used with default");
+    gApi.projects().name(project.get()).dashboard("dashboard").get(true);
   }
 }

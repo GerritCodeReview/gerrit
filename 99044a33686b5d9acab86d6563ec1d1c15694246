@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6424d982_078f0ccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 67
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T20:39:57Z",
+      "side": 1,
+      "message": "I figured, we could even go one step further on the call stack and fix Change.getStatus(), that uses Status.forCode() and map value \u0027d\u0027 to Status.NEW. Done.",
+      "parentUuid": "5d85da04_c0c461c8",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 66
+      },
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dd85473_4864c9a4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 67
@@ -372,6 +396,24 @@
       "side": 1,
       "message": "I believe this SQL statement should do the job (untested):\n\n  UPDATE changes SET private \u003d \u0027Y\u0027 WHERE status \u003d \u0027d\u0027\n  or EXISTS (SELECT * FROM patch_sets WHERE\n  patch_sets.change_id \u003d changes.change_id and patch_sets.draft \u003d \u0027Y\u0027);",
       "parentUuid": "eec89b0a_7df2244e",
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "382132c7_5525c4a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T20:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa466047_adfda83c",
       "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

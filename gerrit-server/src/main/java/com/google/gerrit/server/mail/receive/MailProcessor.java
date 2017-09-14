@@ -42,8 +42,8 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -231,7 +231,7 @@ public class MailProcessor {
     private ChangeMessage changeMessage;
     private List<Comment> comments;
     private PatchSet patchSet;
-    private ChangeControl changeControl;
+    private ChangeNotes notes;
 
     private Op(PatchSet.Id psId, List<MailComment> parsedComments, String messageId) {
       this.psId = psId;
@@ -242,8 +242,8 @@ public class MailProcessor {
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, UnprocessableEntityException {
-      changeControl = ctx.getControl();
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      notes = ctx.getNotes();
       if (patchSet == null) {
         throw new OrmException("patch set not found: " + psId);
       }
@@ -279,7 +279,7 @@ public class MailProcessor {
           .create(
               NotifyHandling.ALL,
               ArrayListMultimap.create(),
-              changeControl.getNotes(),
+              notes,
               patchSet,
               ctx.getUser().asIdentifiedUser(),
               changeMessage,
@@ -292,8 +292,8 @@ public class MailProcessor {
       approvalsUtil
           .byPatchSetUser(
               ctx.getDb(),
-              changeControl.getNotes(),
-              changeControl.getUser(),
+              notes,
+              ctx.getUser(),
               psId,
               ctx.getAccountId(),
               ctx.getRevWalk(),
@@ -302,7 +302,7 @@ public class MailProcessor {
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.
       commentAdded.fire(
-          changeControl.getChange(),
+          notes.getChange(),
           patchSet,
           ctx.getAccount(),
           changeMessage.getMessage(),

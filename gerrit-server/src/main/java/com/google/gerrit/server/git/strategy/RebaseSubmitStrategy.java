@@ -163,11 +163,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         ctx.addRefUpdate(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName());
       } else {
         // Stale read of patch set is ok; see comments in RebaseChangeOp.
-        PatchSet origPs =
-            args.psUtil.get(ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
+        PatchSet origPs = args.psUtil.get(ctx.getDb(), toMerge.getNotes(), toMerge.getPatchsetId());
         rebaseOp =
             args.rebaseFactory
-                .create(toMerge.getControl(), origPs, args.mergeTip.getCurrentTip())
+                .create(toMerge.notes(), origPs, args.mergeTip.getCurrentTip())
                 .setFireRevisionCreated(false)
                 // Bypass approval copier since SubmitStrategyOp copy all approvals
                 // later anyway.
@@ -231,7 +230,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       ctx.getChange()
           .setCurrentPatchSet(
               args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, newPatchSetId));
-      newCommit.setControl(ctx.getControl());
+      newCommit.setNotes(ctx.getNotes());
       return newPs;
     }
 

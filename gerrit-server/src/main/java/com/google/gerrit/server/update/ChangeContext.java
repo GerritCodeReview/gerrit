@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.project.ChangeControl;
 
 /**
  * Context for performing the {@link BatchUpdateOp#updateChange} phase.
@@ -44,14 +43,14 @@ public interface ChangeContext extends Context {
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
-   * Get the control for this change, encapsulating the user and up-to-date change data.
+   * Get the up-to-date notes for this change.
    *
-   * <p>The user will be the same as {@link #getUser()}, and the change data is read within the same
-   * transaction that {@link BatchUpdateOp#updateChange(ChangeContext)} is executing.
+   * <p>The change data is read within the same transaction that {@link
+   * BatchUpdateOp#updateChange(ChangeContext)} is executing.
    *
-   * @return control for this change.
+   * @return notes for this change.
    */
-  ChangeControl getControl();
+  ChangeNotes getNotes();
 
   /**
    * Don't bump the value of {@link Change#getLastUpdatedOn()}.
@@ -70,17 +69,8 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
-  /**
-   * Get notes corresponding to {@link #getControl()}.
-   *
-   * @return loaded notes instance.
-   */
-  default ChangeNotes getNotes() {
-    return checkNotNull(getControl().getNotes());
-  }
-
-  /** @return change corresponding to {@link #getControl()}. */
+  /** @return change corresponding to {@link #getNotes()}. */
   default Change getChange() {
-    return checkNotNull(getControl().getChange());
+    return checkNotNull(getNotes().getChange());
   }
 }

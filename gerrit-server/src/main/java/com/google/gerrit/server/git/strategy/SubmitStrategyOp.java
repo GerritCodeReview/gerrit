@@ -217,7 +217,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   @Override
   public final boolean updateChange(ChangeContext ctx) throws Exception {
     logDebug("{}#updateChange for change {}", getClass().getSimpleName(), toMerge.change().getId());
-    toMerge.setControl(ctx.getControl()); // Update change and notes from ctx.
+    toMerge.setNotes(ctx.getNotes()); // Update change and notes from ctx.
     PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
     PatchSet.Id newPsId;
 
@@ -237,7 +237,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
 
     if (alreadyMergedCommit != null) {
-      alreadyMergedCommit.setControl(ctx.getControl());
+      alreadyMergedCommit.setNotes(ctx.getNotes());
       mergedPatchSet = getOrCreateAlreadyMergedPatchSet(ctx);
       newPsId = mergedPatchSet.getId();
     } else {

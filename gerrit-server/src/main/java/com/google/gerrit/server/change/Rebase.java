@@ -104,7 +104,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
           NoSuchChangeException, PermissionBackendException {
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
 
-    ChangeControl control = changeControlFactory.controlFor(rsrc.getNotes(), rsrc.getUser());
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
         ObjectInserter oi = repo.newObjectInserter();
@@ -123,7 +122,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       bu.addOp(
           change.getId(),
           rebaseFactory
-              .create(control, rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
+              .create(rsrc.getNotes(), rsrc.getPatchSet(), findBaseRev(repo, rw, rsrc, input))
               .setForceContentMerge(true)
               .setFireRevisionCreated(true));
       bu.execute();

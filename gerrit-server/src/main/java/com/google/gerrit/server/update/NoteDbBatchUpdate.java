@@ -240,8 +240,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
-    public ChangeControl getControl() {
-      return ctl;
+    public ChangeNotes getNotes() {
+      return ctl.getNotes();
     }
 
     @Override

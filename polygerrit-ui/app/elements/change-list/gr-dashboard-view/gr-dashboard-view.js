@@ -31,8 +31,16 @@
     },
     {
       name: 'Recently closed',
-      query: 'is:closed (owner:${user} OR reviewer:${user} OR ' +
-          'assignee:${user})',
+      // If ${user} is owner or assignee of closed change, we always want to
+      // show it. If they are only associated as a reviewer, then we should
+      // omit abandoned WIP changes and ignored changes.
+      //
+      // When viewing another user's dashboard, this query may not fit
+      // perfectly. We can't reproduce which changes are ignored by the
+      // viewed user. Only changes ignored by the viewing user are omitted,
+      // with the exception of changes assigned to the viewing user.
+      query: 'is:closed ((reviewer:${user} -is:ignored -is:wip) OR ' +
+          'owner:${user} OR assignee:${user})',
       suffixForDashboard: '-age:4w limit:10',
     },
   ];

@@ -22,6 +22,30 @@
       "revId": "ddb014d5caaec9fc16b8bc6218175ed07dd444f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2982d9c5_c1d19a2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T20:18:44Z",
+      "side": 1,
+      "message": "Done, also updated associated test. Reduces the logic, awesome!",
+      "parentUuid": "30720879_37cc1da3",
+      "range": {
+        "startLine": 680,
+        "startChar": 6,
+        "endLine": 684,
+        "endChar": 77
+      },
+      "revId": "ddb014d5caaec9fc16b8bc6218175ed07dd444f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

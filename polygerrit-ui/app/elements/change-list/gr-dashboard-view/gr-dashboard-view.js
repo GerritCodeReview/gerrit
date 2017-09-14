@@ -14,25 +14,41 @@
 (function() {
   'use strict';
 
+  // NOTE: These queries are tested in Java. Any changes made to definitions
+  // here require corresponding changes to:
+  // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
   const DEFAULT_SECTIONS = [
     {
+      // WIP open changes owned by viewing user. This section is omitted when
+      // viewing other users, so we don't need to filter anything out.
       name: 'Work in progress',
       query: 'is:open owner:${user} is:wip',
       selfOnly: true,
     },
     {
+      // Non-WIP open changes owned by viewed user. Only filter out ignored
+      // changes if viewing a user other than oneself (the one instance of
+      // 'owner:self' is intended).
       name: 'Outgoing reviews',
-      query: 'is:open owner:${user} -is:wip',
+      query: 'is:open owner:${user} -is:wip (owner:self OR -is:ignored)',
     },
     {
+      // Non-WIP open changes not owned by the viewed user, that the viewed user
+      // is associated with (as either a reviewer or the assignee). Changes
+      // ignored by the viewing user are filtered out.
       name: 'Incoming reviews',
-      query: 'is:open ((reviewer:${user} -owner:${user} -is:ignored) OR ' +
-          'assignee:${user}) -is:wip',
+      query: 'is:open (reviewer:${user} OR assignee:${user}) -owner:${user} ' +
+          '-is:ignored -is:wip',
     },
     {
       name: 'Recently closed',
-      query: 'is:closed (owner:${user} OR reviewer:${user} OR ' +
-          'assignee:${user})',
+      // Closed changes where viewed user is owner, reviewer, or assignee.
+      // WIP changes and changes ignored by the viewing user are filtered out,
+      // unless owned by the viewing user (the one instance of 'owner:self' is
+      // intended).
+      query: 'is:closed ((owner:${user} (owner:self OR ' +
+          '(-is:ignored -is:wip))) OR ((reviewer:${user} OR assignee:${user}) ' +
+          '-is:ignored -is:wip))',
       suffixForDashboard: '-age:4w limit:10',
     },
   ];

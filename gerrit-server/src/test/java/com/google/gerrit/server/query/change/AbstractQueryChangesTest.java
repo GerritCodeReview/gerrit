@@ -38,6 +38,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -191,6 +193,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected CurrentUser user;
 
   private String systemTimeZone;
+
+  // These queries must be kept in sync with PolyGerrit:
+  // polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js
+
+  protected static String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
+  protected static String DASHBOARD_OUTGOING_QUERY = "is:open owner:${user} -is:wip -is:ignored";
+  protected static String DASHBOARD_INCOMING_QUERY =
+      "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user})";
+  protected static String DASHBOARD_RECENTLY_CLOSED_QUERY =
+      "is:closed -is:ignored (-is:wip OR owner:self) "
+          + "(owner:${user} OR reviewer:${user} OR assignee:${user})";
 
   protected abstract Injector createInjector();
 
@@ -2235,6 +2248,309 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
     assertQueryByIds(
         "revertof:" + changeToRevert._number, new Change.Id(changeThatReverts._number));
+  }
+
+  /*
+   * Change builder for helping in tests for dashboard sections.
+   */
+  protected class DashboardChangeState {
+    private final Account.Id ownerId;
+    private final List<Account.Id> reviewedBy;
+    private final List<Account.Id> ignoredBy;
+    private boolean wip;
+    private boolean abandoned;
+    @Nullable private Account.Id mergedBy;
+    @Nullable private Account.Id assigneeId;
+
+    @Nullable Change.Id id;
+
+    DashboardChangeState(Account.Id ownerId) {
+      this.ownerId = ownerId;
+      reviewedBy = new ArrayList<>();
+      ignoredBy = new ArrayList<>();
+    }
+
+    DashboardChangeState assignTo(Account.Id assigneeId) {
+      this.assigneeId = assigneeId;
+      return this;
+    }
+
+    DashboardChangeState wip() {
+      wip = true;
+      return this;
+    }
+
+    DashboardChangeState abandon() {
+      abandoned = true;
+      return this;
+    }
+
+    DashboardChangeState mergeBy(Account.Id mergedBy) {
+      this.mergedBy = mergedBy;
+      return this;
+    }
+
+    DashboardChangeState ignoreBy(Account.Id ignorerId) {
+      ignoredBy.add(ignorerId);
+      return this;
+    }
+
+    DashboardChangeState addReviewer(Account.Id reviewerId) {
+      reviewedBy.add(reviewerId);
+      return this;
+    }
+
+    DashboardChangeState create(TestRepository<Repo> repo) throws Exception {
+      requestContext.setContext(newRequestContext(ownerId));
+      Change change = insert(repo, newChange(repo), ownerId);
+      id = change.getId();
+      ChangeApi cApi = gApi.changes().id(change.getChangeId());
+      if (assigneeId != null) {
+        AssigneeInput in = new AssigneeInput();
+        in.assignee = "" + assigneeId;
+        cApi.setAssignee(in);
+      }
+      if (wip) {
+        cApi.setWorkInProgress();
+      }
+      if (abandoned) {
+        cApi.abandon();
+      }
+      for (Account.Id reviewerId : reviewedBy) {
+        cApi.addReviewer("" + reviewerId);
+      }
+      for (Account.Id ignorerId : ignoredBy) {
+        requestContext.setContext(newRequestContext(ignorerId));
+        StarsInput in = new StarsInput(new HashSet<>(Arrays.asList("ignore")));
+        gApi.accounts().self().setStars("" + id, in);
+      }
+      if (mergedBy != null) {
+        requestContext.setContext(newRequestContext(mergedBy));
+        cApi = gApi.changes().id(change.getChangeId());
+        cApi.current().review(ReviewInput.approve());
+        cApi.current().submit();
+      }
+      requestContext.setContext(newRequestContext(user.getAccountId()));
+      return this;
+    }
+  }
+
+  protected List<ChangeInfo> assertDashboardQuery(
+      String viewedUser, String query, DashboardChangeState... expected) throws Exception {
+    Change.Id[] ids = new Change.Id[expected.length];
+    for (int i = 0; i < expected.length; i++) {
+      ids[i] = expected[i].id;
+    }
+    return assertQueryByIds(query.replaceAll("\\$\\{user}", viewedUser), ids);
+  }
+
+  @Test
+  public void dashboardWorkInProgressReviews() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    DashboardChangeState ownedOpenWip =
+        new DashboardChangeState(user.getAccountId()).wip().create(repo);
+
+    // Create changes that should not be returned by query.
+    new DashboardChangeState(user.getAccountId()).wip().abandon().create(repo);
+    new DashboardChangeState(user.getAccountId()).mergeBy(user.getAccountId()).create(repo);
+    new DashboardChangeState(createAccount("other")).wip().create(repo);
+
+    assertDashboardQuery("self", DASHBOARD_WORK_IN_PROGRESS_QUERY, ownedOpenWip);
+  }
+
+  @Test
+  public void dashboardOutgoingReviews() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherAccountId = createAccount("other");
+    DashboardChangeState ownedOpenReviewable =
+        new DashboardChangeState(user.getAccountId()).create(repo);
+    DashboardChangeState ownedOpenReviewableIgnoredByOther =
+        new DashboardChangeState(user.getAccountId()).ignoreBy(otherAccountId).create(repo);
+
+    // Create changes that should not be returned by any queries in this test.
+    new DashboardChangeState(user.getAccountId()).wip().create(repo);
+    new DashboardChangeState(otherAccountId).create(repo);
+
+    // Viewing one's own dashboard.
+    assertDashboardQuery(
+        "self", DASHBOARD_OUTGOING_QUERY, ownedOpenReviewableIgnoredByOther, ownedOpenReviewable);
+
+    // Viewing another user's dashboard.
+    requestContext.setContext(newRequestContext(otherAccountId));
+    assertDashboardQuery(user.getUserName(), DASHBOARD_OUTGOING_QUERY, ownedOpenReviewable);
+  }
+
+  @Test
+  public void dashboardIncomingReviews() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherAccountId = createAccount("other");
+    DashboardChangeState reviewingReviewable =
+        new DashboardChangeState(otherAccountId).addReviewer(user.getAccountId()).create(repo);
+    DashboardChangeState reviewingReviewableIgnoredByReviewer =
+        new DashboardChangeState(otherAccountId)
+            .addReviewer(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState assignedReviewable =
+        new DashboardChangeState(otherAccountId).assignTo(user.getAccountId()).create(repo);
+    DashboardChangeState assignedReviewableIgnoredByAssignee =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .create(repo);
+
+    // Create changes that should not be returned by any queries in this test.
+    new DashboardChangeState(otherAccountId).wip().addReviewer(user.getAccountId()).create(repo);
+    new DashboardChangeState(otherAccountId).wip().assignTo(user.getAccountId()).create(repo);
+    new DashboardChangeState(otherAccountId).addReviewer(otherAccountId).create(repo);
+    new DashboardChangeState(otherAccountId)
+        .addReviewer(user.getAccountId())
+        .mergeBy(user.getAccountId())
+        .create(repo);
+
+    // Viewing one's own dashboard.
+    assertDashboardQuery("self", DASHBOARD_INCOMING_QUERY, assignedReviewable, reviewingReviewable);
+
+    // Viewing another user's dashboard.
+    requestContext.setContext(newRequestContext(otherAccountId));
+    assertDashboardQuery(
+        user.getUserName(),
+        DASHBOARD_INCOMING_QUERY,
+        assignedReviewableIgnoredByAssignee,
+        assignedReviewable,
+        reviewingReviewableIgnoredByReviewer,
+        reviewingReviewable);
+  }
+
+  @Test
+  public void dashboardRecentlyClosedReviews() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherAccountId = createAccount("other");
+    DashboardChangeState mergedOwned =
+        new DashboardChangeState(user.getAccountId()).mergeBy(user.getAccountId()).create(repo);
+    DashboardChangeState mergedOwnedIgnoredByOther =
+        new DashboardChangeState(user.getAccountId())
+            .ignoreBy(otherAccountId)
+            .mergeBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState mergedReviewing =
+        new DashboardChangeState(otherAccountId)
+            .addReviewer(user.getAccountId())
+            .mergeBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState mergedReviewingIgnoredByUser =
+        new DashboardChangeState(otherAccountId)
+            .addReviewer(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .mergeBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState mergedAssigned =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .mergeBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState mergedAssignedIgnoredByUser =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .mergeBy(user.getAccountId())
+            .create(repo);
+    DashboardChangeState abandonedOwned =
+        new DashboardChangeState(user.getAccountId()).abandon().create(repo);
+    DashboardChangeState abandonedOwnedIgnoredByOther =
+        new DashboardChangeState(user.getAccountId())
+            .ignoreBy(otherAccountId)
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedOwnedWip =
+        new DashboardChangeState(user.getAccountId()).wip().abandon().create(repo);
+    DashboardChangeState abandonedOwnedWipIgnoredByOther =
+        new DashboardChangeState(user.getAccountId())
+            .ignoreBy(otherAccountId)
+            .wip()
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedReviewing =
+        new DashboardChangeState(otherAccountId)
+            .addReviewer(user.getAccountId())
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedReviewingIgnoredByUser =
+        new DashboardChangeState(otherAccountId)
+            .addReviewer(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedAssigned =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedAssignedIgnoredByUser =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedAssignedWip =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .wip()
+            .abandon()
+            .create(repo);
+    DashboardChangeState abandonedAssignedWipIgnoredByUser =
+        new DashboardChangeState(otherAccountId)
+            .assignTo(user.getAccountId())
+            .ignoreBy(user.getAccountId())
+            .wip()
+            .abandon()
+            .create(repo);
+
+    // Create changes that should not be returned by any queries in this test.
+    new DashboardChangeState(otherAccountId)
+        .addReviewer(user.getAccountId())
+        .wip()
+        .abandon()
+        .create(repo);
+    new DashboardChangeState(otherAccountId)
+        .addReviewer(user.getAccountId())
+        .ignoreBy(user.getAccountId())
+        .wip()
+        .abandon()
+        .create(repo);
+
+    // Viewing one's own dashboard.
+    assertDashboardQuery(
+        "self",
+        DASHBOARD_RECENTLY_CLOSED_QUERY,
+        abandonedAssigned,
+        abandonedReviewing,
+        abandonedOwnedWipIgnoredByOther,
+        abandonedOwnedWip,
+        abandonedOwnedIgnoredByOther,
+        abandonedOwned,
+        mergedAssigned,
+        mergedReviewing,
+        mergedOwnedIgnoredByOther,
+        mergedOwned);
+
+    // Viewing another user's dashboard.
+    requestContext.setContext(newRequestContext(otherAccountId));
+    assertDashboardQuery(
+        user.getUserName(),
+        DASHBOARD_RECENTLY_CLOSED_QUERY,
+        abandonedAssignedWipIgnoredByUser,
+        abandonedAssignedWip,
+        abandonedAssignedIgnoredByUser,
+        abandonedAssigned,
+        abandonedReviewingIgnoredByUser,
+        abandonedReviewing,
+        abandonedOwned,
+        mergedAssignedIgnoredByUser,
+        mergedAssigned,
+        mergedReviewingIgnoredByUser,
+        mergedReviewing,
+        mergedOwned);
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

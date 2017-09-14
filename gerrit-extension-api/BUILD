@@ -28,6 +28,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":api",
+        "//lib:gson",
         "//lib:guava",
         "//lib:servlet-api-3_1",
         "//lib/guice",
@@ -43,6 +44,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-common:annotations",
+        "//lib:gson",
         "//lib:guava",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb7bf2f9_78cb0b41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T10:14:33Z",
+      "side": 1,
+      "message": "We still cannot eliminate dependency here on ChangeControl in which case it is not obvious to me, what we gain here? Or should this be done later? Clarify it in the commit message?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 53
+      },
+      "revId": "cfabfcf6ffb3f5e54b0ad05eb1b8fba0c457528f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

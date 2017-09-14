@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GroupDetail;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -29,6 +33,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class GroupMembers {
@@ -37,20 +42,20 @@ public class GroupMembers {
   }
 
   private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupControl.Factory groupControlFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final CurrentUser currentUser;
 
   @Inject
   GroupMembers(
-      final GroupCache groupCache,
-      final GroupDetailFactory.Factory groupDetailFactory,
-      final AccountCache accountCache,
-      final ProjectControl.GenericFactory projectControl,
-      @Assisted final CurrentUser currentUser) {
+      GroupCache groupCache,
+      GroupControl.Factory groupControlFactory,
+      AccountCache accountCache,
+      ProjectControl.GenericFactory projectControl,
+      @Assisted CurrentUser currentUser) {
     this.groupCache = groupCache;
-    this.groupDetailFactory = groupDetailFactory;
+    this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
@@ -69,9 +74,9 @@ public class GroupMembers {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     }
-    AccountGroup group = groupCache.get(groupUUID);
-    if (group != null) {
-      return getGroupMembers(group, project, seen);
+    Optional<InternalGroup> group = groupCache.get(groupUUID);
+    if (group.isPresent()) {
+      return getGroupMembers(group.get(), project, seen);
     }
     return Collections.emptySet();
   }
@@ -96,22 +101,29 @@ public class GroupMembers {
   }
 
   private Set<Account> getGroupMembers(
-      final AccountGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
+      InternalGroup group, Project.NameKey project, Set<AccountGroup.UUID> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
-    final GroupDetail groupDetail = groupDetailFactory.create(group.getGroupUUID()).call();
+    GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 
-    final Set<Account> members = new HashSet<>();
-    for (Account.Id memberId : groupDetail.getMembers()) {
-      members.add(accountCache.get(memberId).getAccount());
-    }
+    Set<Account> directMembers =
+        group
+            .getMembers()
+            .stream()
+            .filter(groupControl::canSeeMember)
+            .map(accountCache::get)
+            .map(AccountState::getAccount)
+            .collect(toImmutableSet());
 
-    for (AccountGroup.UUID groupIncludeUuid : groupDetail.getIncludes()) {
-      AccountGroup includedGroup = groupCache.get(groupIncludeUuid);
-      if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
-        members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
+    Set<Account> indirectMembers = new HashSet<>();
+    if (groupControl.canSeeGroup()) {
+      for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
+        if (!seen.contains(subgroupUuid)) {
+          indirectMembers.addAll(listAccounts(subgroupUuid, project, seen));
+        }
       }
     }
-    return members;
+
+    return Sets.union(directMembers, indirectMembers);
   }
 }

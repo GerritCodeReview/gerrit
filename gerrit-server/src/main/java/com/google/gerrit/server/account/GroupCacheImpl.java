@@ -15,15 +15,19 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -58,7 +62,7 @@ public class GroupCacheImpl implements GroupCache {
         cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
             .loader(ByNameLoader.class);
 
-        cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<AccountGroup>>() {})
+        cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
             .loader(ByUUIDLoader.class);
 
         bind(GroupCacheImpl.class);
@@ -69,7 +73,7 @@ public class GroupCacheImpl implements GroupCache {
 
   private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
   private final LoadingCache<String, Optional<AccountGroup>> byName;
-  private final LoadingCache<String, Optional<AccountGroup>> byUUID;
+  private final LoadingCache<String, Optional<InternalGroup>> byUUID;
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<GroupIndexer> indexer;
   private final Groups groups;
@@ -78,7 +82,7 @@ public class GroupCacheImpl implements GroupCache {
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
-      @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
+      @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
       SchemaFactory<ReviewDb> schema,
       Provider<GroupIndexer> indexer,
       Groups groups) {
@@ -102,17 +106,19 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evict(AccountGroup group) throws IOException {
-    if (group.getId() != null) {
-      byId.invalidate(group.getId());
+  public void evict(
+      AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
+      throws IOException {
+    if (groupId != null) {
+      byId.invalidate(groupId);
     }
-    if (group.getNameKey() != null) {
-      byName.invalidate(group.getNameKey().get());
+    if (groupName != null) {
+      byName.invalidate(groupName.get());
     }
-    if (group.getGroupUUID() != null) {
-      byUUID.invalidate(group.getGroupUUID().get());
+    if (groupUuid != null) {
+      byUUID.invalidate(groupUuid.get());
     }
-    indexer.get().index(group.getGroupUUID());
+    indexer.get().index(groupUuid);
   }
 
   @Override
@@ -135,21 +141,22 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byName.get(name.get()).orElse(null);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup group %s by name", name.get()), e);
+      log.warn(String.format("Cannot look up group %s by name", name.get()), e);
       return null;
     }
   }
 
   @Override
-  public AccountGroup get(AccountGroup.UUID uuid) {
-    if (uuid == null) {
-      return null;
+  public Optional<InternalGroup> get(AccountGroup.UUID groupUuid) {
+    if (groupUuid == null) {
+      return Optional.empty();
     }
+
     try {
-      return byUUID.get(uuid.get()).orElse(null);
+      return byUUID.get(groupUuid.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup group %s by name", uuid.get()), e);
-      return null;
+      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+      return Optional.empty();
     }
   }
 
@@ -210,7 +217,7 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
-  static class ByUUIDLoader extends CacheLoader<String, Optional<AccountGroup>> {
+  static class ByUUIDLoader extends CacheLoader<String, Optional<InternalGroup>> {
     private final SchemaFactory<ReviewDb> schema;
     private final Groups groups;
 
@@ -221,9 +228,20 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Optional<AccountGroup> load(String uuid) throws Exception {
+    public Optional<InternalGroup> load(String uuid) throws Exception {
       try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, new AccountGroup.UUID(uuid));
+        AccountGroup.UUID groupUuid = new AccountGroup.UUID(uuid);
+        Optional<AccountGroup> accountGroup = groups.getGroup(db, groupUuid);
+
+        if (!accountGroup.isPresent()) {
+          return Optional.empty();
+        }
+
+        ImmutableSet<Account.Id> members =
+            groups.getMembers(db, groupUuid).collect(toImmutableSet());
+        ImmutableSet<AccountGroup.UUID> subgroups =
+            groups.getSubgroups(db, groupUuid).collect(toImmutableSet());
+        return accountGroup.map(group -> InternalGroup.create(group, members, subgroups));
       }
     }
   }

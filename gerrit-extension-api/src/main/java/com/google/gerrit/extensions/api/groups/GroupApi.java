@@ -109,15 +109,15 @@ public interface GroupApi {
   void removeMembers(String... members) throws RestApiException;
 
   /**
-   * List included groups.
+   * Lists the subgroups of this group.
    *
-   * @return included groups.
+   * @return the found subgroups
    * @throws RestApiException
    */
   List<GroupInfo> includedGroups() throws RestApiException;
 
   /**
-   * Add groups to be included in this one.
+   * Adds subgroups to this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
    * @throws RestApiException
@@ -125,7 +125,7 @@ public interface GroupApi {
   void addGroups(String... groups) throws RestApiException;
 
   /**
-   * Remove included groups from this one.
+   * Removes subgroups from this group.
    *
    * @param groups list of group identifiers, in any format accepted by {@link Groups#id(String)}
    * @throws RestApiException

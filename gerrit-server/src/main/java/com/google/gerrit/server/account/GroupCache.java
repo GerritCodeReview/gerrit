@@ -15,9 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.InternalGroup;
 import java.io.IOException;
+import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
@@ -26,11 +27,13 @@ public interface GroupCache {
   AccountGroup get(AccountGroup.NameKey name);
 
   /**
-   * Lookup a group definition by its UUID. The returned definition may be null if the group has
-   * been deleted and the UUID reference is stale, or was copied from another server.
+   * Looks up an internal group by its UUID.
+   *
+   * @param groupUuid the UUID of the internal group
+   * @return an {@code Optional} of the internal group, or an empty {@code Optional} if no internal
+   *     group with this UUID exists on this server or an error occurred during lookup
    */
-  @Nullable
-  AccountGroup get(AccountGroup.UUID uuid);
+  Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
 
   /** @return sorted list of groups. */
   ImmutableList<AccountGroup> all();
@@ -38,7 +41,8 @@ public interface GroupCache {
   /** Notify the cache that a new group was constructed. */
   void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException;
 
-  void evict(AccountGroup group) throws IOException;
+  void evict(AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
+      throws IOException;
 
   void evictAfterRename(AccountGroup.NameKey oldName, AccountGroup.NameKey newName)
       throws IOException;

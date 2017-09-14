@@ -12,21 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.projects;
+package com.google.gerrit.acceptance.api.project;
 
-import com.google.gerrit.extensions.api.projects.Projects;
-import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import org.junit.Test;
 
-public class Module extends FactoryModule {
-  @Override
-  protected void configure() {
-    bind(Projects.class).to(ProjectsImpl.class);
-
-    factory(BranchApiImpl.Factory.class);
-    factory(TagApiImpl.Factory.class);
-    factory(ProjectApiImpl.Factory.class);
-    factory(ChildProjectApiImpl.Factory.class);
-    factory(CommitApiImpl.Factory.class);
-    factory(DashboardApiImpl.Factory.class);
+@NoHttpd
+public class DashboardIT extends AbstractDaemonTest {
+  @Test
+  public void defaultDashboardDoesNotExist() throws Exception {
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).dashboard("default").get();
   }
 }

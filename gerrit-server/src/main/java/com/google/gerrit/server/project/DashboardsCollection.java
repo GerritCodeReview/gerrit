@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-class DashboardsCollection
+public class DashboardsCollection
     implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;

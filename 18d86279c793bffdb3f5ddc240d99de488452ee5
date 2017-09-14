@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc12f0f_c2a30a4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-14T23:24:59Z",
+      "side": 1,
+      "message": "I wonder should this go in the overflow menu? It seems it is alphabeticalising this so that delete is in front of publish.",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 38
+      },
+      "revId": "18d86279c793bffdb3f5ddc240d99de488452ee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

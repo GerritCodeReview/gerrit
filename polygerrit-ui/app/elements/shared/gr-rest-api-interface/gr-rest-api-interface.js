@@ -1865,5 +1865,21 @@
             opt_params, opt_options);
       });
     },
+
+    /**
+     * Get blame information for the given diff.
+     * @param {string|number} changeNum
+     * @param {string|number} patchNum
+     * @param {string} path
+     * @param {boolean=} opt_base If true, requests blame for the base of the
+     *     diff, rather than the revision.
+     * @return {Promise<Object>}
+     */
+    getBlame(changeNum, patchNum, path, opt_base) {
+      const encodedPath = encodeURIComponent(path);
+      return this._getChangeURLAndFetch(changeNum,
+          `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
+          opt_base ? {base: 't'} : undefined);
+    },
   });
 })();

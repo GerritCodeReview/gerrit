@@ -37,6 +37,9 @@ limitations under the License.
       :host {
         background-color: var(--view-background-color);
       }
+      gr-patch-range-select {
+        display: block;
+      }
       gr-diff {
         border: none;
       }
@@ -271,12 +274,13 @@ limitations under the License.
       <div class="subHeader">
         <div class="patchRangeLeft">
           <gr-patch-range-select
-              path="[[_path]]"
+              id="rangeSelect"
               change-num="[[_changeNum]]"
               patch-range="[[_patchRange]]"
               files-weblinks="[[_filesWeblinks]]"
               available-patches="[[_computeAvailablePatches(_change.revisions, _change.revisions.*)]]"
-              revisions="[[_change.revisions]]">
+              revisions="[[_change.revisions]]"
+              on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="download desktop">
             <span class="separator">/</span>

@@ -144,6 +144,13 @@ public interface ProjectApi {
   DashboardApi dashboard(String name) throws RestApiException;
 
   /**
+   * Get the project's default dashboard.
+   *
+   * @return API for accessing the dashboard.
+   */
+  DashboardApi defaultDashboard() throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -250,6 +257,11 @@ public interface ProjectApi {
 
     @Override
     public DashboardApi dashboard(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DashboardApi defaultDashboard() throws RestApiException {
       throw new NotImplementedException();
     }
   }

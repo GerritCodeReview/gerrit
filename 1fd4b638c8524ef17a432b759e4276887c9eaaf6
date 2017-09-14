@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "88327fed_cb718626",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-14T07:53:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6c3e19e8_7556f605",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 15
+      },
+      "revId": "1fd4b638c8524ef17a432b759e4276887c9eaaf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "432432a4_43bec751",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "\u003e Just `notes`?\n\nI am not sure, previously we also used getControl(). Is there some general policy I can follow?\n\n\u003e Should there be a null check here, or should the argument to setNotes be annotated as @NonNull?\n\nHm, checkNonNull will also just throw an NPE, so I think there is not much of a difference. We could annotate setNotes with @NonNull but there is still no guarantee that it was ever called since we aren\u0027t going through any build step that could check.",
       "parentUuid": "432432a4_43bec751",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 21
+      },
+      "revId": "1fd4b638c8524ef17a432b759e4276887c9eaaf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40d9a3b2_358ddcc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-14T07:53:30Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "debb3445_998cc193",
       "range": {
         "startLine": 152,
         "startChar": 11,

@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.gerrit.server.project.SetDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

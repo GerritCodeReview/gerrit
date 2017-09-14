@@ -127,7 +127,6 @@ public class ChangeEdits
    * PUT request with a path was called but change edit wasn't created yet. Change edit is created
    * and PUT handler is called.
    */
-  @SuppressWarnings("unchecked")
   @Override
   public DeleteFile delete(ChangeResource parent, IdString id) throws RestApiException {
     // It's safe to assume that id can never be null, because

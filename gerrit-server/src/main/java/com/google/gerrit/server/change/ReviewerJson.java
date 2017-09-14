@@ -34,7 +34,6 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -105,13 +104,12 @@ public class ReviewerJson {
   public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
       throws OrmException, PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
-    ChangeControl ctl = cd.changeControl().forUser(perm.user());
     return format(
         out,
         perm,
         cd,
         approvalsUtil.byPatchSetUser(
-            db.get(), cd.notes(), ctl.getUser(), psId, new Account.Id(out._accountId), null, null));
+            db.get(), cd.notes(), perm.user(), psId, new Account.Id(out._accountId), null, null));
   }
 
   public ReviewerInfo format(

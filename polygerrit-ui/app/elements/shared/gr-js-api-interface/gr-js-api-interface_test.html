@@ -124,7 +124,7 @@ limitations under the License.
       const response = {status: 204};
       sendStub.returns(Promise.resolve(response));
       return plugin.delete('/url', r => {
-        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+        assert.isTrue(sendStub.calledWithExactly('DELETE', '/url'));
         assert.strictEqual(r, response);
       });
     });

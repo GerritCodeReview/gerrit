@@ -158,7 +158,7 @@
   },
 
   Plugin.prototype.delete = function(url, opt_callback) {
-    return getRestAPI().send('DELETE', url, opt_callback).then(response => {
+    return getRestAPI().send('DELETE', url).then(response => {
       if (response.status !== 204) {
         return response.text().then(text => {
           if (text) {

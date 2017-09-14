@@ -16,6 +16,24 @@
       "revId": "01415a349d0f009152e6e0a534b73843b6ff7b19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9c44cfa_9f6c88ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-14T08:05:36Z",
+      "side": 1,
+      "message": "I think the difference is that here the null-check happened already in the constructor while in ReviewDbBatchUpdate it did not (though I don\u0027t know if this was done deliberately).",
+      "parentUuid": "b3937265_d90d5e24",
+      "revId": "01415a349d0f009152e6e0a534b73843b6ff7b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

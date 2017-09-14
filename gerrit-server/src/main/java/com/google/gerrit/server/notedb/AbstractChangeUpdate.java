@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -62,7 +61,8 @@ public abstract class AbstractChangeUpdate {
   protected AbstractChangeUpdate(
       Config cfg,
       NotesMigration migration,
-      ChangeControl ctl,
+      ChangeNotes notes,
+      CurrentUser user,
       PersonIdent serverIdent,
       String anonymousCowardName,
       ChangeNoteUtil noteUtil,
@@ -71,12 +71,12 @@ public abstract class AbstractChangeUpdate {
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.anonymousCowardName = anonymousCowardName;
-    this.notes = ctl.getNotes();
+    this.notes = notes;
     this.change = notes.getChange();
-    this.accountId = accountId(ctl.getUser());
-    Account.Id realAccountId = accountId(ctl.getUser().getRealUser());
+    this.accountId = accountId(user);
+    Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
-    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
+    this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, user, when);
     this.when = when;
     this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }

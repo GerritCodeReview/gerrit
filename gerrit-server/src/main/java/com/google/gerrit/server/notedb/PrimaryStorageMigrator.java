@@ -46,7 +46,6 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -83,7 +82,7 @@ public class PrimaryStorageMigrator {
   private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
   private final AllUsersName allUsers;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeRebuilder rebuilder;
   private final ChangeUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
@@ -103,7 +102,7 @@ public class PrimaryStorageMigrator {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       ChangeRebuilder rebuilder,
-      ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
@@ -115,7 +114,7 @@ public class PrimaryStorageMigrator {
         allUsers,
         rebuilder,
         null,
-        changeControlFactory,
+        changeNotesFactory,
         queryProvider,
         updateFactory,
         internalUserFactory,
@@ -130,7 +129,7 @@ public class PrimaryStorageMigrator {
       AllUsersName allUsers,
       ChangeRebuilder rebuilder,
       @Nullable Retryer<NoteDbChangeState> testEnsureRebuiltRetryer,
-      ChangeControl.GenericFactory changeControlFactory,
+      ChangeNotes.Factory changeNotesFactory,
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
@@ -140,7 +139,7 @@ public class PrimaryStorageMigrator {
     this.allUsers = allUsers;
     this.rebuilder = rebuilder;
     this.testEnsureRebuiltRetryer = testEnsureRebuiltRetryer;
-    this.changeControlFactory = changeControlFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.queryProvider = queryProvider;
     this.updateFactory = updateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -410,7 +409,7 @@ public class PrimaryStorageMigrator {
     Timestamp until = new Timestamp(now.getTime() + timeoutMs);
     ChangeUpdate update =
         updateFactory.create(
-            changeControlFactory.controlFor(db.get(), project, id, internalUserFactory.create()));
+            changeNotesFactory.createChecked(db.get(), project, id), internalUserFactory.create());
     update.setReadOnlyUntil(until);
     return update.commit();
   }

@@ -59,12 +59,12 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestId;
@@ -108,9 +108,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
-    ChangeUpdate create(ChangeControl ctl);
+    ChangeUpdate create(ChangeNotes notes, CurrentUser user);
 
-    ChangeUpdate create(ChangeControl ctl, Date when);
+    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
 
     ChangeUpdate create(
         Change change,
@@ -121,7 +121,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         Comparator<String> labelNameComparator);
 
     @VisibleForTesting
-    ChangeUpdate create(ChangeControl ctl, Date when, Comparator<String> labelNameComparator);
+    ChangeUpdate create(
+        ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }
 
   private final AccountCache accountCache;
@@ -175,7 +176,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      @Assisted ChangeControl ctl,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user,
       ChangeNoteUtil noteUtil) {
     this(
         cfg,
@@ -188,7 +190,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
         projectCache,
-        ctl,
+        notes,
+        user,
         serverIdent.getWhen(),
         noteUtil);
   }
@@ -205,7 +208,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      @Assisted ChangeControl ctl,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user,
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
     this(
@@ -218,14 +222,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
-        ctl,
+        notes,
+        user,
         when,
-        projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
+        projectCache.get(notes.getProjectName()).getLabelTypes().nameComparator(),
         noteUtil);
-  }
-
-  private static Project.NameKey getProjectName(ChangeControl ctl) {
-    return ctl.getProject().getNameKey();
   }
 
   private static Table<String, Account.Id, Optional<Short>> approvals(
@@ -244,11 +245,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      @Assisted ChangeControl ctl,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
+    super(cfg, migration, notes, user, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;

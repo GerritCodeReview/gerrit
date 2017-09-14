@@ -56,7 +56,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -165,7 +164,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {
-    private final ChangeControl ctl;
+    private final ChangeNotes notes;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
     private final ReviewDbWrapper dbWrapper;
     private final Repository threadLocalRepo;
@@ -175,8 +174,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     private boolean bumpLastUpdatedOn = true;
 
     protected ChangeContextImpl(
-        ChangeControl ctl, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
-      this.ctl = ctl;
+        ChangeNotes notes, ReviewDbWrapper dbWrapper, Repository repo, RevWalk rw) {
+      this.notes = checkNotNull(notes);
       this.dbWrapper = dbWrapper;
       this.threadLocalRepo = repo;
       this.threadLocalRevWalk = rw;
@@ -198,8 +197,8 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = updates.get(psId);
       if (u == null) {
-        u = changeUpdateFactory.create(ctl, when);
-        if (newChanges.containsKey(ctl.getId())) {
+        u = changeUpdateFactory.create(notes, user, when);
+        if (newChanges.containsKey(notes.getChangeId())) {
           u.setAllowWriteToNewRef(true);
         }
         u.setPatchSetId(psId);
@@ -210,8 +209,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
 
     @Override
     public ChangeNotes getNotes() {
-      checkNotNull(ctl);
-      return ctl.getNotes();
+      return notes;
     }
 
     @Override
@@ -308,7 +306,6 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   }
 
   private final AllUsersName allUsers;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
@@ -329,7 +326,6 @@ class ReviewDbBatchUpdate extends BatchUpdate {
   ReviewDbBatchUpdate(
       @GerritServerConfig Config cfg,
       AllUsersName allUsers,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       ChangeNotes.Factory changeNotesFactory,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
@@ -347,7 +343,6 @@ class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted Timestamp when) {
     super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
-    this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateExector = changeUpdateExector;
     this.changeUpdateFactory = changeUpdateFactory;
@@ -786,8 +781,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
         NoteDbChangeState.checkNotReadOnly(c, skewMs);
       }
       ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
-      ChangeControl ctl = changeControlFactory.controlFor(notes, user);
-      return new ChangeContextImpl(ctl, new BatchUpdateReviewDb(db), repo, rw);
+      return new ChangeContextImpl(notes, new BatchUpdateReviewDb(db), repo, rw);
     }
 
     private NoteDbUpdateManager stageNoteDbUpdate(ChangeContextImpl ctx, boolean deleted)

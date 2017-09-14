@@ -35,7 +35,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -215,13 +214,13 @@ class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {
-    private final ChangeControl ctl;
+    private final ChangeNotes notes;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
 
     private boolean deleted;
 
-    protected ChangeContextImpl(ChangeControl ctl) {
-      this.ctl = checkNotNull(ctl);
+    protected ChangeContextImpl(ChangeNotes notes) {
+      this.notes = checkNotNull(notes);
       updates = new TreeMap<>(comparing(PatchSet.Id::get));
     }
 
@@ -229,8 +228,8 @@ class NoteDbBatchUpdate extends BatchUpdate {
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
       ChangeUpdate u = updates.get(psId);
       if (u == null) {
-        u = changeUpdateFactory.create(ctl, when);
-        if (newChanges.containsKey(ctl.getId())) {
+        u = changeUpdateFactory.create(notes, user, when);
+        if (newChanges.containsKey(notes.getChangeId())) {
           u.setAllowWriteToNewRef(true);
         }
         u.setPatchSetId(psId);
@@ -241,7 +240,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
 
     @Override
     public ChangeNotes getNotes() {
-      return ctl.getNotes();
+      return notes;
     }
 
     @Override
@@ -264,7 +263,6 @@ class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
@@ -276,7 +274,6 @@ class NoteDbBatchUpdate extends BatchUpdate {
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeNotes.Factory changeNotesFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
@@ -287,7 +284,6 @@ class NoteDbBatchUpdate extends BatchUpdate {
       @Assisted Timestamp when) {
     super(repoManager, serverIdent, project, user, when);
     this.changeNotesFactory = changeNotesFactory;
-    this.changeControlFactory = changeControlFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
@@ -445,8 +441,7 @@ class NoteDbBatchUpdate extends BatchUpdate {
       logDebug("Change {} is new", id);
     }
     ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
-    ChangeControl ctl = changeControlFactory.controlFor(notes, user);
-    return new ChangeContextImpl(ctl);
+    return new ChangeContextImpl(notes);
   }
 
   private void executePostOps() throws Exception {

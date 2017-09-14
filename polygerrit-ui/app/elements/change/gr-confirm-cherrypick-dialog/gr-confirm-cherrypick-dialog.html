@@ -26,7 +26,6 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
-        width: 30em;
       }
       :host([disabled]) {
         opacity: .5;
@@ -34,9 +33,6 @@ limitations under the License.
       }
       label {
         cursor: pointer;
-      }
-      iron-autogrow-textarea {
-        padding: 0;
       }
       .main {
         display: flex;
@@ -52,6 +48,14 @@ limitations under the License.
       .main .message {
         border: groove;
         width: 100%;
+      }
+      iron-autogrow-textarea {
+        padding: 0;
+
+        --iron-autogrow-textarea: {
+          font-family: var(--monospace-font-family);
+          width: 72ch;
+        };
       }
     </style>
     <gr-confirm-dialog

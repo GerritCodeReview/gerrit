@@ -403,6 +403,11 @@ limitations under the License.
             }, false);
           }, false);
         },
+
+        setBlame(blame) {
+          if (!this._builder || !blame) { return; }
+          this._builder.setBlame(blame);
+        },
       });
     })();
   </script>

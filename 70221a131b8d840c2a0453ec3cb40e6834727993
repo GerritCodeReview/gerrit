@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d5fcae3_94a0ef0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T17:09:38Z",
+      "side": 1,
+      "message": "fix to problem",
+      "range": {
+        "startLine": 48,
+        "startChar": 68,
+        "endLine": 48,
+        "endChar": 87
+      },
+      "revId": "70221a131b8d840c2a0453ec3cb40e6834727993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf1d5721_f170516c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T17:09:38Z",
+      "side": 1,
+      "message": "fix to problem",
+      "range": {
+        "startLine": 70,
+        "startChar": 65,
+        "endLine": 70,
+        "endChar": 88
+      },
+      "revId": "70221a131b8d840c2a0453ec3cb40e6834727993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a116c0d8_445ba454",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-14T17:09:38Z",
+      "side": 1,
+      "message": "New tests",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 7
+      },
+      "revId": "70221a131b8d840c2a0453ec3cb40e6834727993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -59,8 +60,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
 
   @Override
   public Response<DashboardInfo> apply(DashboardResource resource, Input input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          ResourceNotFoundException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     if (input == null) {
       input = new Input(); // Delete would set input to null.
     }
@@ -132,8 +132,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
 
     @Override
     public Response<DashboardInfo> apply(ProjectResource resource, Input input)
-        throws AuthException, BadRequestException, ResourceConflictException,
-            ResourceNotFoundException, IOException, PermissionBackendException {
+        throws RestApiException, IOException, PermissionBackendException {
       SetDefaultDashboard set = setDefault.get();
       set.inherited = inherited;
       return set.apply(DashboardResource.projectDefault(resource.getControl()), input);

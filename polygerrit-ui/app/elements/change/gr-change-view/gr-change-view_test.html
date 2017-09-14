@@ -456,6 +456,12 @@ limitations under the License.
               element._setDiffViewMode.lastCall.calledWithExactly(true));
         });
 
+    test('diffViewMode is propagated from file list header', () => {
+      element.viewState = {diffMode: 'UNIFIED'};
+      element.$.fileListHeader.diffViewMode = 'SIDE_BY_SIDE';
+      assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
+    });
+
     test('diffMode defaults to side by side without preferences', done => {
       sandbox.stub(element.$.restAPI, 'getPreferences').returns(
           Promise.resolve({}));

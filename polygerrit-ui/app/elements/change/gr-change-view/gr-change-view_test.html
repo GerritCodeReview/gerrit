@@ -245,6 +245,12 @@ limitations under the License.
       });
     });
 
+    test('download tap calls _handleOpenDownloadDialog', () => {
+      sandbox.stub(element, '_handleOpenDownloadDialog');
+      element.$.actions.fire('download-tap');
+      assert.isTrue(element._handleOpenDownloadDialog.called);
+    });
+
     test('fetches the server config on attached', done => {
       flush(() => {
         assert.equal(element._serverConfig.test, 'config');

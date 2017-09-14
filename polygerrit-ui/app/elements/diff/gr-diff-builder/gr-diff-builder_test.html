@@ -1003,5 +1003,58 @@ limitations under the License.
         assert.equal(result, expected);
       });
     });
+
+    suite('blame', () => {
+      let mockBlame;
+
+      setup(() => {
+        mockBlame = [
+          {id: 'commit 1', ranges: [{start: 1, end: 2}, {start: 10, end: 16}]},
+          {id: 'commit 2', ranges: [{start: 4, end: 10}, {start: 17, end: 32}]},
+        ];
+      });
+
+      test('setBlame attempts to render each blamed line', () => {
+        const getBlameStub = sandbox.stub(builder, '_getBlameByLineNum')
+            .returns(null);
+        builder.setBlame(mockBlame);
+        assert.equal(getBlameStub.callCount, 32);
+      });
+
+      test('_getBlameCommitForBaseLine', () => {
+        builder.setBlame(mockBlame);
+        assert.isOk(builder._getBlameCommitForBaseLine(1));
+        assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
+
+        assert.isOk(builder._getBlameCommitForBaseLine(11));
+        assert.equal(builder._getBlameCommitForBaseLine(11).id, 'commit 1');
+
+        assert.isOk(builder._getBlameCommitForBaseLine(32));
+        assert.equal(builder._getBlameCommitForBaseLine(32).id, 'commit 2');
+
+        assert.isNull(builder._getBlameCommitForBaseLine(33));
+      });
+
+      test('_getBlameCommitForBaseLine w/o blame returns null', () => {
+        assert.isNull(builder._getBlameCommitForBaseLine(1));
+        assert.isNull(builder._getBlameCommitForBaseLine(11));
+        assert.isNull(builder._getBlameCommitForBaseLine(31));
+      });
+
+      test('_createBlameCell', () => {
+        const mocbBlameCell = document.createElement('span');
+        const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
+            .returns(mocbBlameCell);
+        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.beforeNumber = 3;
+        line.afterNumber = 5;
+
+        const result = builder._createBlameCell(line);
+
+        assert.isTrue(getBlameStub.calledWithExactly(3));
+        assert.equal(result.getAttribute('data-line-number'), '3');
+        assert.equal(result.firstChild, mocbBlameCell);
+      });
+    });
   });
 </script>

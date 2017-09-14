@@ -16,12 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.common.SetDashboardInput;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -40,9 +37,7 @@ class SetDashboard implements RestModifyView<DashboardResource, SetDashboardInpu
 
   @Override
   public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          MethodNotAllowedException, ResourceNotFoundException, IOException,
-          PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     if (resource.isProjectDefault()) {
       return defaultSetter.get().apply(resource, input);
     }

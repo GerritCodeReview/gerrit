@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b98e8beb_64463dd2",
+        "filename": "polygerrit-ui/app/behaviors/rest-client-behavior/rest-client-behavior.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-14T22:09:52Z",
+      "side": 1,
+      "message": "Please revert this -- we are not putting \"Change edit\" in the status bar.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 7
+      },
+      "revId": "80121e7d856c0fcb15a8f94731876540a88cbaff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

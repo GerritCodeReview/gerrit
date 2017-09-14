@@ -37,7 +37,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
@@ -54,13 +54,8 @@ public final class StoredValues {
   public static final StoredValue<Emails> EMAILS = create(Emails.class);
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
-
-  // Note: no guarantees are made about the user passed in the ChangeControl; do
-  // not depend on this directly. Either use .forUser(otherUser) to get a
-  // control for a specific known user, or use CURRENT_USER, which may be null
-  // for rule types that may not depend on the current user.
-  public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
   public static final StoredValue<CurrentUser> CURRENT_USER = create(CurrentUser.class);
+  public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
 
   public static Change getChange(Prolog engine) throws SystemException {
     ChangeData cd = CHANGE_DATA.get(engine);

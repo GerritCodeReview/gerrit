@@ -159,6 +159,12 @@ limitations under the License.
       .editLoaded .hideOnEdit {
         display: none;
       }
+      .blameLoader {
+        display: none;
+      }
+      .blameLoader.show {
+        display: inline;
+      }
       @media screen and (max-width: 50em) {
         header {
           padding: .5em var(--default-horizontal-margin);
@@ -312,6 +318,10 @@ limitations under the License.
                   on-tap="_handlePrefsTap">Preferences</gr-button>
             </span>
           </span>
+          <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff, _isBlameSupported, _isBlameLoaded)]]">
+            <span class="separator">/</span>
+            <gr-button link on-tap="_loadBlame">Blame</gr-button>
+          </span>
         </div>
       </div>
       <div class="fileNav mobile">
@@ -340,6 +350,7 @@ limitations under the License.
         project-config="[[_projectConfig]]"
         project-name="[[_change.project]]"
         view-mode="[[_diffMode]]"
+        is-blame-loaded="{{_isBlameLoaded}}"
         on-line-selected="_onLineSelected">
     </gr-diff>
     <gr-diff-preferences

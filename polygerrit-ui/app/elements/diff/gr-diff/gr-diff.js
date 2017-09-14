@@ -16,6 +16,7 @@
 
   const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
   const ERR_INVALID_LINE = 'Invalid line number: ';
+  const MSG_EMPTY_BLAME = 'No blame information for this diff.'
 
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -125,6 +126,16 @@
       },
 
       _showWarning: Boolean,
+
+      _blame: {
+        type: Object,
+        value: null,
+      },
+      isBlameLoaded: {
+        type: Boolean,
+        notify: true,
+        computed: '_computeIsBlameLoaded(_blame)',
+      },
     },
 
     behaviors: [
@@ -154,6 +165,7 @@
     /** @return {!Promise} */
     reload() {
       this.$.diffBuilder.cancel();
+      this._clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
       this._clearDiffContent();
@@ -500,6 +512,8 @@
     _prefsChanged(prefs) {
       if (!prefs) { return; }
 
+      this._clearBlame();
+
       const stylesToUpdate = {};
 
       if (prefs.line_wrapping) {
@@ -589,7 +603,7 @@
       const isB = this._diff.meta_b &&
           this._diff.meta_b.content_type.startsWith('image/');
 
-      return this._diff.binary && (isA || isB);
+      return !!(this._diff.binary && (isA || isB));
     },
 
     /** @return {!Promise} */
@@ -668,6 +682,32 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    loadBlame() {
+      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+          this.path, true)
+          .then(blame => {
+            if (!blame.length) {
+              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+              return;
+            }
+
+            this._blame = blame;
+
+            this.$.diffBuilder.setBlame(blame);
+            this.classList.add('showBlame');
+          });
+    },
+
+    _computeIsBlameLoaded(blame) {
+      return !!blame;
+    },
+
+    _clearBlame() {
+      this._blame = null;
+      this.$.diffBuilder.setBlame(null);
+      this.classList.remove('showBlame');
     },
   });
 })();

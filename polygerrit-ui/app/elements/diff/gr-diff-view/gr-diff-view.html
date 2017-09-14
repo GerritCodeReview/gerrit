@@ -303,6 +303,10 @@ limitations under the License.
             <span class="preferences desktop">
               <span
                   hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
+              <gr-button
+                  link
+                  on-tap="_loadBlame">Blame</gr-button>
+              <span class="separator">/</span>
               <gr-button link
                   class="prefsButton"
                   on-tap="_handlePrefsTap">Preferences</gr-button>
@@ -336,6 +340,7 @@ limitations under the License.
         project-config="[[_projectConfig]]"
         project-name="[[_change.project]]"
         view-mode="[[_diffMode]]"
+        blame="[[_blame]]"
         on-line-selected="_onLineSelected">
     </gr-diff>
     <gr-diff-preferences

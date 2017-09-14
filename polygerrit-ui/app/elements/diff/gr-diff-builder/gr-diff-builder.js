@@ -37,6 +37,7 @@
     this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
+    this._blameInfo = null;
 
     this.layers = layers || [];
 
@@ -623,6 +624,31 @@
     return str.replace(HTML_ENTITY_PATTERN, s => {
       return HTML_ENTITY_MAP[s];
     });
+  };
+
+  GrDiffBuilder.prototype.setBlame = function(blame) {
+    console.log('set blame to', blame);
+    this._blameInfo = blame;
+  };
+
+  GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum) {
+    if (!this._blameInfo) { return 'carrots' + lineNum; }
+
+    let commit = null;
+    for (let blameCommit of this._blameInfo) {
+      for (let range of blameCommit.ranges) {
+        if (range.start <= lineNum && range.end >= lineNum) {
+          commit = blameCommit;
+          break;
+        }
+      }
+    }
+
+    if (commit) {
+      return commit.id;
+    }
+
+    return '';
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

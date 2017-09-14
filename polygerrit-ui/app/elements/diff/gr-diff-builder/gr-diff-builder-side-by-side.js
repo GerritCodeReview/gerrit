@@ -80,7 +80,7 @@
     const blameTd = this._createElement('td', 'blame');
     blameTd.setAttribute('data-line-number', leftLine.beforeNumber);
     if (leftLine.beforeNumber) {
-      blameTd.textContent = 'blame me!';
+      blameTd.textContent = this._getBlameForBaseLine(leftLine.beforeNumber);
     }
     row.appendChild(blameTd);
 

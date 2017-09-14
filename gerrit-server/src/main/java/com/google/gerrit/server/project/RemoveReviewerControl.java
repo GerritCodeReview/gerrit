@@ -76,24 +76,22 @@ public class RemoveReviewerControl {
   private boolean canRemoveReviewerWithoutPermissionCheck(
       ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
       throws NoSuchChangeException {
-    ChangeControl changeControl = changeControlFactory.controlFor(notes, currentUser);
-    if (!changeControl.getChange().getStatus().isOpen()) {
+    if (!notes.getChange().getStatus().isOpen()) {
       return false;
     }
-    // A user can always remove themselves.
-    if (changeControl.getUser().isIdentifiedUser()) {
-      if (changeControl.getUser().getAccountId().equals(reviewer)) {
-        return true; // can remove self
+
+    if (currentUser.isIdentifiedUser()) {
+      Account.Id aId = currentUser.getAccountId();
+      if (aId.equals(reviewer)) {
+        return true; // A user can always remove themselves.
+      } else if (aId.equals(notes.getChange().getOwner()) && 0 <= value) {
+        return true; // The change owner may remove any zero or positive score.
       }
     }
-    // The change owner may remove any zero or positive score.
-    if (currentUser.isIdentifiedUser()
-        && currentUser.getAccountId().equals(notes.getChange().getOwner())
-        && 0 <= value) {
-      return true;
-    }
+
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
+    ChangeControl changeControl = changeControlFactory.controlFor(notes, currentUser);
     if (changeControl.getRefControl().isOwner() // branch owner
         || changeControl.getProjectControl().isOwner() // project owner
         || changeControl.getProjectControl().isAdmin()) { // project admin

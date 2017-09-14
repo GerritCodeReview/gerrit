@@ -1859,5 +1859,12 @@
             opt_params, opt_options);
       });
     },
+
+    getBlame(changeNum, patchNum, path, opt_base) {
+      const encodedPath = encodeURIComponent(path);
+      return this._getChangeURLAndFetch(changeNum,
+          `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
+          undefined, opt_base ? '?base=t' : '');
+    },
   });
 })();

@@ -125,6 +125,8 @@
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
       },
+
+      _blame: Object,
     },
 
     behaviors: [
@@ -803,6 +805,12 @@
      */
     _computeContainerClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
+    },
+
+    _loadBlame() {
+      this.$.restAPI.getBlame(this._changeNum, this._patchRange.patchNum,
+          this._path, true)
+          .then(blame => { this._blame = blame; });
     },
   });
 })();

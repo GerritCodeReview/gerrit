@@ -120,7 +120,6 @@ public class ChangesCollection
     return changeResourceFactory.create(notes, user);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateChange post(TopLevelResource parent) throws RestApiException {
     return createChange;

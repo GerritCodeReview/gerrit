@@ -93,7 +93,6 @@ public class CachesCollection
     return views;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public PostCaches post(ConfigResource parent) throws RestApiException {
     return postCaches;

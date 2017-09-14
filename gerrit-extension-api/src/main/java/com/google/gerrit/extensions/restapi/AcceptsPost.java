@@ -31,5 +31,5 @@ public interface AcceptsPost<P extends RestResource> {
    *     determined from the input body.
    * @throws RestApiException the view cannot be constructed.
    */
-  <I> RestModifyView<P, I> post(P parent) throws RestApiException;
+  RestModifyView<P, ?> post(P parent) throws RestApiException;
 }

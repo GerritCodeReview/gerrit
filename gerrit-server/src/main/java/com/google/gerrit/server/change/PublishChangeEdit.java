@@ -65,7 +65,6 @@ public class PublishChangeEdit
     throw new NotImplementedException();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Publish post(ChangeResource parent) throws RestApiException {
     return publish;

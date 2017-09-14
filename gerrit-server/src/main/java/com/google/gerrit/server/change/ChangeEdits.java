@@ -117,7 +117,6 @@ public class ChangeEdits
     return createFactory.create(id.get());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Post post(ChangeResource parent) throws RestApiException {
     return post;

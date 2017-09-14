@@ -62,7 +62,6 @@ public class RebaseChangeEdit
     throw new NotImplementedException();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Rebase post(ChangeResource parent) throws RestApiException {
     return rebase;

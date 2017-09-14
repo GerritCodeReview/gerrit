@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1709ac7_2d3a5d32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 68
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T08:57:40Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "c68232cbdd18512d5374d15739a282a8737f2aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

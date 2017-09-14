@@ -33,7 +33,10 @@
       serverConfig: Object,
       shownFileCount: Number,
       diffPrefs: Object,
-      diffViewMode: String,
+      diffViewMode: {
+        type: String,
+        notify: true,
+      },
       /** @type {?} */
       patchRange: {
         type: Object,

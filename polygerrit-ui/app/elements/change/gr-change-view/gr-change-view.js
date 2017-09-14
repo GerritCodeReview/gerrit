@@ -264,6 +264,7 @@
      * @param {boolean=} opt_reset
      */
     _setDiffViewMode(opt_reset) {
+      debugger
       if (!opt_reset && this.viewState.diffViewMode) { return; }
 
       return this.$.restAPI.getPreferences().then( prefs => {

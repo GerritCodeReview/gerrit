@@ -96,7 +96,6 @@ import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -172,7 +171,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected OneOffRequestContext oneOffRequestContext;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected PatchSetUtil psUtil;
-  @Inject protected ChangeControl.GenericFactory changeControlFactory;
+  @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected SchemaFactory<ReviewDb> schemaFactory;
@@ -2326,11 +2325,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     int n = c.currentPatchSetId().get() + 1;
     RevCommit commit =
         repo.parseBody(repo.commit().message("message").add("file" + n, "contents " + n).create());
-    ChangeControl ctl = changeControlFactory.controlFor(db, c, user);
 
     PatchSetInserter inserter =
         patchSetFactory
-            .create(ctl.getNotes(), new PatchSet.Id(c.getId(), n), commit)
+            .create(changeNotesFactory.createChecked(db, c), new PatchSet.Id(c.getId(), n), commit)
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(false)
             .setValidate(false);

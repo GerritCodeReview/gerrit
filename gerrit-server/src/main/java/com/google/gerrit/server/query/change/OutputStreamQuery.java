@@ -34,7 +34,6 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
@@ -297,8 +296,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      ChangeControl cc = d.changeControl().forUser(user);
-      if (current != null && cc.isPatchVisible(current, d.db())) {
+      if (current != null && d.changeControl().forUser(user).isPatchVisible(current, d.db())) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 

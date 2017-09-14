@@ -16,6 +16,7 @@
 
   const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
   const ERR_INVALID_LINE = 'Invalid line number: ';
+  const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -125,6 +126,17 @@
       },
 
       _showWarning: Boolean,
+
+      /** @type {?Object} */
+      _blame: {
+        type: Object,
+        value: null,
+      },
+      isBlameLoaded: {
+        type: Boolean,
+        notify: true,
+        computed: '_computeIsBlameLoaded(_blame)',
+      },
     },
 
     behaviors: [
@@ -154,6 +166,7 @@
     /** @return {!Promise} */
     reload() {
       this.$.diffBuilder.cancel();
+      this.clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
       this._clearDiffContent();
@@ -189,6 +202,39 @@
 
     toggleLeftDiff() {
       this.toggleClass('no-left');
+    },
+
+    /**
+     * Load and display blame information for the base of the diff.
+     * @return {Promise} A promise that resolves when blame finishes rendering.
+     */
+    loadBlame() {
+      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+          this.path, true)
+          .then(blame => {
+            if (!blame.length) {
+              this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+              return;
+            }
+
+            this._blame = blame;
+
+            this.$.diffBuilder.setBlame(blame);
+            this.classList.add('showBlame');
+          });
+    },
+
+    _computeIsBlameLoaded(blame) {
+      return !!blame;
+    },
+
+    /**
+     * Unload blame information for the diff.
+     */
+    clearBlame() {
+      this._blame = null;
+      this.$.diffBuilder.setBlame(null);
+      this.classList.remove('showBlame');
     },
 
     /** @return {boolean}} */
@@ -500,6 +546,8 @@
     _prefsChanged(prefs) {
       if (!prefs) { return; }
 
+      this.clearBlame();
+
       const stylesToUpdate = {};
 
       if (prefs.line_wrapping) {
@@ -589,7 +637,7 @@
       const isB = this._diff.meta_b &&
           this._diff.meta_b.content_type.startsWith('image/');
 
-      return this._diff.binary && (isA || isB);
+      return !!(this._diff.binary && (isA || isB));
     },
 
     /** @return {!Promise} */

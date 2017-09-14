@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4eb247fe_16ccdaea",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-14T17:56:06Z",
+      "side": 1,
+      "message": "That\u0027s not supported, see",
+      "parentUuid": "32e4cc75_74afe2e8",
+      "range": {
+        "startLine": 221,
+        "startChar": 33,
+        "endLine": 221,
+        "endChar": 46
+      },
+      "revId": "62e857a8b2a1ab27dcca075de07b747759c799b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d38a004_d6e77f27",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 30

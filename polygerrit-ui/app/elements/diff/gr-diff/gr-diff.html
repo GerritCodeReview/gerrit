@@ -212,6 +212,32 @@ limitations under the License.
       #sizeWarning.warn {
         display: block;
       }
+      .target-row td.blame {
+        background: #eee;
+      }
+      td.blame {
+        display: none;
+        font-family: var(--font-family);
+        font-size: var(--font-size, 12px);
+        padding: 0 .5em;
+        white-space: pre;
+      }
+      :host(.showBlame) td.blame {
+        display: table-cell;
+      }
+      td.blame > span {
+        opacity: 0.6;
+      }
+      td.blame > span.startOfRange {
+        opacity: 1;
+      }
+      td.blame .sha {
+        font-family: var(--monospace-font-family);
+      }
+      .full-width td.blame {
+        overflow: hidden;
+        width: 200px;
+      }
     </style>
     <style include="gr-theme-default"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">

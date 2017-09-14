@@ -45,8 +45,12 @@
     const width = fontSize * 4;
     const colgroup = document.createElement('colgroup');
 
+    // Add the blame column.
+    let col = this._createElement('col', 'blame');
+    colgroup.appendChild(col);
+
     // Add left-side line number.
-    let col = document.createElement('col');
+    col = document.createElement('col');
     col.setAttribute('width', width);
     colgroup.appendChild(col);
 
@@ -63,6 +67,8 @@
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     const row = this._createElement('tr', line.type);
+    row.appendChild(this._createBlameCell(line));
+
     let lineEl = this._createLineEl(line, line.beforeNumber,
         GrDiffLine.Type.REMOVE);
     lineEl.classList.add('left');

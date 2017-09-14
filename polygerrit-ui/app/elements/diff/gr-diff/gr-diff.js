@@ -125,6 +125,11 @@
       },
 
       _showWarning: Boolean,
+
+      blame: {
+        type: Object,
+        observer: '_blameChanged',
+      },
     },
 
     behaviors: [
@@ -668,6 +673,10 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    _blameChanged(blame) {
+      this.$.diffBuilder.setBlame(blame);
     },
   });
 })();

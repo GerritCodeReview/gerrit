@@ -394,6 +394,10 @@
       this._openReplyDialog();
     },
 
+    _handleDownloadTap(e) {
+      e.preventDefault();
+    },
+
     _handleOpenDiffPrefs() {
       this.$.fileList.openDiffPrefs();
     },

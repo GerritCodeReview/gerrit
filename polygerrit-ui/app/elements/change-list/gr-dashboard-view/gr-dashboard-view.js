@@ -14,25 +14,39 @@
 (function() {
   'use strict';
 
+  // NOTE: These queries are tested in Java. Any changes made to definitions
+  // here require corresponding changes to:
+  // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
   const DEFAULT_SECTIONS = [
     {
+      // WIP open changes owned by viewing user. This section is omitted when
+      // viewing other users, so we don't need to filter anything out.
       name: 'Work in progress',
       query: 'is:open owner:${user} is:wip',
       selfOnly: true,
     },
     {
+      // Non-WIP open changes owned by viewed user. Filter out changes ignored
+      // by the viewing user.
       name: 'Outgoing reviews',
-      query: 'is:open owner:${user} -is:wip',
+      query: 'is:open owner:${user} -is:wip -is:ignored',
     },
     {
+      // Non-WIP open changes not owned by the viewed user, that the viewed user
+      // is associated with (as either a reviewer or the assignee). Changes
+      // ignored by the viewing user are filtered out.
       name: 'Incoming reviews',
-      query: 'is:open ((reviewer:${user} -owner:${user} -is:ignored) OR ' +
-          'assignee:${user}) -is:wip',
+      query: 'is:open -owner:${user} -is:wip -is:ignored ' +
+          '(reviewer:${user} OR assignee:${user})',
     },
     {
       name: 'Recently closed',
-      query: 'is:closed (owner:${user} OR reviewer:${user} OR ' +
-          'assignee:${user})',
+      // Closed changes where viewed user is owner, reviewer, or assignee.
+      // Changes ignored by the viewing user are filtered out, and so are WIP
+      // changes not owned by the viewing user (the one instance of
+      // 'owner:self' is intentional and implements this logic).
+      query: 'is:closed -is:ignored (-is:wip OR owner:self) ' +
+          '(owner:${user} OR reviewer:${user} OR assignee:${user})',
       suffixForDashboard: '-age:4w limit:10',
     },
   ];

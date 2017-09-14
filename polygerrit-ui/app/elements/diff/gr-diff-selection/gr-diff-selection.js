@@ -22,6 +22,7 @@
     COMMENT: 'selected-comment',
     LEFT: 'selected-left',
     RIGHT: 'selected-right',
+    BLAME: 'selected-blame',
   };
 
   const getNewCache = () => { return {left: null, right: null}; };
@@ -66,20 +67,36 @@
 
     _handleDown(e) {
       const lineEl = this.diffBuilder.getLineElByChild(e.target);
-      if (!lineEl) {
-        return;
-      }
-      const commentSelected =
-          this._elementDescendedFromClass(e.target, 'gr-diff-comment');
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
-      const targetClasses = [];
-      targetClasses.push(side === 'left' ?
-          SelectionClass.LEFT :
-          SelectionClass.RIGHT);
+      const blameSelected = this._elementDescendedFromClass(e.target, 'blame');
+      if (!lineEl && !blameSelected) { return; }
 
-      if (commentSelected) {
-        targetClasses.push(SelectionClass.COMMENT);
+      const targetClasses = [];
+
+      if (blameSelected) {
+        targetClasses.push(SelectionClass.BLAME);
+      } else {
+        const commentSelected =
+            this._elementDescendedFromClass(e.target, 'gr-diff-comment');
+        const side = this.diffBuilder.getSideByLineEl(lineEl);
+
+        targetClasses.push(side === 'left' ?
+            SelectionClass.LEFT :
+            SelectionClass.RIGHT);
+
+        if (commentSelected) {
+          targetClasses.push(SelectionClass.COMMENT);
+        }
       }
+
+      this._setClasses(targetClasses);
+    },
+
+    /**
+     * Set the provided list of classes on the element, to the exclusion of all
+     * other SelectionClass values.
+     * @param {!Array<!string>} targetClasses
+     */
+    _setClasses(targetClasses) {
       // Remove any selection classes that do not belong.
       for (const key in SelectionClass) {
         if (SelectionClass.hasOwnProperty(key)) {

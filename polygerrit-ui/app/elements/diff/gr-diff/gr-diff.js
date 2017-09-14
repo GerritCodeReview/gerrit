@@ -125,6 +125,16 @@
       },
 
       _showWarning: Boolean,
+
+      _blame: {
+        type: Object,
+        value: null,
+      },
+      isBlameLoaded: {
+        type: Boolean,
+        notify: true,
+        computed: '_computeIsBlameLoaded(_blame)',
+      },
     },
 
     behaviors: [
@@ -154,6 +164,7 @@
     /** @return {!Promise} */
     reload() {
       this.$.diffBuilder.cancel();
+      this._clearBlame();
       this._safetyBypass = null;
       this._showWarning = false;
       this._clearDiffContent();
@@ -589,7 +600,7 @@
       const isB = this._diff.meta_b &&
           this._diff.meta_b.content_type.startsWith('image/');
 
-      return this._diff.binary && (isA || isB);
+      return !!(this._diff.binary && (isA || isB));
     },
 
     /** @return {!Promise} */
@@ -668,6 +679,27 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    loadBlame() {
+      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+          this.path, true)
+          .then(blame => {
+            this._blame = blame;
+
+            this.$.diffBuilder.setBlame(blame);
+            this.classList.add('showBlame');
+          });
+    },
+
+    _computeIsBlameLoaded(blame) {
+      return !!blame;
+    },
+
+    _clearBlame() {
+      this._blame = null;
+      this.$.diffBuilder.setBlame(null);
+      this.classList.remove('showBlame');
     },
   });
 })();

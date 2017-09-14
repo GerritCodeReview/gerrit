@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.project.DashboardsCollection;
 import org.eclipse.jgit.junit.TestRepository;
@@ -51,8 +52,8 @@ public class DashboardIT extends AbstractDaemonTest {
   @Test
   public void cannotGetDashboardWithInheritedForNonDefault() throws Exception {
     String id = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("inherited");
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("inherited flag can only be used with default");
     gApi.projects().name(project.get()).dashboard(id).get(true);
   }
 

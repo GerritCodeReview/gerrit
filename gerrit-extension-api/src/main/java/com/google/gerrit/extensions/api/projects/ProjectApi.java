@@ -136,6 +136,14 @@ public interface ProjectApi {
   CommitApi commit(String commit) throws RestApiException;
 
   /**
+   * Lookup a dashboard by its name.
+   *
+   * @param name the name.
+   * @return API for accessing the dashboard.
+   */
+  DashboardApi dashboard(String name) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -237,6 +245,11 @@ public interface ProjectApi {
 
     @Override
     public CommitApi commit(String commit) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DashboardApi dashboard(String name) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3739b986_1cdab5cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T22:03:50Z",
+      "side": 0,
+      "message": "Right, we keep this REST endpoints for deleting regular changes, but we removing all test for that?",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "940005ca70eda08bfd77ba98831b5b3efcdb4557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c710d56c_f7228ba8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 12

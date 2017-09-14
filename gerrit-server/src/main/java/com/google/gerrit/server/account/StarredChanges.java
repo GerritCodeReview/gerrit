@@ -97,7 +97,6 @@ public class StarredChanges
     };
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
       throws UnprocessableEntityException {

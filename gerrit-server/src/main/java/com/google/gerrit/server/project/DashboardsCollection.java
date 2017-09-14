@@ -82,7 +82,6 @@ class DashboardsCollection
     return list.get();
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {

@@ -98,7 +98,6 @@ public class BranchesCollection
     return views;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateBranch create(ProjectResource parent, IdString name) {
     return createBranchFactory.create(name.get());

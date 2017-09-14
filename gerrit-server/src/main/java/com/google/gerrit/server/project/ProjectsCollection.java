@@ -142,7 +142,6 @@ public class ProjectsCollection
     return views;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateProject create(TopLevelResource parent, IdString name) {
     return createProjectFactory.create(name.get());

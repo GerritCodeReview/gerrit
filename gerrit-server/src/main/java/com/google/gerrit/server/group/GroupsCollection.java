@@ -188,7 +188,6 @@ public class GroupsCollection
     return null;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateGroup create(TopLevelResource root, IdString name) {
     return createGroup.create(name.get());

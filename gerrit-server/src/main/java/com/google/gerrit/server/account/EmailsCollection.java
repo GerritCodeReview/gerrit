@@ -85,7 +85,6 @@ public class EmailsCollection
     return views;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateEmail create(AccountResource parent, IdString email) {
     return createEmailFactory.create(email.get());

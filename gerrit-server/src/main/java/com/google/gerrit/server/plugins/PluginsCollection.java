@@ -66,7 +66,6 @@ public class PluginsCollection
     return new PluginResource(p);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public InstallPlugin create(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException, MethodNotAllowedException {

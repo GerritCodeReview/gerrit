@@ -112,7 +112,6 @@ public class ChangeEdits
     return new ChangeEditResource(rsrc, edit.get(), id.get());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Create create(ChangeResource parent, IdString id) throws RestApiException {
     return createFactory.create(id.get());

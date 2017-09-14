@@ -162,7 +162,6 @@ public class AccountsCollection
     return views;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public CreateAccount create(TopLevelResource parent, IdString username) {
     return createAccountFactory.create(username.get());

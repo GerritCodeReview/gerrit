@@ -92,7 +92,6 @@ public class MembersCollection
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public PutMember create(GroupResource group, IdString id) {
     return new PutMember(put, id.get());

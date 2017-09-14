@@ -87,7 +87,6 @@ public class SubgroupsCollection
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public PutSubgroup create(GroupResource group, IdString id) {
     return new PutSubgroup(addSubgroups, id.get());

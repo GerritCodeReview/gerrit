@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf23bfce_4a156ad6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-14T22:09:58Z",
+      "side": 0,
+      "message": "See line 154 of the tests \"test(\u0027delete buttons have explicit labels\u0027, done \u003d\u003e {\"\n\nI\u0027ve updated it for regular draft changes.",
+      "parentUuid": "3739b986_1cdab5cf",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "940005ca70eda08bfd77ba98831b5b3efcdb4557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c710d56c_f7228ba8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "abc53d6c_798fd12f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-14T22:09:58Z",
+      "side": 0,
+      "message": "Ah right, i moved it down, but was confused why it was doing it twice here so i thought it was for the drafts.",
+      "parentUuid": "c710d56c_f7228ba8",
+      "revId": "940005ca70eda08bfd77ba98831b5b3efcdb4557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea278a84_6f6f289a",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 12
@@ -53,6 +95,30 @@
       "writtenOn": "2017-09-14T22:00:46Z",
       "side": 0,
       "message": "May be rather keep draft comment specific predicats?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "940005ca70eda08bfd77ba98831b5b3efcdb4557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "332d907a_bed0eb6b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-14T22:09:58Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "ea278a84_6f6f289a",
       "range": {
         "startLine": 38,
         "startChar": 4,

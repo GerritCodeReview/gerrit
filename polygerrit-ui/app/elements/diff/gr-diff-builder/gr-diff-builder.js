@@ -627,28 +627,54 @@
   };
 
   GrDiffBuilder.prototype.setBlame = function(blame) {
-    console.log('set blame to', blame);
     this._blameInfo = blame;
-  };
 
-  GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum) {
-    if (!this._blameInfo) { return 'carrots' + lineNum; }
-
-    let commit = null;
-    for (let blameCommit of this._blameInfo) {
-      for (let range of blameCommit.ranges) {
-        if (range.start <= lineNum && range.end >= lineNum) {
-          commit = blameCommit;
-          break;
+    for (let commit of blame) {
+      for (let range of commit.ranges) {
+        for (var i = range.start; i <= range.end; i++) {
+          let el = this._getBlameByLineNum(i);
+          if (el) {
+            el.innerHTML = '';
+            const blame = this._getBlameForBaseLine(i);
+            el.appendChild(blame);
+          }
         }
       }
     }
+  };
 
-    if (commit) {
-      return commit.id;
+  GrDiffBuilder.prototype._getBlameByLineNum = function(lineNum) {
+    const root = Polymer.dom(this._outputEl);
+    return root.querySelector(`td.blame[data-line-number="${lineNum}"]`);
+  };
+
+  GrDiffBuilder.prototype._getBlameCommitForBaseLine = function(lineNum) {
+    if (!this._blameInfo) { return null; }
+
+    for (let blameCommit of this._blameInfo) {
+      for (let range of blameCommit.ranges) {
+        if (range.start <= lineNum && range.end >= lineNum) {
+          return blameCommit;
+        }
+      }
     }
+    return null;
+  };
 
-    return '';
+  GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum) {
+    const commit = this._getBlameCommitForBaseLine(lineNum);
+    if (!commit) { return null; }
+
+    const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
+
+    const date = (new Date(commit.time * 1000)).toLocaleDateString();
+    const blameNode = this._createElement('span',
+        isStartOfRange ? 'startOfRange' : '');
+    const shaNode = this._createElement('span', 'sha');
+    shaNode.innerText = commit.id.substr(0, 7);
+    blameNode.appendChild(shaNode);
+    blameNode.append(` on ${date} by ${commit.author}`);
+    return blameNode;
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

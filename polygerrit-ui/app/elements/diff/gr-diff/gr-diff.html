@@ -212,11 +212,28 @@ limitations under the License.
       #sizeWarning.warn {
         display: block;
       }
+      .target-row td.blame {
+        background: #BBDEFB;
+      }
       td.blame {
         white-space: pre;
         padding: 0 .5em;
         font-family: var(--font-family);
         font-size: var(--font-size, 12px);
+      }
+      td.blame > span {
+        opacity: 0.6;
+      }
+      td.blame > span.startOfRange {
+        opacity: 1;
+      }
+      td.blame .sha {
+        font-family: var(--monospace-font-family);
+      }
+
+      .full-width td.blame {
+        overflow: hidden;
+        width: 200px;
       }
     </style>
     <style include="gr-theme-default"></style>

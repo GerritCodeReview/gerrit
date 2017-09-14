@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c710d56c_f7228ba8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T22:02:37Z",
+      "side": 0,
+      "message": "Note, that admins can still remove regular change, so I\u0027m not sure, if we want keep here or at some different place a test for that. of course it shouldn\u0027t have word draft in its name.",
+      "revId": "940005ca70eda08bfd77ba98831b5b3efcdb4557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea278a84_6f6f289a",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 12

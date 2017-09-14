@@ -31,6 +31,9 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A set of members that can be modified as plugins reload.
  *
@@ -39,6 +42,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
+  private static final Logger log = LoggerFactory.getLogger(DynamicSet.class);
+
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    *
@@ -156,7 +161,7 @@ public class DynamicSet<T> implements Iterable<T> {
             try {
               next = p.get();
             } catch (RuntimeException e) {
-              // TODO Log failed member of DynamicSet.
+              log.error("Failed to get member of dynamic set", e);
             }
           }
         }

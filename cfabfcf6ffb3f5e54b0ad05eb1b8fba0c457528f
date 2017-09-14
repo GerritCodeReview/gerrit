@@ -47,6 +47,30 @@
       "revId": "cfabfcf6ffb3f5e54b0ad05eb1b8fba0c457528f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c9d0446_ef9098b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T12:28:44Z",
+      "side": 1,
+      "message": "Thanks for clarifying.",
+      "parentUuid": "6b981f38_bea620a9",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 53
+      },
+      "revId": "cfabfcf6ffb3f5e54b0ad05eb1b8fba0c457528f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

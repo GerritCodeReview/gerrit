@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "56d33ab2_be00508a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T06:55:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6a6beacd_80ff39f3",
+      "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf23bf13_f8967770",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 67
@@ -101,6 +119,24 @@
       "writtenOn": "2017-09-13T15:33:22Z",
       "side": 0,
       "message": "Maybe convert to assertParseFails instead of removing entirely?",
+      "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "834100f8_61c424a0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T06:55:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e7bc3c1f_020357f8",
       "revId": "d3448ef2be2e519c6d7dc7d465dce13691cf6049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

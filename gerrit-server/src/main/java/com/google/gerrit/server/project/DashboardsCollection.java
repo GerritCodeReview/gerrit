@@ -16,11 +16,12 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -30,7 +31,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -193,7 +192,7 @@ class DashboardsCollection
       u.put("foreach", replace(project, info.foreach));
     }
     for (String name : config.getSubsections("section")) {
-      Section s = new Section();
+      DashboardSectionInfo s = new DashboardSectionInfo();
       s.name = name;
       s.query = config.getString("section", name, "query");
       u.put(s.name, replace(project, s.query));
@@ -216,32 +215,5 @@ class DashboardsCollection
       return defaultId.substring(REFS_DASHBOARDS.length());
     }
     return defaultId;
-  }
-
-  static class DashboardInfo {
-    String id;
-    String project;
-    String definingProject;
-    String ref;
-    String path;
-    String description;
-    String foreach;
-    String url;
-
-    Boolean isDefault;
-
-    String title;
-    List<Section> sections = new ArrayList<>();
-
-    DashboardInfo(String ref, String name) {
-      this.ref = ref;
-      this.path = name;
-      this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
-    }
-  }
-
-  static class Section {
-    String name;
-    String query;
   }
 }

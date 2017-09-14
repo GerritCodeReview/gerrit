@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a253bdea_ca0e044d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-14T00:59:32Z",
+      "side": 1,
+      "message": "identifiedUserFactory.create returns an instance of IdentifiedUser; should we change users of this (below) to take IdentifiedUser rather than CurrentUser?",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 15
+      },
+      "revId": "1fd4b638c8524ef17a432b759e4276887c9eaaf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "432432a4_43bec751",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-14T00:59:32Z",
+      "side": 1,
+      "message": "Just `notes`?\n\nWhat if notes was set null by a call to setNotes?  Should there be a null check here, or should the argument to setNotes be annotated as @NonNull?",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 21
+      },
+      "revId": "1fd4b638c8524ef17a432b759e4276887c9eaaf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

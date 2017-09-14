@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3937265_d90d5e24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-14T07:56:41Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is there a reason not to check for null ctl like in ReviewDbBatchUpdate?",
+      "revId": "01415a349d0f009152e6e0a534b73843b6ff7b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

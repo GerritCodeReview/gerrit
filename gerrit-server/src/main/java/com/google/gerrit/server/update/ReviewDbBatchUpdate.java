@@ -209,9 +209,9 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     @Override
-    public ChangeControl getControl() {
+    public ChangeNotes getNotes() {
       checkNotNull(ctl);
-      return ctl;
+      return ctl.getNotes();
     }
 
     @Override

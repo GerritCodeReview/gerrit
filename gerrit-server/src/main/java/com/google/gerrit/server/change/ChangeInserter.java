@@ -56,8 +56,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -137,6 +137,7 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
   private String pushCert;
+  private ProjectState projectState;
 
   @Inject
   ChangeInserter(
@@ -369,6 +370,7 @@ public class ChangeInserter implements InsertChangeOp {
   @Override
   public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
+    projectState = projectCache.checkedGet(ctx.getProject());
     validate(ctx);
     if (!updateRef) {
       return;
@@ -381,7 +383,6 @@ public class ChangeInserter implements InsertChangeOp {
       throws RestApiException, OrmException, IOException, PermissionBackendException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
-    ChangeControl ctl = ctx.getControl();
     patchSetInfo =
         patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
     ctx.getChange().setCurrentPatchSet(patchSetInfo);
@@ -433,7 +434,7 @@ public class ChangeInserter implements InsertChangeOp {
       reviewersToAdd.addAll(extraCC);
     }
 
-    LabelTypes labelTypes = ctl.getProjectControl().getProjectState().getLabelTypes();
+    LabelTypes labelTypes = projectState.getLabelTypes();
     approvalsUtil.addReviewers(
         db,
         update,
@@ -534,10 +535,7 @@ public class ChangeInserter implements InsertChangeOp {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         List<LabelType> labels =
-            projectCache
-                .checkedGet(ctx.getProject())
-                .getLabelTypes(change.getDest(), ctx.getUser())
-                .getLabelTypes();
+            projectState.getLabelTypes(change.getDest(), ctx.getUser()).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {
@@ -567,7 +565,7 @@ public class ChangeInserter implements InsertChangeOp {
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,
-              projectCache.checkedGet(ctx.getProject()).getProject(),
+              projectState.getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

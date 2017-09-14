@@ -139,7 +139,9 @@ public class DeleteDraftPatchSet
       if (!allowDrafts) {
         throw new MethodNotAllowedException("Draft workflow is disabled");
       }
-      if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
+      if (!changeControlFactory
+          .controlFor(ctx.getNotes(), ctx.getUser())
+          .canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
       }
 

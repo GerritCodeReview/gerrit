@@ -193,7 +193,7 @@ public class PublishDraftPatchSet
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws RestApiException, OrmException, IOException {
-      if (!ctx.getControl().canPublish(ctx.getDb())) {
+      if (!changeControlFactory.controlFor(ctx.getNotes(), ctx.getUser()).canPublish(ctx.getDb())) {
         throw new AuthException("Cannot publish this draft patch set");
       }
       if (patchSet == null) {

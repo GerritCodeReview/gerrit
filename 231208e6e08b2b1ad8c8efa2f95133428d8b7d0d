@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8300525_ef9f1c62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T22:40:21Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "231208e6e08b2b1ad8c8efa2f95133428d8b7d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9c238a0_a5bf57f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeReportFormatter.java",
+        "patchSetId": 72
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-14T22:40:21Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "231208e6e08b2b1ad8c8efa2f95133428d8b7d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

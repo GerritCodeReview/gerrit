@@ -33,7 +33,7 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
-class GetDashboard implements RestReadView<DashboardResource> {
+public class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
@@ -42,6 +42,11 @@ class GetDashboard implements RestReadView<DashboardResource> {
   @Inject
   GetDashboard(DashboardsCollection dashboards) {
     this.dashboards = dashboards;
+  }
+
+  public GetDashboard setInherited(boolean inherited) {
+    this.inherited = inherited;
+    return this;
   }
 
   @Override

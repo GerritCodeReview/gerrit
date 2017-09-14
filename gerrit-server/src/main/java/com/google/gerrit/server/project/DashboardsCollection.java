@@ -54,7 +54,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-class DashboardsCollection
+public class DashboardsCollection
     implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
   private static final String DEFAULT_DASHBOARD_NAME = "default";
 

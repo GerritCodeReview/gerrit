@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
@@ -96,6 +97,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final DeleteTags deleteTags;
   private final CommitsCollection commitsCollection;
   private final CommitApiImpl.Factory commitApi;
+  private final DashboardApiImpl.Factory dashboardApi;
 
   @AssistedInject
   ProjectApiImpl(
@@ -122,6 +124,7 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      DashboardApiImpl.Factory dashboardApi,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -148,6 +151,7 @@ public class ProjectApiImpl implements ProjectApi {
         project,
         commitsCollection,
         commitApi,
+        dashboardApi,
         null);
   }
 
@@ -176,6 +180,7 @@ public class ProjectApiImpl implements ProjectApi {
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      DashboardApiImpl.Factory dashboardApi,
       @Assisted String name) {
     this(
         user,
@@ -202,6 +207,7 @@ public class ProjectApiImpl implements ProjectApi {
         null,
         commitsCollection,
         commitApi,
+        dashboardApi,
         name);
   }
 
@@ -230,6 +236,7 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectResource project,
       CommitsCollection commitsCollection,
       CommitApiImpl.Factory commitApi,
+      DashboardApiImpl.Factory dashboardApi,
       String name) {
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -256,6 +263,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.commitsCollection = commitsCollection;
     this.commitApi = commitApi;
     this.createAccessChange = createAccessChange;
+    this.dashboardApi = dashboardApi;
   }
 
   @Override
@@ -444,6 +452,15 @@ public class ProjectApiImpl implements ProjectApi {
       return commitApi.create(commitsCollection.parse(checkExists(), IdString.fromDecoded(commit)));
     } catch (Exception e) {
       throw asRestApiException("Cannot parse commit", e);
+    }
+  }
+
+  @Override
+  public DashboardApi dashboard(String name) throws RestApiException {
+    try {
+      return dashboardApi.create(checkExists(), name);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse dashboard", e);
     }
   }
 

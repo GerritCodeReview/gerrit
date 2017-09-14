@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -139,20 +140,18 @@ public class GetDiff implements RestReadView<FileResource> {
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
-    ChangeControl ctl =
-        changeControlFactory.controlFor(
-            resource.getRevision().getNotes(), resource.getRevision().getUser());
     PatchSet.Id pId = resource.getPatchKey().getParentKey();
     String fileName = resource.getPatchKey().getFileName();
+    ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
       RevisionResource baseResource =
           revisions.parse(resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
-      psf = patchScriptFactoryFactory.create(ctl, fileName, basePatchSet.getId(), pId, prefs);
+      psf = patchScriptFactoryFactory.create(notes, fileName, basePatchSet.getId(), pId, prefs);
     } else if (parentNum > 0) {
-      psf = patchScriptFactoryFactory.create(ctl, fileName, parentNum - 1, pId, prefs);
+      psf = patchScriptFactoryFactory.create(notes, fileName, parentNum - 1, pId, prefs);
     } else {
-      psf = patchScriptFactoryFactory.create(ctl, fileName, null, pId, prefs);
+      psf = patchScriptFactoryFactory.create(notes, fileName, null, pId, prefs);
     }
 
     try {

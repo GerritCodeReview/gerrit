@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -61,14 +60,14 @@ import org.slf4j.LoggerFactory;
 public class PatchScriptFactory implements Callable<PatchScript> {
   public interface Factory {
     PatchScriptFactory create(
-        ChangeControl control,
+        ChangeNotes notes,
         String fileName,
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs);
 
     PatchScriptFactory create(
-        ChangeControl control,
+        ChangeNotes notes,
         String fileName,
         int parentNum,
         PatchSet.Id patchSetB,
@@ -90,15 +89,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;
   private final ChangeEditUtil editReader;
+  private final Provider<CurrentUser> userProvider;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
   private boolean loadHistory = true;
   private boolean loadComments = true;
 
-  private Change change;
-  private Project.NameKey project;
-  private ChangeControl control;
+  private ChangeNotes notes;
   private ObjectId aId;
   private ObjectId bId;
   private List<Patch> history;
@@ -113,7 +112,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ReviewDb db,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
-      @Assisted ChangeControl control,
+      Provider<CurrentUser> userProvider,
+      ChangeControl.GenericFactory changeControlFactory,
+      @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
       @Assisted("patchSetB") PatchSet.Id patchSetB,
@@ -123,9 +124,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.db = db;
-    this.control = control;
+    this.notes = notes;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
+    this.userProvider = userProvider;
+    this.changeControlFactory = changeControlFactory;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -145,7 +148,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ReviewDb db,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
-      @Assisted ChangeControl control,
+      Provider<CurrentUser> userProvider,
+      ChangeControl.GenericFactory changeControlFactory,
+      @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
       @Assisted PatchSet.Id patchSetB,
@@ -155,9 +160,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.db = db;
-    this.control = control;
+    this.notes = notes;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
+    this.userProvider = userProvider;
+    this.changeControlFactory = changeControlFactory;
 
     this.fileName = fileName;
     this.psa = null;
@@ -186,19 +193,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
     validatePatchSetId(psb);
 
-    change = control.getChange();
-    project = change.getProject();
+    PatchSet psEntityA = psa != null ? psUtil.get(db, notes, psa) : null;
+    PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, notes, psb);
 
-    PatchSet psEntityA = psa != null ? psUtil.get(db, control.getNotes(), psa) : null;
-    PatchSet psEntityB =
-        psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, control.getNotes(), psb);
-
-    if ((psEntityA != null && !control.isPatchVisible(psEntityA, db))
-        || (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
+    ChangeControl ctl = changeControlFactory.controlFor(notes, userProvider.get());
+    if ((psEntityA != null && !ctl.isPatchVisible(psEntityA, db))
+        || (psEntityB != null && !ctl.isPatchVisible(psEntityB, db))) {
       throw new NoSuchChangeException(changeId);
     }
 
-    try (Repository git = repoManager.openRepository(project)) {
+    try (Repository git = repoManager.openRepository(notes.getProjectName())) {
       bId = toObjectId(psEntityB);
       if (parentNum < 0) {
         aId = psEntityA != null ? toObjectId(psEntityA) : null;
@@ -210,10 +214,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         final PatchListEntry content = list.get(fileName);
 
         loadCommentsAndHistory(
-            control.getNotes(),
-            content.getChangeType(),
-            content.getOldName(),
-            content.getNewName());
+            ctl, content.getChangeType(), content.getOldName(), content.getNewName());
 
         return b.toPatchScript(content, comments, history);
       } catch (PatchListNotAvailableException e) {
@@ -225,10 +226,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         throw new LargeObjectException("File content is too large", err);
       }
     } catch (RepositoryNotFoundException e) {
-      log.error("Repository " + project + " not found", e);
+      log.error("Repository " + notes.getProjectName() + " not found", e);
       throw new NoSuchChangeException(changeId, e);
     } catch (IOException e) {
-      log.error("Cannot open repository " + project, e);
+      log.error("Cannot open repository " + notes.getProjectName(), e);
       throw new NoSuchChangeException(changeId, e);
     }
   }
@@ -241,13 +242,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchList listFor(PatchListKey key) throws PatchListNotAvailableException {
-    return patchListCache.get(key, project);
+    return patchListCache.get(key, notes.getProjectName());
   }
 
   private PatchScriptBuilder newBuilder(PatchList list, Repository git) {
     final PatchScriptBuilder b = builderFactory.get();
-    b.setRepository(git, project);
-    b.setChange(change);
+    b.setRepository(git, notes.getProjectName());
+    b.setChange(notes.getChange());
     b.setDiffPrefs(diffPrefs);
     b.setTrees(list.getComparisonType(), list.getOldId(), list.getNewId());
     return b;
@@ -270,11 +271,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId getEditRev() throws AuthException, IOException, OrmException {
-    edit = editReader.byChange(control.getNotes());
+    edit = editReader.byChange(notes);
     if (edit.isPresent()) {
       return edit.get().getEditCommit();
     }
-    throw new NoSuchChangeException(change.getId());
+    throw new NoSuchChangeException(notes.getChangeId());
   }
 
   private void validatePatchSetId(PatchSet.Id psId) throws NoSuchChangeException {
@@ -286,7 +287,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private void loadCommentsAndHistory(
-      ChangeNotes notes, ChangeType changeType, String oldName, String newName)
+      ChangeControl ctl, ChangeType changeType, String oldName, String newName)
       throws OrmException {
     Map<Patch.Key, Patch> byKey = new HashMap<>();
 
@@ -298,7 +299,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       //
       history = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(db, notes)) {
-        if (!control.isPatchVisible(ps, db)) {
+        if (!ctl.isPatchVisible(ps, db)) {
           continue;
         }
         String name = fileName;
@@ -354,7 +355,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           break;
       }
 
-      CurrentUser user = control.getUser();
+      CurrentUser user = userProvider.get();
       if (user.isIdentifiedUser()) {
         Account.Id me = user.getAccountId();
         switch (changeType) {
@@ -383,10 +384,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private void loadPublished(Map<Patch.Key, Patch> byKey, String file) throws OrmException {
-    ChangeNotes notes = control.getNotes();
     for (Comment c : commentsUtil.publishedByChangeFile(db, notes, changeId, file)) {
-      comments.include(change.getId(), c);
-      PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
+      comments.include(notes.getChangeId(), c);
+      PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);
       Patch p = byKey.get(pKey);
       if (p != null) {
@@ -397,9 +397,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file)
       throws OrmException {
-    for (Comment c : commentsUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
-      comments.include(change.getId(), c);
-      PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
+    for (Comment c : commentsUtil.draftByChangeFileAuthor(db, notes, file, me)) {
+      comments.include(notes.getChangeId(), c);
+      PatchSet.Id psId = new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);
       Patch p = byKey.get(pKey);
       if (p != null) {

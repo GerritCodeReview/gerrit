@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
+import static com.google.gerrit.server.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -81,7 +82,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     if (Strings.isNullOrEmpty(id)) {
       id = ctl.getProject().getDefaultDashboard();
     }
-    if ("default".equals(id)) {
+    if (DEFAULT_DASHBOARD_NAME.equals(id)) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
       return parse(ctl, id);
@@ -91,7 +92,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
 
     for (ProjectState ps : ctl.getProjectState().tree()) {
       id = ps.getProject().getDefaultDashboard();
-      if ("default".equals(id)) {
+      if (DEFAULT_DASHBOARD_NAME.equals(id)) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
         ctl = ps.controlFor(ctl.getUser());

@@ -61,6 +61,8 @@ public class DashboardsCollection
   private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
   private final PermissionBackend permissionBackend;
 
+  public static final String DEFAULT_DASHBOARD_NAME = "default";
+
   @Inject
   DashboardsCollection(
       GitRepositoryManager gitManager,
@@ -84,7 +86,7 @@ public class DashboardsCollection
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {
-    if (id.toString().equals("default")) {
+    if (id.toString().equals(DEFAULT_DASHBOARD_NAME)) {
       return createDefault.get();
     }
     throw new ResourceNotFoundException(id);
@@ -95,7 +97,7 @@ public class DashboardsCollection
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
     ProjectControl myCtl = parent.getControl();
-    if (id.toString().equals("default")) {
+    if (id.toString().equals(DEFAULT_DASHBOARD_NAME)) {
       return DashboardResource.projectDefault(myCtl);
     }
 

@@ -16,6 +16,24 @@
       "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a790628_82076c1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-15T07:11:55Z",
+      "side": 0,
+      "message": "OK.  I didn\u0027t know it was possible to combine the @Option annotation with a separate setter method.  I\u0027ll rework this.\n\nAnd there are a couple of other places where the same improvement can be made in other classes.",
+      "parentUuid": "6ef504c2_ce99add8",
+      "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

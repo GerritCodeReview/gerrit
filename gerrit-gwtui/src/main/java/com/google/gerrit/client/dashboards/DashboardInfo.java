@@ -35,7 +35,7 @@ public class DashboardInfo extends JavaScriptObject {
 
   public final native String url() /*-{ return this.url; }-*/;
 
-  public final native boolean isDefault() /*-{ return this['default'] ? true : false; }-*/;
+  public final native boolean isDefault() /*-{ return this.is_default ? true : false; }-*/;
 
   protected DashboardInfo() {}
 }

@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -229,7 +228,6 @@ class DashboardsCollection
     String foreach;
     String url;
 
-    @SerializedName("default")
     Boolean isDefault;
 
     String title;

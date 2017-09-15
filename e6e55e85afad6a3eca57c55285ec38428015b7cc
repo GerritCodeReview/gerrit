@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4293224f_55335d7b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3293,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T08:32:30Z",
+      "side": 1,
+      "message": "String.valueOf(char c). So this should be right?",
+      "parentUuid": "96703e59_63a22408",
+      "range": {
+        "startLine": 3293,
+        "startChar": 30,
+        "endLine": 3293,
+        "endChar": 49
+      },
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10640b4e_37495302",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "3969ca32_5f973796",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T08:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10640b4e_37495302",
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f41da8a2_56050acf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a869e0_75ebbe98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T08:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f41da8a2_56050acf",
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

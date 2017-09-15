@@ -38,8 +38,9 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -105,6 +106,8 @@ public class MergeSuperSet {
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ProjectCache projectCache;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -116,13 +119,17 @@ public class MergeSuperSet {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
       PermissionBackend permissionBackend,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      ChangeControl.GenericFactory changeControlFactory,
+      ProjectCache projectCache) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.permissionBackend = permissionBackend;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.changeControlFactory = changeControlFactory;
+    this.projectCache = projectCache;
     queryCache = new HashMap<>();
     heads = new HashMap<>();
   }
@@ -138,7 +145,6 @@ public class MergeSuperSet {
       throws IOException, OrmException, PermissionBackendException {
     try {
       ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
-      cd.changeControl(user);
       ChangeSet cs =
           new ChangeSet(
               cd, permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ));
@@ -154,7 +160,8 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible) throws OrmException {
+  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
+      throws OrmException, IOException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
     //
@@ -166,7 +173,7 @@ public class MergeSuperSet {
     // misleading (but still nonzero) count of the non visible changes that
     // would be submitted together with the visible ones.
     if (!visible) {
-      return cd.changeControl().getProject().getSubmitType();
+      return projectCache.checkedGet(cd.project()).getProject().getSubmitType();
     }
 
     SubmitTypeRecord str =
@@ -228,11 +235,6 @@ public class MergeSuperSet {
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        checkState(
-            cd.hasChangeControl(),
-            "completeChangeSet forgot to set changeControl for current user"
-                + " at ChangeData creation time");
-
         boolean visible = changes.ids().contains(cd.getId());
         if (visible && !canRead(db, user, cd)) {
           // We thought the change was visible, but it isn't.
@@ -247,8 +249,9 @@ public class MergeSuperSet {
         // patch set.
         PatchSet ps = cd.currentPatchSet();
         boolean visiblePatchSet = visible;
-        if (!cd.changeControl().isPatchVisible(ps, cd)) {
-          Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
+        ChangeControl ctl = changeControlFactory.controlFor(cd.notes(), user);
+        if (!ctl.isPatchVisible(ps, cd)) {
+          Iterable<PatchSet> visiblePatchSets = ctl.getVisiblePatchSets(cd.patchSets(), db);
           if (Iterables.isEmpty(visiblePatchSets)) {
             visiblePatchSet = false;
           } else {
@@ -281,7 +284,6 @@ public class MergeSuperSet {
 
       List<ChangeData> cds = byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes);
       for (ChangeData chd : cds) {
-        chd.changeControl(user);
         visibleChanges.add(chd);
       }
 
@@ -335,7 +337,6 @@ public class MergeSuperSet {
     Iterable<ChangeData> destChanges =
         query().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
     for (ChangeData chd : destChanges) {
-      chd.changeControl(user);
       result.add(chd);
     }
     queryCache.put(k, result);
@@ -371,19 +372,10 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        try {
-          topicCd.changeControl(user);
-          if (canRead(db, user, topicCd)) {
-            visibleChanges.add(topicCd);
-          } else {
-            nonVisibleChanges.add(topicCd);
-          }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            // Ignore and skip this change
-          } else {
-            throw e;
-          }
+        if (canRead(db, user, topicCd)) {
+          visibleChanges.add(topicCd);
+        } else {
+          nonVisibleChanges.add(topicCd);
         }
       }
       topicsSeen.add(topic);
@@ -396,7 +388,6 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        topicCd.changeControl(user);
         nonVisibleChanges.add(topicCd);
       }
       topicsSeen.add(topic);

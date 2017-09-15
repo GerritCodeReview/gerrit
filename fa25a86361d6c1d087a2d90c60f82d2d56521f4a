@@ -16,6 +16,24 @@
       "revId": "fa25a86361d6c1d087a2d90c60f82d2d56521f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4fcf123_b3c9b13d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-15T12:15:12Z",
+      "side": 1,
+      "message": "This refactoring was split out to a separate change.",
+      "parentUuid": "6db514c5_c5e4a324",
+      "revId": "fa25a86361d6c1d087a2d90c60f82d2d56521f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

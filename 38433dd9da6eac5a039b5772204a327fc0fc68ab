@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "f1c1e897_5c935fe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-15T21:04:46Z",
+      "side": 1,
+      "message": "Oh testing locally, this does not work without me doing this.\n\nSee the DOWNLOAD_ACTIONS, we have to set it in one of these properties otherwise it does not work.",
+      "parentUuid": "61ae6027_0189349b",
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b983e7a3_04d9a380",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 24

@@ -30,10 +30,12 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +51,7 @@ public class ActionJson {
   private final UiActions uiActions;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
+  private final Provider<CurrentUser> userProvider;
 
   @Inject
   ActionJson(
@@ -57,13 +60,15 @@ public class ActionJson {
       ChangeResource.Factory changeResourceFactory,
       UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
-      DynamicSet<ActionVisitor> visitorSet) {
+      DynamicSet<ActionVisitor> visitorSet,
+      Provider<CurrentUser> userProvider) {
     this.revisions = revisions;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.uiActions = uiActions;
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
+    this.userProvider = userProvider;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) throws OrmException {
@@ -86,9 +91,9 @@ public class ActionJson {
     return Lists.newArrayList(visitorSet);
   }
 
-  public ChangeInfo addChangeActions(ChangeInfo to, ChangeControl ctl) {
+  public ChangeInfo addChangeActions(ChangeInfo to, ChangeNotes notes) {
     List<ActionVisitor> visitors = visitors();
-    to.actions = toActionMap(ctl, visitors, copy(visitors, to));
+    to.actions = toActionMap(notes, visitors, copy(visitors, to));
     return to;
   }
 
@@ -158,19 +163,20 @@ public class ActionJson {
   }
 
   private Map<String, ActionInfo> toActionMap(
-      ChangeControl ctl, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
+      ChangeNotes notes, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
+    CurrentUser user = userProvider.get();
     Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (!ctl.getUser().isIdentifiedUser()) {
+    if (!user.isIdentifiedUser()) {
       return out;
     }
 
     Iterable<UiAction.Description> descs =
-        uiActions.from(changeViews, changeResourceFactory.create(ctl.getNotes(), ctl.getUser()));
+        uiActions.from(changeViews, changeResourceFactory.create(notes, user));
 
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the
     // resulting action map.
-    Status status = ctl.getChange().getStatus();
+    Status status = notes.getChange().getStatus();
     if (status.isOpen() || status.equals(Status.MERGED)) {
       UiAction.Description descr = new UiAction.Description();
       PrivateInternals_UiActionDescription.setId(descr, "followup");

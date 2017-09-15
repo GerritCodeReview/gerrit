@@ -49,7 +49,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -75,8 +74,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class ConsistencyCheckerIT extends AbstractDaemonTest {
-  @Inject private ChangeControl.GenericFactory changeControlFactory;
-
   @Inject private ChangeNotes.Factory changeNotesFactory;
 
   @Inject private Provider<ConsistencyChecker> checkerProvider;
@@ -141,11 +138,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     ChangeNotes notes = insertChange();
     Project.NameKey name = notes.getProjectName();
-    // Create control before deleting repo to avoid NoSuchProjectException
-    ChangeControl ctl = controlForNotes(notes);
     ((InMemoryRepositoryManager) repoManager).deleteRepository(name);
-
-    assertThat(checker.check(ctl, null).problems())
+    assertThat(checker.check(notes, null).problems())
         .containsExactly(problem("Destination repository not found: " + name));
   }
 
@@ -961,17 +955,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     List<ProblemInfo> expected = new ArrayList<>(1 + rest.length);
     expected.add(first);
     expected.addAll(Arrays.asList(rest));
-    assertThat(checker.check(controlForNotes(notes), fix).problems())
-        .containsExactlyElementsIn(expected)
-        .inOrder();
+    assertThat(checker.check(notes, fix).problems()).containsExactlyElementsIn(expected).inOrder();
   }
 
   private void assertNoProblems(ChangeNotes notes, @Nullable FixInput fix) throws Exception {
-    assertThat(checker.check(controlForNotes(notes), fix).problems()).isEmpty();
-  }
-
-  /** @return {@link ChangeControl} for notes and admin regardless of owner. */
-  private ChangeControl controlForNotes(ChangeNotes notes) throws Exception {
-    return changeControlFactory.controlFor(notes, userFactory.create(admin.id));
+    assertThat(checker.check(notes, fix).problems()).isEmpty();
   }
 }

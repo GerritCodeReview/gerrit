@@ -604,7 +604,7 @@ public class ChangeJson {
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
-      actionJson.addChangeActions(out, ctl);
+      actionJson.addChangeActions(out, ctl.getNotes());
     }
 
     if (has(TRACKING_IDS)) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7e58217_a1d82780",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-15T17:18:27Z",
+      "side": 1,
+      "message": "Please set `__primary: false` on both of these actions.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "b3c03c186d4faeffd8f384894ddf42862f8b6d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626e6f14_24f14f29",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-15T17:18:27Z",
+      "side": 1,
+      "message": "This function must also hide the actions when an edit is not loaded.",
+      "range": {
+        "startLine": 464,
+        "startChar": 8,
+        "endLine": 471,
+        "endChar": 9
+      },
+      "revId": "b3c03c186d4faeffd8f384894ddf42862f8b6d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69d2f9f9_d8b9f088",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/DashboardInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-15T07:09:23Z",
+      "side": 1,
+      "message": "I don\u0027t know how many client applications are using this, but given that the existing API implementation seems to be quite incomplete I would guess not many.\n\nStill, I don\u0027t think it\u0027s a good idea to change it.",
+      "parentUuid": "cdcdfa7c_d72329cc",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.group.Groups.getExistingGroupFromReviewDb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -177,7 +178,7 @@ public class GroupsUpdate {
   public AccountGroup updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
       throws OrmException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
     return group;
@@ -196,7 +197,7 @@ public class GroupsUpdate {
    */
   public void renameGroup(ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
       throws OrmException, IOException, NameAlreadyUsedException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     AccountGroup.NameKey oldName = group.getNameKey();
 
     try {
@@ -264,7 +265,7 @@ public class GroupsUpdate {
    */
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     Set<Account.Id> newMemberIds = new HashSet<>();
     for (Account.Id accountId : accountIds) {
       boolean isMember = groups.isMember(db, groupUuid, accountId);
@@ -313,7 +314,7 @@ public class GroupsUpdate {
   public void removeGroupMembers(
       ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> membersToRemove = new HashSet<>();
     for (Account.Id accountId : accountIds) {
@@ -357,7 +358,7 @@ public class GroupsUpdate {
   public void addSubgroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
+    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> newSubgroups = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : subgroupUuids) {
@@ -400,7 +401,7 @@ public class GroupsUpdate {
   public void removeSubgroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
+    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> subgroupsToRemove = new HashSet<>();
     for (AccountGroup.UUID subgroupUuid : subgroupUuids) {

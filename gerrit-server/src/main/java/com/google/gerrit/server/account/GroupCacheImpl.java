@@ -15,13 +15,10 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
@@ -210,18 +207,7 @@ public class GroupCacheImpl implements GroupCache {
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
       try (ReviewDb db = schema.open()) {
-        AccountGroup.UUID groupUuid = new AccountGroup.UUID(uuid);
-        Optional<AccountGroup> accountGroup = groups.getGroup(db, groupUuid);
-
-        if (!accountGroup.isPresent()) {
-          return Optional.empty();
-        }
-
-        ImmutableSet<Account.Id> members =
-            groups.getMembers(db, groupUuid).collect(toImmutableSet());
-        ImmutableSet<AccountGroup.UUID> subgroups =
-            groups.getSubgroups(db, groupUuid).collect(toImmutableSet());
-        return accountGroup.map(group -> InternalGroup.create(group, members, subgroups));
+        return groups.getGroup(db, new AccountGroup.UUID(uuid));
       }
     }
   }

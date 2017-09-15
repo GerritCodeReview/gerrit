@@ -91,7 +91,7 @@
     QUERY_OFFSET: '/q/:query,:offset',
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
-    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+    CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
     // Matches
@@ -100,15 +100,15 @@
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
     // eslint-disable-next-line max-len
-    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
+    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
 
     // Matches
     //     /c/<project>/+/<changeNum>/[<basePatchNum>..]<patchNum>/<path>,edit
     // eslint-disable-next-line max-len
-    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(((\d+|edit)\.\.)?(edit)(\/(.+)))),edit$/,
+    DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(((-?\d+|edit)\.\.)?(edit)(\/(.+)))),edit$/,
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    DIFF_LEGACY: /^\/c\/(\d+)\/((\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+    DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
@@ -298,8 +298,17 @@
       const hasPatchNum = params.patchNum !== null &&
           params.patchNum !== undefined;
       let needsRedirect = false;
+
+      // Diffing a patch against itself is invalid, so if the base and revision
+      // patches are equal clear the base.
+      // NOTE: while selecting numbered parents of a merge is not yet
+      // implemented, normalize parent base patches to be un-selected parents in
+      // the same way.
+      // TODO(issue 4760): Remove the isMergeParent check when PG supports
+      // diffing against numbered parents of a merge.
       if (hasBasePatchNum &&
-          this.patchNumEquals(params.basePatchNum, params.patchNum)) {
+          (this.patchNumEquals(params.basePatchNum, params.patchNum) ||
+          this.isMergeParent(params.basePatchNum))) {
         needsRedirect = true;
         params.basePatchNum = null;
       } else if (hasBasePatchNum && !hasPatchNum) {

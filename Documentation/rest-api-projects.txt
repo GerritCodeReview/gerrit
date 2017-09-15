@@ -2347,7 +2347,7 @@ List all dashboards for the `work/my-project` project:
       "path": "closed",
       "description": "Merged and abandoned changes in last 7 weeks",
       "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
-      "default": true,
+      "is_default": true,
       "title": "Closed changes",
       "sections": [
         {
@@ -2398,7 +2398,7 @@ that describes the dashboard.
     "path": "closed",
     "description": "Merged and abandoned changes in last 7 weeks",
     "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
-    "default": true,
+    "is_default": true,
     "title": "Closed changes",
     "sections": [
       {
@@ -2434,7 +2434,7 @@ dashboard-id.
     "path": "closed",
     "description": "Merged and abandoned changes in last 7 weeks",
     "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
-    "default": true,
+    "is_default": true,
     "title": "Closed changes",
     "sections": [
       {
@@ -2489,7 +2489,7 @@ link:#dashboard-info[DashboardInfo] entity.
     "path": "closed",
     "description": "Merged and abandoned changes in last 7 weeks",
     "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
-    "default": true,
+    "is_default": true,
     "title": "Closed changes",
     "sections": [
       {
@@ -2830,7 +2830,7 @@ Tokens such as `${project}` are not resolved.
 The URL under which the dashboard can be opened in the Gerrit Web UI. +
 The URL is relative to the canonical web URL. +
 Tokens in the queries such as `${project}` are resolved.
-|`default`         |not set if `false`|
+|`is_default`      |not set if `false`|
 Whether this is the default dashboard of the project.
 |`title`           |optional|The title of the dashboard.
 |`sections`        ||

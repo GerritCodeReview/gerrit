@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96703e59_63a22408",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3293,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T08:27:57Z",
+      "side": 1,
+      "message": "\"t\" (same below)?",
+      "range": {
+        "startLine": 3293,
+        "startChar": 30,
+        "endLine": 3293,
+        "endChar": 49
+      },
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10640b4e_37495302",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T08:27:57Z",
+      "side": 1,
+      "message": "Please put these in two separate tests:\n\npushForMasterWithTopicInRefExceedLimitFails()\npushForMasterWithTopicAsOptionExceedLimitFails()",
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f41da8a2_56050acf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T08:27:57Z",
+      "side": 1,
+      "message": "nit: this should be the first member in this class (public static before private static)",
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

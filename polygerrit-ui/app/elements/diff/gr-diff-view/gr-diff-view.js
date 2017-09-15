@@ -732,12 +732,13 @@
 
     _onLineSelected(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
-      if (!this._change) { return; }
+      if (!this._changeNum) { return; }
       const cursorAddress = this.$.cursor.getAddress();
+      const number = cursorAddress ? cursorAddress.number : undefined;
+      const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
       const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
           this._change.project, this._path, this._patchRange.patchNum,
-          this._patchRange.basePatchNum, cursorAddress.number,
-          cursorAddress.leftSide);
+          this._patchRange.basePatchNum, number, leftSide);
       history.replaceState(null, '', url);
     },
 

@@ -22,6 +22,30 @@
       "revId": "a4fcf1e5b8854f25a5d1494bf97e1f495647007e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fff1f5f0_9d02b7ea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-15T22:04:14Z",
+      "side": 1,
+      "message": "To be clear, the message includes the number of drafts being saved. The sequence might look like ..\n\n* Saving 1 draft...\n* Saving 2 drafts...\n* Saving 1 draft...\n* All changes saved\n\nIs the number the part that seems over-engineered?\n\nThe goal of these tooltips is to encourage users to freely make many drafts while navigating around. Maybe on a really slow API day a user might wait on 10 drafts to be saved.\n\n* Saving 10 drafts...\n* Saving 9 drafts...\n* ...\n\nWithout a number like this in the toast, it\u0027d be hard to tell whether progress is being made.",
+      "parentUuid": "14964cb1_07bc6794",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "a4fcf1e5b8854f25a5d1494bf97e1f495647007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

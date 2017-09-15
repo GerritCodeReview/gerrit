@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -88,8 +87,7 @@ public class EventUtil {
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
       throws OrmException, PatchListNotAvailableException, GpgException, IOException {
     ChangeData cd = changeDataFactory.create(db.get(), project, ps.getId().getParentKey());
-    ChangeControl ctl = cd.changeControl();
-    return changeJson.getRevisionInfo(ctl, ps);
+    return changeJson.getRevisionInfo(cd, ps);
   }
 
   public AccountInfo accountInfo(Account a) {

@@ -22,6 +22,30 @@
       "revId": "63be845e0d7d5122ceb46fc3c4e408f59da417b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f1763cf_7c9f6e16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 78
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-15T10:07:46Z",
+      "side": 1,
+      "message": "Go ahead. I wouldn\u0027t be surprised if you find issues, i would still need to test the migration process. And thank you in advance for your help ;-)",
+      "parentUuid": "68bb09a4_ad2d875a",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "63be845e0d7d5122ceb46fc3c4e408f59da417b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

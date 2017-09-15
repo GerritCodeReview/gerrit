@@ -22,6 +22,30 @@
       "revId": "960ab1a3f96b54e1398b65caa3bde6cffe6d866a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "933cf6dd_e0f69d84",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 76
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-15T10:07:46Z",
+      "side": 0,
+      "message": "Why? I\u0027m the creator, owner and maintainer of WIP plugin. For the plugin to work, it requires Change.Status.DRAFT enum value. This CL removes that and is effectively killing WIP plugin. Once this change is merged, the WIP plugin repository should be set to read only.",
+      "parentUuid": "cc9ce125_fe6d318d",
+      "range": {
+        "startLine": 671,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 0
+      },
+      "revId": "960ab1a3f96b54e1398b65caa3bde6cffe6d866a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68bb09a4_ad2d875a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 78
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T09:56:03Z",
+      "side": 1,
+      "message": "I haven\u0027t reviewed this change carefully. But I think we can add some tests for this schema migration. DavidO@, do you mind if I push to this change so that we can work together and move faster?",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "63be845e0d7d5122ceb46fc3c4e408f59da417b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

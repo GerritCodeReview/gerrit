@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc9ce125_fe6d318d",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 76
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T09:56:03Z",
+      "side": 0,
+      "message": "This should not be included in this CL.",
+      "range": {
+        "startLine": 671,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 0
+      },
+      "revId": "960ab1a3f96b54e1398b65caa3bde6cffe6d866a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

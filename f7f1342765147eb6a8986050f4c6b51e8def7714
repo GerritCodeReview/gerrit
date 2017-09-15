@@ -34,6 +34,24 @@
       "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f360e6_cd22153d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T07:40:14Z",
+      "side": 0,
+      "message": "Yeah, I did this for GetPureRevert. @Option would just continue to work as usual and inject the value into the variable using the annotation while the setter is only used in the Java API.",
+      "parentUuid": "2a790628_82076c1c",
+      "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

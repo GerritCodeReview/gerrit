@@ -34,6 +34,24 @@
       "revId": "fa49ca24133bee7c63c38e831700a0cf312d8338",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f10cb15e_9035c164",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T07:40:14Z",
+      "side": 1,
+      "message": "Ah right you aren\u0027t changing that part at all",
+      "parentUuid": "efb9d90a_4eb1184a",
+      "revId": "fa49ca24133bee7c63c38e831700a0cf312d8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

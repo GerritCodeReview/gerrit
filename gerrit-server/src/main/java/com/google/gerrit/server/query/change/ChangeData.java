@@ -47,7 +47,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -96,7 +95,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -612,10 +610,6 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  public boolean hasChangeControl() {
-    return changeControl != null;
-  }
-
   public ChangeControl changeControl() throws OrmException {
     if (changeControl == null) {
       Change c = change();
@@ -626,36 +620,6 @@ public class ChangeData {
       }
     }
     return changeControl;
-  }
-
-  public ChangeControl changeControl(CurrentUser user) throws OrmException {
-    if (changeControl != null) {
-      CurrentUser oldUser = user;
-      if (sameUser(user, oldUser)) {
-        return changeControl;
-      }
-      throw new IllegalStateException("user already specified: " + changeControl.getUser());
-    }
-
-    if (change != null) {
-      changeControl = changeControlFactory.controlFor(db, change, user);
-    } else {
-      changeControl = changeControlFactory.controlFor(db, project(), legacyId, user);
-    }
-    return changeControl;
-  }
-
-  private static boolean sameUser(CurrentUser a, CurrentUser b) {
-    // TODO(dborowitz): This is a hack; general CurrentUser equality would be
-    // better.
-    if (a.isInternalUser() && b.isInternalUser()) {
-      return true;
-    } else if (a instanceof AnonymousUser && b instanceof AnonymousUser) {
-      return true;
-    } else if (a.isIdentifiedUser() && b.isIdentifiedUser()) {
-      return a.getAccountId().equals(b.getAccountId());
-    }
-    return false;
   }
 
   void cacheVisibleTo(ChangeControl ctl) {
@@ -823,22 +787,6 @@ public class ChangeData {
       patchSets = psUtil.byChange(db, notes());
     }
     return patchSets;
-  }
-
-  /**
-   * @return patches for the change visible to the current user.
-   * @throws OrmException an error occurred reading the database.
-   */
-  public Collection<PatchSet> visiblePatchSets() throws OrmException {
-    Predicate<? super PatchSet> predicate =
-        ps -> {
-          try {
-            return changeControl().isPatchVisible(ps, db);
-          } catch (OrmException e) {
-            return false;
-          }
-        };
-    return patchSets().stream().filter(predicate).collect(toList());
   }
 
   public void setPatchSets(Collection<PatchSet> patchSets) {
@@ -1073,6 +1021,7 @@ public class ChangeData {
       } else if (c.getStatus() == Change.Status.ABANDONED) {
         return null;
       } else if (c.isWorkInProgress()) {
+
         return null;
       } else {
         if (!lazyLoad) {

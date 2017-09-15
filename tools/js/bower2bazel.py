@@ -52,6 +52,8 @@ package_licenses = {
   "moment": "moment",
   "neon-animation": "polymer",
   "page": "page.js",
+  "paper-item": "polymer",
+  "paper-listbox": "polymer",
   "polymer": "polymer",
   "polymer-resin": "polymer",
   "promise-polyfill": "promise-polyfill",

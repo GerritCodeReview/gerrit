@@ -23,6 +23,11 @@ def load_bower_archives():
     version = "3.5.0",
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
+    name = "font-roboto",
+    package = "PolymerElements/font-roboto",
+    version = "1.0.3",
+    sha1 = "edf478d20ae2fc0704d7c155e20162caaabdd5ae")
+  bower_archive(
     name = "iron-a11y-announcer",
     package = "PolymerElements/iron-a11y-announcer",
     version = "1.0.6",
@@ -45,8 +50,13 @@ def load_bower_archives():
   bower_archive(
     name = "iron-flex-layout",
     package = "PolymerElements/iron-flex-layout",
-    version = "2.0.0",
-    sha1 = "feae42cc5d2d948a50074f430cfb8ab28cb6dc9e")
+    version = "1.3.7",
+    sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
+  bower_archive(
+    name = "iron-menu-behavior",
+    package = "PolymerElements/iron-menu-behavior",
+    version = "2.0.1",
+    sha1 = "139528ee1e8d86257e2aa445de7761b8ec70ae91")
   bower_archive(
     name = "iron-meta",
     package = "PolymerElements/iron-meta",
@@ -70,13 +80,18 @@ def load_bower_archives():
   bower_archive(
     name = "mocha",
     package = "mocha",
-    version = "3.5.0",
-    sha1 = "09aa92f4f89949ed5f501a57f082e96510b18318")
+    version = "3.5.3",
+    sha1 = "c14f149821e4e96241b20f85134aa757b73038f1")
   bower_archive(
     name = "neon-animation",
     package = "polymerelements/neon-animation",
     version = "1.2.5",
     sha1 = "588d289f779d02b21ce5b676e257bbd6155649e8")
+  bower_archive(
+    name = "paper-styles",
+    package = "PolymerElements/paper-styles",
+    version = "1.3.1",
+    sha1 = "4ee9c692366949a754e0e39f8031aa60ce66f24d")
   bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",

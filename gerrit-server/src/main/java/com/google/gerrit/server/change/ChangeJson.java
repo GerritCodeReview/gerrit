@@ -444,7 +444,7 @@ public class ChangeJson {
       return info;
     }
 
-    ConsistencyChecker.Result result = checkerProvider.get().check(ctl, fix);
+    ConsistencyChecker.Result result = checkerProvider.get().check(ctl.getNotes(), fix);
     ChangeInfo info;
     Change c = result.change();
     if (c != null) {
@@ -480,7 +480,7 @@ public class ChangeJson {
     ChangeControl ctl = cd.changeControl().forUser(user);
 
     if (has(CHECK)) {
-      out.problems = checkerProvider.get().check(ctl, fix).problems();
+      out.problems = checkerProvider.get().check(ctl.getNotes(), fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {

@@ -50,7 +50,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -93,8 +92,9 @@ public class ConsistencyChecker {
 
   @AutoValue
   public abstract static class Result {
-    private static Result create(ChangeControl ctl, List<ProblemInfo> problems) {
-      return new AutoValue_ConsistencyChecker_Result(ctl.getId(), ctl.getChange(), problems);
+    private static Result create(ChangeNotes notes, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(
+          notes.getChangeId(), notes.getChange(), problems);
     }
 
     public abstract Change.Id id();
@@ -105,7 +105,6 @@ public class ConsistencyChecker {
     public abstract List<ProblemInfo> problems();
   }
 
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final Accounts accounts;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
@@ -120,7 +119,7 @@ public class ConsistencyChecker {
 
   private BatchUpdate.Factory updateFactory;
   private FixInput fix;
-  private ChangeControl ctl;
+  private ChangeNotes notes;
   private Repository repo;
   private RevWalk rw;
   private ObjectInserter oi;
@@ -135,7 +134,6 @@ public class ConsistencyChecker {
   @Inject
   ConsistencyChecker(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
       Accounts accounts,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
@@ -148,7 +146,6 @@ public class ConsistencyChecker {
       RetryHelper retryHelper) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
-    this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.notesFactory = notesFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -163,25 +160,25 @@ public class ConsistencyChecker {
 
   private void reset() {
     updateFactory = null;
-    ctl = null;
+    notes = null;
     repo = null;
     rw = null;
     problems = new ArrayList<>();
   }
 
   private Change change() {
-    return ctl.getChange();
+    return notes.getChange();
   }
 
-  public Result check(ChangeControl cc, @Nullable FixInput f) {
-    checkNotNull(cc);
+  public Result check(ChangeNotes notes, @Nullable FixInput f) {
+    checkNotNull(notes);
     try {
       return retryHelper.execute(
           buf -> {
             try {
               reset();
               this.updateFactory = buf;
-              ctl = cc;
+              this.notes = notes;
               fix = f;
               checkImpl();
               return result();
@@ -197,15 +194,15 @@ public class ConsistencyChecker {
             }
           });
     } catch (RestApiException e) {
-      return logAndReturnOneProblem(e, cc, "Error checking change: " + e.getMessage());
+      return logAndReturnOneProblem(e, notes, "Error checking change: " + e.getMessage());
     } catch (UpdateException e) {
-      return logAndReturnOneProblem(e, cc, "Error checking change");
+      return logAndReturnOneProblem(e, notes, "Error checking change");
     }
   }
 
-  private Result logAndReturnOneProblem(Exception e, ChangeControl cc, String problem) {
-    log.warn("Error checking change " + cc.getId(), e);
-    return Result.create(cc, ImmutableList.of(problem(problem)));
+  private Result logAndReturnOneProblem(Exception e, ChangeNotes notes, String problem) {
+    log.warn("Error checking change " + notes.getChangeId(), e);
+    return Result.create(notes, ImmutableList.of(problem(problem)));
   }
 
   private void checkImpl() {
@@ -234,7 +231,7 @@ public class ConsistencyChecker {
 
   private void checkCurrentPatchSetEntity() {
     try {
-      currPs = psUtil.current(db.get(), ctl.getNotes());
+      currPs = psUtil.current(db.get(), notes);
       if (currPs == null) {
         problem(
             String.format("Current patch set %d not found", change().currentPatchSetId().get()));
@@ -262,7 +259,7 @@ public class ConsistencyChecker {
     List<PatchSet> all;
     try {
       // Iterate in descending order.
-      all = PS_ID_ORDER.sortedCopy(psUtil.byChange(db.get(), ctl.getNotes()));
+      all = PS_ID_ORDER.sortedCopy(psUtil.byChange(db.get(), notes));
     } catch (OrmException e) {
       return error("Failed to look up patch sets", e);
     }
@@ -515,7 +512,7 @@ public class ConsistencyChecker {
           (psIdToDelete != null && reuseOldPsId)
               ? psIdToDelete
               : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
-      PatchSetInserter inserter = patchSetInserterFactory.create(ctl.getNotes(), psId, commit);
+      PatchSetInserter inserter = patchSetInserterFactory.create(notes, psId, commit);
       try (BatchUpdate bu = newBatchUpdate()) {
         bu.setRepository(repo, rw, oi);
 
@@ -523,7 +520,7 @@ public class ConsistencyChecker {
           // Delete the given patch set ref. If reuseOldPsId is true,
           // PatchSetInserter will reinsert the same ref, making it a no-op.
           bu.addOp(
-              ctl.getId(),
+              notes.getChangeId(),
               new BatchUpdateOp() {
                 @Override
                 public void updateRepo(RepoContext ctx) throws IOException {
@@ -532,23 +529,23 @@ public class ConsistencyChecker {
               });
           if (!reuseOldPsId) {
             bu.addOp(
-                ctl.getId(),
+                notes.getChangeId(),
                 new DeletePatchSetFromDbOp(checkNotNull(deleteOldPatchSetProblem), psIdToDelete));
           }
         }
 
         bu.addOp(
-            ctl.getId(),
+            notes.getChangeId(),
             inserter
                 .setValidate(false)
                 .setFireRevisionCreated(false)
                 .setNotify(NotifyHandling.NONE)
                 .setAllowClosed(true)
                 .setMessage("Patch set for merged commit inserted by consistency checker"));
-        bu.addOp(ctl.getId(), new FixMergedOp(notFound));
+        bu.addOp(notes.getChangeId(), new FixMergedOp(notFound));
         bu.execute();
       }
-      ctl = changeControlFactory.controlFor(db.get(), inserter.getChange(), ctl.getUser());
+      notes = notesFactory.createChecked(db.get(), inserter.getChange());
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
     } catch (OrmException | IOException | UpdateException | RestApiException e) {
@@ -581,17 +578,17 @@ public class ConsistencyChecker {
   private void fixMerged(ProblemInfo p) {
     try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
-      bu.addOp(ctl.getId(), new FixMergedOp(p));
+      bu.addOp(notes.getChangeId(), new FixMergedOp(p));
       bu.execute();
     } catch (UpdateException | RestApiException e) {
-      log.warn("Error marking " + ctl.getId() + "as merged", e);
+      log.warn("Error marking " + notes.getChangeId() + "as merged", e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error updating status to merged";
     }
   }
 
   private BatchUpdate newBatchUpdate() {
-    return updateFactory.create(db.get(), change().getProject(), ctl.getUser(), TimeUtil.nowTs());
+    return updateFactory.create(db.get(), change().getProject(), user.get(), TimeUtil.nowTs());
   }
 
   private void fixPatchSetRef(ProblemInfo p, PatchSet ps) {
@@ -635,10 +632,10 @@ public class ConsistencyChecker {
     try (BatchUpdate bu = newBatchUpdate()) {
       bu.setRepository(repo, rw, oi);
       for (DeletePatchSetFromDbOp op : ops) {
-        checkArgument(op.psId.getParentKey().equals(ctl.getId()));
-        bu.addOp(ctl.getId(), op);
+        checkArgument(op.psId.getParentKey().equals(notes.getChangeId()));
+        bu.addOp(notes.getChangeId(), op);
       }
-      bu.addOp(ctl.getId(), new UpdateCurrentPatchSetOp(ops));
+      bu.addOp(notes.getChangeId(), new UpdateCurrentPatchSetOp(ops));
       bu.execute();
     } catch (NoPatchSetsWouldRemainException e) {
       for (DeletePatchSetFromDbOp op : ops) {
@@ -779,10 +776,10 @@ public class ConsistencyChecker {
   }
 
   private void warn(Throwable t) {
-    log.warn("Error in consistency check of change " + ctl.getId(), t);
+    log.warn("Error in consistency check of change " + notes.getChangeId(), t);
   }
 
   private Result result() {
-    return Result.create(ctl, problems);
+    return Result.create(notes, problems);
   }
 }

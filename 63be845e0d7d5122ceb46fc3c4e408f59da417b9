@@ -46,6 +46,30 @@
       "revId": "63be845e0d7d5122ceb46fc3c4e408f59da417b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ff8937_46122519",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 78
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-15T19:50:53Z",
+      "side": 1,
+      "message": "I verified, that the migration works as commented here. Here is example upgrade session of many draft changes and draft patch sets:\n\n  [...]\n  Migrating data to schema 157 ...\n\t\u003e Done (0.000 s)\n  Migrating data to schema 158 ...\n\t\u003e Done (0.000 s)\n  Migrating data to schema 159 ...\n  Migrate draft changes to work-in-progress changes (default is private)? [y/N]? y\n  Replace draft changes with work_in_progress changes ...\n  done\n\t\u003e Done (16.981 s)\n  Execute the following SQL to drop unused objects:\n  DROP TABLE account_external_ids;\n  DROP TABLE accounts;\n  ALTER TABLE patch_sets DROP COLUMN draft;\n  Execute now [Y/n]? y\n  Initialized /home/davido/projects/test_site_2.14\n\nAfter the migration, all draft changes, and those that were regular changes, but had one draft patch set, became WIP changes.",
+      "parentUuid": "68bb09a4_ad2d875a",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "63be845e0d7d5122ceb46fc3c4e408f59da417b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

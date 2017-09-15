@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d2c5ce7_c6e3f660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T11:46:10Z",
+      "side": 1,
+      "message": "Could be annotated with @Nullable",
+      "revId": "467b9b7759f3923cf36192356b8592c20ef46e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f6375bb_17c21c4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T11:46:10Z",
+      "side": 1,
+      "message": "This could just be: DEFAULT_DASHBOARD_NAME.equals(id)",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 58
+      },
+      "revId": "467b9b7759f3923cf36192356b8592c20ef46e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

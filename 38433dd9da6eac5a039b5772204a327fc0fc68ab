@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "89624725_f600ef95",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-15T21:01:52Z",
+      "side": 1,
+      "message": "No, it will just make it show up as a gray button.",
+      "parentUuid": "54095704_8829f4f4",
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23b344f9_dd2347e1",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 24
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "It moves it so that it is not blue as in gwtui, PUBLISH_EDIT is the primary one which is blue and delete edit is grey. I can move this to primary if you want.",
       "parentUuid": "23b344f9_dd2347e1",
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ae6027_0189349b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-15T21:01:52Z",
+      "side": 1,
+      "message": "Neither action should be a primary action.\n\nThe actions still appear without existing in this array, because you dynamically add them in line 470. You can revert this part of the change.",
+      "parentUuid": "810d5b5f_bf7d8f71",
       "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

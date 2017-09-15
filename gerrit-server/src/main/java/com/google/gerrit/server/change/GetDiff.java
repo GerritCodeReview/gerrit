@@ -47,7 +47,6 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -85,7 +84,6 @@ public class GetDiff implements RestReadView<FileResource> {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
   private final WebLinks webLinks;
-  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -114,13 +112,11 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
       Revisions revisions,
-      WebLinks webLinks,
-      ChangeControl.GenericFactory changeControlFactory) {
+      WebLinks webLinks) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
     this.webLinks = webLinks;
-    this.changeControlFactory = changeControlFactory;
   }
 
   @Override

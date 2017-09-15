@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "953a6130_93886179",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3293,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T08:33:30Z",
+      "side": 1,
+      "message": "Sure but just using \"t\" instead of String.valueOf(\u0027t\u0027) is significantly shorter, right?",
+      "parentUuid": "4293224f_55335d7b",
+      "range": {
+        "startLine": 3293,
+        "startChar": 30,
+        "endLine": 3293,
+        "endChar": 49
+      },
+      "revId": "e6e55e85afad6a3eca57c55285ec38428015b7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10640b4e_37495302",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3

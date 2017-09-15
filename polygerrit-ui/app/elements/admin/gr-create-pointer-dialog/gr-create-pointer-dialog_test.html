@@ -87,5 +87,37 @@ limitations under the License.
 
       assert.equal(element._itemRevision, 'HEAD');
     });
+
+    test('tag created with annotations', () => {
+      sandbox.stub(element.$.restAPI, 'createProjectTag', () => {
+        return Promise.resolve({});
+      });
+
+      assert.isFalse(element.hasNewItemName);
+
+      element._itemName = 'test-tag';
+      element._itemAnnotation = 'test-message';
+      element.itemDetail = 'tags';
+
+      element.$.itemNameInput.bindValue = 'test-tag2';
+      element.$.itemAnnotationInput.bindValue = 'test-message2';
+      element.$.itemRevisionInput.bindValue = 'HEAD';
+
+      assert.isTrue(element.hasNewItemName);
+
+      assert.equal(element._itemName, 'test-tag2');
+
+      assert.equal(element._itemAnnotation, 'test-message2');
+
+      assert.equal(element._itemRevision, 'HEAD');
+    });
+
+    test('_computeHideItemClass returns hideItem if type is branches', () => {
+      assert.equal(element._computeHideItemClass('branches'), 'hideItem');
+    });
+
+    test('_computeHideItemClass returns strings if not branches', () => {
+      assert.equal(element._computeHideItemClass('tags'), '');
+    });
   });
 </script>

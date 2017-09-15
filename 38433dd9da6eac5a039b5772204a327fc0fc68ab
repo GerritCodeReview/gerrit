@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a2c5fa54_18f8751c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-15T21:09:32Z",
+      "side": 1,
+      "message": "This can just be \u0027Delete\u0027",
+      "range": {
+        "startLine": 163,
+        "startChar": 25,
+        "endLine": 163,
+        "endChar": 35
+      },
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "882375d7_e70611e2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 24

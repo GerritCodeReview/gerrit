@@ -119,7 +119,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -166,7 +165,7 @@ public class ChangeJson {
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
-      ImmutableSet.of(ALL_REVISIONS, MESSAGES);
+      ImmutableSet.of(ALL_REVISIONS, CHANGE_ACTIONS, CHECK, CURRENT_ACTIONS, MESSAGES);
 
   @Singleton
   public static class Factory {
@@ -430,9 +429,9 @@ public class ChangeJson {
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
-    ChangeControl ctl;
+    ChangeNotes notes;
     try {
-      ctl = cd.changeControl().forUser(userProvider.get());
+      notes = cd.notes();
     } catch (OrmException e) {
       String msg = "Error loading change";
       log.warn(msg + " " + cd.getId(), e);
@@ -444,7 +443,7 @@ public class ChangeJson {
       return info;
     }
 
-    ConsistencyChecker.Result result = checkerProvider.get().check(ctl.getNotes(), fix);
+    ConsistencyChecker.Result result = checkerProvider.get().check(notes, fix);
     ChangeInfo info;
     Change c = result.change();
     if (c != null) {
@@ -477,10 +476,9 @@ public class ChangeJson {
           PermissionBackendException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
-    ChangeControl ctl = cd.changeControl().forUser(user);
 
     if (has(CHECK)) {
-      out.problems = checkerProvider.get().check(ctl.getNotes(), fix).problems();
+      out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
@@ -549,7 +547,7 @@ public class ChangeJson {
       }
     }
 
-    out.labels = labelsFor(perm, ctl, cd, has(LABELS), has(DETAILED_LABELS));
+    out.labels = labelsFor(perm, cd, has(LABELS), has(DETAILED_LABELS));
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
@@ -564,7 +562,7 @@ public class ChangeJson {
 
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
-      out.removableReviewers = removableReviewers(ctl, out);
+      out.removableReviewers = removableReviewers(cd, out);
     }
 
     setSubmitter(cd, out);
@@ -585,14 +583,14 @@ public class ChangeJson {
       src = null;
     }
     if (needMessages) {
-      out.messages = messages(ctl, cd, src);
+      out.messages = messages(cd, src);
     }
     finish(out);
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(ctl, cd, src, limitToPsId, out);
+      out.revisions = revisions(cd, src, limitToPsId, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -604,7 +602,7 @@ public class ChangeJson {
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
-      actionJson.addChangeActions(out, ctl.getNotes());
+      actionJson.addChangeActions(out, cd.notes());
     }
 
     if (has(TRACKING_IDS)) {
@@ -658,17 +656,9 @@ public class ChangeJson {
   }
 
   private Map<String, LabelInfo> labelsFor(
-      PermissionBackend.ForChange perm,
-      ChangeControl ctl,
-      ChangeData cd,
-      boolean standard,
-      boolean detailed)
+      PermissionBackend.ForChange perm, ChangeData cd, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     if (!standard && !detailed) {
-      return null;
-    }
-
-    if (ctl == null) {
       return null;
     }
 
@@ -1095,8 +1085,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<ChangeMessageInfo> messages(
-      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map) throws OrmException {
+  private Collection<ChangeMessageInfo> messages(ChangeData cd, Map<PatchSet.Id, PatchSet> map)
+      throws OrmException {
     List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -1106,7 +1096,7 @@ public class ChangeJson {
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
       PatchSet ps = patchNum != null ? map.get(patchNum) : null;
-      if (patchNum == null || ctl.isPatchVisible(ps, db.get())) {
+      if (patchNum == null || cd.changeControl().isPatchVisible(ps, db.get())) {
         ChangeMessageInfo cmi = new ChangeMessageInfo();
         cmi.id = message.getKey().get();
         cmi.author = accountLoader.get(message.getAuthor());
@@ -1124,8 +1114,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeInfo out)
-      throws PermissionBackendException, NoSuchChangeException {
+  private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
+      throws PermissionBackendException, NoSuchChangeException, OrmException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
     //
@@ -1147,7 +1137,7 @@ public class ChangeJson {
         Account.Id id = new Account.Id(ai._accountId);
 
         if (removeReviewerControl.testRemoveReviewer(
-            ctl.getNotes(), ctl.getUser(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+            cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(id);
         } else {
           fixed.add(id);
@@ -1164,7 +1154,7 @@ public class ChangeJson {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
           Account.Id id = new Account.Id(ai._accountId);
-          if (removeReviewerControl.testRemoveReviewer(ctl.getNotes(), ctl.getUser(), id, 0)) {
+          if (removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
             removable.add(id);
           }
         }
@@ -1208,9 +1198,9 @@ public class ChangeJson {
   }
 
   @Nullable
-  private Repository openRepoIfNecessary(ChangeControl ctl) throws IOException {
+  private Repository openRepoIfNecessary(Project.NameKey project) throws IOException {
     if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
-      return repoManager.openRepository(ctl.getProject().getNameKey());
+      return repoManager.openRepository(project);
     }
     return null;
   }
@@ -1221,14 +1211,13 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(
-      ChangeControl ctl,
       ChangeData cd,
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo = openRepoIfNecessary(ctl);
+    try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
         PatchSet.Id id = in.getId();
@@ -1238,10 +1227,10 @@ public class ChangeJson {
         } else if (limitToPsId.isPresent()) {
           want = id.equals(limitToPsId.get());
         } else {
-          want = id.equals(ctl.getChange().currentPatchSetId());
+          want = id.equals(cd.change().currentPatchSetId());
         }
-        if (want && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, rw, false, changeInfo));
+        if (want && cd.changeControl().isPatchVisible(in, db.get())) {
+          res.put(in.getRevision().get(), toRevisionInfo(cd, in, repo, rw, false, changeInfo));
         }
       }
       return res;
@@ -1275,20 +1264,18 @@ public class ChangeJson {
     return map;
   }
 
-  public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
+  public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo = openRepoIfNecessary(ctl);
+    try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev =
-          toRevisionInfo(ctl, changeDataFactory.create(db.get(), ctl), in, repo, rw, true, null);
+      RevisionInfo rev = toRevisionInfo(cd, in, repo, rw, true, null);
       accountLoader.fill();
       return rev;
     }
   }
 
   private RevisionInfo toRevisionInfo(
-      ChangeControl ctl,
       ChangeData cd,
       PatchSet in,
       @Nullable Repository repo,
@@ -1296,7 +1283,7 @@ public class ChangeJson {
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException {
-    Change c = ctl.getChange();
+    Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
     out._number = in.getId().get();
@@ -1304,7 +1291,7 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
-    out.fetch = makeFetchMap(ctl, in);
+    out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.getDescription();
 
@@ -1321,7 +1308,7 @@ public class ChangeJson {
         out.commit = toCommit(project, rw, commit, has(WEB_LINKS), fillCommit);
       }
       if (addFooters) {
-        Ref ref = repo.exactRef(ctl.getChange().getDest().get());
+        Ref ref = repo.exactRef(cd.change().getDest().get());
         RevCommit mergeTip = null;
         if (ref != null) {
           mergeTip = rw.parseCommit(ref.getObjectId());
@@ -1331,7 +1318,7 @@ public class ChangeJson {
             mergeUtilFactory
                 .create(projectCache.get(project))
                 .createCommitMessageOnSubmit(
-                    commit, mergeTip, ctl.getNotes(), ctl.getUser(), in.getId());
+                    commit, mergeTip, cd.notes(), userProvider.get(), in.getId());
       }
     }
 
@@ -1348,7 +1335,7 @@ public class ChangeJson {
       actionJson.addRevisionActions(
           changeInfo,
           out,
-          new RevisionResource(changeResourceFactory.create(ctl.getNotes(), ctl.getUser()), in));
+          new RevisionResource(changeResourceFactory.create(cd.notes(), userProvider.get()), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
@@ -1396,7 +1383,7 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in) throws OrmException {
+  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in) throws OrmException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
 
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
@@ -1407,11 +1394,12 @@ public class ChangeJson {
         continue;
       }
 
-      if (!scheme.isAuthSupported() && !ctl.forUser(anonymous).isPatchVisible(in, db.get())) {
+      if (!scheme.isAuthSupported()
+          && !cd.changeControl().forUser(anonymous).isPatchVisible(in, db.get())) {
         continue;
       }
 
-      String projectName = ctl.getProject().getNameKey().get();
+      String projectName = cd.project().get();
       String url = scheme.getUrl(projectName);
       String refName = in.getRefName();
       FetchInfo fetchInfo = new FetchInfo(url, refName);

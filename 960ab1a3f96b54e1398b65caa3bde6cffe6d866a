@@ -46,6 +46,30 @@
       "revId": "960ab1a3f96b54e1398b65caa3bde6cffe6d866a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721458cc_1cad00f9",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 76
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-15T11:11:36Z",
+      "side": 0,
+      "message": "It\u0027s OK for me.",
+      "parentUuid": "933cf6dd_e0f69d84",
+      "range": {
+        "startLine": 671,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 0
+      },
+      "revId": "960ab1a3f96b54e1398b65caa3bde6cffe6d866a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

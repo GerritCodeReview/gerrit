@@ -46,6 +46,17 @@ limitations under the License.
     patchNumEquals(a, b) {
       return a + '' === b + '';
     },
+
+    /**
+     * Whether the given patch is a numbered parent of a merge (i.e. a negative
+     * number).
+     * @param  {string|number} n
+     * @return {Boolean}
+     */
+    isMergeParent(n) {
+      return (n + '')[0] === '-';
+    },
+
     /**
      * Given an object of revisions, get a particular revision based on patch
      * num.

@@ -46,6 +46,30 @@
       "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c604ab9c_2f381eab",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/DashboardInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-15T07:31:16Z",
+      "side": 1,
+      "message": "Hm, ... This is inconsistent. default is Java keyword. So what our REST API is doing on other places in similar situations? Just adding isPrivate *without* any @SerializedName magic from the gson side:\n\n  rest-api-changes.txt:|`is_private`         |optional, not set if `false`|\n\nMoreover, this would significantly complicate the client life, if the target language also has these reserved keywords (Java).\n\nAn I would like to avoid gson as dependency here.\n\nTwo suggestions to move forward: \n\n* 1. (My preference) immediately remove @SerializedName annotation and dependency on gson\n* 2. Add isDefault2 and Deprecate isDefault, Next release we remove @SerializedName(\"default\"). after two releases remove isDefault2",
+      "parentUuid": "69d2f9f9_d8b9f088",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

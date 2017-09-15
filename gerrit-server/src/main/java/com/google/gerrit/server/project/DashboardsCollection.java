@@ -57,6 +57,8 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 class DashboardsCollection
     implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
+  private static final String DEFAULT_DASHBOARD_NAME = "default";
+
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
@@ -77,6 +79,14 @@ class DashboardsCollection
     this.permissionBackend = permissionBackend;
   }
 
+  public static boolean isDefaultDashboard(String id) {
+    return id != null && id.equals(DEFAULT_DASHBOARD_NAME);
+  }
+
+  public static boolean isDefaultDashboard(IdString id) {
+    return id != null && isDefaultDashboard(id.toString());
+  }
+
   @Override
   public RestView<ProjectResource> list() throws ResourceNotFoundException {
     return list.get();
@@ -85,7 +95,7 @@ class DashboardsCollection
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {
-    if (id.toString().equals("default")) {
+    if (isDefaultDashboard(id)) {
       return createDefault.get();
     }
     throw new ResourceNotFoundException(id);
@@ -96,7 +106,7 @@ class DashboardsCollection
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
     ProjectControl myCtl = parent.getControl();
-    if (id.toString().equals("default")) {
+    if (isDefaultDashboard(id)) {
       return DashboardResource.projectDefault(myCtl);
     }
 

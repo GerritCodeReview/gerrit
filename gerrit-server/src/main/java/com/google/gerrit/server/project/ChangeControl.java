@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -50,6 +51,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
@@ -212,6 +214,24 @@ public class ChangeControl {
       return false;
     }
     return isVisible(cd.db());
+  }
+
+  /**
+   * @return patches for the change visible to the current user.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Collection<PatchSet> getVisiblePatchSets(Collection<PatchSet> patchSets, ReviewDb db)
+      throws OrmException {
+    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
+    Predicate<? super PatchSet> predicate =
+        ps -> {
+          try {
+            return isPatchVisible(ps, db);
+          } catch (OrmException e) {
+            return false;
+          }
+        };
+    return patchSets.stream().filter(predicate).collect(toList());
   }
 
   /** Can this user abandon this change? */

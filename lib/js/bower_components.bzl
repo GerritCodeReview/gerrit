@@ -30,6 +30,10 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "font-roboto",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+  )
+  bower_component(
     name = "iron-a11y-announcer",
     license = "//lib:LICENSE-polymer",
     deps = [ ":polymer" ],
@@ -90,6 +94,16 @@ def define_bower_components():
       ":polymer",
     ],
     seed = True,
+  )
+  bower_component(
+    name = "iron-menu-behavior",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-a11y-keys-behavior",
+      ":iron-flex-layout",
+      ":iron-selector",
+      ":polymer",
+    ],
   )
   bower_component(
     name = "iron-meta",
@@ -160,6 +174,37 @@ def define_bower_components():
     name = "page",
     license = "//lib:LICENSE-page.js",
     seed = True,
+  )
+  bower_component(
+    name = "paper-item",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-behaviors",
+      ":iron-flex-layout",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "paper-listbox",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-behaviors",
+      ":iron-menu-behavior",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "paper-styles",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":font-roboto",
+      ":iron-flex-layout",
+      ":polymer",
+    ],
   )
   bower_component(
     name = "polymer-resin",

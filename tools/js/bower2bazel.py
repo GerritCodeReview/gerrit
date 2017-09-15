@@ -35,6 +35,7 @@ import bowerutil
 package_licenses = {
   "es6-promise": "es6-promise",
   "fetch": "fetch",
+  "font-roboto": "polymer", 
   "iron-a11y-announcer": "polymer",
   "iron-a11y-keys-behavior": "polymer",
   "iron-autogrow-textarea": "polymer",
@@ -44,6 +45,7 @@ package_licenses = {
   "iron-flex-layout": "polymer",
   "iron-form-element-behavior": "polymer",
   "iron-input": "polymer",
+  "iron-menu-behavior": "polymer",
   "iron-meta": "polymer",
   "iron-overlay-behavior": "polymer",
   "iron-resizable-behavior": "polymer",
@@ -52,13 +54,15 @@ package_licenses = {
   "moment": "moment",
   "neon-animation": "polymer",
   "page": "page.js",
+  "paper-item": "polymer",
+  "paper-listbox": "polymer",
+  "paper-styles": "polymer",
   "polymer": "polymer",
   "polymer-resin": "polymer",
   "promise-polyfill": "promise-polyfill",
   "web-animations-js": "Apache2.0",
   "webcomponentsjs": "polymer",
 }
-
 
 def build_bower_json(version_targets, seeds):
   """Generate bower JSON file, return its path.

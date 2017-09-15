@@ -22,6 +22,30 @@
       "revId": "795fe809ee02ef37de6e4d9f449a6bb7974f103f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "781b8ce5_cfff47f6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-15T23:40:17Z",
+      "side": 1,
+      "message": "I don\u0027t think so. If you\u0027re viewing your own dashboard, then (owner:self OR -is:ignored) will match issues you own, as well as any issues you don\u0027t own as long as you aren\u0027t ignoring them.",
+      "parentUuid": "43c29c8b_fe1430ca",
+      "range": {
+        "startLine": 33,
+        "startChar": 45,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "795fe809ee02ef37de6e4d9f449a6bb7974f103f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

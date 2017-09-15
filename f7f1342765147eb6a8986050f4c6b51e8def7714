@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef504c2_ce99add8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T07:02:15Z",
+      "side": 0,
+      "message": "(optional) If you keep this as-is and just add:\n\n  public GetDashboard setInherited(boolean inherited) {\n    this.inherited \u003d inherited;\n    return this.\n  }\n\nThen your callers can do:\n\n  return getDashboard.get().setInherited(inherited).apply(resource());\n\nInstead of:\n\n  GetDashboard impl \u003d getDashboard.get();\n  impl.setInherited(inherited);\n  return impl.apply(resource());",
+      "revId": "f7f1342765147eb6a8986050f4c6b51e8def7714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

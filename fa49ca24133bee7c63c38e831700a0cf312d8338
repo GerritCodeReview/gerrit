@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5ca0f5_4b9b2e4b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-15T07:02:15Z",
+      "side": 1,
+      "message": "Can we add the same test in the rest package to be sure the HTTP bindings are correct as well?",
+      "revId": "fa49ca24133bee7c63c38e831700a0cf312d8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

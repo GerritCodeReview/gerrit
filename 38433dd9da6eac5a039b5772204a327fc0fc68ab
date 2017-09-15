@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54095704_8829f4f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-15T20:56:12Z",
+      "side": 1,
+      "message": "Why? this will remove the publish edit button.",
+      "parentUuid": "882375d7_e70611e2",
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23b344f9_dd2347e1",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-15T20:47:51Z",
       "side": 1,
       "message": "Why is this here? What case does it handle?",
+      "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "810d5b5f_bf7d8f71",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-15T20:56:12Z",
+      "side": 1,
+      "message": "It moves it so that it is not blue as in gwtui, PUBLISH_EDIT is the primary one which is blue and delete edit is grey. I can move this to primary if you want.",
+      "parentUuid": "23b344f9_dd2347e1",
       "revId": "38433dd9da6eac5a039b5772204a327fc0fc68ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

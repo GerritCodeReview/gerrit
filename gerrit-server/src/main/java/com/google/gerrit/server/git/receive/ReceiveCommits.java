@@ -1435,6 +1435,12 @@ class ReceiveCommits {
       }
       ref = null; // never happen
     }
+
+    if (magicBranch.topic != null && magicBranch.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {
+      reject(
+          cmd, String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
+    }
+
     if (clp.wasHelpRequestedByOption()) {
       StringWriter w = new StringWriter();
       w.write("\nHelp for refs/for/branch:\n\n");

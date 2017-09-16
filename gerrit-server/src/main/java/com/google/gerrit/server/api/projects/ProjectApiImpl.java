@@ -368,21 +368,13 @@ public class ProjectApiImpl implements ProjectApi {
     return new ListRefsRequest<TagInfo>() {
       @Override
       public List<TagInfo> get() throws RestApiException {
-        return listTags(this);
+        try {
+          return listTags.request(this).apply(checkExists());
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list tags", e);
+        }
       }
     };
-  }
-
-  private List<TagInfo> listTags(ListRefsRequest<TagInfo> request) throws RestApiException {
-    listTags.setLimit(request.getLimit());
-    listTags.setStart(request.getStart());
-    listTags.setMatchSubstring(request.getSubstring());
-    listTags.setMatchRegex(request.getRegex());
-    try {
-      return listTags.apply(checkExists());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list tags", e);
-    }
   }
 
   @Override

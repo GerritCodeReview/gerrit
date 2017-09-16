@@ -18,6 +18,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -117,6 +118,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
     this.branchViews = branchViews;
     this.uiActions = uiActions;
     this.webLinks = webLinks;
+  }
+
+  public ListBranches request(ListRefsRequest<BranchInfo> request) {
+    this.setLimit(request.getLimit());
+    this.setStart(request.getStart());
+    this.setMatchSubstring(request.getSubstring());
+    this.setMatchRegex(request.getRegex());
+    return this;
   }
 
   @Override

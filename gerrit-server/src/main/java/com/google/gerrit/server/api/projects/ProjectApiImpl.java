@@ -354,22 +354,13 @@ public class ProjectApiImpl implements ProjectApi {
     return new ListRefsRequest<BranchInfo>() {
       @Override
       public List<BranchInfo> get() throws RestApiException {
-        return listBranches(this);
+        try {
+          return listBranches.request(this).apply(checkExists());
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list branches", e);
+        }
       }
     };
-  }
-
-  private List<BranchInfo> listBranches(ListRefsRequest<BranchInfo> request)
-      throws RestApiException {
-    listBranches.setLimit(request.getLimit());
-    listBranches.setStart(request.getStart());
-    listBranches.setMatchSubstring(request.getSubstring());
-    listBranches.setMatchRegex(request.getRegex());
-    try {
-      return listBranches.apply(checkExists());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot list branches", e);
-    }
   }
 
   @Override

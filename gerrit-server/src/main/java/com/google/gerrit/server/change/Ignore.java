@@ -58,7 +58,7 @@ public class Ignore
         // early exit for own changes and already ignored changes
         return Response.ok("");
       }
-      stars.ignore(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange().getId());
+      stars.ignore(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("failed to ignore change", e);
     }

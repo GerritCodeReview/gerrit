@@ -58,7 +58,7 @@ public class Unignore
         // early exit for own changes and not ignored changes
         return Response.ok("");
       }
-      stars.unignore(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange().getId());
+      stars.unignore(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("failed to unignore change", e);
     }

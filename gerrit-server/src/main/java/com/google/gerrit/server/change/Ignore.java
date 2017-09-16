@@ -48,21 +48,24 @@ public class Ignore
     return new UiAction.Description()
         .setLabel("Ignore")
         .setTitle("Ignore the change")
-        .setVisible(!rsrc.isUserOwner() && !isIgnored(rsrc));
+        .setVisible(canIgnore(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
     try {
-      if (rsrc.isUserOwner() || isIgnored(rsrc)) {
-        // early exit for own changes and already ignored changes
-        return Response.ok("");
+      // Don't try to ignore own changes or already ignored changes
+      if (canIgnore(rsrc)) {
+        stars.ignore(rsrc);
       }
-      stars.ignore(rsrc);
+      return Response.ok("");
     } catch (OrmException e) {
       throw new RestApiException("failed to ignore change", e);
     }
-    return Response.ok("");
+  }
+
+  private boolean canIgnore(ChangeResource rsrc) {
+    return (!rsrc.isUserOwner() && !isIgnored(rsrc));
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

@@ -62,6 +62,7 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
@@ -92,8 +93,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final CreateAccessChange createAccessChange;
   private final GetConfig getConfig;
   private final PutConfig putConfig;
-  private final ListBranches listBranches;
-  private final ListTags listTags;
+  private final Provider<ListBranches> listBranches;
+  private final Provider<ListTags> listTags;
   private final DeleteBranches deleteBranches;
   private final DeleteTags deleteTags;
   private final CommitsCollection commitsCollection;
@@ -119,8 +120,8 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
-      ListBranches listBranches,
-      ListTags listTags,
+      Provider<ListBranches> listBranches,
+      Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
@@ -175,8 +176,8 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
-      ListBranches listBranches,
-      ListTags listTags,
+      Provider<ListBranches> listBranches,
+      Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
       CommitsCollection commitsCollection,
@@ -230,8 +231,8 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
-      ListBranches listBranches,
-      ListTags listTags,
+      Provider<ListBranches> listBranches,
+      Provider<ListTags> listTags,
       DeleteBranches deleteBranches,
       DeleteTags deleteTags,
       ProjectResource project,
@@ -355,7 +356,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<BranchInfo> get() throws RestApiException {
         try {
-          return listBranches.request(this).apply(checkExists());
+          return listBranches.get().request(this).apply(checkExists());
         } catch (Exception e) {
           throw asRestApiException("Cannot list branches", e);
         }
@@ -369,7 +370,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<TagInfo> get() throws RestApiException {
         try {
-          return listTags.request(this).apply(checkExists());
+          return listTags.get().request(this).apply(checkExists());
         } catch (Exception e) {
           throw asRestApiException("Cannot list tags", e);
         }

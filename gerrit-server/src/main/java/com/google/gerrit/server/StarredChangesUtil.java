@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -296,14 +297,22 @@ public class StarredChangesUtil {
     }
   }
 
-  public void ignore(Account.Id accountId, Project.NameKey project, Change.Id changeId)
-      throws OrmException {
-    star(accountId, project, changeId, ImmutableSet.of(IGNORE_LABEL), ImmutableSet.of());
+  public void ignore(ChangeResource rsrc) throws OrmException {
+    star(
+        rsrc.getUser().asIdentifiedUser().getAccountId(),
+        rsrc.getProject(),
+        rsrc.getChange().getId(),
+        ImmutableSet.of(IGNORE_LABEL),
+        ImmutableSet.of());
   }
 
-  public void unignore(Account.Id accountId, Project.NameKey project, Change.Id changeId)
-      throws OrmException {
-    star(accountId, project, changeId, ImmutableSet.of(), ImmutableSet.of(IGNORE_LABEL));
+  public void unignore(ChangeResource rsrc) throws OrmException {
+    star(
+        rsrc.getUser().asIdentifiedUser().getAccountId(),
+        rsrc.getProject(),
+        rsrc.getChange().getId(),
+        ImmutableSet.of(),
+        ImmutableSet.of(IGNORE_LABEL));
   }
 
   public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) throws OrmException {

@@ -3458,4 +3458,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).ignore(false);
     assertThat(gApi.changes().id(r.getChangeId()).ignored()).isFalse();
   }
+
+  @Test
+  public void cannotIgnoreOwnChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).ignore(true);
+    assertThat(gApi.changes().id(changeId).ignored()).isFalse();
+  }
 }

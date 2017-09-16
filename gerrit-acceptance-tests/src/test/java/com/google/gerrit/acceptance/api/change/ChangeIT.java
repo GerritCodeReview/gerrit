@@ -3445,6 +3445,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).ignore(true);
+    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
 
     sender.clear();
     setApiUser(admin);
@@ -3452,5 +3453,9 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).ignore(false);
+    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isFalse();
   }
 }

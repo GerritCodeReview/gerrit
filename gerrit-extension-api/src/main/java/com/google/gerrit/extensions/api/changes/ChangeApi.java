@@ -112,6 +112,13 @@ public interface ChangeApi {
   void ignore(boolean ignore) throws RestApiException;
 
   /**
+   * Check if this change is ignored.
+   *
+   * @return true if the change is ignored
+   */
+  boolean ignored() throws RestApiException;
+
+  /**
    * Mute or un-mute this change.
    *
    * @param mute mute the change if true
@@ -558,6 +565,11 @@ public interface ChangeApi {
 
     @Override
     public void ignore(boolean ignore) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean ignored() throws RestApiException {
       throw new NotImplementedException();
     }
 

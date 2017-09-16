@@ -19,6 +19,7 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -102,6 +103,16 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
+  }
+
+  public ListPlugins request(Plugins.ListRequest request) {
+    this.setAll(request.getAll());
+    this.setStart(request.getStart());
+    this.setLimit(request.getLimit());
+    this.setMatchPrefix(request.getPrefix());
+    this.setMatchSubstring(request.getSubstring());
+    this.setMatchRegex(request.getRegex());
+    return this;
   }
 
   @Override

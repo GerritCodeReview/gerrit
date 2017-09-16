@@ -93,6 +93,30 @@
       "revId": "c1a7a22b071580741f308f07d03a444e003fb0da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96ad380f_42e255fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-16T07:14:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by \u0027via API\u0027 here.  In the REST endpoint any request to ignore the caller\u0027s own change will just return OK but not actually add the \"ignore\" star.\n\n if (rsrc.isUserOwner() || isIgnored(rsrc)) {\n   // early exit for own changes and already ignored changes\n   return Response.ok(\"\");\n }\n\nI\u0027ve added a test for this in https://gerrit-review.googlesource.com/127452",
+      "parentUuid": "4a7d3b57_42d17b82",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "c1a7a22b071580741f308f07d03a444e003fb0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

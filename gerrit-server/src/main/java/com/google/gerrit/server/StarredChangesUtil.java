@@ -319,6 +319,10 @@ public class StarredChangesUtil {
     return getLabels(accountId, changeId).contains(IGNORE_LABEL);
   }
 
+  public boolean isIgnored(ChangeResource rsrc) throws OrmException {
+    return isIgnoredBy(rsrc.getChange().getId(), rsrc.getUser().asIdentifiedUser().getAccountId());
+  }
+
   private static String getMuteLabel(Change change) {
     return MUTE_LABEL + "/" + change.currentPatchSetId().get();
   }

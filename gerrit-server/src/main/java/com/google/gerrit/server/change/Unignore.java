@@ -18,11 +18,9 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +32,10 @@ public class Unignore
 
   public static class Input {}
 
-  private final Provider<IdentifiedUser> self;
   private final StarredChangesUtil stars;
 
   @Inject
-  Unignore(Provider<IdentifiedUser> self, StarredChangesUtil stars) {
-    this.self = self;
+  Unignore(StarredChangesUtil stars) {
     this.stars = stars;
   }
 
@@ -70,7 +66,7 @@ public class Unignore
 
   private boolean isIgnored(ChangeResource rsrc) {
     try {
-      return stars.isIgnoredBy(rsrc.getChange().getId(), self.get().getAccountId());
+      return stars.isIgnored(rsrc);
     } catch (OrmException e) {
       log.error("failed to check ignored star", e);
     }

@@ -303,7 +303,7 @@ junit_tests(
         ":testutil",
         "//gerrit-index:query_exception",
         "//gerrit-patch-jgit:server",
-        "//java/com/google/gerrit/extensions",
+        "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//lib:args4j",
         "//lib:grappa",
         "//lib:gson",

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.restapi;
+package com.google.gerrit.extensions.restapi.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -23,6 +23,7 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.OptionalSubject;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Optional;

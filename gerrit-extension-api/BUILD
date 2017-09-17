@@ -54,7 +54,8 @@ junit_tests(
     srcs = glob(["src/test/java/**/*Test.java"]),
     deps = [
         ":api",
-        "//java/com/google/gerrit/extensions",
+        "//java/com/google/gerrit/extensions/client/testing:client-test-util",
+        "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//lib:truth",
         "//lib/guice",
     ],

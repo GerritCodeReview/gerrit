@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;

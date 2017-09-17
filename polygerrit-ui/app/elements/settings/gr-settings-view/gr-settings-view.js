@@ -29,6 +29,8 @@
   const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
       'Documentation';
   const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
+  const ABSOLUTE_URL_PATTERN = /^https?:/;
+  const TRAILING_SLASH_PATTERN = /\/$/;
 
   Polymer({
     is: 'gr-settings-view',
@@ -366,9 +368,13 @@
 
     _getFilterDocsLink(docsBaseUrl) {
       let base = docsBaseUrl;
-      if (!base || !base.startsWith('http')) {
+      if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
         base = GERRIT_DOCS_BASE_URL;
       }
+
+      // Remove any trailing slash, since it is in the GERRIT_DOCS_FILTER_PATH.
+      base = base.replace(TRAILING_SLASH_PATTERN, '');
+
       return base + GERRIT_DOCS_FILTER_PATH;
     },
   });

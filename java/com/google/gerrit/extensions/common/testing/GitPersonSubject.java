@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -20,29 +20,22 @@ import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
-import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
-import com.google.gerrit.truth.ListSubject;
+import com.google.gerrit.extensions.common.GitPerson;
+import java.sql.Timestamp;
 
-public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
+public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
 
-  public static DiffInfoSubject assertThat(DiffInfo diffInfo) {
-    return assertAbout(DiffInfoSubject::new).that(diffInfo);
+  public static GitPersonSubject assertThat(GitPerson gitPerson) {
+    return assertAbout(GitPersonSubject::new).that(gitPerson);
   }
 
-  private DiffInfoSubject(FailureMetadata failureMetadata, DiffInfo diffInfo) {
-    super(failureMetadata, diffInfo);
+  private GitPersonSubject(FailureMetadata failureMetadata, GitPerson gitPerson) {
+    super(failureMetadata, gitPerson);
   }
 
-  public ListSubject<ContentEntrySubject, ContentEntry> content() {
+  public ComparableSubject<?, Timestamp> creationDate() {
     isNotNull();
-    DiffInfo diffInfo = actual();
-    return ListSubject.assertThat(diffInfo.content, ContentEntrySubject::assertThat)
-        .named("content");
-  }
-
-  public ComparableSubject<?, ChangeType> changeType() {
-    isNotNull();
-    DiffInfo diffInfo = actual();
-    return Truth.assertThat(diffInfo.changeType).named("changeType");
+    GitPerson gitPerson = actual();
+    return Truth.assertThat(gitPerson.date).named("creationDate");
   }
 }

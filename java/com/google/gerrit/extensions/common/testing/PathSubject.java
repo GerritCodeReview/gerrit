@@ -12,29 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth;
-import java.sql.Timestamp;
+import java.nio.file.Path;
 
-public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
-
-  public static GitPersonSubject assertThat(GitPerson gitPerson) {
-    return assertAbout(GitPersonSubject::new).that(gitPerson);
+public class PathSubject extends Subject<PathSubject, Path> {
+  private PathSubject(FailureMetadata failureMetadata, Path path) {
+    super(failureMetadata, path);
   }
 
-  private GitPersonSubject(FailureMetadata failureMetadata, GitPerson gitPerson) {
-    super(failureMetadata, gitPerson);
-  }
-
-  public ComparableSubject<?, Timestamp> creationDate() {
-    isNotNull();
-    GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.date).named("creationDate");
+  public static PathSubject assertThat(Path path) {
+    return assertAbout(PathSubject::new).that(path);
   }
 }

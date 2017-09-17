@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.extensions.common.DiffInfoSubject.assertThat;
-import static com.google.gerrit.extensions.common.FileInfoSubject.assertThat;
+import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
+import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 
 import com.google.common.base.Joiner;

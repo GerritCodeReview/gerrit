@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.extensions.common.PathSubject;
+import com.google.gerrit.extensions.common.testing.PathSubject;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testutil.GerritBaseTests;
 import java.io.IOException;

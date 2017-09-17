@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -21,6 +21,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
+import com.google.gerrit.extensions.common.FileInfo;
 
 public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
 

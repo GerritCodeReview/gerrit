@@ -20,8 +20,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
-import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
-import static com.google.gerrit.extensions.restapi.BinaryResultSubject.assertThat;
+import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
+import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;

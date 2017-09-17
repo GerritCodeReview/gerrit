@@ -1,5 +1,5 @@
 java_library(
-    name = "extensions",
+    name = "client-test-util",
     testonly = 1,
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],

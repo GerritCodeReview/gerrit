@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ea0283a_915dfadd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-18T21:08:29Z",
+      "side": 1,
+      "message": "I have created and added a link to issue 7251. (It\u0027s listed as a blocker for issue 4760.)\n\nA paragraph is added regarding how the next-steps relate to this change.",
+      "parentUuid": "1723e21d_4240dc09",
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38b7f28f_64d8808b",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-09-18T17:14:05Z",
       "side": 1,
       "message": "Holy JavaScript.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a313924_d65676ff",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-18T21:08:29Z",
+      "side": 1,
+      "message": "I mean... yeah.",
+      "parentUuid": "38b7f28f_64d8808b",
       "range": {
         "startLine": 57,
         "startChar": 6,
@@ -62,6 +104,30 @@
       "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a7b87e6_46bb198a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-18T21:08:29Z",
+      "side": 1,
+      "message": "The linter is happy either way, but extra indentation on the third clause does make the associativity clearer. Done.",
+      "parentUuid": "df306ff4_9851f415",
+      "range": {
+        "startLine": 310,
+        "startChar": 10,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

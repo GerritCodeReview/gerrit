@@ -160,7 +160,7 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
+  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps, boolean visible)
       throws OrmException, IOException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
@@ -179,7 +179,7 @@ public class MergeSuperSet {
     SubmitTypeRecord str =
         ps == cd.currentPatchSet()
             ? cd.submitTypeRecord()
-            : submitRuleEvaluatorFactory.create(cd).setPatchSet(ps).getSubmitType();
+            : submitRuleEvaluatorFactory.create(user, cd).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }
@@ -259,7 +259,7 @@ public class MergeSuperSet {
           }
         }
 
-        if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
+        if (submitType(user, cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
           if (visible) {
             visibleChanges.add(cd);
           } else {

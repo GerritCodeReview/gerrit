@@ -32,6 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -517,7 +518,10 @@ public class RefControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        return cd.changeControl().forUser(getUser()).asForChange(cd, db);
+        // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
+        return getProjectControl()
+            .controlFor(cd.db(), cd.change())
+            .asForChange(cd, Providers.of(cd.db()));
       } catch (OrmException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }

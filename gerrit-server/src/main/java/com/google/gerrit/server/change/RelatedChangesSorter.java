@@ -27,7 +27,9 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -53,20 +55,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
-  RelatedChangesSorter(GitRepositoryManager repoManager) {
+  RelatedChangesSorter(
+      GitRepositoryManager repoManager, ProjectControl.GenericFactory projectControlFactory) {
     this.repoManager = repoManager;
+    this.projectControlFactory = projectControlFactory;
   }
 
-  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
-      throws OrmException, IOException {
+  public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs, CurrentUser user)
+      throws OrmException, IOException, NoSuchProjectException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.getRevision().get());
     checkArgument(start != null, "%s not found in %s", startPs, in);
-    ProjectControl ctl = start.data().changeControl().getProjectControl();
+    ProjectControl ctl = projectControlFactory.controlFor(start.data().project(), user);
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =

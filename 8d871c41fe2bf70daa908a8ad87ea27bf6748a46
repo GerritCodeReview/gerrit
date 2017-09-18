@@ -22,6 +22,30 @@
       "revId": "8d871c41fe2bf70daa908a8ad87ea27bf6748a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca4b656d_747ce3ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-18T14:39:34Z",
+      "side": 1,
+      "message": "Ah, i\u0027ve renamed it to editBasedOnCurrentPatchSet.\n\nThanks, done.",
+      "parentUuid": "43d69f4e_65b4ae52",
+      "range": {
+        "startLine": 486,
+        "startChar": 16,
+        "endLine": 486,
+        "endChar": 29
+      },
+      "revId": "8d871c41fe2bf70daa908a8ad87ea27bf6748a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

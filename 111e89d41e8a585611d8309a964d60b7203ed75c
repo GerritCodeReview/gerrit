@@ -17,6 +17,24 @@
       "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f89a31_bad14b7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-18T15:15:20Z",
+      "side": 1,
+      "message": "Actually it is thrown by stars.ignore(rsrc)\n\nBy below, do you mean the next file?\nsame there :)",
+      "parentUuid": "7a10c9ce_9d36cbbf",
+      "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

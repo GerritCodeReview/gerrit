@@ -52,6 +52,24 @@
       "revId": "00da35c562fd86c46ec27e1dd70f51d297da3f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c15964e0_d361998e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 44
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-18T21:35:49Z",
+      "side": 1,
+      "message": "that\u0027s for the changeIsOpen function i am using below. See line 470",
+      "parentUuid": "279e216e_9861c4ff",
+      "revId": "00da35c562fd86c46ec27e1dd70f51d297da3f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

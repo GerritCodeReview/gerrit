@@ -926,6 +926,9 @@
           change.current_revision === edit.base_revision) {
         change.current_revision = edit.commit.commit;
         this._patchRange.patchNum = this.EDIT_NAME;
+        // Copy over actions from the patch set base. Context: Issue 7243
+        change.revisions[edit.commit.commit].actions =
+            change.revisions[edit.base_revision].actions;
       }
     },
 

@@ -20,8 +20,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -30,6 +32,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
+import com.google.gerrit.server.StarredChangesUtil.MutuallyExclusiveLabelsException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -129,7 +133,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource rsrc, EmptyInput in)
-        throws AuthException, OrmException, IOException {
+        throws RestApiException, OrmException, IOException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed to add starred change");
       }
@@ -140,6 +144,10 @@ public class StarredChanges
             change.getId(),
             StarredChangesUtil.DEFAULT_LABELS,
             null);
+      } catch (MutuallyExclusiveLabelsException e) {
+        throw new ResourceConflictException(e.getMessage());
+      } catch (IllegalLabelException e) {
+        throw new BadRequestException(e.getMessage());
       } catch (OrmDuplicateKeyException e) {
         return Response.none();
       }

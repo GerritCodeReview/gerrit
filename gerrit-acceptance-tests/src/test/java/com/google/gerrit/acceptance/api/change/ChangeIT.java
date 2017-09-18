@@ -3507,6 +3507,37 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void mute() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    in = new AddReviewerInput();
+    in.reviewer = user2.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    setApiUser(user);
+    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isNull();
+    gApi.changes().id(r.getChangeId()).mute(true);
+    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isTrue();
+
+    setApiUser(user2);
+    sender.clear();
+    amendChange(r.getChangeId());
+
+    setApiUser(user);
+    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isNull();
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
+  }
+
+  @Test
   public void cannotSetInvalidLabel() throws Exception {
     String changeId = createChange().getChangeId();
 

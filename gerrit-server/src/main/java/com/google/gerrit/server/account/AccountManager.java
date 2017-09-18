@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsUpdate;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -70,7 +69,7 @@ public class AccountManager {
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
-  private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final GroupsUpdate.Factory groupsUpdateFactory;
 
   @Inject
   AccountManager(
@@ -87,7 +86,7 @@ public class AccountManager {
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory,
-      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      GroupsUpdate.Factory groupsUpdateFactory) {
     this.schema = schema;
     this.sequences = sequences;
     this.accounts = accounts;
@@ -102,7 +101,7 @@ public class AccountManager {
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
-    this.groupsUpdateProvider = groupsUpdateProvider;
+    this.groupsUpdateFactory = groupsUpdateFactory;
   }
 
   /** @return user identified by this external identity string */
@@ -253,9 +252,8 @@ public class AccountManager {
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
-      GroupsUpdate groupsUpdate = groupsUpdateProvider.get();
       // The user initiated this request by logging in. -> Attribute all modifications to that user.
-      groupsUpdate.setCurrentUser(user);
+      GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
       try {
         groupsUpdate.addGroupMember(db, uuid, newId);
       } catch (NoSuchGroupException e) {

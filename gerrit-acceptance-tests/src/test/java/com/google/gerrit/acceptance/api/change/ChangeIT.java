@@ -3521,16 +3521,16 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isNull();
+    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
     gApi.changes().id(r.getChangeId()).mute(true);
-    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isTrue();
+    assertThat(gApi.changes().id(r.getChangeId()).muted()).isTrue();
 
     setApiUser(user2);
     sender.clear();
     amendChange(r.getChangeId());
 
     setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).get().muted).isNull();
+    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);

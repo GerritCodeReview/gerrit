@@ -699,6 +699,15 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public boolean muted() throws RestApiException {
+    try {
+      return stars.isMutedBy(change.getChange(), change.getUser().getAccountId());
+    } catch (OrmException e) {
+      throw asRestApiException("Cannot check if muted", e);
+    }
+  }
+
+  @Override
   public PureRevertInfo pureRevert() throws RestApiException {
     return pureRevert(null);
   }

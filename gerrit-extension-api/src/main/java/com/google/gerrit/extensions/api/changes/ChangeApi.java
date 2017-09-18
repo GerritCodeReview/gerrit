@@ -126,6 +126,13 @@ public interface ChangeApi {
   void mute(boolean mute) throws RestApiException;
 
   /**
+   * Check if this change is muted.
+   *
+   * @return true if the change is muted.
+   */
+  boolean muted() throws RestApiException;
+
+  /**
    * Create a new change that reverts this change.
    *
    * @see Changes#id(int)
@@ -575,6 +582,11 @@ public interface ChangeApi {
 
     @Override
     public void mute(boolean mute) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean muted() throws RestApiException {
       throw new NotImplementedException();
     }
 

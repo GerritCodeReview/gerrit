@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "291cfd45_e144dc50",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-18T16:43:00Z",
+      "side": 1,
+      "message": "Nope, i tryed to figure out where the problem was comming from before finding the problem here. \n\nFor this part \"Probably better to address that than to just remove the default.\" im not sure what to find, as i spent alot of time looking into finding why it was buggy with setting a default value of false but did not find anything that would explain it.",
+      "parentUuid": "800c1a37_aabeb97a",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55168b9b_3504a644",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
         "patchSetId": 60

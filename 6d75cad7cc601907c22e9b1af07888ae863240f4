@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d05d6648_cb4b68da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/StarredChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-18T23:27:16Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 84
+      },
+      "revId": "6d75cad7cc601907c22e9b1af07888ae863240f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d955e4f9_5e4bd9a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
         "patchSetId": 1
@@ -14,6 +37,30 @@
       "writtenOn": "2017-09-18T15:16:14Z",
       "side": 1,
       "message": "IIRC typically we don\u0027t import inner classes, so this should be removed and referenced as StarredChangesUtil.IllegalLabelException in the code\n\nAlthough, that makes it rather less readable than more readable, but follows the rest of the code",
+      "range": {
+        "startLine": 24,
+        "startChar": 51,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "6d75cad7cc601907c22e9b1af07888ae863240f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb955d4_a9289fa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-18T23:27:16Z",
+      "side": 1,
+      "message": "Importing it like this is consistent with how it\u0027s imported in existing code (see StarredChanges.java for example)",
+      "parentUuid": "d955e4f9_5e4bd9a0",
       "range": {
         "startLine": 24,
         "startChar": 51,

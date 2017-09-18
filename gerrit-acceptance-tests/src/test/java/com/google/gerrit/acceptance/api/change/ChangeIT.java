@@ -3464,8 +3464,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void cannotIgnoreOwnChange() throws Exception {
     String changeId = createChange().getChangeId();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot ignore own change");
     gApi.changes().id(changeId).ignore(true);
-    assertThat(gApi.changes().id(changeId).ignored()).isFalse();
   }
 
   @Test

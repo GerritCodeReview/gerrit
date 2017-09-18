@@ -33,6 +33,11 @@
           return this._getProjectBranchesSuggestions.bind(this);
         },
       },
+      options: {
+        type: Object,
+        value: [],
+        notify: true,
+      },
       canCreate: {
         type: Boolean,
         notify: true,
@@ -48,6 +53,16 @@
     attached() {
       this.$.restAPI.getProjectConfig(this.projectName).then(config => {
         this._projectConfig = config;
+        if (config.private_by_default &&
+            config.private_by_default.inherited_value) {
+          this.options = {
+            values: 'private',
+          };
+        } else {
+          this.options = {
+            values: 'wip',
+          };
+        }
       });
     },
 
@@ -60,8 +75,14 @@
     },
 
     handleCreateChange() {
-      const isPrivate = this.$.privateChangeCheckBox.checked;
-      const isWip = this.$.wipChangeCheckBox.checked;
+      let isWip = false;
+      let isPrivate = false;
+      if (this.options.values === 'wip') {
+        isWip = true;
+      }
+      if (this.options.values === 'private') {
+        isPrivate = true;
+      }
       return this.$.restAPI.createChange(this.projectName, this.branch,
           this.subject, this.topic, isPrivate, isWip)
           .then(changeCreated => {

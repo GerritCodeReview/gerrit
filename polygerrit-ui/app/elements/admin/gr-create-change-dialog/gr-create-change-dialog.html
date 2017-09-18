@@ -86,17 +86,15 @@ limitations under the License.
         <section>
           <span class="title">Options</span>
           <section>
-            <label for="privateChangeCheckBox">Private Change</label>
-            <input
-                type="checkbox"
-                id="privateChangeCheckBox"
-                checked$="[[_projectConfig.private_by_default.inherited_value]]">
-          </section>
-          <section>
-            <label for="wipChangeCheckBox">WIP Change</label>
-            <input
-                type="checkbox"
-                id="wipChangeCheckBox">
+            <gr-select
+                  id="optionsSelect "
+                  bind-value="{{options.values)}}">
+              <select>
+                <option value="private">Private</option>
+                <option value="wip">WIP</option>
+                <option value="new">NEW</option>
+              </select>
+            </gr-select>
           </section>
         </section>
       </div>

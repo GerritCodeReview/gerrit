@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "952e6428_b0c440f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T08:15:18Z",
+      "side": 1,
+      "message": "Yes, there is (it is just calling isVisible through the indirection of Permission Backend): \n\n  permissionBackend.user(user).change(notes).database(db).check(ChangePermission.READ); // use check() or test() depending on intent",
+      "parentUuid": "fb8926bd_5055944f",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ceb5c39a_fdb05ca6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 79

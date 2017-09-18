@@ -60,7 +60,7 @@ public class Unmute
       // early exit for own changes and not muted changes
       return Response.ok("");
     }
-    stars.unmute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
+    stars.unmute(rsrc);
     return Response.ok("");
   }
 

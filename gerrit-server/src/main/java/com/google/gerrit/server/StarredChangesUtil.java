@@ -334,24 +334,22 @@ public class StarredChangesUtil {
     return MUTE_LABEL + "/" + change.currentPatchSetId().get();
   }
 
-  public void mute(Account.Id accountId, Project.NameKey project, Change change)
-      throws OrmException, IllegalLabelException {
+  public void mute(ChangeResource rsrc) throws OrmException, IllegalLabelException {
     star(
-        accountId,
-        project,
-        change.getId(),
-        ImmutableSet.of(getMuteLabel(change)),
+        rsrc.getUser().asIdentifiedUser().getAccountId(),
+        rsrc.getProject(),
+        rsrc.getChange().getId(),
+        ImmutableSet.of(getMuteLabel(rsrc.getChange())),
         ImmutableSet.of());
   }
 
-  public void unmute(Account.Id accountId, Project.NameKey project, Change change)
-      throws OrmException, IllegalLabelException {
+  public void unmute(ChangeResource rsrc) throws OrmException, IllegalLabelException {
     star(
-        accountId,
-        project,
-        change.getId(),
+        rsrc.getUser().asIdentifiedUser().getAccountId(),
+        rsrc.getProject(),
+        rsrc.getChange().getId(),
         ImmutableSet.of(),
-        ImmutableSet.of(getMuteLabel(change)));
+        ImmutableSet.of(getMuteLabel(rsrc.getChange())));
   }
 
   public boolean isMutedBy(Change change, Account.Id accountId) throws OrmException {

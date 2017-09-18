@@ -59,7 +59,7 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
       // early exit for own changes and already muted changes
       return Response.ok("");
     }
-    stars.mute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
+    stars.mute(rsrc);
     return Response.ok("");
   }
 

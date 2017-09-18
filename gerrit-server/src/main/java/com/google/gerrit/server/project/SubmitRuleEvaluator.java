@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
@@ -43,6 +45,7 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,29 +90,45 @@ public class SubmitRuleEvaluator {
   }
 
   public interface Factory {
-    SubmitRuleEvaluator create(ChangeData cd);
+    SubmitRuleEvaluator create(CurrentUser user, ChangeData cd);
   }
 
   private final AccountCache accountCache;
   private final Accounts accounts;
   private final Emails emails;
+  private final ProjectCache projectCache;
+  private final Provider<ReviewDb> dbProvider;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData cd;
 
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
   private SubmitRuleOptions opts;
+  private Change change;
+  private CurrentUser user;
   private PatchSet patchSet;
   private boolean logErrors = true;
   private long reductionsConsumed;
-  private ChangeControl control;
+  private ProjectState projectState;
 
   private Term submitRule;
 
   @Inject
   SubmitRuleEvaluator(
-      AccountCache accountCache, Accounts accounts, Emails emails, @Assisted ChangeData cd) {
+      AccountCache accountCache,
+      Accounts accounts,
+      Emails emails,
+      ProjectCache projectCache,
+      Provider<ReviewDb> dbProvider,
+      ChangeControl.GenericFactory changeControlFactory,
+      @Assisted CurrentUser user,
+      @Assisted ChangeData cd) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
+    this.projectCache = projectCache;
+    this.dbProvider = dbProvider;
+    this.changeControlFactory = changeControlFactory;
+    this.user = user;
     this.cd = cd;
   }
 
@@ -225,19 +244,18 @@ public class SubmitRuleEvaluator {
   public List<SubmitRecord> evaluate() {
     initOptions();
     try {
-      initChange();
+      init();
     } catch (OrmException e) {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
-    Change c = control.getChange();
-    if (!opts.allowClosed() && c.getStatus().isClosed()) {
+    if (!opts.allowClosed() && change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
     if (!opts.allowDraft()) {
-      if (c.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
+      if (change.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
         return cannotSubmitDraft();
       }
     }
@@ -250,7 +268,7 @@ public class SubmitRuleEvaluator {
               "can_submit",
               "locate_submit_filter",
               "filter_submit_results",
-              control.getUser());
+              user);
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -271,7 +289,9 @@ public class SubmitRuleEvaluator {
 
   private List<SubmitRecord> cannotSubmitDraft() {
     try {
-      if (!control.isDraftVisible(cd.db(), cd)) {
+      if (!changeControlFactory
+          .controlFor(dbProvider.get(), change, user)
+          .isDraftVisible(cd.db(), cd)) {
         return createRuleError("Patch set " + patchSet.getId() + " not found");
       }
       if (patchSet.isDraft()) {
@@ -279,8 +299,7 @@ public class SubmitRuleEvaluator {
       }
       return createRuleError("Cannot submit draft changes");
     } catch (OrmException err) {
-      PatchSet.Id psId =
-          patchSet != null ? patchSet.getId() : control.getChange().currentPatchSetId();
+      PatchSet.Id psId = patchSet != null ? patchSet.getId() : patchSet.getId();
       String msg = "Cannot check visibility of patch set " + psId;
       log.error(msg, err);
       return createRuleError(msg);
@@ -414,17 +433,22 @@ public class SubmitRuleEvaluator {
   public SubmitTypeRecord getSubmitType() {
     initOptions();
     try {
-      initChange();
+      init();
     } catch (OrmException e) {
       return typeError("Error looking up change " + cd.getId(), e);
     }
 
     try {
-      if (control.getChange().getStatus() == Change.Status.DRAFT
-          && !control.isDraftVisible(cd.db(), cd)) {
+      if (change.getStatus() == Change.Status.DRAFT
+          && !changeControlFactory
+              .controlFor(dbProvider.get(), change, user)
+              .isDraftVisible(cd.db(), cd)) {
         return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
       }
-      if (patchSet.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
+      if (patchSet.isDraft()
+          && !changeControlFactory
+              .controlFor(dbProvider.get(), change, user)
+              .isDraftVisible(cd.db(), cd)) {
         return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
       }
     } catch (OrmException err) {
@@ -561,7 +585,6 @@ public class SubmitRuleEvaluator {
   }
 
   private PrologEnvironment getPrologEnvironment(CurrentUser user) throws RuleEvalException {
-    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
       if (opts.rule() == null) {
@@ -571,12 +594,10 @@ public class SubmitRuleEvaluator {
       }
     } catch (CompileException err) {
       String msg;
-      if (opts.rule() == null && control.getProjectControl().isOwner()) {
+      if (opts.rule() == null) {
         msg = String.format("Cannot load rules.pl for %s: %s", getProjectName(), err.getMessage());
-      } else if (opts.rule() != null) {
-        msg = err.getMessage();
       } else {
-        msg = String.format("Cannot load rules.pl for %s", getProjectName());
+        msg = err.getMessage();
       }
       throw new RuleEvalException(msg, err);
     }
@@ -598,7 +619,6 @@ public class SubmitRuleEvaluator {
       String filterRuleLocatorName,
       String filterRuleWrapperName)
       throws RuleEvalException {
-    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment childEnv = env;
     for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
@@ -684,9 +704,20 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private void initChange() throws OrmException {
-    if (control == null) {
-      control = cd.changeControl();
+  private void init() throws OrmException {
+    if (change == null) {
+      change = cd.change();
+      if (change == null) {
+        throw new OrmException("No change found");
+      }
+    }
+
+    if (projectState == null) {
+      try {
+        projectState = projectCache.checkedGet(change.getProject());
+      } catch (IOException e) {
+        throw new OrmException("Can't load project state", e);
+      }
     }
 
     if (patchSet == null) {
@@ -698,6 +729,6 @@ public class SubmitRuleEvaluator {
   }
 
   private String getProjectName() {
-    return control.getProjectControl().getProjectState().getName();
+    return projectState.getName();
   }
 }

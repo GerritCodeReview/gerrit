@@ -27,6 +27,7 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -63,13 +64,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException {
+      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException {
     RelatedInfo relatedInfo = new RelatedInfo();
     relatedInfo.changes = getRelated(rsrc);
     return relatedInfo;
   }
 
-  private List<ChangeAndCommit> getRelated(RevisionResource rsrc) throws OrmException, IOException {
+  private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
+      throws OrmException, IOException, NoSuchProjectException {
     Set<String> groups = getAllGroups(rsrc.getNotes());
     if (groups.isEmpty()) {
       return Collections.emptyList();
@@ -93,7 +95,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     reloadChangeIfStale(cds, basePs);
 
-    for (PatchSetData d : sorter.sort(cds, basePs)) {
+    for (PatchSetData d : sorter.sort(cds, basePs, rsrc.getUser())) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.getId().equals(basePs.getId())) {

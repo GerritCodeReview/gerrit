@@ -46,6 +46,30 @@
       "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3e6c92_e6021164",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T23:51:36Z",
+      "side": 1,
+      "message": "Here\u0027s some more context that may be useful: this change is the functional inverse of this abandoned change.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/121111",
+      "parentUuid": "15104637_9672fdbc",
+      "range": {
+        "startLine": 929,
+        "startChar": 8,
+        "endLine": 931,
+        "endChar": 57
+      },
+      "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

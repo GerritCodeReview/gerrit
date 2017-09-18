@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.gpg.testutil;
+package com.google.gerrit.gpg.testing;
 
 /**
  * Test keys specific to web-of-trust checks.

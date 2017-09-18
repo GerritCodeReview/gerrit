@@ -356,6 +356,10 @@ public class StarredChangesUtil {
     return getLabels(accountId, change.getId()).contains(getMuteLabel(change));
   }
 
+  public boolean isMuted(ChangeResource rsrc) throws OrmException {
+    return isMutedBy(rsrc.getChange(), rsrc.getUser().asIdentifiedUser().getAccountId());
+  }
+
   private static StarRef readLabels(Repository repo, String refName) throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {

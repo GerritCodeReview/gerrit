@@ -1,5 +1,5 @@
 java_library(
-    name = "testutil",
+    name = "gpg-test-util",
     testonly = 1,
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],

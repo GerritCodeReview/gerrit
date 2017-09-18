@@ -187,7 +187,7 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
-        throws AuthException, OrmException, IOException {
+        throws AuthException, OrmException, IOException, IllegalLabelException {
       if (self.get() != rsrc.getUser()) {
         throw new AuthException("not allowed remove starred change");
       }

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.StarredChangesUtil.MutuallyExclusiveLabelsException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,7 +53,7 @@ public class Ignore
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException {
+      throws RestApiException, OrmException, IllegalLabelException {
     try {
       if (rsrc.isUserOwner()) {
         throw new BadRequestException("cannot ignore own change");

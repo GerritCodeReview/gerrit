@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -78,7 +79,7 @@ public class Schema_123 extends SchemaVersion {
                 ObjectId.zeroId(), id, RefNames.refsStarredChanges(e.getValue(), e.getKey())));
       }
       bru.execute(rw, new TextProgressMonitor());
-    } catch (IOException ex) {
+    } catch (IOException | IllegalLabelException ex) {
       throw new OrmException(ex);
     }
   }

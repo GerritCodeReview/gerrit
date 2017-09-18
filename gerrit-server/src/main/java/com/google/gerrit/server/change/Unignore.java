@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,7 +50,7 @@ public class Unignore
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException {
+      throws RestApiException, OrmException, IllegalLabelException {
     if (isIgnored(rsrc)) {
       stars.unignore(rsrc);
     }

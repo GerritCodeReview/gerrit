@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "800c1a37_aabeb97a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-18T16:36:39Z",
+      "side": 1,
+      "message": "Do you know why this made it buggy? Probably better to address that than to just remove the default.",
+      "parentUuid": "4bfc92a4_ab277269",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55168b9b_3504a644",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
         "patchSetId": 60

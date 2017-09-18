@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -52,8 +53,11 @@ public class Ignore
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
     try {
-      // Don't try to ignore own changes or already ignored changes
-      if (canIgnore(rsrc)) {
+      if (rsrc.isUserOwner()) {
+        throw new BadRequestException("cannot ignore own change");
+      }
+
+      if (!isIgnored(rsrc)) {
         stars.ignore(rsrc);
       }
       return Response.ok("");

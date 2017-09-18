@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "55c62273_f0db336e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-18T13:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1764629_01f3c864",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "87dded2b28cc8093765091aea4c846cdbc5592fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0083f952_69eaef26",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-09-18T12:54:49Z",
       "side": 1,
       "message": "\"Bug: Issue 7238\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 11
+      },
+      "revId": "87dded2b28cc8093765091aea4c846cdbc5592fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da615b83_a80ae47a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-18T13:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0083f952_69eaef26",
       "range": {
         "startLine": 14,
         "startChar": 0,

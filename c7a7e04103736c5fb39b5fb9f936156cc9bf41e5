@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4130225_90a5f3e0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-18T12:19:11Z",
+      "side": 1,
+      "message": "check/check.access",
+      "range": {
+        "startLine": 1195,
+        "startChar": 27,
+        "endLine": 1195,
+        "endChar": 32
+      },
+      "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d2d815f_e181d94a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-18T12:19:11Z",
+      "side": 1,
+      "message": "no need for a new line? or truncate the following lines to keep consistent.",
+      "range": {
+        "startLine": 2615,
+        "startChar": 0,
+        "endLine": 2615,
+        "endChar": 6
+      },
+      "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea4b813_8d3f3063",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2621,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-18T12:19:11Z",
+      "side": 1,
+      "message": "\u0027project\u0027 is not necessary any more.",
+      "range": {
+        "startLine": 2621,
+        "startChar": 54,
+        "endLine": 2621,
+        "endChar": 62
+      },
+      "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9968df4d_acf0cafa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-18T12:19:11Z",
+      "side": 1,
+      "message": "how about \u0027nonExisting\u0027",
+      "range": {
+        "startLine": 86,
+        "startChar": 14,
+        "endLine": 86,
+        "endChar": 25
+      },
+      "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

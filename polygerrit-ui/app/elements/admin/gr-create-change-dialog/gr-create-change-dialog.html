@@ -24,7 +24,6 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
@@ -40,7 +39,6 @@ limitations under the License.
       }
       gr-autocomplete {
         border: none;
-        float: right;
         --gr-autocomplete: {
           border: 1px solid #d1d2d3;
           border-radius: 2px;
@@ -66,22 +64,26 @@ limitations under the License.
         </section>
         <section>
           <span class="title">Enter topic for new change (optional)</span>
-          <input
-              is="iron-input"
-              id="tagNameInput"
-              bind-value="{{topic}}">
+          <span class="value">
+            <input
+                is="iron-input"
+                id="tagNameInput"
+                bind-value="{{topic}}">
+          </span>
         </section>
         <section>
           <span class="title">Description</span>
-          <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              rows="4"
-              max-rows="15"
-              bind-value="{{subject}}"
-              placeholder="Insert the description of the change.">
-          </iron-autogrow-textarea>
+          <span class="value">
+            <iron-autogrow-textarea
+                id="messageInput"
+                class="message"
+                autocomplete="on"
+                rows="4"
+                max-rows="15"
+                bind-value="{{subject}}"
+                placeholder="Insert the description of the change.">
+            </iron-autogrow-textarea>
+          </span>
         </section>
         <section>
           <span class="title">Options</span>
@@ -91,12 +93,6 @@ limitations under the License.
                 type="checkbox"
                 id="privateChangeCheckBox"
                 checked$="[[_projectConfig.private_by_default.inherited_value]]">
-          </section>
-          <section>
-            <label for="wipChangeCheckBox">WIP Change</label>
-            <input
-                type="checkbox"
-                id="wipChangeCheckBox">
           </section>
         </section>
       </div>

@@ -58,7 +58,6 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllUsersName;
@@ -76,7 +75,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
-import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -282,44 +280,23 @@ public class ChangeData {
 
   public static class Factory {
     private final AssistedFactory assistedFactory;
-    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
-    Factory(AssistedFactory assistedFactory, ChangeControl.GenericFactory changeControlFactory) {
+    Factory(AssistedFactory assistedFactory) {
       this.assistedFactory = assistedFactory;
-      this.changeControlFactory = changeControlFactory;
     }
 
     public ChangeData create(ReviewDb db, Project.NameKey project, Change.Id id) {
-      return assistedFactory.create(db, project, id, null, null, null);
+      return assistedFactory.create(db, project, id, null, null);
     }
 
     public ChangeData create(ReviewDb db, Change change) {
-      return assistedFactory.create(db, change.getProject(), change.getId(), change, null, null);
+      return assistedFactory.create(db, change.getProject(), change.getId(), change, null);
     }
 
     public ChangeData create(ReviewDb db, ChangeNotes notes) {
       return assistedFactory.create(
-          db, notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes, null);
-    }
-
-    public ChangeData create(ReviewDb db, ChangeControl control) {
-      return assistedFactory.create(
-          db,
-          control.getChange().getProject(),
-          control.getId(),
-          control.getChange(),
-          control.getNotes(),
-          control);
-    }
-
-    // TODO(hiesel): Remove these after ChangeControl is removed from ChangeData
-    public ChangeData create(ReviewDb db, ChangeResource rsrc) throws NoSuchChangeException {
-      return create(db, changeControlFactory.controlFor(rsrc.getNotes(), rsrc.getUser()));
-    }
-
-    public ChangeData create(ReviewDb db, ChangeContext ctx) throws NoSuchChangeException {
-      return create(db, changeControlFactory.controlFor(ctx.getNotes(), ctx.getUser()));
+          db, notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
     }
   }
 
@@ -329,8 +306,7 @@ public class ChangeData {
         Project.NameKey project,
         Change.Id id,
         @Nullable Change change,
-        @Nullable ChangeNotes notes,
-        @Nullable ChangeControl control);
+        @Nullable ChangeNotes notes);
   }
 
   /**
@@ -347,7 +323,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, project, id, null, null, null);
+            null, null, null, null, null, project, id, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -356,7 +332,6 @@ public class ChangeData {
   private @Nullable final StarredChangesUtil starredChangesUtil;
   private final AllUsersName allUsersName;
   private final ApprovalsUtil approvalsUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
@@ -371,6 +346,7 @@ public class ChangeData {
   private final TrackingFooters trackingFooters;
   private final GetPureRevert pureRevert;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -396,7 +372,6 @@ public class ChangeData {
   private Collection<Comment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
-  private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
@@ -426,7 +401,6 @@ public class ChangeData {
       @Nullable StarredChangesUtil starredChangesUtil,
       ApprovalsUtil approvalsUtil,
       AllUsersName allUsersName,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
@@ -441,15 +415,14 @@ public class ChangeData {
       TrackingFooters trackingFooters,
       GetPureRevert pureRevert,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
-      @Assisted @Nullable ChangeNotes notes,
-      @Assisted @Nullable ChangeControl control) {
+      @Assisted @Nullable ChangeNotes notes) {
     this.approvalsUtil = approvalsUtil;
     this.allUsersName = allUsersName;
-    this.changeControlFactory = changeControlFactory;
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
@@ -465,6 +438,7 @@ public class ChangeData {
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.changeControlFactory = changeControlFactory;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
@@ -476,7 +450,6 @@ public class ChangeData {
 
     this.change = change;
     this.notes = notes;
-    this.changeControl = control;
   }
 
   public ChangeData setLazyLoad(boolean load) {
@@ -601,21 +574,8 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  public ChangeControl changeControl() throws OrmException {
-    if (changeControl == null) {
-      Change c = change();
-      try {
-        changeControl = changeControlFactory.controlFor(db, c, userFactory.create(c.getOwner()));
-      } catch (NoSuchChangeException e) {
-        throw new OrmException(e);
-      }
-    }
-    return changeControl;
-  }
-
   void cacheVisibleTo(ChangeControl ctl) {
     visibleTo = ctl.getUser();
-    changeControl = ctl;
   }
 
   public Change change() throws OrmException {
@@ -648,8 +608,7 @@ public class ChangeData {
       } catch (IOException e) {
         throw new OrmException("project state not available", e);
       }
-      labelTypes =
-          state.getLabelTypes(changeControl().getChange().getDest(), changeControl().getUser());
+      labelTypes = state.getLabelTypes(change().getDest(), userFactory.create(change().getOwner()));
     }
     return labelTypes;
   }
@@ -693,7 +652,12 @@ public class ChangeData {
           currentApprovals =
               ImmutableList.copyOf(
                   approvalsUtil.byPatchSet(
-                      db, notes(), changeControl().getUser(), c.currentPatchSetId(), null, null));
+                      db,
+                      notes(),
+                      userFactory.create(c.getOwner()),
+                      c.currentPatchSetId(),
+                      null,
+                      null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
@@ -965,13 +929,17 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
+  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) throws OrmException {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
+      records =
+          submitRuleEvaluatorFactory
+              .create(userFactory.create(change().getOwner()), this)
+              .setOptions(options)
+              .evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -986,9 +954,12 @@ public class ChangeData {
     submitRecords.put(options, records);
   }
 
-  public SubmitTypeRecord submitTypeRecord() {
+  public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
+      submitTypeRecord =
+          submitRuleEvaluatorFactory
+              .create(userFactory.create(change().getOwner()), this)
+              .getSubmitType();
     }
     return submitTypeRecord;
   }
@@ -1015,7 +986,10 @@ public class ChangeData {
         }
         PatchSet ps = currentPatchSet();
         try {
-          if (ps == null || !changeControl().isPatchVisible(ps, db)) {
+          if (ps == null
+              || !changeControlFactory
+                  .controlFor(db, change(), userFactory.create(c.getOwner()))
+                  .isPatchVisible(ps, db)) {
             return null;
           }
         } catch (OrmException e) {

@@ -322,12 +322,7 @@ public class Submit
     }
 
     ReviewDb db = dbProvider.get();
-    ChangeData cd;
-    try {
-      cd = changeDataFactory.create(db, resource.getChangeResource());
-    } catch (NoSuchChangeException e) {
-      return null; // submit not visible
-    }
+    ChangeData cd = changeDataFactory.create(db, resource.getNotes());
     try {
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {

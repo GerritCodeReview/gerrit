@@ -126,20 +126,27 @@ public class StarredChangesUtil {
   public static class IllegalLabelException extends IllegalArgumentException {
     private static final long serialVersionUID = 1L;
 
-    static IllegalLabelException invalidLabels(Set<String> invalidLabels) {
-      return new IllegalLabelException(
-          String.format("invalid labels: %s", Joiner.on(", ").join(invalidLabels)));
+    IllegalLabelException(String message) {
+      super(message);
     }
+  }
 
-    static IllegalLabelException mutuallyExclusiveLabels(String label1, String label2) {
-      return new IllegalLabelException(
+  public static class InvalidLabelsException extends IllegalLabelException {
+    private static final long serialVersionUID = 1L;
+
+    InvalidLabelsException(Set<String> invalidLabels) {
+      super(String.format("invalid labels: %s", Joiner.on(", ").join(invalidLabels)));
+    }
+  }
+
+  public static class MutuallyExclusiveLabelsException extends IllegalLabelException {
+    private static final long serialVersionUID = 1L;
+
+    MutuallyExclusiveLabelsException(String label1, String label2) {
+      super(
           String.format(
               "The labels %s and %s are mutually exclusive. Only one of them can be set.",
               label1, label2));
-    }
-
-    IllegalLabelException(String message) {
-      super(message);
     }
   }
 
@@ -382,7 +389,7 @@ public class StarredChangesUtil {
 
   private static void checkMutuallyExclusiveLabels(Set<String> labels) {
     if (labels.containsAll(ImmutableSet.of(DEFAULT_LABEL, IGNORE_LABEL))) {
-      throw IllegalLabelException.mutuallyExclusiveLabels(DEFAULT_LABEL, IGNORE_LABEL);
+      throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
   }
 
@@ -398,7 +405,7 @@ public class StarredChangesUtil {
       }
     }
     if (!invalidLabels.isEmpty()) {
-      throw IllegalLabelException.invalidLabels(invalidLabels);
+      throw new InvalidLabelsException(invalidLabels);
     }
   }
 

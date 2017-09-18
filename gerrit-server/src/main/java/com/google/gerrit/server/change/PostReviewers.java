@@ -446,7 +446,7 @@ public class PostReviewers
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
           IdentifiedUser u = identifiedUserFactory.create(accountId);
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm.user(u), cd));
+          result.ccs.add(json.format(caller, new ReviewerInfo(accountId.get()), perm.user(u), cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -459,6 +459,7 @@ public class PostReviewers
           IdentifiedUser u = identifiedUserFactory.create(psa.getAccountId());
           result.reviewers.add(
               json.format(
+                  caller,
                   new ReviewerInfo(psa.getAccountId().get()),
                   perm.user(u),
                   cd,

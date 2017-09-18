@@ -126,7 +126,9 @@
      */
     _showAlert(text, opt_actionText, opt_actionCallback,
         opt_dismissOnNavigation) {
-      if (this._alertElement) { return; }
+      if (this._alertElement) {
+        this._hideAlert();
+      }
 
       this._clearHideAlertHandle();
       if (opt_dismissOnNavigation) {

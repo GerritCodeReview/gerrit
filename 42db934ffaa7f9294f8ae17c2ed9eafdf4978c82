@@ -22,6 +22,30 @@
       "revId": "42db934ffaa7f9294f8ae17c2ed9eafdf4978c82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0833e6f_7facf7f1",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T06:31:24Z",
+      "side": 1,
+      "message": "Thanks for noticing. A fix is here: Ica02804",
+      "parentUuid": "e1b28db7_fe2d1c67",
+      "range": {
+        "startLine": 1098,
+        "startChar": 26,
+        "endLine": 1099,
+        "endChar": 28
+      },
+      "revId": "42db934ffaa7f9294f8ae17c2ed9eafdf4978c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "a4fcf1e5b8854f25a5d1494bf97e1f495647007e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "152a223c_f77eaea2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T16:41:26Z",
+      "side": 1,
+      "message": "I suppose. It seems a bit much to me -- as a user I\u0027d really only care if my comments _were_ saved, or _were not_ saved -- the rest is just polish IMO. I guess it\u0027s part of a larger problem I personally have, namely not knowing where the line is between \"building an excellent product\" and \"writing more code than you really need to\".\n\nThat being said, I just tried it out and it\u0027s pretty neat, and is already written and tested :D",
+      "parentUuid": "fff1f5f0_9d02b7ea",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "a4fcf1e5b8854f25a5d1494bf97e1f495647007e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

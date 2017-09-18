@@ -22,6 +22,10 @@
         type: Array,
         notify: true,
       },
+      showNumber: {
+        type: Boolean,
+        notify: true,
+      },
     },
 
     behaviors: [
@@ -53,6 +57,12 @@
         // The target is the checkbox itself.
         checkbox = Polymer.dom(e).rootTarget;
       }
+
+      if (checkbox.name === 'number') {
+        this.showNumber = checkbox.checked;
+        return;
+      }
+
       this.set('displayedColumns',
           this._updateDisplayedColumns(
               this.displayedColumns, checkbox.name, checkbox.checked));

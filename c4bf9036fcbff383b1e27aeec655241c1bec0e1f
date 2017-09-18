@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "7b19f3df_416e3022",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 60
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-18T16:57:58Z",
+      "side": 1,
+      "message": "I retested this and works it seems. I must have fixed something else that fixed this. Anyways it works now with default value.",
+      "parentUuid": "291cfd45_e144dc50",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 24
+      },
+      "revId": "c4bf9036fcbff383b1e27aeec655241c1bec0e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55168b9b_3504a644",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
         "patchSetId": 60

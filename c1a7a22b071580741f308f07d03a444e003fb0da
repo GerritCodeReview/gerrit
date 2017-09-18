@@ -117,6 +117,30 @@
       "revId": "c1a7a22b071580741f308f07d03a444e003fb0da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f29fa4e3_34595695",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-09-18T19:18:09Z",
+      "side": 1,
+      "message": "Ah, I wasn\u0027t really looking to see if those API calls actually had any effect. Ok, I\u0027ve stripped out all consideration of ignoring one\u0027s own changes, which has simplified the queries and the tests somewhat.",
+      "parentUuid": "96ad380f_42e255fa",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "c1a7a22b071580741f308f07d03a444e003fb0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

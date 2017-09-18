@@ -53,16 +53,13 @@ public class Unmute
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
-    try {
-      if (rsrc.isUserOwner() || !isMuted(rsrc.getChange())) {
-        // early exit for own changes and not muted changes
-        return Response.ok("");
-      }
-      stars.unmute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
-    } catch (OrmException e) {
-      throw new RestApiException("failed to unmute change", e);
+  public Response<String> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, OrmException {
+    if (rsrc.isUserOwner() || !isMuted(rsrc.getChange())) {
+      // early exit for own changes and not muted changes
+      return Response.ok("");
     }
+    stars.unmute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
     return Response.ok("");
   }
 

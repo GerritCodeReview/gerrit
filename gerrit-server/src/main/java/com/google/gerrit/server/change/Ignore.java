@@ -51,7 +51,8 @@ public class Ignore
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
+  public Response<String> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, OrmException {
     try {
       if (rsrc.isUserOwner()) {
         throw new BadRequestException("cannot ignore own change");
@@ -63,8 +64,6 @@ public class Ignore
       return Response.ok("");
     } catch (MutuallyExclusiveLabelsException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (OrmException e) {
-      throw new RestApiException("failed to ignore change", e);
     }
   }
 

@@ -44,24 +44,16 @@ public class Unignore
     return new UiAction.Description()
         .setLabel("Unignore")
         .setTitle("Unignore the change")
-        .setVisible(canUnignore(rsrc));
+        .setVisible(isIgnored(rsrc));
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
-    try {
-      // Don't try to unignore own changes or not ignored changes
-      if (canUnignore(rsrc)) {
-        stars.unignore(rsrc);
-      }
-      return Response.ok("");
-    } catch (OrmException e) {
-      throw new RestApiException("failed to unignore change", e);
+  public Response<String> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, OrmException {
+    if (isIgnored(rsrc)) {
+      stars.unignore(rsrc);
     }
-  }
-
-  private boolean canUnignore(ChangeResource rsrc) {
-    return !rsrc.isUserOwner() && isIgnored(rsrc);
+    return Response.ok("");
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

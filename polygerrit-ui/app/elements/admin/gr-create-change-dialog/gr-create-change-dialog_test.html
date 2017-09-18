@@ -76,7 +76,6 @@ limitations under the License.
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        work_in_progress: false,
         project: element.projectName,
       };
 
@@ -90,35 +89,6 @@ limitations under the License.
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
       assert.isTrue(element.$.privateChangeCheckBox.checked);
-
-      element.$.branchInput.bindValue = configInputObj.branch;
-      element.$.tagNameInput.bindValue = configInputObj.topic;
-      element.$.messageInput.bindValue = configInputObj.subject;
-
-      element.handleCreateChange().then(() => {
-        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
-      });
-    });
-
-    test('new change created with wip', () => {
-      const configInputObj = {
-        branch: 'test-branch',
-        topic: 'test-topic',
-        subject: 'first change created with polygerrit ui',
-        project: element.projectName,
-      };
-
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
-
-      element.project = element.projectName;
-      element.branch = 'test-branch';
-      element.topic = 'test-topic';
-      element.subject = 'first change created with polygerrit ui';
-      element.$.wipChangeCheckBox.checked = true;
-      assert.isFalse(element.$.privateChangeCheckBox.checked);
 
       element.$.branchInput.bindValue = configInputObj.branch;
       element.$.tagNameInput.bindValue = configInputObj.topic;

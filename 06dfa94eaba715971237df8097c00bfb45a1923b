@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1723e21d_4240dc09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T17:14:05Z",
+      "side": 1,
+      "message": "Would like to see something in here about the plan to fully support negative patch ranges in the future. Does it by necessity revert this change? Where\u0027s the bug? Etc.",
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b7f28f_64d8808b",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T17:14:05Z",
+      "side": 1,
+      "message": "Holy JavaScript.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df306ff4_9851f415",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T17:14:05Z",
+      "side": 1,
+      "message": "Is this indentation right?",
+      "range": {
+        "startLine": 310,
+        "startChar": 10,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "06dfa94eaba715971237df8097c00bfb45a1923b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,13 +16,13 @@ package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
-import static com.google.gerrit.gpg.testutil.TestKeys.expiredKey;
-import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
-import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
+import static com.google.gerrit.gpg.testing.TestKeys.expiredKey;
+import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithExpiration;
+import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.gpg.testing.TestKey;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;

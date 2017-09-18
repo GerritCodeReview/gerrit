@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31f0aee9_c8fe2ed2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T13:53:22Z",
+      "side": 1,
+      "message": "Please also expect a message and be more specific about the exception (BadRequestException, etc)\n\nExample:\n  exception.expect(BadRequestException.class);\n  exception.expectMessage(\"input is required\");\n\n(here and below)",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 45
+      },
+      "revId": "ddcbb585c1ea0d94086ae384d4b34dcd38f75b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

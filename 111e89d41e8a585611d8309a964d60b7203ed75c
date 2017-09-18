@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1505746436 +0200\nnonce AJMiPPfXKKZOMpK+iNySfTUEgJItYeNWNm89Ib3O7cDtJNTWgdmODxJSsGObJD+i5ZtCjFH4mvpE\n\n0000000000000000000000000000000000000000 111e89d41e8a585611d8309a964d60b7203ed75c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZv94EAAoJEFG1/Zeg0O9RaKUH/iUqXYFTaBn9ur8QRVLtK4Bz\nkRbPXsuAkt1xH3Aj047lnyXhDF+DR3+KlI0Oot+mcb880cLm9TPy2/5iKBZDBrrs\noGrQQQbIoLk0+qr/agtJ+NOBWfmI2FxQH9swtWa0DvTcp84QgSTpdNMSfggplmBx\nCG3jpog8TpuLcQz8kkb7uoOfUqf0LJemXbLz0TjtaPWKf5EcZn9nYvLMS1qYroaq\n8Pt4zbfCW8DcIGgcKg9nR12gJLjoo2fa33bUoP7gask/I+1oZqneRc21gyQhnX5A\n6rCaDJNAEKEfb6yVgP8NJO/erPlxugdbuaELHxlERzBkQXfPpmiAZDNU+W7InZg\u003d\n\u003dNbyB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a10c9ce_9d36cbbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T15:11:10Z",
+      "side": 1,
+      "message": "Never thrown (here and below)",
+      "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

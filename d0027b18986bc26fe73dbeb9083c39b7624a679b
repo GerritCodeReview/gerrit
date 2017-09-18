@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a9f71fb_20aa699d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-18T05:47:26Z",
+      "side": 1,
+      "message": "unneeded parenthesis?",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "d0027b18986bc26fe73dbeb9083c39b7624a679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

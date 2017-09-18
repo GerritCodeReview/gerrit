@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeIncludedIn;
 import com.google.gerrit.server.change.ChangeJson;
@@ -668,7 +669,7 @@ class ChangeApiImpl implements ChangeApi {
       } else {
         unignore.apply(change, new Unignore.Input());
       }
-    } catch (OrmException e) {
+    } catch (OrmException | IllegalLabelException e) {
       throw asRestApiException("Cannot ignore change", e);
     }
   }
@@ -692,7 +693,7 @@ class ChangeApiImpl implements ChangeApi {
       } else {
         unmute.apply(change, new Unmute.Input());
       }
-    } catch (OrmException e) {
+    } catch (OrmException | IllegalLabelException e) {
       throw asRestApiException("Cannot mute change", e);
     }
   }

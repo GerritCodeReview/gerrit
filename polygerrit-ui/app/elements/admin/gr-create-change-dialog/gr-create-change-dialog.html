@@ -66,38 +66,40 @@ limitations under the License.
         </section>
         <section>
           <span class="title">Enter topic for new change (optional)</span>
-          <input
-              is="iron-input"
-              id="tagNameInput"
-              bind-value="{{topic}}">
+          <span class="value">
+            <input
+                is="iron-input"
+                id="tagNameInput"
+                bind-value="{{topic}}">
+          </span>
         </section>
         <section>
           <span class="title">Description</span>
-          <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              rows="4"
-              max-rows="15"
-              bind-value="{{subject}}"
-              placeholder="Insert the description of the change.">
-          </iron-autogrow-textarea>
+          <span class="value">
+            <iron-autogrow-textarea
+                id="messageInput"
+                class="message"
+                autocomplete="on"
+                rows="4"
+                max-rows="15"
+                bind-value="{{subject}}"
+                placeholder="Insert the description of the change.">
+            </iron-autogrow-textarea>
+          </span>
         </section>
         <section>
           <span class="title">Options</span>
-          <section>
-            <label for="privateChangeCheckBox">Private Change</label>
-            <input
-                type="checkbox"
-                id="privateChangeCheckBox"
-                checked$="[[_projectConfig.private_by_default.inherited_value]]">
-          </section>
-          <section>
-            <label for="wipChangeCheckBox">WIP Change</label>
-            <input
-                type="checkbox"
-                id="wipChangeCheckBox">
-          </section>
+          <span class="value">
+            <gr-select
+                  id="optionsSelect"
+                  bind-value="{{options.values}}">
+              <select>
+                <option value="private">Private Change</option>
+                <option value="wip">WIP Change</option>
+                <option value="new">NEW Change</option>
+              </select>
+            </gr-select>
+          </span>
         </section>
       </div>
     </div>

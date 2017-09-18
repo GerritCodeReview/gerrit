@@ -926,6 +926,12 @@
           change.current_revision === edit.base_revision) {
         change.current_revision = edit.commit.commit;
         this._patchRange.patchNum = this.EDIT_NAME;
+        // Because edits are fibbed as revisions and added to the revisions
+        // array, and revision actions are always derived from the 'latest'
+        // patch set, we must copy over actions from the patch set base.
+        // Context: Issue 7243
+        change.revisions[edit.commit.commit].actions =
+            change.revisions[edit.base_revision].actions;
       }
     },
 

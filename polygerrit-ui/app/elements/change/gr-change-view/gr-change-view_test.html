@@ -1139,7 +1139,7 @@ limitations under the License.
       element._patchRange = {};
       const change = {
         current_revision: 'foo',
-        revisions: {foo: {commit: {}}},
+        revisions: {foo: {commit: {}, actions: {cherrypick: {enabled: true}}}},
       };
       let mockChange;
 
@@ -1159,17 +1159,21 @@ limitations under the License.
       assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
       assert.equal(mockChange.current_revision, change.current_revision);
       assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
+      assert.notOk(mockChange.revisions.bar.actions);
 
       edit.base_revision = 'foo';
       element._processEdit(mockChange = _.cloneDeep(change), edit);
       assert.notDeepEqual(mockChange, change);
       assert.equal(mockChange.current_revision, 'bar');
+      assert.deepEqual(mockChange.revisions.bar.actions,
+          mockChange.revisions.foo.actions);
 
       // If _patchRange.patchNum is defined, do not load edit.
       element._patchRange.patchNum = 'baz';
       change.current_revision = 'baz';
       element._processEdit(mockChange = _.cloneDeep(change), edit);
       assert.equal(element._patchRange.patchNum, 'baz');
+      assert.notOk(mockChange.revisions.bar.actions);
     });
 
     test('_editLoaded set when patchNum is an edit', () => {

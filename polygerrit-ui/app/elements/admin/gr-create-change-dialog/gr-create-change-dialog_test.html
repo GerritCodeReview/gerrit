@@ -65,13 +65,14 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('new change created', () => {
+    test('new change created as private', () => {
       const configInputObj = {
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        is_private: false,
-        work_in_progress: false,
+        options: {
+          values: 'private',
+        },
         project: element.projectName,
       };
 
@@ -88,29 +89,21 @@ limitations under the License.
       element.$.branchInput.bindValue = configInputObj.branch;
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
-      element.$.privateChangeCheckBox.checked =
-          element._projectConfig.private_by_default.inherited_value;
-      element.$.wipChangeCheckBox.checked =
-          configInputObj.work_in_progress;
+      element.$.optionsSelect.bindValue = configInputObj.options.values;
 
       element.handleCreateChange().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
       });
     });
 
-    test('new change created with private', () => {
-      element._projectConfig = {
-        private_by_default: {
-          inherited_value: true,
-        },
-      };
-
+    test('new change created as wip', () => {
       const configInputObj = {
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        is_private: false,
-        work_in_progress: false,
+        options: {
+          values: 'wip',
+        },
         project: element.projectName,
       };
 
@@ -127,10 +120,38 @@ limitations under the License.
       element.$.branchInput.bindValue = configInputObj.branch;
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
-      element.$.privateChangeCheckBox.checked =
-          element._projectConfig.private_by_default.inherited_value;
-      element.$.wipChangeCheckBox.checked =
-          configInputObj.work_in_progress;
+      element.$.optionsSelect.bindValue = configInputObj.options.values;
+
+      element.handleCreateChange().then(() => {
+        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
+      });
+    });
+
+    test('new change created as new', () => {
+      const configInputObj = {
+        branch: 'test-branch',
+        topic: 'test-topic',
+        subject: 'first change created with polygerrit ui',
+        options: {
+          values: 'new',
+        },
+        project: element.projectName,
+      };
+
+      const saveStub = sandbox.stub(element.$.restAPI,
+          'createChange', () => {
+            return Promise.resolve({});
+          });
+
+      element.project = element.projectName;
+      element.branch = 'test-branch';
+      element.topic = 'test-topic';
+      element.subject = 'first change created with polygerrit ui';
+
+      element.$.branchInput.bindValue = configInputObj.branch;
+      element.$.tagNameInput.bindValue = configInputObj.topic;
+      element.$.messageInput.bindValue = configInputObj.subject;
+      element.$.optionsSelect.bindValue = configInputObj.options.values;
 
       element.handleCreateChange().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));

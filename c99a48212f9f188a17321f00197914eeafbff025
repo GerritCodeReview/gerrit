@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75bdae3f_718c9c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T20:05:42Z",
+      "side": 1,
+      "message": "Remove apostrophe.",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "c99a48212f9f188a17321f00197914eeafbff025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c75938_847bfbe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-18T20:05:42Z",
+      "side": 1,
+      "message": "This list is supposed to be alphabetized.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "c99a48212f9f188a17321f00197914eeafbff025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

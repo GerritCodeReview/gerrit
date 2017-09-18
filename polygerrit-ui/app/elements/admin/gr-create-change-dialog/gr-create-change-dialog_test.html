@@ -65,14 +65,13 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('new change created', () => {
+    test('new change created as private', () => {
       const configInputObj = {
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        is_private: false,
-        work_in_progress: false,
         project: element.projectName,
+        private: true,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -84,33 +83,24 @@ limitations under the License.
       element.branch = 'test-branch';
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
+      element.$.privateChangeCheckBox.checked = true;
 
       element.$.branchInput.bindValue = configInputObj.branch;
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
-      element.$.privateChangeCheckBox.checked =
-          element._projectConfig.private_by_default.inherited_value;
-      element.$.wipChangeCheckBox.checked =
-          configInputObj.work_in_progress;
+      element.$.privateChangeCheckBox.checked = configInputObj.private;
 
       element.handleCreateChange().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
       });
     });
 
-    test('new change created with private', () => {
-      element._projectConfig = {
-        private_by_default: {
-          inherited_value: true,
-        },
-      };
-
+    test('new change created as wip', () => {
       const configInputObj = {
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        is_private: false,
-        work_in_progress: false,
+        wip: true,
         project: element.projectName,
       };
 
@@ -124,13 +114,13 @@ limitations under the License.
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
 
+      // make sure that overiding wip does not work
+      element.$.optionsSelect.value = 'wip';
+
       element.$.branchInput.bindValue = configInputObj.branch;
       element.$.tagNameInput.bindValue = configInputObj.topic;
       element.$.messageInput.bindValue = configInputObj.subject;
-      element.$.privateChangeCheckBox.checked =
-          element._projectConfig.private_by_default.inherited_value;
-      element.$.wipChangeCheckBox.checked =
-          configInputObj.work_in_progress;
+      element.$.optionsSelect.value = configInputObj.wip;
 
       element.handleCreateChange().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));

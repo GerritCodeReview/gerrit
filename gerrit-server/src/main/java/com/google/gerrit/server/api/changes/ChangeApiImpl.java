@@ -662,10 +662,14 @@ class ChangeApiImpl implements ChangeApi {
   public void ignore(boolean ignore) throws RestApiException {
     // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
     // StarredChangesUtil.
-    if (ignore) {
-      this.ignore.apply(change, new Ignore.Input());
-    } else {
-      unignore.apply(change, new Unignore.Input());
+    try {
+      if (ignore) {
+        this.ignore.apply(change, new Ignore.Input());
+      } else {
+        unignore.apply(change, new Unignore.Input());
+      }
+    } catch (OrmException e) {
+      throw asRestApiException("Cannot ignore change", e);
     }
   }
 
@@ -682,10 +686,14 @@ class ChangeApiImpl implements ChangeApi {
   public void mute(boolean mute) throws RestApiException {
     // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
     // StarredChangesUtil.
-    if (mute) {
-      this.mute.apply(change, new Mute.Input());
-    } else {
-      unmute.apply(change, new Unmute.Input());
+    try {
+      if (mute) {
+        this.mute.apply(change, new Mute.Input());
+      } else {
+        unmute.apply(change, new Unmute.Input());
+      }
+    } catch (OrmException e) {
+      throw asRestApiException("Cannot mute change", e);
     }
   }
 

@@ -52,16 +52,13 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
   }
 
   @Override
-  public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
-    try {
-      if (rsrc.isUserOwner() || isMuted(rsrc.getChange())) {
-        // early exit for own changes and already muted changes
-        return Response.ok("");
-      }
-      stars.mute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
-    } catch (OrmException e) {
-      throw new RestApiException("failed to mute change", e);
+  public Response<String> apply(ChangeResource rsrc, Input input)
+      throws RestApiException, OrmException {
+    if (rsrc.isUserOwner() || isMuted(rsrc.getChange())) {
+      // early exit for own changes and already muted changes
+      return Response.ok("");
     }
+    stars.mute(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange());
     return Response.ok("");
   }
 

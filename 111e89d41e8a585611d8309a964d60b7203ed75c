@@ -53,6 +53,24 @@
       "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ee01f17_12883ced",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-18T23:21:51Z",
+      "side": 1,
+      "message": "The OrmException is thrown by stars.ignore(...) (and stars.unignore() in the other file).",
+      "parentUuid": "f3d13c64_967aa9af",
+      "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

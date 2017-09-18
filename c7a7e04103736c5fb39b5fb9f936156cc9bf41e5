@@ -191,6 +191,30 @@
       "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8177cef_8cb74e26",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-18T13:48:49Z",
+      "side": 1,
+      "message": "It\u0027s OK. We use both of them in our code.",
+      "parentUuid": "5cf7e5a3_b64c21d7",
+      "range": {
+        "startLine": 86,
+        "startChar": 14,
+        "endLine": 86,
+        "endChar": 25
+      },
+      "revId": "c7a7e04103736c5fb39b5fb9f936156cc9bf41e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

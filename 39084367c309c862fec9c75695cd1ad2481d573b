@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "74433623_3ba1f012",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-18T08:22:45Z",
+      "side": 1,
+      "message": "Thanks, should be trivial to fix then. But, I wonder if we could somehow split this activities in multiple changes. because this one is more or less noon-reviewable already, with 2K+ change LoC? One option, that i don\u0027t really like is, to leave this change still use isPrivate(), make it public, but document in the commit message, that this is \"do-it-wrong-way\" thing and would be \"fixed\" in a follow-up change. Then we could split the activities and simplify review process.",
+      "parentUuid": "952e6428_b0c440f1",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ceb5c39a_fdb05ca6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 79

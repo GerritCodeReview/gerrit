@@ -18,13 +18,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +32,10 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
 
   public static class Input {}
 
-  private final Provider<IdentifiedUser> self;
   private final StarredChangesUtil stars;
 
   @Inject
-  Mute(Provider<IdentifiedUser> self, StarredChangesUtil stars) {
-    this.self = self;
+  Mute(StarredChangesUtil stars) {
     this.stars = stars;
   }
 
@@ -49,13 +44,13 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
     return new UiAction.Description()
         .setLabel("Mute")
         .setTitle("Mute the change to unhighlight it in the dashboard")
-        .setVisible(!rsrc.isUserOwner() && isMuteable(rsrc.getChange()));
+        .setVisible(!rsrc.isUserOwner() && isMuteable(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, OrmException, IllegalLabelException {
-    if (rsrc.isUserOwner() || isMuted(rsrc.getChange())) {
+    if (rsrc.isUserOwner() || isMuted(rsrc)) {
       // early exit for own changes and already muted changes
       return Response.ok("");
     }
@@ -63,18 +58,18 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
     return Response.ok("");
   }
 
-  private boolean isMuted(Change change) {
+  private boolean isMuted(ChangeResource rsrc) {
     try {
-      return stars.isMutedBy(change, self.get().getAccountId());
+      return stars.isMuted(rsrc);
     } catch (OrmException e) {
       log.error("failed to check muted star", e);
     }
     return false;
   }
 
-  private boolean isMuteable(Change change) {
+  private boolean isMuteable(ChangeResource rsrc) {
     try {
-      return !isMuted(change) && !stars.isIgnoredBy(change.getId(), self.get().getAccountId());
+      return !isMuted(rsrc) && !stars.isIgnored(rsrc);
     } catch (OrmException e) {
       log.error("failed to check ignored star", e);
     }

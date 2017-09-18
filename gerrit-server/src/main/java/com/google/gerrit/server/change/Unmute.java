@@ -18,13 +18,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +33,10 @@ public class Unmute
 
   public static class Input {}
 
-  private final Provider<IdentifiedUser> self;
   private final StarredChangesUtil stars;
 
   @Inject
-  Unmute(Provider<IdentifiedUser> self, StarredChangesUtil stars) {
-    this.self = self;
+  Unmute(StarredChangesUtil stars) {
     this.stars = stars;
   }
 
@@ -50,13 +45,13 @@ public class Unmute
     return new UiAction.Description()
         .setLabel("Unmute")
         .setTitle("Unmute the change")
-        .setVisible(!rsrc.isUserOwner() && isUnMuteable(rsrc.getChange()));
+        .setVisible(!rsrc.isUserOwner() && isUnMuteable(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, OrmException, IllegalLabelException {
-    if (rsrc.isUserOwner() || !isMuted(rsrc.getChange())) {
+    if (rsrc.isUserOwner() || !isMuted(rsrc)) {
       // early exit for own changes and not muted changes
       return Response.ok("");
     }
@@ -64,18 +59,18 @@ public class Unmute
     return Response.ok("");
   }
 
-  private boolean isMuted(Change change) {
+  private boolean isMuted(ChangeResource rsrc) {
     try {
-      return stars.isMutedBy(change, self.get().getAccountId());
+      return stars.isMuted(rsrc);
     } catch (OrmException e) {
       log.error("failed to check muted star", e);
     }
     return false;
   }
 
-  private boolean isUnMuteable(Change change) {
+  private boolean isUnMuteable(ChangeResource rsrc) {
     try {
-      return isMuted(change) && !stars.isIgnoredBy(change.getId(), self.get().getAccountId());
+      return isMuted(rsrc) && !stars.isIgnored(rsrc);
     } catch (OrmException e) {
       log.error("failed to check ignored star", e);
     }

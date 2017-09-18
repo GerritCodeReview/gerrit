@@ -35,6 +35,24 @@
       "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d13c64_967aa9af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Ignore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T15:19:14Z",
+      "side": 1,
+      "message": "Sorry, it seems I placed the comment on the wrong file.\n\nI meant Unignore#apply().\n\nDo you see that as well or are my eyes playing me a trick?",
+      "parentUuid": "c3f89a31_bad14b7c",
+      "revId": "111e89d41e8a585611d8309a964d60b7203ed75c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -121,6 +121,8 @@
        * For testing purposes.
        */
       _loadingPromise: Object,
+
+      _showNumber: Boolean,
     },
 
     behaviors: [
@@ -132,7 +134,7 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
-      '_handleChangeTableChanged(_localChangeTableColumns)',
+      '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
     ],
 
     attached() {
@@ -147,6 +149,7 @@
 
       promises.push(this.$.restAPI.getPreferences().then(prefs => {
         this.prefs = prefs;
+        this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs('_localPrefs', 'prefs');
         this._cloneMenu();
         this._cloneChangeTableColumns();
@@ -303,6 +306,7 @@
 
     _handleSaveChangeTable() {
       this.set('prefs.change_table', this._localChangeTableColumns);
+      this.set('prefs.legacycid_in_change_table', this._showNumber);
       this._cloneChangeTableColumns();
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._changeTableChanged = false;

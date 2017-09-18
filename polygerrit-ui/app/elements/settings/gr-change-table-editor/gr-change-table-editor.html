@@ -49,6 +49,17 @@ limitations under the License.
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>Number</td>
+            <td
+                class="checkboxContainer"
+                on-tap="_handleTargetTap">
+              <input
+                  type="checkbox"
+                  name="number"
+                  checked$="[[showNumber]]">
+            </td>
+          </tr>
           <template is="dom-repeat" items="[[columnNames]]">
             <tr>
               <td>[[item]]</td>

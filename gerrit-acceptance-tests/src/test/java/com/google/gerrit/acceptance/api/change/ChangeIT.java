@@ -81,6 +81,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -122,6 +123,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -3462,7 +3464,56 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void cannotIgnoreOwnChange() throws Exception {
     String changeId = createChange().getChangeId();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot ignore own change");
     gApi.changes().id(changeId).ignore(true);
-    assertThat(gApi.changes().id(changeId).ignored()).isFalse();
+  }
+
+  @Test
+  public void cannotIgnoreStarredChange() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    setApiUser(user);
+    gApi.accounts().self().starChange(changeId);
+    assertThat(gApi.changes().id(changeId).get().starred).isTrue();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "The labels "
+            + StarredChangesUtil.DEFAULT_LABEL
+            + " and "
+            + StarredChangesUtil.IGNORE_LABEL
+            + " are mutually exclusive. Only one of them can be set.");
+    gApi.changes().id(changeId).ignore(true);
+  }
+
+  @Test
+  public void cannotStarIgnoredChange() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    setApiUser(user);
+    gApi.changes().id(changeId).ignore(true);
+    assertThat(gApi.changes().id(changeId).ignored()).isTrue();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        "The labels "
+            + StarredChangesUtil.DEFAULT_LABEL
+            + " and "
+            + StarredChangesUtil.IGNORE_LABEL
+            + " are mutually exclusive. Only one of them can be set.");
+    gApi.accounts().self().starChange(changeId);
+  }
+
+  @Test
+  public void cannotSetInvalidLabel() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // label cannot contain whitespace
+    String invalidLabel = "invalid label";
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid labels: " + invalidLabel);
+    gApi.accounts().self().setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel)));
   }
 }

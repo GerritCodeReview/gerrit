@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849e1f9f_6c16ef24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T07:54:28Z",
+      "side": 1,
+      "message": "These have been removed, please don\u0027t add them again as ChangeControl will be package-private soon",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 10
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d953e9_32258d81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T07:54:28Z",
+      "side": 1,
+      "message": "This needs to be private and checked using the PermissionBackend instead",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb5c39a_fdb05ca6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T07:54:28Z",
+      "side": 1,
+      "message": "This needs to be private",
+      "range": {
+        "startLine": 203,
+        "startChar": 2,
+        "endLine": 203,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b10a6c2_38e971c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-18T07:54:28Z",
+      "side": 1,
+      "message": "This needs to be private and checked through PermissionBackend instead",
+      "range": {
+        "startLine": 226,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

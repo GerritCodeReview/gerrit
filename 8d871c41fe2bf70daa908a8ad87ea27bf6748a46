@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d69f4e_65b4ae52",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 38
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-18T14:28:46Z",
+      "side": 1,
+      "message": "I think you have here mismatch between logic and naming of the variable? You are saying:\n\n  has-rebase-edit\u003d\"[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]\"\n\nYet, here you are saying (simplified)\n\n  if (hasRebaseEdit) {\n    this.set(\u0027actions.publishEdit\u0027, PUBLISH_EDIT);\n  } else {\n    this.set(\u0027actions.rebaseEdit\u0027, REBASE_EDIT);\n  }\n\nMay be you should reverse the logic, to match the variable name:\n\n  has-rebase-edit\u003d\"[[!hasEditBasedOnCurrentPatchSet(_allPatchSets)]]\"\n\nand consequently do:\n\n  if (hasRebaseEdit) {\n    this.set(\u0027actions.rebaseEdit\u0027, REBASE_EDIT);  \n  } else {\n    this.set(\u0027actions.publishEdit\u0027, PUBLISH_EDIT);\n  }\n\nOr, rather, you rename the variable, e.g.:\n\n edit-based-on-current-patch-set\u003d\"[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]\"\n\nand consequently do:\n\n  if (editBasedOnCurrentPatchSe) {\n    this.set(\u0027actions.publishEdit\u0027, PUBLISH_EDIT);\n  } else {\n    this.set(\u0027actions.rebaseEdit\u0027, REBASE_EDIT);\n  }",
+      "range": {
+        "startLine": 486,
+        "startChar": 16,
+        "endLine": 486,
+        "endChar": 29
+      },
+      "revId": "8d871c41fe2bf70daa908a8ad87ea27bf6748a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

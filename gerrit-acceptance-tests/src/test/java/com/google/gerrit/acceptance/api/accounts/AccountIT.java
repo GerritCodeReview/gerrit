@@ -467,7 +467,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void ignoreChange() throws Exception {
+  public void ignoreChangeBySetStars() throws Exception {
     TestAccount user2 = accountCreator.user2();
     accountIndexedCounter.clear();
 

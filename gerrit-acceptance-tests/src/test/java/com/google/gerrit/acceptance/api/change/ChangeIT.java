@@ -3428,4 +3428,41 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(trackingIds.iterator().next().system).isEqualTo("JIRA");
     assertThat(trackingIds.iterator().next().id).isEqualTo("JRA001");
   }
+
+  @Test
+  public void ignore() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    in = new AddReviewerInput();
+    in.reviewer = user2.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).ignore(true);
+    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
+
+    sender.clear();
+    setApiUser(admin);
+    gApi.changes().id(r.getChangeId()).abandon();
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).ignore(false);
+    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isFalse();
+  }
+
+  @Test
+  public void cannotIgnoreOwnChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).ignore(true);
+    assertThat(gApi.changes().id(changeId).ignored()).isFalse();
+  }
 }

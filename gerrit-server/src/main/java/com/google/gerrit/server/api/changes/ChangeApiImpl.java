@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeIncludedIn;
 import com.google.gerrit.server.change.ChangeJson;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Unignore;
 import com.google.gerrit.server.change.Unmute;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -145,6 +147,7 @@ class ChangeApiImpl implements ChangeApi {
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
   private final GetPureRevert getPureRevert;
+  private final StarredChangesUtil stars;
 
   @Inject
   ChangeApiImpl(
@@ -190,6 +193,7 @@ class ChangeApiImpl implements ChangeApi {
       SetReadyForReview setReady,
       PutMessage putMessage,
       GetPureRevert getPureRevert,
+      StarredChangesUtil stars,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -233,6 +237,7 @@ class ChangeApiImpl implements ChangeApi {
     this.setReady = setReady;
     this.putMessage = putMessage;
     this.getPureRevert = getPureRevert;
+    this.stars = stars;
     this.change = change;
   }
 
@@ -661,6 +666,15 @@ class ChangeApiImpl implements ChangeApi {
       this.ignore.apply(change, new Ignore.Input());
     } else {
       unignore.apply(change, new Unignore.Input());
+    }
+  }
+
+  @Override
+  public boolean ignored() throws RestApiException {
+    try {
+      return stars.isIgnoredBy(change.getId(), change.getUser().getAccountId());
+    } catch (OrmException e) {
+      throw asRestApiException("Cannot check if ignored", e);
     }
   }
 

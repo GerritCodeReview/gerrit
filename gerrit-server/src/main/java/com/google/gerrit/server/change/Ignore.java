@@ -18,11 +18,9 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +32,10 @@ public class Ignore
 
   public static class Input {}
 
-  private final Provider<IdentifiedUser> self;
   private final StarredChangesUtil stars;
 
   @Inject
-  Ignore(Provider<IdentifiedUser> self, StarredChangesUtil stars) {
-    this.self = self;
+  Ignore(StarredChangesUtil stars) {
     this.stars = stars;
   }
 
@@ -48,26 +44,29 @@ public class Ignore
     return new UiAction.Description()
         .setLabel("Ignore")
         .setTitle("Ignore the change")
-        .setVisible(!rsrc.isUserOwner() && !isIgnored(rsrc));
+        .setVisible(canIgnore(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input) throws RestApiException {
     try {
-      if (rsrc.isUserOwner() || isIgnored(rsrc)) {
-        // early exit for own changes and already ignored changes
-        return Response.ok("");
+      // Don't try to ignore own changes or already ignored changes
+      if (canIgnore(rsrc)) {
+        stars.ignore(rsrc);
       }
-      stars.ignore(self.get().getAccountId(), rsrc.getProject(), rsrc.getChange().getId());
+      return Response.ok("");
     } catch (OrmException e) {
       throw new RestApiException("failed to ignore change", e);
     }
-    return Response.ok("");
+  }
+
+  private boolean canIgnore(ChangeResource rsrc) {
+    return !rsrc.isUserOwner() && !isIgnored(rsrc);
   }
 
   private boolean isIgnored(ChangeResource rsrc) {
     try {
-      return stars.isIgnoredBy(rsrc.getChange().getId(), self.get().getAccountId());
+      return stars.isIgnored(rsrc);
     } catch (OrmException e) {
       log.error("failed to check ignored star", e);
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -112,6 +113,14 @@ public class ListTags implements RestReadView<ProjectResource> {
     this.user = user;
     this.refFilterFactory = refFilterFactory;
     this.links = webLinks;
+  }
+
+  public ListTags request(ListRefsRequest<TagInfo> request) {
+    this.setLimit(request.getLimit());
+    this.setStart(request.getStart());
+    this.setMatchSubstring(request.getSubstring());
+    this.setMatchRegex(request.getRegex());
+    return this;
   }
 
   @Override

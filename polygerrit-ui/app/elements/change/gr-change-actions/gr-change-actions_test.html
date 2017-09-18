@@ -380,6 +380,15 @@ limitations under the License.
         __type: 'change',
         method: 'POST',
       };
+      const rebaseEditAction = {
+        enabled: true,
+        label: 'Rebase Edit',
+        title: 'Rebase change edit',
+        __key: 'rebaseEdit',
+        __primary: false,
+        __type: 'change',
+        method: 'POST',
+      };
 
       setup(() => {
         fireActionStub = sandbox.stub(element, '_fireAction');
@@ -403,10 +412,14 @@ limitations under the License.
             fireActionStub.calledWith('/edit', deleteEditAction, false));
       });
 
-      test('show publish edit', () => {
+      test('show publish edit but rebaseEdit is hidden', () => {
         element.change = {
           status: 'NEW',
         };
+        const rebaseEditButton =
+            element.$$('gr-button[data-action-key="rebaseEdit"]');
+        assert.isNotOk(rebaseEditButton);
+
         const publishEditButton =
             element.$$('gr-button[data-action-key="publishEdit"]');
         assert.ok(publishEditButton);
@@ -418,7 +431,28 @@ limitations under the License.
             fireActionStub.calledWith('/edit:publish', publishEditAction, false));
       });
 
-      test('hide publishEdit if change is not open', () => {
+      test('show rebase edit but publishEdit is hidden', () => {
+        element.change = {
+          status: 'NEW',
+        };
+        element.editBasedOnCurrentPatchSet = false;
+
+        const publishEditButton =
+            element.$$('gr-button[data-action-key="publishEdit"]');
+        assert.isNotOk(publishEditButton);
+
+        const rebaseEditButton =
+            element.$$('gr-button[data-action-key="rebaseEdit"]');
+        assert.ok(rebaseEditButton);
+        MockInteractions.tap(rebaseEditButton);
+        element._handleRebaseEditTap();
+        flushAsynchronousOperations();
+
+        assert.isTrue(
+            fireActionStub.calledWith('/edit:rebase', rebaseEditAction, false));
+      });
+
+      test('hide publishEdit and rebaseEdit if change is not open', () => {
         element.change = {
           status: 'MERGED',
         };
@@ -427,6 +461,10 @@ limitations under the License.
         const publishEditButton =
             element.$$('gr-button[data-action-key="publishEdit"]');
         assert.isNotOk(publishEditButton);
+
+        const rebaseEditButton =
+            element.$$('gr-button[data-action-key="rebaseEdit"]');
+        assert.isNotOk(rebaseEditButton);
 
         const deleteEditButton =
             element.$$('gr-button[data-action-key="deleteEdit"]');

@@ -386,6 +386,23 @@ limitations under the License.
       assert.isTrue(element.$.emailEditor.loadData.calledOnce);
     });
 
+    test('_handleSaveChangeTable', () => {
+      let newColumns = ['Owner', 'Project', 'Branch'];
+      element._localChangeTableColumns = newColumns.slice(0);
+      element._showNumber = false;
+      const cloneStub = sandbox.stub(element, '_cloneChangeTableColumns');
+      element._handleSaveChangeTable();
+      assert.deepEqual(element.prefs.change_table, newColumns);
+      assert.isNotOk(element.prefs.legacycid_in_change_table);
+
+      newColumns = ['Size'];
+      element._localChangeTableColumns = newColumns;
+      element._showNumber = true;
+      element._handleSaveChangeTable();
+      assert.deepEqual(element.prefs.change_table, newColumns);
+      assert.isTrue(element.prefs.legacycid_in_change_table);
+    });
+
     suite('_getFilterDocsLink', () => {
       test('with http: docs base URL', () => {
         const base = 'http://example.com/';

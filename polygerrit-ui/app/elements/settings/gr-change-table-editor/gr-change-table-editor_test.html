@@ -62,15 +62,17 @@ limitations under the License.
       const rows = element.$$('tbody').querySelectorAll('tr');
       let tds;
 
-      assert.equal(rows.length, element.columnNames.length);
+      // The `+ 1` is for the number column, which isn't included in the change
+      // table behavior's list.
+      assert.equal(rows.length, element.columnNames.length + 1);
       for (let i = 0; i < columns.length; i++) {
-        tds = rows[i].querySelectorAll('td');
+        tds = rows[i + 1].querySelectorAll('td');
         assert.equal(tds[0].textContent, columns[i]);
       }
     });
 
     test('hide item', () => {
-      const checkbox = element.$$('table input');
+      const checkbox = element.$$('table tr:nth-child(2) input');
       const isChecked = checkbox.checked;
       const displayedLength = element.displayedColumns.length;
       assert.isTrue(isChecked);
@@ -78,8 +80,7 @@ limitations under the License.
       MockInteractions.tap(checkbox);
       flushAsynchronousOperations();
 
-      assert.equal(element.displayedColumns.length,
-          displayedLength - 1);
+      assert.equal(element.displayedColumns.length, displayedLength - 1);
     });
 
     test('show item', () => {
@@ -91,7 +92,7 @@ limitations under the License.
         'Updated',
       ]);
       flushAsynchronousOperations();
-      const checkbox = element.$$('table input');
+      const checkbox = element.$$('table tr:nth-child(2) input');
       const isChecked = checkbox.checked;
       const displayedLength = element.displayedColumns.length;
       assert.isFalse(isChecked);
@@ -105,9 +106,9 @@ limitations under the License.
     });
 
     test('_handleTargetTap', () => {
-      const checkbox = element.$$('table input');
+      const checkbox = element.$$('table tr:nth-child(2) input');
       let originalDisplayedColumns = element.displayedColumns;
-      const td = element.$$('table .checkboxContainer');
+      const td = element.$$('table tr:nth-child(2) .checkboxContainer');
       const displayedColumnStub =
           sandbox.stub(element, '_updateDisplayedColumns');
 
@@ -123,6 +124,20 @@ limitations under the License.
           originalDisplayedColumns,
           checkbox.name,
           checkbox.checked));
+    });
+
+    test('_handleTargetTap on number', () => {
+      element.showNumber = false;
+      const checkbox = element.$$('table tr:nth-child(1) input');
+      const displayedColumnStub =
+          sandbox.stub(element, '_updateDisplayedColumns');
+
+      MockInteractions.tap(checkbox);
+      assert.isFalse(displayedColumnStub.called);
+      assert.isTrue(element.showNumber);
+
+      MockInteractions.tap(checkbox);
+      assert.isFalse(element.showNumber);
     });
 
     test('_updateDisplayedColumns', () => {

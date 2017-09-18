@@ -299,7 +299,7 @@ public class ReplaceOp implements BatchUpdateOp {
     recipients.add(
         getRecipientsFromFooters(ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());
-    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx);
+    ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
     MailRecipients oldRecipients = getRecipientsFromReviewers(cd.reviewers());
     Iterable<PatchSetApproval> newApprovals =
         approvalsUtil.addApprovalsForNewPatchSet(

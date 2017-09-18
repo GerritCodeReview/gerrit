@@ -72,7 +72,7 @@ public class MergedSender extends ReplyToChangeSender {
           args.approvalsUtil.byPatchSet(
               args.db.get(),
               changeData.notes(),
-              changeData.changeControl().getUser(),
+              args.identifiedUserFactory.create(changeData.change().getOwner()),
               patchSet.getId(),
               null,
               null)) {

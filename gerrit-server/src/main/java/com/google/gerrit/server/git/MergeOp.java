@@ -327,7 +327,8 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed)
+      throws OrmException {
     return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
@@ -391,7 +392,7 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
   }
 
-  private void bypassSubmitRules(ChangeSet cs, boolean allowClosed) {
+  private void bypassSubmitRules(ChangeSet cs, boolean allowClosed) throws OrmException {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
@@ -705,15 +706,16 @@ public class MergeOp implements AutoCloseable {
       Change.Id changeId = cd.getId();
       ChangeNotes notes;
       Change chg;
+      SubmitType st;
       try {
         notes = cd.notes();
         chg = cd.change();
+        st = getSubmitType(cd);
       } catch (OrmException e) {
         commitStatus.logProblem(changeId, e);
         continue;
       }
 
-      SubmitType st = getSubmitType(cd);
       if (st == null) {
         commitStatus.logProblem(changeId, "No submit type for change");
         continue;
@@ -828,7 +830,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private SubmitType getSubmitType(ChangeData cd) {
+  private SubmitType getSubmitType(ChangeData cd) throws OrmException {
     SubmitTypeRecord str = cd.submitTypeRecord();
     return str.isOk() ? str.type : null;
   }

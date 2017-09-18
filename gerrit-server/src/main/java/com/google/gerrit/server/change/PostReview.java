@@ -570,7 +570,7 @@ public class PostReview
   }
 
   private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
-    ChangeData changeData = changeDataFactory.create(db.get(), revision.getChangeResource());
+    ChangeData changeData = changeDataFactory.create(db.get(), revision.getNotes());
     return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
@@ -1107,7 +1107,7 @@ public class PostReview
       if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
         return true;
       }
-      ChangeData cd = changeDataFactory.create(db.get(), ctx);
+      ChangeData cd = changeDataFactory.create(db.get(), ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
       if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
         return true;

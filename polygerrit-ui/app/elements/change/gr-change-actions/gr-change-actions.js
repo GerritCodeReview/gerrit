@@ -62,6 +62,7 @@
     UNMUTE: 'unmute',
     WIP: 'wip',
     DELETE_EDIT: 'deleteEdit',
+    REBASE_EDIT: 'rebaseEdit',
     PUBLISH_EDIT: 'publishEdit',
   };
 
@@ -118,6 +119,16 @@
     __key: 'download',
     __primary: false,
     __type: 'revision',
+  };
+
+  const REBASE_EDIT = {
+    enabled: true,
+    label: 'Rebase Edit',
+    title: 'Rebase change edit',
+    __key: 'rebaseEdit',
+    __primary: false,
+    __type: 'change',
+    method: 'POST',
   };
 
   const PUBLISH_EDIT = {
@@ -315,7 +326,7 @@
 
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
-          'editLoaded, change)',
+          'editLoaded, editBasedOnCurrentPatchSet, change)',
     ],
 
     listeners: {
@@ -449,7 +460,8 @@
     },
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
-        additionalActionsChangeRecord, editLoaded, change) {
+        additionalActionsChangeRecord, editLoaded, editBasedOnCurrentPatchSet,
+        change) {
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -468,8 +480,22 @@
       if (Object.keys(changeActions).length !== 0) {
         if (editLoaded) {
           if (this.changeIsOpen(change.status)) {
-            if (!changeActions.publishEdit) {
-              this.set('actions.publishEdit', PUBLISH_EDIT);
+            if (editBasedOnCurrentPatchSet) {
+              if (!changeActions.publishEdit) {
+                this.set('actions.publishEdit', PUBLISH_EDIT);
+              }
+              if (changeActions.rebaseEdit) {
+                delete this.actions.rebaseEdit;
+                this.notifyPath('actions.rebaseEdit');
+              }
+            } else {
+              if (!changeActions.rebasEdit) {
+                this.set('actions.rebaseEdit', REBASE_EDIT);
+              }
+              if (changeActions.publishEdit) {
+                delete this.actions.publishEdit;
+                this.notifyPath('actions.publishEdit');
+              }
             }
           }
           if (!changeActions.deleteEdit) {
@@ -479,6 +505,10 @@
           if (changeActions.publishEdit) {
             delete this.actions.publishEdit;
             this.notifyPath('actions.publishEdit');
+          }
+          if (changeActions.rebaseEdit) {
+            delete this.actions.rebaseEdit;
+            this.notifyPath('actions.rebaseEdit');
           }
           if (changeActions.deleteEdit) {
             delete this.actions.deleteEdit;
@@ -699,6 +729,9 @@
           break;
         case ChangeActions.PUBLISH_EDIT:
           this._handlePublishEditTap();
+          break;
+        case ChangeActions.REBASE_EDIT:
+          this._handleRebaseEditTap();
           break;
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
@@ -1023,6 +1056,10 @@
 
     _handlePublishEditTap() {
       this._fireAction('/edit:publish', this.actions.publishEdit, false);
+    },
+
+    _handleRebaseEditTap() {
+      this._fireAction('/edit:rebase', this.actions.rebaseEdit, false);
     },
 
     _handleHideBackgroundContent() {

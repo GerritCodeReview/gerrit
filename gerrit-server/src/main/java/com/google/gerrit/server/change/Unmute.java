@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -54,7 +55,7 @@ public class Unmute
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException {
+      throws RestApiException, OrmException, IllegalLabelException {
     if (rsrc.isUserOwner() || !isMuted(rsrc.getChange())) {
       // early exit for own changes and not muted changes
       return Response.ok("");

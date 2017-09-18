@@ -123,7 +123,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public static class IllegalLabelException extends IllegalArgumentException {
+  public static class IllegalLabelException extends Exception {
     private static final long serialVersionUID = 1L;
 
     IllegalLabelException(String message) {
@@ -200,7 +200,7 @@ public class StarredChangesUtil {
       Change.Id changeId,
       Set<String> labelsToAdd,
       Set<String> labelsToRemove)
-      throws OrmException {
+      throws OrmException, IllegalLabelException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(changeId, accountId);
       StarRef old = readLabels(repo, refName);
@@ -304,7 +304,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public void ignore(ChangeResource rsrc) throws OrmException {
+  public void ignore(ChangeResource rsrc) throws OrmException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -313,7 +313,7 @@ public class StarredChangesUtil {
         ImmutableSet.of());
   }
 
-  public void unignore(ChangeResource rsrc) throws OrmException {
+  public void unignore(ChangeResource rsrc) throws OrmException, IllegalLabelException {
     star(
         rsrc.getUser().asIdentifiedUser().getAccountId(),
         rsrc.getProject(),
@@ -335,7 +335,7 @@ public class StarredChangesUtil {
   }
 
   public void mute(Account.Id accountId, Project.NameKey project, Change change)
-      throws OrmException {
+      throws OrmException, IllegalLabelException {
     star(
         accountId,
         project,
@@ -345,7 +345,7 @@ public class StarredChangesUtil {
   }
 
   public void unmute(Account.Id accountId, Project.NameKey project, Change change)
-      throws OrmException {
+      throws OrmException, IllegalLabelException {
     star(
         accountId,
         project,
@@ -375,7 +375,7 @@ public class StarredChangesUtil {
   }
 
   public static ObjectId writeLabels(Repository repo, Collection<String> labels)
-      throws IOException {
+      throws IOException, InvalidLabelsException {
     validateLabels(labels);
     try (ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId id =
@@ -387,13 +387,14 @@ public class StarredChangesUtil {
     }
   }
 
-  private static void checkMutuallyExclusiveLabels(Set<String> labels) {
+  private static void checkMutuallyExclusiveLabels(Set<String> labels)
+      throws MutuallyExclusiveLabelsException {
     if (labels.containsAll(ImmutableSet.of(DEFAULT_LABEL, IGNORE_LABEL))) {
       throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
   }
 
-  private static void validateLabels(Collection<String> labels) {
+  private static void validateLabels(Collection<String> labels) throws InvalidLabelsException {
     if (labels == null) {
       return;
     }
@@ -411,7 +412,7 @@ public class StarredChangesUtil {
 
   private void updateLabels(
       Repository repo, String refName, ObjectId oldObjectId, Collection<String> labels)
-      throws IOException, OrmException {
+      throws IOException, OrmException, InvalidLabelsException {
     try (RevWalk rw = new RevWalk(repo)) {
       RefUpdate u = repo.updateRef(refName);
       u.setExpectedOldObjectId(oldObjectId);

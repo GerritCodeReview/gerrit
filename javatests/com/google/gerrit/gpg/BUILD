@@ -6,7 +6,6 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-server:server",
-        "//gerrit-server:testutil",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
@@ -15,6 +14,8 @@ junit_tests(
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/cache/h2",
+        "//java/com/google/gerrit/server/project/testing:project-test-util",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:truth",

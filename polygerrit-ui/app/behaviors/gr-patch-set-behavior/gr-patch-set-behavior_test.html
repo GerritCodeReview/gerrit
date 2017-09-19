@@ -38,8 +38,20 @@ limitations under the License.
     test('fetchIsLatestKnown on latest', done => {
       const knownChange = {
         revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
+          sha1: {
+            description: 'patch 1',
+            _number: 1,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
+          sha2: {
+            description: 'patch 2',
+            _number: 2,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
         },
       };
       const mockRestApi = {
@@ -57,15 +69,45 @@ limitations under the License.
     test('fetchIsLatestKnown not on latest', done => {
       const knownChange = {
         revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
+          sha1: {
+            description: 'patch 1',
+            _number: 1,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
+          sha2: {
+            description: 'patch 2',
+            _number: 2,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
         },
       };
       const actualChange = {
         revisions: {
-          sha1: {description: 'patch 1', _number: 1},
-          sha2: {description: 'patch 2', _number: 2},
-          sha3: {description: 'patch 3', _number: 3},
+          sha1: {
+            description: 'patch 1',
+            _number: 1,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
+          sha2: {
+            description: 'patch 2',
+            _number: 2,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
+          sha3: {
+            description: 'patch 3',
+            _number: 3,
+            commit: {
+              committer: { date: "2017-08-18 23:11:25.000000000"},
+            }
+          },
         },
       };
       const mockRestApi = {
@@ -206,25 +248,26 @@ limitations under the License.
 
     test('sortRevisions', () => {
       const sort = Gerrit.PatchSetBehavior.sortRevisions;
-      const revisions = [
-        {_number: 0},
-        {_number: 2},
-        {_number: 1},
-      ];
+      const revisions = {
+        '2ad44dcd6f8598a8ff5b755cf6e20241f249fc3a': {_number: 0},
+        '297b2ad9b09e23082bdba45b24359fbd89342160': {_number: 2},
+        'f03305cfece5e06014e08b270b0c28852c9ecdb8': {_number: 1},
+      };
       const sorted = [
-        {_number: 0},
-        {_number: 1},
-        {_number: 2},
+        {_number: 0, _sha: '2ad44dcd6f8598a8ff5b755cf6e20241f249fc3a'},
+        {_number: 1, _sha: 'f03305cfece5e06014e08b270b0c28852c9ecdb8'},
+        {_number: 2, _sha: '297b2ad9b09e23082bdba45b24359fbd89342160'},
       ];
-
       assert.deepEqual(sort(revisions), sorted);
 
       // Edit patchset should follow directly after its basePatchNum.
-      revisions.push({_number: 'edit', basePatchNum: 2});
-      sorted.push({_number: 'edit', basePatchNum: 2});
+      revisions['3xy44dcd6f8598a8ff5b755cf6e20241f249fc3a'] =
+          {_number: 'edit', basePatchNum: 2};
+      sorted.push({_number: 'edit', basePatchNum: 2,
+          _sha: '3xy44dcd6f8598a8ff5b755cf6e20241f249fc3a'});
       assert.deepEqual(sort(revisions), sorted);
 
-      revisions[3].basePatchNum = 0;
+      revisions['3xy44dcd6f8598a8ff5b755cf6e20241f249fc3a'].basePatchNum = 0;
       const edit = sorted.pop();
       edit.basePatchNum = 0;
       // Edit patchset should be at index 1.

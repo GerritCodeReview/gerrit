@@ -438,16 +438,6 @@ limitations under the License.
         const deleteStub = sandbox.stub(element.$.restAPI, 'deleteVote')
             .returns(Promise.resolve({ok: true}));
 
-        const spliceStub = sandbox.stub(element, 'splice', (path, index,
-            length) => {
-          assert.deepEqual(path, ['change.labels', 'test', 'all']);
-          assert.equal(index, 0);
-          assert.equal(length, 1);
-          assert.notOk(element.change.labels.test.recommended);
-          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
-          spliceStub.restore();
-          done();
-        });
         element.change.removable_reviewers = [
           {
             _account_id: 1,
@@ -457,8 +447,23 @@ limitations under the License.
         element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
         flushAsynchronousOperations();
-        const button = element.$$('gr-account-chip').$$('gr-button');
+        const chip = element.$$('gr-account-chip');
+        const button = chip.$$('gr-button');
+
+        const spliceStub = sandbox.stub(element, 'splice', (path, index,
+            length) => {
+          assert.isFalse(chip.disabled);
+          assert.deepEqual(path, ['change.labels', 'test', 'all']);
+          assert.equal(index, 0);
+          assert.equal(length, 1);
+          assert.notOk(element.change.labels.test.recommended);
+          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
+          spliceStub.restore();
+          done();
+        });
+
         MockInteractions.tap(button);
+        assert.isTrue(chip.disabled);
       });
 
       test('changing topic', () => {
@@ -480,14 +485,17 @@ limitations under the License.
       test('topic removal', () => {
         sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
             Promise.resolve());
-        const remove = element.$$('gr-linked-chip').$.remove;
+        const chip = element.$$('gr-linked-chip');
+        const remove = chip.$.remove;
         const topicChangedSpy = sandbox.spy();
         element.addEventListener('topic-changed', topicChangedSpy);
         MockInteractions.tap(remove);
+        assert.isTrue(chip.disabled);
         assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
             42, null));
         return element.$.restAPI.setChangeTopic.lastCall.returnValue
             .then(() => {
+              assert.isFalse(chip.disabled);
               assert.equal(element.change.topic, '');
               assert.isTrue(topicChangedSpy.called);
             });

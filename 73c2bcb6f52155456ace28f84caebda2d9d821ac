@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07da194c_ca7db5a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2017-09-19T12:12:20Z",
+      "side": 1,
+      "message": "FWIW P0 are regression in the release for us, anything else is lower. Also this was a FR not a Bug... I don\u0027t know why it was P3, on the roadmap it was definitely P2 and scheduled for next quarter.",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "73c2bcb6f52155456ace28f84caebda2d9d821ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

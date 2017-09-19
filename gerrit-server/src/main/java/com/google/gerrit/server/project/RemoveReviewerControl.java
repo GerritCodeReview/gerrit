@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -23,6 +24,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -46,9 +49,9 @@ public class RemoveReviewerControl {
   /** @throws AuthException if this user is not allowed to remove this approval. */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException, NoSuchChangeException {
+      throws PermissionBackendException, AuthException, NoSuchChangeException, OrmException {
     if (canRemoveReviewerWithoutPermissionCheck(
-        notes, currentUser, approval.getAccountId(), approval.getValue())) {
+        notes.getChange(), currentUser, approval.getAccountId(), approval.getValue())) {
       return;
     }
 
@@ -61,22 +64,22 @@ public class RemoveReviewerControl {
 
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException, NoSuchChangeException {
-    if (canRemoveReviewerWithoutPermissionCheck(notes, currentUser, reviewer, value)) {
+      ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
+      throws PermissionBackendException, NoSuchChangeException, OrmException {
+    if (canRemoveReviewerWithoutPermissionCheck(cd.change(), currentUser, reviewer, value)) {
       return true;
     }
     return permissionBackend
         .user(currentUser)
-        .change(notes)
+        .change(cd)
         .database(dbProvider)
         .test(ChangePermission.REMOVE_REVIEWER);
   }
 
   private boolean canRemoveReviewerWithoutPermissionCheck(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws NoSuchChangeException {
-    if (!notes.getChange().getStatus().isOpen()) {
+      Change change, CurrentUser currentUser, Account.Id reviewer, int value)
+      throws NoSuchChangeException, OrmException {
+    if (!change.getStatus().isOpen()) {
       return false;
     }
 
@@ -84,14 +87,15 @@ public class RemoveReviewerControl {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
         return true; // A user can always remove themselves.
-      } else if (aId.equals(notes.getChange().getOwner()) && 0 <= value) {
+      } else if (aId.equals(change.getOwner()) && 0 <= value) {
         return true; // The change owner may remove any zero or positive score.
       }
     }
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
-    ChangeControl changeControl = changeControlFactory.controlFor(notes, currentUser);
+    ChangeControl changeControl =
+        changeControlFactory.controlFor(dbProvider.get(), change, currentUser);
     if (changeControl.getRefControl().isOwner() // branch owner
         || changeControl.getProjectControl().isOwner() // project owner
         || changeControl.getProjectControl().isAdmin()) { // project admin

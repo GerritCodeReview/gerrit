@@ -408,7 +408,7 @@ public class ActionsIT extends AbstractDaemonTest {
     revisionInfo =
         changeJsonFactory
             .create(opts)
-            .getRevisionInfo(cd.changeControl(), cd.patchSet(new PatchSet.Id(changeId, 1)));
+            .getRevisionInfo(cd, cd.patchSet(new PatchSet.Id(changeId, 1)));
   }
 
   private void visitedCurrentRevisionActionsAssertions(

@@ -32,6 +32,8 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -84,28 +86,31 @@ public class SubmitRuleEvaluator {
     }
   }
 
+  public interface Factory {
+    SubmitRuleEvaluator create(ChangeData cd);
+  }
+
   private final AccountCache accountCache;
   private final Accounts accounts;
   private final Emails emails;
   private final ChangeData cd;
-  private final ChangeControl control;
 
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
   private SubmitRuleOptions opts;
   private PatchSet patchSet;
   private boolean logErrors = true;
   private long reductionsConsumed;
+  private ChangeControl control;
 
   private Term submitRule;
 
-  public SubmitRuleEvaluator(
-      AccountCache accountCache, Accounts accounts, Emails emails, ChangeData cd)
-      throws OrmException {
+  @Inject
+  SubmitRuleEvaluator(
+      AccountCache accountCache, Accounts accounts, Emails emails, @Assisted ChangeData cd) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
     this.cd = cd;
-    this.control = cd.changeControl();
   }
 
   /**
@@ -219,6 +224,12 @@ public class SubmitRuleEvaluator {
    */
   public List<SubmitRecord> evaluate() {
     initOptions();
+    try {
+      initChange();
+    } catch (OrmException e) {
+      return ruleError("Error looking up change " + cd.getId(), e);
+    }
+
     Change c = control.getChange();
     if (!opts.allowClosed() && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
@@ -226,12 +237,6 @@ public class SubmitRuleEvaluator {
       return Collections.singletonList(rec);
     }
     if (!opts.allowDraft()) {
-      try {
-        initPatchSet();
-      } catch (OrmException e) {
-        return ruleError(
-            "Error looking up patch set " + control.getChange().currentPatchSetId(), e);
-      }
       if (c.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
         return cannotSubmitDraft();
       }
@@ -409,9 +414,9 @@ public class SubmitRuleEvaluator {
   public SubmitTypeRecord getSubmitType() {
     initOptions();
     try {
-      initPatchSet();
+      initChange();
     } catch (OrmException e) {
-      return typeError("Error looking up patch set " + control.getChange().currentPatchSetId(), e);
+      return typeError("Error looking up change " + cd.getId(), e);
     }
 
     try {
@@ -679,7 +684,11 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private void initPatchSet() throws OrmException {
+  private void initChange() throws OrmException {
+    if (control == null) {
+      control = cd.changeControl();
+    }
+
     if (patchSet == null) {
       patchSet = cd.currentPatchSet();
       if (patchSet == null) {

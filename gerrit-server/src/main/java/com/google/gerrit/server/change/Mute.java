@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -44,17 +45,18 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
     return new UiAction.Description()
         .setLabel("Mute")
         .setTitle("Mute the change to unhighlight it in the dashboard")
-        .setVisible(!rsrc.isUserOwner() && isMuteable(rsrc));
+        .setVisible(isMuteable(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, OrmException, IllegalLabelException {
-    if (rsrc.isUserOwner() || isMuted(rsrc)) {
-      // early exit for own changes and already muted changes
-      return Response.ok("");
+    if (rsrc.isUserOwner()) {
+      throw new BadRequestException("cannot mute own change");
     }
-    stars.mute(rsrc);
+    if (!isMuted(rsrc)) {
+      stars.mute(rsrc);
+    }
     return Response.ok("");
   }
 
@@ -69,7 +71,7 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
 
   private boolean isMuteable(ChangeResource rsrc) {
     try {
-      return !isMuted(rsrc) && !stars.isIgnored(rsrc);
+      return !rsrc.isUserOwner() && !isMuted(rsrc) && !stars.isIgnored(rsrc);
     } catch (OrmException e) {
       log.error("failed to check ignored star", e);
     }

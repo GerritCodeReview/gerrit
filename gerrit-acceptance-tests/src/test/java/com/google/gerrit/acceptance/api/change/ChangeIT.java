@@ -3538,6 +3538,15 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotMuteOwnChange() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("cannot mute own change");
+    gApi.changes().id(changeId).mute(true);
+  }
+
+  @Test
   public void cannotSetInvalidLabel() throws Exception {
     String changeId = createChange().getChangeId();
 

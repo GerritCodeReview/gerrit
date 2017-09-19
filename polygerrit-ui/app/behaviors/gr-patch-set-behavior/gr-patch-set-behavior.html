@@ -99,10 +99,18 @@ limitations under the License.
      * edit is based on patch set 2, and another patch set was uploaded after
      * change edit creation, the sorted order should be: 1, 2, (0|edit), 3.
      *
-     * @param {!Array<!Object>} revisions The revisions array
+     * @param {!Object} revisions The revisions object
      * @return {!Array<!Object>} The sorted {revisions} array
      */
     sortRevisions(revisions) {
+      const revisionKeys = Object.keys(revisions);
+      const computedRevisions = [];
+      for (const key of revisionKeys) {
+        const value = revisions[key];
+        value._sha = key;
+        computedRevisions.push(value);
+      }
+      revisions = Object.values(revisions);
       const editParent =
           Gerrit.PatchSetBehavior.findEditParentPatchNum(revisions);
       // Map a normal patchNum to 2 * (patchNum - 1) + 1... I.e. 1 -> 1,
@@ -135,13 +143,15 @@ limitations under the License.
       if (change.revisions &&
           Object.keys(change.revisions).length) {
         patchNums =
-          Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
+          Gerrit.PatchSetBehavior.sortRevisions(change.revisions)
               .map(e => {
                 // TODO(kaspern): Mark which patchset an edit was made on, if an
                 // edit exists -- perhaps with a temporary description.
                 return {
                   num: e._number,
                   desc: e.description,
+                  date: e.commit.committer.date,
+                  sha: e._sha,
                 };
               });
       }

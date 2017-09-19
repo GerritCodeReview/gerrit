@@ -48,7 +48,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import org.junit.Before;
 import org.junit.Test;
 

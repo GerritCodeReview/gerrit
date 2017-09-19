@@ -15,9 +15,9 @@
 package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.IndexVersions;
+import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.InMemoryModule;
+import com.google.gerrit.testing.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.List;

@@ -118,6 +118,30 @@
       "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7329fe68_de881551",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T21:13:29Z",
+      "side": 1,
+      "message": "That more or less aligns with what I was thinking, although I don\u0027t understand 100%.\n\nIt sounds like, before edit support was added:\n* The latest revision was displayed by default, and ..\n* .. the change actions were based on the latest revision.\n\nBecause the latest revision _was_ the default revision, the change actions could be based on the default revision rather than the latest revision.\n\nNow that the two are no longer the same, can we just direct the change actions to ignore whatever ends up being the default revision and be based on whichever is the true latest non-edit?",
+      "parentUuid": "3827a5f3_3a9d252a",
+      "range": {
+        "startLine": 929,
+        "startChar": 8,
+        "endLine": 931,
+        "endChar": 57
+      },
+      "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

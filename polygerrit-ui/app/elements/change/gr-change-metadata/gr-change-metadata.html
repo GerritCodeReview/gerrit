@@ -102,6 +102,11 @@ limitations under the License.
       section.topic {
         @apply(--change-metadata-topic);
       }
+      gr-account-chip([disabled]),
+      gr-linked-chip([disabled]) {
+        opacity: 0;
+        pointer-events: none;
+      }
       #externalStyle {
         display: block;
       }

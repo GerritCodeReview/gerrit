@@ -249,11 +249,13 @@
     _onDeleteVote(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;
+      target.disabled = true;
       const labelName = target.labelName;
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change._number, accountID, labelName)
           .then(response => {
+            target.disabled = false;
             if (!response.ok) { return response; }
             const label = this.change.labels[labelName];
             const labels = label.all || [];
@@ -271,6 +273,9 @@
                 break;
               }
             }
+          }).catch(err => {
+            target.disabled = false;
+            return;
           });
     },
 
@@ -323,20 +328,31 @@
       return Gerrit.Nav.getUrlForHashtag(hashtag);
     },
 
-    _handleTopicRemoved() {
+    _handleTopicRemoved(e) {
+      const target = Polymer.dom(e).rootTarget;
+      target.disabled = true;
       this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
+        target.disabled = false;
         this.set(['change', 'topic'], '');
         this.dispatchEvent(
             new CustomEvent('topic-changed', {bubbles: true}));
+      }).catch(err => {
+        target.disabled = false;
+        return;
       });
     },
 
     _handleHashtagRemoved(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget.text;
+      target.disabled = true;
       this.$.restAPI.setChangeHashtag(this.change._number, {remove: [target]})
           .then(newHashtag => {
+            target.disabled = false;
             this.set(['change', 'hashtags'], newHashtag);
+          }).catch(err => {
+            target.disabled = false;
+            return;
           });
     },
 

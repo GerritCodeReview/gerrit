@@ -55,6 +55,10 @@ limitations under the License.
       gr-button.transparentBackground {
         background-color: transparent;
       }
+      :host([disabled]) {
+        opacity: .6;
+        pointer-events: none;
+      }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
       <a href$="[[href]]">[[text]]</a>

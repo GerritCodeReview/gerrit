@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06e4d712_b07f1c91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "Mention in the commit message that this REST endpoint was added by Icf74b0fc40 which is not part of any release yet and hence changing this REST endpoint doesn\u0027t break backwards compatibility.",
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c26511aa_f111ed15",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "Replace with:\n\n  the link:access-control.html#capability_administrateServer[Administrate Server] global capability",
+      "range": {
+        "startLine": 1186,
+        "startChar": 50,
+        "endLine": 1187,
+        "endChar": 10
+      },
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475caf16_2ceecff1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "Should be BadRequestException",
+      "range": {
+        "startLine": 81,
+        "startChar": 21,
+        "endLine": 81,
+        "endChar": 37
+      },
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce25ab8a_f02eee98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "Should this be UnprocessableEntityException? 422 Unprocessable Entity is the response that we return if a resource that was specified in the request body is not found [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity",
+      "range": {
+        "startLine": 88,
+        "startChar": 21,
+        "endLine": 88,
+        "endChar": 37
+      },
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5758623a_51ee3900",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "This is the same test case as in the line above. Should this be\n\n  new TestCase(user.email, secretProject.get(), null, 403)\n\n?",
+      "range": {
+        "startLine": 112,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 68
+      },
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb7f8f6e_cfe3377e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckAccess.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T07:44:03Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 18
+      },
+      "revId": "273ed80e0b3efcb7ce6d47edea66bc54f3481efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

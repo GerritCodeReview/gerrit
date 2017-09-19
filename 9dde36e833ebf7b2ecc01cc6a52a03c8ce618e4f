@@ -46,6 +46,29 @@
       "revId": "9dde36e833ebf7b2ecc01cc6a52a03c8ce618e4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1339d6e_6c4f115e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T08:51:35Z",
+      "side": 1,
+      "message": "Why was this changed from ChangeNotes to Change?\n\nIf only the change is provided then the changeControlFactory in l. 98 needs to load the ChangeNotes again, doesn\u0027t it?",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "9dde36e833ebf7b2ecc01cc6a52a03c8ce618e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

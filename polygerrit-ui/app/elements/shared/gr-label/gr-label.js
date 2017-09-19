@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  const TEST = 123;
   Polymer({
     is: 'gr-label',
 

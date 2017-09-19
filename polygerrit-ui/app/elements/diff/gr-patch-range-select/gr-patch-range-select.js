@@ -57,7 +57,7 @@
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
-      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
+      this._sortedRevisions = this.sortRevisions(revisions);
     },
 
     _handlePatchChange(e) {

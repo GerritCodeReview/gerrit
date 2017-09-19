@@ -24,8 +24,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -44,7 +44,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;

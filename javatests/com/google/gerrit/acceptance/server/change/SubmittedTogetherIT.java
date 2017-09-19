@@ -31,7 +31,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testing.ConfigSuite;
 import java.util.EnumSet;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;

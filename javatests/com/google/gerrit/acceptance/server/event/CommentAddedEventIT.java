@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.server.event;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -33,7 +33,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;

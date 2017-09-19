@@ -31,7 +31,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;

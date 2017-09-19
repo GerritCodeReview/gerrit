@@ -183,7 +183,7 @@ limitations under the License.
     });
 
     test('_redirectIfNotLoggedIn while logged in', () => {
-      sandbox.stub(element._restAPI, 'getLoggedIn')
+      sandbox.stub(element.$.restAPI, 'getLoggedIn')
           .returns(Promise.resolve(true));
       const data = {canonicalPath: ''};
       const redirectStub = sandbox.stub(element, '_redirectToLogin');
@@ -193,7 +193,7 @@ limitations under the License.
     });
 
     test('_redirectIfNotLoggedIn while logged out', () => {
-      sandbox.stub(element._restAPI, 'getLoggedIn')
+      sandbox.stub(element.$.restAPI, 'getLoggedIn')
           .returns(Promise.resolve(false));
       const redirectStub = sandbox.stub(element, '_redirectToLogin');
       const data = {canonicalPath: ''};
@@ -304,34 +304,51 @@ limitations under the License.
 
       setup(() => {
         projectLookupStub = sandbox
-            .stub(element._restAPI, 'getFromProjectLookup')
-            .returns(Promise.resolve('foo/bar'));
+            .stub(element.$.restAPI, 'getFromProjectLookup');
         sandbox.stub(element, '_generateUrl');
       });
 
       suite('_normalizeLegacyRouteParams', () => {
         let rangeStub;
+        let redirectStub;
 
         setup(() => {
           rangeStub = sandbox.stub(element, '_normalizePatchRangeParams')
               .returns(Promise.resolve());
+          redirectStub = sandbox.stub(element, '_redirect');
         });
 
         test('w/o changeNum', () => {
+          projectLookupStub.returns(Promise.resolve('foo/bar'));
           const params = {};
           return element._normalizeLegacyRouteParams(params).then(() => {
             assert.isFalse(projectLookupStub.called);
             assert.isFalse(rangeStub.called);
             assert.isNotOk(params.project);
+            assert.isFalse(redirectStub.called);
           });
         });
 
         test('w/ changeNum', () => {
+          projectLookupStub.returns(Promise.resolve('foo/bar'));
           const params = {changeNum: 1234};
           return element._normalizeLegacyRouteParams(params).then(() => {
             assert.isTrue(projectLookupStub.called);
             assert.isTrue(rangeStub.called);
             assert.equal(params.project, 'foo/bar');
+            assert.isTrue(redirectStub.calledOnce);
+          });
+        });
+
+        test('halts on project lookup failure', () => {
+          projectLookupStub.returns(Promise.resolve(undefined));
+
+          const params = {changeNum: 1234};
+          return element._normalizeLegacyRouteParams(params).then(() => {
+            assert.isTrue(projectLookupStub.called);
+            assert.isFalse(rangeStub.called);
+            assert.isUndefined(params.project);
+            assert.isFalse(redirectStub.called);
           });
         });
       });
@@ -472,7 +489,7 @@ limitations under the License.
         });
 
         test('redirects to dahsboard if logged in', () => {
-          sandbox.stub(element._restAPI, 'getLoggedIn')
+          sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {
             canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -485,7 +502,7 @@ limitations under the License.
         });
 
         test('redirects to open changes if not logged in', () => {
-          sandbox.stub(element._restAPI, 'getLoggedIn')
+          sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
           const data = {
             canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -592,7 +609,7 @@ limitations under the License.
         });
 
         test('own dahsboard but signed out redirects to login', () => {
-          sandbox.stub(element._restAPI, 'getLoggedIn')
+          sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
           const data = {canonicalPath: '/dashboard', params: {0: 'seLF'}};
           const result = element._handleDashboardRoute(data);
@@ -605,7 +622,7 @@ limitations under the License.
         });
 
         test('non-self dahsboard but signed out does not redirect', () => {
-          sandbox.stub(element._restAPI, 'getLoggedIn')
+          sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
           const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
           const result = element._handleDashboardRoute(data);
@@ -619,7 +636,7 @@ limitations under the License.
         });
 
         test('dahsboard while signed in sets params', () => {
-          sandbox.stub(element._restAPI, 'getLoggedIn')
+          sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
           const result = element._handleDashboardRoute(data);
@@ -1051,7 +1068,7 @@ limitations under the License.
           setup(() => {
             normalizeRangeStub = sandbox.stub(element,
                 '_normalizePatchRangeParams');
-            sandbox.stub(element._restAPI, 'setInProjectLookup');
+            sandbox.stub(element.$.restAPI, 'setInProjectLookup');
           });
 
           test('needs redirect', () => {
@@ -1103,7 +1120,7 @@ limitations under the License.
         test('_handleDiffEditRoute', () => {
           const normalizeRangeStub =
               sandbox.stub(element, '_normalizePatchRangeParams');
-          sandbox.stub(element._restAPI, 'setInProjectLookup');
+          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
           const ctx = {
             params: [
               'foo/bar', // 0 Project

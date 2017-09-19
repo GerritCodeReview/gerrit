@@ -3516,10 +3516,6 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = user.email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    in = new AddReviewerInput();
-    in.reviewer = user2.email;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-
     setApiUser(user);
     assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
     gApi.changes().id(r.getChangeId()).mute(true);
@@ -3534,7 +3530,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
+    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress);
   }
 
   @Test

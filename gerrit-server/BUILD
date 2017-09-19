@@ -236,7 +236,8 @@ java_library(
 junit_tests(
     name = "prolog_tests",
     srcs = PROLOG_TESTS,
-    resources = glob(["src/test/resources/com/google/gerrit/rules/**/*"]),
+    resource_strip_prefix = "prologtests",
+    resources = ["//prologtests:gerrit_common_test"],
     deps = TESTUTIL_DEPS + [
         "//prolog:gerrit-prolog-common",
         ":prolog_test_case",

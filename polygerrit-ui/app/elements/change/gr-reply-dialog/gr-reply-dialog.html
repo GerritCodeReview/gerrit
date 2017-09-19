@@ -241,6 +241,7 @@ limitations under the License.
             id="labelScores"
             account="[[_account]]"
             change="[[change]]"
+            on-labels-changed="_handleLabelsChanged"
             permitted-labels=[[permittedLabels]]></gr-label-scores>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">
@@ -265,7 +266,7 @@ limitations under the License.
       <section>
         <gr-button
             primary
-            disabled="[[_isState(knownLatestState, 'not-latest')]]"
+            disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged)]]"
             class="action send"
             on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
         <template is="dom-if" if="[[canBeStarted]]">

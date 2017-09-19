@@ -677,7 +677,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public boolean ignored() throws RestApiException {
     try {
-      return stars.isIgnoredBy(change.getId(), change.getUser().getAccountId());
+      return stars.isIgnored(change);
     } catch (OrmException e) {
       throw asRestApiException("Cannot check if ignored", e);
     }

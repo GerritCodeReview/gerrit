@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,31 +15,35 @@
   'use strict';
 
   Polymer({
-    is: 'gr-linked-chip',
+    is: 'gr-limited-text',
 
     properties: {
-      href: String,
-      removable: {
-        type: Boolean,
-        value: false,
-      },
       text: String,
-      transparentBackground: {
+      limit: Number,
+      hasTooltip: {
         type: Boolean,
         value: false,
       },
-
-      /**  If provided, sets the maximum length of the content. */
-      limit: Number,
     },
 
-    _getBackgroundClass(transparent) {
-      return transparent ? 'transparentBackground' : '';
+    observers: [
+      '_updateTitle(text, limit)',
+    ],
+
+    behaviors: [
+      Gerrit.TooltipBehavior,
+    ],
+
+    _updateTitle(text, limit) {
+      this.hasTooltip = text.length > limit;
+      this.setAttribute('title', this.hasTooltip ? text : null);
     },
 
-    _handleRemoveTap(e) {
-      e.preventDefault();
-      this.fire('remove');
+    _computeDisplayText(text, limit) {
+      if (text.length > limit) {
+        return text.substr(0, limit - 3) + '...';
+      }
+      return text;
     },
   });
 })();

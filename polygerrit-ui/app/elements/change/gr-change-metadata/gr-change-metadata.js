@@ -179,8 +179,15 @@
     _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
+      let hashatag_array = this._newHashtag.split(',');
+      const push = [];
+      for (let i = 0; i < hashatag_array.length; i++) {
+        console.log(hashatag_array[i].trim());
+        push.push(hashatag_array[i].trim());
+      }
+      console.log(push);
       this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [this._newHashtag]}).then(newHashtag => {
+          this.change._number, {add: push}).then(newHashtag => {
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
               this.dispatchEvent(

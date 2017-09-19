@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4db6e862_8f9512dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T16:08:07Z",
+      "side": 1,
+      "message": "Nice.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "8c87aeb4f9951af7376db3d30378eb35820ae504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "780bc785_a26c3b7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T16:08:07Z",
+      "side": 1,
+      "message": "It looks like the values of this object are not used, only the number of keys in it. Can this just become a boolean for `_labelsChanged` and assign it using ..\n\nthis._labelsChanged \u003d Object.keys(\n    this.$.labelScores.getLabelValues()).length !\u003d\u003d 0;\n\n.. ?",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "8c87aeb4f9951af7376db3d30378eb35820ae504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a54e123_e1d77ee5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T16:08:07Z",
+      "side": 1,
+      "message": "Consider adding a JSDoc to distinguish `label` -- the text of the button -- from `labels` -- the Gerrit concept.",
+      "range": {
+        "startLine": 811,
+        "startChar": 4,
+        "endLine": 812,
+        "endChar": 35
+      },
+      "revId": "8c87aeb4f9951af7376db3d30378eb35820ae504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

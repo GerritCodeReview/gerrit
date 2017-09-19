@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "130f5f4a_53253de2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-19T01:30:09Z",
+      "side": 1,
+      "message": "this",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "73a11bef9f683c6e378bceda8fcb3feb4db399bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30726dd1_31023985",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-19T01:30:09Z",
+      "side": 1,
+      "message": "Is the double negation needed?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "73a11bef9f683c6e378bceda8fcb3feb4db399bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

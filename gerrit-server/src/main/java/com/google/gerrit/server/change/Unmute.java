@@ -45,17 +45,15 @@ public class Unmute
     return new UiAction.Description()
         .setLabel("Unmute")
         .setTitle("Unmute the change")
-        .setVisible(!rsrc.isUserOwner() && isUnMuteable(rsrc));
+        .setVisible(isMuted(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, OrmException, IllegalLabelException {
-    if (rsrc.isUserOwner() || !isMuted(rsrc)) {
-      // early exit for own changes and not muted changes
-      return Response.ok("");
+    if (isMuted(rsrc)) {
+      stars.unmute(rsrc);
     }
-    stars.unmute(rsrc);
     return Response.ok("");
   }
 
@@ -64,15 +62,6 @@ public class Unmute
       return stars.isMuted(rsrc);
     } catch (OrmException e) {
       log.error("failed to check muted star", e);
-    }
-    return false;
-  }
-
-  private boolean isUnMuteable(ChangeResource rsrc) {
-    try {
-      return isMuted(rsrc) && !stars.isIgnored(rsrc);
-    } catch (OrmException e) {
-      log.error("failed to check ignored star", e);
     }
     return false;
   }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
@@ -54,7 +53,7 @@ public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiActio
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException, IllegalLabelException {
+      throws OrmException, IllegalLabelException {
     if (rsrc.isUserOwner() || isMuted(rsrc.getChange())) {
       // early exit for own changes and already muted changes
       return Response.ok("");

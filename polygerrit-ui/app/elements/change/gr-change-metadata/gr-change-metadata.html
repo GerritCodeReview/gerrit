@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-hashtag-list/gr-hashtag-list.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
 <dom-module id="gr-change-metadata">
@@ -231,6 +232,12 @@ limitations under the License.
         <section class="hashtag">
           <span class="title">Hashtag</span>
           <span class="value">
+            <gr-hashtag-list
+                change="{{change}}"
+                mutable="[[mutable]]"></gr-hashtag-list>
+          </span>
+          <!--
+          <span class="value">
             <template is="dom-repeat" items="[[change.hashtags]]">
               <gr-linked-chip
                   text="[[item]]"
@@ -245,6 +252,7 @@ limitations under the License.
                 read-only="[[_hashtagReadOnly]]"
                 on-changed="_handleHashtagChanged"></gr-editable-label>
           </span>
+          -->
         </section>
       </template>
       <template is="dom-repeat"

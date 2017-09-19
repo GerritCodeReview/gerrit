@@ -34,24 +34,24 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class DashboardApiImpl implements DashboardApi {
   interface Factory {
-    DashboardApiImpl create(ProjectResource project, String name);
+    DashboardApiImpl create(ProjectResource project, String id);
   }
 
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> getDashboard;
   private final ProjectResource project;
-  private final String name;
+  private final String id;
 
   @Inject
   DashboardApiImpl(
       DashboardsCollection dashboards,
       Provider<GetDashboard> getDashboard,
       @Assisted ProjectResource project,
-      @Assisted String name) {
+      @Assisted String id) {
     this.dashboards = dashboards;
     this.getDashboard = getDashboard;
     this.project = project;
-    this.name = name;
+    this.id = id;
   }
 
   @Override
@@ -71,6 +71,6 @@ public class DashboardApiImpl implements DashboardApi {
   private DashboardResource resource()
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    return dashboards.parse(project, IdString.fromDecoded(name));
+    return dashboards.parse(project, IdString.fromDecoded(id));
   }
 }

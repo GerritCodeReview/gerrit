@@ -14,8 +14,6 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.common.base.Joiner;
-import com.google.gerrit.extensions.restapi.Url;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +32,5 @@ public class DashboardInfo {
   public String title;
   public List<DashboardSectionInfo> sections = new ArrayList<>();
 
-  public DashboardInfo(String ref, String name) {
-    this.ref = ref;
-    this.path = name;
-    this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
-  }
+  public DashboardInfo() {}
 }

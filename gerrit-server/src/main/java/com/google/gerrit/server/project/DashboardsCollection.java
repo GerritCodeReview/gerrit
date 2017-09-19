@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
@@ -167,6 +169,14 @@ public class DashboardsCollection
     return views;
   }
 
+  static DashboardInfo newDashboardInfo(String ref, String path) {
+    DashboardInfo info = new DashboardInfo();
+    info.ref = ref;
+    info.path = path;
+    info.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
+    return info;
+  }
+
   static DashboardInfo parse(
       Project definingProject,
       String refName,
@@ -174,7 +184,7 @@ public class DashboardsCollection
       Config config,
       String project,
       boolean setDefault) {
-    DashboardInfo info = new DashboardInfo(refName, path);
+    DashboardInfo info = newDashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
     String query = config.getString("dashboard", null, "title");

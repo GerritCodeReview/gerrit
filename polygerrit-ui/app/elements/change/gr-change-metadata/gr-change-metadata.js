@@ -177,14 +177,20 @@
     },
 
     _handleHashtagChanged(e) {
-      const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
+      const push = [];
+      const lastHashtag = this.change.hashtag;
+      const hashatag_array = this._newHashtag.split(',');
+      for (let i = 0; i < hashatag_array.length; i++) {
+        push.push(hashatag_array[i].trim());
+      }
       this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [this._newHashtag]}).then(newHashtag => {
+          this.change._number, {add: push}).then(newHashtag => {
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
               this.dispatchEvent(
-                  new CustomEvent('hashtag-changed', {bubbles: true}));
+                  new CustomEvent('hashtag-changed',
+                      {bubbles: true}));
             }
             this._newHashtag = '';
           });

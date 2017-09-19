@@ -1811,7 +1811,13 @@
     getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];
       if (project) { return Promise.resolve(project); }
-      return this.getChange(changeNum).then(change => {
+
+      const onError = response => {
+        // Fire a page error so that the visual 404 is displayed.
+        this.fire('page-error', {response});
+      };
+
+      return this.getChange(changeNum, onError).then(change => {
         if (!change || !change.project) { return; }
         this.setInProjectLookup(changeNum, change.project);
         return change.project;
@@ -1842,7 +1848,7 @@
 
    /**
     * Alias for _changeBaseURL.then(fetchJSON).
-     * @todo(beckysiegel) clean up comments
+    * @todo(beckysiegel) clean up comments
     * @param {string|number} changeNum
     * @param {string} endpoint
     * @param {?string|number=} opt_patchNum gets passed as null.

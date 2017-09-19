@@ -154,10 +154,6 @@
     is: 'gr-router',
 
     properties: {
-      _restAPI: {
-        type: Object,
-        value: () => document.createElement('gr-rest-api-interface'),
-      },
       _app: {
         type: Object,
         value: app,
@@ -277,8 +273,12 @@
     _normalizeLegacyRouteParams(params) {
       if (!params.changeNum) { return Promise.resolve(); }
 
-      return this._restAPI.getFromProjectLookup(params.changeNum)
+      return this.$.restAPI.getFromProjectLookup(params.changeNum)
           .then(project => {
+            // Do nothing if the lookup request failed. This avoids an infinite
+            // loop of project lookups.
+            if (!project) { return; }
+
             params.project = project;
             this._normalizePatchRangeParams(params);
             this._redirect(this._generateUrl(params));
@@ -370,7 +370,7 @@
      *     (if it resolves).
      */
     _redirectIfNotLoggedIn(data) {
-      return this._restAPI.getLoggedIn().then(loggedIn => {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           return Promise.resolve();
         } else {
@@ -382,7 +382,7 @@
 
     /**  Page.js middleware that warms the REST API's logged-in cache line. */
     _loadUserMiddleware(ctx, next) {
-      this._restAPI.getLoggedIn().then(() => { next(); });
+      this.$.restAPI.getLoggedIn().then(() => { next(); });
     },
 
     /**
@@ -584,7 +584,7 @@
         this._redirect(newUrl);
         return null;
       }
-      return this._restAPI.getLoggedIn().then(loggedIn => {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           this._redirect('/dashboard/self');
         } else {
@@ -599,7 +599,7 @@
         return;
       }
 
-      return this._restAPI.getLoggedIn().then(loggedIn => {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (!loggedIn) {
           if (data.params[0].toLowerCase() === 'self') {
             this._redirectToLogin(data.canonicalPath);
@@ -937,7 +937,7 @@
         this._redirect(this._generateUrl(params));
       } else {
         this._setParams(params);
-        this._restAPI.setInProjectLookup(params.changeNum,
+        this.$.restAPI.setInProjectLookup(params.changeNum,
             params.project);
       }
     },

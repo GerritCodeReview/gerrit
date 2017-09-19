@@ -865,8 +865,7 @@ limitations under the License.
       });
 
       test('getChange succeeds, no project', () => {
-        sandbox.stub(element, 'getChange')
-            .returns(Promise.resolve({}));
+        sandbox.stub(element, 'getChange').returns(Promise.resolve());
         return element.getFromProjectLookup().then(val => {
           assert.strictEqual(val, undefined);
           assert.deepEqual(element._projectLookup, {});

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3a606f8_bd83a017",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T14:51:45Z",
+      "side": 1,
+      "message": "Is this still needed after you added this binding in BatchProgramModule?\nI would expect that it\u0027s not needed since BatchProgramModule is added above in l. 168.",
+      "revId": "f0e5e8e8ef3ab5a326d3d0eec95faf5f9e362f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

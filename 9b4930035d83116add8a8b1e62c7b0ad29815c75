@@ -22,6 +22,30 @@
       "revId": "9b4930035d83116add8a8b1e62c7b0ad29815c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5123d1cd_695de7f2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 70
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-19T17:44:46Z",
+      "side": 1,
+      "message": "Oh, how would i do that please? I am not sure what you mean by \"compute it once\".",
+      "parentUuid": "daa3a661_2484e8b3",
+      "range": {
+        "startLine": 90,
+        "startChar": 28,
+        "endLine": 90,
+        "endChar": 76
+      },
+      "revId": "9b4930035d83116add8a8b1e62c7b0ad29815c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

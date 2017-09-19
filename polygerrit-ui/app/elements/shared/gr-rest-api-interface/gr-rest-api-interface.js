@@ -1645,7 +1645,7 @@
     setChangeTopic(changeNum, topic) {
       const p = {topic};
       return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
-          .then(this.getResponseObject);
+          .then(this.getResponseObject.bind(this));
     },
 
     /**
@@ -1655,7 +1655,7 @@
      */
     setChangeHashtag(changeNum, hashtag) {
       return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
-          hashtag).then(this.getResponseObject);
+          hashtag).then(this.getResponseObject.bind(this));
     },
 
     deleteAccountHttpPassword() {
@@ -1669,7 +1669,7 @@
      */
     generateAccountHttpPassword() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
-          .then(this.getResponseObject);
+          .then(this.getResponseObject.bind(this));
     },
 
     getAccountSSHKeys() {
@@ -1772,7 +1772,7 @@
       const endpoint = `/comments/${commentID}/delete`;
       const payload = {reason};
       return this.getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
-          payload).then(this.getResponseObject);
+          payload).then(this.getResponseObject.bind(this));
     },
 
     /**

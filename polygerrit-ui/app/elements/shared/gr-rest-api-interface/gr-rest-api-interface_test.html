@@ -959,5 +959,29 @@ limitations under the License.
         assert.deepEqual(result, obj);
       });
     });
+
+    test('setChangeTopic', () => {
+      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      return element.setChangeTopic(123, 'foo-bar').then(() => {
+        assert.isTrue(sendSpy.calledOnce);
+        assert.deepEqual(sendSpy.lastCall.args[4], {topic: 'foo-bar'});
+      });
+    });
+
+    test('setChangeHashtag', () => {
+      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      return element.setChangeHashtag(123, 'foo-bar').then(() => {
+        assert.isTrue(sendSpy.calledOnce);
+        assert.equal(sendSpy.lastCall.args[4], 'foo-bar');
+      });
+    });
+
+    test('generateAccountHttpPassword', () => {
+      const sendSpy = sandbox.spy(element, 'send');
+      return element.generateAccountHttpPassword().then(() => {
+        assert.isTrue(sendSpy.calledOnce);
+        assert.deepEqual(sendSpy.lastCall.args[2], {generate: true});
+      });
+    });
   });
 </script>

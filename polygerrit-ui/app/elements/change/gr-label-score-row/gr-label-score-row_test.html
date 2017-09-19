@@ -103,6 +103,8 @@ limitations under the License.
     });
 
     test('label picker', () => {
+      const labelChangedHandler = sandbox.stub();
+      element.addEventListener('label-changed', labelChangedHandler);
       assert.ok(element.$$('iron-selector'));
       MockInteractions.tap(element.$$(
           'gr-button[value="-1"]'));
@@ -112,6 +114,7 @@ limitations under the License.
           .textContent.trim(), '-1');
       assert.strictEqual(
           element.$.selectedValueLabel.textContent.trim(), 'bad');
+      assert.isTrue(labelChangedHandler.called);
     });
 
     test('correct item is selected', () => {

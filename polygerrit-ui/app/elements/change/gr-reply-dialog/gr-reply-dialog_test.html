@@ -55,6 +55,8 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getAccount() { return Promise.resolve({}); },
+        getChange() { return Promise.resolve({}); },
+        getChangeSuggestedReviewers() { return Promise.resolve([]); },
       });
 
       element = fixture('basic');
@@ -1006,6 +1008,21 @@ limitations under the License.
           assert.notOk(element._savingComments);
         });
       });
+    });
+
+    test('_computeSendButtonDisabled', () => {
+      const fn = element._computeSendButtonDisabled.bind(element);
+      assert.isTrue(fn('not-latest'));
+      assert.isFalse(fn('latest', 'Start review'));
+      assert.isTrue(fn('latest', 'Send', [], '', false, {}));
+      // Mock nonempty comment draft array.
+      assert.isFalse(fn('latest', 'Send', ['test'], '', false, {}));
+      // Mock nonempty change message.
+      assert.isFalse(fn('latest', 'Send', [], 'test', false, {}));
+      // Mock reviewers mutated.
+      assert.isFalse(fn('latest', 'Send', [], '', true, {}));
+      // Mock labels changed.
+      assert.isFalse(fn('latest', 'Send', [], '', false, {test: true}));
     });
   });
 </script>

@@ -34,6 +34,11 @@
     NOT_LATEST: 'not-latest',
   };
 
+  const ButtonLabels = {
+    START_REVIEW: 'Start review',
+    SEND: 'Send',
+  };
+
   // TODO(logan): Remove once the fix for issue 6841 is stable on
   // googlesource.com.
   const START_REVIEW_MESSAGE = 'This change is ready for review.';
@@ -175,6 +180,14 @@
         computed: '_computeCCsEnabled(serverConfig)',
       },
       _savingComments: Boolean,
+      _reviewersMutated: {
+        type: Boolean,
+        value: false,
+      },
+      _labels: {
+        type: Object,
+        value: {},
+      },
     },
 
     FocusTarget,
@@ -268,12 +281,14 @@
 
     _ccsChanged(splices) {
       if (splices && splices.indexSplices) {
+        this._reviewersMutated = true;
         this._processReviewerChange(splices.indexSplices, ReviewerTypes.CC);
       }
     },
 
     _reviewersChanged(splices) {
       if (splices && splices.indexSplices) {
+        this._reviewersMutated = true;
         this._processReviewerChange(splices.indexSplices,
             ReviewerTypes.REVIEWER);
         let key;
@@ -768,6 +783,10 @@
       });
     },
 
+    _handleLabelChanged() {
+      this._labels = this.$.labelScores.getLabelValues();
+    },
+
     _isState(knownLatestState, value) {
       return knownLatestState === value;
     },
@@ -778,7 +797,7 @@
     },
 
     _computeSendButtonLabel(canBeStarted) {
-      return canBeStarted ? 'Start review' : 'Send';
+      return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
     },
 
     _computeCCsEnabled(serverConfig) {
@@ -787,6 +806,19 @@
 
     _computeSavingLabelClass(savingComments) {
       return savingComments ? 'saving' : '';
+    },
+
+    _computeSendButtonDisabled(knownLatestState, label, drafts, text,
+        reviewersMutated, labels) {
+      if (this._isState(knownLatestState, LatestPatchState.NOT_LATEST)) {
+        return true;
+      }
+      if (label === ButtonLabels.START_REVIEW) {
+        return false;
+      }
+      const labelsChanged = Object.keys(labels).length !== 0;
+      return !(drafts.length || text.length || reviewersMutated ||
+          labelsChanged);
     },
   });
 })();

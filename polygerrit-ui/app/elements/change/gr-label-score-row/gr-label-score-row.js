@@ -16,6 +16,13 @@
 
   Polymer({
     is: 'gr-label-score-row',
+
+    /**
+     * Fired when any label is changed.
+     *
+     * @event label-changed
+     */
+
     properties: {
       /**
        * @type {{ name: string }}
@@ -96,6 +103,7 @@
       // nothing and then to the new item.
       if (!e.target.selectedItem) { return; }
       this._selectedValueText = e.target.selectedItem.getAttribute('title');
+      this.fire('label-changed');
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {

@@ -166,6 +166,30 @@
       "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3139c6_092e8c7a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T23:36:20Z",
+      "side": 1,
+      "message": "I don\u0027t see how that\u0027s what this change does.\n\n* Currently, the change actions are pulled from the latest revision.\n* We fib this data to make the edit look like the latest revision so that it gets selected by default.\n* This causes the change actions to be reading the wrong revision (the edit, which doesn\u0027t have any actions).\n* This change remedies that by copying the actions over to the revision that the actions are pulled from. But the original (non fibbed) concept of the latest revision was the \"right\" place for the actions to be pulled from (the actual latest revision).\n\nIn my opinion, we would be better off by defining a \"default\" revision separately from the concept of the \"latest\" revision. Instead we fib the data, and for this we have to fib it even further.\n\nThat\u0027s what I\u0027m trying to get at (sorry for not communicating well). This change feels to me like a band-aid applied to the way special revisions are marked. Maybe we should just sync up on follow-up?",
+      "parentUuid": "af13c1eb_add6bb09",
+      "range": {
+        "startLine": 929,
+        "startChar": 8,
+        "endLine": 931,
+        "endChar": 57
+      },
+      "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

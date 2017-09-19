@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -36,6 +37,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
       "Gerrit.install(function(self){});\n".getBytes(UTF_8);
 
   @Test
+  // accounts
+  @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
+
   // auth
   @GerritConfig(name = "auth.type", value = "HTTP")
   @GerritConfig(name = "auth.contributorAgreements", value = "true")
@@ -77,6 +81,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User")
   public void serverConfig() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
+
+    // accounts
+    assertThat(i.accounts.visibility).isEqualTo(AccountVisibility.VISIBLE_GROUP);
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);

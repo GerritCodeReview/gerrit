@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,20 +14,6 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.Map;
-
-public class ServerInfo {
-  public AccountsInfo accounts;
-  public AuthInfo auth;
-  public ChangeConfigInfo change;
-  public DownloadInfo download;
-  public GerritInfo gerrit;
-  public Boolean noteDbEnabled;
-  public PluginConfigInfo plugin;
-  public SshdInfo sshd;
-  public SuggestInfo suggest;
-  public Map<String, String> urlAliases;
-  public UserConfigInfo user;
-  public ReceiveInfo receive;
-  public String defaultTheme;
+public class AccountsInfo {
+  public AccountVisibility visibility;
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -29,7 +30,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboard.Input> {
+class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> defaultSetter;
 
   @Inject
@@ -38,12 +39,12 @@ class DeleteDashboard implements RestModifyView<DashboardResource, SetDashboard.
   }
 
   @Override
-  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboard.Input input)
+  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, MethodNotAllowedException, IOException,
           PermissionBackendException {
     if (resource.isProjectDefault()) {
-      SetDashboard.Input in = new SetDashboard.Input();
+      SetDashboardInput in = new SetDashboardInput();
       in.commitMessage = input != null ? input.commitMessage : null;
       return defaultSetter.get().apply(resource, in);
     }

@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testing.ConfigSuite;
 import java.util.EnumSet;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;

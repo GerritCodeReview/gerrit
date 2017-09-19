@@ -16,7 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.testing.GerritBaseTests;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;

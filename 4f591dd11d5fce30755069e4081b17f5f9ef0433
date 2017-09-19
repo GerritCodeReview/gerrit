@@ -22,6 +22,30 @@
       "revId": "4f591dd11d5fce30755069e4081b17f5f9ef0433",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66923e5a_3173534e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-19T15:06:41Z",
+      "side": 1,
+      "message": "AccountsUpdate evicts the updated account from the account cache (and thus triggers a reindex of the account). Hence you do not need to the eviction here.",
+      "parentUuid": "a0e8128a_b675ac40",
+      "range": {
+        "startLine": 157,
+        "startChar": 14,
+        "endLine": 157,
+        "endChar": 43
+      },
+      "revId": "4f591dd11d5fce30755069e4081b17f5f9ef0433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

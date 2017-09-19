@@ -38,18 +38,18 @@ public class DashboardApiImpl implements DashboardApi {
   }
 
   private final DashboardsCollection dashboards;
-  private final Provider<GetDashboard> getDashboard;
+  private final Provider<GetDashboard> get;
   private final ProjectResource project;
   private final String id;
 
   @Inject
   DashboardApiImpl(
       DashboardsCollection dashboards,
-      Provider<GetDashboard> getDashboard,
+      Provider<GetDashboard> get,
       @Assisted ProjectResource project,
       @Assisted String id) {
     this.dashboards = dashboards;
-    this.getDashboard = getDashboard;
+    this.get = get;
     this.project = project;
     this.id = id;
   }
@@ -62,7 +62,7 @@ public class DashboardApiImpl implements DashboardApi {
   @Override
   public DashboardInfo get(boolean inherited) throws RestApiException {
     try {
-      return getDashboard.get().setInherited(inherited).apply(resource());
+      return get.get().setInherited(inherited).apply(resource());
     } catch (IOException | PermissionBackendException | ConfigInvalidException e) {
       throw asRestApiException("Cannot read dashboard", e);
     }

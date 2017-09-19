@@ -23,6 +23,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HashtagsUtil {
+  public static class InvalidHashtagsException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    static InvalidHashtagsException hashtagsMayNotContainCommas() {
+      return new InvalidHashtagsException("hashtags may not contain commas");
+    }
+
+    InvalidHashtagsException(String message) {
+      super(message);
+    }
+  }
+
   private static final CharMatcher LEADER = CharMatcher.whitespace().or(CharMatcher.is('#'));
   private static final String PATTERN = "(?:\\s|\\A)#[\\p{L}[0-9]-_]+";
 
@@ -43,14 +55,14 @@ public class HashtagsUtil {
     return result;
   }
 
-  static Set<String> extractTags(Set<String> input) throws IllegalArgumentException {
+  static Set<String> extractTags(Set<String> input) throws InvalidHashtagsException {
     if (input == null) {
       return Collections.emptySet();
     }
     HashSet<String> result = new HashSet<>();
     for (String hashtag : input) {
       if (hashtag.contains(",")) {
-        throw new IllegalArgumentException("Hashtags may not contain commas");
+        throw InvalidHashtagsException.hashtagsMayNotContainCommas();
       }
       hashtag = cleanupHashtag(hashtag);
       if (!hashtag.isEmpty()) {

@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.testutil.TestTimeUtil;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -74,6 +75,15 @@ public class HashtagsIT extends AbstractDaemonTest {
     addHashtags(r, "tag1");
     assertThatGet(r).containsExactly("tag1", "tag2").inOrder();
     assertMessage(r, "Hashtag added: tag1");
+  }
+
+  @Test
+  public void addInvalidHashtag() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("hashtags may not contain commas");
+    addHashtags(r, "invalid,hashtag");
   }
 
   @Test

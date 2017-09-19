@@ -1,0 +1,193 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
+<link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-storage/gr-storage.html">
+<link rel="import" href="../gr-account-list/gr-account-list.html">
+<link rel="import" href="../gr-label-scores/gr-label-scores.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-hashtag-dialog">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        max-height: 90vh;
+      }
+      :host([disabled]) {
+        pointer-events: none;
+      }
+      :host([disabled]) .container {
+        opacity: .5;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+      }
+      section {
+        border-top: 1px solid #ddd;
+        padding: .5em .75em;
+        width: 100%;
+      }
+      .hashtafContainer {
+        flex-shrink: 0;
+        display: table;
+      }
+      .hashtagList {
+        display: flex;
+        padding-top: .1em;
+      }
+      .hashtagListLabel {
+        color: #666;
+        min-width: 7em;
+        padding-right: .5em;
+      }
+      gr-linked-chip {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        --account-list-style: {
+          max-height: 12em;
+          overflow-y: auto;
+        }
+      }
+      #reviewerConfirmationOverlay {
+        padding: 1em;
+        text-align: center;
+      }
+      .reviewerConfirmationButtons {
+        margin-top: 1em;
+      }
+      .groupName {
+        font-family: var(--font-family-bold);
+      }
+      .groupSize {
+        font-style: italic;
+      }
+      .textareaContainer {
+        min-height: 6em;
+        position: relative;
+      }
+      .textareaContainer,
+      #textarea,
+      gr-endpoint-decorator {
+        display: flex;
+        width: 100%;
+      }
+      .previewContainer gr-formatted-text {
+        background: #f6f6f6;
+        max-height: 20vh;
+        overflow-y: scroll;
+        padding: 1em;
+      }
+      .draftsContainer {
+        flex: 1;
+        overflow-y: auto;
+      }
+      .draftsContainer h3 {
+        margin-top: .25em;
+      }
+      .action:link,
+      .action:visited {
+        color: #00e;
+      }
+      #checkingStatusLabel,
+      #notLatestLabel {
+        margin-left: 1em;
+      }
+      #checkingStatusLabel {
+        color: #444;
+        font-style: italic;
+      }
+      #notLatestLabel,
+      #savingLabel {
+        color: red;
+      }
+      #savingLabel {
+        display: none;
+      }
+      #savingLabel.saving {
+        display: inline;
+      }
+      #cancelButton {
+        float: right;
+      }
+      @media screen and (max-width: 50em) {
+        :host {
+          max-height: none;
+        }
+        .container {
+          max-height: none;
+        }
+      }
+    </style>
+    <div class="container">
+      <section class="hashtagContainer">
+        <div class="hashtagList">
+          <div class="hashtagListLabel">Hashtags</div>
+          <template is="dom-repeat" items="[[_hashtags]]">
+            <gr-linked-chip
+                text="[[item]]"
+                href="[[_computeHashtagURL(item)]]"
+                removable="[[_computeCanRemoveHashtag(change)]]"
+                on-remove="_handleRemove"
+                placeholder="Add hashtag...">
+            </gr-linked-chip>
+          </template>
+        </div>
+      </section>
+      <section>
+        <gr-button
+            primary
+            class="action send"
+            on-tap="_sendTapHandler">Send</gr-button>
+        <span
+            id="checkingStatusLabel"
+            hidden$="[[!_isState(knownLatestState, 'checking')]]">
+          Checking whether patch [[patchNum]] is latest...
+        </span>
+        <span
+            id="notLatestLabel"
+            hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
+          Patch [[patchNum]] is not latest.
+          <gr-button link on-tap="_reload">Reload</gr-button>
+        </span>
+        <gr-button
+            id="cancelButton"
+            class="action cancel"
+            on-tap="_cancelTapHandler">Cancel</gr-button>
+      </section>
+    </div>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-storage id="storage"></gr-storage>
+  </template>
+  <script src="gr-hashtag-dialog.js"></script>
+</dom-module>

@@ -22,6 +22,30 @@
       "revId": "9dde36e833ebf7b2ecc01cc6a52a03c8ce618e4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c740849_172590a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-19T08:25:34Z",
+      "side": 1,
+      "message": "It could, but I think it doesn\u0027t make much sense on it\u0027s own because of the fact of how ChangeNotes were accessed.\n\nWe used to load ChangeNotes in these cases by constructing a ChangeControl using ChangeData. With this indirection, lazyload wasn\u0027t enforced. This commit changes that as ChangeNotes are loaded using #notes() on ChangeData which does enforce lazyload.\n\nI though about the case of a rollback, but then we can\u0027t just rollback the commit that adds these three parameters to lazyload because this commit requires them. So it seems more sound to me to just rollback this commit.",
+      "parentUuid": "5b287c76_28863632",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 63
+      },
+      "revId": "9dde36e833ebf7b2ecc01cc6a52a03c8ce618e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

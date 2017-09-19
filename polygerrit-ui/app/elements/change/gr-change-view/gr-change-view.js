@@ -459,6 +459,24 @@
       this._openReplyDialog(target);
     },
 
+    _handleHashtagSent(e) {
+      this.$.hashtagOverlay.close();
+      this._reload();
+    },
+
+    _handleHashtagCancel(e) {
+      this.$.hashtagOverlay.close();
+    },
+
+    _handleHashtagAutogrow(e) {
+      this.$.hashtagOverlay.refit();
+    },
+
+    _handleShowHashtagDialog(e) {
+      let target = this.$.hashtagDialog;
+      this._openHashtagDialog(target);
+    },
+
     _handleScroll() {
       this.debounce('scroll', () => {
         this.viewState.scrollTop = document.body.scrollTop;
@@ -851,6 +869,18 @@
         this.$.replyDialog.open(opt_section);
         Polymer.dom.flush();
         this.$.replyOverlay.center();
+      });
+    },
+
+    /**
+     * @param {string=} opt_section
+     */
+    _openHashtagDialog(opt_section) {
+      this.$.hashtagOverlay.open().then(() => {
+        this.$.hashtagOverlay.setFocusStops(this.$.hashtagDialog.getFocusStops());
+        this.$.hashtagDialog.open(opt_section);
+        Polymer.dom.flush();
+        this.$.hashtagOverlay.center();
       });
     },
 

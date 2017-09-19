@@ -64,7 +64,10 @@
         type: Boolean,
         computed: '_computeIsWip(change)',
       },
-      _newHashtag: String,
+      _newHashtag: {
+        type: String,
+        notify: true,
+      },
     },
 
     behaviors: [
@@ -179,12 +182,19 @@
     _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
+      const hashatag_array = this._newHashtag.split(',');
+      const push = [];
+      for (let i = 0; i < hashatag_array.length; i++) {
+        push.push(hashatag_array[i].trim());
+      }
       this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [this._newHashtag]}).then(newHashtag => {
+          this.change._number, {add: push}).then(newHashtag => {
+            console.log(newHashtag);
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
               this.dispatchEvent(
-                  new CustomEvent('hashtag-changed', {bubbles: true}));
+                  new CustomEvent('hashtag-changed',
+                      {bubbles: true}));
             }
             this._newHashtag = '';
           });

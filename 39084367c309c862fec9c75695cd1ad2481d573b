@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "7844ba6e_04b57dd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-19T21:05:58Z",
+      "side": 1,
+      "message": "I mentioned in the commit message that this and other temporary changes to ChangeControl class will be re-worked in follow up changes.",
+      "parentUuid": "9a6d6009_76c9c465",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceb5c39a_fdb05ca6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 79

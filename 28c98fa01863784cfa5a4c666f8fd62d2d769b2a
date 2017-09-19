@@ -142,6 +142,30 @@
       "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af13c1eb_add6bb09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-19T21:50:33Z",
+      "side": 1,
+      "message": "That\u0027s exactly what this change does.",
+      "parentUuid": "7329fe68_de881551",
+      "range": {
+        "startLine": 929,
+        "startChar": 8,
+        "endLine": 931,
+        "endChar": 57
+      },
+      "revId": "28c98fa01863784cfa5a4c666f8fd62d2d769b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

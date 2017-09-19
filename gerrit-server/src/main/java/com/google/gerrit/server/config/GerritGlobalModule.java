@@ -166,6 +166,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
@@ -264,6 +265,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);
+    factory(SubmitRuleEvaluator.Factory.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

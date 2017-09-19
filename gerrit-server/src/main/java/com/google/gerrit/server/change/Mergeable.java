@@ -26,9 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -64,38 +61,32 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Inject
   Mergeable(
       GitRepositoryManager gitManager,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache) {
+      MergeabilityCache cache,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.gitManager = gitManager;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeDataFactory = changeDataFactory;
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -152,9 +143,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private SubmitType getSubmitType(ChangeData cd, PatchSet patchSet) throws OrmException {
     SubmitTypeRecord rec =
-        new SubmitRuleEvaluator(accountCache, accounts, emails, cd)
-            .setPatchSet(patchSet)
-            .getSubmitType();
+        submitRuleEvaluatorFactory.create(cd).setPatchSet(patchSet).getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

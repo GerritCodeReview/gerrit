@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -170,6 +171,7 @@ public class Reindex extends SiteProgram {
           @Override
           protected void configure() {
             factory(ChangeResource.Factory.class);
+            factory(SubmitRuleEvaluator.Factory.class);
           }
         });
 

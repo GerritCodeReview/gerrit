@@ -580,7 +580,7 @@
     },
 
     _computeAvailablePatches(revs) {
-      return this.sortRevisions(Object.values(revs)).map(e => {
+      return this.sortRevisions(revs).map(e => {
         return {num: e._number};
       });
     },

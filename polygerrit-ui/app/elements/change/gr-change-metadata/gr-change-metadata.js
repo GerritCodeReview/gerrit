@@ -199,12 +199,16 @@
     },
 
     _handleHashtagChanged(e) {
-      const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
-      const newHashtag = this._newHashtag;
+      const push = [];
+      const lastHashtag = this.change.hashtag;
+      const hashatag_array = this._newHashtag.split(',');
+      for (let i = 0; i < hashatag_array.length; i++) {
+        push.push(hashatag_array[i].trim());
+      }
       this._newHashtag = '';
       this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [newHashtag]}).then(newHashtag => {
+          this.change._number, {add: push}).then(newHashtag => {
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
               this.dispatchEvent(

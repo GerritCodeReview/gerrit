@@ -59,9 +59,6 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
@@ -352,22 +349,19 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, null, null, project, id, null, null, null);
+            null, null, null, null, null, project, id, null, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
 
   // Injected fields.
   private @Nullable final StarredChangesUtil starredChangesUtil;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
   private final AllUsersName allUsersName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
-  private final Emails emails;
   private final GitRepositoryManager repoManager;
   private final IdentifiedUser.GenericFactory userFactory;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -378,6 +372,7 @@ public class ChangeData {
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
   private final GetPureRevert pureRevert;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -431,15 +426,12 @@ public class ChangeData {
   @Inject
   private ChangeData(
       @Nullable StarredChangesUtil starredChangesUtil,
-      AccountCache accountCache,
-      Accounts accounts,
       ApprovalsUtil approvalsUtil,
       AllUsersName allUsersName,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
-      Emails emails,
       GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory userFactory,
       MergeUtil.Factory mergeUtilFactory,
@@ -450,21 +442,19 @@ public class ChangeData {
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
       GetPureRevert pureRevert,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
       @Assisted @Nullable ChangeNotes notes,
       @Assisted @Nullable ChangeControl control) {
-    this.accountCache = accountCache;
-    this.accounts = accounts;
     this.approvalsUtil = approvalsUtil;
     this.allUsersName = allUsersName;
     this.changeControlFactory = changeControlFactory;
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
-    this.emails = emails;
     this.repoManager = repoManager;
     this.userFactory = userFactory;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -476,6 +466,7 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
@@ -1032,10 +1023,7 @@ public class ChangeData {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records =
-          new SubmitRuleEvaluator(accountCache, accounts, emails, this)
-              .setOptions(options)
-              .evaluate();
+      records = submitRuleEvaluatorFactory.create(this).setOptions(options).evaluate();
       submitRecords.put(options, records);
     }
     return records;
@@ -1052,8 +1040,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() throws OrmException {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          new SubmitRuleEvaluator(accountCache, accounts, emails, this).getSubmitType();
+      submitTypeRecord = submitRuleEvaluatorFactory.create(this).getSubmitType();
     }
     return submitTypeRecord;
   }

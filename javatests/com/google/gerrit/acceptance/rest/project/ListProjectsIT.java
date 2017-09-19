@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;

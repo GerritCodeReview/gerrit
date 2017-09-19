@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.testutil;
+package com.google.gerrit.testing;
 
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;

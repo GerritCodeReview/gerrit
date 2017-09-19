@@ -94,6 +94,30 @@
       "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee41544f_0f7ef605",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-19T19:20:24Z",
+      "side": 1,
+      "message": "We do this in java too, i tracked down how we do it in https://github.com/GerritCodeReview/gerrit/blob/0cca74b78ae91c27f985ab8c24e292e21ef6f61f/gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java#L239\n\nto here https://github.com/gwtproject/gwt/blob/a90832fec9a56f4cb83ed009c7048e0a8d196fe8/user/src/com/google/gwt/user/client/ui/DirectionalTextHelper.java#L358\n\nso we use inner html there too.",
+      "parentUuid": "22dfecb9_2bfcdba9",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

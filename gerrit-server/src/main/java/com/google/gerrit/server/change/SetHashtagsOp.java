@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.change.HashtagsUtil.InvalidHashtagException;
 import com.google.gerrit.server.extensions.events.HashtagsEdited;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -99,31 +100,31 @@ public class SetHashtagsOp implements BatchUpdateOp {
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     ChangeNotes notes = update.getNotes().load();
 
-    Set<String> existingHashtags = notes.getHashtags();
-    Set<String> updated = new HashSet<>();
-    toAdd = new HashSet<>(extractTags(input.add));
-    toRemove = new HashSet<>(extractTags(input.remove));
-
     try {
+      Set<String> existingHashtags = notes.getHashtags();
+      Set<String> updated = new HashSet<>();
+      toAdd = new HashSet<>(extractTags(input.add));
+      toRemove = new HashSet<>(extractTags(input.remove));
+
       for (HashtagValidationListener validator : validationListeners) {
         validator.validateHashtags(update.getChange(), toAdd, toRemove);
       }
-    } catch (ValidationException e) {
+
+      updated.addAll(existingHashtags);
+      toAdd.removeAll(existingHashtags);
+      toRemove.retainAll(existingHashtags);
+      if (updated()) {
+        updated.addAll(toAdd);
+        updated.removeAll(toRemove);
+        update.setHashtags(updated);
+        addMessage(ctx, update);
+      }
+
+      updatedHashtags = ImmutableSortedSet.copyOf(updated);
+      return true;
+    } catch (ValidationException | InvalidHashtagException e) {
       throw new BadRequestException(e.getMessage());
     }
-
-    updated.addAll(existingHashtags);
-    toAdd.removeAll(existingHashtags);
-    toRemove.retainAll(existingHashtags);
-    if (updated()) {
-      updated.addAll(toAdd);
-      updated.removeAll(toRemove);
-      update.setHashtags(updated);
-      addMessage(ctx, update);
-    }
-
-    updatedHashtags = ImmutableSortedSet.copyOf(updated);
-    return true;
   }
 
   private void addMessage(ChangeContext ctx, ChangeUpdate update) throws OrmException {

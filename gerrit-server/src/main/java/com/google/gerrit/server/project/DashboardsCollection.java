@@ -111,17 +111,17 @@ public class DashboardsCollection
       return DashboardResource.projectDefault(myCtl);
     }
 
-    List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id.get()));
-    if (parts.size() != 2) {
+    DashboardInfo info;
+    try {
+      info = newDashboardInfo(id.get());
+    } catch (IllegalArgumentException e) {
       throw new ResourceNotFoundException(id);
     }
 
     CurrentUser user = myCtl.getUser();
-    String ref = parts.get(0);
-    String path = parts.get(1);
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
-        return parse(ps.controlFor(user), ref, path, myCtl);
+        return parse(ps.controlFor(user), info.ref, info.path, myCtl);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
@@ -174,6 +174,18 @@ public class DashboardsCollection
     info.ref = ref;
     info.path = path;
     info.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
+    return info;
+  }
+
+  static DashboardInfo newDashboardInfo(String id) {
+    DashboardInfo info = new DashboardInfo();
+    List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
+    if (parts.size() != 2) {
+      throw new IllegalArgumentException();
+    }
+    info.id = id;
+    info.ref = parts.get(0);
+    info.path = parts.get(1);
     return info;
   }
 

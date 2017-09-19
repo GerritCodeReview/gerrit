@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -28,7 +25,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -138,15 +134,11 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
 
-    boolean requireLazyLoad =
-        containsAnyOf(options, ImmutableSet.of(DETAILED_LABELS, LABELS))
-            && !qb.getArgs().getSchema().hasField(ChangeField.STORED_SUBMIT_RECORD_LENIENT);
-
     ChangeJson cjson = json.create(options);
     cjson.setPluginDefinedAttributesFactory(this.imp);
     List<List<ChangeInfo>> res =
         cjson
-            .lazyLoad(requireLazyLoad || containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
+            .lazyLoad(containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
             .formatQueryResults(results);
 
     for (int n = 0; n < cnt; n++) {

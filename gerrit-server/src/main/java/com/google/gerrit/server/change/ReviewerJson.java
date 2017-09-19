@@ -27,10 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -49,30 +46,24 @@ public class ReviewerJson {
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Inject
   ReviewerJson(
       Provider<ReviewDb> db,
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
       ApprovalsUtil approvalsUtil,
-      AccountLoader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
@@ -133,7 +124,8 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec :
-          new SubmitRuleEvaluator(accountCache, accounts, emails, cd)
+          submitRuleEvaluatorFactory
+              .create(cd)
               .setFastEvalLabels(true)
               .setAllowDraft(true)
               .evaluate()) {

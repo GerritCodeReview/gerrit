@@ -25,9 +25,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -37,11 +34,9 @@ import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -49,17 +44,13 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   @Inject
   TestSubmitType(
       Provider<ReviewDb> db,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
       ChangeData.Factory changeDataFactory,
-      RulesCache rules) {
+      RulesCache rules,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   @Override
@@ -73,10 +64,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator =
-        new SubmitRuleEvaluator(
-            accountCache,
-            accounts,
-            emails,
+        submitRuleEvaluatorFactory.create(
             changeDataFactory.create(db.get(), rsrc.getChangeResource()));
 
     SubmitTypeRecord rec =

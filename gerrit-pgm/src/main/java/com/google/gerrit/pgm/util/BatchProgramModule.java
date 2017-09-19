@@ -68,6 +68,7 @@ import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -167,6 +168,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
     factory(ProjectState.Factory.class);
+    factory(SubmitRuleEvaluator.Factory.class);
 
     bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);

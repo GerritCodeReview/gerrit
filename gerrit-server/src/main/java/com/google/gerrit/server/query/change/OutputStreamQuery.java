@@ -25,9 +25,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -75,15 +72,13 @@ public class OutputStreamQuery {
   }
 
   private final ReviewDb db;
-  private final AccountCache accountCache;
-  private final Accounts accounts;
-  private final Emails emails;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
@@ -102,25 +97,21 @@ public class OutputStreamQuery {
   @Inject
   OutputStreamQuery(
       ReviewDb db,
-      AccountCache accountCache,
-      Accounts accounts,
-      Emails emails,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      CurrentUser user) {
+      CurrentUser user,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
-    this.accountCache = accountCache;
-    this.accounts = accounts;
-    this.emails = emails;
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.user = user;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   void setLimit(int n) {
@@ -259,10 +250,7 @@ public class OutputStreamQuery {
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
           c,
-          new SubmitRuleEvaluator(accountCache, accounts, emails, d)
-              .setAllowClosed(true)
-              .setAllowDraft(true)
-              .evaluate());
+          submitRuleEvaluatorFactory.create(d).setAllowClosed(true).setAllowDraft(true).evaluate());
     }
 
     if (includeCommitMessage) {

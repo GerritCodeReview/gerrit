@@ -16,9 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.allow;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.server.project.testing.Util.allow;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
@@ -45,8 +45,8 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testutil.InMemoryDatabase;
-import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testing.InMemoryDatabase;
+import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

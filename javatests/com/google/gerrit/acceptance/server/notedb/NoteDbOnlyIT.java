@@ -35,7 +35,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;

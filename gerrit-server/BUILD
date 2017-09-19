@@ -165,36 +165,6 @@ TESTUTIL_DEPS = [
     "//lib/log:log4j",
 ]
 
-TESTUTIL = glob([
-    "src/test/java/com/google/gerrit/testutil/**/*.java",
-    "src/test/java/com/google/gerrit/server/project/Util.java",
-])
-
-java_library(
-    name = "testutil",
-    testonly = 1,
-    srcs = TESTUTIL,
-    visibility = ["//visibility:public"],
-    exports = [
-        "//lib/easymock",
-        "//lib/powermock:powermock-api-easymock",
-        "//lib/powermock:powermock-api-support",
-        "//lib/powermock:powermock-core",
-        "//lib/powermock:powermock-module-junit4",
-        "//lib/powermock:powermock-module-junit4-common",
-    ],
-    deps = TESTUTIL_DEPS + [
-        "//java/com/google/gerrit/pgm/init",
-        "//lib/auto:auto-value",
-        "//lib/easymock:easymock",
-        "//lib/powermock:powermock-api-easymock",
-        "//lib/powermock:powermock-api-support",
-        "//lib/powermock:powermock-core",
-        "//lib/powermock:powermock-module-junit4",
-        "//lib/powermock:powermock-module-junit4-common",
-    ],
-)
-
 CUSTOM_TRUTH_SUBJECTS = glob([
     "src/test/java/com/google/gerrit/server/**/*Subject.java",
 ])
@@ -226,9 +196,9 @@ java_library(
     srcs = PROLOG_TEST_CASE,
     deps = [
         ":server",
-        ":testutil",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:junit",
         "//lib:truth",
@@ -243,9 +213,10 @@ junit_tests(
     resource_strip_prefix = "prologtests",
     resources = ["//prologtests:gerrit_common_test"],
     deps = TESTUTIL_DEPS + [
+        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//prolog:gerrit-prolog-common",
         ":prolog_test_case",
-        ":testutil",
         "//lib/prolog:runtime",
     ],
 )
@@ -260,8 +231,8 @@ java_library(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//prolog:gerrit-prolog-common",
-        ":testutil",
     ],
 )
 
@@ -271,8 +242,8 @@ junit_tests(
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//prolog:gerrit-prolog-common",
-        ":testutil",
     ],
 )
 
@@ -281,14 +252,15 @@ junit_tests(
     size = "large",
     srcs = glob(
         ["src/test/java/**/*.java"],
-        exclude = TESTUTIL + CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
+        exclude = CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
     ),
     resources = glob(["src/test/resources/com/google/gerrit/server/**/*"]),
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":custom-truth-subjects",
-        ":testutil",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/server/project/testing:project-test-util",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/org/eclipse/jgit:server",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//lib:args4j",
@@ -315,7 +287,7 @@ junit_tests(
     ],
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
-        ":testutil",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
     ],
 )
 

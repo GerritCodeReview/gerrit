@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.testutil;
+package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toMap;
@@ -31,9 +31,9 @@ import java.util.SortedMap;
 import org.eclipse.jgit.lib.Config;
 
 public class IndexVersions {
-  static final String ALL = "all";
-  static final String CURRENT = "current";
-  static final String PREVIOUS = "previous";
+  public static final String ALL = "all";
+  public static final String CURRENT = "current";
+  public static final String PREVIOUS = "previous";
 
   /**
    * Returns the index versions from {@link IndexVersions#get(SchemaDefinitions)} without the latest
@@ -85,7 +85,8 @@ public class IndexVersions {
   }
 
   @VisibleForTesting
-  static <V> ImmutableList<Integer> get(SchemaDefinitions<V> schemaDef, String name, String value) {
+  public static <V> ImmutableList<Integer> get(
+      SchemaDefinitions<V> schemaDef, String name, String value) {
     if (value != null) {
       value = value.trim();
     }

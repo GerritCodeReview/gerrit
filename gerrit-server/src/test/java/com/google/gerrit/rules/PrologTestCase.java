@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gerrit.testing.GerritBaseTests;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 import com.googlecode.prolog_cafe.exceptions.CompileException;

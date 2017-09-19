@@ -34,7 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.AbandonUtil;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;

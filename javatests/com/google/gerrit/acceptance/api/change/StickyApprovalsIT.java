@@ -24,8 +24,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.category;
-import static com.google.gerrit.server.project.Util.value;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
@@ -47,7 +47,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;

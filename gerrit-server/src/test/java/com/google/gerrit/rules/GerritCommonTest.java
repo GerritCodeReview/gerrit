@@ -17,7 +17,7 @@ package com.google.gerrit.rules;
 import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;

@@ -1,2 +1,2 @@
-build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
-test --build_tests_only
+build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker --experimental_local_disk_cache_path=~/.gerritcodereview/bazel-cache/cas --experimental_local_disk_cache --experimental_strict_action_env
+test --build_tests_only --experimental_local_disk_cache_path=~/.gerritcodereview/bazel-cache/cas --experimental_local_disk_cache --experimental_strict_action_env

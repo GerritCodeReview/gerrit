@@ -36,6 +36,7 @@ limitations under the License.
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
+<link rel="import" href="../gr-hashtag-dialog/gr-hashtag-dialog.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
@@ -327,7 +328,8 @@ limitations under the License.
               commit-info="[[_commitInfo]]"
               server-config="[[_serverConfig]]"
               mutable="[[_loggedIn]]"
-              on-show-reply-dialog="_handleShowReplyDialog">
+              on-show-reply-dialog="_handleShowReplyDialog"
+              on-show-hashtag-dialog="_handleShowHashtagDialog">
           </gr-change-metadata>
           <!-- Plugins insert content into following container.
                Stop-gap until PolyGerrit plugins interface is ready.
@@ -498,6 +500,25 @@ limitations under the License.
           on-autogrow="_handleReplyAutogrow"
           hidden$="[[!_loggedIn]]">
       </gr-reply-dialog>
+    </gr-overlay>
+    <gr-overlay id="hashtagOverlay"
+        class="scrollable"
+        no-cancel-on-outside-click
+        no-cancel-on-esc-key
+        on-iron-overlay-opened="_handleHashtagOverlayOpen"
+        with-backdrop>
+      <gr-hashtag-dialog id="hashtagDialog"
+          change="{{_change}}"
+          patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+          permitted-labels="[[_change.permitted_labels]]"
+          diff-drafts="[[_diffDrafts]]"
+          server-config="[[_serverConfig]]"
+          project-config="[[_projectConfig]]"
+          on-send="_handleHashtagSent"
+          on-cancel="_handleHashtagCancel"
+          on-autogrow="_handleHashtagAutogrow"
+          hidden$="[[!_loggedIn]]">
+      </gr-hashtag-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

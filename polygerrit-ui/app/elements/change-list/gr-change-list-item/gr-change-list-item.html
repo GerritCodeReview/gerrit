@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-list-item">
@@ -146,7 +147,10 @@ limitations under the License.
         [[change.branch]]
       </a>
       <template is="dom-if" if="[[change.topic]]">
-        (<a href$="[[_computeTopicURL(change)]]">[[change.topic]]</a>)
+        (<a href$="[[_computeTopicURL(change)]]"><!--
+       --><gr-limited-text limit="30" text="[[change.topic]]">
+          </gr-limited-text><!--
+     --></a>)
       </template>
     </td>
     <td class="cell updated"

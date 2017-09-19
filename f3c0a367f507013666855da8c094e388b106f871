@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed009469_f8864352",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-19T17:27:39Z",
+      "side": 1,
+      "message": "this is a clever way of dealing with this, in conjunction with the reflectToAttribute! 😊",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 29
+      },
+      "revId": "f3c0a367f507013666855da8c094e388b106f871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4fe2966_e07e66f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-19T17:27:39Z",
+      "side": 1,
+      "message": "TypeError: Cannot read property \u0027_readResponsePayload\u0027 of undefined\n    at getResponseObject (gr-rest-api-interface.js:189)\n    at \u003canonymous\u003e\ncachingReporter @ gr-reporting.js:125\nreporter @ gr-reporting.js:104\ncontext.addEventListener.e @ gr-reporting.js:72\n\nUncaught (in promise) TypeError: Cannot read property \u0027_readResponsePayload\u0027 of undefined\n    at getResponseObject (gr-rest-api-interface.js:189)\n    at \u003canonymous\u003e\ngetResponseObject @ gr-rest-api-interface.js:189\nPromise rejected (async)\n_handleTopicChanged @ gr-change-metadata.js:170\nhandler @ polymer.html:507\ndecorated @ polymer.html:4470\nfire @ polymer.html:1284\n_save @ gr-editable-label.js:89\n_handleEnter @ gr-editable-label.js:109\n_triggerKeyHandler @ iron-a11y-keys-behavior.html:489\n_onKeyBindingEvent @ iron-a11y-keys-behavior.html:473",
+      "revId": "f3c0a367f507013666855da8c094e388b106f871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -358,16 +358,16 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[clean-cache]]
+[[clean-download-cache]]
 === Cleaning The download cache
 
-The cache for the Gerrit Code Review project is located in
-`~/.gerritcodereview/buck-cache/locally-built-artifacts`.
+The cache for downloaded artifacts is located in
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`.
 
-If you really do need to clean the cache manually, then:
+If you really do need to clean the download cache manually, then:
 
 ----
- rm -rf ~/.gerritcodereview/buck-cache/locally-built-artifacts
+ rm -rf ~/.gerritcodereview/buck-cache/downloaded-artifacts
 ----
 
 Note that the root `buck-cache` folder should not be deleted as it also contains
@@ -375,8 +375,34 @@ the `downloaded-artifacts` directory, which holds the artifacts that got
 downloaded (not built locally).
 
 [NOTE] When building with Bazel the artifacts are still cached in
-`~/.gerritcodereview/buck-cache/`. This allows Bazel to make use of
-libraries that were previously downloaded by Buck.
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`. This allows Bazel to
+make use of libraries that were previously downloaded by Buck.
+
+[[local-action-cache]]
+
+To accelerate builds, experimental local action cache can be activated. This
+Bazel feature is experimental. At the time of this writing, the commit, that
+added local action cache to Bazel wasn't merged yet. To build Bazel from the
+source, fetch this
+link:https://bazel-review.googlesource.com/16810[Bazel change] and build Bazel
+with:
+
+----
+ bazel build src:bazel
+----
+
+To activate the local action cache, create accessible cache directory:
+
+----
+ mkdir -p ~/.gerritcodereview/bazel-cache/cas
+----
+
+and add these lines to your `~/.baszelrc` file:
+
+----
+build --experimental_local_disk_cache_path=/home/<user>/.gerritcodereview/bazel-cache/cas --experimental_local_disk_cache --experimental_strict_action_env
+test --experimental_local_disk_cache_path=/home/user>/.gerritcodereview/bazel-cache/cas --experimental_local_disk_cache --experimental_strict_action_env
+----
 
 GERRIT
 ------

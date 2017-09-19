@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60187186_27a93869",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-19T21:27:18Z",
+      "side": 1,
+      "message": "How does this relate to the way we already import Roboto?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "6896c791e95932cf26fcb444608c7bdf2afb41a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

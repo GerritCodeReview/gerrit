@@ -118,6 +118,30 @@
       "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deb653f5_43e4c84e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-20T17:12:20Z",
+      "side": 1,
+      "message": "Also see https://github.com/gwtproject/gwt/blob/a90832fec9a56f4cb83ed009c7048e0a8d196fe8/user/src/com/google/gwt/dom/client/Element.java#L702",
+      "parentUuid": "ee41544f_0f7ef605",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

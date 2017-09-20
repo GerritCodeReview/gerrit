@@ -84,7 +84,8 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   private final ImmutableSet<String> reservedNames;
-  private final SortedMap<String, GroupReference> names;
+  private final SortedMap<String, GroupReference> namesToGroups;
+  private final ImmutableSet<String> names;
   private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
 
   @Inject
@@ -105,7 +106,9 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       u.put(ref.getUUID(), ref);
     }
     reservedNames = reservedNamesBuilder.build();
-    names = Collections.unmodifiableSortedMap(n);
+    namesToGroups = Collections.unmodifiableSortedMap(n);
+    names =
+        ImmutableSet.copyOf(namesToGroups.values().stream().map(r -> r.getName()).collect(toSet()));
     uuids = u.build();
   }
 
@@ -114,7 +117,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   }
 
   public Set<String> getNames() {
-    return names.values().stream().map(r -> r.getName()).collect(toSet());
+    return names;
   }
 
   public Set<String> getReservedNames() {
@@ -158,7 +161,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     String nameLC = name.toLowerCase(Locale.US);
-    SortedMap<String, GroupReference> matches = names.tailMap(nameLC);
+    SortedMap<String, GroupReference> matches = namesToGroups.tailMap(nameLC);
     if (matches.isEmpty()) {
       return Collections.emptyList();
     }

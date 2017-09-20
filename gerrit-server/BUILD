@@ -275,18 +275,6 @@ junit_tests(
     ],
 )
 
-junit_tests(
-    name = "testutil_test",
-    size = "small",
-    srcs = [
-        "src/test/java/com/google/gerrit/testutil/IndexVersionsTest.java",
-    ],
-    visibility = ["//visibility:public"],
-    deps = TESTUTIL_DEPS + [
-        "//java/com/google/gerrit/testing:gerrit-test-util",
-    ],
-)
-
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 java_doc(

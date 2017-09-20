@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4935c3a8_49c9b98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd497a4a_711913d0",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 11
+      },
+      "revId": "282c876d1b7351863dd2e17bcf55ff1243faa1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4149eaea_2fde883f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-20T17:25:24Z",
       "side": 1,
       "message": "this unused parameter is causing a warning in eclise, add @SuppressWarnings(\"unused\"):\n\ndefault boolean isActive(@SuppressWarnings(\"unused\") String username)",
+      "range": {
+        "startLine": 57,
+        "startChar": 27,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "282c876d1b7351863dd2e17bcf55ff1243faa1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34375fa5_caa17d4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4149eaea_2fde883f",
       "range": {
         "startLine": 57,
         "startChar": 27,

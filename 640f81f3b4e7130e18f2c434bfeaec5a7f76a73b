@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb4669f2_840be2cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c51cda09_9c3f853f",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 52
+      },
+      "revId": "640f81f3b4e7130e18f2c434bfeaec5a7f76a73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c18f7b42_f65ec731",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AccountDeactivatorConfig.java",
         "patchSetId": 10
@@ -36,6 +60,24 @@
       "writtenOn": "2017-09-20T15:37:02Z",
       "side": 1,
       "message": "This class is only used once (in AccountDeactivator) and I do not think it will be used elsewhere.\n\nMaybe delete this class and move the code in AccountDeactivator?\n\n\n\nstatic class Lifecycle implements LifecycleListener {\n    private final WorkQueue queue;\n    private final AccountDeactivator deactivator;\n    private final ScheduleConfig scheduleConfig;\n    private final boolean supportAutomaticAccountActivityUpdate;\n\n    @Inject\n    Lifecycle(\n        WorkQueue queue,\n        AccountDeactivator deactivator,\n        @GerritServerConfig Config cfg) {\n      this.queue \u003d queue;\n      this.deactivator \u003d deactivator;\n      scheduleConfig \u003d new ScheduleConfig(cfg, \"accountDeactivation\");\n      supportAutomaticAccountActivityUpdate \u003d\n          cfg.getBoolean(\"auth\", \"autoUpdateAccountActiveStatus\", false);\n    }\n\n    @Override\n    public void start() {\n      if (!supportAutomaticAccountActivityUpdate) {\n        return;\n      }\n      long interval \u003d scheduleConfig.getInterval();\n      long delay \u003d scheduleConfig.getInitialDelay();\n      if (delay \u003d\u003d MISSING_CONFIG \u0026\u0026 interval \u003d\u003d MISSING_CONFIG) {\n        log.info(\"Ignoring missing accountDeactivator schedule configuration\");\n      } else if (delay \u003c 0 || interval \u003c\u003d 0) {\n        log.warn(\n            String.format(\n                \"Ignoring invalid accountDeactivator schedule configuration: %s\", scheduleConfig));\n      } else {\n        queue\n            .getDefaultQueue()\n            .scheduleAtFixedRate(deactivator, delay, interval, TimeUnit.MILLISECONDS);\n      }\n    }\n\n    @Override\n    public void stop() {\n      // handled by WorkQueue.stop() already\n    }\n  }",
+      "revId": "640f81f3b4e7130e18f2c434bfeaec5a7f76a73b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a42b0d0_20218ac3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AccountDeactivatorConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c18f7b42_f65ec731",
       "revId": "640f81f3b4e7130e18f2c434bfeaec5a7f76a73b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

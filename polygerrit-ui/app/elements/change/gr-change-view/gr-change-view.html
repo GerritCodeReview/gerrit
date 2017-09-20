@@ -14,6 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+
+
+
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
@@ -438,7 +441,8 @@ limitations under the License.
             shown-file-count="[[_shownFileCount]]"
             diff-prefs="[[_diffPrefs]]"
             diff-view-mode="{{viewState.diffMode}}"
-            patch-range="{{_patchRange}}"
+            patch-num="{{_patchNum}}"
+            base-patch-num="{{_basePatchNum}}"
             revisions="[[_sortedRevisions]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"

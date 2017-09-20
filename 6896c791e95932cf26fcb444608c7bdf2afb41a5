@@ -118,6 +118,30 @@
       "revId": "6896c791e95932cf26fcb444608c7bdf2afb41a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fa9693c_9521e8da",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-20T20:59:01Z",
+      "side": 1,
+      "message": "The path forward seems a bit unclear at this point. As discussed offline earlier, the font-roboto package simply imports a stylesheet with a bunch of font-related rules. If the existing font doesn\u0027t exist, then it fetches the new one from googlefonts. Since we already have the fonts, the second fetch doesn\u0027t occur.\n\nIn order to skip the first step, it looks like you can override font-roboto with font-roboto-local. However, with our bazel build process that doesn\u0027t seem straightforward (we can\u0027t simply rename the package). \n\nI\u0027m thinking we maybe punt this.. I can file a low priority ticket for it",
+      "parentUuid": "267d0c87_0f3e4d4f",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "6896c791e95932cf26fcb444608c7bdf2afb41a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

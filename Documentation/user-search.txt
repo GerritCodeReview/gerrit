@@ -530,7 +530,7 @@ A label name is any of the following:
 
 A label name must be followed by either a score with optional operator,
 or a label status. The easiest way to explain this is by example.
-+
+
 First, some examples of scores with operators:
 
 `label:Code-Review=2`::

@@ -114,7 +114,7 @@ public class DashboardsCollection
     DashboardInfo info;
     try {
       info = newDashboardInfo(id.get());
-    } catch (IllegalArgumentException e) {
+    } catch (InvalidDashboardId e) {
       throw new ResourceNotFoundException(id);
     }
 
@@ -177,11 +177,19 @@ public class DashboardsCollection
     return info;
   }
 
-  static DashboardInfo newDashboardInfo(String id) {
+  public static class InvalidDashboardId extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public InvalidDashboardId(String id) {
+      super(id);
+    }
+  }
+
+  static DashboardInfo newDashboardInfo(String id) throws InvalidDashboardId {
     DashboardInfo info = new DashboardInfo();
     List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     if (parts.size() != 2) {
-      throw new IllegalArgumentException();
+      throw new InvalidDashboardId(id);
     }
     info.id = id;
     info.ref = parts.get(0);

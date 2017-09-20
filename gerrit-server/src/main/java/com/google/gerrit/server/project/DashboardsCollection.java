@@ -114,14 +114,14 @@ public class DashboardsCollection
     DashboardInfo info;
     try {
       info = newDashboardInfo(id.get());
-    } catch (IllegalArgumentException e) {
+    } catch (InvalidDashboardId e) {
       throw new ResourceNotFoundException(id);
     }
 
     CurrentUser user = myCtl.getUser();
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
-        return parse(ps.controlFor(user), info.ref, info.path, myCtl);
+        return parse(ps.controlFor(user), info, myCtl);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
@@ -131,13 +131,17 @@ public class DashboardsCollection
     throw new ResourceNotFoundException(id);
   }
 
-  private DashboardResource parse(ProjectControl ctl, String ref, String path, ProjectControl myCtl)
+  public static String normalizeDashboardRef(String ref) {
+    if (!ref.startsWith(REFS_DASHBOARDS)) {
+      return REFS_DASHBOARDS + ref;
+    }
+    return ref;
+  }
+
+  private DashboardResource parse(ProjectControl ctl, DashboardInfo info, ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
-    String id = ref + ":" + path;
-    if (!ref.startsWith(REFS_DASHBOARDS)) {
-      ref = REFS_DASHBOARDS + ref;
-    }
+    String ref = normalizeDashboardRef(info.ref);
     try {
       permissionBackend
           .user(ctl.getUser())
@@ -146,21 +150,21 @@ public class DashboardsCollection
           .check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(info.id);
     }
     if (!Repository.isValidRefName(ref)) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(info.id);
     }
 
     try (Repository git = gitManager.openRepository(ctl.getProject().getNameKey())) {
-      ObjectId objId = git.resolve(ref + ":" + path);
+      ObjectId objId = git.resolve(ref + ":" + info.path);
       if (objId == null) {
-        throw new ResourceNotFoundException(id);
+        throw new ResourceNotFoundException(info.id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(myCtl, ref, path, cfg, false);
+      return new DashboardResource(myCtl, ref, info.path, cfg, false);
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(info.id);
     }
   }
 
@@ -177,11 +181,19 @@ public class DashboardsCollection
     return info;
   }
 
-  static DashboardInfo newDashboardInfo(String id) {
+  public static class InvalidDashboardId extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public InvalidDashboardId(String id) {
+      super(id);
+    }
+  }
+
+  static DashboardInfo newDashboardInfo(String id) throws InvalidDashboardId {
     DashboardInfo info = new DashboardInfo();
     List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     if (parts.size() != 2) {
-      throw new IllegalArgumentException();
+      throw new InvalidDashboardId(id);
     }
     info.id = id;
     info.ref = parts.get(0);

@@ -566,7 +566,13 @@ public class ChangeEditModifier {
     try (RevWalk revWalk = new RevWalk(repository)) {
       RefUpdate.Result res = ru.update(revWalk);
       if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
-        throw new IOException("update failed: " + ru);
+        throw new IOException(
+            "cannot update "
+                + ru.getName()
+                + " in "
+                + repository.getDirectory()
+                + ": "
+                + ru.getResult());
       }
     }
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b5857471_c1d2928c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-20T22:21:31Z",
+      "side": 1,
+      "message": "Do you mean because the value is delimited by quotes? In HTML, the quote marks don\u0027t denote that the type of the value is a string.\n\nPolymer does indeed parse the value into the appropriate destination property type based on the type declared in the property definition.",
+      "parentUuid": "42f8ea1e_ef541554",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 26
+      },
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "697e831a_21d56c3c",
         "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "de8d385ca07a027f529762564f94a6b62575783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "227987e7_ef18598c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-20T22:21:31Z",
+      "side": 1,
+      "message": "Good question. It\u0027s because it\u0027s also used in gr-change-list-item, for something that isn\u0027t a chip.\n\nIt can probably be used in a few more places in gr-change-list-item as well, for example in the project column.",
+      "parentUuid": "697e831a_21d56c3c",
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

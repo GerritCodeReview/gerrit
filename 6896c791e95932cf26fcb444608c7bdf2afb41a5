@@ -94,6 +94,30 @@
       "revId": "6896c791e95932cf26fcb444608c7bdf2afb41a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "267d0c87_0f3e4d4f",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-20T16:36:12Z",
+      "side": 1,
+      "message": "At least as of this change, none of the elements that depend on paper-styles are loaded, correct? So, I would expect that there would not be additional requests.\n\nWould it be difficult to migrate our current roboto import to use font-roboto in this change? That way maybe we can be sure there won\u0027t be a duplicate later.",
+      "parentUuid": "7347cfd4_317b9533",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "6896c791e95932cf26fcb444608c7bdf2afb41a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92017a94_256d153a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-20T08:09:37Z",
+      "side": 1,
+      "message": "nit: unrelated modification",
+      "revId": "74a03ee965d3c0c84a440c641b6134548771ec84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

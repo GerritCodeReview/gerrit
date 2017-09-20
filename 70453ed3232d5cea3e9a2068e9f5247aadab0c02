@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "549308e2_b89698ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-20T21:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ce0c1e6_eb28f1c2",
+      "range": {
+        "startLine": 820,
+        "startChar": 24,
+        "endLine": 820,
+        "endChar": 72
+      },
+      "revId": "70453ed3232d5cea3e9a2068e9f5247aadab0c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0282804_9c4e1502",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-20T21:36:28Z",
       "side": 1,
       "message": "Optional nit: consider applying DeMorgan\u0027s Law:\n\n !hasDrafts \u0026\u0026 !text.length \u0026\u0026 !reviewersMutated \u0026\u0026 !labelsChanged",
+      "range": {
+        "startLine": 821,
+        "startChar": 13,
+        "endLine": 821,
+        "endChar": 77
+      },
+      "revId": "70453ed3232d5cea3e9a2068e9f5247aadab0c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8789c60_a5bb75ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-20T21:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0282804_9c4e1502",
       "range": {
         "startLine": 821,
         "startChar": 13,

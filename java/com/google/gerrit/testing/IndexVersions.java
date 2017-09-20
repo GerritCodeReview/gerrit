@@ -31,9 +31,9 @@ import java.util.SortedMap;
 import org.eclipse.jgit.lib.Config;
 
 public class IndexVersions {
-  public static final String ALL = "all";
-  public static final String CURRENT = "current";
-  public static final String PREVIOUS = "previous";
+  static final String ALL = "all";
+  static final String CURRENT = "current";
+  static final String PREVIOUS = "previous";
 
   /**
    * Returns the index versions from {@link IndexVersions#get(SchemaDefinitions)} without the latest
@@ -85,8 +85,7 @@ public class IndexVersions {
   }
 
   @VisibleForTesting
-  public static <V> ImmutableList<Integer> get(
-      SchemaDefinitions<V> schemaDef, String name, String value) {
+  static <V> ImmutableList<Integer> get(SchemaDefinitions<V> schemaDef, String name, String value) {
     if (value != null) {
       value = value.trim();
     }

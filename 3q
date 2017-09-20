@@ -1,0 +1,19 @@
+Introduce gr-dropdown-list element
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# HEAD detached from ce6578af42
+# Changes to be committed:
+#	new file:   polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html
+#	new file:   polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js
+#	new file:   polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.html
+#	modified:   polygerrit-ui/app/test/index.html
+#
+# Changes not staged for commit:
+#	modified:   polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html
+#	modified:   polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js
+#	modified:   polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html
+#	modified:   polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js
+#	modified:   polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.html
+#	modified:   polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js
+#

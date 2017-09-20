@@ -31,40 +31,75 @@
 
     properties: {
       availablePatches: Array,
+      _baseDropdownContent: {
+        type: Object,
+        computed: '_computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions, revisions)',
+      },
+      _patchDropdownContent: {
+        type: Object,
+        computed: '_computePatchDropdownContent(availablePatches, basePatchNum, _sortedRevisions, revisions)',
+      },
       changeNum: String,
       comments: Array,
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
-      /** @type {?} */
-      patchRange: Object,
+      patchNum: {
+        type: String,
+        notify: true,
+      },
+      basePatchNum: {
+        type: String,
+        notify: true,
+      },
       revisions: Object,
       _sortedRevisions: Array,
-      _rightSelected: String,
-      _leftSelected: String,
     },
 
     observers: [
       '_updateSortedRevisions(revisions.*)',
-      '_updateSelected(patchRange.*)',
     ],
 
     behaviors: [Gerrit.PatchSetBehavior],
 
-    _updateSelected() {
-      this._rightSelected = this.patchRange.patchNum;
-      this._leftSelected = this.patchRange.basePatchNum;
+    _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions, revisions) {
+      const dropdownContent = [];
+      dropdownContent.push({
+        buttonText: 'Base',
+        nativeText: 'Base',
+        topText: 'Base',
+        value: 'PARENT',
+      });
+      for (const basePatchNum of availablePatches) {
+        dropdownContent.push({
+          disabled: this._computeLeftDisabled(basePatchNum.num, patchNum, _sortedRevisions),
+          buttonText: `Patchset ${basePatchNum.num}`,
+          topText: `Patchset ${basePatchNum.num} ${this._computePatchSetCommentsString(this.comments, patchNum.num)}`,
+          nativeText: `${basePatchNum.num} ${this._computePatchSetCommentsString(this.comments, basePatchNum.num)} ${this._computePatchSetDescription(revisions, basePatchNum.num)}`,
+          bottomText: `${this._computePatchSetDescription(revisions, basePatchNum.num)}`,
+          value: basePatchNum.num,
+        });
+      }
+      return dropdownContent;
+    },
+
+    _computePatchDropdownContent(availablePatches, basePatchNum, _sortedRevisions, revisions) {
+      const dropdownContent = [];
+      for (const patchNum of availablePatches) {
+        dropdownContent.push({
+          disabled: this._computeRightDisabled(patchNum.num, basePatchNum, _sortedRevisions),
+          buttonText: `Patchset ${patchNum.num}`,
+          topText: `Patchset ${patchNum.num} ${this._computePatchSetCommentsString(this.comments, patchNum.num)}`,
+          nativeText: `${patchNum.num} ${this._computePatchSetCommentsString(this.comments, patchNum.num)} ${this._computePatchSetDescription(revisions, patchNum.num)}`,
+          bottomText: `${this._computePatchSetDescription(revisions, patchNum.num)}`,
+          value: patchNum.num,
+        });
+      }
+      return dropdownContent;
     },
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
-
-    _handlePatchChange(e) {
-      const leftPatch = this._leftSelected;
-      const rightPatch = this._rightSelected;
-      this.fire('patch-range-change', {rightPatch, leftPatch});
-      e.target.blur();
     },
 
     _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
@@ -85,11 +120,11 @@
     // debounce these, but because they are detecting two different
     // events, sometimes the timing was off and one ended up missing.
     _synchronizeSelectionRight() {
-      this.$.rightPatchSelect.value = this._rightSelected;
+      this.$.rightPatchSelect.value = this.patchNuj;
     },
 
     _synchronizeSelectionLeft() {
-      this.$.leftPatchSelect.value = this._leftSelected;
+      this.$.leftPatchSelect.value = this.basePatchNum;
     },
 
     // Copied from gr-file-list

@@ -102,6 +102,10 @@ limitations under the License.
       .editLoaded .showOnEdit {
         display: initial;
       }
+      .label {
+        font-family: var(--font-family-bold);
+        margin-right: 1em;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -111,11 +115,13 @@ limitations under the License.
     <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchRange.patchNum, allPatchSets)]]">
       <div class="patchInfo-header-wrapper">
         <div>
+          <span class="label">Files</span>
           <gr-patch-range-select
               id="rangeSelect"
               comments="[[comments]]"
               change-num="[[changeNum]]"
-              patch-range="[[patchRange]]"
+              patch-num="{{patchNum}}"
+              base-patch-num="{{basePatchNum}}"
               available-patches="[[allPatchSets]]"
               revisions="[[change.revisions]]"
               on-patch-range-change="_handlePatchChange">

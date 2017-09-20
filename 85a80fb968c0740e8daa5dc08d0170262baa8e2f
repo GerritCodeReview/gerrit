@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bfb61f92_7657e385",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6f809d2_90c060d9",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 40
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ada4cf28_2fb86645",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeactivationUtil.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-19T19:16:22Z",
       "side": 1,
       "message": "Do we really need to do all this, can\u0027t we simply do:\n\npublic void deactivateInactiveAccounts()\n    throws NamingException, AccountException, IOException, ConfigInvalidException,\n        RestApiException, LoginException {\n  for (Account acc : accounts.all()) {\n    if (acc.isActive() \u0026\u0026 !realm.isActive(acc.getUserName())) {\n      sif.deactivate(genericUserFactory.create(acc.getId()));\n    }\n  }\n}",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcb61434_713c6a35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeactivationUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada4cf28_2fb86645",
       "range": {
         "startLine": 59,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "afee3eeb_108279e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4677a559_55853511",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 17
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "157722ee_a19a8ad4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2017-09-19T19:16:22Z",
       "side": 1,
       "message": "boolean",
+      "range": {
+        "startLine": 327,
+        "startChar": 9,
+        "endLine": 327,
+        "endChar": 16
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b54ff97_c07cf67c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "157722ee_a19a8ad4",
       "range": {
         "startLine": 327,
         "startChar": 9,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "b52cf59e_51f81f58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "619b530d_5c2d8176",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 11
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4caf8c39_673cf34f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 9
@@ -128,6 +248,30 @@
       "writtenOn": "2017-09-19T19:16:22Z",
       "side": 1,
       "message": "unneeded final",
+      "range": {
+        "startLine": 331,
+        "startChar": 6,
+        "endLine": 331,
+        "endChar": 11
+      },
+      "revId": "85a80fb968c0740e8daa5dc08d0170262baa8e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "406cc888_de3ddc13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-09-20T14:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4caf8c39_673cf34f",
       "range": {
         "startLine": 331,
         "startChar": 6,

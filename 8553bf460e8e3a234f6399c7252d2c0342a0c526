@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df701295_faf9689c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-20T23:23:04Z",
+      "side": 1,
+      "message": "I wonder if it makes more sense to let gr-limited-text handle this case of no limit? like, it never truncates and just displays text if limit is undefined? My only thought is if we do this same thing multiple times then it may make sense to have the logic there.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "8553bf460e8e3a234f6399c7252d2c0342a0c526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

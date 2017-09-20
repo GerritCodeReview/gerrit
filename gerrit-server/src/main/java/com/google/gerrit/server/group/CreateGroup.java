@@ -175,17 +175,16 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException, IOException {
 
-    // Do not allow creating groups with the same name as system groups
+    String nameLower = createGroupArgs.getGroupName().toLowerCase(Locale.US);
+
     for (String name : systemGroupBackend.getNames()) {
-      if (name.toLowerCase(Locale.US)
-          .equals(createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+      if (name.toLowerCase(Locale.US).equals(nameLower)) {
         throw new ResourceConflictException("group '" + name + "' already exists");
       }
     }
 
     for (String name : systemGroupBackend.getReservedNames()) {
-      if (name.toLowerCase(Locale.US)
-          .equals(createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+      if (name.toLowerCase(Locale.US).equals(nameLower)) {
         throw new ResourceConflictException("group name '" + name + "' is reserved");
       }
     }

@@ -129,10 +129,9 @@ limitations under the License.
       sandbox.stub(element, '_computeDescriptionReadOnly');
 
       element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
+      element.basePatchNum = 'PARENT';
+      element.patchNum = 1;
+
       element.change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -180,10 +179,8 @@ limitations under the License.
       const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
       element._files = [];
       element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
+      element.basePatchNum = 'PARENT';
+      element.patchNum = '2';
       element.shownFileCount = 1;
       flush(() => {
         assert.isTrue(computeSpy.lastCall.returnValue);
@@ -204,44 +201,6 @@ limitations under the License.
       element.diffViewMode = 'UNIFIED_DIFF';
       flushAsynchronousOperations();
       assert.equal(select.nativeSelect.value, 'UNIFIED_DIFF');
-    });
-
-    test('_changePatchNum called when range select changes', () => {
-      const leftPatch = 1;
-      const rightPatch = 2;
-      sandbox.stub(element, '_changePatchNum');
-      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
-      assert.isTrue(element._changePatchNum.lastCall
-          .calledWithExactly(1, 2, true));
-    });
-
-    test('include base patch when not parent', () => {
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: '2',
-        patchNum: '3',
-      };
-      element.change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
-        },
-        status: 'NEW',
-        labels: {},
-      };
-
-      element._changePatchNum(2, 13);
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element.change, 13, 2));
-
-      element.patchRange.basePatchNum = 'PARENT';
-
-      element._changePatchNum('PARENT', 3);
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element.change, 3, 'PARENT'));
     });
 
     test('class is applied to file list on old patch set', () => {

@@ -137,6 +137,23 @@
       _patchRange: {
         type: Object,
       },
+      // These are kept as separate properties from the patchRange so that the
+      // observer can be aware of the previous value. In order to view sub
+      // property changes for _patchRange, a complex observer must be used, and
+      // that only displays the new value.
+      //
+      // If a previous value did not exist,
+      // the change is not reloaded with the new patches. This is just the
+      // Initial setting from the change view vs. an update coming from the
+      // two way data binding.
+      _patchNum: {
+        type: String,
+        observer: '_patchUpdated',
+      },
+      _basePatchNum: {
+        type: String,
+        observer: '_basePatchUpdated',
+      },
       _relatedChangesLoading: {
         type: Boolean,
         value: true,
@@ -211,6 +228,7 @@
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
       '_updateSortedRevisions(_change.revisions.*)',
+      '_updatedPatchNums(_patchRange.*)',
     ],
 
     keyBindings: {
@@ -309,6 +327,50 @@
 
     _reloadWindow() {
       window.location.reload();
+    },
+
+    _updatedPatchNums() {
+      this._basePatchNum = this._patchRange.basePatchNum;
+      this._patchNum = this._patchRange.patchNum;
+    },
+
+    _basePatchUpdated(patchNew, patchOld) {
+      if (!patchOld) { return; }
+
+      this._changePatchNum(this._basePatchNum, this._patchNum, true);
+    },
+
+    _patchUpdated(patchNew, patchOld) {
+      if (!patchOld) { return; }
+
+      this._changePatchNum(this._basePatchNum, this._patchNum, true);
+    },
+
+    /**
+     * Change active patch to the provided patch num.
+     * @param {number|string} basePatchNum the base patch to be viewed.
+     * @param {number|string} patchNum the patch number to be viewed.
+     * @param {boolean} opt_forceParams When set to true, the resulting URL will
+     *     always include the patch range, even if the requested patchNum is
+     *     known to be the latest.
+     */
+    _changePatchNum(basePatchNum, patchNum, opt_forceParams) {
+      if (!opt_forceParams) {
+        let currentPatchNum;
+        if (this._change.current_revision) {
+          currentPatchNum =
+              this._change.revisions[this._change.current_revision]._number;
+        } else {
+          currentPatchNum = this.computeLatestPatchNum(this.allPatchSets);
+        }
+        if (this.patchNumEquals(patchNum, currentPatchNum) &&
+            basePatchNum === 'PARENT') {
+          Gerrit.Nav.navigateToChange(this._change);
+          return;
+        }
+      }
+      Gerrit.Nav.navigateToChange(this._change, patchNum,
+          basePatchNum);
     },
 
     _handleCommitMessageCancel(e) {

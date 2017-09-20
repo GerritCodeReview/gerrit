@@ -810,15 +810,15 @@
     },
 
     _computeSendButtonDisabled(knownLatestState, buttonLabel, drafts, text,
-        reviewersMutated, labelsChanged) {
+        reviewersMutated, labelsChanged, includeComments) {
       if (this._isState(knownLatestState, LatestPatchState.NOT_LATEST)) {
         return true;
       }
       if (buttonLabel === ButtonLabels.START_REVIEW) {
         return false;
       }
-      return !(drafts.length || text.length || reviewersMutated ||
-          labelsChanged);
+      const hasDrafts = includeComments && Object.keys(drafts).length;
+      return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
     },
   });
 })();

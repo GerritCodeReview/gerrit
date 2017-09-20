@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.testutil;
+package com.google.gerrit.testing;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -21,8 +21,6 @@ import static com.google.gerrit.testing.IndexVersions.CURRENT;
 import static com.google.gerrit.testing.IndexVersions.PREVIOUS;
 
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.testing.GerritBaseTests;
-import com.google.gerrit.testing.IndexVersions;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;

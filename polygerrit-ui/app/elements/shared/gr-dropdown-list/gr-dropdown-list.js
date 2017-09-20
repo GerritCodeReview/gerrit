@@ -95,6 +95,7 @@
       const selectedObj = items.find(item => {
         return item.value + '' === value + '';
       });
+      if (!selectedObj) { return; }
       this.text = selectedObj.triggerText? selectedObj.triggerText :
           selectedObj.text;
     },

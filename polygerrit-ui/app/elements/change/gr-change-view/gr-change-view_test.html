@@ -778,6 +778,26 @@ limitations under the License.
       assert.isNull(element._getUrlParameter('test'));
     });
 
+    test('navigateToChange called when range select changes', () => {
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        status: 'NEW',
+        labels: {},
+      };
+      element._basePatchNum = 1;
+      element._patchNum = 2;
+      element._patchNum = 3;
+      assert.equal(navigateToChangeStub.callCount, 1);
+      assert.isTrue(navigateToChangeStub.lastCall
+          .calledWithExactly(element._change, 3, 1));
+    });
+
     test('revert dialog opened with revert param', done => {
       sandbox.stub(element.$.restAPI, 'getLoggedIn', () => {
         return Promise.resolve(true);
@@ -794,6 +814,7 @@ limitations under the License.
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
           rev1: {_number: 1},
+          rev2: {_number: 2},
         },
         current_revision: 'rev1',
         status: element.ChangeStatus.MERGED,

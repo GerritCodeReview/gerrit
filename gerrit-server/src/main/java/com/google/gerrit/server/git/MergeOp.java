@@ -327,8 +327,7 @@ public class MergeOp implements AutoCloseable {
     return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
   }
 
-  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed)
-      throws OrmException {
+  private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
     return cd.submitRecords(submitRuleOptions(allowClosed));
   }
 
@@ -396,13 +395,7 @@ public class MergeOp implements AutoCloseable {
     checkArgument(
         !cs.furtherHiddenChanges(), "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
-      List<SubmitRecord> records;
-      try {
-        records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
-      } catch (OrmException e) {
-        log.warn("Error checking submit rules for change " + cd.getId(), e);
-        records = new ArrayList<>(1);
-      }
+      List<SubmitRecord> records = new ArrayList<>(getSubmitRecords(cd, allowClosed));
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
@@ -836,13 +829,8 @@ public class MergeOp implements AutoCloseable {
   }
 
   private SubmitType getSubmitType(ChangeData cd) {
-    try {
-      SubmitTypeRecord str = cd.submitTypeRecord();
-      return str.isOk() ? str.type : null;
-    } catch (OrmException e) {
-      logError("Failed to get submit type for " + cd.getId(), e);
-      return null;
-    }
+    SubmitTypeRecord str = cd.submitTypeRecord();
+    return str.isOk() ? str.type : null;
   }
 
   private OpenRepo openRepo(Project.NameKey project) throws IntegrationException {

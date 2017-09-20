@@ -266,7 +266,7 @@ limitations under the License.
       <section>
         <gr-button
             primary
-            disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged)]]"
+            disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
             class="action send"
             on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
         <template is="dom-if" if="[[canBeStarted]]">

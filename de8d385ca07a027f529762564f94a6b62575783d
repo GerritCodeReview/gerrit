@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42f8ea1e_ef541554",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-20T21:15:11Z",
+      "side": 1,
+      "message": "How does this work with the \u0027limit\u0027 property declared as a number? Is it implicitly cast by the element?",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 26
+      },
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "697e831a_21d56c3c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-20T21:15:11Z",
+      "side": 1,
+      "message": "Why is this a whole new element, instead of just integrated into something that exists already? E.g. into the linked-chip.",
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

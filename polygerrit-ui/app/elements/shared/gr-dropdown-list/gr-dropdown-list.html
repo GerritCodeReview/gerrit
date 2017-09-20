@@ -105,6 +105,16 @@ limitations under the License.
       gr-select {
         display: none;
       }
+      /* Because the iron dropdown 'area' includes the trigger, and the entire
+       width of the dropdown, we want to treat tapping the area above the
+       dropdown content as if it is tapping whatever content is underneath it.
+       The next two styles allow this to happen. */
+      iron-dropdown {
+        pointer-events: none;
+      }
+      paper-listbox {
+        pointer-events: auto;
+      }
       @media only screen and (max-width: 50em) {
         gr-select {
           display: inline;
@@ -122,7 +132,8 @@ limitations under the License.
         link
         id="trigger"
         class="dropdown-trigger"
-        on-tap="_showDropdownTapHandler">
+        on-tap="_showDropdownTapHandler"
+        slot="dropdown-trigger">
       <span>[[text]]</span>
       <span
           class="downArrow"
@@ -131,13 +142,14 @@ limitations under the License.
     <iron-dropdown
         id="dropdown"
         vertical-align="top"
-        allow-outside-scroll="true">
+        allow-outside-scroll="true"
+        on-tap="_handleDropdownTap">
       <paper-listbox
           class="dropdown-content"
           slot="dropdown-content"
           attr-for-selected="value"
-          on-tap="_handleDropdownTap"
-          selected="{{value}}">
+          selected="{{value}}"
+          on-tap="_handleDropdownTap">
         <template is="dom-repeat" items="[[items]]">
             <paper-item
                 disabled="[[item.disabled]]"

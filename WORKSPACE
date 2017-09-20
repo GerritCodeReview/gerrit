@@ -1053,6 +1053,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "font-roboto-local",
+    package = "polymerelements/font-roboto-local",
+    sha1 = "803273ceb9ffebec8ecc9373ea638af4cd34af58",
+    version = "1.0.1",
+)
+
+bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
     sha1 = "63e3d669a09edaa31c4f05afc76b53b919ef0595",

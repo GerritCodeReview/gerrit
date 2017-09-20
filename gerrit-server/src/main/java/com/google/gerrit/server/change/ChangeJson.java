@@ -647,11 +647,11 @@ public class ChangeJson {
     return result;
   }
 
-  private boolean submittable(ChangeData cd) throws OrmException {
+  private boolean submittable(ChangeData cd) {
     return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
   }
 
-  private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
+  private List<SubmitRecord> submitRecords(ChangeData cd) {
     return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
@@ -703,7 +703,7 @@ public class ChangeJson {
   }
 
   private Map<String, LabelWithStatus> initLabels(
-      ChangeData cd, LabelTypes labelTypes, boolean standard) throws OrmException {
+      ChangeData cd, LabelTypes labelTypes, boolean standard) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {

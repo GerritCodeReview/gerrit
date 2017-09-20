@@ -658,8 +658,7 @@ public class ChangeField {
     return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts)
-      throws OrmException {
+  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 

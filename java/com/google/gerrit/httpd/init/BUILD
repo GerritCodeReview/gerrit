@@ -3,8 +3,6 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit:module",
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
@@ -17,6 +15,8 @@ java_library(
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server:module",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/sshd",

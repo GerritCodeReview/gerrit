@@ -947,6 +947,13 @@
           opt_errFn, null, params);
     },
 
+    /**
+     * @param {number|string} changeNum
+     */
+    getChangeIncludedIn(changeNum) {
+      return this._getChangeURLAndFetch(changeNum, '/in', null);
+    },
+
     _computeFilter(filter) {
       if (filter && filter.startsWith('^')) {
         filter = '&r=' + encodeURIComponent(filter);

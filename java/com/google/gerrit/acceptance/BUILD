@@ -8,8 +8,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":framework-lib",
-        "//gerrit-server:receive",
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
@@ -24,6 +23,7 @@ java_library(
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:gerrit-test-util",
@@ -50,6 +50,7 @@ java_library(
 )
 
 PROVIDED = [
+    "//java/com/google/gerrit:server",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
@@ -59,8 +60,7 @@ PROVIDED = [
     "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/pgm/init",
-    "//gerrit-server:receive",
-    "//gerrit-server:server",
+    "//java/com/google/gerrit/server/git/receive",
     "//lib:gson",
     "//lib:jsch",
     "//lib/jgit/org.eclipse.jgit:jgit",

@@ -42,6 +42,7 @@ public class ConfigCollection implements RestCollection<TopLevelResource, Config
     return views;
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Override
   public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
     if (id.equals("server")) {

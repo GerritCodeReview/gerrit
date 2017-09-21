@@ -28,7 +28,6 @@ import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.testing.SchemaUpgradeTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

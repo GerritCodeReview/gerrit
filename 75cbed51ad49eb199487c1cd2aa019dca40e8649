@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72c2e8d7_b30d1664",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-21T21:36:40Z",
+      "side": 1,
+      "message": "Yeah, exactly, I would like to avoid moving this file twice (in this and in follow-up change):\n\n* 1. gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersionsTest.java \u003d\u003e gerrit-server/src/test/java/com/google/gerrit/testing/IndexVersionsTest.java in this change\n* 2. gerrit-server/src/test/java/com/google/gerrit/testing/IndexVersionsTest.java \u003d\u003e javatests/com/google/gerrit/testing/IndexVersionsTest.java\n\nInstead I was trying to widen the visibility of some constants and methods  of IndexVersions class. And, i forgot to reduce the visibility back.\n\nDone in Ibcfa6af29.",
+      "parentUuid": "92499aaa_29ef89f4",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "75cbed51ad49eb199487c1cd2aa019dca40e8649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0e97970_efd7036b",
         "filename": "java/com/google/gerrit/testing/TestUpdateUI.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-21T12:40:00Z",
       "side": 1,
       "message": "I\u0027m wondering how much we should split up those \u0027testing\u0027 packages. This class could also go into com.google.gerrit.server.schema.testing to be near to UpdateUI which is in com.google.gerrit.server.schema.\n\nDave, what\u0027s your opinion on this? Should we rather place testing utilities near their real classes or gather them in one common spot?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "75cbed51ad49eb199487c1cd2aa019dca40e8649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf96b85_5067c6c2",
+        "filename": "java/com/google/gerrit/testing/TestUpdateUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-21T21:36:40Z",
+      "side": 1,
+      "message": "Good point. But, as discussed on the mailing list (see my comment), we should try to avoid any further refactoring/optimization/clean ups in this series. It\u0027s very involved to rebase it, and it\u0027s a *lot* of work. Also see David Puershouse comment in the first CL in this series about CI delay, once the whole series is rebased.",
+      "parentUuid": "f0e97970_efd7036b",
       "range": {
         "startLine": 15,
         "startChar": 8,

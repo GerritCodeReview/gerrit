@@ -41,6 +41,7 @@ limitations under the License.
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
+<link rel="import" href="../gr-included-in-dialog/gr-included-in-dialog.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
@@ -238,6 +239,10 @@ limitations under the License.
       gr-commit-info {
         display: inline-block;
         margin-right: -5px;
+      }
+      #includedInOverlay {
+        padding: 2em;
+        width: 65em;
       }
       @media screen and (min-width: 80em) {
         .commitMessage {
@@ -496,6 +501,7 @@ limitations under the License.
             files-expanded="[[_filesExpanded]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
+            on-open-included-in-dialog="_handleOpenIncludedInDialog"
             on-expand-diffs="_expandAllDiffs"
             on-collapse-diffs="_collapseAllDiffs">
         </gr-file-list-header>
@@ -543,6 +549,12 @@ limitations under the License.
           patch-num="[[_patchRange.patchNum]]"
           config="[[_serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
+    </gr-overlay>
+    <gr-overlay id="includedInOverlay" with-backdrop>
+      <gr-included-in-dialog
+          id="includedInDialog"
+          change-num="[[_changeNum]]"
+          on-close="_handleIncludedInDialogClose"></gr-included-in-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
         class="scrollable"

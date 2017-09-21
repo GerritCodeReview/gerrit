@@ -281,11 +281,7 @@ public class MergeSuperSet {
 
       Set<String> visibleHashes =
           walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
-
-      List<ChangeData> cds = byCommitsOnBranchNotMerged(or, db, b, visibleHashes);
-      for (ChangeData chd : cds) {
-        visibleChanges.add(chd);
-      }
+      Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes));
 
       Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
       Iterables.addAll(nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes));

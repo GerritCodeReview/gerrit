@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "610a0824_d244aa9f",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-21T07:13:30Z",
+      "side": 1,
+      "message": "This shouldn\u0027t probably be done here.",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "d095cd0ef648e3c2612c7ca457fe74a0f494ab1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

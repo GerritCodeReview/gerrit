@@ -5,7 +5,7 @@ junit_tests(
     name = "pgm_tests",
     srcs = glob(["**/*.java"]),
     deps = [
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/pgm",
         "//java/com/google/gerrit/pgm/http",

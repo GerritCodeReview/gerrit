@@ -5,7 +5,6 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",
@@ -13,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",

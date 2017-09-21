@@ -15,8 +15,6 @@ java_library(
     resources = ["//resources/com/google/gerrit/pgm"],
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit:module",
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/elasticsearch",
@@ -35,6 +33,8 @@ java_library(
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server:module",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/sshd",

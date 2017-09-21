@@ -17,7 +17,7 @@ DEPS = [
     "//gerrit-gwtui:ui_module",
     "//gerrit-plugin-gwtui:gwtui-api-lib",
     "//java/com/google/gerrit/acceptance:lib",
-    "//java/com/google/gerrit:server",
+    "//java/com/google/gerrit/server",
     "//lib/asciidoctor:asciidoc_lib",
     "//lib/asciidoctor:doc_indexer_lib",
     "//lib/auto:auto-value",

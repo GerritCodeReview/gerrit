@@ -14,11 +14,11 @@
 
 package com.google.gerrit.httpd.auth.oauth;
 
-import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HttpLogoutServlet;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;

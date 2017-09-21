@@ -15,10 +15,10 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.EvaluationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

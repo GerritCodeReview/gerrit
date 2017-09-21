@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rules;
+package com.google.gerrit.server.rules;
 
-import static com.google.gerrit.rules.StoredValue.create;
+import static com.google.gerrit.server.rules.StoredValue.create;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;

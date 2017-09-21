@@ -1,8 +1,6 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 TESTUTIL_DEPS = [
-    "//java/com/google/gerrit:module",
-    "//java/com/google/gerrit:server",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/extensions:api",
@@ -10,6 +8,8 @@ TESTUTIL_DEPS = [
     "//java/com/google/gerrit/lifecycle",
     "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/reviewdb:server",
+    "//java/com/google/gerrit/server",
+    "//java/com/google/gerrit/server:module",
     "//java/com/google/gerrit/server/cache/h2",
     "//java/com/google/gerrit/index",
     "//java/com/google/gerrit/lucene",
@@ -27,7 +27,7 @@ TESTUTIL_DEPS = [
 ]
 
 CUSTOM_TRUTH_SUBJECTS = glob([
-    "server/**/*Subject.java",
+    "**/*Subject.java",
 ])
 
 java_library(
@@ -35,8 +35,8 @@ java_library(
     testonly = 1,
     srcs = CUSTOM_TRUTH_SUBJECTS,
     deps = [
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/truth",
         "//lib:truth",
     ],
@@ -56,9 +56,9 @@ java_library(
     testonly = 1,
     srcs = PROLOG_TEST_CASE,
     deps = [
-        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:junit",
@@ -83,7 +83,7 @@ junit_tests(
 )
 
 QUERY_TESTS = glob(
-    ["server/query/**/*.java"],
+    ["query/**/*.java"],
 )
 
 java_library(
@@ -116,7 +116,7 @@ junit_tests(
         exclude = CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
     ),
     resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit:server"],
+    resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":custom-truth-subjects",

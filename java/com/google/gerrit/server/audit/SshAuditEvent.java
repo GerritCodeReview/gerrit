@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.audit;
+package com.google.gerrit.server.audit;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.AbstractModule;
+import com.google.common.collect.ListMultimap;
+import com.google.gerrit.server.CurrentUser;
 
-public class AuditModule extends AbstractModule {
+public class SshAuditEvent extends AuditEvent {
 
-  @Override
-  protected void configure() {
-    DynamicSet.setOf(binder(), AuditListener.class);
-    DynamicSet.setOf(binder(), GroupMemberAuditListener.class);
-    bind(AuditService.class);
+  public SshAuditEvent(
+      String sessionId,
+      CurrentUser who,
+      String what,
+      long when,
+      ListMultimap<String, ?> params,
+      Object result) {
+    super(sessionId, who, what, when, params, result);
   }
 }

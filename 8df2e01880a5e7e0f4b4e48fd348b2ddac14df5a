@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8179e321_104521ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-21T01:43:23Z",
+      "side": 1,
+      "message": "backwards compatible",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8df2e01880a5e7e0f4b4e48fd348b2ddac14df5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34b5d405_aa2c104b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-21T01:43:23Z",
+      "side": 1,
+      "message": "Isn\u0027t this redundant?  If the token is \"/settings/\" it will already match on the previous one.\n\nAlso, the SETTINGS constant can be used instead of the hard-coded \"/settings/\" string.",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 265,
+        "endChar": 43
+      },
+      "revId": "8df2e01880a5e7e0f4b4e48fd348b2ddac14df5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

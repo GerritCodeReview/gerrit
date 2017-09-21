@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gson.Gson;
@@ -308,6 +309,19 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets).hasSize(1);
     assertThat(changes.get(0).currentPatchSet).isNull();
     userSession.close();
+  }
+
+  @Test
+  public void allChangeOptionsAreServedWithoutExceptions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // Merge the change so that the result has more data and potentially went through more
+    // computation while formatting the output, such as labels, reviewers etc.
+    merge(r);
+    for (ListChangesOption option : ListChangesOption.values()) {
+      assertThat(gApi.changes().query(r.getChangeId()).withOption(option).get())
+          .named("Option: " + option)
+          .hasSize(1);
+    }
   }
 
   private List<ChangeAttribute> executeSuccessfulQuery(String params, SshSession session)

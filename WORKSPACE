@@ -1055,8 +1055,8 @@ bower_archive(
 bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
-    sha1 = "63e3d669a09edaa31c4f05afc76b53b919ef0595",
-    version = "1.4.0",
+    sha1 = "ac96fe31cdf203a63426fa75131b43c98c0597d3",
+    version = "1.5.5",
 )
 
 bower_archive(
@@ -1069,15 +1069,15 @@ bower_archive(
 bower_archive(
     name = "iron-overlay-behavior",
     package = "polymerelements/iron-overlay-behavior",
-    sha1 = "83181085fda59446ce74fd0d5ca30c223f38ee4a",
-    version = "1.7.6",
+    sha1 = "74cda9d7bf98e7a5e5004bc7ebdb6d208d49e11e",
+    version = "2.0.0",
 )
 
 bower_archive(
     name = "iron-selector",
     package = "polymerelements/iron-selector",
-    sha1 = "c57235dfda7fbb987c20ad0e97aac70babf1a1bf",
-    version = "1.5.2",
+    sha1 = "e0ee46c28523bf17730318c3b481a8ed4331c3b2",
+    version = "2.0.0",
 )
 
 bower_archive(

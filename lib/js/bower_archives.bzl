@@ -64,7 +64,7 @@ def load_bower_archives():
     sha1 = "f77eba3f6f6817f10bda33918bde8f963d450041")
   bower_archive(
     name = "iron-resizable-behavior",
-    package = "PolymerElements/iron-resizable-behavior",
+    package = "polymerelements/iron-resizable-behavior",
     version = "1.0.6",
     sha1 = "719c2a8a1a784f8aefcdeef41fcc2e5a03518d9e")
   bower_archive(

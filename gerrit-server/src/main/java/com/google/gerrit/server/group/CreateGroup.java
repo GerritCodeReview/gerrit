@@ -177,16 +177,16 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
     String nameLower = createGroupArgs.getGroupName().toLowerCase(Locale.US);
 
-    for (String name : systemGroupBackend.getNames()) {
-      if (name.toLowerCase(Locale.US).equals(nameLower)) {
-        throw new ResourceConflictException("group '" + name + "' already exists");
-      }
+    try {
+      systemGroupBackend.checkNameIsMutable(nameLower);
+    } catch (SystemGroupBackend.ImmutableSystemGroupException e) {
+      throw new ResourceConflictException("group '" + e.getMessage() + "' already exists");
     }
 
-    for (String name : systemGroupBackend.getReservedNames()) {
-      if (name.toLowerCase(Locale.US).equals(nameLower)) {
-        throw new ResourceConflictException("group name '" + name + "' is reserved");
-      }
+    try {
+      systemGroupBackend.checkNameIsUnreserved(nameLower);
+    } catch (SystemGroupBackend.ReservedSystemGroupException e) {
+      throw new ResourceConflictException("group name '" + e.getMessage() + "' is reserved");
     }
 
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());

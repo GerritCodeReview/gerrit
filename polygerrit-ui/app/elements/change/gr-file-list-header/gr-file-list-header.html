@@ -80,6 +80,12 @@ limitations under the License.
       .downloadContainer {
         margin-right: 16px;
       }
+      .includedInContainer {
+        margin-right: 16px;
+      }
+      .includedInContainer.hide {
+        display: none;
+      }
       .rightControls {
         align-self: flex-end;
         margin: auto 0 auto auto;
@@ -208,6 +214,11 @@ limitations under the License.
           <gr-button link
               class="download"
               on-tap="_handleDownloadTap">Download</gr-button>
+        </span>
+        <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
+          <gr-button link
+              class="includedIn"
+              on-tap="_handleIncludedInTap">Included In</gr-button>
         </span>
         <template is="dom-if"
             if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">

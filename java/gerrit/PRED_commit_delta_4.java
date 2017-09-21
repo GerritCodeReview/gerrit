@@ -15,9 +15,9 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92499aaa_29ef89f4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/IndexVersionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-21T12:40:00Z",
+      "side": 1,
+      "message": "This class should actually be in package com.google.gerrit.testing. Thus, we wouldn\u0027t need to widen the visibility of some constants and methods of IndexVersions. I saw that the follow-up change Ibcfa6af29 moves IndexVersionsTest to another directory. If you want to skip moving IndexVersionsTest twice, could you at least reduce the visibility of the constants and methods in the follow-up change?",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "75cbed51ad49eb199487c1cd2aa019dca40e8649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0e97970_efd7036b",
+        "filename": "java/com/google/gerrit/testing/TestUpdateUI.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-21T12:40:00Z",
+      "side": 1,
+      "message": "I\u0027m wondering how much we should split up those \u0027testing\u0027 packages. This class could also go into com.google.gerrit.server.schema.testing to be near to UpdateUI which is in com.google.gerrit.server.schema.\n\nDave, what\u0027s your opinion on this? Should we rather place testing utilities near their real classes or gather them in one common spot?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "75cbed51ad49eb199487c1cd2aa019dca40e8649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

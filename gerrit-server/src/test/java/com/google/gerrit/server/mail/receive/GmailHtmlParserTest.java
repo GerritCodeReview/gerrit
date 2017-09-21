@@ -20,7 +20,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
       String changeMessage, String c1, String c2, String c3, String f1, String f2, String fc1) {
     String email =
         ""
-            + "<div dir=\"ltr\">"
+            + "<div class=\"gmail_default\" dir=\"ltr\">"
             + (changeMessage != null ? changeMessage : "")
             + "<div class=\"gmail_extra\"><br><div class=\"gmail_quote\">"
             + "On Fri, Nov 18, 2016 at 11:15 AM, foobar (Gerrit) noreply@gerrit.com"

@@ -179,6 +179,11 @@
       this.fire('open-diff-prefs');
     },
 
+    _handleIncludedInTap(e) {
+      e.preventDefault();
+      this.fire('open-included-in-dialog');
+    },
+
     _handleDownloadTap(e) {
       e.preventDefault();
       this.fire('open-download-dialog');
@@ -198,6 +203,14 @@
 
     _getRevisionInfo(change) {
       return new Gerrit.RevisionInfo(change);
+    },
+
+    _hideIncludedIn(change) {
+      if (change && change.status === 'MERGED') {
+        return '';
+      }
+
+      return 'hide';
     },
   });
 })();

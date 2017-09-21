@@ -45,6 +45,30 @@
       "revId": "8df2e01880a5e7e0f4b4e48fd348b2ddac14df5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85d7aaa5_88201b91",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-21T07:05:30Z",
+      "side": 1,
+      "message": "Thanks, done. I’ve Removed this one.",
+      "parentUuid": "34b5d405_aa2c104b",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 265,
+        "endChar": 43
+      },
+      "revId": "8df2e01880a5e7e0f4b4e48fd348b2ddac14df5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

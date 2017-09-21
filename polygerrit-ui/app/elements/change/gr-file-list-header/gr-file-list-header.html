@@ -19,11 +19,10 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../diff/gr-patch-range-select/gr-patch-range-select.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
-
 
 <dom-module id="gr-file-list-header">
   <template>
@@ -102,6 +101,9 @@ limitations under the License.
       .editLoaded .showOnEdit {
         display: initial;
       }
+      .includedInContainer.hide {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -128,6 +130,12 @@ limitations under the License.
           <span class="latestPatchContainer">
             /
             <a href$="[[changeUrl]]">Go to latest patch set</a>
+          </span>
+          <span class$="includedInContainer [[_hideIncludedIn(change)]]">
+            /
+            <gr-button link
+                class="includedIn"
+                on-tap="_handleIncludedInTap">Included In</gr-button>
           </span>
           <span class="downloadContainer desktop">
             /

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb634326_d262d966",
+        "filename": "javatests/com/google/gerrit/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-21T06:17:03Z",
+      "side": 1,
+      "message": "Wrong part was copied here. Javadoc should be only created in sources, not in test tree.",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 1
+      },
+      "revId": "1f81292ef1474f844e89ff2998816d598feaa1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

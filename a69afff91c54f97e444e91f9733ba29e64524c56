@@ -22,6 +22,30 @@
       "revId": "a69afff91c54f97e444e91f9733ba29e64524c56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e7d2e90_322bad04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-21T21:46:57Z",
+      "side": 1,
+      "message": "I was trying to do as small steps as possible. These steps are unrelated. Move testing and dissolve the extension package.\n\n\u003e Thus, some of them wouldn\u0027t be forgotten (like OptionalSubject and ListSubject, which are still in a non-testing package at the end of this series).\n\nIt was done intentionally. I wasn\u0027t sure to what testing package these 2 files really belong. There is only this truth package, so that it\u0027s not direct testing for existing package. At least that was my reasoning. I should mention it in the commit message, to make my decision obvious.",
+      "parentUuid": "8568be7a_b3f9d33a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "a69afff91c54f97e444e91f9733ba29e64524c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

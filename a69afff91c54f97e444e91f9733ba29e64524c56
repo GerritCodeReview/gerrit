@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8568be7a_b3f9d33a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-21T13:20:29Z",
+      "side": 1,
+      "message": "Is there a reason why this change hasn\u0027t been combined with the previous change I3be9943f8e? That change only touches test utilities which could be directly moved to the correct packages. Thus, some of them wouldn\u0027t be forgotten (like OptionalSubject and ListSubject, which are still in a non-testing package at the end of this series).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "a69afff91c54f97e444e91f9733ba29e64524c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

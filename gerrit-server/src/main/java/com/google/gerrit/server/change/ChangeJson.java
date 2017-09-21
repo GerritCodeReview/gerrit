@@ -416,6 +416,12 @@ public class ChangeJson {
             | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
+          } else if (e instanceof NoSuchChangeException) {
+            log.info(
+                "NoSuchChangeException: Omitting corrupt change "
+                    + cd.getId()
+                    + " from results. Seems to be stale in the index.");
+            continue;
           } else {
             log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
             continue;

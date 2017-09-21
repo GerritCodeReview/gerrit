@@ -5,7 +5,7 @@ java_library(
     resources = ["//resources/com/google/gerrit/pgm/init"],
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/elasticsearch",

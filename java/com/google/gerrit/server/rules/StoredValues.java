@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rules;
-
-import static com.google.gerrit.rules.StoredValue.create;
+package com.google.gerrit.server.rules;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
@@ -42,6 +40,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.Prolog;
+
+import static com.google.gerrit.server.rules.StoredValue.create;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

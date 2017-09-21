@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rules;
+package com.google.gerrit.server.rules;
 
 import static org.easymock.EasyMock.expect;
 
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologEnvironment;
+import com.google.gerrit.server.rules.StoredValues;
 import com.google.inject.AbstractModule;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;

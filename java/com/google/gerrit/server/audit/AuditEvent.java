@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.audit;
+package com.google.gerrit.server.audit;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.server.audit.AutoValue_AuditEvent_UUID;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.CurrentUser;
 

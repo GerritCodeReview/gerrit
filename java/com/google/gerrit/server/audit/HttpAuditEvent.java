@@ -11,21 +11,42 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-package com.google.gerrit.audit;
+package com.google.gerrit.server.audit;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.server.CurrentUser;
 
-public class SshAuditEvent extends AuditEvent {
+public class HttpAuditEvent extends AuditEvent {
+  public final String httpMethod;
+  public final int httpStatus;
+  public final Object input;
 
-  public SshAuditEvent(
+  /**
+   * Creates a new audit event with results
+   *
+   * @param sessionId session id the event belongs to
+   * @param who principal that has generated the event
+   * @param what object of the event
+   * @param when time-stamp of when the event started
+   * @param params parameters of the event
+   * @param httpMethod HTTP method
+   * @param input input
+   * @param status HTTP status
+   * @param result result of the event
+   */
+  public HttpAuditEvent(
       String sessionId,
       CurrentUser who,
       String what,
       long when,
       ListMultimap<String, ?> params,
+      String httpMethod,
+      Object input,
+      int status,
       Object result) {
     super(sessionId, who, what, when, params, result);
+    this.httpMethod = httpMethod;
+    this.input = input;
+    this.httpStatus = status;
   }
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Joiner;
-import com.google.gerrit.audit.GroupMemberAuditListener;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -27,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.UniversalGroupBackend;
+import com.google.gerrit.server.audit.GroupMemberAuditListener;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

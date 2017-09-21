@@ -1,14 +1,9 @@
-# TODO(davido): Consider to isolate former gerrit-server specific rules
-# in server directory. Otherwise it is hard to see the whole dependency
-# picture given that this file is located in com/google/gerrit, but only
-# controls three directory: audit, rules and server.
-
 CONSTANTS_SRC = [
-    "server/documentation/Constants.java",
+    "documentation/Constants.java",
 ]
 
 GERRIT_GLOBAL_MODULE_SRC = [
-    "server/config/GerritGlobalModule.java",
+    "config/GerritGlobalModule.java",
 ]
 
 java_library(
@@ -30,7 +25,7 @@ java_library(
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC,
     ),
     resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit:server"],
+    resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
     deps = [
         ":constants",

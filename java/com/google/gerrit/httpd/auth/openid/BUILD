@@ -12,7 +12,7 @@ java_library(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gwtexpui/server",
-        "//java/com/google/gerrit:server",
+        "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",

@@ -16,7 +16,7 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.rules.StoredValues;
+import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Prolog;

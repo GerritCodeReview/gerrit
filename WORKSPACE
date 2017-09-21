@@ -444,6 +444,7 @@ maven_jar(
     sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
 )
 
+# When upgrading Lucene, make sure it's compatible with Elasticsearch
 LUCENE_VERS = "5.5.4"
 
 maven_jar(
@@ -918,6 +919,7 @@ maven_jar(
     sha1 = "00d0003e99da3c4d830b12c099691ce910c84e39",
 )
 
+# When upgrading Elasticsearch, make sure it's compatible with Lucene
 maven_jar(
     name = "elasticsearch",
     artifact = "org.elasticsearch:elasticsearch:2.4.5",

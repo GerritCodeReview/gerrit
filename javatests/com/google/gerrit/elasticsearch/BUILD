@@ -5,7 +5,7 @@ java_library(
     testonly = 1,
     srcs = ["ElasticTestUtils.java"],
     deps = [
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
@@ -29,11 +29,11 @@ junit_tests(
     ],
     deps = [
         ":elasticsearch_test_utils",
-        "//gerrit-server:query_tests_code",
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//javatests/com/google/gerrit:query_tests_code",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",

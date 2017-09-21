@@ -5,7 +5,7 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-server:server",
+        "//java/com/google/gerrit:server",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",

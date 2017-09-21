@@ -9,15 +9,15 @@ load(
 
 TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
-    "//gerrit-server:server_tests",
+    "//javatests/com/google/gerrit:server_tests",
 ]
 
 DEPS = [
     "//gerrit-gwtdebug:gwtdebug",
     "//gerrit-gwtui:ui_module",
     "//gerrit-plugin-gwtui:gwtui-api-lib",
-    "//gerrit-server:server",
     "//java/com/google/gerrit/acceptance:lib",
+    "//java/com/google/gerrit:server",
     "//lib/asciidoctor:asciidoc_lib",
     "//lib/asciidoctor:doc_indexer_lib",
     "//lib/auto:auto-value",

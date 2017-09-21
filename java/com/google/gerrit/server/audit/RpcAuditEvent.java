@@ -11,15 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.google.gerrit.audit;
+
+package com.google.gerrit.server.audit;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.server.CurrentUser;
 
-public class HttpAuditEvent extends AuditEvent {
-  public final String httpMethod;
-  public final int httpStatus;
-  public final Object input;
+public class RpcAuditEvent extends HttpAuditEvent {
 
   /**
    * Creates a new audit event with results
@@ -34,7 +32,7 @@ public class HttpAuditEvent extends AuditEvent {
    * @param status HTTP status
    * @param result result of the event
    */
-  public HttpAuditEvent(
+  public RpcAuditEvent(
       String sessionId,
       CurrentUser who,
       String what,
@@ -44,9 +42,6 @@ public class HttpAuditEvent extends AuditEvent {
       Object input,
       int status,
       Object result) {
-    super(sessionId, who, what, when, params, result);
-    this.httpMethod = httpMethod;
-    this.input = input;
-    this.httpStatus = status;
+    super(sessionId, who, what, when, params, httpMethod, input, status, result);
   }
 }

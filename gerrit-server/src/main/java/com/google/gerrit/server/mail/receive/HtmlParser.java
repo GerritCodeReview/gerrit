@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -27,6 +28,12 @@ import org.jsoup.nodes.Element;
 
 /** HTMLParser provides parsing functionality for html email. */
 public class HtmlParser {
+  private static ImmutableList<String> MAIL_PROVIDER_EXTRAS =
+      ImmutableList.of(
+          "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
+          "gmail_quote" // Used for quoting original content
+          );
+
   /**
    * Parses comments from html email.
    *
@@ -88,7 +95,7 @@ public class HtmlParser {
         }
       } else if (!isInBlockQuote
           && elementName.equals("div")
-          && !e.className().startsWith("gmail")) {
+          && !MAIL_PROVIDER_EXTRAS.contains(e.className())) {
         // This is a comment typed by the user
         // Replace non-breaking spaces and trim string
         String content = e.ownText().replace('\u00a0', ' ').trim();

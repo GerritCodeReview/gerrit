@@ -426,6 +426,14 @@
       this.$.fileList.openDiffPrefs();
     },
 
+    _handleOpenIncludedInDialog() {
+      this.$.includedInOverlay.open();
+    },
+
+    _handleIncludedInDialogClose(e) {
+      this.$.includedInOverlay.close();
+    },
+
     _handleOpenDownloadDialog() {
       this.$.downloadOverlay.open().then(() => {
         this.$.downloadOverlay

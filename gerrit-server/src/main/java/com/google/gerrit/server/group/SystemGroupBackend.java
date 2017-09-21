@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
@@ -119,12 +118,36 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
   }
 
-  public Set<String> getNames() {
-    return names;
+  public static class ImmutableSystemGroupException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public ImmutableSystemGroupException(String name) {
+      super(name);
+    }
   }
 
-  public Set<String> getReservedNames() {
-    return reservedNames;
+  public static class ReservedSystemGroupException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public ReservedSystemGroupException(String name) {
+      super(name);
+    }
+  }
+
+  public void checkNameIsMutable(String name) throws ImmutableSystemGroupException {
+    for (String n : names) {
+      if (n.toLowerCase(Locale.US).equals(name)) {
+        throw new ImmutableSystemGroupException(n);
+      }
+    }
+  }
+
+  public void checkNameIsUnreserved(String name) throws ReservedSystemGroupException {
+    for (String n : reservedNames) {
+      if (n.toLowerCase(Locale.US).equals(name)) {
+        throw new ReservedSystemGroupException(n);
+      }
+    }
   }
 
   @Override

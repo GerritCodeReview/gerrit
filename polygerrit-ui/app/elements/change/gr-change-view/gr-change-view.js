@@ -398,6 +398,18 @@
       this.$.fileList.openDiffPrefs();
     },
 
+    _handleOpenIncludedInDialog() {
+      this.$.includedInOverlay.open().then(() => {
+        this.$.includedInOverlay
+            .setFocusStops(this.$.includedInDialog.getFocusStops());
+        this.$.includedInDialog.focus();
+      });
+    },
+
+    _handleIncludedInDialogClose(e) {
+      this.$.includedInOverlay.close();
+    },
+
     _handleOpenDownloadDialog() {
       this.$.downloadOverlay.open().then(() => {
         this.$.downloadOverlay

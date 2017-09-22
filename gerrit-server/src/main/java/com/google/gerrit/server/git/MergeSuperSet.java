@@ -242,7 +242,6 @@ public class MergeSuperSet {
           // completeChangeSet computation, for example.
           visible = false;
         }
-        Collection<RevCommit> toWalk = visible ? visibleCommits : nonVisibleCommits;
 
         // Pick a revision to use for traversal.  If any of the patch sets
         // is visible, we use the most recent one.  Otherwise, use the current
@@ -276,7 +275,11 @@ public class MergeSuperSet {
         // Always include the input, even if merged. This allows
         // SubmitStrategyOp to correct the situation later, assuming it gets
         // returned by byCommitsOnBranchNotMerged below.
-        toWalk.add(commit);
+        if (visible) {
+          visibleCommits.add(commit);
+        } else {
+          nonVisibleCommits.add(commit);
+        }
       }
 
       Set<String> visibleHashes =

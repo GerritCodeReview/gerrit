@@ -52,6 +52,9 @@ public interface GroupCache {
   /** @return sorted list of groups. */
   ImmutableList<AccountGroup> all();
 
+  /** @return list of groups owned by the given group. */
+  ImmutableList<AccountGroup> ownedBy(AccountGroup.UUID owner);
+
   /** Notify the cache that a new group was constructed. */
   void onCreateGroup(AccountGroup group) throws IOException;
 

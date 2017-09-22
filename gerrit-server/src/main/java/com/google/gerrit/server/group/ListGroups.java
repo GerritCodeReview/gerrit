@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -85,6 +86,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String matchRegex;
   private String suggest;
+  private String ownedBy;
 
   @Option(
     name = "--project",
@@ -206,6 +208,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
+  @Option(name = "--owned-by", usage = "list groups owned by the given group uuid")
+  public void setOwnedBy(String ownedBy) {
+    this.ownedBy = ownedBy;
+  }
+
   @Inject
   protected ListGroups(
       final GroupCache groupCache,
@@ -256,6 +263,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
     if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
       throw new BadRequestException("Specify one of m/r");
+    }
+
+    if (ownedBy != null) {
+      return getGroupsOwnedBy(ownedBy);
     }
 
     if (owned) {
@@ -353,6 +364,22 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       return true;
     }
     return false;
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(String owner) {
+    return groupCache
+        .ownedBy(new AccountGroup.UUID(owner))
+        .stream()
+        .map(g -> toGroupInfo(g))
+        .collect(toList());
+  }
+
+  private GroupInfo toGroupInfo(AccountGroup group) {
+    GroupInfo info = new GroupInfo();
+    info.description = group.getDescription();
+    info.name = group.getName();
+    info.id = group.getId().toString();
+    return info;
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {

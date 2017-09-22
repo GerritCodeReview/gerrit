@@ -142,6 +142,30 @@
       "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600e0a6b_82445fa5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:47:28Z",
+      "side": 1,
+      "message": "I agree with @Wyatt. Also, just because innerHTML was used before, does not mean it is safe. Perhaps to start with, just link out to the other page?",
+      "parentUuid": "deb653f5_43e4c84e",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8118e9ff_017e2861",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:44:30Z",
+      "side": 1,
+      "message": "Comment still weirdly wrapped. Non blocking tho.",
+      "revId": "456a45f5e744b168930651ce68bc58143a8f9e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fe6b665_394f562d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:44:30Z",
+      "side": 1,
+      "message": "Comment still weirdly wrapped. Non-blocking tho.",
+      "revId": "456a45f5e744b168930651ce68bc58143a8f9e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

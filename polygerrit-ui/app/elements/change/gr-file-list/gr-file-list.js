@@ -424,9 +424,8 @@
         row = row.parentElement;
       }
       const path = row.dataset.path;
-
       // Handle checkbox mark as reviewed.
-      if (e.target.classList.contains('reviewed')) {
+      if (e.target.classList.contains('markReviewed')) {
         return this._reviewFile(path);
       }
 
@@ -720,7 +719,7 @@
     },
 
     _computeShowHideText(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
+      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '▶';
     },
 
     _computeFilesShown(numFilesShown, files) {
@@ -912,6 +911,14 @@
 
     _computeContainerClass(editLoaded) {
       return editLoaded ? 'editLoaded' : '';
+    },
+
+    _computeReviewedClass(isReviewed) {
+      return isReviewed ? 'isReviewed' : '';
+    },
+
+    _computeReviewedText(isReviewed) {
+      return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
     },
   });
 })();

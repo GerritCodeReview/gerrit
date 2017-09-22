@@ -94,6 +94,29 @@
       "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6111dcc_e21c796d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-22T14:05:17Z",
+      "side": 1,
+      "message": "The simplest/fastest way to get those groups is via the group index. Iterating over all existing groups seems to be a bit of overkill.",
+      "range": {
+        "startLine": 369,
+        "startChar": 2,
+        "endLine": 375,
+        "endChar": 3
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

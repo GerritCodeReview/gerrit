@@ -54,12 +54,12 @@ import org.junit.Test;
 
 public class AccessIT extends AbstractDaemonTest {
 
-  private final String PROJECT_NAME = "newProject";
+  private static final String PROJECT_NAME = "newProject";
 
-  private final String REFS_ALL = Constants.R_REFS + "*";
-  private final String REFS_HEADS = Constants.R_HEADS + "*";
+  private static final String REFS_ALL = Constants.R_REFS + "*";
+  private static final String REFS_HEADS = Constants.R_HEADS + "*";
 
-  private final String LABEL_CODE_REVIEW = "Code-Review";
+  private static final String LABEL_CODE_REVIEW = "Code-Review";
 
   private String newProjectName;
   private ProjectApi pApi;

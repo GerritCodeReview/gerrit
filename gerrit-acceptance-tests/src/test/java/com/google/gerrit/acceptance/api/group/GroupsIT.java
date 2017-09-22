@@ -489,6 +489,25 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getGroupsByOwner() throws Exception {
+    String parent = createGroup("test-parent");
+
+    List<String> children =
+        Arrays.asList(createGroup("test-child1", parent), createGroup("test-child2", parent));
+
+    for (String c : children) {
+      assertThat(groupCache.get(new AccountGroup.NameKey(c)).isPresent()).isTrue();
+      assertThat(gApi.groups().id(c).owner().name).isEqualTo(parent);
+    }
+
+    List<GroupInfo> owned =
+        gApi.groups().list().withOwnedBy(getFromCache(parent).getGroupUUID().get()).get();
+    assertThat(owned).hasSize(2);
+    assertThat(owned.stream().map(g -> g.name).collect(toList()))
+        .containsExactlyElementsIn(children);
+  }
+
+  @Test
   public void onlyVisibleGroupsReturned() throws Exception {
     String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();

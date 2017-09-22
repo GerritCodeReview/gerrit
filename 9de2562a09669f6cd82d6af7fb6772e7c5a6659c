@@ -117,6 +117,30 @@
       "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cefa457b_45e95171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-22T14:07:56Z",
+      "side": 1,
+      "message": "Yes, the group index should be preferred. However in the case of group deletion (which is what David is working on) it\u0027s better to load the real groups to not have issues with stale index data.",
+      "parentUuid": "a6111dcc_e21c796d",
+      "range": {
+        "startLine": 369,
+        "startChar": 2,
+        "endLine": 375,
+        "endChar": 3
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

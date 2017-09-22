@@ -491,6 +491,33 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getGroupsByOwner() throws Exception {
+    String parent = createGroup("test-parent");
+    List<String> children =
+        Arrays.asList(createGroup("test-child1", parent), createGroup("test-child2", parent));
+
+    // By UUID
+    List<GroupInfo> owned =
+        gApi.groups().list().withOwnedBy(getFromCache(parent).getGroupUUID().get()).get();
+    assertThat(owned.stream().map(g -> g.name).collect(toList()))
+        .containsExactlyElementsIn(children);
+
+    // By name
+    owned = gApi.groups().list().withOwnedBy(parent).get();
+    assertThat(owned.stream().map(g -> g.name).collect(toList()))
+        .containsExactlyElementsIn(children);
+
+    // By group that does not own any others
+    owned = gApi.groups().list().withOwnedBy(owned.get(0).id).get();
+    assertThat(owned).isEmpty();
+
+    // By non-existing group
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Group Not Found: does-not-exist");
+    gApi.groups().list().withOwnedBy("does-not-exist").get();
+  }
+
+  @Test
   public void onlyVisibleGroupsReturned() throws Exception {
     String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();

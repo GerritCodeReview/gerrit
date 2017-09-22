@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "743a28b6_08ef5f9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:13:33Z",
+      "side": 1,
+      "message": "I like having the gr-date-formatter as part of this element, so that it can just consume data. However, it could be possible to also be able to display some other content in the same area where the date is. However, I\u0027m not sure I want to unnecessarily complicate this right now. I think it\u0027s something that can be addressed where there\u0027s a need?\n\nThe reason date is included here is that it is included in the designs for the patch range select, Though I think it might end up being removed due to space restrictions.",
+      "parentUuid": "b7570af0_aa7efbd6",
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f0b5555_2111bee2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.html",
         "patchSetId": 11
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "6c52d924_eb93888b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9021cb32_8f47bf31",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e05c51b_48793f26",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js",
         "patchSetId": 11
@@ -70,6 +112,30 @@
       "writtenOn": "2017-09-22T16:50:50Z",
       "side": 1,
       "message": "o.O\n\nThis is cool syntax. Does this enforce the strict template checking and such that we\u0027ve been talking about for a while now?",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "406618d3_31ff7041",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:13:33Z",
+      "side": 1,
+      "message": "I think so (it passes closure compilation) though I can play around in the next change to test out if  text or something is not included.",
+      "parentUuid": "9e05c51b_48793f26",
       "range": {
         "startLine": 49,
         "startChar": 17,
@@ -102,6 +168,30 @@
       "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b08dd4_7647b927",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01d4838a_2653edb6",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

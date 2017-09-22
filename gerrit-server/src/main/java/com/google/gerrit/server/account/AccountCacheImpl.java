@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -33,8 +34,13 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -46,10 +52,10 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,8 +161,9 @@ public class AccountCacheImpl implements AccountCache {
     private final SchemaFactory<ReviewDb> schema;
     private final AllUsersName allUsersName;
     private final Accounts accounts;
+    private final Provider<GroupIndex> groupIndexProvider;
+    private final Provider<InternalGroupQuery> groupQueryProvider;
     private final GroupCache groupCache;
-    private final Groups groups;
     private final GeneralPreferencesLoader loader;
     private final Provider<WatchConfig.Accessor> watchConfig;
     private final ExternalIds externalIds;
@@ -166,16 +173,18 @@ public class AccountCacheImpl implements AccountCache {
         SchemaFactory<ReviewDb> sf,
         AllUsersName allUsersName,
         Accounts accounts,
+        GroupIndexCollection groupIndexCollection,
+        Provider<InternalGroupQuery> groupQueryProvider,
         GroupCache groupCache,
-        Groups groups,
         GeneralPreferencesLoader loader,
         Provider<WatchConfig.Accessor> watchConfig,
         ExternalIds externalIds) {
       this.schema = sf;
       this.allUsersName = allUsersName;
       this.accounts = accounts;
+      this.groupIndexProvider = groupIndexCollection::getSearchIndex;
+      this.groupQueryProvider = groupQueryProvider;
       this.groupCache = groupCache;
-      this.groups = groups;
       this.loader = loader;
       this.watchConfig = watchConfig;
       this.externalIds = externalIds;
@@ -195,13 +204,7 @@ public class AccountCacheImpl implements AccountCache {
         return Optional.empty();
       }
 
-      Set<AccountGroup.UUID> internalGroups =
-          groups
-              .getGroupsWithMember(db, who)
-              .map(groupCache::get)
-              .map(AccountGroup::getGroupUUID)
-              .filter(Objects::nonNull)
-              .collect(toImmutableSet());
+      Set<AccountGroup.UUID> internalGroups = getGroupsWithMember(db, who);
 
       try {
         account.setGeneralPreferences(loader.load(who));
@@ -217,6 +220,21 @@ public class AccountCacheImpl implements AccountCache {
               internalGroups,
               externalIds.byAccount(who),
               watchConfig.get().getProjectWatches(who)));
+    }
+
+    private ImmutableSet<AccountGroup.UUID> getGroupsWithMember(ReviewDb db, Account.Id memberId)
+        throws OrmException {
+      Stream<InternalGroup> internalGroupStream;
+      if (groupIndexProvider.get().getSchema().hasField(GroupField.MEMBER)) {
+        internalGroupStream = groupQueryProvider.get().byMember(memberId).stream();
+      } else {
+        internalGroupStream =
+            Groups.getGroupsWithMemberFromReviewDb(db, memberId)
+                .map(groupCache::get)
+                .flatMap(Streams::stream);
+      }
+
+      return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableSet());
     }
   }
 

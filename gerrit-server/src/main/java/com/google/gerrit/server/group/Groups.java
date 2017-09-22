@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -21,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -45,6 +47,29 @@ import java.util.stream.Stream;
 public class Groups {
 
   /**
+   * Returns the {@code InternalGroup} for the specified UUID if it exists.
+   *
+   * @param db the {@code ReviewDb} instance to use for lookups
+   * @param groupUuid the UUID of the group
+   * @return the found {@code InternalGroup} if it exists, or else an empty {@code Optional}
+   * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
+   * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   */
+  public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException, NoSuchGroupException {
+    Optional<AccountGroup> accountGroup = getGroupFromReviewDb(db, groupUuid);
+
+    if (!accountGroup.isPresent()) {
+      return Optional.empty();
+    }
+
+    ImmutableSet<Account.Id> members = getMembers(db, groupUuid).collect(toImmutableSet());
+    ImmutableSet<AccountGroup.UUID> subgroups =
+        getSubgroups(db, groupUuid).collect(toImmutableSet());
+    return accountGroup.map(group -> InternalGroup.create(group, members, subgroups));
+  }
+
+  /**
    * Returns the {@code AccountGroup} for the specified UUID.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
@@ -54,22 +79,10 @@ public class Groups {
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
    * @throws NoSuchGroupException if a group with such a UUID doesn't exist
    */
-  public AccountGroup getExistingGroup(ReviewDb db, AccountGroup.UUID groupUuid)
+  static AccountGroup getExistingGroupFromReviewDb(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, NoSuchGroupException {
-    Optional<AccountGroup> group = getGroup(db, groupUuid);
+    Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     return group.orElseThrow(() -> new NoSuchGroupException(groupUuid));
-  }
-
-  /**
-   * Returns the {@code AccountGroup} for the specified ID if it exists.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupId the ID of the group
-   * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   */
-  public Optional<AccountGroup> getGroup(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
-    return Optional.ofNullable(db.accountGroups().get(groupId));
   }
 
   /**
@@ -81,8 +94,8 @@ public class Groups {
    * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
    */
-  public Optional<AccountGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+  private static Optional<AccountGroup> getGroupFromReviewDb(
+      ReviewDb db, AccountGroup.UUID groupUuid) throws OrmException {
     List<AccountGroup> accountGroups = db.accountGroups().byUUID(groupUuid).toList();
     if (accountGroups.size() == 1) {
       return Optional.of(Iterables.getOnlyElement(accountGroups));
@@ -91,25 +104,6 @@ public class Groups {
     } else {
       throw new OrmDuplicateKeyException("Duplicate group UUID " + groupUuid);
     }
-  }
-
-  /**
-   * Returns the {@code AccountGroup} for the specified name if it exists.
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupName the name of the group
-   * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
-   * @throws OrmException if the group couldn't be retrieved from ReviewDb
-   */
-  public Optional<AccountGroup> getGroup(ReviewDb db, AccountGroup.NameKey groupName)
-      throws OrmException {
-    AccountGroupName accountGroupName = db.accountGroupNames().get(groupName);
-    if (accountGroupName == null) {
-      return Optional.empty();
-    }
-
-    AccountGroup.Id groupId = accountGroupName.getId();
-    return Optional.ofNullable(db.accountGroups().get(groupId));
   }
 
   public Stream<AccountGroup> getAll(ReviewDb db) throws OrmException {
@@ -130,7 +124,7 @@ public class Groups {
    */
   public boolean isMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, NoSuchGroupException {
-    AccountGroup group = getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, group.getId());
     return db.accountGroupMembers().get(key) != null;
   }
@@ -153,7 +147,7 @@ public class Groups {
   public boolean isSubgroup(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, AccountGroup.UUID subgroupUuid)
       throws OrmException, NoSuchGroupException {
-    AccountGroup parentGroup = getExistingGroup(db, parentGroupUuid);
+    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
     AccountGroupById.Key key = new AccountGroupById.Key(parentGroup.getId(), subgroupUuid);
     return db.accountGroupById().get(key) != null;
   }
@@ -171,7 +165,7 @@ public class Groups {
    */
   public Stream<Account.Id> getMembers(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, NoSuchGroupException {
-    AccountGroup group = getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     ResultSet<AccountGroupMember> accountGroupMembers =
         db.accountGroupMembers().byGroup(group.getId());
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountId);
@@ -193,7 +187,7 @@ public class Groups {
    */
   public Stream<AccountGroup.UUID> getSubgroups(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, NoSuchGroupException {
-    AccountGroup group = getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(group.getId());
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
   }
@@ -209,8 +203,8 @@ public class Groups {
    * @return a stream of the IDs of the groups of which the account is a member
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public Stream<AccountGroup.Id> getGroupsWithMember(ReviewDb db, Account.Id accountId)
-      throws OrmException {
+  public static Stream<AccountGroup.Id> getGroupsWithMemberFromReviewDb(
+      ReviewDb db, Account.Id accountId) throws OrmException {
     ResultSet<AccountGroupMember> accountGroupMembers =
         db.accountGroupMembers().byAccount(accountId);
     return Streams.stream(accountGroupMembers).map(AccountGroupMember::getAccountGroupId);
@@ -230,8 +224,8 @@ public class Groups {
    * @return a stream of the IDs of the parent groups
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
-  public Stream<AccountGroup.Id> getParentGroups(ReviewDb db, AccountGroup.UUID subgroupUuid)
-      throws OrmException {
+  public static Stream<AccountGroup.Id> getParentGroupsFromReviewDb(
+      ReviewDb db, AccountGroup.UUID subgroupUuid) throws OrmException {
     ResultSet<AccountGroupById> accountGroupByIds =
         db.accountGroupById().byIncludeUUID(subgroupUuid);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getGroupId);

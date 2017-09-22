@@ -90,7 +90,7 @@ public class CommitsCollectionTest {
     // registered user.
     // See AccountManager#create().
     accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId();
-    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID();
     setUpPermissions();
 
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.group.Groups.getExistingGroupFromReviewDb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
@@ -58,6 +59,17 @@ import org.eclipse.jgit.lib.PersonIdent;
  */
 public class GroupsUpdate {
   public interface Factory {
+    /**
+     * Creates a {@code GroupsUpdate} which uses the identity of the specified user to mark database
+     * modifications executed by it. For NoteDb, this identity is used as author and committer for
+     * all related commits.
+     *
+     * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
+     * correct annotation on the provider of a {@code GroupsUpdate} instead.
+     *
+     * @param currentUser the user to which modifications should be attributed, or {@code null} if
+     *     the Gerrit server identity should be used
+     */
     GroupsUpdate create(@Nullable IdentifiedUser currentUser);
   }
 
@@ -67,10 +79,8 @@ public class GroupsUpdate {
   private final AuditService auditService;
   private final AccountCache accountCache;
   private final RenameGroupOp.Factory renameGroupOpFactory;
-  private final PersonIdent serverIdent;
-
-  @Nullable private IdentifiedUser currentUser;
-  private PersonIdent committerIdent;
+  @Nullable private final IdentifiedUser currentUser;
+  private final PersonIdent committerIdent;
 
   @Inject
   GroupsUpdate(
@@ -88,33 +98,13 @@ public class GroupsUpdate {
     this.auditService = auditService;
     this.accountCache = accountCache;
     this.renameGroupOpFactory = renameGroupOpFactory;
-    this.serverIdent = serverIdent;
-
-    setCurrentUser(currentUser);
-  }
-
-  /**
-   * Uses the identity of the specified user to mark database modifications executed by this {@code
-   * GroupsUpdate}. For NoteDb, this identity is used as author and committer for all related
-   * commits.
-   *
-   * <p><strong>Note</strong>: Please use this method with care and rather consider to use the
-   * correct annotation on the provider of this class instead.
-   *
-   * @param currentUser the user to which modifications should be attributed, or {@code null} if the
-   *     Gerrit server identity should be used
-   */
-  public void setCurrentUser(@Nullable IdentifiedUser currentUser) {
     this.currentUser = currentUser;
-    setCommitterIdent(currentUser);
+    committerIdent = getCommitterIdent(serverIdent, currentUser);
   }
 
-  private void setCommitterIdent(@Nullable IdentifiedUser currentUser) {
-    if (currentUser != null) {
-      committerIdent = createPersonIdent(serverIdent, currentUser);
-    } else {
-      committerIdent = serverIdent;
-    }
+  private static PersonIdent getCommitterIdent(
+      PersonIdent serverIdent, @Nullable IdentifiedUser currentUser) {
+    return currentUser != null ? createPersonIdent(serverIdent, currentUser) : serverIdent;
   }
 
   private static PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -135,7 +125,7 @@ public class GroupsUpdate {
       throws OrmException, IOException {
     addNewGroup(db, group);
     addNewGroupMembers(db, group, memberIds);
-    groupCache.onCreateGroup(group.getNameKey());
+    groupCache.onCreateGroup(group);
   }
 
   /**
@@ -177,7 +167,7 @@ public class GroupsUpdate {
   public AccountGroup updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
       throws OrmException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     groupConsumer.accept(group);
     db.accountGroups().update(ImmutableList.of(group));
     return group;
@@ -196,7 +186,7 @@ public class GroupsUpdate {
    */
   public void renameGroup(ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
       throws OrmException, IOException, NameAlreadyUsedException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     AccountGroup.NameKey oldName = group.getNameKey();
 
     try {
@@ -221,8 +211,8 @@ public class GroupsUpdate {
 
     db.accountGroupNames().deleteKeys(ImmutableList.of(oldName));
 
+    groupCache.evictAfterRename(oldName);
     groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
-    groupCache.evictAfterRename(oldName, newName);
 
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
@@ -264,7 +254,7 @@ public class GroupsUpdate {
    */
   public void addGroupMembers(ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     Set<Account.Id> newMemberIds = new HashSet<>();
     for (Account.Id accountId : accountIds) {
       boolean isMember = groups.isMember(db, groupUuid, accountId);
@@ -313,7 +303,7 @@ public class GroupsUpdate {
   public void removeGroupMembers(
       ReviewDb db, AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws OrmException, IOException, NoSuchGroupException {
-    AccountGroup group = groups.getExistingGroup(db, groupUuid);
+    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
     Set<AccountGroupMember> membersToRemove = new HashSet<>();
     for (Account.Id accountId : accountIds) {
@@ -357,7 +347,7 @@ public class GroupsUpdate {
   public void addSubgroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
+    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> newSubgroups = new HashSet<>();
     for (AccountGroup.UUID includedGroupUuid : subgroupUuids) {
@@ -400,7 +390,7 @@ public class GroupsUpdate {
   public void removeSubgroups(
       ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
       throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = groups.getExistingGroup(db, parentGroupUuid);
+    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
     AccountGroup.Id parentGroupId = parentGroup.getId();
     Set<AccountGroupById> subgroupsToRemove = new HashSet<>();
     for (AccountGroup.UUID subgroupUuid : subgroupUuids) {

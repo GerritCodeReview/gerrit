@@ -58,8 +58,10 @@ limitations under the License.
   suite('gr-diff-builder tests', () => {
     let element;
     let builder;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
         getProjectConfig() { return Promise.resolve({}); },
@@ -73,6 +75,8 @@ limitations under the License.
       builder = new GrDiffBuilder(
           {content: []}, {left: [], right: []}, prefs, projectName);
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('context control buttons', () => {
       const section = {};
@@ -141,11 +145,10 @@ limitations under the License.
       const text = (new Array(52)).join('a');
 
       const line = {text, highlights: []};
-      const newLineStub = sinon.stub(builder, '_addNewlines');
+      const newLineStub = sandbox.stub(builder, '_addNewlines');
       builder._createTextEl(line);
       flush(() => {
         assert.isFalse(newLineStub.called);
-        newLineStub.restore();
         done();
       });
     });
@@ -156,12 +159,11 @@ limitations under the License.
       const text = (new Array(52)).join('a');
 
       const line = {text, highlights: []};
-      const newLineStub = sinon.stub(builder, '_addNewlines');
+      const newLineStub = sandbox.stub(builder, '_addNewlines');
       builder._createTextEl(line);
 
       flush(() => {
         assert.isTrue(newLineStub.called);
-        newLineStub.restore();
         done();
       });
     });
@@ -358,13 +360,9 @@ limitations under the License.
       setup(() => {
         el = fixture('div-with-text');
         str = el.textContent;
-        annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
+        annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
         layer = document.createElement('gr-diff-builder')
             ._createIntralineLayer();
-      });
-
-      teardown(() => {
-        annotateElementSpy.restore();
       });
 
       test('annotate no highlights', () => {
@@ -513,19 +511,13 @@ limitations under the License.
     });
 
     suite('tab indicators', () => {
-      let sandbox;
       let element;
       let layer;
 
       setup(() => {
-        sandbox = sinon.sandbox.create();
         element = fixture('basic');
         element._showTabs = true;
         layer = element._createTabIndicatorLayer();
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('does nothing with empty line', () => {
@@ -630,19 +622,13 @@ limitations under the License.
     });
 
     suite('trailing whitespace', () => {
-      let sandbox;
       let element;
       let layer;
 
       setup(() => {
-        sandbox = sinon.sandbox.create();
         element = fixture('basic');
         element._showTrailingWhitespace = true;
         layer = element._createTrailingWhitespaceLayer();
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('does nothing with empty line', () => {
@@ -733,10 +719,8 @@ limitations under the License.
     suite('rendering', () => {
       let content;
       let outputEl;
-      let sandbox;
 
       setup(done => {
-        sandbox = sinon.sandbox.create();
         const prefs = {
           line_length: 10,
           show_tabs: true,
@@ -777,10 +761,6 @@ limitations under the License.
         });
         element.diff = {content};
         element.render({left: [], right: []}, prefs).then(done);
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('reporting', done => {
@@ -828,7 +808,7 @@ limitations under the License.
       });
 
       test('render-start and render are fired', done => {
-        const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
         element.render({left: [], right: []}, {}).then(() => {
           const firedEventTypes = dispatchEventStub.getCalls()
               .map(c => { return c.args[0].type; });
@@ -929,7 +909,7 @@ limitations under the License.
       });
 
       test('_renderContentByRange', () => {
-        const spy = sinon.spy(builder, '_createTextEl');
+        const spy = sandbox.spy(builder, '_createTextEl');
         const start = 9;
         const end = 14;
         const count = end - start + 1;
@@ -940,8 +920,6 @@ limitations under the License.
         spy.getCalls().forEach((call, i) => {
           assert.equal(call.args[0].beforeNumber, start + i);
         });
-
-        spy.restore();
       });
 
       test('_getNextContentOnSide side-by-side left', () => {

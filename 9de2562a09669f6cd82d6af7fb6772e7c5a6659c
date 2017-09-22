@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65094494_1e10d724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-22T12:17:40Z",
+      "side": 1,
+      "message": "This would mean that the group cache must always be large enough to hold all groups. I would still prefer to move this functionality out of group cache.\n\nAlternatively we could use ProjectCache#all as an example and change the method signature to only return group UUIDs instead of AccountGroup instances and then cache a list of all UUIDs (similar to how the project cache caches the list of all project names). But doing this wouldn\u0027t allow filtering by owner. So this change would prevent us from doing this fix.",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

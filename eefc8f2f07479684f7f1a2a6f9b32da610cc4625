@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5646bad_e64bc9f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-22T20:53:27Z",
+      "side": 1,
+      "message": "@Becky Siegel, do you know why this does not update _refName as it does inside this function, but when i call it from the html template to disable the button if it has no pending deletion it does not work. Same goes for calling it in the dialog to tell the user what branches are being deleted.",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 6
+      },
+      "revId": "eefc8f2f07479684f7f1a2a6f9b32da610cc4625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

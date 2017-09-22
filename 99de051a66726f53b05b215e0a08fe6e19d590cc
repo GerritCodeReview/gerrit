@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7570af0_aa7efbd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:50:50Z",
+      "side": 1,
+      "message": "\"Date\" seems like a pretty specific/niche use case for this element -- could we generalize this in some way? Have you encountered the need for a date in a dropdown often?",
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0b5555_2111bee2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:50:50Z",
+      "side": 1,
+      "message": "...yikes. Good catch.",
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9021cb32_8f47bf31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:50:50Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e05c51b_48793f26",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:50:50Z",
+      "side": 1,
+      "message": "o.O\n\nThis is cool syntax. Does this enforce the strict template checking and such that we\u0027ve been talking about for a while now?",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01d4838a_2653edb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:50:50Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

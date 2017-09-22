@@ -29,7 +29,7 @@ import org.jsoup.nodes.Element;
 /** Provides functionality for parsing the HTML part of a {@link MailMessage}. */
 public class HtmlParser {
 
-  private static ImmutableList<String> MAIL_PROVIDER_EXTRAS =
+  private static final ImmutableList<String> MAIL_PROVIDER_EXTRAS =
       ImmutableList.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
           "gmail_quote" // Used for quoting original content

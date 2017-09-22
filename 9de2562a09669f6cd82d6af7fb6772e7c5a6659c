@@ -70,6 +70,30 @@
       "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b60b837_5abb7c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-22T13:55:06Z",
+      "side": 1,
+      "message": "My solution was similar. I integrated your changes and created the follow-up change Ieaab464e5a for anything I did in addition.",
+      "parentUuid": "81779c6c_62d59e45",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

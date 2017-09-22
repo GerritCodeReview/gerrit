@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef374217_5e968c8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-22T20:34:29Z",
+      "side": 1,
+      "message": "I found a bug: the buttons still show up on the left if the thread has been marked as resolved.\n\nMaybe this is related to the way that the \"Unresolved\" text does not appear in that case.",
+      "revId": "05a3369d1fd347fd4b25dcb47ec735dae8dae58d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

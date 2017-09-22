@@ -107,7 +107,7 @@ limitations under the License.
         font-family: var(--font-family-bold);
       }
       .show-hide {
-        margin-left: .4em;
+        width: 1em;
       }
       .fileListButton {
         margin: .5em;
@@ -153,6 +153,11 @@ limitations under the License.
       .expandInline {
         padding-right: .25em;
       }
+      .reviewed {
+        margin-left: .4em;
+        justify-content: flex-end;
+        width: 2em;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -194,13 +199,14 @@ limitations under the License.
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
         <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
-          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
-            <input
-                type="checkbox"
-                checked="[[file.isReviewed]]"
-                class="reviewed"
-                aria-label="Reviewed checkbox"
-                title="Mark as reviewed (shortcut: r)">
+          <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
+            <label class="show-hide" data-path$="[[file.__path]]"
+                data-expand=true>
+              <input type="checkbox" class="show-hide"
+                  checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                  data-path$="[[file.__path]]" data-expand=true>
+              [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
+            </label>
           </div>
           <div class$="[[_computeClass('status', file.__path)]]"
               tabindex="0"
@@ -261,14 +267,13 @@ limitations under the License.
               [[_formatPercentage(file.size, file.size_delta)]]
             </span>
           </div>
-          <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
-            <label class="show-hide" data-path$="[[file.__path]]"
-                data-expand=true>
-              <input type="checkbox" class="show-hide"
-                  checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                  data-path$="[[file.__path]]" data-expand=true>
-              [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
-            </label>
+          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
+            <input
+                type="checkbox"
+                checked="[[file.isReviewed]]"
+                class="reviewed"
+                aria-label="Reviewed checkbox"
+                title="Mark as reviewed (shortcut: r)">
           </div>
         </div>
         <template is="dom-if"

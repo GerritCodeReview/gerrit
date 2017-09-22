@@ -720,7 +720,7 @@
     },
 
     _computeShowHideText(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
+      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '▶';
     },
 
     _computeFilesShown(numFilesShown, files) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4f3dd62_eda38f5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f97be279_a8750ef5",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e00b994_042f4c58",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "41f02886_720efeb6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:39:41Z",
+      "side": 1,
+      "message": "Yeah, I investigated the history of this change and it was previously called without forceParams, but replaced with a Gerrit.Nav call. so it can be removed. thanks for pointing this out!\n\nIn fact, it seems this whole function can really be removed since without the forceParams, it simply calls Gerrit.Nav.navigateToChange",
+      "parentUuid": "8e00b994_042f4c58",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80a9e8ff_28c48a02",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 9
@@ -50,6 +86,24 @@
       "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a6392e_b0d25cb8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-22T20:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80a9e8ff_28c48a02",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

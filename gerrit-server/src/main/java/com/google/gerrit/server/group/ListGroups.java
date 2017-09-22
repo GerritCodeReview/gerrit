@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
@@ -88,6 +89,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String matchRegex;
   private String suggest;
+  private String ownedBy;
 
   @Option(
     name = "--project",
@@ -209,6 +211,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
+  @Option(name = "--owned-by", usage = "list groups owned by the given group uuid")
+  public void setOwnedBy(String ownedBy) {
+    this.ownedBy = ownedBy;
+  }
+
   @Inject
   protected ListGroups(
       final GroupCache groupCache,
@@ -263,6 +270,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
     if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
       throw new BadRequestException("Specify one of m/r");
+    }
+
+    if (ownedBy != null) {
+      return getGroupsOwnedBy(ownedBy);
     }
 
     if (owned) {
@@ -364,14 +375,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return false;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+  private List<GroupInfo> filterGroupsOwnedBy(Predicate<GroupDescription.Internal> filter)
+      throws OrmException {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> foundGroups =
         groups
             .getAll(db.get())
             .map(GroupDescriptions::forAccountGroup)
             .filter(group -> !isNotRelevant(pattern, group))
-            .filter(group -> isOwner(user, group))
+            .filter(filter)
             .sorted(GROUP_COMPARATOR)
             .skip(start);
     if (limit > 0) {
@@ -383,6 +395,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       groupInfos.add(json.addOptions(options).format(group));
     }
     return groupInfos;
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(String uuid) throws OrmException {
+    return filterGroupsOwnedBy(group -> group.getOwnerGroupUUID().get().equals(uuid));
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+    return filterGroupsOwnedBy(group -> isOwner(user, group));
   }
 
   private boolean isOwner(CurrentUser user, GroupDescription.Internal group) {

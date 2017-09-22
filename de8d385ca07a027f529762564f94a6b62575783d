@@ -99,6 +99,24 @@
       "revId": "de8d385ca07a027f529762564f94a6b62575783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c053aec_2831c368",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:43:43Z",
+      "side": 1,
+      "message": "(on second thought, maybe not in a behavior -- just in some plain JS util file)",
+      "parentUuid": "24062013_b6d1ef0b",
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

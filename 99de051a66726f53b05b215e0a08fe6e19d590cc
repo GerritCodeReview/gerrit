@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1f0b3308_44b36715",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:46:36Z",
+      "side": 1,
+      "message": "I see your point.\n\nWhat other cases do you foresee us using this element? Would it be good to replace everywhere a \u003cselect\u003e is used with this?",
+      "parentUuid": "743a28b6_08ef5f9c",
+      "revId": "99de051a66726f53b05b215e0a08fe6e19d590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f0b5555_2111bee2",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.html",
         "patchSetId": 11

@@ -131,6 +131,10 @@ class GroupsImpl implements Groups {
 
     list.setVisibleToAll(req.getVisibleToAll());
 
+    if (req.getOwnedBy() != null) {
+      list.setOwnedBy(req.getOwnedBy());
+    }
+
     if (req.getUser() != null) {
       try {
         list.setUser(accounts.parse(req.getUser()).getAccountId());

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f97be279_a8750ef5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:00:18Z",
+      "side": 1,
+      "message": "Nit: weird wrapping on this comment.",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e00b994_042f4c58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:00:18Z",
+      "side": 1,
+      "message": "Is there any reason to not just always forceParams?",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80a9e8ff_28c48a02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T20:00:18Z",
+      "side": 1,
+      "message": "Nit: weird comment wrapping.",
+      "revId": "eea86a9d45b1a479bfcf32e4167efde8060bf2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

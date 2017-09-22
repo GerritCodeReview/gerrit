@@ -198,8 +198,8 @@ limitations under the License.
         width: 100%;
       }
       #deleteBtn {
+        color: #666;
         display: none;
-        margin-top: .5em;
       }
       #deleteBtn.showDeleteButtons {
         display: block;
@@ -222,6 +222,13 @@ limitations under the License.
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
         </div>
+        <gr-button
+            id="deleteBtn"
+            link
+            class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
+            on-tap="_handleCommentDelete">
+          (Delete)
+        </gr-button>
         <a class="date" href$="[[_computeLinkToComment(comment)]]" on-tap="_handleLinkTap">
           <gr-date-formatter
               has-tooltip
@@ -283,12 +290,6 @@ limitations under the License.
               on-tap="_handleCancel" hidden>Cancel</gr-button>
           <gr-button class="action discard hideOnPublished"
               on-tap="_handleDiscard">Discard</gr-button>
-          <gr-button
-              id="deleteBtn"
-              class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
-              on-tap="_handleCommentDelete">
-            Delete
-          </gr-button>
         </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">

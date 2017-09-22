@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d51fbaea_b1d30e52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-22T14:27:00Z",
+      "side": 0,
+      "message": "Maybe just make this method private? It looks like there are still several places that need a ChangeControl and with the new code it can happen that ChangeControl is instantiated multiple times.",
+      "range": {
+        "startLine": 604,
+        "startChar": 2,
+        "endLine": 614,
+        "endChar": 3
+      },
+      "revId": "c16cf4771a8dbb4d2078450ae753d801b4e6b342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

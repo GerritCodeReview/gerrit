@@ -45,6 +45,40 @@
       "revId": "376d37010775dca07700dd9875d4c3c77b734d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3244684d_dfaa897a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-22T14:27:00Z",
+      "side": 1,
+      "message": "Maybe better instantiate ChangeControl only once and pass it as parameter into the messages, revisions and makeFetchMap methods.",
+      "revId": "376d37010775dca07700dd9875d4c3c77b734d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba34b531_3d2fb90b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-22T14:27:00Z",
+      "side": 1,
+      "message": "Do we still need both, Factory and AssistedFactory? It looks like Factory only delegates to AssistedFactory. Maybe this can be addressed in a follow-up change.",
+      "revId": "376d37010775dca07700dd9875d4c3c77b734d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

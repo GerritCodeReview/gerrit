@@ -22,6 +22,30 @@
       "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d72674d_d9dc9e93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-22T12:34:49Z",
+      "side": 1,
+      "message": "Actually, improving/removing GroupCache#all (and switching to streams) is still an open task on my list. I started with it locally but then postponed it for the moment. Please don\u0027t fiddle with that code (or other group related code) at the moment. You would only make my efforts to move groups to NoteDb more difficult. I can offer to take care of GroupCache#all right now if that\u0027s better for you.",
+      "parentUuid": "65094494_1e10d724",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

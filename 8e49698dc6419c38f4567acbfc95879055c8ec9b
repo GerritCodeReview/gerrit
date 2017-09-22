@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a98d1997_ef03160a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-22T17:04:39Z",
+      "side": 1,
+      "message": "May be swap the order here?. Download is used more often than \"Included In\", I think.",
+      "revId": "8e49698dc6419c38f4567acbfc95879055c8ec9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

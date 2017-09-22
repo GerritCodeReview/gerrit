@@ -30,6 +30,7 @@ limitations under the License.
         white-space: normal;
       }
       #actions {
+        margin-left: auto;
         padding: .5em .7em;
       }
       #container {
@@ -41,11 +42,10 @@ limitations under the License.
       #commentInfoContainer {
         border-top: 1px dotted #bbb;
         display: flex;
-        justify-content: space-between;
       }
       #unresolvedLabel {
         font-family: var(--font-family);
-        margin: auto 0 auto auto;
+        margin: auto 0;
         padding: .5em .7em;
       }
     </style>
@@ -67,6 +67,7 @@ limitations under the License.
       </template>
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
+        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
         <div id="actions">
           <gr-button id="replyBtn" class="action reply"
               on-tap="_handleCommentReply">Reply</gr-button>
@@ -77,7 +78,6 @@ limitations under the License.
           <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
             Done</gr-button>
         </div>
-        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

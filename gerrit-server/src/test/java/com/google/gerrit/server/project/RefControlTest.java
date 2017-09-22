@@ -102,10 +102,6 @@ public class RefControlTest {
     assertThat(u.isOwner()).named("not owner").isFalse();
   }
 
-  private void assertOwnerAnyRef(ProjectControl u) {
-    assertThat(u.isOwnerAnyRef()).named("owns ref").isTrue();
-  }
-
   private void assertNotOwner(String ref, ProjectControl u) {
     assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
@@ -356,7 +352,6 @@ public class RefControlTest {
 
     ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
-    assertOwnerAnyRef(uDev);
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -375,7 +370,6 @@ public class RefControlTest {
 
     ProjectControl uDev = user(local, DEVS);
     assertNotOwner(uDev);
-    assertOwnerAnyRef(uDev);
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
@@ -385,7 +379,6 @@ public class RefControlTest {
 
     ProjectControl uFix = user(local, fixers);
     assertNotOwner(uFix);
-    assertOwnerAnyRef(uFix);
 
     assertOwner("refs/heads/x/y/*", uFix);
     assertOwner("refs/heads/x/y/bar", uFix);

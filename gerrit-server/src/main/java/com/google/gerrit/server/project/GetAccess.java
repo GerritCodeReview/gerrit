@@ -220,7 +220,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
       }
     }
 
-    if (info.ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
+    if (info.ownerOf.isEmpty() && pc.isOwner()) {
       // Special case: If the section list is empty, this project has no current
       // access control information. Rely on what ProjectControl determines
       // is ownership, which probably means falling back to site administrators.

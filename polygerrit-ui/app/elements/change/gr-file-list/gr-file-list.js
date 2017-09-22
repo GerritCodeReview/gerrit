@@ -59,7 +59,10 @@
         notify: true,
         observer: '_updateDiffPreferences',
       },
-      editLoaded: Boolean,
+      editLoaded: {
+        type: Boolean,
+        observer: '_editLoadedChanged',
+      },
       _files: {
         type: Array,
         observer: '_filesChanged',
@@ -424,9 +427,8 @@
         row = row.parentElement;
       }
       const path = row.dataset.path;
-
       // Handle checkbox mark as reviewed.
-      if (e.target.classList.contains('reviewed')) {
+      if (e.target.classList.contains('markReviewed')) {
         return this._reviewFile(path);
       }
 
@@ -720,7 +722,7 @@
     },
 
     _computeShowHideText(path, expandedFilesRecord) {
-      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
+      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '▶';
     },
 
     _computeFilesShown(numFilesShown, files) {
@@ -910,8 +912,16 @@
       }, LOADING_DEBOUNCE_INTERVAL);
     },
 
-    _computeContainerClass(editLoaded) {
-      return editLoaded ? 'editLoaded' : '';
+    _editLoadedChanged(editLoaded) {
+      this.classList.toggle('editLoaded', editLoaded);
+    },
+
+    _computeReviewedClass(isReviewed) {
+      return isReviewed ? 'isReviewed' : '';
+    },
+
+    _computeReviewedText(isReviewed) {
+      return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
     },
   });
 })();

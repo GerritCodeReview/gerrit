@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ee3237a_8edc585c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-22T23:41:40Z",
+      "side": 1,
+      "message": "Is this needed? I don\u0027t see what\u0027s using this.",
+      "revId": "5444bad21a8fe8aa7ab772ba3ad16cbf5e3c6ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

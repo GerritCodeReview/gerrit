@@ -512,6 +512,27 @@ public class ProjectState {
     return theme;
   }
 
+  public Set<GroupReference> getAllGroups() {
+    return getGroups(getAllSections());
+  }
+
+  public Set<GroupReference> getLocalGroups() {
+    return getGroups(getLocalAccessSections());
+  }
+
+  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
+    final Set<GroupReference> all = new HashSet<>();
+    for (SectionMatcher matcher : sectionMatcherList) {
+      final AccessSection section = matcher.section;
+      for (Permission permission : section.getPermissions()) {
+        for (PermissionRule rule : permission.getRules()) {
+          all.add(rule.getGroup());
+        }
+      }
+    }
+    return all;
+  }
+
   private ThemeInfo loadTheme() {
     String name = getConfig().getProject().getName();
     Path dir = sitePaths.themes_dir.resolve(name);

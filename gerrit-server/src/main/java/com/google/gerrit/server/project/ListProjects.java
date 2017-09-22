@@ -357,7 +357,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         final ProjectControl pctl = e.controlFor(currentUser);
         if (groupUuid != null
-            && !pctl.getLocalGroups()
+            && !pctl.getProjectState()
+                .getLocalGroups()
                 .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
           continue;
         }

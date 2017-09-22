@@ -275,7 +275,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (!projects.isEmpty()) {
       Map<AccountGroup.UUID, GroupDescription.Internal> groups = new HashMap<>();
       for (ProjectControl projectControl : projects) {
-        final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
+        final Set<GroupReference> groupsRefs = projectControl.getProjectState().getAllGroups();
         for (GroupReference groupRef : groupsRefs) {
           Optional<InternalGroup> internalGroup = groupCache.get(groupRef.getUUID());
           internalGroup.ifPresent(

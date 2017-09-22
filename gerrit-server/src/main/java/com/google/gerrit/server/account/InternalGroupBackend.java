@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -29,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.Collections;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
@@ -75,16 +75,21 @@ public class InternalGroupBackend implements GroupBackend {
     try {
       return groups
           .getAll(db.get())
-          .filter(
-              group ->
-                  // startsWithIgnoreCase && isVisible
-                  group.getName().regionMatches(true, 0, name, 0, name.length())
-                      && groupControlFactory.controlFor(group).isVisible())
+          .filter(group -> startsWithIgnoreCase(group, name))
+          .filter(this::isVisible)
           .map(GroupReference::forGroup)
           .collect(toList());
     } catch (OrmException e) {
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
+  }
+
+  private static boolean startsWithIgnoreCase(AccountGroup group, String name) {
+    return group.getName().regionMatches(true, 0, name, 0, name.length());
+  }
+
+  private boolean isVisible(AccountGroup group) {
+    return groupControlFactory.controlFor(group).isVisible();
   }
 
   @Override

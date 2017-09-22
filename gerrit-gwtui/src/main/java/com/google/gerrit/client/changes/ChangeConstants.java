@@ -43,6 +43,8 @@ public interface ChangeConstants extends Constants {
 
   String unknownDashboardTitle();
 
+  String workInProgress();
+
   String incomingReviews();
 
   String outgoingReviews();

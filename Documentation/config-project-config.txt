@@ -326,6 +326,8 @@ reviewers and CCs by email.
 A boolean indicating if reviewers and CCs that do not currently have a Gerrit
 account can be added to a change by providing their email address.
 
+This setting only takes affect for changes that are readable by anonymous users.
+
 Default is `INHERIT`, which means that this property is inherited from
 the parent project. If the property is not set in any parent project, the
 default value is `FALSE`.

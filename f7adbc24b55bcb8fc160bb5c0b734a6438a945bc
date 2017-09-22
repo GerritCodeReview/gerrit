@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45d751a6_051737c7",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-22T14:17:21Z",
+      "side": 1,
+      "message": "I am not a fan of providing \u0027groups\u0027 as a protected field. It might easily clash with variables named \u0027groups\u0027 in real tests.",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

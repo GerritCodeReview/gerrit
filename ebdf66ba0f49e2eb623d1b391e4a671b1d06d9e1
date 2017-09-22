@@ -166,6 +166,30 @@
       "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2be7c84_5caf4c86",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 70
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-22T21:24:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "600e0a6b_82445fa5",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "ebdf66ba0f49e2eb623d1b391e4a671b1d06d9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

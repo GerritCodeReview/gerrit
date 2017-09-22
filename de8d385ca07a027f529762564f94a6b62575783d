@@ -81,6 +81,24 @@
       "revId": "de8d385ca07a027f529762564f94a6b62575783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24062013_b6d1ef0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-22T16:42:44Z",
+      "side": 1,
+      "message": "Hmm...\n\nI\u0027m wondering why this entire element needs to exist, when all it really is is the _computeDisplayText function. Tooltips will (at least in theory) never need to be truncated, so why couldn\u0027t this function just exist in a behavior? Something like...\n\n  maybeTruncateText(text, limit) {\n    if (text.length \u003e limit) {\n      return text.substr(0, limit - 1) + \u0027…\u0027;\n    }\n    return text;\n  }\n\n..., and then we put tooltips on things as needed within those elements themselves.",
+      "parentUuid": "227987e7_ef18598c",
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

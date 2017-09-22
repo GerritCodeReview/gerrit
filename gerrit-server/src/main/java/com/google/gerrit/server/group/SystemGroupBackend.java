@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -45,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -211,29 +211,42 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       if (configuredNames.isEmpty()) {
         return;
       }
-      List<AccountGroup> allGroups;
+
+      Optional<AccountGroup> conflictingGroup;
       try {
-        allGroups = groups.getAll(db.get()).collect(toList());
-      } catch (OrmException e) {
+        conflictingGroup =
+            groups
+                .getAll(db.get())
+                .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
+                .findAny();
+
+      } catch (OrmException ignored) {
         return;
       }
-      for (AccountGroup g : allGroups) {
-        String name = g.getName().toLowerCase(Locale.US);
-        if (byLowerCaseConfiguredName.keySet().contains(name)) {
-          AccountGroup.UUID uuidSystemGroup = byLowerCaseConfiguredName.get(name);
-          throw new StartupException(
-              String.format(
-                  "The configured name '%s' for system group '%s' is ambiguous"
-                      + " with the name '%s' of existing group '%s'."
-                      + " Please remove/change the value for groups.%s.name in"
-                      + " gerrit.config.",
-                  configuredNames.get(uuidSystemGroup),
-                  uuidSystemGroup.get(),
-                  g.getName(),
-                  g.getGroupUUID().get(),
-                  uuidSystemGroup.get()));
-        }
+
+      if (conflictingGroup.isPresent()) {
+        AccountGroup group = conflictingGroup.get();
+        String groupName = group.getName();
+        AccountGroup.UUID systemGroupUuid = byLowerCaseConfiguredName.get(groupName);
+        throw new StartupException(
+            getAmbiguousNameMessage(groupName, group.getGroupUUID(), systemGroupUuid));
       }
+    }
+
+    private static boolean hasConfiguredName(
+        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, AccountGroup group) {
+      String name = group.getName().toLowerCase(Locale.US);
+      return byLowerCaseConfiguredName.keySet().contains(name);
+    }
+
+    private static String getAmbiguousNameMessage(
+        String groupName, AccountGroup.UUID groupUuid, AccountGroup.UUID systemGroupUuid) {
+      return String.format(
+          "The configured name '%s' for system group '%s' is ambiguous"
+              + " with the name '%s' of existing group '%s'."
+              + " Please remove/change the value for groups.%s.name in"
+              + " gerrit.config.",
+          groupName, systemGroupUuid.get(), groupName, groupUuid.get(), systemGroupUuid.get());
     }
   }
 }

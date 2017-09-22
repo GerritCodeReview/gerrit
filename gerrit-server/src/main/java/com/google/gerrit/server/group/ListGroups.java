@@ -18,9 +18,9 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
@@ -48,16 +49,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
@@ -277,35 +276,36 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getAllGroups() throws OrmException {
-    List<GroupInfo> groupInfos;
-    List<GroupDescription.Internal> groupList;
-    if (!projects.isEmpty()) {
-      Map<AccountGroup.UUID, GroupDescription.Internal> groups = new HashMap<>();
-      for (ProjectControl projectControl : projects) {
-        final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
-        for (GroupReference groupRef : groupsRefs) {
-          Optional<InternalGroup> internalGroup = groupCache.get(groupRef.getUUID());
-          internalGroup.ifPresent(
-              group -> groups.put(group.getGroupUUID(), new InternalGroupDescription(group)));
-        }
-      }
-      groupList = filterGroups(groups.values());
-    } else {
-      groupList = filterGroups(getAllExistingInternalGroups());
+    Pattern pattern = getRegexPattern();
+    Stream<GroupDescription.Internal> existingGroups =
+        getAllExistingGroups()
+            .filter(group -> !isNotRelevant(pattern, group))
+            .sorted(GROUP_COMPARATOR)
+            .skip(start);
+    if (limit > 0) {
+      existingGroups = existingGroups.limit(limit);
     }
-    groupInfos = Lists.newArrayListWithCapacity(groupList.size());
-    int found = 0;
-    int foundIndex = 0;
-    for (GroupDescription.Internal group : groupList) {
-      if (foundIndex++ < start) {
-        continue;
-      }
-      if (limit > 0 && ++found > limit) {
-        break;
-      }
+    List<GroupDescription.Internal> relevantGroups = existingGroups.collect(toImmutableList());
+    List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(relevantGroups.size());
+    for (GroupDescription.Internal group : relevantGroups) {
       groupInfos.add(json.addOptions(options).format(group));
     }
     return groupInfos;
+  }
+
+  private Stream<GroupDescription.Internal> getAllExistingGroups() throws OrmException {
+    if (!projects.isEmpty()) {
+      return projects
+          .stream()
+          .map(ProjectControl::getAllGroups)
+          .flatMap(Collection::stream)
+          .map(GroupReference::getUUID)
+          .distinct()
+          .map(groupCache::get)
+          .flatMap(Streams::stream)
+          .map(InternalGroupDescription::new);
+    }
+    return groups.getAll(db.get()).map(GroupDescriptions::forAccountGroup);
   }
 
   private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
@@ -363,69 +363,56 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
-    List<GroupInfo> groups = new ArrayList<>();
-    int found = 0;
-    int foundIndex = 0;
-    for (GroupDescription.Internal g : filterGroups(getAllExistingInternalGroups())) {
-      GroupControl ctl = groupControlFactory.controlFor(g);
-      try {
-        if (genericGroupControlFactory.controlFor(user, g.getGroupUUID()).isOwner()) {
-          if (foundIndex++ < start) {
-            continue;
-          }
-          if (limit > 0 && ++found > limit) {
-            break;
-          }
-          groups.add(json.addOptions(options).format(ctl.getGroup()));
-        }
-      } catch (NoSuchGroupException e) {
-        continue;
-      }
+    Pattern pattern = getRegexPattern();
+    Stream<GroupDescription.Internal> foundGroups =
+        groups
+            .getAll(db.get())
+            .map(GroupDescriptions::forAccountGroup)
+            .filter(group -> !isNotRelevant(pattern, group))
+            .filter(group -> isOwner(user, group))
+            .sorted(GROUP_COMPARATOR)
+            .skip(start);
+    if (limit > 0) {
+      foundGroups = foundGroups.limit(limit);
     }
-    return groups;
+    List<GroupDescription.Internal> ownedGroups = foundGroups.collect(toImmutableList());
+    List<GroupInfo> groupInfos = new ArrayList<>(ownedGroups.size());
+    for (GroupDescription.Internal group : ownedGroups) {
+      groupInfos.add(json.addOptions(options).format(group));
+    }
+    return groupInfos;
   }
 
-  private ImmutableList<GroupDescription.Internal> getAllExistingInternalGroups() {
+  private boolean isOwner(CurrentUser user, GroupDescription.Internal group) {
     try {
-      return groups
-          .getAll(db.get())
-          .map(GroupDescriptions::forAccountGroup)
-          .collect(toImmutableList());
-    } catch (OrmException e) {
-      return ImmutableList.of();
+      return genericGroupControlFactory.controlFor(user, group.getGroupUUID()).isOwner();
+    } catch (NoSuchGroupException e) {
+      return false;
     }
   }
 
-  private List<GroupDescription.Internal> filterGroups(
-      Collection<GroupDescription.Internal> groups) {
-    List<GroupDescription.Internal> filteredGroups = new ArrayList<>(groups.size());
-    Pattern pattern = Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
-    for (GroupDescription.Internal group : groups) {
-      if (!Strings.isNullOrEmpty(matchSubstring)) {
-        if (!group
-            .getName()
-            .toLowerCase(Locale.US)
-            .contains(matchSubstring.toLowerCase(Locale.US))) {
-          continue;
-        }
-      } else if (pattern != null) {
-        if (!pattern.matcher(group.getName()).matches()) {
-          continue;
-        }
-      }
-      if (visibleToAll && !group.isVisibleToAll()) {
-        continue;
-      }
-      if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
-        continue;
-      }
+  private Pattern getRegexPattern() {
+    return Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
+  }
 
-      GroupControl c = groupControlFactory.controlFor(group);
-      if (c.isVisible()) {
-        filteredGroups.add(group);
+  private boolean isNotRelevant(Pattern pattern, GroupDescription.Internal group) {
+    if (!Strings.isNullOrEmpty(matchSubstring)) {
+      if (!group.getName().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US))) {
+        return true;
+      }
+    } else if (pattern != null) {
+      if (!pattern.matcher(group.getName()).matches()) {
+        return true;
       }
     }
-    filteredGroups.sort(GROUP_COMPARATOR);
-    return filteredGroups;
+    if (visibleToAll && !group.isVisibleToAll()) {
+      return true;
+    }
+    if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
+      return true;
+    }
+
+    GroupControl c = groupControlFactory.controlFor(group);
+    return !c.isVisible();
   }
 }

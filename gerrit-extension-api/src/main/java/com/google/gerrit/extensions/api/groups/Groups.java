@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,6 +81,7 @@ public interface Groups {
     private String substring;
     private String suggest;
     private String regex;
+    private AccountGroup.UUID ownedBy;
 
     public List<GroupInfo> get() throws RestApiException {
       Map<String, GroupInfo> map = getAsMap();
@@ -160,6 +162,11 @@ public interface Groups {
       return this;
     }
 
+    public ListRequest withOwnedBy(AccountGroup.UUID ownedBy) {
+      this.ownedBy = ownedBy;
+      return this;
+    }
+
     public EnumSet<ListGroupsOption> getOptions() {
       return options;
     }
@@ -202,6 +209,10 @@ public interface Groups {
 
     public String getSuggest() {
       return suggest;
+    }
+
+    public AccountGroup.UUID getOwnedBy() {
+      return ownedBy;
     }
   }
 

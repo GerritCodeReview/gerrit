@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
@@ -151,14 +152,29 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
-  @Override
-  public ImmutableList<AccountGroup> all() {
+  private ImmutableList<AccountGroup> all(@Nullable AccountGroup.UUID owner) {
     try (ReviewDb db = schema.open()) {
+      if (owner != null) {
+        return groups
+            .getAll(db)
+            .filter(g -> g.getOwnerGroupUUID().get().equals(owner.get()))
+            .collect(toImmutableList());
+      }
       return groups.getAll(db).collect(toImmutableList());
     } catch (OrmException e) {
       log.warn("Cannot list internal groups", e);
       return ImmutableList.of();
     }
+  }
+
+  @Override
+  public ImmutableList<AccountGroup> all() {
+    return all(null);
+  }
+
+  @Override
+  public ImmutableList<AccountGroup> ownedBy(AccountGroup.UUID owner) {
+    return all(owner);
   }
 
   @Override

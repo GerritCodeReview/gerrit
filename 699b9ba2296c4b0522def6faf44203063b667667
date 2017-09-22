@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4beb89d_df1fd66f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 82
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-22T05:57:38Z",
+      "side": 0,
+      "message": "May be restore @Test annotation? Otherwise, Error Prone reporting this breakage:\n\n  CreateChangeIT.java:139: error: [JUnit4TestNotRun] This looks like a test method but is not run; please add @Test or @Ignore, or, if this is a helper method, reduce its visibility.\n  public void createNewPrivateChange() throws Exception {\n              ^\n    (see http://errorprone.info/bugpattern/JUnit4TestNotRun)",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 7
+      },
+      "revId": "699b9ba2296c4b0522def6faf44203063b667667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -89,10 +89,15 @@ limitations under the License.
       }
       .actions {
         display: flex;
+        justify-content: flex-end;
         padding-top: 0;
       }
       .action {
-        margin-right: .5em;
+        margin-left: .5em;
+      }
+      .rightActions {
+        display: flex;
+        justify-content: flex-end;
       }
       .editMessage {
         display: none;
@@ -180,7 +185,7 @@ limitations under the License.
         align-items: center;
         display: flex;
         flex: 1;
-        justify-content: flex-end;
+        margin: 0;
       }
       .resolve label {
         color: #333;
@@ -258,14 +263,6 @@ limitations under the License.
         </div>
       </div>
       <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
-        <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
-            Edit</gr-button>
-        <gr-button class="action save hideOnPublished" on-tap="_handleSave"
-            disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
-        <gr-button class="action cancel hideOnPublished"
-            on-tap="_handleCancel" hidden>Cancel</gr-button>
-        <gr-button class="action discard hideOnPublished"
-            on-tap="_handleDiscard">Discard</gr-button>
         <div class="action resolve hideOnPublished">
           <label>
             <input type="checkbox"
@@ -277,12 +274,22 @@ limitations under the License.
         <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
           Unresolved
         </div>
-        <gr-button
-            id="deleteBtn"
-            class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
-            on-tap="_handleCommentDelete">
-          Delete
-        </gr-button>
+        <div class="rightActions">
+          <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
+              Edit</gr-button>
+          <gr-button class="action save hideOnPublished" on-tap="_handleSave"
+              disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
+          <gr-button class="action cancel hideOnPublished"
+              on-tap="_handleCancel" hidden>Cancel</gr-button>
+          <gr-button class="action discard hideOnPublished"
+              on-tap="_handleDiscard">Discard</gr-button>
+          <gr-button
+              id="deleteBtn"
+              class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
+              on-tap="_handleCommentDelete">
+            Delete
+          </gr-button>
+        </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
         <gr-button class="action fix"

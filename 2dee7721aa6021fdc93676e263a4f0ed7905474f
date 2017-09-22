@@ -22,6 +22,30 @@
       "revId": "2dee7721aa6021fdc93676e263a4f0ed7905474f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681e0f40_91f9f251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-22T12:08:52Z",
+      "side": 0,
+      "message": "I addressed this in the commit message of the next patch set.",
+      "parentUuid": "f7b0de60_f5858e16",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 3
+      },
+      "revId": "2dee7721aa6021fdc93676e263a4f0ed7905474f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

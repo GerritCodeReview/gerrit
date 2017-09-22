@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GetGroups;
@@ -75,6 +76,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GetGroups accountGetGroups;
   private final GroupJson json;
   private final GroupBackend groupBackend;
+  private final Groups groups;
+  private final Provider<ReviewDb> db;
 
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
@@ -215,7 +218,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final IdentifiedUser.GenericFactory userFactory,
       final GetGroups accountGetGroups,
       GroupJson json,
-      GroupBackend groupBackend) {
+      GroupBackend groupBackend,
+      Groups groups,
+      Provider<ReviewDb> db) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
@@ -224,6 +229,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.accountGetGroups = accountGetGroups;
     this.json = json;
     this.groupBackend = groupBackend;
+    this.groups = groups;
+    this.db = db;
   }
 
   public void setOptions(EnumSet<ListGroupsOption> options) {
@@ -379,11 +386,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private ImmutableList<GroupDescription.Internal> getAllExistingInternalGroups() {
-    return groupCache
-        .all()
-        .stream()
-        .map(GroupDescriptions::forAccountGroup)
-        .collect(toImmutableList());
+    try {
+      return groups
+          .getAll(db.get())
+          .map(GroupDescriptions::forAccountGroup)
+          .collect(toImmutableList());
+    } catch (OrmException e) {
+      return ImmutableList.of();
+    }
   }
 
   private List<GroupDescription.Internal> filterGroups(

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import java.io.IOException;
@@ -48,9 +47,6 @@ public interface GroupCache {
    *     group with this UUID exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
-
-  /** @return sorted list of groups. */
-  ImmutableList<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
   void onCreateGroup(AccountGroup group) throws IOException;

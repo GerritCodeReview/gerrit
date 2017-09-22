@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
@@ -26,7 +23,6 @@ import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -71,24 +67,18 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId;
   private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<InternalGroup>> byUUID;
-  private final SchemaFactory<ReviewDb> schema;
   private final Provider<GroupIndexer> indexer;
-  private final Groups groups;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<InternalGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
-      SchemaFactory<ReviewDb> schema,
-      Provider<GroupIndexer> indexer,
-      Groups groups) {
+      Provider<GroupIndexer> indexer) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
-    this.schema = schema;
     this.indexer = indexer;
-    this.groups = groups;
   }
 
   @Override
@@ -148,16 +138,6 @@ public class GroupCacheImpl implements GroupCache {
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
       return Optional.empty();
-    }
-  }
-
-  @Override
-  public ImmutableList<AccountGroup> all() {
-    try (ReviewDb db = schema.open()) {
-      return groups.getAll(db).collect(toImmutableList());
-    } catch (OrmException e) {
-      log.warn("Cannot list internal groups", e);
-      return ImmutableList.of();
     }
   }
 

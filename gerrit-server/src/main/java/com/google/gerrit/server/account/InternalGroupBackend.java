@@ -19,12 +19,17 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.Collections;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
@@ -32,15 +37,21 @@ import org.eclipse.jgit.lib.ObjectId;
 public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
+  private final Groups groups;
+  private final Provider<ReviewDb> db;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   InternalGroupBackend(
       GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
+      Groups groups,
+      Provider<ReviewDb> db,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
+    this.groups = groups;
+    this.db = db;
     this.groupMembershipFactory = groupMembershipFactory;
   }
 
@@ -61,16 +72,19 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    return groupCache
-        .all()
-        .stream()
-        .filter(
-            group ->
-                // startsWithIgnoreCase && isVisible
-                group.getName().regionMatches(true, 0, name, 0, name.length())
-                    && groupControlFactory.controlFor(group).isVisible())
-        .map(GroupReference::forGroup)
-        .collect(toList());
+    try {
+      return groups
+          .getAll(db.get())
+          .filter(
+              group ->
+                  // startsWithIgnoreCase && isVisible
+                  group.getName().regionMatches(true, 0, name, 0, name.length())
+                      && groupControlFactory.controlFor(group).isVisible())
+          .map(GroupReference::forGroup)
+          .collect(toList());
+    } catch (OrmException e) {
+      return Collections.emptyList();
+    }
   }
 
   @Override

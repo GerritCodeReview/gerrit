@@ -46,6 +46,30 @@
       "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81779c6c_62d59e45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-22T13:00:44Z",
+      "side": 1,
+      "message": "Doh, I only saw this comment after doing the removal already.\n\nI\u0027ll push it for review anyway.  It can be abandoned if you have a different solution.",
+      "parentUuid": "2d72674d_d9dc9e93",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "9de2562a09669f6cd82d6af7fb6772e7c5a6659c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

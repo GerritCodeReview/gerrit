@@ -481,7 +481,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void listAllGroups() throws Exception {
     List<String> expectedGroups =
-        groupCache.all().stream().map(a -> a.getName()).sorted().collect(toList());
+        groups.getAll(db).map(a -> a.getName()).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups)

@@ -93,6 +93,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -233,6 +234,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected Abandon changeAbandoner;
+  @Inject protected Groups groups;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -344,6 +346,8 @@ public abstract class AbstractDaemonTest {
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
 
+    db = reviewDbProvider.open();
+
     // All groups which were added during the server start (e.g. in SchemaCreator) aren't contained
     // in the instance of the group index which is available here and in tests. There are two
     // reasons:
@@ -353,7 +357,7 @@ public abstract class AbstractDaemonTest {
     // later on. As test indexes are non-permanent, closing an instance and opening another one
     // removes all indexed data.
     // As a workaround, we simply reindex all available groups here.
-    for (AccountGroup group : groupCache.all()) {
+    for (AccountGroup group : groups.getAll(db).collect(toList())) {
       groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     }
 
@@ -366,8 +370,6 @@ public abstract class AbstractDaemonTest {
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
-
-    db = reviewDbProvider.open();
 
     testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
     if (testRequiresSsh

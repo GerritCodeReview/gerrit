@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -24,16 +25,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.account.AbstractGroupBackend;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -184,12 +187,14 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   public static class NameCheck implements StartupCheck {
     private final Config cfg;
-    private final GroupCache groupCache;
+    private final Groups groups;
+    private final Provider<ReviewDb> db;
 
     @Inject
-    NameCheck(@GerritServerConfig Config cfg, GroupCache groupCache) {
+    NameCheck(@GerritServerConfig Config cfg, Groups groups, Provider<ReviewDb> db) {
       this.cfg = cfg;
-      this.groupCache = groupCache;
+      this.groups = groups;
+      this.db = db;
     }
 
     @Override
@@ -206,7 +211,13 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       if (configuredNames.isEmpty()) {
         return;
       }
-      for (AccountGroup g : groupCache.all()) {
+      List<AccountGroup> allGroups;
+      try {
+        allGroups = groups.getAll(db.get()).collect(toList());
+      } catch (OrmException e) {
+        return;
+      }
+      for (AccountGroup g : allGroups) {
         String name = g.getName().toLowerCase(Locale.US);
         if (byLowerCaseConfiguredName.keySet().contains(name)) {
           AccountGroup.UUID uuidSystemGroup = byLowerCaseConfiguredName.get(name);

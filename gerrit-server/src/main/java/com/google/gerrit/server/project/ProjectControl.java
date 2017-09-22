@@ -214,6 +214,54 @@ public class ProjectControl {
     return state.getProject();
   }
 
+  public boolean allRefsAreVisible(Set<String> ignore) {
+    // TODO(hiesel) Hide refs/changes and replace this method by a proper READ check of all refs
+    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
+  }
+
+  /** Is this user a project owner? */
+  public boolean isOwner() {
+    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
+  }
+
+  /** @return {@code Capable.OK} if the user can upload to at least one reference */
+  public Capable canPushToAtLeastOneRef() {
+    if (!canPerformOnAnyRef(Permission.PUSH)
+        && !canPerformOnAnyRef(Permission.CREATE_TAG)
+        && !isOwner()) {
+      return new Capable("Upload denied for project '" + state.getName() + "'");
+    }
+    if (state.isUseContributorAgreements()) {
+      return verifyActiveContributorAgreement();
+    }
+    return Capable.OK;
+  }
+
+  /** Can the user run upload pack? */
+  public boolean canRunUploadPack() {
+    for (AccountGroup.UUID group : uploadGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Can the user run receive pack? */
+  public boolean canRunReceivePack() {
+    for (AccountGroup.UUID group : receiveGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Does this user have ownership on at least one reference name? */
+  public boolean isOwnerAnyRef() {
+    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
+  }
+
   /** Returns whether the project is hidden. */
   private boolean isHidden() {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
@@ -236,15 +284,6 @@ public class ProjectControl {
     return false;
   }
 
-  public boolean allRefsAreVisible(Set<String> ignore) {
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
-  }
-
-  /** Is this user a project owner? */
-  public boolean isOwner() {
-    return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
-  }
-
   boolean isAdmin() {
     try {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -260,24 +299,6 @@ public class ProjectControl {
       declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
     }
     return declaredOwner;
-  }
-
-  /** Does this user have ownership on at least one reference name? */
-  public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
-  }
-
-  /** @return true if the user can upload to at least one reference */
-  public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH)
-        && !canPerformOnAnyRef(Permission.CREATE_TAG)
-        && !isOwner()) {
-      return new Capable("Upload denied for project '" + state.getName() + "'");
-    }
-    if (state.isUseContributorAgreements()) {
-      return verifyActiveContributorAgreement();
-    }
-    return Capable.OK;
   }
 
   private Capable verifyActiveContributorAgreement() {
@@ -407,24 +428,6 @@ public class ProjectControl {
     } else {
       return user.getEffectiveGroups().contains(uuid);
     }
-  }
-
-  public boolean canRunUploadPack() {
-    for (AccountGroup.UUID group : uploadGroups) {
-      if (match(group)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean canRunReceivePack() {
-    for (AccountGroup.UUID group : receiveGroups) {
-      if (match(group)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   boolean isReachableFromHeadsOrTags(Repository repo, RevCommit commit) {

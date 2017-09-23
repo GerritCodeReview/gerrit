@@ -117,6 +117,24 @@
       "revId": "de8d385ca07a027f529762564f94a6b62575783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fe2b287_8617cbb7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-23T00:40:17Z",
+      "side": 1,
+      "message": "Few things:\n\n\u003e when all it really is is the _computeDisplayText function. Tooltips will (at least in theory) never need to be truncated, so why couldn\u0027t this function just exist in a behavior? Something like...\n\nTo be clear, the truncation applies to the displayed text, not the tooltip text.\n\n\u003e I\u0027m wondering why this entire element needs to exist:\n\nTwo reasons for making this element in my view are\n* It\u0027s hard to apply gr-tooltips. At least with gr-tooltip-behavior, they can only be applied to entire elements, not sub-elements. Added to that, they\u0027re hard to setup: the title attribute needs updating as well as the hasTooltip property.\n* Logic of only-tooltip-when-truncating is pretty nicely expressible in Polymer-component-property terms. If it were part of another behavior, then new glue-logic would need to be made each time it\u0027s used.",
+      "parentUuid": "1c053aec_2831c368",
+      "revId": "de8d385ca07a027f529762564f94a6b62575783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a791a794_82cde4f3",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-23T10:16:24Z",
+      "side": 1,
+      "message": "If it does clash, we will get a warning in Eclipse:\n\n The field [classname].groups is hiding a field from type AbstractDaemonTest",
+      "parentUuid": "45d751a6_051737c7",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

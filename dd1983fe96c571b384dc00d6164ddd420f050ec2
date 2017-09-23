@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31909f38_085c7681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-23T04:12:37Z",
+      "side": 1,
+      "message": "The return type of the method is not boolean, so it\u0027s confusing to say it returns true.",
+      "revId": "dd1983fe96c571b384dc00d6164ddd420f050ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c3a951_c49dddb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-23T04:12:37Z",
+      "side": 1,
+      "message": "Missing javadoc",
+      "revId": "dd1983fe96c571b384dc00d6164ddd420f050ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eae8c9a_a5723d7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-23T04:12:37Z",
+      "side": 1,
+      "message": "Missing javadoc",
+      "revId": "dd1983fe96c571b384dc00d6164ddd420f050ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

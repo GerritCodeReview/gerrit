@@ -66,7 +66,6 @@ def define_bower_components():
     name = "iron-dropdown",
     license = "//lib:LICENSE-polymer",
     deps = [
-      ":iron-a11y-keys-behavior",
       ":iron-behaviors",
       ":iron-overlay-behavior",
       ":iron-resizable-behavior",

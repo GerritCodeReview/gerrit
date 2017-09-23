@@ -33,6 +33,9 @@
         type: Boolean,
         value: false,
       },
+
+      /**  If provided, sets the maximum length of the content. */
+      limit: Number,
     },
 
     _getBackgroundClass(transparent) {

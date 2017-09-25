@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e6b9eac_33ebbc40",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-25T15:34:38Z",
+      "side": 1,
+      "message": "Yep, as it can then move the elements out thus making it look ungly (there is no limit in message as far as i can tell though i may be wrong).\n\nThanks, done.",
+      "parentUuid": "288e6e56_094c0ad9",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "93022fa5ead33ea4ee2edfa0226f401bdcabeca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a477e82a_9e162d7a",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-21T20:10:06Z",
       "side": 1,
       "message": "I think there should be some kind of separation between the name and date.. either the date in parentheses or a comma after the name?\n\nBecky Siegel,  Sep 13\nBecky Siegel  (Sep 13)",
+      "range": {
+        "startLine": 141,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 36
+      },
+      "revId": "93022fa5ead33ea4ee2edfa0226f401bdcabeca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5be2913_9e51c99c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-25T15:34:38Z",
+      "side": 1,
+      "message": "Ah, yep parentheses sounds good. Thanks, done.",
+      "parentUuid": "a477e82a_9e162d7a",
       "range": {
         "startLine": 141,
         "startChar": 16,

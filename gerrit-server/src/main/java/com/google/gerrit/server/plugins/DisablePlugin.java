@@ -19,9 +19,15 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -30,14 +36,23 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
   public static class Input {}
 
   private final PluginLoader loader;
+  private final Provider<IdentifiedUser> user;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  DisablePlugin(PluginLoader loader) {
+  DisablePlugin(PluginLoader loader, Provider<IdentifiedUser> user, PermissionBackend permissionBackend) {
     this.loader = loader;
+    this.user = user;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public PluginInfo apply(PluginResource resource, Input input) throws MethodNotAllowedException {
+  public PluginInfo apply(PluginResource resource, Input input) throws RestApiException {
+    try {
+      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    } catch (PermissionBackendException e) {
+      throw new RestApiException("Could not check permission", e);
+    }
     if (!loader.isRemoteAdminEnabled()) {
       throw new MethodNotAllowedException("remote plugin administration is disabled");
     }

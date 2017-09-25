@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -66,7 +65,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
-  private final AccountIndexer indexer;
   private final AccountByEmailCache byEmailCache;
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
@@ -82,7 +80,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
-      AccountIndexer indexer,
       AccountByEmailCache byEmailCache,
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
@@ -95,7 +92,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
-    this.indexer = indexer;
     this.byEmailCache = byEmailCache;
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
@@ -186,9 +182,9 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
 
+    accountCache.evict(id); // triggers reindex
     accountCache.evictByUsername(username);
     byEmailCache.evict(input.email);
-    indexer.index(id);
 
     AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);

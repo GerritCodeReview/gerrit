@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89e59a98_60b59707",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-25T14:54:57Z",
+      "side": 1,
+      "message": "This is a general issue with this annotation. Should be stop using it or can we fix it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "a4645ea99578c3e6d60d0217afc54bf775792383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "140cbe06_46c6bea7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DisablePlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-25T14:54:57Z",
+      "side": 1,
+      "message": "Remove this annotation now?",
+      "revId": "a4645ea99578c3e6d60d0217afc54bf775792383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

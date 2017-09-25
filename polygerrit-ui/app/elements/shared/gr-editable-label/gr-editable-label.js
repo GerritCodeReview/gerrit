@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const AWAIT_MAX_ITERS = 10;
+  const AWAIT_STEP = 5;
+
   Polymer({
     is: 'gr-editable-label',
 
@@ -24,6 +27,7 @@
      */
 
     properties: {
+      labelText: String,
       editing: {
         type: Boolean,
         value: false,
@@ -43,6 +47,14 @@
         value: false,
       },
       _inputText: String,
+      // This is used to push the iron-input element up on the page, so
+      // the input is placed in approximately the same position as the
+      // trigger.
+      _verticalOffset: {
+        type: Number,
+        readOnly: true,
+        value: 30,
+      },
     },
 
     behaviors: [
@@ -69,21 +81,51 @@
       return value;
     },
 
-    _open() {
+    _showDropdown() {
       if (this.readOnly || this.editing) { return; }
+      this._open().then(() => {
+        this.$.input.$.input.focus();
+        if (!this.$.input.value) { return; }
+        this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
+      });
+    },
 
+    _open(...args) {
+      this.$.dropdown.open();
       this._inputText = this.value;
       this.editing = true;
 
-      this.async(() => {
-        this.$.input.focus();
-        this.$.input.setSelectionRange(0, this.$.input.value.length);
+      return new Promise(resolve => {
+        Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
+        this._awaitOpen(resolve);
       });
+    },
+
+    /**
+     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+     * opening. Eventually replace with a direct way to listen to the overlay.
+     */
+    _awaitOpen(fn) {
+      let iters = 0;
+      const step = () => {
+        this.async(() => {
+          if (this.style.display !== 'none') {
+            fn.call(this);
+          } else if (iters++ < AWAIT_MAX_ITERS) {
+            step.call(this);
+          }
+        }, AWAIT_STEP);
+      };
+      step.call(this);
+    },
+
+    _id() {
+      return this.getAttribute('id') || 'global';
     },
 
     _save() {
       if (!this.editing) { return; }
-
+      this.$.dropdown.close();
       this.value = this._inputText;
       this.editing = false;
       this.fire('changed', this.value);
@@ -91,7 +133,7 @@
 
     _cancel() {
       if (!this.editing) { return; }
-
+      this.$.dropdown.close();
       this.editing = false;
       this._inputText = this.value;
     },
@@ -104,7 +146,7 @@
     _handleEnter(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
-      if (target === this.$.input) {
+      if (target === this.$.input.$.input) {
         e.preventDefault();
         this._save();
       }
@@ -118,7 +160,7 @@
     _handleEsc(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
-      if (target === this.$.input) {
+      if (target === this.$.input.$.input) {
         e.preventDefault();
         this._cancel();
       }

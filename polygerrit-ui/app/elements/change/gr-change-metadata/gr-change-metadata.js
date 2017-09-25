@@ -344,9 +344,10 @@
 
     _handleHashtagRemoved(e) {
       e.preventDefault();
-      const target = Polymer.dom(e).rootTarget.text;
+      const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeHashtag(this.change._number, {remove: [target]})
+      this.$.restAPI.setChangeHashtag(this.change._number,
+          {remove: [target.text]})
           .then(newHashtag => {
             target.disabled = false;
             this.set(['change', 'hashtags'], newHashtag);

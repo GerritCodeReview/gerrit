@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4be278ed_3ead0a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-25T22:21:14Z",
+      "side": 1,
+      "message": "Could you add that to the commit message?",
+      "parentUuid": "5fbca2cc_0b9dd404",
+      "revId": "a0bf77932f87f01a681c00849e4885ba1b333f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6c484b6_11f7d3b9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1

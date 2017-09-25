@@ -33,6 +33,7 @@
         type: Boolean,
         value: false,
       },
+      useLimit: Boolean,
 
       /**  If provided, sets the maximum length of the content. */
       limit: Number,

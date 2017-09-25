@@ -218,7 +218,8 @@ limitations under the License.
                 limit="40"
                 href="[[_computeTopicURL(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
-                on-remove="_handleTopicRemoved"></gr-linked-chip>
+                on-remove="_handleTopicRemoved"
+                useLimit></gr-linked-chip>
           </template>
           <template is="dom-if" if="[[!change.topic]]">
             <gr-editable-label

@@ -16,6 +16,24 @@
       "revId": "59e8052fdb5cbbe02b52a1e0c101dfcc36121740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01836cd5_56cad5ef",
+        "filename": "resources/com/google/gerrit/reviewdb/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-25T18:18:05Z",
+      "side": 1,
+      "message": "Yeah, I noticed it, with prefix stripping issue, but left it consistent in this series. I think that relocating them relative to java/... tree makes sense.",
+      "parentUuid": "c5a34c76_f435cea9",
+      "revId": "59e8052fdb5cbbe02b52a1e0c101dfcc36121740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

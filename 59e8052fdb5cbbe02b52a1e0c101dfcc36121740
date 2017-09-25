@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5a34c76_f435cea9",
+        "filename": "resources/com/google/gerrit/reviewdb/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-25T18:00:13Z",
+      "side": 1,
+      "message": "Within Google, we generally locate resources alongside Java files in the java/... tree, so they end up at the right classpath location without having to do the prefix stripping. What is the reason for doing it this way here?",
+      "revId": "59e8052fdb5cbbe02b52a1e0c101dfcc36121740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

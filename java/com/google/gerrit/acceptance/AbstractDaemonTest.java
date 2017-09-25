@@ -1158,14 +1158,25 @@ public abstract class AbstractDaemonTest {
   }
 
   protected String createGroup(String name) throws Exception {
-    return createGroup(name, "Administrators");
+    return createGroup(name, "Administrators", false);
+  }
+
+  protected String createGroup(String name, boolean visibleToAll) throws Exception {
+    return createGroup(name, "Administrators", visibleToAll);
   }
 
   protected String createGroup(String name, String owner) throws Exception {
+    return createGroup(name, owner, false);
+  }
+
+  protected String createGroup(String name, String owner, boolean visibleToAll) throws Exception {
     name = name(name);
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = owner;
+    if (visibleToAll) {
+      in.visibleToAll = visibleToAll;
+    }
     gApi.groups().create(in);
     return name;
   }

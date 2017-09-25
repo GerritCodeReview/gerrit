@@ -680,7 +680,7 @@ This setting controls the email notifications.
 +
 Email notifications are enabled.
 +
-** [[cc-me]]`CC Me On Comments I Write`:
+** [[cc-me]]`Every comment`:
 +
 Email notifications are enabled and you get notified by email as CC
 on comments that you write yourself.

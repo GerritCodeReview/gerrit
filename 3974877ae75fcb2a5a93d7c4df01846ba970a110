@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31cbb9da_33b253cb",
+        "filename": "java/com/google/gwtexpui/clippy/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-25T17:58:43Z",
+      "side": 1,
+      "message": "Why are these resources in this directory instead of //resources like they are elsewhere?",
+      "revId": "3974877ae75fcb2a5a93d7c4df01846ba970a110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

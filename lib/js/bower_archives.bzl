@@ -53,6 +53,11 @@ def load_bower_archives():
     version = "1.3.7",
     sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
   bower_archive(
+    name = "iron-form-element-behavior",
+    package = "PolymerElements/iron-form-element-behavior",
+    version = "1.0.7",
+    sha1 = "7b5a79e02cc32f0918725dd26925d0df1e03ed12")
+  bower_archive(
     name = "iron-menu-behavior",
     package = "PolymerElements/iron-menu-behavior",
     version = "2.0.1",

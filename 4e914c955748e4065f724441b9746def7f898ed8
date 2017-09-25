@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbc6148d_1b86be73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-25T11:22:15Z",
+      "side": 1,
+      "message": "is this still used?",
+      "range": {
+        "startLine": 383,
+        "startChar": 2,
+        "endLine": 388,
+        "endChar": 3
+      },
+      "revId": "4e914c955748e4065f724441b9746def7f898ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -63,6 +63,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -988,6 +989,50 @@ public abstract class AbstractDaemonTest {
     List<ChangeNotes> notes = changeFinder.find(changeId);
     assertThat(notes).hasSize(1);
     return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
+  }
+
+  protected String createGroup(String name) throws Exception {
+    return createGroup(name, "Administrators", false);
+  }
+
+  protected String createGroup(String name, boolean visibleToAll) throws Exception {
+    return createGroup(name, "Administrators", visibleToAll);
+  }
+
+  protected String createGroupWithRealName(String name) throws Exception {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = "Administrators";
+    gApi.groups().create(in);
+    return name;
+  }
+
+  protected String createGroup(String name, String owner) throws Exception {
+    return createGroup(name, owner, false);
+  }
+
+  protected String createGroup(String name, String owner, boolean visibleToAll) throws Exception {
+    name = name(name);
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = owner;
+    if (visibleToAll) {
+      in.visibleToAll = visibleToAll;
+    }
+    gApi.groups().create(in);
+    return name;
+  }
+
+  protected String createAccount(String name, String group) throws Exception {
+    name = name(name);
+    accountCreator.create(name, group);
+    return name;
+  }
+
+  protected TestAccount createUniqueAccount(String userName, String fullName) throws Exception {
+    String uniqueUserName = name(userName);
+    String uniqueFullName = name(fullName);
+    return accountCreator.create(uniqueUserName, uniqueUserName + "@example.com", uniqueFullName);
   }
 
   protected RevCommit getHead(Repository repo, String name) throws Exception {

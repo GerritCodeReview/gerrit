@@ -16,6 +16,23 @@
       "revId": "a0bf77932f87f01a681c00849e4885ba1b333f11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6c484b6_11f7d3b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-25T22:10:57Z",
+      "side": 1,
+      "message": "I doin\u0027t understand how this fixes it. I thought it works?\n\nRemoving a hashtag locally works for me.",
+      "revId": "a0bf77932f87f01a681c00849e4885ba1b333f11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

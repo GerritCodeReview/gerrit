@@ -1,0 +1,125 @@
+= Adjust votes after moving a change
+
+Status: Draft
+
+== Background
+
+Gerrit is supporting to squash votes based on users' permissions. For example, a user votes +2 on a
+change and then loses his permission for +2. The vote (+2) will be squashed to the nearest value in
+the new permitted range. This behavior is intended to keep consistent between votes and users'
+permissions. However, squashing votes has quite a few downsides. For example, permission checks is
+slowing down our batch index. Thus we have agreed to stop squashing votes [1].
+
+To finish that work, we need to find a proper way to deal with the existing votes after moving a
+change to a new branch.
+
+This is a summary for all possibilities we have discussed in [2].
+
+== Objective and Requirements
+
+For this 'Move Change' REST endpoint, we mainly care about:
+(1) the votes after moving the change to the new branch.
+(2) the votes after moving the change to a new branch and then move it back.
+(3) whether the votes are consistent with users' permissions.
+
+EXP-1, for (1), we expect:
+"The change is NOT submittable on the new branch even thought it's submittable on the old one."
+
+EXP-2, for (2), we expect:
+"Blocking votes (-2s) should not be removed after moving the change back to the original branch."
+
+EXP-3, for (3), we expect:
+"Users' votes should keep consistent with their permitted range"
+
+== Possible Options
+
+1. Keep current behavior, which keeps all votes after moving a change.
+
+Pros:
+* Meet EXP-2 because blocking votes are always kept.
+
+Cons:
+* Don't meet EXP-1. This situation will be worse after we stop squashing votes. For example,
+  reviewer 'john' has '+2' permission on 'foo' branch but only has '+1' permission on 'bar' branch.
+  A change becomes submittable on branch 'foo' after getting '+2' from 'john'. With john's vote been
+  squashed to '+1', the change will not be submittable because of john's vote. But it will be after
+  we stop squashing votes.
+* Don't meet EXP-3 after stop squashing votes.
+
+2. Remove all votes after moving.
+
+Pros:
+* Meet EXP-1.
+* Meet EXP-3.
+
+Cons:
+* Can't meet EXP-2. People can always upload a new change with the same content to remove those -2s.
+  But this option makes it much easier because user can remove those -2s by clicking the
+  'Move Change' button twice (move away and then move back).
+
+3. Only keep veto votes, whose label definition uses blocking functions (*WithBlock) and the votes
+hold the minimum value.
+
+Pros:
+* Meet EXP-1.
+* Meet EXP-2.
+* Simple.
+* Least surprising to users and easy for us to explain.
+* No change to the data model which means we can easily change the behavior later.
+
+Cons:
+* Don't meet EXP-3 because the reviewer may not hold corresponding permission on the new branch.
+
+4. Remove necessary votes like uploading a new patch set.
+
+Pros:
+* Meet EXP-1.
+* Meet EXP-2 (most of the time).
+* Meet EXP-3.
+
+Cons:
+* Exp-2 will not be met if the reviewer doesn't hold -2 permission on the new branch. In this case,
+  -2 will be lost after moving back to the original branch.
+
+5. Tied votes to branch.
+   Currently, a vote has three fields (label-name, label-value, reviewer-id). We could add 'branch'
+   as the fourth field. So whenever we read votes for a change, we will filter out votes on that
+   branch. This will keep right votes for all branch no matter how the change moves.
+
+Pros:
+* Meet EXP-1.
+* Meet EXP-2.
+* Meet EXP-3.
+
+Cons:
+* This new field may not be widely used.
+* This could be a lot of work. NoteDb history doesn't need to be rewritten, but we are not sure
+  whether it is possible to add a field to an existing primary key in ReviewDb.
+
+6. Record originalValue in PatchSetApproval
+
+When moving changes between branches, squash votes, but squash the originalValue rather than the
+current value.
+
+Pros:
+* Meet EXP-1
+* Meet EXP-2
+* Meet EXP-3
+
+Cons:
+* Users might not expect _any_ votes to be preserved on move. The behavior today preserves some
+  votes, so it also has this problem. However, option 5 would fix this issue, which is an
+  argument in favor of (5) over (6).
+  
+
+== Proposed Solution
+
+I would propose we choose ***option 4*** since it meets almost all of our expectations. Even though
+we have a risk to lose -2s in some cases, it's still much safer than the current behavior. By doing
+that, we can push forward our current work. We can come back and do as option-5 when it's really
+necessary.
+
+== References
+
+[1] https://groups.google.com/forum/#!topic/repo-discuss/7oEZgW8iMJI/discussion
+[2] https://gerrit-review.googlesource.com/#/c/gerrit/+/115090/

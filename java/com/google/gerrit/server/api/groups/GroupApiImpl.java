@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.restapi.group.AddMembers;
 import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.DeleteGroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups;
 import com.google.gerrit.server.restapi.group.GetAuditLog;
@@ -73,6 +74,7 @@ class GroupApiImpl implements GroupApi {
   private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
   private final Index index;
+  private final DeleteGroup delete;
 
   @Inject
   GroupApiImpl(
@@ -94,6 +96,7 @@ class GroupApiImpl implements GroupApi {
       DeleteSubgroups deleteSubgroups,
       GetAuditLog getAuditLog,
       Index index,
+      DeleteGroup delete,
       @Assisted GroupResource rsrc) {
     this.getGroup = getGroup;
     this.getDetail = getDetail;
@@ -113,6 +116,7 @@ class GroupApiImpl implements GroupApi {
     this.deleteSubgroups = deleteSubgroups;
     this.getAuditLog = getAuditLog;
     this.index = index;
+    this.delete = delete;
     this.rsrc = rsrc;
   }
 
@@ -287,6 +291,15 @@ class GroupApiImpl implements GroupApi {
       index.apply(rsrc, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      delete.apply(rsrc, new Input());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete group", e);
     }
   }
 }

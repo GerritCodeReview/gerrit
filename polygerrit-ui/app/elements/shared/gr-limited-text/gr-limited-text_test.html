@@ -50,25 +50,31 @@ limitations under the License.
       const updateSpy = sandbox.spy(element, '_updateTitle');
       element.text = 'abc 123';
       flushAsynchronousOperations();
-      assert.isFalse(updateSpy.called);
+      assert.isTrue(updateSpy.calledOnce);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
 
       element.limit = 10;
       flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledOnce);
+      assert.isTrue(updateSpy.calledTwice);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
 
       element.limit = 3;
       flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledTwice);
+      assert.isTrue(updateSpy.calledThrice);
       assert.equal(element.getAttribute('title'), 'abc 123');
       assert.isTrue(element.hasTooltip);
 
       element.limit = 100;
       flushAsynchronousOperations();
-      assert.isTrue(updateSpy.calledThrice);
+      assert.equal(updateSpy.callCount, 4);
+      assert.isNotOk(element.getAttribute('title'));
+      assert.isFalse(element.hasTooltip);
+
+      element.limit = null;
+      flushAsynchronousOperations();
+      assert.equal(updateSpy.callCount, 5);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
     });
@@ -76,6 +82,7 @@ limitations under the License.
     test('_computeDisplayText', () => {
       assert.equal(element._computeDisplayText('foo bar', 100), 'foo bar');
       assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
+      assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
     });
   });
 </script>

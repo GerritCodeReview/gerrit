@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f65c0ffc_cd664f87",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-25T23:12:17Z",
+      "side": 1,
+      "message": "Strange import sort order.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "8bdfe139767bf48f1364252430aa50f92a2f5c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb593e60_1cb4f45d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-25T23:12:17Z",
+      "side": 1,
+      "message": "Where does \u0027-30\u0027 come from?",
+      "revId": "8bdfe139767bf48f1364252430aa50f92a2f5c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

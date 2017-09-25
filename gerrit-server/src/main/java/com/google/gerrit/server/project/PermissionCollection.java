@@ -98,7 +98,6 @@ public class PermissionCollection {
           perUser = true;
           if (sm.match(ref, user)) {
             sectionToProject.put(sm.section, sm.project);
-            break;
           }
         } else if (sm.match(ref, null)) {
           sectionToProject.put(sm.section, sm.project);

@@ -397,7 +397,7 @@ public class ChangeControl {
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
-    return cd != null ? cd : changeDataFactory.create(db, this);
+    return cd != null ? cd : changeDataFactory.create(db, getNotes());
   }
 
   public boolean isDraftVisible(ReviewDb db, ChangeData cd) throws OrmException {
@@ -442,7 +442,7 @@ public class ChangeControl {
       if (cd == null) {
         ReviewDb reviewDb = db();
         checkState(reviewDb != null, "need ReviewDb");
-        cd = changeDataFactory.create(reviewDb, ChangeControl.this);
+        cd = changeDataFactory.create(reviewDb, getNotes());
       }
       return cd;
     }

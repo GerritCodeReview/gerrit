@@ -119,6 +119,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -219,6 +220,7 @@ public class ChangeJson {
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -251,6 +253,7 @@ public class ChangeJson {
       ApprovalsUtil approvalsUtil,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
+      ChangeControl.GenericFactory changeControlFactory,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -276,6 +279,7 @@ public class ChangeJson {
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.removeReviewerControl = removeReviewerControl;
+    this.changeControlFactory = changeControlFactory;
     this.options = Sets.immutableEnumSet(options);
     this.trackingFooters = trackingFooters;
   }
@@ -345,7 +349,7 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
-    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getChangeResource());
+    ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
@@ -494,7 +498,11 @@ public class ChangeJson {
       }
     }
 
-    PermissionBackend.ForChange perm = permissionBackend.user(user).database(db).change(cd);
+    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
+    PermissionBackend.ForChange perm =
+        lazyLoad
+            ? withUser.change(cd)
+            : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
@@ -588,15 +596,20 @@ public class ChangeJson {
     } else {
       src = null;
     }
+
+    ChangeControl ctl = null;
+    if (needMessages || needRevisions) {
+      ctl = changeControlFactory.controlFor(db.get(), cd.change(), userProvider.get());
+    }
     if (needMessages) {
-      out.messages = messages(cd, src);
+      out.messages = messages(ctl, cd, src);
     }
     finish(out);
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisions(cd, src, limitToPsId, out);
+      out.revisions = revisions(ctl, cd, src, limitToPsId, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -653,11 +666,11 @@ public class ChangeJson {
     return result;
   }
 
-  private boolean submittable(ChangeData cd) {
+  private boolean submittable(ChangeData cd) throws OrmException {
     return SubmitRecord.findOkRecord(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)).isPresent();
   }
 
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
+  private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
     return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
@@ -709,7 +722,7 @@ public class ChangeJson {
   }
 
   private Map<String, LabelWithStatus> initLabels(
-      ChangeData cd, LabelTypes labelTypes, boolean standard) {
+      ChangeData cd, LabelTypes labelTypes, boolean standard) throws OrmException {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -1091,8 +1104,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<ChangeMessageInfo> messages(ChangeData cd, Map<PatchSet.Id, PatchSet> map)
-      throws OrmException {
+  private Collection<ChangeMessageInfo> messages(
+      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map) throws OrmException {
     List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -1102,7 +1115,7 @@ public class ChangeJson {
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
       PatchSet ps = patchNum != null ? map.get(patchNum) : null;
-      if (patchNum == null || cd.changeControl().isPatchVisible(ps, db.get())) {
+      if (patchNum == null || ctl.isPatchVisible(ps, db.get())) {
         ChangeMessageInfo cmi = new ChangeMessageInfo();
         cmi.id = message.getKey().get();
         cmi.author = accountLoader.get(message.getAuthor());
@@ -1217,6 +1230,7 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(
+      ChangeControl ctl,
       ChangeData cd,
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
@@ -1235,7 +1249,7 @@ public class ChangeJson {
         } else {
           want = id.equals(cd.change().currentPatchSetId());
         }
-        if (want && cd.changeControl().isPatchVisible(in, db.get())) {
+        if (want && ctl.isPatchVisible(in, db.get())) {
           res.put(in.getRevision().get(), toRevisionInfo(cd, in, repo, rw, false, changeInfo));
         }
       }
@@ -1392,6 +1406,7 @@ public class ChangeJson {
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in) throws OrmException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
 
+    ChangeControl ctl = changeControlFactory.controlFor(db.get(), cd.change(), anonymous);
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
       DownloadScheme scheme = e.getProvider().get();
@@ -1400,8 +1415,7 @@ public class ChangeJson {
         continue;
       }
 
-      if (!scheme.isAuthSupported()
-          && !cd.changeControl().forUser(anonymous).isPatchVisible(in, db.get())) {
+      if (!scheme.isAuthSupported() && !ctl.isPatchVisible(in, db.get())) {
         continue;
       }
 

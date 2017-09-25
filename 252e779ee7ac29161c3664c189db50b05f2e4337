@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cebe5fc9_1a68a019",
+        "filename": "plugins/hooks",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-25T11:20:24Z",
+      "side": 1,
+      "message": "Unintentional submodule commit.",
+      "revId": "252e779ee7ac29161c3664c189db50b05f2e4337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,7 +23,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -141,7 +140,6 @@ public class ProjectControl {
   private final Metrics metrics;
 
   private List<SectionMatcher> allSections;
-  private List<SectionMatcher> localSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
@@ -282,27 +280,6 @@ public class ProjectControl {
     return Capable.OK;
   }
 
-  public Set<GroupReference> getAllGroups() {
-    return getGroups(access());
-  }
-
-  public Set<GroupReference> getLocalGroups() {
-    return getGroups(localAccess());
-  }
-
-  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
-    final Set<GroupReference> all = new HashSet<>();
-    for (SectionMatcher matcher : sectionMatcherList) {
-      final AccessSection section = matcher.section;
-      for (Permission permission : section.getPermissions()) {
-        for (PermissionRule rule : permission.getRules()) {
-          all.add(rule.getGroup());
-        }
-      }
-    }
-    return all;
-  }
-
   private Capable verifyActiveContributorAgreement() {
     metrics.claCheckCount.increment();
     if (!(user.isIdentifiedUser())) {
@@ -408,13 +385,6 @@ public class ProjectControl {
       allSections = state.getAllSections();
     }
     return allSections;
-  }
-
-  private List<SectionMatcher> localAccess() {
-    if (localSections == null) {
-      localSections = state.getLocalAccessSections();
-    }
-    return localSections;
   }
 
   boolean match(PermissionRule rule) {

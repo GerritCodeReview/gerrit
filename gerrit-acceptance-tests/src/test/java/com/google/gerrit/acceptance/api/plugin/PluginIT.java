@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins.ListRequest;
 import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -107,6 +108,15 @@ public class PluginIT extends AbstractDaemonTest {
     api = gApi.plugins().name("plugin-a");
     assertThat(api.get().disabled).isNull();
     assertPlugins(list().get(), PLUGINS);
+
+    // Non-admin cannot disable
+    setApiUser(user);
+    try {
+      gApi.plugins().name("plugin-a").disable();
+      fail("Expected AuthException");
+    } catch (AuthException expected) {
+      // Expected
+    }
   }
 
   @Test

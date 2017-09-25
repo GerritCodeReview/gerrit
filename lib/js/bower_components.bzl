@@ -85,6 +85,11 @@ def define_bower_components():
     deps = [ ":polymer" ],
   )
   bower_component(
+    name = "iron-form-element-behavior",
+    license = "//lib:LICENSE-polymer",
+    deps = [ ":polymer" ],
+  )
+  bower_component(
     name = "iron-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -172,6 +177,20 @@ def define_bower_components():
   bower_component(
     name = "page",
     license = "//lib:LICENSE-page.js",
+    seed = True,
+  )
+  bower_component(
+    name = "paper-input",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-a11y-keys-behavior",
+      ":iron-autogrow-textarea",
+      ":iron-behaviors",
+      ":iron-form-element-behavior",
+      ":iron-input",
+      ":paper-styles",
+      ":polymer",
+    ],
     seed = True,
   )
   bower_component(

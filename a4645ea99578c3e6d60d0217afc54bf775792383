@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55d47ea8_6862bda8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-25T21:50:39Z",
+      "side": 1,
+      "message": "It should be fixed, but I\u0027m not sure if it can be done in a general way or if we have to fix each one individually.\n\nSo far I\u0027ve only done this one.  I was using DisablePlugin as a template for DeleteGroup, and found the issue while writing new tests for deleting groups.",
+      "parentUuid": "89e59a98_60b59707",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "a4645ea99578c3e6d60d0217afc54bf775792383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "140cbe06_46c6bea7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DisablePlugin.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-09-25T14:54:57Z",
       "side": 1,
       "message": "Remove this annotation now?",
+      "revId": "a4645ea99578c3e6d60d0217afc54bf775792383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcebae8e_80a6c9ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DisablePlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-25T21:50:39Z",
+      "side": 1,
+      "message": "Yes, or find a way to make it also work for the apply method.",
+      "parentUuid": "140cbe06_46c6bea7",
       "revId": "a4645ea99578c3e6d60d0217afc54bf775792383",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

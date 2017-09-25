@@ -22,6 +22,30 @@
       "revId": "4e914c955748e4065f724441b9746def7f898ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d1de90a_b2d56882",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-25T11:30:46Z",
+      "side": 1,
+      "message": "Yes e.g. by allRefPatterns() the method right before this one",
+      "parentUuid": "dbc6148d_1b86be73",
+      "range": {
+        "startLine": 383,
+        "startChar": 2,
+        "endLine": 388,
+        "endChar": 3
+      },
+      "revId": "4e914c955748e4065f724441b9746def7f898ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

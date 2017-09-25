@@ -54,6 +54,7 @@ package_licenses = {
   "moment": "moment",
   "neon-animation": "polymer",
   "page": "page.js",
+  "paper-input": "polymer",
   "paper-item": "polymer",
   "paper-listbox": "polymer",
   "paper-styles": "polymer",
@@ -62,6 +63,12 @@ package_licenses = {
   "promise-polyfill": "promise-polyfill",
   "web-animations-js": "Apache2.0",
   "webcomponentsjs": "polymer",
+  "paper-material": "polymer",
+  "paper-styles": "polymer",
+  "paper-behaviors": "polymer",
+  "paper-ripple": "polymer",
+  "iron-checked-element-behavior": "polymer",
+  "font-roboto": "polymer",
 }
 
 

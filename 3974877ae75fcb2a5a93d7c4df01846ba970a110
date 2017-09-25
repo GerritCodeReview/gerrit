@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0eadcf57_740b4823",
+        "filename": "java/com/google/gwtexpui/clippy/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-25T18:21:16Z",
+      "side": 1,
+      "message": "Indeed, I missed to move them.",
+      "parentUuid": "31cbb9da_33b253cb",
+      "revId": "3974877ae75fcb2a5a93d7c4df01846ba970a110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e260bc8_0b05bd45",
         "filename": "java/com/google/gwtexpui/css/BUILD",
         "patchSetId": 10

@@ -29,7 +29,10 @@
       text: String,
 
       /** The maximum length for the text to display before truncating. */
-      limit: Number,
+      limit: {
+        type: Number,
+        value: null,
+      },
 
       /** Boolean property used by Gerrit.TooltipBehavior. */
       hasTooltip: {
@@ -51,7 +54,7 @@
      * enabled.
      */
     _updateTitle(text, limit) {
-      this.hasTooltip = text.length > limit;
+      this.hasTooltip = !!limit && text.length > limit;
       if (this.hasTooltip) {
         this.setAttribute('title', text);
       } else {
@@ -60,7 +63,7 @@
     },
 
     _computeDisplayText(text, limit) {
-      if (text.length > limit) {
+      if (!!limit && text.length > limit) {
         return text.substr(0, limit - 1) + '…';
       }
       return text;

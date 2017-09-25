@@ -63,14 +63,9 @@ limitations under the License.
       }
     </style>
     <div class$="container [[_getBackgroundClass(transparentBackground)]]">
-      <template is="dom-if" if="[[limit]]">
-        <a href$="[[href]]">
-          <gr-limited-text limit="[[limit]]" text="[[text]]"></gr-limited-text>
-        </a>
-      </template>
-      <template is="dom-if" if="[[!limit]]">
-        <a href$="[[href]]">[[text]]</a>
-      </template>
+      <a href$="[[href]]">
+        <gr-limited-text limit="[[limit]]" text="[[text]]"></gr-limited-text>
+      </a>
       <gr-button
           id="remove"
           hidden$="[[!removable]]"

@@ -177,7 +177,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     authors = getAuthors();
 
     try {
-      stars = args.starredChangesUtil.byChangeFromIndex(change.getId());
+      stars = changeData.stars();
     } catch (OrmException e) {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }

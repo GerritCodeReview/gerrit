@@ -22,7 +22,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -80,7 +79,6 @@ public class EmailArguments {
   final SoyTofu soyTofu;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
-  final StarredChangesUtil starredChangesUtil;
   final Provider<InternalAccountQuery> accountQueryProvider;
   final OutgoingEmailValidator validator;
 
@@ -114,7 +112,6 @@ public class EmailArguments {
       @SshAdvertisedAddresses List<String> sshAddresses,
       SitePaths site,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
-      StarredChangesUtil starredChangesUtil,
       Provider<InternalAccountQuery> accountQueryProvider,
       OutgoingEmailValidator validator) {
     this.server = server;
@@ -145,7 +142,6 @@ public class EmailArguments {
     this.sshAddresses = sshAddresses;
     this.site = site;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
-    this.starredChangesUtil = starredChangesUtil;
     this.accountQueryProvider = accountQueryProvider;
     this.validator = validator;
   }

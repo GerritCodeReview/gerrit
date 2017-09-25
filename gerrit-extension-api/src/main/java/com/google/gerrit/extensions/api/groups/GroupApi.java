@@ -150,6 +150,13 @@ public interface GroupApi {
   void index() throws RestApiException;
 
   /**
+   * Delete the group.
+   *
+   * @throws RestApiException
+   */
+  void delete() throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -246,6 +253,11 @@ public interface GroupApi {
 
     @Override
     public void index() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

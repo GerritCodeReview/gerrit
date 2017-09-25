@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d104330c_0de664ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-25T23:06:32Z",
+      "side": 1,
+      "message": "Technically this won\u0027t detect a provided limit if it\u0027s zero, but that\u0027s not a meaningful limit, so no matter.",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "1a08f61a52947a1e0669fc46690ed24d94e728f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

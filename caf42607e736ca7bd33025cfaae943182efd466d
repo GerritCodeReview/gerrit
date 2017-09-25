@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db0f003f_f356cb87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-25T11:36:19Z",
+      "side": 0,
+      "message": "Keep this line too?",
+      "revId": "caf42607e736ca7bd33025cfaae943182efd466d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

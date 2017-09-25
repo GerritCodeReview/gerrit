@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "380d366b_39d9c807",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-25T23:29:57Z",
+      "side": 1,
+      "message": "Seems normal minus the polymer import.",
+      "parentUuid": "f65c0ffc_cd664f87",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 0
+      },
+      "revId": "8bdfe139767bf48f1364252430aa50f92a2f5c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb593e60_1cb4f45d",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "8bdfe139767bf48f1364252430aa50f92a2f5c1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f81642a_cbba54d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-25T23:29:57Z",
+      "side": 1,
+      "message": "It is a hacky (but reasonable IMO) way to push the dropdown up 30px, to make the input approximately in the same place as the button.  I guess I will make this a readonly attribute, and can comment what it means there.",
+      "parentUuid": "eb593e60_1cb4f45d",
+      "revId": "8bdfe139767bf48f1364252430aa50f92a2f5c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

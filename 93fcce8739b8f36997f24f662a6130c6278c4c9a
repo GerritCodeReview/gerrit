@@ -16,6 +16,24 @@
       "revId": "93fcce8739b8f36997f24f662a6130c6278c4c9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20718289_3c862d9f",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-25T22:56:31Z",
+      "side": 1,
+      "message": "hmmm.. that\u0027s weird that it didn\u0027t complain huh.. Added tho (and it did complain when I added a wrong one...)",
+      "parentUuid": "dd0724f1_3310b4b7",
+      "revId": "93fcce8739b8f36997f24f662a6130c6278c4c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

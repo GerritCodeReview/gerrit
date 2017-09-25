@@ -1083,6 +1083,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-input",
+    package = "polymerelements/paper-input",
+    sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",
+    version = "1.1.18",
+)
+
+bower_archive(
     name = "moment",
     package = "moment/moment",
     sha1 = "fc8ce2c799bab21f6ced7aff928244f4ca8880aa",
@@ -1120,8 +1127,8 @@ bower_archive(
 bower_archive(
     name = "polymer-resin",
     package = "polymer/polymer-resin",
-    sha1 = "d759c8c09054a7ec04608a6cb586801c904f79a2",
-    version = "1.2.6-beta",
+    sha1 = "93ac118f2b9209cfbfd6dc8022d9492743d17f24",
+    version = "1.2.7",
 )
 
 bower_archive(

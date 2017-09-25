@@ -20,6 +20,7 @@ bower_component_bundle(
         "//lib/js:iron-selector",
         "//lib/js:moment",
         "//lib/js:page",
+        "//lib/js:paper-input",
         "//lib/js:paper-item",
         "//lib/js:paper-listbox",
         "//lib/js:polymer",

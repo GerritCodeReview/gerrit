@@ -166,7 +166,15 @@ public class ChangeJson {
       ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
-      ImmutableSet.of(ALL_REVISIONS, CHANGE_ACTIONS, CHECK, CURRENT_ACTIONS, MESSAGES);
+      ImmutableSet.of(
+          ALL_COMMITS,
+          ALL_REVISIONS,
+          CHANGE_ACTIONS,
+          CHECK,
+          COMMIT_FOOTERS,
+          CURRENT_ACTIONS,
+          CURRENT_COMMIT,
+          MESSAGES);
 
   @Singleton
   public static class Factory {

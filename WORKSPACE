@@ -1083,6 +1083,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-button",
+    package = "polymerelements/paper-button",
+    sha1 = "41a8fec68d93dad223ad2076d68515334b2c8d7b",
+    version = "1.0.11",
+)
+
+bower_archive(
     name = "paper-input",
     package = "polymerelements/paper-input",
     sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",

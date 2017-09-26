@@ -143,7 +143,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
-      if (results.get(n).more()) {
+      if (results.get(n).more() && !info.isEmpty()) {
         info.get(info.size() - 1)._moreChanges = true;
       }
     }

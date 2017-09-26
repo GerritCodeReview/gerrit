@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a737a9c8_80a01df8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-26T23:22:22Z",
+      "side": 1,
+      "message": "The similarity between the name of this method and `_patchUpdated` makes it hard to tell what they should do differently.",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 21
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9866718_74823976",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-26T23:22:22Z",
+      "side": 1,
+      "message": "Being that this observer is attached to both the patchNum and the basePatchNum, this only accepts two params to test whether the old value is undefined, right? As such, the `patchNew` param should probably never be used since it\u0027s unknown which value it is.\n\nIf this is the case, perhaps a comment should describe this so that nobody misinterprets it and tries to use `patchNew` for something.",
+      "range": {
+        "startLine": 336,
+        "startChar": 18,
+        "endLine": 336,
+        "endChar": 36
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab6a0ee_68c8c27a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-26T23:22:22Z",
+      "side": 1,
+      "message": "Does this test pass without the `_patchUpdated` observer?",
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db749838_505bd468",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-26T23:22:22Z",
+      "side": 1,
+      "message": "I\u0027m a little confused re. why this change to two separate params is needed. Is there a reason that the gr-dropdown-list version can\u0027t work the same way as before?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

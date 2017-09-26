@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16b88d7c_c43a7da2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-26T23:22:22Z",
+      "side": 0,
+      "message": "Looks like, with this change, this logic has been moved up to the change view. Why?\n\nThis modification is not mentioned in the commit message.",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 19
+      },
+      "revId": "34c14cc83063ff1570098a45cdabd13ff0cb6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

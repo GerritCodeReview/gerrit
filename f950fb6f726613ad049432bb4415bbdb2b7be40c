@@ -22,6 +22,30 @@
       "revId": "f950fb6f726613ad049432bb4415bbdb2b7be40c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdcddf0b_67521794",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-26T16:52:39Z",
+      "side": 1,
+      "message": "Oh i see.\n\nchanging change.getDest() to newDest should work.",
+      "parentUuid": "fae93a8a_cbecda59",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 221,
+        "endChar": 47
+      },
+      "revId": "f950fb6f726613ad049432bb4415bbdb2b7be40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

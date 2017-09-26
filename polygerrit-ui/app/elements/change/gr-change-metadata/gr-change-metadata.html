@@ -222,6 +222,7 @@ limitations under the License.
           </template>
           <template is="dom-if" if="[[!change.topic]]">
             <gr-editable-label
+                label-text="Add a topic"
                 value="[[change.topic]]"
                 placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
                 read-only="[[_topicReadOnly]]"
@@ -246,6 +247,7 @@ limitations under the License.
               </gr-linked-chip>
             </template>
             <gr-editable-label
+                label-text="Add a hashtag"
                 value="{{_newHashtag}}"
                 placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
                 read-only="[[_hashtagReadOnly]]"

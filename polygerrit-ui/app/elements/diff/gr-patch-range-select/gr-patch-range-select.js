@@ -31,40 +31,94 @@
 
     properties: {
       availablePatches: Array,
+      _baseDropdownContent: {
+        type: Object,
+        computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
+            '_sortedRevisions, revisions)',
+      },
+      _patchDropdownContent: {
+        type: Object,
+        computed: '_computePatchDropdownContent(availablePatches,' +
+            'basePatchNum, _sortedRevisions, revisions)',
+      },
       changeNum: String,
       comments: Array,
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
-      /** @type {?} */
-      patchRange: Object,
+      patchNum: {
+        type: String,
+        notify: true,
+      },
+      basePatchNum: {
+        type: String,
+        notify: true,
+      },
       revisions: Object,
       _sortedRevisions: Array,
-      _rightSelected: String,
-      _leftSelected: String,
     },
 
     observers: [
       '_updateSortedRevisions(revisions.*)',
-      '_updateSelected(patchRange.*)',
     ],
 
     behaviors: [Gerrit.PatchSetBehavior],
 
-    _updateSelected() {
-      this._rightSelected = this.patchRange.patchNum;
-      this._leftSelected = this.patchRange.basePatchNum;
+    _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
+        revisions) {
+      const dropdownContent = [];
+      dropdownContent.push({
+        text: 'Base',
+        value: 'PARENT',
+      });
+      for (const basePatch of availablePatches) {
+        const basePatchNum = basePatch.num;
+        dropdownContent.push({
+          disabled: this._computeLeftDisabled(
+              basePatch.num, patchNum, _sortedRevisions),
+          triggerText: `Patchset ${basePatchNum}`,
+          text: `Patchset ${basePatchNum}` +
+              this._computePatchSetCommentsString(this.comments, basePatchNum),
+          mobileText: this._computeMobileText(basePatchNum, this.comments,
+              revisions),
+          bottomText: `${this._computePatchSetDescription(
+              revisions, basePatchNum)}`,
+          value: basePatch.num,
+        });
+      }
+      return dropdownContent;
+    },
+
+    _computeMobileText(patchNum, comments, revisions) {
+      return `${patchNum}` +
+          `${this._computePatchSetCommentsString(this.comments, patchNum)}` +
+          `${this._computePatchSetDescription(revisions, patchNum, true)}`;
+    },
+
+    _computePatchDropdownContent(availablePatches, basePatchNum,
+        _sortedRevisions, revisions) {
+      const dropdownContent = [];
+      for (const patch of availablePatches) {
+        const patchNum = patch.num;
+        dropdownContent.push({
+          disabled: this._computeRightDisabled(patchNum, basePatchNum,
+              _sortedRevisions),
+          triggerText: `Patchset ${patchNum}`,
+          text: `Patchset ${patchNum}` +
+              `${this._computePatchSetCommentsString(
+                  this.comments, patchNum)}`,
+          mobileText: this._computeMobileText(patchNum, this.comments,
+              revisions),
+          bottomText: `${this._computePatchSetDescription(
+              revisions, patchNum)}`,
+          value: patchNum,
+        });
+      }
+      return dropdownContent;
     },
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
-
-    _handlePatchChange(e) {
-      const leftPatch = this._leftSelected;
-      const rightPatch = this._rightSelected;
-      this.fire('patch-range-change', {rightPatch, leftPatch});
-      e.target.blur();
     },
 
     _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
@@ -85,11 +139,11 @@
     // debounce these, but because they are detecting two different
     // events, sometimes the timing was off and one ended up missing.
     _synchronizeSelectionRight() {
-      this.$.rightPatchSelect.value = this._rightSelected;
+      this.$.rightPatchSelect.value = this.patchNum;
     },
 
     _synchronizeSelectionLeft() {
-      this.$.leftPatchSelect.value = this._leftSelected;
+      this.$.leftPatchSelect.value = this.basePatchNum;
     },
 
     // Copied from gr-file-list
@@ -145,7 +199,7 @@
       }
       let commentsStr = '';
       if (numComments > 0) {
-        commentsStr = '(' + numComments + ' comments';
+        commentsStr = ' (' + numComments + ' comments';
         if (numUnresolved > 0) {
           commentsStr += ', ' + numUnresolved + ' unresolved';
         }
@@ -154,9 +208,15 @@
       return commentsStr;
     },
 
-    _computePatchSetDescription(revisions, patchNum) {
+    /**
+     * @param {!Array} revisions
+     * @param {number|string} patchNum
+     * @param {boolean=} opt_addFrontSpace
+     */
+    _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
+          (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
   });

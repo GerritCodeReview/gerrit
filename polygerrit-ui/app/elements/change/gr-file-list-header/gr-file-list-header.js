@@ -38,8 +38,14 @@
         type: String,
         notify: true,
       },
-      /** @type {?} */
-      patchRange: Object,
+      patchNum: {
+        type: String,
+        notify: true,
+      },
+      basePatchNum: {
+        type: String,
+        notify: true,
+      },
       revisions: Array,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
@@ -98,10 +104,10 @@
     _handleDescriptionChanged(e) {
       const desc = e.detail.trim();
       const rev = this.getRevisionByPatchNum(this.change.revisions,
-          this.patchRange.patchNum);
+          this.patchNum);
       const sha = this._getPatchsetHash(this.change.revisions, rev);
       this.$.restAPI.setDescription(this.changeNum,
-          this.patchRange.patchNum, desc)
+          this.patchNum, desc)
           .then(res => {
             if (res.ok) {
               this.set(['_change', 'revisions', sha, 'description'], desc);
@@ -135,37 +141,6 @@
 
       return this.findSortedIndex(patchNum, this.revisions) <=
           this.findSortedIndex(basePatchNum, this.revisions);
-    },
-
-        /**
-     * Change active patch to the provided patch num.
-     * @param {number|string} basePatchNum the base patch to be viewed.
-     * @param {number|string} patchNum the patch number to be viewed.
-     * @param {boolean} opt_forceParams When set to true, the resulting URL will
-     *     always include the patch range, even if the requested patchNum is
-     *     known to be the latest.
-     */
-    _changePatchNum(basePatchNum, patchNum, opt_forceParams) {
-      if (!opt_forceParams) {
-        let currentPatchNum;
-        if (this.change.current_revision) {
-          currentPatchNum =
-              this.change.revisions[this.change.current_revision]._number;
-        } else {
-          currentPatchNum = this.computeLatestPatchNum(this.allPatchSets);
-        }
-        if (this.patchNumEquals(patchNum, currentPatchNum) &&
-            basePatchNum === 'PARENT') {
-          Gerrit.Nav.navigateToChange(this.change);
-          return;
-        }
-      }
-      Gerrit.Nav.navigateToChange(this.change, patchNum,
-          basePatchNum);
-    },
-
-    _handlePatchChange(e) {
-      this._changePatchNum(e.detail.leftPatch, e.detail.rightPatch, true);
     },
 
     _handlePrefsTap(e) {

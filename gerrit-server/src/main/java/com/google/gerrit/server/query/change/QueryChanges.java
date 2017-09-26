@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -143,8 +144,8 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
-      if (results.get(n).more()) {
-        info.get(info.size() - 1)._moreChanges = true;
+      if (results.get(n).more() && !info.isEmpty()) {
+        Iterables.getLast(info)._moreChanges = true;
       }
     }
     return res;

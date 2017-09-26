@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1506454986 -0400\nnonce ANEgCxdfUQCL838EUpMSuuWk3Qj76AjRuE846aixPIm7GMogCWX6vdyUe9tWi4AOzmEsK7k1icVP\n\n0000000000000000000000000000000000000000 1f11fe8909b76fa26c60f44cf797fc1831b96325 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZyq3KAAoJEF/XxZqaEoiMuV8P/1slY7JbEMEPtNUE969Xa3Zm\nrvp4Fg0MejGB/K1gpBcQF3SRmvHUKgCD9Vbu2FFHdwEEzLFNWFghh3SjDYIMUO8w\nW7K+heTrk/D370x/ofGbF32DPJaVnit9JIvLo4UnapOmvzLRLsV1RojdvpRWnoHp\njiQix1+4bYSQMH3stjNowFv+OM1v41nyE7tz70344Pk0fG/bnnMZIdNhT2akIlr1\nsr/81nYJPRrosK1lh4hXxkYTHDKC3uucn3d7j4SH91vc2avdcP7ORiam763YBnLv\nVSf3/kNCIbNZyysjL8ORRP9dtt8/iMN9BoRsdzKrYJKQLHCsijPuE/Y1/cmj+b10\nmRdy3NX4AB7gM/JQEBiTEzBGXU63tHSghtAK4A6WXO/8AJ4CwiK8ko2oxr2wqtxu\n/cvDupnPk4c3gh4hR6PU55OXhDfYmLaC5X046hsSA/PlRdhBeRA5Nz+GmhQ9wlDJ\nNiLigF6r9hvxhz66Z+a5e0MVutdGo+K9MWEaBqHUE7jjwkZCH2lPv38BVHS2tjYN\nssyBTSgZF8VLWRgDCkfFHeDg87aoEjf4B8zLRfqupporC6LK1lC9XpfOvlmHnEFB\nVC+Xjn13WlH4IQEgmGvpQV+/S3WaCgTDUwOcUDrbL9WdvjJHyxvYff82pQ2/6yA2\nHcgDmthjER3i+EP1UvwN\n\u003dy/s8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceb503e8_ad91e69a",
+        "filename": "prolog/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-26T21:09:19Z",
+      "side": 1,
+      "message": "This rule is never depended on outside of tests:\n\n $ find . -name BUILD | xargs grep gerrit-prolog-common\n ./javatests/com/google/gerrit/server/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./javatests/com/google/gerrit/server/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./javatests/com/google/gerrit/server/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./javatests/com/google/gerrit/server/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./prolog/BUILD:    name \u003d \"gerrit-prolog-common\",\n ./java/com/google/gerrit/acceptance/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./java/com/google/gerrit/acceptance/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./java/com/google/gerrit/httpd/init/BUILD:        \"//prolog:gerrit-prolog-common\",\n ./plugins/BUILD:    \"//prolog:gerrit-prolog-common\",\n\nI think this means the predicates are not available in a live server (even though the tests pass since it\u0027s in the acceptance lib).\n\nIt\u0027s not trivial to add gerrit-prolog-common as a dep of the server target, because that would be a circular dependency (:prolog-predicates must depend on server).\n\nI\u0027m not sure what the best solution would be. Maybe just drop this change out of the series?",
+      "revId": "e6c8a1c23749b109d1dfc503493e64b2db857b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

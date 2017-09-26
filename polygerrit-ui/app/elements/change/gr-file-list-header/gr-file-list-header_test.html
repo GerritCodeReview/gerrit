@@ -43,11 +43,9 @@ limitations under the License.
   suite('gr-file-list-header tests', () => {
     let element;
     let sandbox;
-    let navigateToChangeStub;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({test: 'config'}); },
         getAccount() { return Promise.resolve(null); },
@@ -129,10 +127,9 @@ limitations under the License.
       sandbox.stub(element, '_computeDescriptionReadOnly');
 
       element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
+      element.basePatchNum = 'PARENT';
+      element.patchNum = 1;
+
       element.change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -180,10 +177,8 @@ limitations under the License.
       const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
       element._files = [];
       element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
+      element.basePatchNum = 'PARENT';
+      element.patchNum = '2';
       element.shownFileCount = 1;
       flush(() => {
         assert.isTrue(computeSpy.lastCall.returnValue);
@@ -206,21 +201,8 @@ limitations under the License.
       assert.equal(select.nativeSelect.value, 'UNIFIED_DIFF');
     });
 
-    test('_changePatchNum called when range select changes', () => {
-      const leftPatch = 1;
-      const rightPatch = 2;
-      sandbox.stub(element, '_changePatchNum');
-      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
-      assert.isTrue(element._changePatchNum.lastCall
-          .calledWithExactly(1, 2, true));
-    });
-
-    test('include base patch when not parent', () => {
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: '2',
-        patchNum: '3',
-      };
+    test('navigateToChange called when range select changes', () => {
+      const navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
       element.change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
@@ -232,16 +214,12 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-
-      element._changePatchNum(2, 13);
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element.change, 13, 2));
-
-      element.patchRange.basePatchNum = 'PARENT';
-
-      element._changePatchNum('PARENT', 3);
-      assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-          element.change, 3, 'PARENT'));
+      element.basePatchNum = 1;
+      element.patchNum = 2;
+      element.patchNum = 3;
+      assert.equal(navigateToChangeStub.callCount, 1);
+      assert.isTrue(navigateToChangeStub.lastCall
+          .calledWithExactly(element.change, 3, 1));
     });
 
     test('class is applied to file list on old patch set', () => {

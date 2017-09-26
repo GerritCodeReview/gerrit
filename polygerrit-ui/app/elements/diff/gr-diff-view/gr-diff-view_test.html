@@ -163,6 +163,7 @@ limitations under the License.
         _number: 42,
         revisions: {
           a: {_number: 10},
+          b: {_number: 5},
         },
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -438,15 +439,23 @@ limitations under the License.
     });
 
     test('_handlePatchChange calls navigateToDiff correctly', () => {
-      const leftPatch = 'PARENT';
-      const rightPatch = '3';
       const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
       element._change = {_number: 321, project: 'foo/bar'};
       element._path = 'path/to/file.txt';
-      element.$.rangeSelect.fire('patch-range-change', {leftPatch, rightPatch});
+
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '3',
+      };
+
+      assert.equal(element._basePatchNum, element._patchRange.basePatchNum);
+      assert.equal(element._patchNum, element._patchRange.patchNum);
+
+      element._patchNum = '1';
+
 
       assert(navigateStub.lastCall.calledWithExactly(element._change,
-          element._path, rightPatch, leftPatch));
+          element._path, '1', 'PARENT'));
     });
 
     test('download link', () => {
@@ -759,6 +768,7 @@ limitations under the License.
       };
 
       test('reviewed checkbox', () => {
+        sandbox.stub(element, '_handlePatchChange');
         element._patchRange = {patchNum: '1'};
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));

@@ -16,6 +16,24 @@
       "revId": "85962182fb886e86cd22be6580fe37cc330ffa5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce2a0dca_083c71b5",
+        "filename": "java/com/google/gerrit/pgm/http/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-26T11:50:14Z",
+      "side": 1,
+      "message": "I forgot why I did it. Right now I don\u0027t see any reason to add another level of indirection here and will try to change it as you suggested later today.",
+      "parentUuid": "7a3f78c2_f0cf9cc3",
+      "revId": "85962182fb886e86cd22be6580fe37cc330ffa5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

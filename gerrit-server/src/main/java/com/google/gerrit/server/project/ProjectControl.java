@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -214,11 +216,6 @@ public class ProjectControl {
     return state.getProject();
   }
 
-  public boolean allRefsAreVisible(Set<String> ignore) {
-    // TODO(hiesel) Hide refs/changes and replace this method by a proper READ check of all refs
-    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
-  }
-
   /** Is this user a project owner? */
   public boolean isOwner() {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
@@ -255,6 +252,10 @@ public class ProjectControl {
       }
     }
     return false;
+  }
+
+  private boolean allRefsAreVisible(Set<String> ignore) {
+    return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
   }
 
   /** Returns whether the project is hidden. */
@@ -512,6 +513,9 @@ public class ProjectControl {
 
         case READ:
           return !isHidden() && allRefsAreVisible(Collections.emptySet());
+
+        case READ_NO_CONFIG:
+          return !isHidden() && allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG));
 
         case CREATE_REF:
           return canAddRefs();

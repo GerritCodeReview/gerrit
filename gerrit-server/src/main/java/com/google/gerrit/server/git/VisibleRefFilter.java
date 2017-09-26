@@ -20,7 +20,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.stream.Collectors.toMap;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -118,15 +118,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       refs = addUsersSelfSymref(refs);
     }
 
-    projectCtl = projectState.controlFor(user.get());
-    if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
+    PermissionBackend.WithUser withUser = permissionBackend.user(user);
+    PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
+    if (checkProjectPermission(forProject, ProjectPermission.READ)) {
+      return refs;
+    } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
       return fastHideRefsMetaConfig(refs);
     }
 
     Account.Id userId;
     boolean viewMetadata;
     if (user.get().isIdentifiedUser()) {
-      viewMetadata = permissionBackend.user(user).testOrFalse(GlobalPermission.ACCESS_DATABASE);
+      viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
       IdentifiedUser u = user.get().asIdentifiedUser();
       userId = u.getAccountId();
       userEditPrefix = RefNames.refsEditPrefix(userId);
@@ -138,6 +141,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
+    projectCtl = projectState.controlFor(user.get());
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
@@ -335,5 +339,22 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       log.error("unable to check permissions", e);
       return false;
     }
+  }
+
+  private boolean checkProjectPermission(
+      PermissionBackend.ForProject forProject, ProjectPermission perm) {
+    try {
+      forProject.check(perm);
+    } catch (AuthException e) {
+      return false;
+    } catch (PermissionBackendException e) {
+      log.error(
+          String.format(
+              "Can't check permission for user %s on project %s",
+              user.get(), projectState.getName()),
+          e);
+      return false;
+    }
+    return true;
   }
 }

@@ -20,6 +20,8 @@ load("//tools/bzl:js.bzl", "bower_component", "js_component")
 # 4) remove bower_component(name="my_new_dependency", .. ) here
 #
 
+bower_component(name="paper-button", seed=True)
+
 load("//lib/js:bower_components.bzl", "define_bower_components")
 
 define_bower_components()

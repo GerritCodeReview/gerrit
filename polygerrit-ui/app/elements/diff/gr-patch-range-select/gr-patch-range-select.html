@@ -13,11 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
+
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-patch-range-select">
   <template>
@@ -32,27 +34,14 @@ limitations under the License.
         .filesWeblinks {
           display: none;
         }
-        select {
-          max-width: 5.25em;
-        }
       }
     </style>
-    Patch set:
     <span class="patchRange">
-      <gr-select id="leftPatchSelect" bind-value="{{_leftSelected}}"
-          on-change="_handlePatchChange">
-        <select>
-          <option value="PARENT">Base</option>
-          <template is="dom-repeat" items="{{availablePatches}}" as="basePatchNum">
-            <option value$="[[basePatchNum.num]]"
-                disabled$="[[_computeLeftDisabled(basePatchNum.num, patchRange.patchNum, _sortedRevisions)]]">
-              [[basePatchNum.num]]
-              [[_computePatchSetCommentsString(comments, basePatchNum.num)]]
-              [[_computePatchSetDescription(revisions, basePatchNum.num)]]
-            </option>
-          </template>
-        </select>
-      </gr-select>
+      <gr-dropdown-list
+          id="basePatchDropdown"
+          value="{{basePatchNum}}"
+          items="[[_baseDropdownContent]]">
+      </gr-dropdown-list>
     </span>
     <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
@@ -62,19 +51,11 @@ limitations under the License.
     </span>
     &rarr;
     <span class="patchRange">
-      <gr-select id="rightPatchSelect" bind-value="{{_rightSelected}}"
-          on-change="_handlePatchChange">
-        <select>
-          <template is="dom-repeat" items="{{availablePatches}}" as="patchNum">
-            <option value$="[[patchNum.num]]"
-                disabled$="[[_computeRightDisabled(patchNum.num, patchRange.basePatchNum, _sortedRevisions)]]">
-              [[patchNum.num]]
-              [[_computePatchSetCommentsString(comments, patchNum.num)]]
-              [[_computePatchSetDescription(revisions, patchNum.num)]]
-            </option>
-          </template>
-        </select>
-      </gr-select>
+      <gr-dropdown-list
+          id="patchNumDropdown"
+          value="{{patchNum}}"
+          items="[[_patchDropdownContent]]">
+      </gr-dropdown-list>
       <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
         <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
           <a target="_blank"

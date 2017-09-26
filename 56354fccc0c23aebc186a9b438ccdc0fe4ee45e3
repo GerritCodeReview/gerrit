@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e727234_a08c1679",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-26T13:09:47Z",
+      "side": 1,
+      "message": "their (try to be gender-neutral)",
+      "range": {
+        "startLine": 8,
+        "startChar": 22,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

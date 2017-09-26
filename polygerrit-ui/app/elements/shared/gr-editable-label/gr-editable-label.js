@@ -53,7 +53,7 @@
       _verticalOffset: {
         type: Number,
         readOnly: true,
-        value: 30,
+        value: -30,
       },
     },
 

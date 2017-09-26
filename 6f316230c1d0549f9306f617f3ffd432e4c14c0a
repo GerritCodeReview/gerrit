@@ -46,6 +46,30 @@
       "revId": "6f316230c1d0549f9306f617f3ffd432e4c14c0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38eeade5_872b4589",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-26T17:20:35Z",
+      "side": 1,
+      "message": "Not sure, it just complaned for me when i was installing gerrit as i had to re do the install do to missing projects.\n\nGerrit Code Review is not shipped with MariaDB Connector/J 2.1.0\n**  This library is required for your configuration. **\nDownload and install it now [Y/n]? y\nDownloading https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/2.1.0/mariadb-java-client-2.1.0.jar ... OK\nerror: SHA-1 checksum does not match\nUse mariadb-java-client-2.1.0.jar anyway [y/n]? y\n\ni am guessing it\u0027s a one time error, maybe a blipse in the network when it was checking.",
+      "parentUuid": "8b13997c_6b34345d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "6f316230c1d0549f9306f617f3ffd432e4c14c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

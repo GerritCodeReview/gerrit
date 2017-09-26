@@ -34,6 +34,24 @@
       "revId": "59e8052fdb5cbbe02b52a1e0c101dfcc36121740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e97a26_b756d5c1",
+        "filename": "resources/com/google/gerrit/reviewdb/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-26T06:24:33Z",
+      "side": 1,
+      "message": "I think I\u0027ve misunderstood your comment, I assumed, that you meant moving the resources under the java/resources/... with  resoucres directory between java and the com. But if I do that:\n\n  java_library(\n    name \u003d \"server\",\n    srcs \u003d glob([\"**/*.java\"]),\n    resource_strip_prefix \u003d \"java/resources\",\n    resources \u003d [\"//java/resources/com/google/gerrit/reviewdb\"],\n    [...]\n\nthen i still need resource_strip_prefix, because otherwise, the resources would be put in wrong directory withing final artifact.\n\nIOW what you are probably really suggesting is to move entire resources directly in the source tree? Looking into what your suggestion would mean, we have two options. Put the glob in place, something like:\n\n  java_library(\n      name \u003d \"server\",\n      srcs \u003d glob([\"**/*.java\"]),\n      resources \u003d glob([\"**/*.sql\"]),\n  [...]\n\nThis is easy to do in reviewdb package, because there is only *.sql files, but in other places, where we would have dozen different extensions to consider, it wouldn\u0027t be as easy as this. We cannot use wildcard here:\n\n  filegroup(\n    name \u003d \"reviewdb\",\n    srcs \u003d glob(\n        [\"**/*\"],\n        exclude \u003d [\"BUILD\"],\n    ),\n    visibility \u003d [\"//visibility:public\"],\n  )\n\nobviously, because we would get all Java files as well:\n\n  $ unzip -t bazel-bin/java/com/google/gerrit/reviewdb/libserver.jar | grep \\.java | wc -l\n  51\n\nThe same stiry, if we use a filegroup approach:\n\n  filegroup(\n    name \u003d \"resources\",\n    srcs \u003d glob(\n        [\"**/*.sql\"],\n        exclude \u003d [\"BUILD\"],\n    ),\n    visibility \u003d [\"//visibility:public\"],\n  )\n\nand use it:\n\n  java_library(\n      name \u003d \"server\",\n      srcs \u003d glob([\"**/*.java\"]),\n      resources \u003d [\":resources\"],\n      deps \u003d [\n          \"//java/com/google/gerrit/extensions:api\",\n          \"//lib:guava\",\n          \"//lib:gwtorm\",\n      ],\n  )\n\nthis would work, of course. Another implication of this change, is that in the IDE devs would see all of the resources in the same location where Java files are located. There is a potential distraction issue to consider.\n\nOTOH, we are removing the GWT UI and ReviewDb, so there are realy a very few java only related resources left in the tree, after all.\n\nSo, I will let you to decide, whether or not we should put the resources in the java tree directory, as it\u0027s done within your intenal build atm. If we have the decision here in the next days, i will try to adapt this series.",
+      "parentUuid": "c5a34c76_f435cea9",
+      "revId": "59e8052fdb5cbbe02b52a1e0c101dfcc36121740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

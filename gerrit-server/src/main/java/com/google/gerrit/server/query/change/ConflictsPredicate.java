@@ -108,7 +108,7 @@ public class ConflictsPredicate {
       ProjectState projectState;
       try {
         projectState = changeDataCache.getProjectState();
-      } catch (NoSuchProjectException | OrmException e) {
+      } catch (NoSuchProjectException e) {
         return false;
       }
 
@@ -180,7 +180,7 @@ public class ConflictsPredicate {
       return testAgainst;
     }
 
-    ProjectState getProjectState() throws OrmException, NoSuchProjectException {
+    ProjectState getProjectState() throws NoSuchProjectException {
       if (projectState == null) {
         projectState = projectCache.get(cd.project());
         if (projectState == null) {

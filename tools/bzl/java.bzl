@@ -17,8 +17,8 @@
 
 def java_library2(deps=[], exported_deps=[], exports=[], **kwargs):
   if exported_deps:
-    deps += exported_deps
-    exports += exported_deps
+    deps = deps + exported_deps
+    exports = exports + exported_deps
   native.java_library(
     deps = deps,
     exports = exports,

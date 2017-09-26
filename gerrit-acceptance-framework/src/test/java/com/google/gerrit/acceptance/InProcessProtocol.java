@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,8 +35,13 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -203,29 +209,32 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Upload implements UploadPackFactory<Context> {
     private final Provider<CurrentUser> userProvider;
-    private final ProjectControl.GenericFactory projectControlFactory;
     private final VisibleRefFilter.Factory refFilterFactory;
     private final TransferConfig transferConfig;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
+    private final ProjectCache projectCache;
+    private final PermissionBackend permissionBackend;
 
     @Inject
     Upload(
         Provider<CurrentUser> userProvider,
-        ProjectControl.GenericFactory projectControlFactory,
         VisibleRefFilter.Factory refFilterFactory,
         TransferConfig transferConfig,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
-        ThreadLocalRequestContext threadContext) {
+        ThreadLocalRequestContext threadContext,
+        ProjectCache projectCache,
+        PermissionBackend permissionBackend) {
       this.userProvider = userProvider;
-      this.projectControlFactory = projectControlFactory;
       this.refFilterFactory = refFilterFactory;
       this.transferConfig = transferConfig;
       this.preUploadHooks = preUploadHooks;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.threadContext = threadContext;
+      this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
     }
 
     @Override
@@ -236,23 +245,35 @@ class InProcessProtocol extends TestProtocol<Context> {
       // its original context anyway.
       threadContext.setContext(req);
       current.set(req);
-      try {
-        ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
-        if (!ctl.canRunUploadPack()) {
-          throw new ServiceNotAuthorizedException();
-        }
 
-        UploadPack up = new UploadPack(repo);
-        up.setPackConfig(transferConfig.getPackConfig());
-        up.setTimeout(transferConfig.getTimeout());
-        up.setAdvertiseRefsHook(refFilterFactory.create(ctl.getProjectState(), repo));
-        List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-        hooks.add(uploadValidatorsFactory.create(ctl.getProject(), repo, "localhost-test"));
-        up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
-        return up;
-      } catch (NoSuchProjectException | IOException e) {
+      try {
+        permissionBackend
+            .user(userProvider)
+            .project(req.project)
+            .check(ProjectPermission.RUN_UPLOAD_PACK);
+      } catch (AuthException e) {
+        throw new ServiceNotAuthorizedException();
+      } catch (PermissionBackendException e) {
         throw new RuntimeException(e);
       }
+
+      ProjectState projectState;
+      try {
+        projectState = projectCache.checkedGet(req.project);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (projectState == null) {
+        throw new RuntimeException("can't load project state for " + req.project.get());
+      }
+      UploadPack up = new UploadPack(repo);
+      up.setPackConfig(transferConfig.getPackConfig());
+      up.setTimeout(transferConfig.getTimeout());
+      up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
+      List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
+      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
+      up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
+      return up;
     }
   }
 
@@ -264,6 +285,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
     private final DynamicSet<PostReceiveHook> postReceiveHooks;
     private final ThreadLocalRequestContext threadContext;
+    private final PermissionBackend permissionBackend;
 
     @Inject
     Receive(
@@ -273,7 +295,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         TransferConfig config,
         DynamicSet<ReceivePackInitializer> receivePackInitializers,
         DynamicSet<PostReceiveHook> postReceiveHooks,
-        ThreadLocalRequestContext threadContext) {
+        ThreadLocalRequestContext threadContext,
+        PermissionBackend permissionBackend) {
       this.userProvider = userProvider;
       this.projectControlFactory = projectControlFactory;
       this.factory = factory;
@@ -281,6 +304,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.receivePackInitializers = receivePackInitializers;
       this.postReceiveHooks = postReceiveHooks;
       this.threadContext = threadContext;
+      this.permissionBackend = permissionBackend;
     }
 
     @Override
@@ -292,11 +316,17 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
       try {
+        permissionBackend
+            .user(userProvider)
+            .project(req.project)
+            .check(ProjectPermission.RUN_RECEIVE_PACK);
+      } catch (AuthException e) {
+        throw new ServiceNotAuthorizedException();
+      } catch (PermissionBackendException e) {
+        throw new RuntimeException(e);
+      }
+      try {
         ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
-        if (!ctl.canRunReceivePack()) {
-          throw new ServiceNotAuthorizedException();
-        }
-
         AsyncReceiveCommits arc = factory.create(ctl, db, null, ImmutableSetMultimap.of());
         ReceivePack rp = arc.getReceivePack();
 

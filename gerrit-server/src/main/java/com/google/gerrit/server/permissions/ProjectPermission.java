@@ -70,7 +70,13 @@ public enum ProjectPermission {
    *    .check(RefPermission.CREATE_CHANGE);
    * </pre>
    */
-  CREATE_CHANGE;
+  CREATE_CHANGE,
+
+  /** Can run receive pack. */
+  RUN_RECEIVE_PACK,
+
+  /** Can run upload pack. */
+  RUN_UPLOAD_PACK;
 
   private final String name;
 

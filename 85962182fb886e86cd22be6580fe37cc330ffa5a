@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a3f78c2_f0cf9cc3",
+        "filename": "java/com/google/gerrit/pgm/http/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-26T11:26:18Z",
+      "side": 1,
+      "message": "Why this alias instead of just changing dependents to point to http/jetty directly?",
+      "revId": "85962182fb886e86cd22be6580fe37cc330ffa5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

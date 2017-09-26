@@ -168,22 +168,6 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChangeFromBranchWithoutAbandonPerms() throws Exception {
-    // Move change for which user does not have abandon permissions
-    PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
-    createBranch(newBranch);
-    block(
-        r.getChange().change().getDest().get(),
-        Permission.ABANDON,
-        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    setApiUser(user);
-    exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
-    move(r.getChangeId(), newBranch.get());
-  }
-
-  @Test
   public void moveChangeToBranchThatContainsCurrentCommit() throws Exception {
     // Move change to a branch for which current PS revision is reachable from
     // tip
@@ -222,8 +206,6 @@ public class MoveChangeIT extends AbstractDaemonTest {
     grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
     move(r.getChangeId(), newBranch.get());
   }
 

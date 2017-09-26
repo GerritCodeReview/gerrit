@@ -98,7 +98,7 @@ USER_AGENT_XML = """<module rename-to='gerrit_ui'>
 
 def gwt_module(gwt_xml=None, resources=[], srcs=[], **kwargs):
   if gwt_xml:
-    resources += [gwt_xml]
+    resources = resources + [gwt_xml]
 
   java_library2(
     srcs = srcs,

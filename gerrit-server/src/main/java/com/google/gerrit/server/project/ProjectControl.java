@@ -234,8 +234,13 @@ public class ProjectControl {
     return Capable.OK;
   }
 
+  /** Does this user have ownership on at least one reference name? */
+  public boolean isOwnerAnyRef() {
+    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
+  }
+
   /** Can the user run upload pack? */
-  public boolean canRunUploadPack() {
+  private boolean canRunUploadPack() {
     for (AccountGroup.UUID group : uploadGroups) {
       if (match(group)) {
         return true;
@@ -245,7 +250,7 @@ public class ProjectControl {
   }
 
   /** Can the user run receive pack? */
-  public boolean canRunReceivePack() {
+  private boolean canRunReceivePack() {
     for (AccountGroup.UUID group : receiveGroups) {
       if (match(group)) {
         return true;
@@ -521,6 +526,11 @@ public class ProjectControl {
           return canAddRefs();
         case CREATE_CHANGE:
           return canCreateChanges();
+
+        case RUN_RECEIVE_PACK:
+          return canRunReceivePack();
+        case RUN_UPLOAD_PACK:
+          return canRunUploadPack();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

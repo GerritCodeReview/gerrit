@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9789d16_27ab3b20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-26T16:44:42Z",
+      "side": 1,
+      "message": "This is also incorrect. A new change is not created.\n\nMaybe better to just remove the entire comment.",
+      "range": {
+        "startLine": 112,
+        "startChar": 21,
+        "endLine": 112,
+        "endChar": 42
+      },
+      "revId": "d1bd80a6ca4fd6f3610d956c87995f6f96fcc8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -137,6 +137,16 @@
       _patchRange: {
         type: Object,
       },
+      // These are kept as separate properties from the patchRange so that the
+      // observer can be aware of the previous value. In order to view sub
+      // property changes for _patchRange, a complex observer must be used, and
+      // that only displays the new value.
+      //
+      // If a previous value did not exist, the change is not reloaded with the
+      // new patches. This is just the initial setting from the change view vs.
+      // an update coming from the two way data binding.
+      _patchNum: String,
+      _basePatchNum: String,
       _relatedChangesLoading: {
         type: Boolean,
         value: true,
@@ -211,6 +221,7 @@
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
       '_updateSortedRevisions(_change.revisions.*)',
+      '_patchRangeChanged(_patchRange.*)',
     ],
 
     keyBindings: {
@@ -309,6 +320,15 @@
 
     _reloadWindow() {
       window.location.reload();
+    },
+
+    /**
+     * Called when the patch range changes. does not detect sub property
+     * updates.
+     */
+    _patchRangeChanged() {
+      this._basePatchNum = this._patchRange.basePatchNum;
+      this._patchNum = this._patchRange.patchNum;
     },
 
     _handleCommitMessageCancel(e) {
@@ -501,8 +521,8 @@
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
+          this._patchRange = patchRange;
         }
-        this._patchRange = patchRange;
         this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
             change: this._change,

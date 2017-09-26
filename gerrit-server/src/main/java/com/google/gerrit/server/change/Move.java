@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
@@ -110,9 +109,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       throw new ResourceConflictException("Change is already destined for the specified branch");
     }
 
-    // Move requires abandoning this change, and creating a new change.
     try {
-      rsrc.permissions().database(dbProvider).check(ABANDON);
       permissionBackend.user(caller).database(dbProvider).ref(newDest).check(CREATE_CHANGE);
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
@@ -218,11 +215,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         .setVisible(
             and(
                 change.getStatus().isOpen(),
-                and(
-                    permissionBackend
-                        .user(rsrc.getUser())
-                        .ref(change.getDest())
-                        .testCond(CREATE_CHANGE),
-                    rsrc.permissions().database(dbProvider).testCond(ABANDON))));
+                permissionBackend
+                    .user(rsrc.getUser())
+                    .ref(change.getDest())
+                    .testCond(CREATE_CHANGE)));
   }
 }

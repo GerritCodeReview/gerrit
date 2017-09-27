@@ -35,6 +35,24 @@
       "revId": "e6c8a1c23749b109d1dfc503493e64b2db857b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b8d295d_99653364",
+        "filename": "prolog/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-27T10:55:30Z",
+      "side": 1,
+      "message": "Ah, I see the issue. I should have mentioned that I was running from the tip of the series, which explains the discrepancy. But even at tip, the dep from httpd/init is sufficient to get it in the war.\n\nI\u0027m still not crazy about the fact that getting a dep on server:server doesn\u0027t bring in a dep on the predicates. But I guess since there\u0027s not actually a problem per se, I can live with this issue now that I know about it.",
+      "parentUuid": "f6c57036_0668cd0f",
+      "revId": "e6c8a1c23749b109d1dfc503493e64b2db857b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

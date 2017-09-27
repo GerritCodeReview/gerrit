@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "240cabe5_9516f167",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T22:17:05Z",
+      "side": 1,
+      "message": "Here we already know the commit from l. 638. In _getBlameForBaseLine l.694, it goes through a function of finding the commit again.  Could it just be passed as an argument to _getBlameForBaseLine?",
+      "range": {
+        "startLine": 650,
+        "startChar": 10,
+        "endLine": 650,
+        "endChar": 53
+      },
+      "revId": "9fd68a27753f7312c9144212a275ec497c4722b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d781a415_4a41f956",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T22:17:05Z",
+      "side": 1,
+      "message": "Under what circumstances would there be content at the time of cell creation? It seems like this is intentional per your comment, but in my playing around with it, it seems to be empty.",
+      "range": {
+        "startLine": 719,
+        "startChar": 6,
+        "endLine": 719,
+        "endChar": 67
+      },
+      "revId": "9fd68a27753f7312c9144212a275ec497c4722b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

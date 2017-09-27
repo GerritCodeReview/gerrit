@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d80aea4_d81da349",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T20:33:47Z",
+      "side": 1,
+      "message": "I\u0027m confused what the destination change is vs. source change and when this would happen, but I can see that the check appears to just be a protection.  Just trying to understand what would cause it to get into that state.",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c5164c99227b2552a81a0e1e9b23df85e614cc80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -27,8 +27,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
@@ -39,7 +37,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -149,12 +146,7 @@ public class AccountCacheImpl implements AccountCache {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(
-        allUsersName,
-        account,
-        anon,
-        Collections.emptySet(),
-        new HashMap<ProjectWatchKey, Set<NotifyType>>());
+    return new AccountState(allUsersName, account, anon, Collections.emptySet(), new HashMap<>());
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
@@ -235,22 +227,6 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableSet());
-    }
-  }
-
-  static class ByNameLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final Provider<InternalAccountQuery> accountQueryProvider;
-
-    @Inject
-    ByNameLoader(Provider<InternalAccountQuery> accountQueryProvider) {
-      this.accountQueryProvider = accountQueryProvider;
-    }
-
-    @Override
-    public Optional<Account.Id> load(String username) throws Exception {
-      AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(SCHEME_USERNAME, username);
-      return Optional.ofNullable(accountState).map(s -> s.getAccount().getId());
     }
   }
 }

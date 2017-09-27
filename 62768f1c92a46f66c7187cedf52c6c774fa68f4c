@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8259ef0a_04006282",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:36:32Z",
+      "side": 1,
+      "message": "_updatedPatchNums -\u003e _patchRangeChanged\n_patchUpdated -\u003e _patchOrBaseChanged\n\nAlso added a few comments to the functions to distinguish.",
+      "parentUuid": "a737a9c8_80a01df8",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 21
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9866718_74823976",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 20
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "22661ba8_7a4f7bd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:36:32Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s correct. it\u0027s just used to detect whether either one had been previously set. Comment added.",
+      "parentUuid": "a9866718_74823976",
+      "range": {
+        "startLine": 336,
+        "startChar": 18,
+        "endLine": 336,
+        "endChar": 36
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ab6a0ee_68c8c27a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 20
@@ -62,6 +110,24 @@
       "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a65bea_f33b7c36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:36:32Z",
+      "side": 1,
+      "message": "Yeah, because all that does is conditionally call navigateToChange. It is not called when the initial _basePatchNum and _patchNum are set. but when _patchNum is re-set, then navigateToChange is called.",
+      "parentUuid": "3ab6a0ee_68c8c27a",
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "018638c3_c5d59267",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:36:32Z",
+      "side": 1,
+      "message": "See comment: \nhttps://gerrit-review.googlesource.com/c/gerrit/+/127951/20/polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js#148",
+      "parentUuid": "db749838_505bd468",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "62768f1c92a46f66c7187cedf52c6c774fa68f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

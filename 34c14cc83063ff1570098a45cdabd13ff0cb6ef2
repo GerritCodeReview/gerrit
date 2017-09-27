@@ -22,6 +22,30 @@
       "revId": "34c14cc83063ff1570098a45cdabd13ff0cb6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c45aa99c_4e191dfa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:36:32Z",
+      "side": 0,
+      "message": "The reason for this was that I felt it would be better to just sp\n\nPreviously this was triggered by an on-change event of the input:\non-change\u003d\"_handlePatchChange\"\n\nHowever, since the new iteration of the patch range has two (desktop and mobile) views, this strategy didn\u0027t work very well. paper-listbox didn\u0027t have an equivalent event and things got messier.\n\nInstead, I decided to go with observing the value, which presented its own set of problems (this is actually the answer to one of your other questions...) Where we don\u0027t want to reload the change when the patches are set initially.  This can\u0027t be done with an observer on patchRange alone because when you create a complex observer, the oldValues are unknown. \n\nThis is why I split out the patchNum and basePatchNum (and didn\u0027t have to before).\n\nRegarding the why it\u0027s moved...\nI felt that this function made more sense on the change view, and since the values were two way bound, that it should be handled there. Added comment in commit message.",
+      "parentUuid": "16b88d7c_c43a7da2",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 19
+      },
+      "revId": "34c14cc83063ff1570098a45cdabd13ff0cb6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

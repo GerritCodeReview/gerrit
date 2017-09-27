@@ -401,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "06815f40_a2009ca6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "Well, it should still not be a string. You could then change that to _computeShowAgreementsClass(_showAgreements).",
+      "parentUuid": "3b708106_50156372",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ce60344_40229be1",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93

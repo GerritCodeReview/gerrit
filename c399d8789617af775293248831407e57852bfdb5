@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33451682_47c448e3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 96
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "this doesn\u0027t seem to actually jump down to the agreements section. I don\u0027t know that this is a blocker for the change, but add a todo comment.",
+      "range": {
+        "startLine": 951,
+        "startChar": 6,
+        "endLine": 951,
+        "endChar": 45
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36feb344_15bfedac",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "This is not descriptive. please rename to something else (and the class)",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 90,
+        "endChar": 32
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da602cfa_d63b34ce",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "This should be an h3 (sorry missed that one)",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 61
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d4c73a_fe490de8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "This should be an h3 (sorry missed that one)",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 65
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e55d7e66_973c1cfc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "Enter \"I agree\" here",
+      "range": {
+        "startLine": 97,
+        "startChar": 101,
+        "endLine": 97,
+        "endChar": 122
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23cfc70_ada61a1e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 96
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T21:09:42Z",
+      "side": 1,
+      "message": "Does it mean you signed the agreement or that you don\u0027t need to sign the agreement because it is automatically accepted?\n\nSince this is computing a class, it should be renamed to something like\n\n_computeHideAgreementClass()",
+      "range": {
+        "startLine": 114,
+        "startChar": 21,
+        "endLine": 114,
+        "endChar": 60
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

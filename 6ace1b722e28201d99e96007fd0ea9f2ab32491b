@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da52e171_bab92570",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "319d1a84_2beb13df",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52ee2b26_52d8f780",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
         "patchSetId": 93
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c819c2f7_2175b4ae",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "52ee2b26_52d8f780",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6de83091_95e787c1",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
         "patchSetId": 93
@@ -59,6 +107,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "anywhere font-weight is bold should now be font-family: var(--font-family-bold)",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c33e4131_3cd96a84",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6de83091_95e787c1",
       "range": {
         "startLine": 36,
         "startChar": 8,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "c5e63498_c44a00d9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Ah thanks, done.",
+      "parentUuid": "62bd64a7_dec052e0",
+      "range": {
+        "startLine": 106,
+        "startChar": 34,
+        "endLine": 106,
+        "endChar": 51
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a1a8732_e77e2a1d",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
         "patchSetId": 93
@@ -128,6 +224,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "Please use a class instead.",
+      "range": {
+        "startLine": 116,
+        "startChar": 27,
+        "endLine": 116,
+        "endChar": 75
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e091f18f_604da2a3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a1a8732_e77e2a1d",
       "range": {
         "startLine": 116,
         "startChar": 27,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "cc2ec214_2c0610b4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "933e282b_0a91fff5",
+      "range": {
+        "startLine": 134,
+        "startChar": 17,
+        "endLine": 134,
+        "endChar": 114
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a13dd96d_58fa35de",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
         "patchSetId": 93
@@ -174,6 +318,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "this text gets cut off. Also since it\u0027s already in the box. maybe it should say \u0027here\u0027?  I also think this should not be case sensitive.",
+      "range": {
+        "startLine": 140,
+        "startChar": 18,
+        "endLine": 140,
+        "endChar": 57
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46887322_9200e62f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a13dd96d_58fa35de",
       "range": {
         "startLine": 140,
         "startChar": 18,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "3b708106_50156372",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Nope as we use this in a class\n\n\u003cdiv id\u003d\"claNewAgreements2\" class$\u003d\"claNewAgreements2 [[_showAgreements]]\"\u003e\n\nwhich would not allow us to use a string if we used boolean here.",
+      "parentUuid": "3d32c606_e3d54e49",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 8
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ce60344_40229be1",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93
@@ -220,6 +412,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "this sounds plural but it doesn\u0027t look like it\u0027s meant to be plural.  What if the input url was called configUrl and then urls is renamed to url?",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad5328f5_c7f09a42",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "2ce60344_40229be1",
       "range": {
         "startLine": 57,
         "startChar": 10,
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "6e1f45f6_5de3663d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4c148016_fd8a07fa",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 7
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17ce0900_7dad98e8",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93
@@ -266,6 +506,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "we don\u0027t know if this is ok. I think it would be better to call this \u0027res\u0027 as is usually done.",
+      "range": {
+        "startLine": 79,
+        "startChar": 62,
+        "endLine": 79,
+        "endChar": 64
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1358c9_0eced456",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "17ce0900_7dad98e8",
       "range": {
         "startLine": 79,
         "startChar": 62,
@@ -301,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "633289b2_ad159d6f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9fc9c20b_51dae553",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "172aaf1a_2303545e",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93
@@ -312,6 +600,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "With all of these loops, this could use a comment, it\u0027s not completely clear what happens in this function.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5379cc1_16c74079",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "172aaf1a_2303545e",
       "range": {
         "startLine": 107,
         "startChar": 4,
@@ -347,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "0625df9d_b7fe99fb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "32999bd9_3432e319",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a896417b_75b15947",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93
@@ -370,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "60938347_6cb23364",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "groupObject?\n\nThanks, done.",
+      "parentUuid": "a896417b_75b15947",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 19
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1c7fcf3_caa7ec51",
         "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
         "patchSetId": 93
@@ -381,6 +741,30 @@
       "writtenOn": "2017-09-27T17:54:55Z",
       "side": 1,
       "message": "Same here..\nif (!obj.hasOwnProperty(prop)) { return }",
+      "range": {
+        "startLine": 112,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 43
+      },
+      "revId": "6ace1b722e28201d99e96007fd0ea9f2ab32491b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b916177_7f286d77",
+        "filename": "polygerrit-ui/app/elements/settings/gr-new-agreements/gr-new-agreements.js",
+        "patchSetId": 93
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a1c7fcf3_caa7ec51",
       "range": {
         "startLine": 112,
         "startChar": 12,

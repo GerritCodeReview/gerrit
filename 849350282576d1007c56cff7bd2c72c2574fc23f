@@ -16,6 +16,24 @@
       "revId": "849350282576d1007c56cff7bd2c72c2574fc23f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58fd8fce_94d225ff",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 93
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T19:17:41Z",
+      "side": 0,
+      "message": "Ah ok. I thought it being gr-new-agreements would be consitent with name but i guess gr-cla-view is better.\n\nThanks, done. (renamed it) :)",
+      "parentUuid": "11a20e1d_c47f3881",
+      "revId": "849350282576d1007c56cff7bd2c72c2574fc23f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

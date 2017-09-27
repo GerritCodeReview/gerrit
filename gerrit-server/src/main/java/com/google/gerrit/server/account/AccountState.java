@@ -23,7 +23,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -46,7 +45,6 @@ public class AccountState {
 
   private final AllUsersName allUsersName;
   private final Account account;
-  private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<ExternalId> externalIds;
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
@@ -54,12 +52,10 @@ public class AccountState {
   public AccountState(
       AllUsersName allUsersName,
       Account account,
-      Set<AccountGroup.UUID> actualGroups,
       Collection<ExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     this.allUsersName = allUsersName;
     this.account = account;
-    this.internalGroups = actualGroups;
     this.externalIds = externalIds;
     this.projectWatches = projectWatches;
     this.account.setUserName(getUserName(externalIds));
@@ -115,11 +111,6 @@ public class AccountState {
   /** The project watches of the account. */
   public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     return projectWatches;
-  }
-
-  /** The set of groups maintained directly within the Gerrit database. */
-  public Set<AccountGroup.UUID> getInternalGroups() {
-    return internalGroups;
   }
 
   public static String getUserName(Collection<ExternalId> ids) {

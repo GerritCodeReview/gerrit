@@ -163,6 +163,30 @@
       "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7721273a_b8ee0401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:57:28Z",
+      "side": 1,
+      "message": "True. I would still prefer to somehow combine the two getGroupsOwnedBy() implementations, especially since the new one ignores most other options and bypasses visibility checks. Maybe we can define the new option similarly to \u0027user\u0027 and give one of those two options the preference when both are set.",
+      "parentUuid": "5c47c4b2_9979e6a7",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

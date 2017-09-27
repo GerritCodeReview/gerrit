@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d4f43a5d_56ea828a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-27T13:43:50Z",
+      "side": 1,
+      "message": "Right.  This was done only so I could run a single test while developing.\n\nI\u0027l remove it.",
+      "parentUuid": "57be3455_7ea40e4f",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eabbebb4_a0c6b39b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "089988a2_8102d511",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-27T13:43:50Z",
+      "side": 1,
+      "message": "This too",
+      "parentUuid": "eabbebb4_a0c6b39b",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 505,
+        "endChar": 33
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "843d9fdc_d60ee228",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 5
@@ -82,6 +130,30 @@
       "writtenOn": "2017-09-27T13:33:57Z",
       "side": 1,
       "message": "Doesn\u0027t this combination of options already allow to list groups by owner? That implementation has the additional benefit of respecting the other options (like \u0027limit\u0027 or \u0027skip\u0027) too, which the new implementation of getGroupsOwnedBy() is erroneously neglecting.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c47c4b2_9979e6a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-27T13:43:50Z",
+      "side": 1,
+      "message": "This one filters by IdentifiedUser, not by group UUID.",
+      "parentUuid": "843d9fdc_d60ee228",
       "range": {
         "startLine": 279,
         "startChar": 0,

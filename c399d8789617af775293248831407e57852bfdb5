@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16804ba0_5e8f9329",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 96
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "Yeh, it depends on the browser. But yeh, as long as it gets to /settings, i think most users will find Agreements.",
+      "parentUuid": "33451682_47c448e3",
+      "range": {
+        "startLine": 951,
+        "startChar": 6,
+        "endLine": 951,
+        "endChar": 45
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "36feb344_15bfedac",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
         "patchSetId": 96
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-27T21:09:42Z",
       "side": 1,
       "message": "This is not descriptive. please rename to something else (and the class)",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 90,
+        "endChar": 32
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32831466_cbaa2a2e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "Im not sure of any better descriptive name.\n\nAny suggestions please?",
+      "parentUuid": "36feb344_15bfedac",
       "range": {
         "startLine": 90,
         "startChar": 15,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "05257464_1883dd24",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "da602cfa_d63b34ce",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 61
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7d4c73a_fe490de8",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
         "patchSetId": 96
@@ -82,6 +154,30 @@
       "writtenOn": "2017-09-27T21:09:42Z",
       "side": 1,
       "message": "This should be an h3 (sorry missed that one)",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 65
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38015cc6_946615a6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b7d4c73a_fe490de8",
       "range": {
         "startLine": 96,
         "startChar": 10,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2e0c8e20_d232411e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 96
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e55d7e66_973c1cfc",
+      "range": {
+        "startLine": 97,
+        "startChar": 101,
+        "endLine": 97,
+        "endChar": 122
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f23cfc70_ada61a1e",
         "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
         "patchSetId": 96
@@ -128,6 +248,30 @@
       "writtenOn": "2017-09-27T21:09:42Z",
       "side": 1,
       "message": "Does it mean you signed the agreement or that you don\u0027t need to sign the agreement because it is automatically accepted?\n\nSince this is computing a class, it should be renamed to something like\n\n_computeHideAgreementClass()",
+      "range": {
+        "startLine": 114,
+        "startChar": 21,
+        "endLine": 114,
+        "endChar": 60
+      },
+      "revId": "c399d8789617af775293248831407e57852bfdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dff944c8_041f484a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 96
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-27T21:32:25Z",
+      "side": 1,
+      "message": "It means you signned it if auto_verify_group is specified for that specific agreement.",
+      "parentUuid": "f23cfc70_ada61a1e",
       "range": {
         "startLine": 114,
         "startChar": 21,

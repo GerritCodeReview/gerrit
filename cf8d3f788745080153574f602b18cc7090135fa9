@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90c994c7_49a2b77f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-27T19:15:25Z",
+      "side": 1,
+      "message": "Is patchNum optional? It looks like it probably is. If so, should be opt_patchNum and denoted with an annotation (I think it will fail).",
+      "range": {
+        "startLine": 166,
+        "startChar": 42,
+        "endLine": 166,
+        "endChar": 50
+      },
+      "revId": "cf8d3f788745080153574f602b18cc7090135fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

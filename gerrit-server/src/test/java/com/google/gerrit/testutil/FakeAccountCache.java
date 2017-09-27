@@ -79,7 +79,6 @@ public class FakeAccountCache implements AccountCache {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         account,
         ImmutableSet.of(),
-        ImmutableSet.of(),
         new HashMap<>());
   }
 }

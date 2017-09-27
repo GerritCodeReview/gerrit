@@ -44,12 +44,7 @@ public class AccountFieldTest extends GerritBaseTests {
     List<String> values =
         toStrings(
             AccountField.REF_STATE.get(
-                new AccountState(
-                    allUsersName,
-                    account,
-                    ImmutableSet.of(),
-                    ImmutableSet.of(),
-                    ImmutableMap.of())));
+                new AccountState(allUsersName, account, ImmutableSet.of(), ImmutableMap.of())));
     assertThat(values).hasSize(1);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.getId()) + ":" + metaId;
@@ -78,11 +73,7 @@ public class AccountFieldTest extends GerritBaseTests {
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
                 new AccountState(
-                    null,
-                    account,
-                    ImmutableSet.of(),
-                    ImmutableSet.of(extId1, extId2),
-                    ImmutableMap.of())));
+                    null, account, ImmutableSet.of(extId1, extId2), ImmutableMap.of())));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);

@@ -44,7 +44,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -142,12 +141,7 @@ public class InitAdminUser implements InitStep {
           }
 
           AccountState as =
-              new AccountState(
-                  new AllUsersName(allUsers.get()),
-                  a,
-                  Collections.singleton(adminGroup.getGroupUUID()),
-                  extIds,
-                  new HashMap<>());
+              new AccountState(new AllUsersName(allUsers.get()), a, extIds, new HashMap<>());
           for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
           }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d04b5f27_ab768f54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T22:58:12Z",
+      "side": 1,
+      "message": "Thanks! Done.\n\nThere are a few more efficiency improvements to make in follow-up, but this is an easy on ... and I guess this slightly an O(n²).",
+      "parentUuid": "240cabe5_9516f167",
+      "range": {
+        "startLine": 650,
+        "startChar": 10,
+        "endLine": 650,
+        "endChar": 53
+      },
+      "revId": "9fd68a27753f7312c9144212a275ec497c4722b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d781a415_4a41f956",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 19
@@ -45,6 +69,30 @@
       "revId": "9fd68a27753f7312c9144212a275ec497c4722b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b27036c_43329b75",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T22:58:12Z",
+      "side": 1,
+      "message": "Consider the following timeline:\n\n* The diff is rendered without full context (so sections are unexpanded).\n* The user loads blame information (which then appears in the expanded regions).\n* The user clicks a collapsed region to expand it. Because the blame information is already loaded, it should also appear in these newly expanded regions (which hadn\u0027t been rendered at all up to this point).\n\nI encourage you to try it out!\n\nThis approach aligns with the way syntax highlighting renders when expanding collapsed regions.",
+      "parentUuid": "d781a415_4a41f956",
+      "range": {
+        "startLine": 719,
+        "startChar": 6,
+        "endLine": 719,
+        "endChar": 67
+      },
+      "revId": "9fd68a27753f7312c9144212a275ec497c4722b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

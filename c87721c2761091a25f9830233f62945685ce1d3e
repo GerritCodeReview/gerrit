@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6766e12c_6937fcce",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T14:06:44Z",
+      "side": 1,
+      "message": "optional: This could be moved to the other injected private fields (starting at line 254).",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "c87721c2761091a25f9830233f62945685ce1d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

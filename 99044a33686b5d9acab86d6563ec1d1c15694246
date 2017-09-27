@@ -525,6 +525,24 @@
       "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "868fb588_c806af71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 67
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-27T12:11:10Z",
+      "side": 1,
+      "message": "Jepp. I\u0027ve tested all use cases:\n\n* migrate draft change to WIP\n* migrate usual change with draft path set to WIP\n\nAll worked as expected. I will set VRFY+1.",
+      "parentUuid": "a3f4e546_5dc57141",
+      "revId": "99044a33686b5d9acab86d6563ec1d1c15694246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "96ae98def1c82af0e13880449d73ac3750aad986",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b62f3bc_ae66bd0e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T22:31:40Z",
+      "side": 1,
+      "message": "Errr .. By ..\n\n\u003e there is no distinction between \n\nI meant \"there is no need to distinguish between\". There still is quite a distinction.",
+      "parentUuid": "1f626a0b_119cc1c7",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "96ae98def1c82af0e13880449d73ac3750aad986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

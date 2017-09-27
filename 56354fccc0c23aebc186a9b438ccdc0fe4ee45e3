@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "971130e1_b6b571ba",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-09-27T08:18:39Z",
+      "side": 1,
+      "message": "\u003e If we treat \u0027move\u0027 like uploading a new change. Then we just need to remove all votes. But that means everyone will have \u0027RemoveVote\u0027 permission and our sticky votes (-2s) will not work as usual any \n\nNot entirely true: RemoveVotes permission lets you remove individual votes so you can remove the ones that you don\u0027t like and keep the ones you like while here it is all-or-nothing.",
+      "parentUuid": "81c2282d_b1a3cb52",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 97
+      },
+      "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1bcac77_a227b42f",
         "filename": "Documentation/proposal-ajust-votes.txt",
         "patchSetId": 1

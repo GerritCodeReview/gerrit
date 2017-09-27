@@ -22,6 +22,30 @@
       "revId": "96ae98def1c82af0e13880449d73ac3750aad986",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f626a0b_119cc1c7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T22:30:22Z",
+      "side": 1,
+      "message": "Because the select is just a vanilla DOM element, there is no distinction between Polymer properties and native attributes, so $ is not needed.\n\nNote, for comparison, the binding expressions in the value attributes of the option elements below.",
+      "parentUuid": "cc880347_5ebfb97a",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "96ae98def1c82af0e13880449d73ac3750aad986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

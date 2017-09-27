@@ -22,6 +22,30 @@
       "revId": "c5164c99227b2552a81a0e1e9b23df85e614cc80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5a2bdd5_6826495d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T20:38:02Z",
+      "side": 1,
+      "message": "The linked issue includes the repro steps which still work, you can see the differences in the labels between those two changes.",
+      "parentUuid": "9d80aea4_d81da349",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "c5164c99227b2552a81a0e1e9b23df85e614cc80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

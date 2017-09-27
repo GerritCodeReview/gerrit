@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5b2fd7e_80f27ec2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T20:17:48Z",
+      "side": 1,
+      "message": "Please also remove the \"is:draft\" and \"status:draft\" suggestions from gr-search-bar.js.",
+      "revId": "2827930ec1ec64dfb9b647addd71ef65b6662d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c79cfa_a3e359a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-27T20:17:48Z",
+      "side": 1,
+      "message": "Nit: this is wrapped wrong:\n\n  Note that this removes drafts for patches, comments as drafts are still\n  supported.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "2827930ec1ec64dfb9b647addd71ef65b6662d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

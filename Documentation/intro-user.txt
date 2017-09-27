@@ -488,7 +488,7 @@ followed by `topic=...`.
 Private changes are changes that are only visible to their owners and
 reviewers. Private changes are useful in a number of cases:
 
-* You want to check what the change looks before formal review starts.
+* You want to check what the change looks like before formal review starts.
   By marking the change private without reviewers, nobody can't
   prematurely comment on your changes.
 

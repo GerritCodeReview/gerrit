@@ -324,6 +324,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:new", change1);
     assertQuery("status:merged", change2);
     assertQuery("is:merged", change2);
+    assertQuery("status:draft");
+    assertQuery("is:draft");
   }
 
   @Test
@@ -400,10 +402,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:N", change1);
     assertQuery("status:nE", change1);
     assertQuery("status:neW", change1);
-    assertThatQueryException("status:nx").hasMessageThat().isEqualTo("invalid change status: nx");
-    assertThatQueryException("status:newx")
-        .hasMessageThat()
-        .isEqualTo("invalid change status: newx");
+    assertQuery("status:nx");
+    assertQuery("status:newx");
   }
 
   @Test

@@ -496,7 +496,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> status(String statusName) throws QueryParseException {
+  public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return IsReviewedPredicate.create();
     }
@@ -619,13 +619,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
     }
 
-    try {
-      return status(value);
-    } catch (IllegalArgumentException e) {
-      // not status: alias?
-    }
-
-    throw error("Invalid query");
+    return status(value);
   }
 
   @Operator

@@ -66,7 +66,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private static Predicate<ChangeData> status(Change.Status status) {
-    return new ChangeStatusPredicate(status);
+    return ChangeStatusPredicate.forStatus(status);
   }
 
   private static Predicate<ChangeData> commit(String id) {

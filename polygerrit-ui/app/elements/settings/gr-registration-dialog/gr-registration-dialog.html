@@ -69,14 +69,14 @@ limitations under the License.
         </section>
         <section>
           <div class="title">Preferred Email</div>
-          <gr-select id="email">
-            <select disabled="[[_saving]]">
-              <option value="[[_account.email]]">[[_account.email]]</option>
-              <template is="dom-repeat" items="[[_account.secondary_emails]]">
-                <option value="[[item]]">[[item]]</option>
-              </template>
-            </select>
-          </gr-select>
+          <select
+              id="email"
+              disabled="[[_saving]]">
+            <option value="[[_account.email]]">[[_account.email]]</option>
+            <template is="dom-repeat" items="[[_account.secondary_emails]]">
+              <option value="[[item]]">[[item]]</option>
+            </template>
+          </select>
         </section>
       </main>
       <footer>

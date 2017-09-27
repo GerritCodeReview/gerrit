@@ -46,6 +46,30 @@
       "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df64c744_fa593124",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:45:12Z",
+      "side": 1,
+      "message": "What I rather meant was that I would like to use \u0027groups\u0027 as variable name in tests. I also see limited benefit of providing Groups as a protected field here. Tests should rarely need to use Groups directly and only those which really need it should inject an instance. Providing it as a protected field could suggest that directly using any methods on Groups is intended.",
+      "parentUuid": "a791a794_82cde4f3",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

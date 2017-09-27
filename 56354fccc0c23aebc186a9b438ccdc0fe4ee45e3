@@ -22,6 +22,75 @@
       "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e11171f7_6828581d",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-27T08:07:38Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 10,
+        "startChar": 96,
+        "endLine": 10,
+        "endChar": 98
+      },
+      "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3171cca4_0ec70154",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-27T08:07:38Z",
+      "side": 1,
+      "message": "why? If you upload the same change under a different ID, it also won\u0027t have the -2. This requirement only makes sense if some other positive vote is moved along with the change.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 97
+      },
+      "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1bcac77_a227b42f",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-09-27T08:07:38Z",
+      "side": 1,
+      "message": "be",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "56354fccc0c23aebc186a9b438ccdc0fe4ee45e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

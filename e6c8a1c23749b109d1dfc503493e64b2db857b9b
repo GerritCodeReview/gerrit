@@ -17,6 +17,24 @@
       "revId": "e6c8a1c23749b109d1dfc503493e64b2db857b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6c57036_0668cd0f",
+        "filename": "prolog/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-27T05:59:27Z",
+      "side": 1,
+      "message": "I don\u0027t know why, but I\u0027m getting different result, if I check out the latest patch set here:\n\n  $ find . -name BUILD | xargs grep gerrit-prolog-common | grep war\n  ./gerrit-war/BUILD:        \"//prolog:gerrit-prolog-common\",\n\nI added a comment: [1] in the first change of this series, where prolog-common rule was renamed with the effect that the right dependency is added to the final war artifact.\n\nI recommend to use bazel query\u0027s \"somepath\" function to verify the produced dependency graph:\n\n  $ bazel query \"somepath(:headless, prolog:gerrit-prolog-common)\"\n  //:headless\n  //gerrit-war:init\n  //prolog:gerrit-prolog-common\n\nAnd last but not least, I always do verify that the moved artifacts find their way in the WAR archive:\n\n  $ bazel build headless\n  INFO: Found 1 target...\n    Target //:headless up-to-date:\n  bazel-bin/headless.war\n\nAnd just grep for \"prolog\" in the WAR archive:\n\n  $ unzip -t bazel-bin/headless.war | grep prolog\n    testing: WEB-INF/lib/libgerrit-prolog-common.jar   OK\n    testing: WEB-INF/lib/prolog-runtime-1.4.3.jar   OK\n    testing: WEB-INF/lib/gerrit_libprolog-predicates.jar   OK\n    testing: WEB-INF/pgm-lib/prolog-io-1.4.3.jar   OK\n    testing: WEB-INF/pgm-lib/prolog-compiler-1.4.3.jar   OK\n    testing: WEB-INF/pgm-lib/prolog-cafeteria-1.4.3.jar   OK\n\nAs this line proves:\n\n      testing: WEB-INF/lib/libgerrit-prolog-common.jar   OK\n\nall is fine with this change.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/120230/13/gerrit-war/BUILD@32",
+      "parentUuid": "ceb503e8_ad91e69a",
+      "revId": "e6c8a1c23749b109d1dfc503493e64b2db857b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

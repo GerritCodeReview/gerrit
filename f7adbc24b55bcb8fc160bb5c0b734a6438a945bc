@@ -70,6 +70,30 @@
       "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c2ee5c_98a6152d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-27T13:48:27Z",
+      "side": 1,
+      "message": "OK, I see.  The same can be said for many of the existing fields.\n\nI\u0027ll see if I can rework this.",
+      "parentUuid": "df64c744_fa593124",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 33
+      },
+      "revId": "f7adbc24b55bcb8fc160bb5c0b734a6438a945bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

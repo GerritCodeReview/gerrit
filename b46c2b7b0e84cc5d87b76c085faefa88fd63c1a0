@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c63cee9_50c614a9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:33:57Z",
+      "side": 1,
+      "message": "optional: With Truth8#assertThat, this can be simplified to isPresent().",
+      "range": {
+        "startLine": 499,
+        "startChar": 60,
+        "endLine": 499,
+        "endChar": 82
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57be3455_7ea40e4f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:33:57Z",
+      "side": 1,
+      "message": "optional: I think we don\u0027t need this check. Whether our API for group creation is working correctly should be covered in a separate test.",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eabbebb4_a0c6b39b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:33:57Z",
+      "side": 1,
+      "message": "optional: This line is unnecessary as this condition is implicitly enforced by containsExactlyElementsIn().",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 505,
+        "endChar": 33
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843d9fdc_d60ee228",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-09-27T13:33:57Z",
+      "side": 1,
+      "message": "Doesn\u0027t this combination of options already allow to list groups by owner? That implementation has the additional benefit of respecting the other options (like \u0027limit\u0027 or \u0027skip\u0027) too, which the new implementation of getGroupsOwnedBy() is erroneously neglecting.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

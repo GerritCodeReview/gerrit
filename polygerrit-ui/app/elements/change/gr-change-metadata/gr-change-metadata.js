@@ -160,7 +160,8 @@
 
     _computeValueTooltip(score, labelName) {
       const values = this.change.labels[labelName].values;
-      return values[score];
+      return '';
+      // return values[score];
     },
 
     _handleTopicChanged(e, topic) {

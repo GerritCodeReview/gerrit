@@ -64,7 +64,6 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
@@ -164,12 +163,8 @@
       return this.$.restAPI.getChangesWithSameTopic(this.change.topic);
     },
 
-    _computeChangeURL(changeNum, patchNum) {
-      let urlStr = this.getBaseUrl() + '/c/' + changeNum;
-      if (patchNum != null) {
-        urlStr += '/' + patchNum;
-      }
-      return urlStr;
+    _computeChangeURL(changeNum, project, patchNum) {
+      return Gerrit.Nav.getUrlForChangeById(changeNum, project, patchNum);
     },
 
     _computeChangeContainerClass(currentChange, relatedChange) {

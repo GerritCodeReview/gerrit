@@ -30,6 +30,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CommitResource;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -51,6 +52,7 @@ public class CherryPickCommit
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   CherryPickCommit(
@@ -58,12 +60,14 @@ public class CherryPickCommit
       Provider<CurrentUser> user,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
+    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
@@ -83,7 +87,7 @@ public class CherryPickCommit
     }
 
     String refName = RefNames.fullName(destination);
-    CreateChange.checkValidCLA(rsrc.getProjectState().controlFor(user.get()));
+    contributorAgreements.check(projectName, user.get());
     permissionBackend
         .user(user)
         .project(projectName)

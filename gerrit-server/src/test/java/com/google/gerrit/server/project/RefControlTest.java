@@ -207,7 +207,6 @@ public class RefControlTest {
   @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
-  @Inject private ProjectControl.Metrics metrics;
 
   @Before
   public void setUp() throws Exception {
@@ -875,11 +874,9 @@ public class RefControlTest {
         sectionSorter,
         null, // commitsCollection
         changeControlFactory,
-        "http://localhost", // canonicalWebUrl
         permissionBackend,
         new MockUser(name, memberOf),
-        newProjectState(local),
-        metrics);
+        newProjectState(local));
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

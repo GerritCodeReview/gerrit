@@ -140,7 +140,7 @@ public class Accounts {
     return accountConfig.getAccount();
   }
 
-  private static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {
+  public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {
     return repo.getRefDatabase()
         .getRefs(RefNames.REFS_USERS)
         .values()

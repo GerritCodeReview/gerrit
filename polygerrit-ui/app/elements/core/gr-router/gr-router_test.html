@@ -478,6 +478,32 @@ limitations under the License.
             '/c/test/+/42#foo');
       });
 
+      suite('_handleRegisterRoute', () => {
+        test('happy path', () => {
+          const ctx = {params: ['/foo/bar']};
+          element._handleRegisterRoute(ctx);
+          assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
+          assert.isTrue(setParamsStub.calledOnce);
+          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        });
+
+        test('no param', () => {
+          const ctx = {params: ['']};
+          element._handleRegisterRoute(ctx);
+          assert.isTrue(redirectStub.calledWithExactly('/'));
+          assert.isTrue(setParamsStub.calledOnce);
+          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        });
+
+        test('prevent redirect', () => {
+          const ctx = {params: ['/register']};
+          element._handleRegisterRoute(ctx);
+          assert.isTrue(redirectStub.calledWithExactly('/'));
+          assert.isTrue(setParamsStub.calledOnce);
+          assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        });
+      });
+
       suite('_handleRootRoute', () => {
         test('closes for closeAfterLogin', () => {
           const data = {querystring: 'closeAfterLogin', canonicalPath: ''};

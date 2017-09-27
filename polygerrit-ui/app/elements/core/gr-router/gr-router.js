@@ -19,7 +19,7 @@
     DASHBOARD: '/dashboard/(.*)',
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
-    REGISTER: /^\/register(\/.*)?/,
+    REGISTER: /^\/register(\/.*)?$/,
 
     // Pattern for login and logout URLs intended to be passed-through. May
     // include a return URL.
@@ -961,7 +961,11 @@
 
     _handleRegisterRoute(ctx) {
       this._setParams({justRegistered: true});
-      const path = ctx.params[0] || '/';
+      let path = ctx.params[0] || '/';
+
+      // Prevent redirect looping.
+      if (path.startsWith('/register')) { path = '/'; }
+
       if (path[0] !== '/') { return; }
       this._redirect(this.getBaseUrl() + path);
     },

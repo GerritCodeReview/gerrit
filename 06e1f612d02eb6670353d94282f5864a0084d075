@@ -22,6 +22,30 @@
       "revId": "06e1f612d02eb6670353d94282f5864a0084d075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebeafa34_286d91b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 84
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-27T13:19:21Z",
+      "side": 1,
+      "message": "Thanks. I\u0027m not working on it atm.",
+      "parentUuid": "7603aceb_aa7ffebc",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 61
+      },
+      "revId": "06e1f612d02eb6670353d94282f5864a0084d075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

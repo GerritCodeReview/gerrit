@@ -127,6 +127,10 @@ public class Accounts {
     return readUserRefs(repo).findAny().isPresent();
   }
 
+  public static Set<Account.Id> allIds(Repository repo) throws IOException {
+    return readUserRefs(repo).collect(toSet());
+  }
+
   private Stream<Account.Id> readUserRefs() throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readUserRefs(repo);

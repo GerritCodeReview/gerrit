@@ -70,6 +70,30 @@
       "revId": "6f316230c1d0549f9306f617f3ffd432e4c14c0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc8dde1c_87c07c20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-27T08:22:01Z",
+      "side": 1,
+      "message": "I think it\u0027s better to remove this from the commit message.",
+      "parentUuid": "38eeade5_872b4589",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "6f316230c1d0549f9306f617f3ffd432e4c14c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

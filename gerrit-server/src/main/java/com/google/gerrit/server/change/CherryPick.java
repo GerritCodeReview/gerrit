@@ -31,10 +31,10 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -54,7 +54,7 @@ public class CherryPick
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   CherryPick(
@@ -63,13 +63,13 @@ public class CherryPick
       RetryHelper retryHelper,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
-      ProjectControl.GenericFactory projectControlFactory) {
+      ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
-    this.projectControlFactory = projectControlFactory;
+    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
@@ -85,7 +85,8 @@ public class CherryPick
     }
 
     String refName = RefNames.fullName(input.destination);
-    CreateChange.checkValidCLA(projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
+    contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
+
     permissionBackend
         .user(user)
         .project(rsrc.getChange().getProject())

@@ -18,7 +18,6 @@ import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefPattern;
@@ -58,6 +58,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   protected final Project.NameKey projectName;
   protected final ObjectId base;
@@ -77,6 +78,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       List<AccessSection> sectionList,
       Project.NameKey parentProjectName,
       String message,
+      ContributorAgreementsChecker contributorAgreements,
       boolean checkIfOwner) {
     this.projectControlFactory = projectControlFactory;
     this.groupBackend = groupBackend;
@@ -89,6 +91,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.sectionList = sectionList;
     this.parentProjectName = parentProjectName;
     this.message = message;
+    this.contributorAgreements = contributorAgreements;
     this.checkIfOwner = checkIfOwner;
   }
 
@@ -99,9 +102,10 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           PermissionDeniedException, PermissionBackendException {
     final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
 
-    Capable r = projectControl.canPushToAtLeastOneRef();
-    if (r != Capable.OK) {
-      throw new PermissionDeniedException(r.getMessage());
+    try {
+      contributorAgreements.check(projectName, projectControl.getUser());
+    } catch (AuthException e) {
+      throw new PermissionDeniedException(e.getMessage());
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {

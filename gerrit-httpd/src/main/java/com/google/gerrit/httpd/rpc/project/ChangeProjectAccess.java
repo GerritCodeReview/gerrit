@@ -25,6 +25,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -62,6 +63,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
       GitReferenceUpdated gitRefUpdated,
+      ContributorAgreementsChecker contributorAgreements,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -78,6 +80,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         sectionList,
         parentProjectName,
         message,
+        contributorAgreements,
         true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;

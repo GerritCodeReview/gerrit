@@ -46,9 +46,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -95,7 +95,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final PersonIdent serverIdent;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   Revert(
@@ -112,7 +112,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
-      ProjectControl.GenericFactory projectControlFactory) {
+      ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.db = db;
     this.permissionBackend = permissionBackend;
@@ -126,7 +126,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
-    this.projectControlFactory = projectControlFactory;
+    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
@@ -139,7 +139,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
 
-    CreateChange.checkValidCLA(projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
+    contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
 
     Change.Id revertId =

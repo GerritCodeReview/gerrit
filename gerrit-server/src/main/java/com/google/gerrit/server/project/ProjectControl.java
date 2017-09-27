@@ -19,14 +19,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -38,9 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -60,7 +54,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -131,15 +124,12 @@ public class ProjectControl {
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
-  private final String canonicalWebUrl;
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final ProjectState state;
   private final CommitsCollection commits;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
-  private final Collection<ContributorAgreement> contributorAgreements;
-  private final Metrics metrics;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -153,19 +143,14 @@ public class ProjectControl {
       PermissionCollection.Factory permissionFilter,
       CommitsCollection commits,
       ChangeControl.Factory changeControlFactory,
-      @CanonicalWebUrl @Nullable String canonicalWebUrl,
       PermissionBackend permissionBackend,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps,
-      Metrics metrics) {
+      @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
     this.commits = commits;
-    this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
-    this.canonicalWebUrl = canonicalWebUrl;
-    this.metrics = metrics;
     this.perm = permissionBackend.user(who);
     user = who;
     state = ps;
@@ -221,15 +206,15 @@ public class ProjectControl {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
   }
 
-  /** @return {@code Capable.OK} if the user can upload to at least one reference */
+  /**
+   * @return {@code Capable.OK} if the user can upload to at least one reference. Does not check
+   *     Contributor Agreements.
+   */
   public Capable canPushToAtLeastOneRef() {
     if (!canPerformOnAnyRef(Permission.PUSH)
         && !canPerformOnAnyRef(Permission.CREATE_TAG)
         && !isOwner()) {
       return new Capable("Upload denied for project '" + state.getName() + "'");
-    }
-    if (state.isUseContributorAgreements()) {
-      return verifyActiveContributorAgreement();
     }
     return Capable.OK;
   }
@@ -300,46 +285,6 @@ public class ProjectControl {
       declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
     }
     return declaredOwner;
-  }
-
-  private Capable verifyActiveContributorAgreement() {
-    metrics.claCheckCount.increment();
-    if (!(user.isIdentifiedUser())) {
-      return new Capable("Must be logged in to verify Contributor Agreement");
-    }
-    final IdentifiedUser iUser = user.asIdentifiedUser();
-
-    List<AccountGroup.UUID> okGroupIds = new ArrayList<>();
-    for (ContributorAgreement ca : contributorAgreements) {
-      List<AccountGroup.UUID> groupIds;
-      groupIds = okGroupIds;
-
-      for (PermissionRule rule : ca.getAccepted()) {
-        if ((rule.getAction() == Action.ALLOW)
-            && (rule.getGroup() != null)
-            && (rule.getGroup().getUUID() != null)) {
-          groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
-        }
-      }
-    }
-
-    if (iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
-      return Capable.OK;
-    }
-
-    final StringBuilder msg = new StringBuilder();
-    msg.append("A Contributor Agreement must be completed before uploading");
-    if (canonicalWebUrl != null) {
-      msg.append(":\n\n  ");
-      msg.append(canonicalWebUrl);
-      msg.append("#");
-      msg.append(PageLinks.SETTINGS_AGREEMENTS);
-      msg.append("\n");
-    } else {
-      msg.append(".");
-    }
-    msg.append("\n");
-    return new Capable(msg.toString());
   }
 
   private boolean canPerformOnAnyRef(String permissionName) {

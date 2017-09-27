@@ -175,13 +175,16 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
   @Test
   public void getPossibleStatus() throws Exception {
-    assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
+    Set<Change.Status> all = EnumSet.allOf(Change.Status.class);
+    assertThat(status("file:a")).isEqualTo(all);
     assertThat(status("is:new")).containsExactly(NEW);
     assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
+    assertThat(status("is:new OR is:x")).isEqualTo(all);
 
     assertThat(status("is:new is:merged")).isEmpty();
     assertThat(status("(is:new) (is:merged)")).isEmpty();
     assertThat(status("(is:new) (is:merged)")).isEmpty();
+    assertThat(status("is:new is:x")).containsExactly(NEW);
   }
 
   @Test

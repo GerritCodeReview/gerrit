@@ -93,17 +93,21 @@ public class LogFileCompressor implements Runnable {
 
   @Override
   public void run() {
-    if (!Files.isDirectory(logs_dir)) {
-      return;
-    }
-    try (DirectoryStream<Path> list = Files.newDirectoryStream(logs_dir)) {
-      for (Path entry : list) {
-        if (!isLive(entry) && !isCompressed(entry) && isLogFile(entry)) {
-          compress(entry);
-        }
+    try {
+      if (!Files.isDirectory(logs_dir)) {
+        return;
       }
-    } catch (IOException e) {
-      log.error("Error listing logs to compress in " + logs_dir, e);
+      try (DirectoryStream<Path> list = Files.newDirectoryStream(logs_dir)) {
+        for (Path entry : list) {
+          if (!isLive(entry) && !isCompressed(entry) && isLogFile(entry)) {
+            compress(entry);
+          }
+        }
+      } catch (IOException e) {
+        log.error("Error listing logs to compress in " + logs_dir, e);
+      }
+    } catch (Exception e) {
+      log.error("Failed to compress log files: " + e.getMessage(), e);
     }
   }
 

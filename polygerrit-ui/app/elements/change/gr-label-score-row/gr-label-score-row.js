@@ -63,6 +63,9 @@
 
     _computeBlankItems(permittedLabels, label, side) {
       if (!permittedLabels || !permittedLabels[label]) { return []; }
+      if (!this.labelValues || !this.labelValues.length) {
+        return;
+      }
       const startPosition = this.labelValues[parseInt(
           permittedLabels[label][0], 10)];
       if (side === 'start') {

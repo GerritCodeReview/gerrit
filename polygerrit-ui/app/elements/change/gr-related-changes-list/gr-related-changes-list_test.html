@@ -357,5 +357,11 @@ limitations under the License.
       assert.isFalse(element.hidden);
       assert.isTrue(updateHandler.called);
     });
+
+    test('_computeChangeURL uses Gerrit.Nav', () => {
+      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChangeById');
+      element._computeChangeURL(123, 'abc/def', 12);
+      assert.isTrue(getUrlStub.called);
+    });
   });
 </script>

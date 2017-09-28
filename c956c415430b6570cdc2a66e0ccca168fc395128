@@ -46,6 +46,30 @@
       "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75af2f76_bea6fe75",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-09-28T06:01:25Z",
+      "side": 1,
+      "message": ":(",
+      "parentUuid": "d4cc0bd8_9aba022d",
+      "range": {
+        "startLine": 492,
+        "startChar": 58,
+        "endLine": 492,
+        "endChar": 63
+      },
+      "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

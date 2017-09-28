@@ -489,7 +489,7 @@ Private changes are changes that are only visible to their owners and
 reviewers. Private changes are useful in a number of cases:
 
 * You want to check what the change looks like before formal review starts.
-  By marking the change private without reviewers, nobody can't
+  By marking the change private without reviewers, nobody can
   prematurely comment on your changes.
 
 * You want to use Gerrit to sync data between different devices. By

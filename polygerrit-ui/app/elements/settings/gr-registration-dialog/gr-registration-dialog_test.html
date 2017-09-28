@@ -144,5 +144,13 @@ limitations under the License.
         assert.equal(account.name, 'entered name');
       }).then(done);
     });
+
+    test('email select properly populated', done => {
+      element._account = {email: 'foo', secondary_emails: ['bar', 'baz']};
+      flush(() => {
+        assert.equal(element.$.email.value, 'foo');
+        done();
+      });
+    });
   });
 </script>

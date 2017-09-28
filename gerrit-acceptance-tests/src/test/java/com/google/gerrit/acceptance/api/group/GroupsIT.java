@@ -30,7 +30,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.api.groups.Groups;
+import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
@@ -63,6 +64,7 @@ import org.junit.Test;
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
+  @Inject private Groups groups;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -481,7 +483,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void listAllGroups() throws Exception {
     List<String> expectedGroups =
-        groupCache.all().stream().map(a -> a.getName()).sorted().collect(toList());
+        groups.getAll(db).map(a -> a.getName()).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups)
@@ -692,7 +694,7 @@ public class GroupsIT extends AbstractDaemonTest {
     groupsUpdateProvider.get().updateGroup(db, groupUuid, group -> group.setCreatedOn(null));
   }
 
-  private void assertBadRequest(Groups.ListRequest req) throws Exception {
+  private void assertBadRequest(ListRequest req) throws Exception {
     try {
       req.get();
       fail("Expected BadRequestException");

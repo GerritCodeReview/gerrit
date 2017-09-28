@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f6672b_c9445dd7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-09-28T09:48:53Z",
+      "side": 1,
+      "message": "Is this still relevant given paragraph above instructs deletion of the download-artifacts folder? Should this sentence be modified?",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 31
+      },
+      "revId": "070170eb6fac59200fa9b6d1968ea9b8a5bb9173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

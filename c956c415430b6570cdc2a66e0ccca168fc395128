@@ -142,6 +142,30 @@
       "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d4591ae_bdfa0ff6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-28T07:46:45Z",
+      "side": 0,
+      "message": "See https://github.com/GerritCodeReview/gerrit/blob/8e4c17c0d0e5ce11ecba3e2c8d0107f4218a0afa/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java#L105\n\nThough I am not sure if it will fail since it looks like on the function it does Permissions.ForChange. Not sure how we would do that here.",
+      "parentUuid": "4a51e18e_05f0cdfe",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 50
+      },
+      "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

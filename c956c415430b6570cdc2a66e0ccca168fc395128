@@ -70,6 +70,30 @@
       "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d1add5f_beb813a9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-28T07:14:42Z",
+      "side": 0,
+      "message": "If this is now failing, something is wrong.  This test is about patch set lock, not abandon permission.\n\nBefore it was passing because an exception was raised, but that was being raised for the wrong reason.  If no exception is being raised any more, it means the patch set lock check is not working.",
+      "parentUuid": "30a856a6_712e0593",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 50
+      },
+      "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -39,7 +39,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -235,22 +234,6 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableSet());
-    }
-  }
-
-  static class ByNameLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final Provider<InternalAccountQuery> accountQueryProvider;
-
-    @Inject
-    ByNameLoader(Provider<InternalAccountQuery> accountQueryProvider) {
-      this.accountQueryProvider = accountQueryProvider;
-    }
-
-    @Override
-    public Optional<Account.Id> load(String username) throws Exception {
-      AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(SCHEME_USERNAME, username);
-      return Optional.ofNullable(accountState).map(s -> s.getAccount().getId());
     }
   }
 }

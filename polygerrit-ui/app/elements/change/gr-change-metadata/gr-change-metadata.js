@@ -158,9 +158,11 @@
       return result;
     },
 
-    _computeValueTooltip(score, labelName) {
-      const values = this.change.labels[labelName].values;
-      return values[score];
+    _computeValueTooltip(change, score, labelName) {
+      if (!change.labels[labelName] ||
+          !change.labels[labelName].values ||
+          !change.labels[labelName].values[score]) { return ''; }
+      return change.labels[labelName].values[score];
     },
 
     _handleTopicChanged(e, topic) {

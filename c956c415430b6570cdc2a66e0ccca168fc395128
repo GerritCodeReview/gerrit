@@ -214,6 +214,30 @@
       "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f693e305_8ab7656d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-28T09:51:05Z",
+      "side": 0,
+      "message": "I\u0027ll look into this later; busy with other work now.",
+      "parentUuid": "86ceb589_cb77b831",
+      "range": {
+        "startLine": 225,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 50
+      },
+      "revId": "c956c415430b6570cdc2a66e0ccca168fc395128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

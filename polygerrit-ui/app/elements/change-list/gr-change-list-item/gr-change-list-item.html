@@ -137,6 +137,10 @@ limitations under the License.
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
       <gr-account-link account="[[change.owner]]"></gr-account-link>
     </td>
+    <td class="cell assignee"
+        hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
+      <gr-account-link account="[[change.assignee]]"></gr-account-link>
+    </td>
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
       <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>

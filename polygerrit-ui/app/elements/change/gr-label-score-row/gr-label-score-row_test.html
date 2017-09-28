@@ -168,6 +168,13 @@ limitations under the License.
           'Verified').length, 1);
     });
 
+    test('labelValues returns no keys', () => {
+      element.labelValues = {};
+
+      assert.deepEqual(element._computeBlankItems(element.permittedLabels,
+          'Code-Review'), []);
+    });
+
     test('changes in label score are reflected in the DOM', () => {
       element.labels = {
         'Code-Review': {

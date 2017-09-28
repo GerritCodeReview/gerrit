@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1506525398 -0400\nnonce ANEgCxfM6fQ9jMwDYTrRj0VzVi2D7eysTmR/2rebKvcz7obBLHB8qTxCDLusNwGAAxj9kAqIur2J\n\n0000000000000000000000000000000000000000 90402a757028d445ad73287fab1dc688f1d9595a refs/for/master%r\u003ddavid.ostrovsky@gmail.com,r\u003dxchangcheng@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJZy8DWAAoJEF/XxZqaEoiMO1EP/0oVmGHCFFqDZOaIpvb9mJQa\n8cA9WruQ/q5rQR4T43lwWzN58Q8wN6oE8GfywdSP9Hhu3n7B+AvvYac8/omo795H\nRfnGGfXWmiHAw+F+Ds7NKxp5zfLoqYWa2au0K60XWncpZeo+YV2L8MuMSlb5DH7r\n7NQxjI6OqPBGniLIvxnXhZCWKwl2G4s0lO2w3voK/cWG1ZEEkdgAdEKD+FiTQeif\nrOl5J7Ra8kwxF5pLxkv/FWWQL1iOLX+BzDjgJHyX4cRUB1pn56WUWkH7voeAJEgq\ngXwRygihplnECZrLpF7GbTXS6IJuYdpQwU79hNb38RxPePb+LGbse5+4OlxuXKaw\nETd3Bwyz9IiOmsir6ri93G+fEvqpLh5kAqENGrCZeDzNX4re62gw/ibApTW3vsl8\nSstoU8SvtyFPH/TLWnbijEK5PvczDsTiAzffjduSwYV2qraL/5EO73fpm4aAc5Fo\n26WTLgP8U445o0vMcmf9ApErKGnlL1+4W4Qc9b7OHtmsRnQ9h4kpI2tIPU20erLt\nQjDR6ZEWRVEk504RntL2bG6V6TRQC4Ym0kFZrJaKi2ya+MQVYAEgxiGj9cTqapLv\nX/QZO4Zptm5l1IGH5Mzt8fRlw9UIW5MBxamktxJyO109rV2MF9/FGD40cuKgPbmj\nvA5CX9sn4SQiof3184hP\n\u003dVeh1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "241774e4_4b9fbeb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-28T07:23:52Z",
+      "side": 1,
+      "message": "Why to materialize the stream to the set and not just return Stream of account ids? On huge gerrit installation sites we have dozen of thousands of users.",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 132,
+        "endChar": 3
+      },
+      "revId": "90402a757028d445ad73287fab1dc688f1d9595a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b078928f_f49ad827",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_160.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-28T07:23:52Z",
+      "side": 1,
+      "message": "Optional: Iterate over stream, without materialization, something like:\n\n  Accounts.allIds(repo)\n            .forEach(\n                id -\u003e {\n                  try {\n                    if (removeMyDrafts(repo, id)) {\n                      pm.update(1);\n                    }\n                  } catch (IOException | ConfigInvalidException e) {\n                    throw new IllegalArgumentException(\"Removing \\\"My Drafts\\\" menu items failed\", e);\n                  }\n                });",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 53
+      },
+      "revId": "90402a757028d445ad73287fab1dc688f1d9595a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

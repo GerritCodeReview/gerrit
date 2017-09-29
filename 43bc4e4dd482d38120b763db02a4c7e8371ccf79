@@ -73,6 +73,29 @@
     },
     {
       "key": {
+        "uuid": "c6b5a527_a86ec8ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-29T09:56:37Z",
+      "side": 1,
+      "message": "I\u0027m revisiting this code in the context of https://gerrit-review.googlesource.com/c/gerrit/+/129411 and I cannot figure out why this is getEffectiveGroups().getKnownGroups() instead of just getEffectiveGroups().\n\nThe set of effective groups that the user belongs to is necessary for the ETag, because the result may contain a list of permitted labels.\n\nBut I don\u0027t see why the underlying group system adding a new group, which would change the value of getKnownGroups(), should invalidate the ETag.",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 78
+      },
+      "revId": "43bc4e4dd482d38120b763db02a4c7e8371ccf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a53ddda0_6e09af69",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 2

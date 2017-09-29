@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e42a8c5_fcce6096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-29T09:40:45Z",
+      "side": 1,
+      "message": "Ugh.  Is there any way we can adjust the tests to make sure this kind of thing doesn\u0027t happen again?",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "5804c47566f0ba72276c304a99e14338a23b40c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

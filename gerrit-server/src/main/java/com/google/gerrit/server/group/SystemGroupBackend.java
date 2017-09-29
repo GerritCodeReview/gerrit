@@ -35,8 +35,8 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -188,13 +188,13 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static class NameCheck implements StartupCheck {
     private final Config cfg;
     private final Groups groups;
-    private final Provider<ReviewDb> db;
+    private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    NameCheck(@GerritServerConfig Config cfg, Groups groups, Provider<ReviewDb> db) {
+    NameCheck(@GerritServerConfig Config cfg, Groups groups, SchemaFactory<ReviewDb> schema) {
       this.cfg = cfg;
       this.groups = groups;
-      this.db = db;
+      this.schema = schema;
     }
 
     @Override
@@ -213,7 +213,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       }
       List<AccountGroup> allGroups;
       try {
-        allGroups = groups.getAll(db.get()).collect(toList());
+        allGroups = groups.getAll(schema.open()).collect(toList());
       } catch (OrmException e) {
         return;
       }

@@ -257,18 +257,13 @@ public class ProjectControl {
     return false;
   }
 
-  /** Does this user have ownership on at least one reference name? */
-  public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
-  }
-
   /** Returns whether the project is hidden. */
   private boolean isHidden() {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
   private boolean canAddRefs() {
-    return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
+    return (canPerformOnAnyRef(Permission.CREATE) || isAdmin());
   }
 
   private boolean canCreateChanges() {

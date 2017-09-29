@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -193,10 +194,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       }
     }
 
-    if (ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
+    if (ownerOf.isEmpty() && isAdmin()) {
       // Special case: If the section list is empty, this project has no current
-      // access control information. Rely on what ProjectControl determines
-      // is ownership, which probably means falling back to site administrators.
+      // access control information. Fall back to site administrators.
       ownerOf.add(AccessSection.ALL);
     }
 
@@ -268,6 +268,15 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       ctx.ref(ref).check(perm);
       return true;
     } catch (AuthException denied) {
+      return false;
+    }
+  }
+
+  private boolean isAdmin() throws PermissionBackendException {
+    try {
+      permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      return true;
+    } catch (AuthException e) {
       return false;
     }
   }

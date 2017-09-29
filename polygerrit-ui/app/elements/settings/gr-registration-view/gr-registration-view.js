@@ -15,18 +15,12 @@
   'use strict';
 
   Polymer({
-    is: 'gr-registration-dialog',
+    is: 'gr-registration-view',
 
     /**
      * Fired when account details are changed.
      *
      * @event account-detail-update
-     */
-
-    /**
-     * Fired when the close button is pressed.
-     *
-     * @event close
      */
 
     properties: {
@@ -37,27 +31,23 @@
       _saving: Boolean,
     },
 
-    hostAttributes: {
-      role: 'dialog',
-    },
-
     attached() {
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (loggedIn) {
-          this.$.restAPI.getAccount().then(account => {
-            this._account = account;
-          });
-        } else {
-          this._account = null;
-        }
-      });
+      this._getAccount();
 
       this.$.restAPI.getConfig().then(config => {
         this._serverConfig = config;
       });
+
+      this._saving = false;
     },
 
-    _handleUsernameKeydown(e) {
+    _getAccount() {
+      return this.$.restAPI.getAccount().then(account => {
+        this._account = account;
+      });
+    },
+
+    _handleUserNameKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._save();
@@ -81,12 +71,6 @@
     _save() {
       this._saving = true;
       const promises = [];
-      if (this.$.usernameInput.bindValue &&
-          this._account.username !== this.$.usernameInput.bindValue) {
-        promises.push(
-            this.$.restAPI.setAccountUsername(this.$.usernameInput.bindValue));
-      }
-
       if (this.$.nameInput.bindValue &&
           this._account.name !== this.$.nameInput.bindValue) {
         promises.push(
@@ -95,8 +79,7 @@
 
       if (this.$.emailInput.value) {
         promises.push(
-            this.$.restAPI.addAccountEmail(
-                this.$.emailInput.value));
+            this.$.restAPI.addAccountEmail(this.$.emailInput.value));
       }
 
       if (this.$.emailSelect.bindValue) {
@@ -108,24 +91,30 @@
       return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');
+        this._getAccount();
       });
     },
 
     _handleSave(e) {
       e.preventDefault();
-      this._save().then(() => {
-        this.fire('close');
-      });
+      this._save();
     },
 
-    _handleClose(e) {
-      e.preventDefault();
-      this._saving = true; // disable buttons indefinitely
-      this.fire('close');
+    _handleSettingUsername() {
+      this.$.overlay.close();
+      if (!this.$.userNameInput.bindValue) { return; }
+      return this.$.restAPI.setAccountUsername(this.$.userNameInput.bindValue)
+          .then(res => {
+            this._getAccount();
+          });
     },
 
-    _isDisabled(config, save) {
-      return !config || save;
+    _handleConfirmDialogCancel() {
+      this.$.overlay.close();
+    },
+
+    _handleSetUsername(e) {
+      this.$.overlay.open();
     },
   });
 })();

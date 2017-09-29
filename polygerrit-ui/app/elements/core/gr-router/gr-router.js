@@ -538,7 +538,7 @@
 
       this._mapRoute(RoutePattern.SETTINGS, '_handleSettingsRoute', true);
 
-      this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
+      this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute', true);
 
       this._mapRoute(RoutePattern.LOG_IN_OR_OUT, '_handlePassThroughRoute');
 
@@ -954,15 +954,11 @@
       this._setParams({view: Gerrit.Nav.View.SETTINGS});
     },
 
-    _handleRegisterRoute(ctx) {
-      this._setParams({justRegistered: true});
-      let path = ctx.params[0] || '/';
-
-      // Prevent redirect looping.
-      if (path.startsWith('/register')) { path = '/'; }
-
-      if (path[0] !== '/') { return; }
-      this._redirect(this.getBaseUrl() + path);
+    _handleRegisterRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.REGISTER,
+        path: data.params[0],
+      });
     },
 
     /**

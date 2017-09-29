@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "468efbad_2718ecd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-29T13:24:48Z",
+      "side": 1,
+      "message": "Nit: wrap this line at 72 characters and add a period at the end.\n\n  When you abandoned the change and then restored the change you would get\n  this error.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "01904119246e04a10b5fd96d69de41ebf1170767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "358c80a6_b2d3fab1",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-29T13:24:48Z",
+      "side": 1,
+      "message": "Please add a test for the case when there are no labelValues.",
+      "revId": "01904119246e04a10b5fd96d69de41ebf1170767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

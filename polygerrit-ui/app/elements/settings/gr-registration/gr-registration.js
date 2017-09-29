@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-registration-dialog',
+    is: 'gr-registration',
 
     /**
      * Fired when account details are changed.
@@ -35,10 +35,6 @@
       /** @type {?} */
       _serverConfig: Object,
       _saving: Boolean,
-    },
-
-    hostAttributes: {
-      role: 'dialog',
     },
 
     attached() {
@@ -113,15 +109,7 @@
 
     _handleSave(e) {
       e.preventDefault();
-      this._save().then(() => {
-        this.fire('close');
-      });
-    },
-
-    _handleClose(e) {
-      e.preventDefault();
-      this._saving = true; // disable buttons indefinitely
-      this.fire('close');
+      this._save();
     },
 
     _isDisabled(config, save) {

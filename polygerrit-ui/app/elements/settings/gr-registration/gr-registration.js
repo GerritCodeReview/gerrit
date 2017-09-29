@@ -15,18 +15,12 @@
   'use strict';
 
   Polymer({
-    is: 'gr-registration-dialog',
+    is: 'gr-registration',
 
     /**
      * Fired when account details are changed.
      *
      * @event account-detail-update
-     */
-
-    /**
-     * Fired when the close button is pressed.
-     *
-     * @event close
      */
 
     properties: {
@@ -37,27 +31,29 @@
       _saving: Boolean,
     },
 
-    hostAttributes: {
-      role: 'dialog',
+    attached() {
+      this._getLogin();
+
+      this.$.restAPI.getConfig().then(config => {
+        this._serverConfig = config;
+      });
+
+      this._saving = false;
     },
 
-    attached() {
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
+    _getLogin() {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           this.$.restAPI.getAccount().then(account => {
             this._account = account;
           });
         } else {
-          this._account = null;
+          this._account = [];
         }
-      });
-
-      this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
       });
     },
 
-    _handleUsernameKeydown(e) {
+    _handleUserNameKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._save();
@@ -81,10 +77,9 @@
     _save() {
       this._saving = true;
       const promises = [];
-      if (this.$.usernameInput.bindValue &&
-          this._account.username !== this.$.usernameInput.bindValue) {
+      if (this.$.userNameInput.bindValue && !this._account.username) {
         promises.push(
-            this.$.restAPI.setAccountUsername(this.$.usernameInput.bindValue));
+            this.$.restAPI.setAccountUsername(this.$.userNameInput.bindValue));
       }
 
       if (this.$.nameInput.bindValue &&
@@ -95,8 +90,7 @@
 
       if (this.$.emailInput.value) {
         promises.push(
-            this.$.restAPI.addAccountEmail(
-                this.$.emailInput.value));
+            this.$.restAPI.addAccountEmail(this.$.emailInput.value));
       }
 
       if (this.$.emailSelect.bindValue) {
@@ -108,24 +102,21 @@
       return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');
+        this._getLogin();
       });
     },
 
     _handleSave(e) {
       e.preventDefault();
-      this._save().then(() => {
-        this.fire('close');
-      });
-    },
-
-    _handleClose(e) {
-      e.preventDefault();
-      this._saving = true; // disable buttons indefinitely
-      this.fire('close');
+      this._save();
     },
 
     _isDisabled(config, save) {
       return !config || save;
+    },
+
+    _computeDisableUsername(username, save) {
+      return username || save;
     },
   });
 })();

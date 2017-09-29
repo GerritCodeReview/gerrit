@@ -224,7 +224,8 @@ public class AccountCacheImpl implements AccountCache {
     private ImmutableSet<AccountGroup.UUID> getGroupsWithMember(ReviewDb db, Account.Id memberId)
         throws OrmException {
       Stream<InternalGroup> internalGroupStream;
-      if (groupIndexProvider.get().getSchema().hasField(GroupField.MEMBER)) {
+      // TODO(aliceks): Enable reading from group index again when internal issue is resolved.
+      if (false && groupIndexProvider.get().getSchema().hasField(GroupField.MEMBER)) {
         internalGroupStream = groupQueryProvider.get().byMember(memberId).stream();
       } else {
         internalGroupStream =

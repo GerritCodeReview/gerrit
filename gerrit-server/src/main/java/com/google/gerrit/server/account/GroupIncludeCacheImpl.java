@@ -184,7 +184,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
       Stream<InternalGroup> internalGroupStream;
-      if (groupIndexProvider.get().getSchema().hasField(GroupField.SUBGROUP)) {
+      // TODO(aliceks): Enable reading from group index again when internal issue is resolved.
+      if (false && groupIndexProvider.get().getSchema().hasField(GroupField.SUBGROUP)) {
         internalGroupStream = groupQueryProvider.get().bySubgroup(key).stream();
       } else {
         try (ReviewDb db = schema.open()) {

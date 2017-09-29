@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -220,10 +221,10 @@ public class GetAccess implements RestReadView<ProjectResource> {
       }
     }
 
-    if (info.ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
+    if (info.ownerOf.isEmpty()
+        && permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
       // Special case: If the section list is empty, this project has no current
-      // access control information. Rely on what ProjectControl determines
-      // is ownership, which probably means falling back to site administrators.
+      // access control information. Fall back to site administrators.
       info.ownerOf.add(AccessSection.ALL);
     }
 

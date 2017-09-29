@@ -86,6 +86,30 @@
     },
     {
       "key": {
+        "uuid": "40cda837_b78bd1fa",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T10:32:18Z",
+      "side": 1,
+      "message": "+1 to add a \"NoteDb quick start\" document, where number of typical migration scenarios with step by step instructions are documented.",
+      "parentUuid": "4f0b1bb1_0c74b02a",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 55
+      },
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb9ad776_11a62c6f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StandaloneNoteDbMigrationIT.java",
         "patchSetId": 1

@@ -179,6 +179,30 @@
       "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f60b4d24_f0e013ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T09:36:19Z",
+      "side": 1,
+      "message": "Thanks for clarifying.\n\nOptional: Rephrase the comment a bit. I found particularly the last statement very confusing:\n\n  This allows multiple migrations within the same Gerrit process, e.g. trial\n  mode followed by a full migration.",
+      "parentUuid": "a01c3e25_ad1fc54f",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 43
+      },
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

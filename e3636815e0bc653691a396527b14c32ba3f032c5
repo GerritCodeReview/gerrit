@@ -16,6 +16,24 @@
       "revId": "e3636815e0bc653691a396527b14c32ba3f032c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd13b280_c79c2ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-29T17:00:10Z",
+      "side": 1,
+      "message": "\u003e What is the reason for this change?  Is there some specific workflow that you are trying to fix/enable?\n\nJust the fact that the change does not get abandoned.\n\nI seem to remember that in the original implementation of the move functionality, it did actually abandon the change and create a new one.  However, I cannot find any evidence that that was really the case.",
+      "parentUuid": "f3f18252_202f3fb8",
+      "revId": "e3636815e0bc653691a396527b14c32ba3f032c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3f18252_202f3fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-09-29T16:51:38Z",
+      "side": 1,
+      "message": "What is the reason for this change?  Is there some specific workflow that you are trying to fix/enable?\n\nAs far as a branch maintainer is concerned, moving a change to another branch is very close to abandoning it, just as it is close to creating a new patchset/change on another branch.  We have many branches, and when some branch approaches EOL, then often upload permissions are restricted to that branch.  Once upload is restricted, abandoning a change can be problematic since you likely can no longer unabandon it.  I don\u0027t know who specifically added the abandon change permission, and what workflow they were looking to restrict by adding that permission.  Was it to prevent the workflow problem that I mention above?  Either way, I suspect that we don\u0027t want to interfere with that workflow with moves either, and removing the abandon check on move will.",
+      "revId": "e3636815e0bc653691a396527b14c32ba3f032c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

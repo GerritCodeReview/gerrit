@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8055c63_b1f4c555",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T05:38:34Z",
+      "side": 1,
+      "message": "Alternatively, document that online migration, that is triggered by `autoMigrate \u003d true` configuration option can be extended with trial mode option:\n\n  ----\n  [noteDb \"changes\"]\n    autoMigrate \u003d true\n    trial \u003d true\n  ----",
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b813e80_e36cf232",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T05:38:34Z",
+      "side": 1,
+      "message": "Given the endless discussion on the mailing list on all possible modes and configuration options, bonus point if we could very clearly specify and provide step by step instructions for the actually most wanted workflow:\n\n* stop gerrit\n* configure gerrit to start online migration in trial mode\n* start gerrit\n* wait untill the migration is done online\n* test gerrit, stay in reviewDb primary mode\n* stop gerrit\n* change configuration to:\n* a) revert the trial notedb migration attempt (undone it)\n* b) proceed with final migration, remove trial mode\n* restart gerrit",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 55
+      },
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb9ad776_11a62c6f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/StandaloneNoteDbMigrationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T05:38:34Z",
+      "side": 1,
+      "message": "Add a test for onlineMigrationTrialModeViaConfig, e.g.:\n\n  @Test\n  public void onlineMigrationTrailViaConfig() throws Exception {\n    assertNoAutoMigrateConfig(gerritConfig);\n    assertNoAutoMigrateConfig(noteDbConfig);\n\n    testOnlineMigration(\n        u -\u003e {\n          gerritConfig.setBoolean(\"noteDb\", \"changes\", \"autoMigrate\", true);\n          gerritConfig.setBoolean(\"noteDb\", \"changes\", \"trial\", true);\n          gerritConfig.save();\n          return startServer(u.module());\n        },\n        NotesMigrationState.READ_WRITE_NO_SEQUENCE);\n\n    assertAutoMigrateConfig(gerritConfig, true);\n    assertTrialConfig(gerritConfig, true);\n    assertAutoMigrateConfig(noteDbConfig, true);\n  }\n\n?",
+      "range": {
+        "startLine": 173,
+        "startChar": 14,
+        "endLine": 173,
+        "endChar": 38
+      },
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d621d6f_fd7fe1e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-09-29T05:38:34Z",
+      "side": 1,
+      "message": "It\u0027s not clear why this additional level of indirection is needed starting from this change? I would expect that in case of online migration in trial mode the migration process is interrupted at READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY. To proceed, with full migration, I would need to stop gerrit, change the configuration, and restart gerrit. Otherwise, if the migration process would immediately proceed with the full migration (in the same process) then it\u0027s not trial mode any more.",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 43
+      },
+      "revId": "138d5e24c243dd10762cd3046fe883fe5a98ba20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

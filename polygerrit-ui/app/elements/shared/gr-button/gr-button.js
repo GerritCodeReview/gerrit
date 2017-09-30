@@ -18,8 +18,13 @@
     is: 'gr-button',
 
     properties: {
+      downArrow: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
       link: {
         type: Boolean,
+        value: false,
         reflectToAttribute: true,
       },
       disabled: {

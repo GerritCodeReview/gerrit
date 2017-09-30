@@ -67,7 +67,9 @@ limitations under the License.
       .linksTitle {
         color: var(--primary-text-color);
         display: inline-block;
+        font-family: var(--font-family-bold);
         position: relative;
+        text-transform: uppercase;
       }
       .linksTitle:hover {
         opacity: .75;
@@ -157,7 +159,9 @@ limitations under the License.
           </li>
         </template>
         <li>
-          <a class="browse linksTitle" href$="[[_computeRelativeURL('/admin/projects')]]">
+          <a
+              class="browse linksTitle"
+              href$="[[_computeRelativeURL('/admin/projects')]]">
             Browse</a>
         </li>
       </ul>

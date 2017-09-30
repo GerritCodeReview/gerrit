@@ -106,6 +106,8 @@
       // nothing and then to the new item.
       if (!e.target.selectedItem) { return; }
       this._selectedValueText = e.target.selectedItem.getAttribute('title');
+      // Needed to update the style of the selected button.
+      this.updateStyles();
       this.fire('labels-changed');
     },
 

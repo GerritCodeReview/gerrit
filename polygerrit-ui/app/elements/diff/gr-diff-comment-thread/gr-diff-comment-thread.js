@@ -39,6 +39,7 @@
       },
       commentSide: String,
       patchNum: String,
+      selectedText: String,
       path: String,
       projectName: {
         type: String,
@@ -82,26 +83,30 @@
       this._setInitialExpandedState();
     },
 
-    addOrEditDraft(opt_lineNum, opt_range) {
+    addOrEditDraft(opt_lineNum, opt_range, selectedText) {
       const lastComment = this.comments[this.comments.length - 1] || {};
+      console.log("also here" + selectedText);
       if (lastComment.__draft) {
+        console.log("lastComment == draft");
         const commentEl = this._commentElWithDraftID(
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
+        commentEl.selectedText = selectedText;
 
         // If the comment was collapsed, re-open it to make it clear which
         // actions are available.
         commentEl.collapsed = false;
       } else {
+        console.log("lastComment != draft");
         const range = opt_range ? opt_range :
             lastComment ? lastComment.range : undefined;
         const unresolved = lastComment ? lastComment.unresolved : undefined;
-        this.addDraft(opt_lineNum, range, unresolved);
+        this.addDraft(opt_lineNum, range, unresolved, selectedText);
       }
     },
 
-    addDraft(opt_lineNum, opt_range, opt_unresolved) {
-      const draft = this._newDraft(opt_lineNum, opt_range);
+    addDraft(opt_lineNum, opt_range, opt_unresolved, selectedText) {
+      const draft = this._newDraft(opt_lineNum, opt_range, selectedText);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
       this.push('comments', draft);
@@ -280,13 +285,15 @@
      * @param {number=} opt_lineNum
      * @param {!Object=} opt_range
      */
-    _newDraft(opt_lineNum, opt_range) {
+    _newDraft(opt_lineNum, opt_range, sel) {
+      console.log("SEL: " + sel);
       const d = {
         __draft: true,
         __draftID: Math.random().toString(36),
         __date: new Date(),
         path: this.path,
         patchNum: this.patchNum,
+        selectedText : sel,
         side: this._getSide(this.isOnParent),
         __commentSide: this.commentSide,
       };
@@ -301,6 +308,7 @@
           end_character: opt_range.endChar,
         };
       }
+      console.log("selected: " + d.selectedText);
       return d;
     },
 
@@ -331,6 +339,7 @@
             patchNum: this.patchNum,
             path: changeComment.path,
             line: changeComment.line,
+            selectedText: changeComment.selectedText,
           };
           return this.$.storage.setDraftComment(commentLocation,
               changeComment.message);

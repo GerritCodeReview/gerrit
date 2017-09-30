@@ -22,6 +22,30 @@
       "revId": "556ab92686ad68620eef89314c9f6fd136eb3c1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d59e1f1_aa070922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-30T15:08:24Z",
+      "side": 1,
+      "message": "how would i close it please?\n\nI was following https://gerrit-review.googlesource.com/#/c/gerrit/+/129790/1/gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+      "parentUuid": "b3c88f89_04fc9295",
+      "range": {
+        "startLine": 77,
+        "startChar": 18,
+        "endLine": 77,
+        "endChar": 31
+      },
+      "revId": "556ab92686ad68620eef89314c9f6fd136eb3c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

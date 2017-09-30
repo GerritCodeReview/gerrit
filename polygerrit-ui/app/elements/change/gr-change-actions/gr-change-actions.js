@@ -54,15 +54,15 @@
     DELETE_EDIT: 'deleteEdit',
     IGNORE: 'ignore',
     MOVE: 'move',
-    MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
     PUBLISH_EDIT: 'publishEdit',
     REBASE_EDIT: 'rebaseEdit',
     RESTORE: 'restore',
     REVERT: 'revert',
+    REVIEWED: 'reviewed',
     UNIGNORE: 'unignore',
-    UNMUTE: 'unmute',
+    UNREVIEWED: 'unreviewed',
     WIP: 'wip',
   };
 
@@ -267,11 +267,11 @@
             },
             {
               type: ActionType.CHANGE,
-              key: ChangeActions.MUTE,
+              key: ChangeActions.REVIEWED,
             },
             {
               type: ActionType.CHANGE,
-              key: ChangeActions.UNMUTE,
+              key: ChangeActions.UNREVIEWED,
             },
             {
               type: ActionType.CHANGE,
@@ -610,6 +610,12 @@
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.includes(a);
+        if (actions[a].label === 'Mark as Reviewed') {
+          actions[a].label = 'Mark reviewed';
+        }
+        if (actions[a].label === 'Mark as Unreviewed') {
+          actions[a].label = 'Mark unreviewed';
+        }
         if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.

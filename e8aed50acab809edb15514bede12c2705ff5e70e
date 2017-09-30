@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6e18cd8b_b323ed85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3404,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-30T16:06:10Z",
+      "side": 1,
+      "message": "Yes, I will rename the tests to make this more clear.",
+      "parentUuid": "209f6848_50b4d1d7",
+      "range": {
+        "startLine": 3404,
+        "startChar": 14,
+        "endLine": 3404,
+        "endChar": 65
+      },
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8700f58_aef27054",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -54,6 +78,24 @@
       "writtenOn": "2017-09-30T15:29:58Z",
       "side": 1,
       "message": "I\u0027m honestly still not sold on putting the mutual exclusivity checks in the low-level star API like this, as opposed to just having some rule (even if it\u0027s arbitrary) for resolving a conflict. But, given that this is not the only check, I think it\u0027s fine to leave in.",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4a05f75_1fa78cb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-30T16:06:10Z",
+      "side": 1,
+      "message": "That makes me realise that this check is wrong. The reviewed/unreviewed labels are actually on patch-set level. Since we don\u0027t have labels on patch sets, the patch set is included in the label name. E.g. \"reviewed/1\" or \"reviewed/2\". It is legal to have different reviewed states on different patch sets, e.g. \"reviewed/1\" and \"unreviewed/2\". The current check would reject this.\n\nThis makes me wonder whether the MarkAsReviewed and MarkAsUnreviewed REST endpoints should rather be on revision level?",
+      "parentUuid": "c5c4530d_bda37684",
       "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

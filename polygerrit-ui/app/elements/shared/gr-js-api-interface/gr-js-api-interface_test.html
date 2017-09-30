@@ -120,6 +120,16 @@ limitations under the License.
       });
     });
 
+    test('put', () => {
+      const payload = {foo: 'foo'};
+      const response = {bar: 'bar'};
+      getResponseObjectStub.returns(Promise.resolve(response));
+      return plugin.put('/url', payload, r => {
+        assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
+        assert.strictEqual(r, response);
+      });
+    });
+
     test('delete works', () => {
       const response = {status: 204};
       sendStub.returns(Promise.resolve(response));

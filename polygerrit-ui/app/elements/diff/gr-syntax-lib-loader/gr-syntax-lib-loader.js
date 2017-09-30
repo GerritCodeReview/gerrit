@@ -34,7 +34,7 @@
     },
 
     get() {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         // If the lib is totally loaded, resolve immediately.
         if (this._state.loaded) {
           resolve(this._getHighlightLib());
@@ -44,7 +44,7 @@
         // If the library is not currently being loaded, then start loading it.
         if (!this._state.loading) {
           this._state.loading = true;
-          this._loadHLJS().then(this._onLibLoaded.bind(this));
+          this._loadHLJS().then(this._onLibLoaded.bind(this)).catch(reject);
         }
 
         this._state.callbacks.push(resolve);
@@ -73,17 +73,27 @@
     _getLibRoot() {
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
-      return this._cachedLibRoot = document.head
-          .querySelector('link[rel=import][href$="gr-app.html"]')
+      const appLink = document.head
+        .querySelector('link[rel=import][href$="gr-app.html"]');
+
+      if (!appLink) return;
+
+      return this._cachedLibRoot = appLink
           .href
           .match(LIB_ROOT_PATTERN)[1];
     },
     _cachedLibRoot: null,
 
     _loadHLJS() {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = this._getLibRoot() + HLJS_PATH;
+        const url = this._getLibRoot() + HLJS_PATH;
+
+        if (!url) {
+          return reject(new Error('Unable to load blank HLJS url.'));
+        }
+
+        script.src = url;
         script.onload = function() {
           this._configureHighlightLib();
           resolve();

@@ -36,9 +36,11 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
-import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -91,7 +93,12 @@ public class ResourceServletTest {
   @Before
   public void setUp() {
     fs = Jimfs.newFileSystem(Configuration.unix());
-    ts = new AtomicLong(ISODateTimeFormat.dateTime().parseMillis("2010-01-30T12:00:00.000-08:00"));
+    ts =
+        new AtomicLong(
+            LocalDateTime.of(2010, Month.JANUARY, 30, 12, 0, 0)
+                .atOffset(ZoneOffset.ofHours(-8))
+                .toInstant()
+                .toEpochMilli());
   }
 
   @Test

@@ -63,6 +63,8 @@
 
     PROJECT_DASHBOARD: /^\/admin\/projects\/(.+),dashboards$/,
 
+    PROJECT_ADMIN_DASHBOARD: /^\/admin\/projects\/(.+),dashboards\/(.+):(.+)$/,
+
     // Matches /admin/projects[,<offset>][/].
     PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
     PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
@@ -463,6 +465,9 @@
 
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
+      this._mapRoute(RoutePattern.PROJECT_ADMIN_DASHBOARD,
+          '_handleProjectAdminDashboardRoute');
+
       this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
           '_handleProjectDashboardRoute');
 
@@ -596,6 +601,17 @@
         } else {
           this._redirect('/q/status:open');
         }
+      });
+    },
+
+    _handleProjectAdminDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.ADMIN,
+        adminView: 'gr-project-dashboard',
+        detailType: 'dashboard',
+        project: data.params[0],
+        ref: data.params[1],
+        path: data.params[2],
       });
     },
 

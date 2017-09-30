@@ -107,6 +107,9 @@ limitations under the License.
         opacity: 0;
         pointer-events: none;
       }
+      .hashtagChip {
+        margin-bottom: .5em;
+      }
       #externalStyle {
         display: block;
       }
@@ -222,6 +225,7 @@ limitations under the License.
           </template>
           <template is="dom-if" if="[[!change.topic]]">
             <gr-editable-label
+                uppercase
                 label-text="Add a topic"
                 value="[[change.topic]]"
                 placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
@@ -240,6 +244,7 @@ limitations under the License.
           <span class="value">
             <template is="dom-repeat" items="[[change.hashtags]]">
               <gr-linked-chip
+                  class="hashtagChip"
                   text="[[item]]"
                   href="[[_computeHashtagURL(item)]]"
                   removable="[[!_hashtagReadOnly]]"
@@ -247,6 +252,7 @@ limitations under the License.
               </gr-linked-chip>
             </template>
             <gr-editable-label
+                uppercase
                 label-text="Add a hashtag"
                 value="{{_newHashtag}}"
                 placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"

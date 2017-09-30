@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.index.query.QueryParseException;
@@ -67,10 +66,9 @@ import org.slf4j.LoggerFactory;
  */
 public class OutputStreamQuery {
   private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
-  @VisibleForTesting static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss zzz";
 
   private static final DateTimeFormatter dtf =
-      DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT)
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss zzz")
           .withLocale(Locale.US)
           .withZone(ZoneId.systemDefault());
 
@@ -409,7 +407,7 @@ public class OutputStreamQuery {
       out.print('\n');
     } else if (value instanceof Long && isDateField(field)) {
       out.print(' ');
-      out.print(formatDateTime((Long) value));
+      out.print(dtf.format(Instant.ofEpochSecond((Long) value)));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');
@@ -443,11 +441,6 @@ public class OutputStreamQuery {
       out.print('\n');
       showText(value, depth + 1);
     }
-  }
-
-  @VisibleForTesting
-  static String formatDateTime(Long value) {
-    return dtf.format(Instant.ofEpochSecond(value));
   }
 
   private static boolean isPrimitive(Object value) {

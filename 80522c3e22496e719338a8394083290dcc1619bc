@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40a6a7a4_974745c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T12:13:59Z",
+      "side": 0,
+      "message": "It looks removing these will break our mapping from \"draft-\u003eprivate/edit\". We may need to keep this as it is.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "80522c3e22496e719338a8394083290dcc1619bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

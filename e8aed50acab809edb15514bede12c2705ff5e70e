@@ -1,4 +1,102 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1506783214 +0200\nnonce ANEgCxebWobBPuLf3Dray2zJkMW8Clz5tZVbuiiq1J34ZLK4WFjDMS0AY6Ek4PNJQ3ZXxfJVZC9C\n\n0000000000000000000000000000000000000000 cb8263a9a4a604929d2c854db5e9767306b778d1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZz6/uAAoJEHFVO370GiZWU7AIAIc+0Ly19sHulE3NQO3sL8aW\nl90krsIclCSUrrbJ2dFpQlCJK7gV6wbDwYqPapN1dO7ggfywf+d9oI6eb2GAnTc3\n0r5yk5nbov7cfYggE+dAOKzq50Xa4PXApVFxmspH63F9OPK8toOuDFBMgOkDlpCK\nLCDgScqZahXW7+lFWvWCcWVE9CPwYTrqaCOs+/D3orpY6/TmZIfhZJK3rxy40Evb\n6GrNeNWhgHFpPNbFzlps+WknJMwMDmWPzEthSHI5CZ55jCkn/Q4wiMqSRP5go79B\n4O0lVlJxMWByiWHFdXhca2QRVTxt94957CbZcZ5P0Zil7cWJ3pHxW9VTqjKRQxs\u003d\n\u003dtDXD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "209f6848_50b4d1d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3404,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:29:58Z",
+      "side": 1,
+      "message": "I was confused by this method name. It makes it seems like calling markAsReviewed(true) and then markAsReviewed(false) is disallowed. But that\u0027s not what this test is about, IIUC: it\u0027s saying that you can\u0027t use the lower-level setStars API to set a star that is inconsistent with the existing state. Is that right?",
+      "range": {
+        "startLine": 3404,
+        "startChar": 14,
+        "endLine": 3404,
+        "endChar": 65
+      },
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8700f58_aef27054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:29:58Z",
+      "side": 1,
+      "message": "anyMatch",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c4530d_bda37684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:29:58Z",
+      "side": 1,
+      "message": "I\u0027m honestly still not sold on putting the mutual exclusivity checks in the low-level star API like this, as opposed to just having some rule (even if it\u0027s arbitrary) for resolving a conflict. But, given that this is not the only check, I think it\u0027s fine to leave in.",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35b70337_5b567a32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:29:58Z",
+      "side": 1,
+      "message": "Why not DELETE /reviewed for consistency with files?\n\nI would also have guessed that the class names would match PutReviewed/DeleteReviewed. But that would be slightly ugly since you would have to use a FQCN. And the class names don\u0027t really matter. But the REST API structure does :)",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4fe695_315a0483",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_161.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:29:58Z",
+      "side": 1,
+      "message": "toSet doesn\u0027t preserve order. I think toList would be better. Or toImmutableSet.",
+      "range": {
+        "startLine": 67,
+        "startChar": 31,
+        "endLine": 67,
+        "endChar": 36
+      },
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

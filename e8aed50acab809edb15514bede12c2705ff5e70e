@@ -77,6 +77,23 @@
     },
     {
       "key": {
+        "uuid": "2fd7d0c1_1d300ced",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T15:34:55Z",
+      "side": 1,
+      "message": "This means we will also have to temporarily revert this change internally :(",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f4fe695_315a0483",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_161.java",
         "patchSetId": 3

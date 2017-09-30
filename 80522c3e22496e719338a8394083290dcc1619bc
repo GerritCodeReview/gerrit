@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "2fd0d73b_3edbd022",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T12:58:27Z",
+      "side": 0,
+      "message": "This needs to be kept.",
+      "range": {
+        "startLine": 640,
+        "startChar": 3,
+        "endLine": 653,
+        "endChar": 3
+      },
+      "revId": "80522c3e22496e719338a8394083290dcc1619bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b229f5c3_ebb91d71",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DraftChangeIT.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T12:58:27Z",
+      "side": 0,
+      "message": "We need keep these two tests for now. We may move them to AbstractPushForReview.",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 280,
+        "endChar": 0
+      },
+      "revId": "80522c3e22496e719338a8394083290dcc1619bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40a6a7a4_974745c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
         "patchSetId": 90

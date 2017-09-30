@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6f000544_f039cd2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T14:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70c2a52d_d9955f82",
+      "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2171b603_b9bae9b9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9bad6b_332b6bae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T14:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2171b603_b9bae9b9",
+      "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "fabfb287_a7554dec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T14:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaa37044_8dd1d4ce",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 14
+      },
+      "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e88acb46_89e5b638",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
         "patchSetId": 8
@@ -79,6 +139,30 @@
       "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27975078_727922a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T14:41:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e88acb46_89e5b638",
+      "range": {
+        "startLine": 107,
+        "startChar": 17,
+        "endLine": 107,
+        "endChar": 25
+      },
+      "revId": "4879a562496d5b6b53c4e763ba74129e124a2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

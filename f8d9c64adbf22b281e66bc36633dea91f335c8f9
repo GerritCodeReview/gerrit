@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1506760164 +0200\nnonce ANEgCxeFfT/GtBgVlq+U0NddekP/tl0U7HHbnFWoZiOf4U05hwu5xYT+GdlbgAgp7Mdba2zbMEWl\n\n0000000000000000000000000000000000000000 f8d9c64adbf22b281e66bc36633dea91f335c8f9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZz1XkAAoJEHFVO370GiZWNuQIALQrWcLq4fdjtVDUsVIqaT+C\nxlcNBhXk77yZGfOmbeIql8Qdn62BgfuSLFSI6XAY+dpY0McDg4j3FWw1nORFIawF\nypRa6uEbt9cEGbiZt1I88sZVfS5seCvMxYsLxMR+PE3xLpbnjswuqrjlSnf0U4aW\n7rdS64zcfqN3EfZspMB0aTwfCufu2DjM8JvVuyssVRyEBl3yBWWz23TfNogg+E4y\nnj3wriyoxw9e2/w8q+hBEJz2GuqJ7FR5Esf/MwCZkEQViQkJADTZ5LxA8N9IP05C\nJKDpUFVgOxNPnVyBS0huUuaMMJPDBEI0iociKyGvs/RY2GPCJZH2pxluHd67h/8\u003d\n\u003d5Jj6\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "01d808eb_6443c7a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_152.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-30T08:55:31Z",
+      "side": 1,
+      "message": "wrong indentation",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "f8d9c64adbf22b281e66bc36633dea91f335c8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

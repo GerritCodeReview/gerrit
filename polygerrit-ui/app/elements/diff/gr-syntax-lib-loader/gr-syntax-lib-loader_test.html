@@ -45,7 +45,6 @@ limitations under the License.
       );
 
       // Assert preconditions:
-      assert.isFalse(element._state.loaded);
       assert.isFalse(element._state.loading);
     });
 
@@ -57,7 +56,6 @@ limitations under the License.
 
       // Because the element state is a singleton, clean it up.
       element._state.loading = false;
-      element._state.loaded = false;
       element._state.callbacks = [];
     });
 
@@ -68,7 +66,6 @@ limitations under the License.
       // It should now be in the loading state.
       assert.isTrue(loadStub.called);
       assert.isTrue(element._state.loading);
-      assert.isFalse(element._state.loaded);
       assert.isFalse(firstCallHandler.called);
 
       const secondCallHandler = sinon.stub();
@@ -76,7 +73,6 @@ limitations under the License.
 
       // No change in state.
       assert.isTrue(element._state.loading);
-      assert.isFalse(element._state.loaded);
       assert.isFalse(firstCallHandler.called);
       assert.isFalse(secondCallHandler.called);
 
@@ -85,10 +81,54 @@ limitations under the License.
       flush(() => {
         // The state should be loaded and both handlers called.
         assert.isFalse(element._state.loading);
-        assert.isTrue(element._state.loaded);
         assert.isTrue(firstCallHandler.called);
         assert.isTrue(secondCallHandler.called);
         done();
+      });
+    });
+
+    suite('preloaded', () => {
+      setup(() => {
+        window.hljs = 'test-object';
+      });
+
+      teardown(() => {
+        delete window.hljs;
+      });
+
+      test('returns hljs', done => {
+        const firstCallHandler = sinon.stub();
+        element.get().then(firstCallHandler);
+        flush(() => {
+          assert.isTrue(firstCallHandler.called);
+          assert.isTrue(firstCallHandler.calledWith('test-object'));
+          done();
+        });
+      });
+    });
+
+    suite('_getHLJSUrl', () => {
+      suite('checking _getLibRoot', () => {
+        let libRootStub;
+        let root;
+
+        setup(() => {
+          libRootStub = sinon.stub(element, '_getLibRoot', () => root);
+        });
+
+        teardown(() => {
+          libRootStub.restore();
+        });
+
+        test('with no root', () => {
+          assert.isNull(element._getHLJSUrl());
+        });
+
+        test('with root', () => {
+          root = 'test-root.com/';
+          assert.equal(element._getHLJSUrl(),
+              'test-root.com/bower_components/highlightjs/highlight.min.js');
+        });
       });
     });
   });

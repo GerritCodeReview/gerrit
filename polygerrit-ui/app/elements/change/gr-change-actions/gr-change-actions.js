@@ -667,6 +667,10 @@
           this.$.confirmRevertDialog.message, this.commitMessage);
     },
 
+    _computeButtonText(action) {
+      return action.label;
+    },
+
     showRevertDialog() {
       this.$.confirmRevertDialog.populateRevertMessage(
           this.commitMessage, this.change.current_revision);

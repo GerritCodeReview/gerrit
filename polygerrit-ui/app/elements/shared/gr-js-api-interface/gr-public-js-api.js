@@ -157,6 +157,10 @@
     return this._send('POST', url, opt_callback, payload);
   },
 
+  Plugin.prototype.put = function(url, payload, opt_callback) {
+    return this._send('PUT', url, opt_callback, payload);
+  },
+
   Plugin.prototype.delete = function(url, opt_callback) {
     return getRestAPI().send('DELETE', url).then(response => {
       if (response.status !== 204) {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.index.query.QueryParseException;
@@ -42,17 +43,19 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,8 +67,12 @@ import org.slf4j.LoggerFactory;
  */
 public class OutputStreamQuery {
   private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
+  @VisibleForTesting static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss zzz";
 
-  private static final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
+  private static final DateTimeFormatter dtf =
+      DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT)
+          .withLocale(Locale.US)
+          .withZone(ZoneId.systemDefault());
 
   public enum OutputFormat {
     TEXT,
@@ -402,7 +409,7 @@ public class OutputStreamQuery {
       out.print('\n');
     } else if (value instanceof Long && isDateField(field)) {
       out.print(' ');
-      out.print(dtf.print(((Long) value) * 1000L));
+      out.print(formatDateTime((Long) value));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');
@@ -436,6 +443,11 @@ public class OutputStreamQuery {
       out.print('\n');
       showText(value, depth + 1);
     }
+  }
+
+  @VisibleForTesting
+  static String formatDateTime(Long value) {
+    return dtf.format(Instant.ofEpochSecond(value));
   }
 
   private static boolean isPrimitive(Object value) {

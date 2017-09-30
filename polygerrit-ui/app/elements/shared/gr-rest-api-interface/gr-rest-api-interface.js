@@ -753,6 +753,11 @@
         // Response may be an array of changes OR an array of arrays of
         // changes.
         if (opt_query instanceof Array) {
+          // Normalize the response to look like a multi-query response
+          // when there is only one query.
+          if (opt_query.length === 1) {
+            response = [response];
+          }
           for (const arr of response) {
             iterateOverChanges(arr);
           }

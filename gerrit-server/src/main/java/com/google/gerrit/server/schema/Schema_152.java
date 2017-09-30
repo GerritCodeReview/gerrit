@@ -36,6 +36,8 @@ public class Schema_152 extends SchemaVersion {
     SqlDialect dialect = schema.getDialect();
     try (StatementExecutor e = newExecutor(db)) {
       dialect.dropIndex(e, "accounts", "accounts_byFullName");
+    } catch (OrmException ex) {
+      // Ignore. The index did not exist.
     }
   }
 }

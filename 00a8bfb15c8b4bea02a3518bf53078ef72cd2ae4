@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "184e30d1_b31b53c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-30T11:15:16Z",
+      "side": 1,
+      "message": "Please add a reference here.\n\nBug: Issue 5266",
+      "revId": "00a8bfb15c8b4bea02a3518bf53078ef72cd2ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

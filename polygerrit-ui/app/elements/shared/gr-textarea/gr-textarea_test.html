@@ -72,7 +72,7 @@ limitations under the License.
       element.$.textarea.selectionStart = 1;
       element.$.textarea.selectionEnd = 1;
       element.text = ':';
-      assert.isFalse(!element.$.emojiSuggestions.hidden);
+      assert.isFalse(!element.$.emojiSuggestions.isHidden);
     });
 
     test('emoji selector is not open when a general text is entered', () => {
@@ -80,7 +80,7 @@ limitations under the License.
       element.$.textarea.selectionStart = 9;
       element.$.textarea.selectionEnd = 9;
       element.text = 'some text';
-      assert.isFalse(!element.$.emojiSuggestions.hidden);
+      assert.isFalse(!element.$.emojiSuggestions.isHidden);
     });
 
     test('emoji selector opens when a colon is typed & the textarea has focus',
@@ -95,7 +95,7 @@ limitations under the License.
           element.$.textarea.selectionEnd = 2;
           element.text = ':t';
           flushAsynchronousOperations();
-          assert.isFalse(element.$.emojiSuggestions.hidden);
+          assert.isFalse(element.$.emojiSuggestions.isHidden);
           assert.equal(element._colonIndex, 0);
           assert.isFalse(element._hideAutocomplete);
           assert.equal(element._currentSearchString, 't');
@@ -165,32 +165,16 @@ limitations under the License.
       assert.equal(element.text, 'test test 😂 ');
     });
 
-    test('_getPositionOfCursor', () => {
+    test('_updateCaratPosition', () => {
       element.$.textarea.selectionStart = 4;
       element.$.textarea.selectionEnd = 4;
       element.text = 'test';
-      element._getPositionOfCursor();
+      element._updateCaratPosition();
       assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
-          '<span></span>');
+          element.$.emojiSuggestions.outerHTML);
     });
 
-    test('_updateSelectorPosition', () => {
-      const setPositionSpy =
-          sandbox.spy(element.$.emojiSuggestions, 'setPosition');
-      sandbox.stub(element, '_getPositionOfCursor', () => {
-        return {top: 100, left: 30};
-      });
-      sandbox.stub(element, '_getFontSize', () => 12);
-      sandbox.stub(element, '_getScrollTop', () => 100);
-      element._updateSelectorPosition();
-      assert.isTrue(setPositionSpy.lastCall.calledWithExactly('219px', '30px'));
-
-      element.fixedPositionDropdown = true;
-      element._updateSelectorPosition();
-      assert.isTrue(setPositionSpy.lastCall.calledWithExactly('119px', '30px'));
-    });
-
-    test('emoji dropdown is closed when dropdown-closed is fired', () => {
+    test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
       const resetSpy = sandbox.spy(element, '_resetAndFocus');
       element.$.emojiSuggestions.fire('dropdown-closed');
       assert.isTrue(resetSpy.called);
@@ -205,56 +189,67 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', () => {
-      function setupDropdown() {
-        MockInteractions.focus(element.$.textarea);
+      function setupDropdown(callback) {
+        element.$.emojiSuggestions.addEventListener('open-complete', () => {
+          callback();
+        });
         flushAsynchronousOperations();
+        MockInteractions.focus(element.$.textarea);
         element.$.textarea.selectionStart = 1;
         element.$.textarea.selectionEnd = 1;
         element.text = ':';
         element.$.textarea.selectionStart = 1;
-        element.$.textarea.selectionEnd = 1;
+        element.$.textarea.selectionEnd = 2;
         element.text = ':1';
       }
 
-      test('escape key', () => {
+      test('escape key', done => {
         const resestSpy = sandbox.spy(element, '_resetAndFocus');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
         assert.isFalse(resestSpy.called);
-        setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
-        assert.isTrue(resestSpy.called);
-        assert.isFalse(!element.$.emojiSuggestions.hidden);
+        setupDropdown(() => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+          assert.isTrue(resestSpy.called);
+          assert.isFalse(!element.$.emojiSuggestions.isHidden);
+          done();
+        });
       });
 
-      test('up key', () => {
+      test('up key', done => {
         const upSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorUp');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
         assert.isFalse(upSpy.called);
-        setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
-        assert.isTrue(upSpy.called);
+        setupDropdown(() => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+          assert.isTrue(upSpy.called);
+          done();
+        });
       });
 
-      test('down key', () => {
+      test('down key', done => {
         const downSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorDown');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
         assert.isFalse(downSpy.called);
-        setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
-        assert.isTrue(downSpy.called);
+        setupDropdown(() => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+          assert.isTrue(downSpy.called);
+          done();
+        });
       });
 
-      test('enter key', () => {
+      test('enter key', done => {
         const enterSpy = sandbox.spy(element.$.emojiSuggestions,
             'getCursorTarget');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
         assert.isFalse(enterSpy.called);
-        setupDropdown();
-        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
-        assert.isTrue(enterSpy.called);
-        flushAsynchronousOperations();
-        // A space is automatically added at the end.
-        assert.equal(element.text, '💯 ');
+        setupDropdown(() => {
+          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+          assert.isTrue(enterSpy.called);
+          flushAsynchronousOperations();
+          // A space is automatically added at the end.
+          assert.equal(element.text, '💯 ');
+          done();
+        });
       });
     });
   });

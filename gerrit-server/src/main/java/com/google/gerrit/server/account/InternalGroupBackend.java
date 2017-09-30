@@ -26,8 +26,8 @@ import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import org.eclipse.jgit.lib.ObjectId;
@@ -38,7 +38,7 @@ public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final Groups groups;
-  private final Provider<ReviewDb> db;
+  private final SchemaFactory<ReviewDb> schema;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
@@ -46,12 +46,12 @@ public class InternalGroupBackend implements GroupBackend {
       GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
       Groups groups,
-      Provider<ReviewDb> db,
+      SchemaFactory<ReviewDb> schema,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
     this.groups = groups;
-    this.db = db;
+    this.schema = schema;
     this.groupMembershipFactory = groupMembershipFactory;
   }
 
@@ -72,9 +72,9 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    try {
+    try (ReviewDb db = schema.open()) {
       return groups
-          .getAll(db.get())
+          .getAll(db)
           .filter(group -> startsWithIgnoreCase(group, name))
           .filter(this::isVisible)
           .map(GroupReference::forGroup)

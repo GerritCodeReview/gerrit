@@ -26,7 +26,6 @@
 
         // NOTE: intended singleton.
         value: {
-          loaded: false,
           loading: false,
           callbacks: [],
         },
@@ -34,9 +33,9 @@
     },
 
     get() {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         // If the lib is totally loaded, resolve immediately.
-        if (this._state.loaded) {
+        if (this._getHighlightLib()) {
           resolve(this._getHighlightLib());
           return;
         }
@@ -44,7 +43,7 @@
         // If the library is not currently being loaded, then start loading it.
         if (!this._state.loading) {
           this._state.loading = true;
-          this._loadHLJS().then(this._onLibLoaded.bind(this));
+          this._loadHLJS().then(this._onLibLoaded.bind(this)).catch(reject);
         }
 
         this._state.callbacks.push(resolve);
@@ -53,7 +52,6 @@
 
     _onLibLoaded() {
       const lib = this._getHighlightLib();
-      this._state.loaded = true;
       this._state.loading = false;
       for (const cb of this._state.callbacks) {
         cb(lib);
@@ -73,23 +71,40 @@
     _getLibRoot() {
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
-      return this._cachedLibRoot = document.head
-          .querySelector('link[rel=import][href$="gr-app.html"]')
+      const appLink = document.head
+        .querySelector('link[rel=import][href$="gr-app.html"]');
+
+      if (!appLink) { return null; }
+
+      return this._cachedLibRoot = appLink
           .href
           .match(LIB_ROOT_PATTERN)[1];
     },
     _cachedLibRoot: null,
 
     _loadHLJS() {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = this._getLibRoot() + HLJS_PATH;
+        const src = this._getHLJSUrl();
+
+        if (!src) {
+          reject(new Error('Unable to load blank HLJS url.'));
+          return;
+        }
+
+        script.src = src;
         script.onload = function() {
           this._configureHighlightLib();
           resolve();
         }.bind(this);
         Polymer.dom(document.head).appendChild(script);
       });
+    },
+
+    _getHLJSUrl() {
+      const root = this._getLibRoot();
+      if (!root) { return null; }
+      return root + HLJS_PATH;
     },
   });
 })();

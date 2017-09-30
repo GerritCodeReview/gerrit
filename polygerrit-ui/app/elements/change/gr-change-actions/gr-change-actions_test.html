@@ -866,22 +866,22 @@ limitations under the License.
       });
     });
 
-    suite('mute change', () => {
+    suite('reviewed change', () => {
       setup(done => {
         sandbox.stub(element, '_fireAction');
 
-        const MuteAction = {
-          __key: 'mute',
+        const ReviewedAction = {
+          __key: 'reviewed',
           __type: 'change',
           __primary: false,
           method: 'PUT',
-          label: 'Mute',
+          label: 'Mark reviewed',
           title: 'Working...',
           enabled: true,
         };
 
         element.actions = {
-          mute: MuteAction,
+          reviewed: ReviewedAction,
         };
 
         element.changeNum = '2';
@@ -890,37 +890,38 @@ limitations under the License.
         element.reload().then(() => { flush(done); });
       });
 
-      test('make sure the mute button is not outside of the overflow menu',
+      test('make sure the reviewed button is not outside of the overflow menu',
           () => {
-            assert.isNotOk(element.$$('[data-action-key="mute"]'));
+            assert.isNotOk(element.$$('[data-action-key="reviewed"]'));
           });
 
-      test('muting change', () => {
-        assert.isOk(element.$.moreActions.$$('span[data-id="mute-change"]'));
-        element.setActionOverflow('change', 'mute', false);
+      test('reviewing change', () => {
+        assert.isOk(
+            element.$.moreActions.$$('span[data-id="reviewed-change"]'));
+        element.setActionOverflow('change', 'reviewed', false);
         flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="mute"]'));
+        assert.isOk(element.$$('[data-action-key="reviewed"]'));
         assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="mute-change"]'));
+            element.$.moreActions.$$('span[data-id="reviewed-change"]'));
       });
     });
 
-    suite('unmute change', () => {
+    suite('unreviewed change', () => {
       setup(done => {
         sandbox.stub(element, '_fireAction');
 
-        const UnmuteAction = {
-          __key: 'unmute',
+        const UnreviewedAction = {
+          __key: 'unreviewed',
           __type: 'change',
           __primary: false,
           method: 'PUT',
-          label: 'Unmute',
+          label: 'Mark unreviewed',
           title: 'Working...',
           enabled: true,
         };
 
         element.actions = {
-          unmute: UnmuteAction,
+          unreviewed: UnreviewedAction,
         };
 
         element.changeNum = '2';
@@ -930,18 +931,18 @@ limitations under the License.
       });
 
 
-      test('unmute button not outside of the overflow menu', () => {
-        assert.isNotOk(element.$$('[data-action-key="unmute"]'));
+      test('unreviewed button not outside of the overflow menu', () => {
+        assert.isNotOk(element.$$('[data-action-key="unreviewed"]'));
       });
 
-      test('unmuting change', () => {
+      test('unreviewed change', () => {
         assert.isOk(
-            element.$.moreActions.$$('span[data-id="unmute-change"]'));
-        element.setActionOverflow('change', 'unmute', false);
+            element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
+        element.setActionOverflow('change', 'unreviewed', false);
         flushAsynchronousOperations();
-        assert.isOk(element.$$('[data-action-key="unmute"]'));
+        assert.isOk(element.$$('[data-action-key="unreviewed"]'));
         assert.isNotOk(
-            element.$.moreActions.$$('span[data-id="unmute-change"]'));
+            element.$.moreActions.$$('span[data-id="unreviewed-change"]'));
       });
     });
 

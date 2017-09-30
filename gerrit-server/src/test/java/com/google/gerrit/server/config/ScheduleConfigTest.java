@@ -20,15 +20,19 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class ScheduleConfigTest {
 
   // Friday June 13, 2014 10:00 UTC
-  private static final DateTime NOW = DateTime.parse("2014-06-13T10:00:00-00:00");
+  private static final ZonedDateTime NOW =
+      LocalDateTime.of(2014, Month.JUNE, 13, 10, 0, 0).atOffset(ZoneOffset.UTC).toZonedDateTime();
 
   @Test
   public void initialDelay() throws Exception {

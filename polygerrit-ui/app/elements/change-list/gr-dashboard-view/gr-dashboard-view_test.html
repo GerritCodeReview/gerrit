@@ -64,17 +64,18 @@ limitations under the License.
     });
 
     test('viewing another user\'s dashboard omits selfOnly sections', () => {
-      element._sectionMetadata = [
-        {query: '1'},
-        {query: '2', selfOnly: true},
-      ];
-
-      element.params = {user: 'self'};
+      element.params = {
+        sections: [
+          {query: '1'},
+          {query: '2', selfOnly: true},
+        ],
+        user: 'self',
+      };
       flushAsynchronousOperations();
       assert.isTrue(
           getChangesStub.calledWith(null, ['1', '2'], null, element.options));
 
-      element.params = {user: 'user'};
+      element.set('params.user', 'user');
       flushAsynchronousOperations();
       assert.isTrue(
           getChangesStub.calledWith(null, ['1'], null, element.options));

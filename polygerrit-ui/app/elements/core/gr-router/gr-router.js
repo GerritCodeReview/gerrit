@@ -127,6 +127,16 @@
    */
   const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
 
+  /**
+   * Pattern to recognize '+' in url-encoded strings for replacement with ' '.
+   */
+  const PLUS_PATTERN = /\+/g;
+
+  /**
+   * Pattern to recognize leading '?' in window.location.search, for stripping.
+   */
+  const QUESTION_PATTERN = /^\?*/;
+
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   const app = document.querySelector('#app');
@@ -223,7 +233,21 @@
           url = `/c/${params.changeNum}${range}`;
         }
       } else if (params.view === Gerrit.Nav.View.DASHBOARD) {
-        url = `/dashboard/${params.user || 'self'}`;
+        if (params.sections) {
+          // Custom dashboard.
+          const queryParams = params.sections.map(section => {
+            return encodeURIComponent(section.name) + '=' +
+                encodeURIComponent(section.query);
+          });
+          if (params.title) {
+            queryParams.push('title=' + encodeURIComponent(params.title));
+          }
+          const user = params.user ? params.user : '';
+          url = `/dashboard/${user}?${queryParams.join('&')}`;
+        } else {
+          // User dashboard.
+          url = `/dashboard/${params.user || 'self'}`;
+        }
       } else if (params.view === Gerrit.Nav.View.DIFF) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
@@ -594,19 +618,101 @@
       });
     },
 
-    _handleDashboardRoute(data) {
-      if (!data.params[0]) {
-        this._redirect('/dashboard/self');
-        return;
+    /**
+     * Decode an application/x-www-form-urlencoded string.
+     *
+     * @param {string} qs The application/x-www-form-urlencoded string.
+     * @return {string} The decoded string.
+     */
+    _decodeQueryString(qs) {
+      return decodeURIComponent(qs.replace(PLUS_PATTERN, ' '));
+    },
+
+    /**
+     * Parse a query string (e.g. window.location.search) into an array of
+     * name/value pairs.
+     *
+     * @param {string} qs The application/x-www-form-urlencoded query string.
+     * @return {!Array<!Array<string>>} An array of name/value pairs, where each
+     *     element is a 2-element array.
+     */
+    _parseQueryString(qs) {
+      qs = qs.replace(QUESTION_PATTERN, '');
+      if (!qs) {
+        return [];
+      }
+      const params = [];
+      qs.split('&').forEach(param => {
+        const idx = param.indexOf('=');
+        let name;
+        let value;
+        if (idx < 0) {
+          name = this._decodeQueryString(param);
+          value = '';
+        } else {
+          name = this._decodeQueryString(param.substring(0, idx));
+          value = this._decodeQueryString(param.substring(idx + 1));
+        }
+        if (name) {
+          params.push([name, value]);
+        }
+      });
+      return params;
+    },
+
+    /**
+     * Handle dashboard routes. These may be user, custom, or project
+     * dashboards.
+     *
+     * @param {!Object} data The parsed route data.
+     * @param {string=} opt_qs Optional query string associated with the route.
+     *     If not given, window.location.search is used. (Used by tests).
+     */
+    _handleDashboardRoute(data, opt_qs) {
+      // opt_qs may be provided by a test, and it may have a falsy value
+      const qs = opt_qs !== undefined ? opt_qs : window.location.search;
+      const queryParams = this._parseQueryString(qs);
+      let title = 'Custom Dashboard';
+      const titleParam = queryParams.find(
+          elem => elem[0].toLowerCase() === 'title');
+      if (titleParam) {
+        title = titleParam[1];
+      }
+      const sectionParams = queryParams.filter(
+          elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title');
+      const sections = sectionParams.map(elem => {
+        return {
+          name: elem[0],
+          query: elem[1],
+        };
+      });
+
+      if (sections.length > 0) {
+        // Custom dashboard view.
+        this._setParams({
+          view: Gerrit.Nav.View.DASHBOARD,
+          user: data.params[0] || 'self',
+          sections,
+          title,
+        });
+        return Promise.resolve();
       }
 
+      if (!data.params[0] && sections.length === 0) {
+        // Redirect /dashboard/ -> /dashboard/self.
+        this._redirect('/dashboard/self');
+        return Promise.resolve();
+      }
+
+      // User dashboard. We require viewing user to be logged in, else we
+      // redirect to login for self dashboard or simple owner search for
+      // other user dashboard.
       return this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (!loggedIn) {
           if (data.params[0].toLowerCase() === 'self') {
             this._redirectToLogin(data.canonicalPath);
           } else {
-            // TODO: encode user or use _generateUrl.
-            this._redirect('/q/owner:' + data.params[0]);
+            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
           }
         } else {
           this._setParams({

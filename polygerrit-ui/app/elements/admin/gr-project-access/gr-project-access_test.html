@@ -83,11 +83,14 @@ limitations under the License.
           'getCapabilities').returns(Promise.resolve(capabilitiesRes));
       const projectStub = sandbox.stub(element.$.restAPI, 'getProject').returns(
           Promise.resolve(projectRes));
+      const adminStub = sandbox.stub(element.$.restAPI, 'getIsAdmin').returns(
+          Promise.resolve(true));
 
       element._projectChanged('New Project').then(() => {
         assert.isTrue(accessStub.called);
         assert.isTrue(capabilitiesStub.called);
         assert.isTrue(projectStub.called);
+        assert.isTrue(adminStub.called);
         assert.isNotOk(element._inheritsFrom);
         assert.deepEqual(element._local, accessRes.local);
         assert.deepEqual(element._sections,
@@ -141,6 +144,13 @@ limitations under the License.
       const projectName = 'test-project';
       assert.equal(element._computeParentHref(projectName),
           '/admin/projects/test-project,access');
+    });
+
+    test('_computeAdminClass', () => {
+      let isAdmin = true;
+      assert.equal(element._computeAdminClass(isAdmin), 'admin');
+      isAdmin = false;
+      assert.equal(element._computeAdminClass(isAdmin), '');
     });
 
     test('inherit section', () => {

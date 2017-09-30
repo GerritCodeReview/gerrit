@@ -22,7 +22,12 @@
         type: String,
         observer: '_projectChanged',
       },
+      path: String,
 
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
       _capabilities: Object,
       _groups: Object,
       /** @type {?} */
@@ -67,6 +72,10 @@
         return res.labels;
       }));
 
+      promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+        this._isAdmin = isAdmin;
+      }));
+
       return Promise.all(promises).then(value => {
         this._capabilities = value[1];
         this._labels = value[2];
@@ -77,6 +86,10 @@
         this.splice(...['_sections', 0, this._sections.length]
             .concat(value[0]));
       });
+    },
+
+    _computeAdminClass(isAdmin) {
+      return isAdmin ? 'admin' : '';
     },
 
     _computeParentHref(projectName) {

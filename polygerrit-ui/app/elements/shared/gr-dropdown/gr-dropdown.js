@@ -37,6 +37,7 @@
         type: Array,
         observer: '_resetCursorStops',
       },
+      downArrow: Boolean,
       topContent: Object,
       horizontalAlign: {
         type: String,

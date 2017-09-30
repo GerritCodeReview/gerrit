@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6318dff2_cf064fe3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T12:53:14Z",
+      "side": 1,
+      "message": "I feel like this check could appear near l.197 or l.198 where it first expects HLJS to be loaded. That way it avoids ever reaching this deeply into the process.\n\nIf the _loadHLJS promise now fails with rejection, is this line even reached?",
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7688fdb_330b9a0d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T12:53:14Z",
+      "side": 1,
+      "message": "Nit: please wrap if branches in curly braces. Also, to be more explicit, consider returning with null.\n\n if (!appLink) { return null; }",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abbe26a5_22da637c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T12:53:14Z",
+      "side": 1,
+      "message": "We don\u0027t use the return value of the reject do we? Elsewhere, when we reject promises in this way, I think it\u0027d typically have the return be separate to make it clear that reject\u0027s return value isn\u0027t used.\n\n reject(new Error(\u0027Unable to load blank HLJS url.\u0027));\n return;",
+      "range": {
+        "startLine": 93,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

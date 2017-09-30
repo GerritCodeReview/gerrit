@@ -88,7 +88,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   @Deprecated static final Schema<ChangeData> V45 = schema(V44, ChangeField.REVERT_OF);
 
-  static final Schema<ChangeData> V46 = schema(V45);
+  @Deprecated static final Schema<ChangeData> V46 = schema(V45);
+
+  static final Schema<ChangeData> V47 = schema(V46);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

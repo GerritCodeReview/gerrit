@@ -86,14 +86,14 @@ limitations under the License.
 
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
       assert.equal(getMessages().length, 20);
-      assert.equal(element.$.incrementMessagesBtn.innerText.trim(),
-          'Show 5 more');
+      assert.equal(element.$.incrementMessagesBtn.innerText.toUpperCase()
+          .trim(), 'SHOW 5 MORE');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
 
       assert.equal(getMessages().length, 25);
-      assert.equal(element.$.incrementMessagesBtn.innerText.trim(),
-          'Show 1 more');
+      assert.equal(element.$.incrementMessagesBtn.innerText.toUpperCase()
+          .trim(), 'SHOW 1 MORE');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
 
@@ -108,7 +108,8 @@ limitations under the License.
 
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
       assert.equal(getMessages().length, 20);
-      assert.equal(element.$.oldMessagesBtn.innerText, 'Show all 6 messages');
+      assert.equal(element.$.oldMessagesBtn.innerText.toUpperCase(),
+          'SHOW ALL 6 MESSAGES');
       MockInteractions.tap(element.$.oldMessagesBtn);
       flushAsynchronousOperations();
 
@@ -121,7 +122,8 @@ limitations under the License.
           .concat(_.times(11, randomMessage));
       flushAsynchronousOperations();
 
-      assert.equal(element.$.oldMessagesBtn.innerText, 'Show 1 message');
+      assert.equal(element.$.oldMessagesBtn.innerText.toUpperCase(),
+          'SHOW 1 MESSAGE');
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
       MockInteractions.tap(element.$.automatedMessageToggle);
       flushAsynchronousOperations();
@@ -134,12 +136,14 @@ limitations under the License.
           .concat(_.times(11, randomAutomated));
       flushAsynchronousOperations();
 
-      assert.equal(element.$.oldMessagesBtn.innerText, 'Show 1 message');
+      assert.equal(element.$.oldMessagesBtn.innerText.toUpperCase(),
+          'SHOW 1 MESSAGE');
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
       MockInteractions.tap(element.$.automatedMessageToggle);
       flushAsynchronousOperations();
 
-      assert.equal(element.$.oldMessagesBtn.innerText, 'Show 1 message');
+      assert.equal(element.$.oldMessagesBtn.innerText.toUpperCase(),
+          'SHOW 1 MESSAGE');
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
     });
 

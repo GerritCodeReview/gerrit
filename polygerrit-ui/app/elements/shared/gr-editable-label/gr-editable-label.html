@@ -27,6 +27,9 @@ limitations under the License.
         align-items: center;
         display: inline-flex;
       }
+      :host([uppercase]) label {
+        text-transform: uppercase;
+      }
       input,
       label {
         width: 100%;
@@ -37,14 +40,14 @@ limitations under the License.
       label {
         color: #777;
         display: inline-block;
+        font-family: var(--font-family-bold);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       label.editable {
-        color: #00f;
+        color: var(--color-link);
         cursor: pointer;
-        text-decoration: underline;
       }
       #dropdown {
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;

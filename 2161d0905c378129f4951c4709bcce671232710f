@@ -16,6 +16,24 @@
       "revId": "2161d0905c378129f4951c4709bcce671232710f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02246363_0f5b990d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T11:27:23Z",
+      "side": 1,
+      "message": "I believe the answer is because this method was part of the GWT plugin API.",
+      "parentUuid": "89b5dcaa_b9f7460e",
+      "revId": "2161d0905c378129f4951c4709bcce671232710f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

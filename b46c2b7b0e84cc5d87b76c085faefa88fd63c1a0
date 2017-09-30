@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b2bccf8d_a1965a79",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-30T13:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4f43a5d_56ea828a",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eabbebb4_a0c6b39b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "This too",
       "parentUuid": "eabbebb4_a0c6b39b",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 505,
+        "endChar": 33
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f9cf4d7_2c2407d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-30T13:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "089988a2_8102d511",
       "range": {
         "startLine": 505,
         "startChar": 4,
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "True. I would still prefer to somehow combine the two getGroupsOwnedBy() implementations, especially since the new one ignores most other options and bypasses visibility checks. Maybe we can define the new option similarly to \u0027user\u0027 and give one of those two options the preference when both are set.",
       "parentUuid": "5c47c4b2_9979e6a7",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "b46c2b7b0e84cc5d87b76c085faefa88fd63c1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e55a60a_c7109841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-30T13:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7721273a_b8ee0401",
       "range": {
         "startLine": 279,
         "startChar": 0,

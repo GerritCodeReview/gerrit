@@ -69,8 +69,9 @@ import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.ListChangeRobotComments;
+import com.google.gerrit.server.change.MarkAsReviewed;
+import com.google.gerrit.server.change.MarkAsUnreviewed;
 import com.google.gerrit.server.change.Move;
-import com.google.gerrit.server.change.Mute;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostPrivate;
 import com.google.gerrit.server.change.PostReviewers;
@@ -89,7 +90,6 @@ import com.google.gerrit.server.change.SetWorkInProgress;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Unignore;
-import com.google.gerrit.server.change.Unmute;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -142,8 +142,8 @@ class ChangeApiImpl implements ChangeApi {
   private final DeletePrivate deletePrivate;
   private final Ignore ignore;
   private final Unignore unignore;
-  private final Mute mute;
-  private final Unmute unmute;
+  private final MarkAsReviewed markAsReviewed;
+  private final MarkAsUnreviewed markAsUnreviewed;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
@@ -188,8 +188,8 @@ class ChangeApiImpl implements ChangeApi {
       DeletePrivate deletePrivate,
       Ignore ignore,
       Unignore unignore,
-      Mute mute,
-      Unmute unmute,
+      MarkAsReviewed markAsReviewed,
+      MarkAsUnreviewed markAsUnreviewed,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
@@ -232,8 +232,8 @@ class ChangeApiImpl implements ChangeApi {
     this.deletePrivate = deletePrivate;
     this.ignore = ignore;
     this.unignore = unignore;
-    this.mute = mute;
-    this.unmute = unmute;
+    this.markAsReviewed = markAsReviewed;
+    this.markAsUnreviewed = markAsUnreviewed;
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
@@ -684,26 +684,18 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void mute(boolean mute) throws RestApiException {
+  public void markAsReviewed(boolean reviewed) throws RestApiException {
     // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
     // StarredChangesUtil.
     try {
-      if (mute) {
-        this.mute.apply(change, new Mute.Input());
+      if (reviewed) {
+        this.markAsReviewed.apply(change, new MarkAsReviewed.Input());
       } else {
-        unmute.apply(change, new Unmute.Input());
+        markAsUnreviewed.apply(change, new MarkAsUnreviewed.Input());
       }
     } catch (OrmException | IllegalLabelException e) {
-      throw asRestApiException("Cannot mute change", e);
-    }
-  }
-
-  @Override
-  public boolean muted() throws RestApiException {
-    try {
-      return stars.isMuted(change);
-    } catch (OrmException e) {
-      throw asRestApiException("Cannot check if muted", e);
+      throw asRestApiException(
+          "Cannot mark change as " + (reviewed ? "reviewed" : "unreviewed"), e);
     }
   }
 

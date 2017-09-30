@@ -138,8 +138,6 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
 
-  public final native boolean muted() /*-{ return this.muted ? true : false; }-*/;
-
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
 
   public final native boolean isPrivate() /*-{ return this.is_private ? true : false; }-*/;

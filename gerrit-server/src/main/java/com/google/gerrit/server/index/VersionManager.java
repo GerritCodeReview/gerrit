@@ -82,7 +82,7 @@ public abstract class VersionManager implements LifecycleListener {
     this.runReindexMsg =
         "No index versions for index '%s' ready; run java -jar "
             + sitePaths.gerrit_war.toAbsolutePath()
-            + " reindex";
+            + " reindex --index %s";
   }
 
   @Override
@@ -158,7 +158,7 @@ public abstract class VersionManager implements LifecycleListener {
       }
     }
     if (search == null) {
-      throw new ProvisionException(String.format(runReindexMsg, def.getName()));
+      throw new ProvisionException(String.format(runReindexMsg, def.getName(), def.getName()));
     }
 
     IndexFactory<K, V, I> factory = def.getIndexFactory();

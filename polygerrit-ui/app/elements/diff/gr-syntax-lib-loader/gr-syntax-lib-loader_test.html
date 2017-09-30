@@ -91,5 +91,44 @@ limitations under the License.
         done();
       });
     });
+
+    suite('_getHLSUrl', () => {
+      suite('with HLJS_URL', () => {
+        setup(() => {
+          window.HLJS_URL = 'test-url';
+        });
+
+        teardown(() => {
+          delete window.HLJS_URL;
+        });
+
+        test('returns the hljs url', () => {
+          assert.equal(element._getHLSUrl(), 'test-url');
+        });
+      });
+
+      suite('checking _getLibRoot', () => {
+        let libRootStub;
+        let root;
+
+        setup(() => {
+          libRootStub = sinon.stub(element, '_getLibRoot', () => root);
+        });
+
+        teardown(() => {
+          libRootStub.restore();
+        });
+
+        test('with no root', () => {
+          assert.isNull(element._getHLSUrl());
+        });
+
+        test('with root', () => {
+          root = 'test-root.com/';
+          assert.equal(element._getHLSUrl(),
+            'test-root.com/bower_components/highlightjs/highlight.min.js');
+        });
+      });
+    });
   });
 </script>

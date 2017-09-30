@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "c24043f8_6e665a71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T19:09:11Z",
+      "side": 1,
+      "message": "\u003e That makes me realise that this check is wrong.\n\nGood point. I think the only things that are mutually exclusive are \"reviewed/X\" and \"unreviewed/X\" for the _same_ X.\n\n\u003e This makes me wonder whether the MarkAsReviewed and MarkAsUnreviewed REST endpoints should rather be on revision level?\n\nI dunno. Is there a use case for ever marking a revision other than the current revision? If not, then I don\u0027t see the value.",
+      "parentUuid": "e4a05f75_1fa78cb7",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35b70337_5b567a32",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 3
@@ -131,6 +149,24 @@
       "side": 1,
       "message": "Hmm.\n\nAs explained in the commit message we have 3 states:\n\n1. reviewed flag is auto-computed (neither \u0027reviewed\u0027 nor \u0027unreviewed\u0027 label)\n2. reviewed \u003d true (\u0027reviewed\u0027 label is set)\n3. reviewed \u003d false (\u0027unreviewed\u0027 label is set)\n\nMarkAsReviewed moves the change from state 1 or 3 to state 2, \nMarkAsUnreviewed moves the change from state 1 or 2 to state 3.\n\nI think\n\n  DELETE /c/id/reviewed\n\nmakes only sense as an undo for\n\n  PUT /c/id/reviewed \n\nto set the change from state 2 to state 1, but I think it would be unexpected if DELETE was setting a new label like \u0027unreviewed\u0027.\n\nHence I would rather keep MarkAsReviewed and MarkAsUnreviewed as separate PUT requests:\n\n  PUT /c/id/reviewed \n  PUT /c/id/unreviewed \n\nBut we can have support for delete requests in addition (to move back to state 1):\n\n  DELETE /c/id/reviewed \n  DELETE /c/id/unreviewed",
       "parentUuid": "35b70337_5b567a32",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b632889d_26e27568",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T19:09:11Z",
+      "side": 1,
+      "message": "\u003e Hmm.\n\u003e \n\u003e As explained in the commit message we have 3 states:\n\u003e \n\u003e 1. reviewed flag is auto-computed (neither \u0027reviewed\u0027 nor \u0027unreviewed\u0027 label)\n\u003e 2. reviewed \u003d true (\u0027reviewed\u0027 label is set)\n\u003e 3. reviewed \u003d false (\u0027unreviewed\u0027 label is set)\n\u003e \n\u003e MarkAsReviewed moves the change from state 1 or 3 to state 2, \n\u003e MarkAsUnreviewed moves the change from state 1 or 2 to state 3.\n\u003e \n\u003e I think\n\u003e \n\u003e   DELETE /c/id/reviewed\n\u003e \n\u003e makes only sense as an undo for\n\u003e \n\u003e   PUT /c/id/reviewed \n\u003e \n\u003e to set the change from state 2 to state 1, but I think it would be unexpected if DELETE was setting a new label like \u0027unreviewed\u0027.\n\nMakes sense\n\n\u003e Hence I would rather keep MarkAsReviewed and MarkAsUnreviewed as separate PUT requests:\n\u003e \n\u003e   PUT /c/id/reviewed \n\u003e   PUT /c/id/unreviewed \n\nSGTM\n\n\u003e But we can have support for delete requests in addition (to move back to state 1):\n\u003e \n\u003e   DELETE /c/id/reviewed \n\u003e   DELETE /c/id/unreviewed\n\nWould be ok, but I don\u0027t think it\u0027s necessary in this change. Most often the way it will go \"back\" to state 1 is when a new patch set is pushed.",
+      "parentUuid": "58742cf3_9c084567",
       "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

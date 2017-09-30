@@ -31,8 +31,14 @@
 
     properties: {
       index: Number,
-      moveToRoot: Boolean,
-      fixedPosition: Boolean,
+      verticalOffset: {
+        type: Number,
+        value: null,
+      },
+      horizontalOffset: {
+        type: Number,
+        value: null,
+      },
       suggestions: {
         type: Array,
         observer: '_resetCursorStops',
@@ -52,34 +58,22 @@
       down: '_handleDown',
       enter: '_handleEnter',
       esc: '_handleEscape',
+
       tab: '_handleTab',
     },
 
-    attached() {
-      if (this.fixedPosition) {
-        this.classList.add('fixed');
-      }
-    },
-
     close() {
-      if (this.moveToRoot) {
-        Gerrit.getRootElement().removeChild(this);
-      } else {
-        this.hidden = true;
-      }
+      this.$.dropdown.close();
     },
 
     open() {
-      if (this.moveToRoot) {
-        Gerrit.getRootElement().appendChild(this);
-      }
+      this.$.dropdown.open();
       this._resetCursorStops();
       this._resetCursorIndex();
     },
 
-    setPosition(top, left) {
-      this.style.top = top;
-      this.style.left = left;
+    get isHidden() {
+      return !this.$.dropdown.opened;
     },
 
     getCurrentText() {
@@ -131,12 +125,9 @@
         selected: this.$.cursor.target,
       });
     },
-
     _handleEscape() {
       this._fireClose();
-      if (!this.hidden) {
-        this.close();
-      }
+      this.close();
     },
 
     _handleTapItem(e) {

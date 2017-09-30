@@ -32,6 +32,9 @@ limitations under the License.
       :host(.monospace) {
         font-family: var(--monospace-font-family);
       }
+      #emojiSuggestions {
+        font-family: var(--font-family);
+      }
       gr-autocomplete {
         display: inline-block
       }
@@ -56,12 +59,14 @@ limitations under the License.
         white-space: pre-wrap
       }
     </style>
-    <gr-autocomplete-dropdown id="emojiSuggestions"
+    <gr-autocomplete-dropdown
+        id="emojiSuggestions"
         suggestions="[[_suggestions]]"
         index="[[_index]]"
-        move-to-root
-        fixed-position="[[fixedPositionDropdown]]"
-        hidden>
+        vertical-offset="[[_verticalOffset]]"
+        horizontal-offset="[[_horizontalOffset]]"
+        on-dropdown-closed="_reset"
+        on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
     <div id="hiddenText"></div>
     <iron-autogrow-textarea

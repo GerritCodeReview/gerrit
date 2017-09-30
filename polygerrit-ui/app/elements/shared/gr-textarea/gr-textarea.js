@@ -15,7 +15,6 @@
   'use strict';
 
   const MAX_ITEMS_DROPDOWN = 10;
-  const VERTICAL_OFFSET = 7;
 
   const ALL_SUGGESTIONS = [
     {value: '💯', match: '100'},
@@ -63,8 +62,6 @@
       rows: Number,
       maxRows: Number,
       placeholder: String,
-      fixedPositionDropdown: Boolean,
-      moveToRoot: Boolean,
       text: {
         type: String,
         notify: true,
@@ -95,6 +92,14 @@
       },
       _index: Number,
       _suggestions: Array,
+      // So that dropdown appears below text getting typed in
+      _horizontalOffset: {
+        type: Number,
+      },
+      // So that dropdown appears below text getting typed in
+      _verticalOffset: {
+        type: Number,
+      },
     },
 
     behaviors: [
@@ -120,22 +125,11 @@
       if (this.backgroundColor) {
         this.updateStyles({'--background-color': this.backgroundColor});
       }
-      this.listen(this.$.emojiSuggestions, 'dropdown-closed', '_resetAndFocus');
-      this.listen(this.$.emojiSuggestions, 'item-selected',
-          '_handleEmojiSelect');
     },
 
-    detached() {
-      this.closeDropdown();
-      this.listen(this.$.emojiSuggestions, 'dropdown-closed', '_resetAndFocus');
-      this.listen(this.$.emojiSuggestions, 'item-selected',
-          '_handleEmojiSelect');
-    },
 
     closeDropdown() {
-      if (!this.$.emojiSuggestions.hidden) {
-        this._closeEmojiDropdown();
-      }
+      return this.$.emojiSuggestions.close();
     },
 
     getNativeTextarea() {
@@ -161,7 +155,6 @@
 
     _resetAndFocus() {
       this._resetEmojiDropdown();
-      this.$.textarea.textarea.focus();
     },
 
     _handleUpKey(e) {
@@ -228,16 +221,7 @@
     _updateSelectorPosition() {
       // These are broken out into separate functions for testability.
       const caratPosition = this._getPositionOfCursor();
-      const fontSize = this._getFontSize();
-
-      let top = caratPosition.top + fontSize + VERTICAL_OFFSET;
-
-      if (!this.fixedPositionDropdown) {
-        top += this._getScrollTop();
-      }
-      top += 'px';
-      const left = caratPosition.left + 'px';
-      this.$.emojiSuggestions.setPosition(top, left);
+      this._verticalOffset = caratPosition.height;
     },
 
     /**
@@ -278,7 +262,7 @@
           this._resetEmojiDropdown();
         // Otherwise open the dropdown and set the position to be just below the
         // cursor.
-        } else if (this.$.emojiSuggestions.hidden) {
+        } else if (this.$.emojiSuggestions.isHidden) {
           this._hideAutocomplete = false;
           this._openEmojiDropdown();
           this._updateSelectorPosition();
@@ -286,15 +270,8 @@
         this.$.textarea.textarea.focus();
       }
     },
-
-    _closeEmojiDropdown() {
-      this.$.emojiSuggestions.close();
-      this.$.emojiSuggestions.hidden = true;
-    },
-
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
-      this.$.emojiSuggestions.hidden = false;
     },
 
     _formatSuggestions(matchedSuggestions) {

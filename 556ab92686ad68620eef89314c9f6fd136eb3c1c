@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3c88f89_04fc9295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-09-30T15:07:24Z",
+      "side": 1,
+      "message": "You must close the returned ReviewDb instance after user, don\u0027t you?",
+      "range": {
+        "startLine": 77,
+        "startChar": 18,
+        "endLine": 77,
+        "endChar": 31
+      },
+      "revId": "556ab92686ad68620eef89314c9f6fd136eb3c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

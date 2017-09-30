@@ -406,7 +406,7 @@ limitations under the License.
 
         setBlame(blame) {
           if (!this._builder || !blame) { return; }
-          this._builder.setBlame(blame);
+          return this._builder.setBlame(blame);
         },
       });
     })();

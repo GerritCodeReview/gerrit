@@ -73,7 +73,7 @@
     },
 
     observers: [
-      '_userChanged(params.user)',
+      '_paramsChanged(params.*)',
     ],
 
     behaviors: [
@@ -95,20 +95,28 @@
       return 'Dashboard for ' + user;
     },
 
-    /**
-     * Allows a refresh if menu item is selected again.
-     */
-    _userChanged(user) {
-      if (!user) { return; }
+    _paramsChanged(paramsChangeRecord) {
+      const params = paramsChangeRecord.base;
+
+      if (!params.user && !params.sections) {
+        return;
+      }
+
+      const user = params.user || 'self';
+      const sections = (params.sections || DEFAULT_SECTIONS).filter(
+          section => (user === 'self' || !section.selfOnly));
+      const title = params.title || this._computeTitle(user);
 
       // NOTE: This method may be called before attachment. Fire title-change
       // in an async so that attachment to the DOM can take place first.
-      this.async(
-          () => this.fire('title-change', {title: this._computeTitle(user)}));
+      this.async(() => this.fire('title-change', {title}));
+
+      // Return if params indicate no longer in view.
+      if (!user && sections === DEFAULT_SECTIONS) {
+        return;
+      }
 
       this._loading = true;
-      const sections = this._sectionMetadata.filter(
-          section => (user === 'self' || !section.selfOnly));
       const queries =
           sections.map(
               section => this._dashboardQueryForSection(section, user));

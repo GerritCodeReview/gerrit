@@ -190,6 +190,11 @@
           .then(payload => payload.parsed);
     },
 
+    applyFix(changeNum, fixId) {
+      //                        /changes/1           /revisions/current/fixes/31f45d75_b652b5fe/apply
+      return this.send('POST', `/changes/${changeNum}/revisions/current/fixes/${fixId}/apply`, '');
+    },
+
     /**
      * @param {!Object} response
      * @return {!Object}

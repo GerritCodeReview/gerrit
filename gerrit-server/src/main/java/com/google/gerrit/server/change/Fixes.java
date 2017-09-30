@@ -19,12 +19,15 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.FixSuggestion;
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Objects;
@@ -34,11 +37,13 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
 
   private final DynamicMap<RestView<FixResource>> views;
   private final CommentsUtil commentsUtil;
+  private final Provider<ReviewDb> db;
 
   @Inject
-  Fixes(DynamicMap<RestView<FixResource>> views, CommentsUtil commentsUtil) {
+  Fixes(DynamicMap<RestView<FixResource>> views, CommentsUtil commentsUtil, Provider<ReviewDb> db) {
     this.views = views;
     this.commentsUtil = commentsUtil;
+    this.db = db;
   }
 
   @Override
@@ -56,6 +61,16 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
         commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().getId());
     for (RobotComment robotComment : robotComments) {
       for (FixSuggestion fixSuggestion : robotComment.fixSuggestions) {
+        if (Objects.equals(fixId, fixSuggestion.fixId)) {
+          return new FixResource(revisionResource, fixSuggestion.replacements);
+        }
+      }
+    }
+
+    List<Comment> comments =
+        commentsUtil.byPatchSet(db.get(), changeNotes, revisionResource.getPatchSet().getId());
+    for (Comment comment : comments) {
+      for (FixSuggestion fixSuggestion : comment.fixSuggestions) {
         if (Objects.equals(fixId, fixSuggestion.fixId)) {
           return new FixResource(revisionResource, fixSuggestion.replacements);
         }

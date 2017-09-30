@@ -269,6 +269,8 @@
     },
 
     _handleCreateComment(e) {
+      const selectedText = document.querySelector('gr-diff-selection')._getSelectedText('right', false);
+
       const range = e.detail.range;
       const side = e.detail.side;
       const lineNum = range.endLine;
@@ -276,7 +278,7 @@
       this._isValidElForComment(lineEl).then(valid => {
         if (!valid) { return; }
 
-        this._createComment(lineEl, lineNum, side, range);
+        this._createComment(lineEl, lineNum, side, range, selectedText);
       });
     },
 
@@ -304,7 +306,7 @@
      * @param {string=} opt_side
      * @param {!Object=} opt_range
      */
-    _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
+    _createComment(lineEl, opt_lineNum, opt_side, opt_range, selectedText) {
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
@@ -314,7 +316,7 @@
         this._getIsParentCommentByLineAndContent(lineEl, contentEl);
       const threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
           side, isOnParent, opt_range);
-      threadEl.addOrEditDraft(opt_lineNum, opt_range);
+      threadEl.addOrEditDraft(opt_lineNum, opt_range, selectedText);
     },
 
     _getThreadForRange(threadGroupEl, rangeToCheck) {

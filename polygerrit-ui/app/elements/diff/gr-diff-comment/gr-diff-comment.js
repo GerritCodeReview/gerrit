@@ -85,6 +85,10 @@
         value: false,
         observer: '_editingChanged',
       },
+      suggestedFixHidden: {
+        type: Boolean,
+        value: true,
+      },
       hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
@@ -110,6 +114,9 @@
         observer: '_messageTextChanged',
       },
       commentSide: String,
+      selectedText: String,
+      suggestedFixText: String,
+      suggestedFixServer: String,
 
       resolved: {
         type: Boolean,
@@ -147,6 +154,8 @@
       this._getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;
       });
+      this.selectedText = document.querySelector('gr-diff-selection')._getSelectedText('right', false);
+      this.suggestedFixText = this.selectedText;
     },
 
     detached() {
@@ -159,8 +168,11 @@
     },
 
     _calculateActionstoShow(showActions, isRobotComment) {
+      if (this.comment.fix_suggestions !== undefined) {
+        this.suggestedFixServer = 'Suggested Fix:\n' + this.comment.fix_suggestions[0].replacements[0].replacement;
+      }
       this._showHumanActions = showActions && !isRobotComment;
-      this._showRobotActions = showActions && isRobotComment;
+      this._showRobotActions = showActions && (isRobotComment || this.comment.fix_suggestions !== undefined);
     },
 
     _isRobotComment(comment) {
@@ -176,7 +188,15 @@
     },
 
     save() {
+      console.log("GOT SELECTED TEXT: " + this.selectedText);
       this.comment.message = this._messageText;
+
+      if (this.suggestedFixText != this.selectedText) {
+        console.log("saving da draft comment");
+        this.comment.fix_suggestions = [
+              { description: 'test', replacements: [ {path: this.comment.path, range: this.comment.range, replacement: this.suggestedFixText }] }
+            ]
+      }
 
       this.disabled = true;
 
@@ -217,6 +237,7 @@
         path: this.comment.path,
         line: this.comment.line,
         range: this.comment.range,
+        selectedText: this.selectedText,
       });
     },
 
@@ -279,8 +300,8 @@
       return isAdmin && !draft ? 'showDeleteButtons' : '';
     },
 
-    _computeSaveDisabled(draft) {
-      return draft == null || draft.trim() == '';
+    _computeSaveDisabled(draft, suggestedFixText) {
+      return (draft == null || draft.trim() == '') && (suggestedFixText == null || suggestedFixText.trim() == '' || suggestedFixText == this.selectedText);
     },
 
     _handleSaveKey(e) {
@@ -370,6 +391,12 @@
           {bubbles: false});
     },
 
+    _applyFix(e) {
+      e.preventDefault();
+      this.fire('create-fix-comment', this._getEventPayload({quote: false}),
+          {bubbles: false});
+    },
+
     _handleAck(e) {
       e.preventDefault();
       this.fire('create-ack-comment', this._getEventPayload(),
@@ -407,6 +434,24 @@
     _fireDiscard() {
       this.cancelDebouncer('fire-update');
       this.fire('comment-discard', this._getEventPayload());
+    },
+
+
+    _handleSuggestFix(e) {
+      e.preventDefault();
+      if (!this.comment.__draft) {
+        throw Error('Cannot suggest a fix on a non-draft comment.');
+      }
+      this.suggestedFixHidden = false;
+    },
+
+    _handleRemoveFix(e) {
+      e.preventDefault();
+      if (!this.comment.__draft) {
+        throw Error('Cannot suggest a fix on a non-draft comment.');
+      }
+      this.suggestedFixHidden = true;
+      this.suggestedFixText = this.selectedText;
     },
 
     _handleDiscard(e) {
@@ -503,6 +548,7 @@
         patchNum: this._getPatchNum(),
         path: comment.path,
         line: comment.line,
+        selectedText: comment.selectedText,
         range: comment.range,
       });
 

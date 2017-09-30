@@ -43,9 +43,6 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
-      :host([down-arrow]) .dropdown-trigger {
-        padding-right: 1.4em;
-      }
       gr-avatar {
         height: 2em;
         width: 2em;
@@ -75,7 +72,6 @@ limitations under the License.
       }
       li .itemAction:link,
       li .itemAction:visited {
-        color: #00e;
         text-decoration: none;
       }
       li .itemAction:not(.disabled):hover {
@@ -94,26 +90,13 @@ limitations under the License.
       .bold-text {
         font-family: var(--font-family-bold);
       }
-      :host:not([down-arrow]) .downArrow { display: none; }
-      :host([down-arrow]) .downArrow {
-        border-left: .36em solid transparent;
-        border-right: .36em solid transparent;
-        border-top: .36em solid #ccc;
-        height: 0;
-        position: absolute;
-        right: .3em;
-        top: calc(50% - .05em);
-        transition: border-top-color 200ms;
-        width: 0;
-      }
-      .dropdown-trigger:hover .downArrow {
-        border-top-color: #666;
-      }
     </style>
-    <gr-button link="[[link]]" class="dropdown-trigger" id="trigger"
+    <gr-button
+        link="[[link]]"
+        class="dropdown-trigger" id="trigger"
+        down-arrow="[[downArrow]]"
         on-tap="_showDropdownTapHandler">
       <content></content>
-       <i class="downArrow"></i>
     </gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"

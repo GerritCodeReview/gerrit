@@ -51,16 +51,10 @@ limitations under the License.
       .selectedValueText.hidden {
         display: none;
       }
-      iron-selector > gr-button:first-of-type {
-        border-bottom-left-radius: 2px;
-        border-top-left-radius: 2px;
-      }
-      iron-selector > gr-button:last-of-type {
-        border-bottom-right-radius: 2px;
-        border-top-right-radius: 2px;
-      }
       iron-selector > gr-button.iron-selected {
-        background-color: #ddd;
+        --gr-button: {
+          background-color: #ddd;
+        }
       }
       gr-button {
         min-width: 40px;

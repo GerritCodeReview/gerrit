@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26c6c641_7c8ff742",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-30T15:13:56Z",
+      "side": 1,
+      "message": "Thanks, done :).",
+      "parentUuid": "462b61d5_04cab5ba",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 9
+      },
+      "revId": "556ab92686ad68620eef89314c9f6fd136eb3c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c88f89_04fc9295",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
         "patchSetId": 3

@@ -51,6 +51,24 @@
       "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4714a12_f627adf0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-30T09:35:47Z",
+      "side": 1,
+      "message": "This path is not the GWT path, it is the path that the user is currently on (gets passed from gr-admin-view). the GWT path gets computed in the HTML.",
+      "parentUuid": "47cf0ae4_55eef7ff",
+      "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

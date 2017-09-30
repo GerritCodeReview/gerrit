@@ -54,15 +54,15 @@
     DELETE_EDIT: 'deleteEdit',
     IGNORE: 'ignore',
     MOVE: 'move',
-    MUTE: 'mute',
     PRIVATE: 'private',
     PRIVATE_DELETE: 'private.delete',
     PUBLISH_EDIT: 'publishEdit',
     REBASE_EDIT: 'rebaseEdit',
     RESTORE: 'restore',
     REVERT: 'revert',
+    REVIEWED: 'reviewed',
     UNIGNORE: 'unignore',
-    UNMUTE: 'unmute',
+    UNREVIEWED: 'unreviewed',
     WIP: 'wip',
   };
 
@@ -267,11 +267,11 @@
             },
             {
               type: ActionType.CHANGE,
-              key: ChangeActions.MUTE,
+              key: ChangeActions.REVIEWED,
             },
             {
               type: ActionType.CHANGE,
-              key: ChangeActions.UNMUTE,
+              key: ChangeActions.UNREVIEWED,
             },
             {
               type: ActionType.CHANGE,

@@ -16,6 +16,24 @@
       "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a428b924_5ab4e0a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-30T09:27:22Z",
+      "side": 1,
+      "message": "There\u0027s not a bug, but was discussing with Dave this morning that this is something we would want for 2.15 cut.",
+      "parentUuid": "066e7c7b_9b6caf01",
+      "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

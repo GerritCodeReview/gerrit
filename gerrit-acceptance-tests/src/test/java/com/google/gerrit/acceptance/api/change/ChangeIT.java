@@ -3374,7 +3374,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void mute() throws Exception {
+  public void markAsReviewed() throws Exception {
     TestAccount user2 = accountCreator.user2();
 
     PushOneCommit.Result r = createChange();
@@ -3384,16 +3384,16 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
-    gApi.changes().id(r.getChangeId()).mute(true);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isTrue();
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isNull();
+    gApi.changes().id(r.getChangeId()).markAsReviewed(true);
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isTrue();
 
     setApiUser(user2);
     sender.clear();
     amendChange(r.getChangeId());
 
     setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewed).isNull();
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -3401,12 +3401,45 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotMuteOwnChange() throws Exception {
+  public void cannotMarkChangeThatWasMarkedAsReviewedAsUnreviewed() throws Exception {
     String changeId = createChange().getChangeId();
 
+    setApiUser(user);
+    gApi.changes().id(changeId).markAsReviewed(true);
+    assertThat(gApi.changes().id(changeId).get().reviewed).isTrue();
+
     exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot mute own change");
-    gApi.changes().id(changeId).mute(true);
+    exception.expectMessage(
+        "The labels "
+            + StarredChangesUtil.REVIEWED_LABEL
+            + " and "
+            + StarredChangesUtil.UNREVIEWED_LABEL
+            + " are mutually exclusive. Only one of them can be set.");
+    gApi.accounts()
+        .self()
+        .setStars(
+            changeId, new StarsInput(ImmutableSet.of(StarredChangesUtil.UNREVIEWED_LABEL + "/1")));
+  }
+
+  @Test
+  public void cannotMarkChangeThatWasMarkedAsUnreviewedAsReviewed() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    setApiUser(user);
+    gApi.changes().id(changeId).markAsReviewed(false);
+    assertThat(gApi.changes().id(changeId).get().reviewed).isNull();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        "The labels "
+            + StarredChangesUtil.REVIEWED_LABEL
+            + " and "
+            + StarredChangesUtil.UNREVIEWED_LABEL
+            + " are mutually exclusive. Only one of them can be set.");
+    gApi.accounts()
+        .self()
+        .setStars(
+            changeId, new StarsInput(ImmutableSet.of(StarredChangesUtil.REVIEWED_LABEL + "/1")));
   }
 
   @Test

@@ -119,18 +119,12 @@ public interface ChangeApi {
   boolean ignored() throws RestApiException;
 
   /**
-   * Mute or un-mute this change.
+   * Mark this change as reviewed/unreviewed.
    *
-   * @param mute mute the change if true
+   * @param reviewed flag to decide if this change should be marked as reviewed ({@code true}) or
+   *     unreviewed ({@code false})
    */
-  void mute(boolean mute) throws RestApiException;
-
-  /**
-   * Check if this change is muted.
-   *
-   * @return true if the change is muted.
-   */
-  boolean muted() throws RestApiException;
+  void markAsReviewed(boolean reviewed) throws RestApiException;
 
   /**
    * Create a new change that reverts this change.
@@ -583,12 +577,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public void mute(boolean mute) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean muted() throws RestApiException {
+    public void markAsReviewed(boolean reviewed) throws RestApiException {
       throw new NotImplementedException();
     }
 

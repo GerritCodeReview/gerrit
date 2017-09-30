@@ -551,22 +551,13 @@ public class ChangeJson {
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars(user.getAccountId());
       out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
-      out.muted =
-          stars.contains(StarredChangesUtil.MUTE_LABEL + "/" + cd.currentPatchSet().getPatchSetId())
-              ? true
-              : null;
       if (!stars.isEmpty()) {
         out.stars = stars;
       }
     }
 
     if (in.getStatus().isOpen() && has(REVIEWED) && user.isIdentifiedUser()) {
-      Account.Id accountId = user.getAccountId();
-      if (out.muted != null) {
-        out.reviewed = true;
-      } else {
-        out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;
-      }
+      out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
 
     out.labels = labelsFor(perm, cd, has(LABELS), has(DETAILED_LABELS));

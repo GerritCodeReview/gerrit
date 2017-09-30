@@ -20,6 +20,17 @@
   }
 
   /**
+   * Add a callback to arbitrary event.
+   * The callback may return false to prevent event bubbling.
+   * @param {string} event Event name
+   * @param {function(Event):boolean} callback
+   * @return {function()} Unsubscribe function.
+   */
+  GrEventHelper.prototype.on = function(event, callback) {
+    return this._listen(this.element, callback, {event});
+  };
+
+  /**
    * Add a callback to element click or touch.
    * The callback may return false to prevent event bubbling.
    * @param {function(Event):boolean} callback
@@ -43,6 +54,7 @@
 
   GrEventHelper.prototype._listen = function(container, callback, opt_options) {
     const capture = opt_options && opt_options.capture;
+    const event = opt_options && opt_options.event || 'tap';
     const handler = e => {
       if (e.path.indexOf(this.element) !== -1) {
         let mayContinue = true;
@@ -58,9 +70,9 @@
         }
       }
     };
-    container.addEventListener('tap', handler, capture);
+    container.addEventListener(event, handler, capture);
     const unsubscribe = () =>
-      container.removeEventListener('tap', handler, capture);
+      container.removeEventListener(event, handler, capture);
     this._unsubscribers.push(unsubscribe);
     return unsubscribe;
   };

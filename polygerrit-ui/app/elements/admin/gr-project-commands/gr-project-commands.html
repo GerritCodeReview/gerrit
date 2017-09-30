@@ -19,10 +19,12 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-create-change-dialog/gr-create-change-dialog.html">
+<link rel="import" href="../gr-project-command/gr-project-command.html">
 
 <dom-module id="gr-project-commands">
   <template>
@@ -47,24 +49,23 @@ limitations under the License.
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h2 id="options">Command</h2>
         <div id="form">
-          <fieldset>
-            <h3 id="createChange">Create Change</h3>
-            <fieldset>
-              <gr-button id="createNewChange" on-tap="_createNewChange">
-                Create Change
-              </gr-button>
-            </fieldset>
-            <h3 id="runGC" hidden$="[[!_projectConfig.actions.gc.enabled]]">
-                Run GC
-            </h3>
-            <fieldset>
-              <gr-button
-                  on-tap="_handleRunningGC"
-                  hidden$="[[!_projectConfig.actions.gc.enabled]]">
-                Run GC
-              </gr-button>
-            </fieldset>
-          </fieldset>
+          <gr-project-command
+              title="Create Change"
+              on-command-tap="_createNewChange">
+          </gr-project-command>
+
+          <gr-project-command
+              title="Run GC"
+              hidden$="[[!_projectConfig.actions.gc.enabled]]"
+              on-command-tap="_handleRunningGC">
+          </gr-project-command>
+
+          <gr-endpoint-decorator name="project-command">
+            <gr-endpoint-param name="config" value="[[_projectConfig]]">
+            </gr-endpoint-param>
+            <gr-endpoint-param name="projectName" value="[[project]]">
+            </gr-endpoint-param>
+          </gr-endpoint-decorator>
         </div>
       </div>
     </main>

@@ -87,6 +87,24 @@
       "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5d86dde_4712884e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-30T10:27:04Z",
+      "side": 1,
+      "message": "Just added the comment, Nav path perhaps later (though this will probably be removed relatively soon).",
+      "parentUuid": "0d903040_b1db83b9",
+      "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

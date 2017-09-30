@@ -227,6 +227,11 @@ limitations under the License.
       assert.deepEqual(result, actions);
     });
 
+    test('_computeButtonText', () => {
+      const action = {label: '123', __type: 'change', __key: 'review'};
+      assert.equal(element._computeButtonText(action), action.label)
+    });
+
     test('submit change', done => {
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));

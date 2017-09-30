@@ -39,9 +39,12 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ApplyFix implements RestModifyView<FixResource, Void> {
+  private static final Logger log = LoggerFactory.getLogger(ApplyFix.class);
 
   private final GitRepositoryManager gitRepositoryManager;
   private final FixReplacementInterpreter fixReplacementInterpreter;
@@ -67,12 +70,15 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
   public Response<EditInfo> apply(FixResource fixResource, Void nothing)
       throws AuthException, OrmException, ResourceConflictException, IOException,
           ResourceNotFoundException, PermissionBackendException {
+    log.error("applyign da fix");
+
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.checkedGet(project);
     PatchSet patchSet = revisionResource.getPatchSet();
     ObjectId patchSetCommitId = ObjectId.fromString(patchSet.getRevision().get());
 
+    log.error("applyign da fix FO REAL");
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
       List<TreeModification> treeModifications =
           fixReplacementInterpreter.toTreeModifications(
@@ -82,7 +88,11 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
               repository, revisionResource.getNotes(), patchSet, treeModifications);
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {
+      log.error("resource conflic excpetion!!!!!!");
       throw new ResourceConflictException(e.getMessage());
+    } catch (Exception e) {
+      log.error("EXCEPTION: ", e);
+      throw e;
     }
   }
 }

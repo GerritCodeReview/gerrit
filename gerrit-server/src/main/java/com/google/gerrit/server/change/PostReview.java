@@ -933,6 +933,9 @@ public class PostReview
           e.setLineNbrAndRange(c.line, c.range);
           e.tag = in.tag;
 
+
+          e.fixSuggestions = createFixSuggestionsFromInput(c.fixSuggestions);
+
           if (existingIds.contains(CommentSetEntry.create(e))) {
             continue;
           }

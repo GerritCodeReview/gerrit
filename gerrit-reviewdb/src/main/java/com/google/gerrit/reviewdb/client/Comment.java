@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -213,6 +214,7 @@ public class Comment {
   public String revId;
   public String serverId;
   public boolean unresolved;
+  public List<FixSuggestion> fixSuggestions;
 
   public Comment(Comment c) {
     this(
@@ -229,6 +231,7 @@ public class Comment {
     this.tag = c.tag;
     this.revId = c.revId;
     this.unresolved = c.unresolved;
+    this.fixSuggestions = c.fixSuggestions;
   }
 
   public Comment(

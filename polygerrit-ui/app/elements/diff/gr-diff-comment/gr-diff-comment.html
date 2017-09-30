@@ -256,11 +256,27 @@ limitations under the License.
           disabled="{{disabled}}"
           rows="4"
           text="{{_messageText}}"></gr-textarea>
+      <gr-textarea
+          id="suggestFixTextarea"
+          class="suggestedFix"
+          autocomplete="on"
+          monospace
+          disabled="{{disabled}}"
+          hidden="{{suggestedFixHidden}}"
+          rows="4"
+          text="{{suggestedFixText}}"></gr-textarea>
+
       <gr-formatted-text class="message"
           content="[[comment.message]]"
           no-trailing-margin="[[!comment.__draft]]"
           collapsed="[[collapsed]]"
           config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+      <gr-formatted-text class="message"
+                         content="{{suggestedFixServer}}"
+                         no-trailing-margin="[[!comment.__draft]]"
+                         collapsed="[[collapsed]]"
+                         config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+      <br>
       <div hidden$="[[!comment.robot_run_id]]">
         <div class="runIdInformation" hidden$="[[collapsed]]">
           Run ID:
@@ -285,18 +301,27 @@ limitations under the License.
           <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
               Edit</gr-button>
           <gr-button class="action save hideOnPublished" on-tap="_handleSave"
-              disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
+              disabled$="[[_computeSaveDisabled(_messageText, suggestedFixText)]]">Save</gr-button>
           <gr-button class="action cancel hideOnPublished"
               on-tap="_handleCancel" hidden>Cancel</gr-button>
           <gr-button class="action discard hideOnPublished"
               on-tap="_handleDiscard">Discard</gr-button>
+          <gr-button class="action suggestFix hideOnPublished"
+                     hidden="{{!suggestedFixHidden}}" on-tap="_handleSuggestFix">Suggest fix</gr-button>
+          <gr-button class="action removeFix hideOnPublished"
+                     hidden="{{suggestedFixHidden}}" on-tap="_handleRemoveFix">Remove fix</gr-button>
         </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-        <gr-button class="action fix"
+       <!-- <gr-button class="action fix"
             on-tap="_handleFix"
             disabled="[[robotButtonDisabled]]">
           Please Fix
+        </gr-button> -->
+        <gr-button class="action fix"
+                   on-tap="_applyFix"
+                   disabled="[[applyFixButtonDisabled]]">
+          Apply fix
         </gr-button>
       </div>
     </div>

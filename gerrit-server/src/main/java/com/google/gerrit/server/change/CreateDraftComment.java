@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.reviewdb.client.FixReplacement;
+import com.google.gerrit.reviewdb.client.FixSuggestion;
+import com.google.gerrit.server.ChangeUtil;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
@@ -43,7 +48,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import static java.util.stream.Collectors.toList;
 
 @Singleton
 public class CreateDraftComment
@@ -119,6 +127,7 @@ public class CreateDraftComment
               ctx, in.path, ps.getId(), in.side(), in.message.trim(), in.unresolved, parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
+      comment.fixSuggestions = createFixSuggestionsFromInput(in.fixSuggestions);
 
       setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
 
@@ -127,5 +136,33 @@ public class CreateDraftComment
       ctx.dontBumpLastUpdatedOn();
       return true;
     }
+  }
+
+  private List<FixSuggestion> createFixSuggestionsFromInput(
+      List<FixSuggestionInfo> fixSuggestionInfos) {
+    if (fixSuggestionInfos == null) {
+      return Collections.emptyList();
+    }
+
+    List<FixSuggestion> fixSuggestions = new ArrayList<>(fixSuggestionInfos.size());
+    for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
+      fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
+    }
+    return fixSuggestions;
+  }
+
+  private FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {
+    List<FixReplacement> fixReplacements = toFixReplacements(fixSuggestionInfo.replacements);
+    String fixId = ChangeUtil.messageUuid();
+    return new FixSuggestion(fixId, fixSuggestionInfo.description, fixReplacements);
+  }
+
+  private List<FixReplacement> toFixReplacements(List<FixReplacementInfo> fixReplacementInfos) {
+    return fixReplacementInfos.stream().map(this::toFixReplacement).collect(toList());
+  }
+
+  private FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {
+    Comment.Range range = new Comment.Range(fixReplacementInfo.range);
+    return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
   }
 }

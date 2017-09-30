@@ -14,8 +14,10 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Comment {
@@ -36,6 +38,7 @@ public abstract class Comment {
   public Timestamp updated;
   public String message;
   public Boolean unresolved;
+  public List<FixSuggestionInfo> fixSuggestions;
 
   public static class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =

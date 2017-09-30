@@ -15,8 +15,13 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import com.google.gerrit.reviewdb.client.FixSuggestion;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -98,6 +103,7 @@ public class ChangeNoteUtil {
   private static final String UUID = "UUID";
   private static final String UNRESOLVED = "Unresolved";
   private static final String TAG = FOOTER_TAG.getName();
+  private static final String FIX = "Fix";
 
   public static String formatTime(PersonIdent ident, Timestamp t) {
     GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);
@@ -277,6 +283,15 @@ public class ChangeNoteUtil {
       tag = parseStringField(note, curr, changeId, TAG);
     }
 
+
+    boolean hasFix = (RawParseUtils.match(note, curr.value, FIX.getBytes(UTF_8))) != -1;
+    List<FixSuggestion> fixSuggestions = null;
+    if (hasFix) {
+      String str =  parseStringField(note, curr, changeId, FIX);
+      fixSuggestions = getGson().fromJson(str, Fixes.class).suggestions;
+    }
+
+
     int commentLength = parseCommentLength(note, curr, changeId);
 
     String message = RawParseUtils.decode(UTF_8, note, curr.value, curr.value + commentLength);
@@ -295,6 +310,7 @@ public class ChangeNoteUtil {
     c.parentUuid = parentUUID;
     c.tag = tag;
     c.setRevId(revId);
+    c.fixSuggestions = fixSuggestions;
     if (raId != null) {
       c.setRealAuthor(raId);
     }
@@ -306,6 +322,10 @@ public class ChangeNoteUtil {
     curr.value = RawParseUtils.nextLF(note, curr.value + commentLength);
     curr.value = RawParseUtils.nextLF(note, curr.value);
     return c;
+  }
+
+  private static class Fixes {
+    List<FixSuggestion> suggestions;
   }
 
   private static String parseStringField(
@@ -614,10 +634,17 @@ public class ChangeNoteUtil {
       appendHeaderField(writer, TAG, c.tag);
     }
 
+    if (c.fixSuggestions != null && !c.fixSuggestions.isEmpty()) {
+      Fixes f = new Fixes();
+      f.suggestions = c.fixSuggestions;
+      appendHeaderField(writer, FIX, gson.toJson(f).replace('\n',' '));
+    }
+
     byte[] messageBytes = c.message.getBytes(UTF_8);
     appendHeaderField(writer, LENGTH, Integer.toString(messageBytes.length));
 
     writer.print(c.message);
+
     writer.print("\n\n");
   }
 

@@ -41,6 +41,7 @@
         type: String,
         value: '',
       },
+      selectedText: String,
     },
 
     behaviors: [
@@ -95,7 +96,7 @@
     },
 
     _fireCreateComment() {
-      this.fire('create-comment', {side: this.side, range: this.range});
+      this.fire('create-comment', {side: this.side, range: this.range, selectedText: this.selectedText});
     },
   });
 })();

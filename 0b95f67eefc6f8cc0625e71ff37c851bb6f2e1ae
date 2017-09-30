@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f818b6b0_449c9751",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-09-30T09:40:30Z",
+      "side": 1,
+      "message": "Would a simple [[action.label]] work?",
+      "range": {
+        "startLine": 105,
+        "startChar": 42,
+        "endLine": 105,
+        "endChar": 60
+      },
+      "revId": "0b95f67eefc6f8cc0625e71ff37c851bb6f2e1ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

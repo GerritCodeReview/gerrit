@@ -20,7 +20,8 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       .contentWrapper ::content .content,
-      .contentWrapper ::content .contextControl {
+      .contentWrapper ::content .contextControl,
+      .contentWrapper ::content .blame {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -33,7 +34,8 @@ limitations under the License.
       :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .unified .right.lineNum ~ .content .contentText,
       :host-context(.selected-left.selected-comment) .contentWrapper ::content .side-by-side .left + .content .message,
       :host-context(.selected-right.selected-comment) .contentWrapper ::content .side-by-side .right + .content .message :not(.collapsedContent),
-      :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent){
+      :host-context(.selected-comment) .contentWrapper ::content .unified .message :not(.collapsedContent),
+      :host-context(.selected-blame) .contentWrapper ::content .blame {
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

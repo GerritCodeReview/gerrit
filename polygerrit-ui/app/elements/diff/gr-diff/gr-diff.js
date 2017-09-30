@@ -219,8 +219,8 @@
 
             this._blame = blame;
 
-            this.$.diffBuilder.setBlame(blame);
             this.classList.add('showBlame');
+            return this.$.diffBuilder.setBlame(blame);
           });
     },
 

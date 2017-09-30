@@ -34,6 +34,23 @@
       "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47cf0ae4_55eef7ff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-access/gr-project-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T09:27:40Z",
+      "side": 1,
+      "message": "This path property is strictly for the GWT link? This is a pretty generic property name. Can it be called something like\n\n legacyGwtEditPath\n\nor maybe just a comment that describes its purpose.",
+      "revId": "6eb57b5f5c5b80e0a0ac5ac6af0ea13933427a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

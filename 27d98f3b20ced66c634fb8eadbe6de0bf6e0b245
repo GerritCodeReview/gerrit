@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b507992_99245e86",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-30T09:39:55Z",
+      "side": 1,
+      "message": "This is the outer container for everything inside the file row. Child divs should inherit display: flex. If align-items are always center, it should be added here also an inherited, so these properties don\u0027t need to be set in all of the child divs (below in this style sheet).",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "27d98f3b20ced66c634fb8eadbe6de0bf6e0b245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

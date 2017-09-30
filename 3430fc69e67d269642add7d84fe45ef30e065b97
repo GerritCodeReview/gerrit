@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "436f628d_290c4c94",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T14:09:34Z",
+      "side": 1,
+      "message": "Please add some JSDocs to record the types of the new methods.",
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9023bfd7_7bc8fe07",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T14:09:34Z",
+      "side": 1,
+      "message": "This regex should be a constant defined near the top of the file.",
+      "range": {
+        "startLine": 598,
+        "startChar": 43,
+        "endLine": 598,
+        "endChar": 48
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d695254_9b7d72dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T14:09:34Z",
+      "side": 1,
+      "message": "Does the new normalization below invalidates the former case of this type union?",
+      "range": {
+        "startLine": 725,
+        "startChar": 23,
+        "endLine": 725,
+        "endChar": 32
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02533ac1_183c0040",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-09-30T14:09:34Z",
+      "side": 1,
+      "message": "Can the normalization can obviate this else case so that post-normalization response is assumed to be an array of an array?",
+      "range": {
+        "startLine": 764,
+        "startChar": 8,
+        "endLine": 766,
+        "endChar": 9
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

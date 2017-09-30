@@ -634,24 +634,61 @@
   GrDiffBuilder.prototype.setBlame = function(blame) {
     this._blameInfo = blame;
 
-    // TODO(wyatta): make this loop asynchronous.
+    const blameCells = [];
     for (const commit of blame) {
       for (const range of commit.ranges) {
         for (let i = range.start; i <= range.end; i++) {
-          // TODO(wyatta): this query is expensive, but, when traversing a
-          // range, the lines are consecutive, and given the previous blame
-          // cell, the next one can be reached cheaply.
-          const el = this._getBlameByLineNum(i);
-          if (!el) { continue; }
-          // Remove the element's children (if any).
-          while (el.hasChildNodes()) {
-            el.removeChild(el.lastChild);
-          }
-          const blame = this._getBlameForBaseLine(i, commit);
-          el.appendChild(blame);
+          blameCells[i] = this._getBlameCommitForBaseLine(i);
         }
       }
     }
+
+    let counter = 0;
+    let lineNum = 1;
+    let previousLineNumber = -1;
+    let previousEl;
+    return Gerrit.AsyncForeachBehavior.asyncForeach(blameCells, commit => {
+      if (!commit) {
+        lineNum++;
+        return Promise.resolve();
+      }
+
+      let el;
+      if (lineNum === previousLineNumber + 1 &&
+          previousEl &&
+          previousEl.parentElement &&
+          previousEl.parentElement.nextSibling) {
+        el = previousEl.parentElement.nextSibling.querySelector(
+            `td.blame[data-line-number="${lineNum}"]`);
+      }
+
+      if (!el) {
+        el = this._getBlameByLineNum(lineNum);
+      }
+
+      if (!el) {
+        lineNum++;
+        return Promise.resolve();
+      }
+
+      // Remove the element's children (if any).
+      while (el.hasChildNodes()) {
+        el.removeChild(el.lastChild);
+      }
+      const blame = this._getBlameForBaseLine(lineNum, commit);
+      el.appendChild(blame);
+
+      previousEl = el;
+      previousLineNumber = lineNum;
+      lineNum++;
+      counter++;
+
+      if (counter % 75 === 0) {
+        return new Promise(resolve => { setTimeout(resolve, 200); });
+      } else {
+        return Promise.resolve();
+      }
+    });
   };
 
   /**

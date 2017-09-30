@@ -16,16 +16,16 @@ package com.google.gerrit.server.config;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.text.MessageFormat;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,16 +49,16 @@ public class ScheduleConfig {
   }
 
   public ScheduleConfig(Config rc, String section, String subsection) {
-    this(rc, section, subsection, DateTime.now());
+    this(rc, section, subsection, ZonedDateTime.now());
   }
 
   public ScheduleConfig(
       Config rc, String section, String subsection, String keyInterval, String keyStartTime) {
-    this(rc, section, subsection, keyInterval, keyStartTime, DateTime.now());
+    this(rc, section, subsection, keyInterval, keyStartTime, ZonedDateTime.now());
   }
 
   @VisibleForTesting
-  ScheduleConfig(Config rc, String section, String subsection, DateTime now) {
+  ScheduleConfig(Config rc, String section, String subsection, ZonedDateTime now) {
     this(rc, section, subsection, KEY_INTERVAL, KEY_STARTTIME, now);
   }
 
@@ -69,7 +69,7 @@ public class ScheduleConfig {
       String subsection,
       String keyInterval,
       String keyStartTime,
-      DateTime now) {
+      ZonedDateTime now) {
     this.rc = rc;
     this.section = section;
     this.subsection = subsection;
@@ -122,31 +122,24 @@ public class ScheduleConfig {
       String section,
       String subsection,
       String keyStartTime,
-      DateTime now,
+      ZonedDateTime now,
       long interval) {
     long delay = MISSING_CONFIG;
     String start = rc.getString(section, subsection, keyStartTime);
     try {
       if (start != null) {
-        DateTimeFormatter formatter;
-        MutableDateTime startTime = now.toMutableDateTime();
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);
+        LocalTime firstStartTime = LocalTime.parse(start, formatter);
+        ZonedDateTime startTime = now.with(firstStartTime);
         try {
-          formatter = ISODateTimeFormat.hourMinute();
-          LocalTime firstStartTime = formatter.parseLocalTime(start);
-          startTime.hourOfDay().set(firstStartTime.getHourOfDay());
-          startTime.minuteOfHour().set(firstStartTime.getMinuteOfHour());
-        } catch (IllegalArgumentException e1) {
-          formatter = DateTimeFormat.forPattern("E HH:mm").withLocale(Locale.US);
-          LocalDateTime firstStartDateTime = formatter.parseLocalDateTime(start);
-          startTime.dayOfWeek().set(firstStartDateTime.getDayOfWeek());
-          startTime.hourOfDay().set(firstStartDateTime.getHourOfDay());
-          startTime.minuteOfHour().set(firstStartDateTime.getMinuteOfHour());
+          DayOfWeek dayOfWeek = formatter.parse(start, DayOfWeek::from);
+          startTime = startTime.with(dayOfWeek);
+        } catch (DateTimeParseException ignored) {
+          // Day of week is an optional parameter.
         }
-        startTime.secondOfMinute().set(0);
-        startTime.millisOfSecond().set(0);
-        long s = startTime.getMillis();
-        long n = now.getMillis();
-        delay = (s - n) % interval;
+        startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
+        delay = Duration.between(now, startTime).toMillis() % interval;
         if (delay <= 0) {
           delay += interval;
         }

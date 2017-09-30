@@ -514,7 +514,7 @@ limitations under the License.
           assert.isFalse(redirectStub.called);
         });
 
-        test('redirects to dahsboard if logged in', () => {
+        test('redirects to dashboard if logged in', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {
@@ -625,7 +625,7 @@ limitations under the License.
         });
 
         test('no user specified', () => {
-          const data = {canonicalPath: '/dashboard', params: {}};
+          const data = {canonicalPath: '/dashboard', params: {0: ''}};
           const result = element._handleDashboardRoute(data);
           assert.isNotOk(result);
           assert.isFalse(setParamsStub.called);
@@ -634,7 +634,7 @@ limitations under the License.
           assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
         });
 
-        test('own dahsboard but signed out redirects to login', () => {
+        test('own dashboard but signed out redirects to login', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
           const data = {canonicalPath: '/dashboard', params: {0: 'seLF'}};
@@ -647,7 +647,7 @@ limitations under the License.
           });
         });
 
-        test('non-self dahsboard but signed out does not redirect', () => {
+        test('non-self dashboard but signed out does not redirect', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
           const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
@@ -661,7 +661,7 @@ limitations under the License.
           });
         });
 
-        test('dahsboard while signed in sets params', () => {
+        test('dashboard while signed in sets params', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
@@ -675,6 +675,41 @@ limitations under the License.
               view: Gerrit.Nav.View.DASHBOARD,
               user: 'foo',
             });
+          });
+        });
+
+        test('custom dashboard without title', () => {
+          const data = {canonicalPath: '/dashboard', params: {0: ''}};
+          result = element._handleDashboardRoute(data, '?a=b&c&d=e');
+          assert.isNotOk(result);
+          assert.isFalse(redirectToLoginStub.called);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(setParamsStub.calledOnce);
+          assert.deepEqual(setParamsStub.lastCall.args[0], {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'self',
+            sections: [
+              {name: 'a', query: 'b'},
+              {name: 'd', query: 'e'},
+            ],
+            title: 'Custom Dashboard',
+          });
+        });
+
+        test('custom dashboard with title', () => {
+          const data = {canonicalPath: '/dashboard', params: {0: ''}};
+          result = element._handleDashboardRoute(data, '?a=b&c&d=&=e&title=t');
+          assert.isNotOk(result);
+          assert.isFalse(redirectToLoginStub.called);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(setParamsStub.calledOnce);
+          assert.deepEqual(setParamsStub.lastCall.args[0], {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'self',
+            sections: [
+              {name: 'a', query: 'b'},
+            ],
+            title: 't',
           });
         });
       });
@@ -1175,6 +1210,32 @@ limitations under the License.
             project: 'foo/bar',
           });
         });
+      });
+    });
+
+    suite('_parseQueryString', () => {
+      test('empty queries', () => {
+        assert.deepEqual(element._parseQueryString(''), []);
+        assert.deepEqual(element._parseQueryString('?'), []);
+        assert.deepEqual(element._parseQueryString('??'), []);
+        assert.deepEqual(element._parseQueryString('&&&'), []);
+      });
+
+      test('url decoding', () => {
+        assert.deepEqual(element._parseQueryString('+'), [[' ', '']]);
+        assert.deepEqual(element._parseQueryString('???+%3d+'), [[' = ', '']]);
+        assert.deepEqual(
+            element._parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
+            [['name', 'value']]);
+      });
+
+      test('multiple parameters', () => {
+        assert.deepEqual(
+            element._parseQueryString('a=b&c=d&e=f'),
+            [['a', 'b'], ['c', 'd'], ['e', 'f']]);
+        assert.deepEqual(
+            element._parseQueryString('&a=b&&&e=f&'),
+            [['a', 'b'], ['e', 'f']]);
       });
     });
   });

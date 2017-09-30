@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8c8e5f10_69feb427",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T11:29:42Z",
+      "side": 1,
+      "message": "It is necessary. master is on v46 now. That means when you rebase this change, there will be a merge conflict on this line, and you will need to change v46 to v47.",
+      "parentUuid": "55504640_891357ca",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "849e1f9f_6c16ef24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 79

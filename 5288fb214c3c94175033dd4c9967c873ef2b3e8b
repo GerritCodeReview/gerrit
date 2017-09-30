@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6bd8543_89165ef1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.html",
+        "patchSetId": 100
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-09-30T15:12:34Z",
+      "side": 1,
+      "message": "How about just claNewAgreement? Since this is where the agreement is shown (singular). it also doesn\u0027t look like there\u0027s a claNewAgreements (1).",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 32
+      },
+      "revId": "5288fb214c3c94175033dd4c9967c873ef2b3e8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

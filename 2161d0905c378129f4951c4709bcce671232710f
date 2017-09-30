@@ -34,6 +34,24 @@
       "revId": "2161d0905c378129f4951c4709bcce671232710f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1115427e_b4237c5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-09-30T11:39:20Z",
+      "side": 1,
+      "message": "Right... But (even if I knew that already) shouldn\u0027t that info exist here?",
+      "parentUuid": "02246363_0f5b990d",
+      "revId": "2161d0905c378129f4951c4709bcce671232710f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

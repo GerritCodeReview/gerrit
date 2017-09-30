@@ -226,6 +226,8 @@
 
           this._processHandle = this.async(nextStep, 1);
         });
+      }).catch(error => {
+        this.enabled = false;
       });
     },
 

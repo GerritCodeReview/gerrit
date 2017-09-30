@@ -63,6 +63,15 @@ def define_bower_components():
     ],
   )
   bower_component(
+    name = "iron-checked-element-behavior",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-form-element-behavior",
+      ":iron-validatable-behavior",
+      ":polymer",
+    ],
+  )
+  bower_component(
     name = "iron-dropdown",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -180,6 +189,28 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "paper-behaviors",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-behaviors",
+      ":iron-checked-element-behavior",
+      ":paper-ripple",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-flex-layout",
+      ":paper-behaviors",
+      ":paper-material",
+      ":paper-ripple",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "paper-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -214,6 +245,22 @@ def define_bower_components():
       ":polymer",
     ],
     seed = True,
+  )
+  bower_component(
+    name = "paper-material",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":paper-styles",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-ripple",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-a11y-keys-behavior",
+      ":polymer",
+    ],
   )
   bower_component(
     name = "paper-styles",

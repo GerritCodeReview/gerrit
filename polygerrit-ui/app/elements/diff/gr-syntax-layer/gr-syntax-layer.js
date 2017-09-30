@@ -307,6 +307,8 @@
         }
       }
 
+      if (!this._hljs) return;
+
       // To store the result of the syntax highlighter.
       let result;
 

@@ -29,9 +29,22 @@ limitations under the License.
 
 <dom-module id="gr-project-access">
   <template>
-  <style include="shared-styles"></style>
+    <style include="shared-styles">
+      .gwtLink {
+        margin-bottom: 1em;
+      }
+      .gwtLink {
+        display: none;
+      }
+      .admin .gwtLink {
+        display: block;
+      }
+    </style>
     <style include="gr-menu-page-styles"></style>
-    <main>
+    <main class$="[[_computeAdminClass(_isAdmin)]]">
+      <div class="gwtLink">This is currently in read only mode.  To modify content, go to the
+        <a href$="[[computeGwtUrl(path)]]" rel="external">Old UI</a>
+      </div>
       <template is="dom-if" if="[[_inheritsFrom]]">
         <h3 id="inheritsFrom">Rights Inherit From
           <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d93c171_e5f9a491",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 89
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T11:35:52Z",
+      "side": 1,
+      "message": "Do we also need to set this field to N?\n\nThis SQL command only updates the change status, doesn\u0027t update patch set status.",
+      "range": {
+        "startLine": 54,
+        "startChar": 66,
+        "endLine": 54,
+        "endChar": 88
+      },
+      "revId": "ccb1eb757bca4fa56b161fbd6f24acedc3c2b0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -90,6 +90,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   static final Schema<ChangeData> V46 = schema(V45);
 
+  // Removal of draft change workflow requires reindexing
+  static final Schema<ChangeData> V47 = schema(V46);
+
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 

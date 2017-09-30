@@ -496,7 +496,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> status(String statusName) throws QueryParseException {
+  public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return IsReviewedPredicate.create();
     }
@@ -573,7 +573,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("cc".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.cc(args, self());
+      return ReviewerPredicate.cc(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -619,13 +619,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
     }
 
-    try {
-      return status(value);
-    } catch (IllegalArgumentException e) {
-      // not status: alias?
-    }
-
-    throw error("Invalid query");
+    return status(value);
   }
 
   @Operator
@@ -1311,7 +1305,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);
       if (address != null) {
-        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(args, address, state);
+        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(address, state);
       }
     }
 
@@ -1323,7 +1317,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
             Predicate.or(
                 accounts
                     .stream()
-                    .map(id -> ReviewerPredicate.forState(args, id, state))
+                    .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
       }
     } catch (QueryParseException e) {

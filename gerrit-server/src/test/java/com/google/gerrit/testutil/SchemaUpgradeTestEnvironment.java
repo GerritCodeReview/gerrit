@@ -70,20 +70,8 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
     return injector;
   }
 
-  private void setUp() throws Exception {
-    injector = Guice.createInjector(new InMemoryModule());
-    injector.injectMembers(this);
-    lifecycle = new LifecycleManager();
-    lifecycle.add(injector);
-    lifecycle.start();
-
-    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
-      schemaCreator.create(underlyingDb);
-    }
-    db = schemaFactory.open();
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
-    IdentifiedUser user = userFactory.create(userId);
-
+  public void setApiUser(Account.Id id) {
+    IdentifiedUser user = userFactory.create(id);
     requestContext.setContext(
         new RequestContext() {
           @Override
@@ -96,6 +84,20 @@ public final class SchemaUpgradeTestEnvironment implements TestRule {
             return Providers.of(db);
           }
         });
+  }
+
+  private void setUp() throws Exception {
+    injector = Guice.createInjector(new InMemoryModule());
+    injector.injectMembers(this);
+    lifecycle = new LifecycleManager();
+    lifecycle.add(injector);
+    lifecycle.start();
+
+    try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
+      schemaCreator.create(underlyingDb);
+    }
+    db = schemaFactory.open();
+    setApiUser(accountManager.authenticate(AuthRequest.forUser("user")).getAccountId());
   }
 
   private void tearDown() {

@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.extensions.events.DraftPublishedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
@@ -79,7 +78,6 @@ public class StreamEventsApiListener
         ChangeMergedListener,
         ChangeRestoredListener,
         CommentAddedListener,
-        DraftPublishedListener,
         GitReferenceUpdatedListener,
         HashtagsEditedListener,
         NewProjectCreatedListener,
@@ -98,7 +96,6 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), DraftPublishedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
@@ -388,24 +385,6 @@ public class StreamEventsApiListener
       dispatcher.get().postEvent(refName, event);
     } catch (PermissionBackendException e) {
       log.error("error while posting event", e);
-    }
-  }
-
-  @Override
-  public void onDraftPublished(DraftPublishedListener.Event ev) {
-    try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet ps = getPatchSet(notes, ev.getRevision());
-      DraftPublishedEvent event = new DraftPublishedEvent(change);
-
-      event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, ps);
-      event.uploader = accountAttributeSupplier(ev.getWho());
-
-      dispatcher.get().postEvent(change, event);
-    } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
     }
   }
 

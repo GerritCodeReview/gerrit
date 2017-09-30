@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -36,9 +40,12 @@ import java.util.TreeMap;
  * <p>Status names are looked up by prefix case-insensitively.
  */
 public final class ChangeStatusPredicate extends ChangeIndexPredicate {
-  protected static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
-  protected static final Predicate<ChangeData> CLOSED;
-  protected static final Predicate<ChangeData> OPEN;
+  private static final String INVALID_STATUS = "__invalid__";
+  private static final Predicate<ChangeData> NONE = new ChangeStatusPredicate(null);
+
+  private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
+  private static final Predicate<ChangeData> CLOSED;
+  private static final Predicate<ChangeData> OPEN;
 
   static {
     PREDICATES = new TreeMap<>();
@@ -46,8 +53,14 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     List<Predicate<ChangeData>> closed = new ArrayList<>();
 
     for (Change.Status s : Change.Status.values()) {
-      ChangeStatusPredicate p = new ChangeStatusPredicate(s);
-      PREDICATES.put(canonicalize(s), p);
+      ChangeStatusPredicate p = forStatus(s);
+      String str = canonicalize(s);
+      checkState(
+          !INVALID_STATUS.equals(str),
+          "invalid status sentinel %s cannot match canonicalized status string %s",
+          INVALID_STATUS,
+          str);
+      PREDICATES.put(str, p);
       (s.isOpen() ? open : closed).add(p);
     }
 
@@ -63,7 +76,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return status.name().toLowerCase();
   }
 
-  public static Predicate<ChangeData> parse(String value) throws QueryParseException {
+  public static Predicate<ChangeData> parse(String value) {
     String lower = value.toLowerCase();
     NavigableMap<String, Predicate<ChangeData>> head = PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
@@ -73,7 +86,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
         return e.getValue();
       }
     }
-    throw new QueryParseException("invalid change status: " + value);
+    return NONE;
   }
 
   public static Predicate<ChangeData> open() {
@@ -84,13 +97,23 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return CLOSED;
   }
 
-  protected final Change.Status status;
+  public static ChangeStatusPredicate forStatus(Change.Status status) {
+    return new ChangeStatusPredicate(checkNotNull(status));
+  }
 
-  public ChangeStatusPredicate(Change.Status status) {
-    super(ChangeField.STATUS, canonicalize(status));
+  @Nullable private final Change.Status status;
+
+  private ChangeStatusPredicate(@Nullable Change.Status status) {
+    super(ChangeField.STATUS, status != null ? canonicalize(status) : INVALID_STATUS);
     this.status = status;
   }
 
+  /**
+   * Get the status for this predicate.
+   *
+   * @return the status, or null if this predicate is intended to never match any changes.
+   */
+  @Nullable
   public Change.Status getStatus() {
     return status;
   }
@@ -98,7 +121,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     Change change = object.change();
-    return change != null && status.equals(change.getStatus());
+    return change != null && Objects.equals(status, change.getStatus());
   }
 
   @Override
@@ -108,16 +131,13 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
 
   @Override
   public int hashCode() {
-    return status.hashCode();
+    return Objects.hashCode(status);
   }
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof ChangeStatusPredicate) {
-      final ChangeStatusPredicate p = (ChangeStatusPredicate) other;
-      return status.equals(p.status);
-    }
-    return false;
+    return (other instanceof ChangeStatusPredicate)
+        && Objects.equals(status, ((ChangeStatusPredicate) other).status);
   }
 
   @Override

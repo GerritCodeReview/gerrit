@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5db3a34_10b40ced",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T13:20:17Z",
+      "side": 1,
+      "message": "It now sets enabled \u003d false on fail.",
+      "parentUuid": "6318dff2_cf064fe3",
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7688fdb_330b9a0d",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c1bfc311_1669b386",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T13:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7688fdb_330b9a0d",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 27
+      },
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbe26a5_22da637c",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b14bd6_ce2cef59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-09-30T13:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbe26a5_22da637c",
+      "range": {
+        "startLine": 93,
+        "startChar": 10,
+        "endLine": 93,
+        "endChar": 69
+      },
+      "revId": "a2aa87542ff6cea4d6afd0d46091c808420eec2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

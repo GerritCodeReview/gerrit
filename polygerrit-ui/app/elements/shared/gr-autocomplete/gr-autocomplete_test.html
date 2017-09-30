@@ -57,7 +57,7 @@ limitations under the License.
         ]);
       });
       element.query = queryStub;
-      assert.isTrue(element.$.suggestions.hidden);
+      assert.isTrue(element.$.suggestions.isHidden);
       assert.equal(element.$.suggestions.$.cursor.index, -1);
 
       element.text = 'blah';
@@ -66,7 +66,7 @@ limitations under the License.
       element._focused = true;
 
       promise.then(() => {
-        assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+        assert.isFalse(element.$.suggestions.isHidden);
         const suggestions =
             Polymer.dom(element.$.suggestions.root).querySelectorAll('li');
         assert.equal(suggestions.length, 5);
@@ -89,20 +89,20 @@ limitations under the License.
       });
       element.query = queryStub;
 
-      assert.isTrue(element.$.suggestions.hidden);
+      assert.isTrue(element.$.suggestions.isHidden);
 
       element._focused = true;
       element.text = 'blah';
 
       promise.then(() => {
-        assert.isFalse(element.$.suggestions.hidden);
+        assert.isFalse(element.$.suggestions.isHidden);
 
         const cancelHandler = sandbox.spy();
         element.addEventListener('cancel', cancelHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
         assert.isFalse(cancelHandler.called);
-        assert.isTrue(element.$.suggestions.hidden);
+        assert.isTrue(element.$.suggestions.isHidden);
         assert.equal(element._suggestions.length, 0);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
@@ -124,13 +124,13 @@ limitations under the License.
       });
       element.query = queryStub;
 
-      assert.isTrue(element.$.suggestions.hidden);
+      assert.isTrue(element.$.suggestions.isHidden);
       assert.equal(element.$.suggestions.$.cursor.index, -1);
       element._focused = true;
       element.text = 'blah';
 
       promise.then(() => {
-        assert.isFalse(element.$.suggestions.hidden);
+        assert.isFalse(element.$.suggestions.isHidden);
 
         const commitHandler = sandbox.spy();
         element.addEventListener('commit', commitHandler);
@@ -157,7 +157,7 @@ limitations under the License.
         assert.equal(element.value, 1);
         assert.isTrue(commitHandler.called);
         assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
-        assert.isTrue(element.$.suggestions.hidden);
+        assert.isTrue(element.$.suggestions.isHidden);
         assert.isTrue(element._focused);
         done();
       });
@@ -291,9 +291,16 @@ limitations under the License.
     });
 
     test('_focused flag shows/hides the suggestions', () => {
-      const suggestions = ['hello', 'its me'];
-      assert.isTrue(element._computeSuggestionsHidden(suggestions, false));
-      assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
+      const openStub = sandbox.stub(element.$.suggestions, 'open');
+      const closedStub = sandbox.stub(element.$.suggestions, 'close');
+      element._suggestions = ['hello', 'its me'];
+      assert.isFalse(openStub.called);
+      assert.isTrue(closedStub.calledOnce);
+      element._focused = true;
+      assert.isTrue(openStub.calledOnce);
+      element._suggestions = [];
+      assert.isTrue(closedStub.calledTwice);
+      assert.isTrue(openStub.calledOnce);
     });
 
     test('changing input sets _textChangedSinceCommit', () => {
@@ -375,7 +382,7 @@ limitations under the License.
         element.tabComplete = false;
         focusSpy = sandbox.spy(element, 'focus');
         Polymer.dom.flush();
-        assert.isFalse(element.$.suggestions.hidden);
+        assert.isFalse(element.$.suggestions.isHidden);
 
         MockInteractions.pressAndReleaseKeyOn(
             element.$.suggestions.$$('li:first-child'), 9, null, 'tab');
@@ -391,7 +398,7 @@ limitations under the License.
         element.tabComplete = true;
         focusSpy = sandbox.spy(element, 'focus');
         Polymer.dom.flush();
-        assert.isFalse(element.$.suggestions.hidden);
+        assert.isFalse(element.$.suggestions.isHidden);
 
         MockInteractions.pressAndReleaseKeyOn(
             element.$.suggestions.$$('li:first-child'), 9, null, 'tab');
@@ -406,13 +413,13 @@ limitations under the License.
         element._focused = true;
         element._suggestions = [{name: 'first suggestion'}];
         Polymer.dom.flush();
-        assert.isFalse(element.$.suggestions.hidden);
+        assert.isFalse(element.$.suggestions.isHidden);
         MockInteractions.tap(element.$.suggestions.$$('li:first-child'));
         flushAsynchronousOperations();
 
         assert.isFalse(focusSpy.called);
         assert.isTrue(commitSpy.called);
-        assert.isTrue(element.$.suggestions.hidden);
+        assert.isTrue(element.$.suggestions.isHidden);
       });
     });
 

@@ -28,9 +28,13 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
+        position: relative;
       }
       :host(.monospace) {
         font-family: var(--monospace-font-family);
+      }
+      #emojiSuggestions {
+        font-family: var(--font-family);
       }
       gr-autocomplete {
         display: inline-block
@@ -39,11 +43,16 @@ limitations under the License.
         background-color: var(--background-color, none);
         width: 100%;
       }
+      #hiddenText #emojiSuggestions {
+        visibility: visible;
+        white-space: normal;
+      }
       /*This is needed to not add a scroll bar on the side of gr-textarea
       since there is 2px of padding in iron-autogrow-textarea for the
       native textarea*/
       iron-autogrow-textarea {
         padding: 2px;
+        position: relative;
       }
       #textarea.noBorder {
         border: none;
@@ -53,17 +62,19 @@ limitations under the License.
         float: left;
         position: absolute;
         visibility: hidden;
-        white-space: pre-wrap
+        width: 100%;
+        white-space: pre-wrap;
       }
     </style>
-    <gr-autocomplete-dropdown id="emojiSuggestions"
+    <div id="hiddenText"></div>
+    <gr-autocomplete-dropdown
+        id="emojiSuggestions"
         suggestions="[[_suggestions]]"
         index="[[_index]]"
-        move-to-root
-        fixed-position="[[fixedPositionDropdown]]"
-        hidden>
+        vertical-offset="[[_verticalOffset]]"
+        on-dropdown-closed="_resetAndFocus"
+        on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
-    <div id="hiddenText"></div>
     <iron-autogrow-textarea
         id="textarea"
         autocomplete="[[autocomplete]]"

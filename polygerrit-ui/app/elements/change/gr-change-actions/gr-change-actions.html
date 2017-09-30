@@ -48,9 +48,6 @@ limitations under the License.
       gr-dropdown {
         margin-left: .5em;
       }
-      gr-button:before {
-        content: attr(data-label);
-      }
       #actionLoadingMessage {
         color: #777;
       }
@@ -105,7 +102,7 @@ limitations under the License.
               data-action-type$="[[action.__type]]"
               data-label$="[[action.label]]"
               disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-              on-tap="_handleActionTap"></gr-button>
+              on-tap="_handleActionTap">[[action.label]]</gr-button>
         </template>
       </section>
       <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>

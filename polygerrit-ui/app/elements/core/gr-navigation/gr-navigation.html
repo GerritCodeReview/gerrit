@@ -67,6 +67,7 @@ limitations under the License.
         AGREEMENTS: 'agreements',
         DASHBOARD: 'dashboard',
         DIFF: 'diff',
+        EDIT: 'edit',
         SEARCH: 'search',
         SETTINGS: 'settings',
       },
@@ -252,6 +253,30 @@ limitations under the License.
           basePatchNum: opt_basePatchNum,
           lineNum: opt_lineNum,
           leftSide: opt_leftSide,
+        });
+      },
+
+      /**
+       * @param {{ _number: number, project: string }} change The change object.
+       * @param {string} path The file path.
+       * @return {string}
+       */
+      getEditUrlForDiff(change, path) {
+        return this.getEditUrlForDiffById(change._number, change.project, path);
+      },
+
+      /**
+       * @param {number} changeNum
+       * @param {string} project The name of the project.
+       * @param {string} path The file path.
+       * @return {string}
+       */
+      getEditUrlForDiffById(changeNum, project, path) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.EDIT,
+          changeNum,
+          project,
+          path,
         });
       },
 

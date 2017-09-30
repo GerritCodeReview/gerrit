@@ -594,9 +594,64 @@
       });
     },
 
-    _handleDashboardRoute(data) {
+    _decodeQueryString(qs) {
+      return decodeURIComponent(qs.replace(/\+/g, ' '));
+    },
+
+    _parseQueryString(qs) {
+      while (qs && qs[0] === '?') {
+        qs = qs.substring(1);
+      }
+      if (!qs) {
+        return [];
+      }
+      const params = [];
+      qs.split('&').forEach(param => {
+        const idx = param.indexOf('=');
+        let name;
+        let value;
+        if (idx < 0) {
+          name = this._decodeQueryString(param);
+          value = '';
+        } else {
+          name = this._decodeQueryString(param.substring(0, idx));
+          value = this._decodeQueryString(param.substring(idx + 1));
+        }
+        if (name) {
+          params.push([name, value]);
+        }
+      });
+      return params;
+    },
+
+    _handleDashboardRoute(data, opt_qs) {
       if (!data.params[0]) {
-        this._redirect('/dashboard/self');
+        const qs = opt_qs !== undefined ? opt_qs : window.location.search;
+        const queryParams = this._parseQueryString(qs);
+        let title = 'Custom Dashboard';
+        const titleParam = queryParams.find(
+            elem => elem[0].toLowerCase() === 'title');
+        if (titleParam) {
+          title = titleParam[1];
+        }
+        const sectionParams = queryParams.filter(
+            elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title');
+        const sections = sectionParams.map(elem => {
+          return {
+            name: elem[0],
+            query: elem[1],
+          };
+        });
+        if (sections.length === 0) {
+          this._redirect('/dashboard/self');
+          return;
+        }
+        this._setParams({
+          view: Gerrit.Nav.View.DASHBOARD,
+          user: 'self',
+          sections,
+          title,
+        });
         return;
       }
 

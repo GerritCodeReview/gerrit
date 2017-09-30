@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const HASHTAG_ADD_MESSAGE = 'Click to add';
+  const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
   const SubmitTypeLabel = {
     FAST_FORWARD_ONLY: 'Fast Forward Only',
@@ -209,7 +209,7 @@
     },
 
     _computeTopicPlaceholder(_topicReadOnly) {
-      return _topicReadOnly ? 'No Topic' : 'Click to add topic';
+      return _topicReadOnly ? 'No Topic' : 'Add Topic';
     },
 
     _computeHashtagPlaceholder(_hashtagReadOnly) {

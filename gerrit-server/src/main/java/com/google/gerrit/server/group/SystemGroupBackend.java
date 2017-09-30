@@ -213,10 +213,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       }
 
       Optional<AccountGroup> conflictingGroup;
-      try {
+      try (ReviewDb db = schema.open()) {
         conflictingGroup =
             groups
-                .getAll(schema.open())
+                .getAll(db)
                 .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
                 .findAny();
 

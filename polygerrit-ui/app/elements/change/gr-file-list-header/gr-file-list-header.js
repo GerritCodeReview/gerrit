@@ -67,11 +67,15 @@
     },
 
     _computeDescriptionPlaceholder(readOnly) {
-      return (readOnly ? 'No' : 'Add a') + ' patch set description';
+      return (readOnly ? 'No' : 'Add') + ' patchset description';
     },
 
     _computeDescriptionReadOnly(loggedIn, change, account) {
       return !(loggedIn && (account._account_id === change.owner._account_id));
+    },
+
+    _computeIsUppercase(change, patchNum) {
+      return this._computePatchSetDescription(change, patchNum).length === 0;
     },
 
     _computePatchSetDescription(change, patchNum) {

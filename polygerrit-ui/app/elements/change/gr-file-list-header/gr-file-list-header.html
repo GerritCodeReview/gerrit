@@ -141,6 +141,7 @@ limitations under the License.
                 id="descriptionLabel"
                 class="descriptionLabel"
                 label-text="Add patchset description"
+                uppercase="[[_computeIsUppercase(change, patchRange.patchNum)]]"
                 value="[[_computePatchSetDescription(change, patchRange.patchNum)]]"
                 placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
                 read-only="[[_descriptionReadOnly]]"

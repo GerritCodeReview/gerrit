@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "462b61d5_04cab5ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-09-30T15:12:34Z",
+      "side": 1,
+      "message": "Here:\n\n try (ReviewDb db \u003d schema.open()) {\n\nand then it will be auto closed.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 9
+      },
+      "revId": "556ab92686ad68620eef89314c9f6fd136eb3c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3c88f89_04fc9295",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
         "patchSetId": 3

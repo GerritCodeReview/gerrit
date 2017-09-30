@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "06d2ac95_7dd99b48",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 79
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T09:58:56Z",
+      "side": 1,
+      "message": "This should be \"NEW\" now. Since we only allow \"New\" for this field, we may remove this field in later change.",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c70bd1_45276d33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T09:58:56Z",
+      "side": 1,
+      "message": "This should be V47 now?",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "849e1f9f_6c16ef24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 79
@@ -13,6 +59,30 @@
       "writtenOn": "2017-09-18T07:54:28Z",
       "side": 1,
       "message": "These have been removed, please don\u0027t add them again as ChangeControl will be package-private soon",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 10
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f91c8f93_2eaf7385",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T09:58:56Z",
+      "side": 1,
+      "message": "+1, this has to be changed.",
+      "parentUuid": "849e1f9f_6c16ef24",
       "range": {
         "startLine": 95,
         "startChar": 4,
@@ -207,6 +277,29 @@
         "startChar": 2,
         "endLine": 226,
         "endChar": 8
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff1420ec_834dac3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-09-30T09:58:56Z",
+      "side": 1,
+      "message": "Would it be better to use UpdateUI#readString and ask users to type in a String? Users might easily make mistake for Yes/No choice.",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 92
       },
       "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

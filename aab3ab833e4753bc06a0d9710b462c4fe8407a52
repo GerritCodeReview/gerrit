@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e902f0c_19b43362",
+        "filename": "plugins/hooks",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-09-30T12:40:26Z",
+      "side": 1,
+      "message": "Is this intended?",
+      "revId": "aab3ab833e4753bc06a0d9710b462c4fe8407a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

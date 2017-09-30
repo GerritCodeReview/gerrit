@@ -118,6 +118,7 @@
     },
 
     behaviors: [
+      Gerrit.AsyncForeachBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.PathListBehavior,
@@ -844,22 +845,20 @@
      * @return {!Promise}
      */
     _renderInOrder(paths, diffElements, initialCount) {
-      if (!paths.length) {
+      let iter = 0;
+      return this.asyncForeach(paths, path => {
+        iter++;
+        console.log('Expanding diff', iter, 'of', initialCount, ':', path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        diffElem.comments = this.$.commentAPI.getCommentsForPath(path,
+            this.patchRange, this.projectConfig);
+        const promises = [diffElem.reload()];
+        if (this._isLoggedIn) {
+          promises.push(this._reviewFile(path));
+        }
+        return Promise.all(promises);
+      }).then(() => {
         console.log('Finished expanding', initialCount, 'diff(s)');
-        return Promise.resolve();
-      }
-      console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
-          initialCount, ':', paths[0]);
-      const diffElem = this._findDiffByPath(paths[0], diffElements);
-      diffElem.comments = this.$.commentAPI.getCommentsForPath(paths[0],
-          this.patchRange, this.projectConfig);
-
-      const promises = [diffElem.reload()];
-      if (this._isLoggedIn) {
-        promises.push(this._reviewFile(paths[0]));
-      }
-      return Promise.all(promises).then(() => {
-        return this._renderInOrder(paths.slice(1), diffElements, initialCount);
       });
     },
 

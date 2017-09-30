@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a49f1af1_91a2fdf8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 79
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T10:12:02Z",
+      "side": 1,
+      "message": "Yes, please fix the documentation.",
+      "parentUuid": "06d2ac95_7dd99b48",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 22
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3c70bd1_45276d33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 79
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-30T09:58:56Z",
       "side": 1,
       "message": "This should be V47 now?",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34507665_a7c2095a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T10:12:02Z",
+      "side": 1,
+      "message": "Only if there is a conflict on rebase?",
+      "parentUuid": "b3c70bd1_45276d33",
       "range": {
         "startLine": 91,
         "startChar": 2,
@@ -304,6 +352,30 @@
       "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abf173c1_3a0db336",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 79
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T10:12:02Z",
+      "side": 1,
+      "message": "This is a yes/no, it will include the [y/N] prompt when you use ui.yesno. I think this is fine as-is.",
+      "parentUuid": "ff1420ec_834dac3c",
+      "range": {
+        "startLine": 40,
+        "startChar": 7,
+        "endLine": 40,
+        "endChar": 92
+      },
+      "revId": "39084367c309c862fec9c75695cd1ad2481d573b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

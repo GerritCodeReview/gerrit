@@ -92,5 +92,12 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isFalse(tapStub.called);
     });
+
+    test('on()', done => {
+      instance.on('foo', () => {
+        done();
+      });
+      element.fire('foo');
+    });
   });
 </script>

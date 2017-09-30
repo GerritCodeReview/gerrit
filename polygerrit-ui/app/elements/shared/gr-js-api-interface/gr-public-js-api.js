@@ -198,6 +198,10 @@
     return new GrThemeApi(this);
   };
 
+  Plugin.prototype.project = function() {
+    return new GrProjectApi(this);
+  };
+
   Plugin.prototype.attributeHelper = function(element) {
     return new GrAttributeHelper(element);
   };

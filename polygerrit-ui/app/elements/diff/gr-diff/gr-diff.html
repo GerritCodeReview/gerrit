@@ -215,12 +215,18 @@ limitations under the License.
       .target-row td.blame {
         background: #eee;
       }
+      col.blame {
+        display: none;
+      }
       td.blame {
         display: none;
         font-family: var(--font-family);
         font-size: var(--font-size, 12px);
         padding: 0 .5em;
         white-space: pre;
+      }
+      :host(.showBlame) col.blame {
+        display: table-column;
       }
       :host(.showBlame) td.blame {
         display: table-cell;

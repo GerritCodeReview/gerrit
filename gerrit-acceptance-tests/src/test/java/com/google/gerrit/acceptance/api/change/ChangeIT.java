@@ -39,6 +39,12 @@ import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
+import static com.google.gerrit.extensions.common.RobotCommentInfoSubject.assertThatList;
+import com.google.gerrit.reviewdb.client.FixSuggestion;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -3551,5 +3557,47 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("invalid labels: " + invalidLabel);
     gApi.accounts().self().setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel)));
+  }
+
+  @Test
+  public void addedFixSuggestionCanBeRetrieved() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "Provide files which can be used for fixes",
+            ImmutableMap.of(FILE_NAME, "some\ncontent"));
+    PushOneCommit.Result changeResult = push.to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+
+    ReviewInput reviewInput = new ReviewInput();
+    FixSuggestionInfo fsi = new FixSuggestionInfo();
+    FixReplacementInfo fri = new FixReplacementInfo();
+    fri.path = FILE_NAME;
+    fri.range = new Range();
+    fri.range.startLine = 1;
+    fri.range.endLine = 2;
+    fri.range.startCharacter = 1;
+    fri.range.endCharacter = 2;
+    fri.replacement = "replacement";
+    fsi.replacements = ImmutableList.of(fri);
+
+    ReviewInput.CommentInput ci = new ReviewInput.CommentInput();
+    ci.fixSuggestions = ImmutableList.of(fsi);
+    ci.message = "test";
+    reviewInput.comments = Collections.singletonMap(FILE_NAME, ImmutableList.of(ci));
+    reviewInput.message = "robot comment test";
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    List<CommentInfo> commentInfo = gApi.changes().id(changeId).current().commentsAsList();
+
+    assertThat(commentInfo).hasSize(1);
+    assertThat(commentInfo.get(0).fixSuggestions).hasSize(1);
+
+    EditInfo ei = gApi.changes().id(changeId).current().applyFix(commentInfo.get(0).fixSuggestions.get(0).fixId);
+    assertThat(ei.files.keySet()).containsExactly(FILE_NAME);
   }
 }

@@ -143,9 +143,37 @@ class CommentJson {
       r.range = toRange(c.range);
       r.tag = c.tag;
       r.unresolved = c.unresolved;
+      r.fixSuggestions = toFixSuggestionInfos(c.fixSuggestions);
       if (loader != null) {
         r.author = loader.get(c.author.getId());
       }
+    }
+
+
+    private List<FixSuggestionInfo> toFixSuggestionInfos(
+        @Nullable List<FixSuggestion> fixSuggestions) {
+      if (fixSuggestions == null || fixSuggestions.isEmpty()) {
+        return null;
+      }
+
+      return fixSuggestions.stream().map(this::toFixSuggestionInfo).collect(toList());
+    }
+
+    private FixSuggestionInfo toFixSuggestionInfo(FixSuggestion fixSuggestion) {
+      FixSuggestionInfo fixSuggestionInfo = new FixSuggestionInfo();
+      fixSuggestionInfo.fixId = fixSuggestion.fixId;
+      fixSuggestionInfo.description = fixSuggestion.description;
+      fixSuggestionInfo.replacements =
+          fixSuggestion.replacements.stream().map(this::toFixReplacementInfo).collect(toList());
+      return fixSuggestionInfo;
+    }
+
+    private FixReplacementInfo toFixReplacementInfo(FixReplacement fixReplacement) {
+      FixReplacementInfo fixReplacementInfo = new FixReplacementInfo();
+      fixReplacementInfo.path = fixReplacement.path;
+      fixReplacementInfo.range = toRange(fixReplacement.range);
+      fixReplacementInfo.replacement = fixReplacement.replacement;
+      return fixReplacementInfo;
     }
 
     protected Range toRange(Comment.Range commentRange) {

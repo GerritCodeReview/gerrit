@@ -18,6 +18,8 @@ import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -121,6 +123,7 @@ public final class PatchLineComment {
     plc.setStatus(status);
     plc.setRealAuthor(c.getRealAuthor().getId());
     plc.setUnresolved(c.unresolved);
+    plc.setFixSuggestions(c.fixSuggestions);
     return plc;
   }
 
@@ -168,6 +171,8 @@ public final class PatchLineComment {
   /** True if this comment requires further action. */
   @Column(id = 12)
   protected boolean unresolved;
+
+  protected List<FixSuggestion> fixSuggestions;
 
   /**
    * The RevId for the commit to which this comment is referring.
@@ -318,6 +323,10 @@ public final class PatchLineComment {
     this.unresolved = unresolved;
   }
 
+  public void setFixSuggestions(List<FixSuggestion> fixSuggestions) {
+    this.fixSuggestions = fixSuggestions;
+  }
+
   public Boolean getUnresolved() {
     return unresolved;
   }
@@ -331,6 +340,7 @@ public final class PatchLineComment {
     c.parentUuid = parentUuid;
     c.tag = tag;
     c.setRealAuthor(getRealAuthor());
+    c.fixSuggestions  = fixSuggestions;
     return c;
   }
 

@@ -100,14 +100,15 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public static class CommentInput extends Comment {}
+  public static class CommentInput extends Comment {
+    public List<FixSuggestionInfo> fixSuggestions;
+  }
 
   public static class RobotCommentInput extends CommentInput {
     public String robotId;
     public String robotRunId;
     public String url;
     public Map<String, String> properties;
-    public List<FixSuggestionInfo> fixSuggestions;
   }
 
   public ReviewInput message(String msg) {

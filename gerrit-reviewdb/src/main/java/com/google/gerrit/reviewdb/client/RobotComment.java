@@ -24,7 +24,6 @@ public class RobotComment extends Comment {
   public String robotRunId;
   public String url;
   public Map<String, String> properties;
-  public List<FixSuggestion> fixSuggestions;
 
   public RobotComment(
       Key key,
@@ -91,8 +90,6 @@ public class RobotComment extends Comment {
         .append(',')
         .append("properties=")
         .append(properties != null ? properties : "")
-        .append("fixSuggestions=")
-        .append(fixSuggestions != null ? fixSuggestions : "")
         .append('}')
         .toString();
   }

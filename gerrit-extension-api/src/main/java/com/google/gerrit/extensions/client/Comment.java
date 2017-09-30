@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.client;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Comment {

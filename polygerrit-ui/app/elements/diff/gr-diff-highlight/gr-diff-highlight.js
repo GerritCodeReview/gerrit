@@ -284,6 +284,7 @@
         endChar: end.column,
       };
       actionBox.side = start.side;
+      actionBox.selectedText = "testxx";
       if (start.line === end.line) {
         actionBox.placeAbove(domRange);
       } else if (start.node instanceof Text) {

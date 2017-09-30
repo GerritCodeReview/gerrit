@@ -15,11 +15,13 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.Comment;
+import java.util.List;
 import java.util.Objects;
 
 public class CommentInfo extends Comment {
   public AccountInfo author;
   public String tag;
+  public List<FixSuggestionInfo> fixSuggestions;
 
   @Override
   public boolean equals(Object o) {

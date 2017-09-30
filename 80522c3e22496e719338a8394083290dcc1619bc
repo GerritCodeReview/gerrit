@@ -22,6 +22,30 @@
       "revId": "80522c3e22496e719338a8394083290dcc1619bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2edb87d3_e5e08bfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 90
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-09-30T12:57:25Z",
+      "side": 0,
+      "message": "You mean, preserving the behavior of \"repo upload -d\"?",
+      "parentUuid": "40a6a7a4_974745c9",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "80522c3e22496e719338a8394083290dcc1619bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

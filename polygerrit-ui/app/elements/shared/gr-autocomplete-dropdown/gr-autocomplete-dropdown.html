@@ -15,7 +15,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <script src="../../../scripts/rootElement.js"></script>
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -23,12 +25,6 @@ limitations under the License.
 <dom-module id="gr-autocomplete-dropdown">
   <template>
     <style include="shared-styles">
-      :host {
-        background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-        position: absolute;
-        z-index: 104;
-      }
       /* This must be set here vs. the container component because in some cases
       the element is moved in the DOM to a base element and is no longer a
       child of its original parent. */
@@ -48,19 +44,34 @@ limitations under the License.
       li.selected {
         background-color: #eee;
       }
+      .dropdown-content {
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      }
     </style>
-    <div id="suggestions" role="listbox">
-      <ul>
-        <template is="dom-repeat" items="[[suggestions]]">
-          <li data-index$="[[index]]"
-              data-value$="[[item.dataValue]]"
-              tabindex="-1"
-              aria-label$="[[item.name]]"
-              role="option"
-              on-tap="_handleTapItem">[[item.text]]</li>
-        </template>
-      </ul>
-    </div>
+    <iron-dropdown
+        id="dropdown"
+        allow-outside-scroll="true"
+        vertical-align="top"
+        horizontal-align="auto"
+        vertical-offset="[[verticalOffset]]">
+      <div
+          class="dropdown-content"
+          slot="dropdown-content"
+          id="suggestions"
+          role="listbox">
+        <ul>
+          <template is="dom-repeat" items="[[suggestions]]">
+            <li data-index$="[[index]]"
+                data-value$="[[item.dataValue]]"
+                tabindex="-1"
+                aria-label$="[[item.name]]"
+                role="option"
+                on-tap="_handleTapItem">[[item.text]]</li>
+          </template>
+        </ul>
+      </div>
+    </iron-dropdown>
     <gr-cursor-manager
         id="cursor"
         index="{{index}}"

@@ -27,13 +27,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-autocomplete-dropdown id="dropdown"></gr-autocomplete-dropdown>
-  </template>
-</test-fixture>
-
-<test-fixture id="move">
-  <template>
-    <gr-autocomplete-dropdown id="dropdown" move-to-root></gr-autocomplete-dropdown>
+    <gr-autocomplete-dropdown></gr-autocomplete-dropdown>
   </template>
 </test-fixture>
 
@@ -49,6 +43,7 @@ limitations under the License.
       element.suggestions = [
         {dataValue: 'test value 1', name: 'test name 1', text: 1},
         {dataValue: 'test value 2', name: 'test name 2', text: 2}];
+      flushAsynchronousOperations();
     });
 
     teardown(() => {
@@ -56,26 +51,12 @@ limitations under the License.
       if (element.isOpen) element.close();
     });
 
-    test('dropdown has not been moved from text fixture to the body', () => {
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-      const dropdown = Polymer.dom(document.root)
-          .querySelector('gr-autocomplete-dropdown');
-      assert.isOk(dropdown);
-      assert.notDeepEqual(dropdown.parentElement,
-          Polymer.dom(document.root).querySelector('body'));
-    });
-
-    test('escape key', () => {
-      const listener = sandbox.spy();
-      element.hidden = false;
-      element.addEventListener('dropdown-closed', listener);
-      const closeSpy = sandbox.spy(element, 'close');
+    test('escape key', done => {
+      const closeSpy = sandbox.spy(element.$.dropdown, 'close');
       MockInteractions.pressAndReleaseKeyOn(element, 27);
       flushAsynchronousOperations();
-      assert.isTrue(listener.called);
       assert.isTrue(closeSpy.called);
-      assert.isTrue(element.hidden);
+      done();
     });
 
     test('tab key', () => {
@@ -150,55 +131,4 @@ limitations under the License.
     });
   });
 
-  suite('gr-autocomplete-dropdown to root', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      fixture('move').open();
-      // The element was moved to the body, so look for it there.
-      element = Polymer.dom(document.root)
-        .querySelector('gr-autocomplete-dropdown');
-      element.suggestions = [
-        {dataValue: 'test value 1', name: 'test name 1', text: 1},
-        {dataValue: 'test value 2', name: 'test name 2', text: 2}];
-    });
-
-    teardown(() => {
-      sandbox.restore();
-      if (!element.hidden) element.close();
-    });
-
-    test('dropdown has been moved from the text fixture to the body', () => {
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-      const dropdown = Polymer.dom(document.root)
-        .querySelector('gr-autocomplete-dropdown');
-      assert.isOk(dropdown);
-      assert.deepEqual(dropdown.parentElement, Polymer.dom(document.root)
-          .querySelector('body'));
-    });
-
-    test('closing removes from body and adding adds to body', () => {
-      element.close();
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 0);
-      element.open();
-      assert.equal(Polymer.dom(document.root)
-          .querySelectorAll('gr-autocomplete-dropdown').length, 1);
-    });
-
-    test('setPosition', () => {
-      const top = '10px';
-      const left = '20px';
-      element.setPosition(top, left);
-      assert.equal(getComputedStyle(element).top, top);
-      assert.equal(getComputedStyle(element).left, left);
-    });
-
-    test('getCurrentText', () => {
-      assert.equal(element.getCurrentText(), 'test value 1');
-    });
-  });
 </script>

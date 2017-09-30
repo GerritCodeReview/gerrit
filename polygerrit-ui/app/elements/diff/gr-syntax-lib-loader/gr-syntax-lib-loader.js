@@ -33,6 +33,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     get() {
       return new Promise(resolve => {
         // If the lib is totally loaded, resolve immediately.
@@ -73,8 +77,18 @@
     _getLibRoot() {
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
-      return this._cachedLibRoot = document.head
-          .querySelector('link[rel=import][href$="gr-app.html"]')
+      const baseUrl = this.getBaseUrl();
+      if (baseUrl) {
+        return this._cachedLibRoot = baseUrl + '/';
+      }
+
+      const grAppLink = document.head
+          .querySelector('link[rel=import][href$="gr-app.html"]');
+      if (!grAppLink) {
+        return this._cachedLibRoot = document.location.origin + '/';
+      }
+
+      return this._cachedLibRoot = grAppLink
           .href
           .match(LIB_ROOT_PATTERN)[1];
     },

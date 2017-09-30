@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-project-api</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="gr-project-api.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-endpoint-decorator name="project-command">
+    </gr-endpoint-decorator>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-project-api tests', () => {
+    let sandbox;
+    let projectApi;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      let plugin;
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+      projectApi = plugin.project();
+    });
+
+    teardown(() => {
+      projectApi = null;
+      sandbox.restore();
+    });
+
+    test('exists', () => {
+      assert.isOk(projectApi);
+    });
+
+    test('works', done => {
+      const attachedStub = sandbox.stub();
+      const tapStub = sandbox.stub();
+      projectApi
+          .createCommand('foo', attachedStub)
+          .onTap(tapStub);
+      const element = fixture('basic');
+      flush(() => {
+        assert.isTrue(attachedStub.called);
+        const pluginCommand = element.$$('gr-plugin-project-command');
+        assert.isOk(pluginCommand);
+        const command = pluginCommand.$$('gr-project-command');
+        assert.isOk(command);
+        assert.equal(command.title, 'foo');
+        assert.isFalse(tapStub.called);
+        MockInteractions.tap(command.$$('gr-button'));
+        assert.isTrue(tapStub.called);
+        done();
+      });
+    });
+  });
+</script>

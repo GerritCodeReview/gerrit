@@ -206,6 +206,7 @@
     return new GrProjectApi(this);
   };
 
+<<<<<<< HEAD   (286b9e Merge branch 'stable-2.14' into stable-2.15)
   /**
    * To make REST requests for plugin-provided endpoints, use
    * @example
@@ -217,6 +218,8 @@
     return new GrPluginRestApi(opt_prefix);
   };
 
+=======
+>>>>>>> CHANGE (aacce1 Add a project command plugin endpoint, and a sample plugin)
   Plugin.prototype.attributeHelper = function(element) {
     return new GrAttributeHelper(element);
   };

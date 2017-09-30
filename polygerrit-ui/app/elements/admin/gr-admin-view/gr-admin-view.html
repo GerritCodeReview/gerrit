@@ -127,7 +127,9 @@ limitations under the License.
     </template>
     <template is="dom-if" if="[[_showProjectAccess]]" restamp="true">
       <main class="table">
-        <gr-project-access project="[[params.project]]"></gr-project-access>
+        <gr-project-access
+            path="[[path]]"
+            project="[[params.project]]"></gr-project-access>
       </main>
     </template>
     <template is="dom-if" if="[[params.placeholder]]" restamp="true">

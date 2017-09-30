@@ -42,7 +42,6 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/joda:joda-time",
         "//lib/log:api",
         "//lib/mina:sshd",
     ],

@@ -667,6 +667,10 @@
           this.$.confirmRevertDialog.message, this.commitMessage);
     },
 
+    _computeButtonText(action) {
+      return action.label;
+    },
+
     showRevertDialog() {
       this.$.confirmRevertDialog.populateRevertMessage(
           this.commitMessage, this.change.current_revision);
@@ -676,7 +680,8 @@
 
     _handleActionTap(e) {
       e.preventDefault();
-      const el = Polymer.dom(e).rootTarget;
+      // The root target is the paper-button, but we want the gr-button.
+      const el = e.target;
       const key = el.getAttribute('data-action-key');
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
         this.fire(`${key}-tap`, {node: el});

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4ffb1ff_faff8503",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:05:18Z",
+      "side": 1,
+      "message": "This looks unused.",
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfa2c45_fcd0c4d5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:05:18Z",
+      "side": 1,
+      "message": "Why is this a fixed panel?",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 19
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b0736d3_36b5eb59",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:05:18Z",
+      "side": 1,
+      "message": "Given that...\n\n* 1) this isn\u0027t the usual way an autogrow textarea is used (files will typically be taller than the screen, so I expect we could fix the height to 100% and never use the autogrow functionality), and...\n* 2) iron-autogrow-textares cause so many headaches, especially with the browser\u0027s undo stack...\n\n... can we just use a vanilla textarea and fix the height/width to 100% of the available screen space?",
+      "range": {
+        "startLine": 99,
+        "startChar": 9,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01aff27_a28c6a75",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:05:18Z",
+      "side": 1,
+      "message": "Can this just return ..\n\n Promise.all(promises);\n\n.. that\u0027s the only way it\u0027s used in tests.",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 21
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1ce2bbd_710844d8",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:05:18Z",
+      "side": 1,
+      "message": "Is there any reason to do this base64 decoding in the REST API interface method? (getFileInChangeEdit)\n\nThat way, deserialization would be abstracted away similarly to the way JSON decoding is abstracted.",
+      "range": {
+        "startLine": 115,
+        "startChar": 17,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

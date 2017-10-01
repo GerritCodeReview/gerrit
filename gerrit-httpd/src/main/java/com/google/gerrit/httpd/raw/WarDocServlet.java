@@ -15,11 +15,15 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.TimeUtil;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 
 class WarDocServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
+
+  private static final FileTime NOW = FileTime.fromMillis(TimeUtil.nowMs());
 
   private final FileSystem warFs;
 
@@ -31,5 +35,12 @@ class WarDocServlet extends ResourceServlet {
   @Override
   protected Path getResourcePath(String pathInfo) {
     return warFs.getPath("/Documentation/" + pathInfo);
+  }
+
+  @Override
+  protected FileTime getLastModifiedTime(Path p) {
+    // Return initialization time of this class, since the WAR outputs from the build process all
+    // have mtimes of 1980/1/1.
+    return NOW;
   }
 }

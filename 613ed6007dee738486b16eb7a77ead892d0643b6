@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de8be363_f9996cc7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T10:46:02Z",
+      "side": 1,
+      "message": "Incorrect import order.",
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2a11651_9b40b38e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T10:46:02Z",
+      "side": 1,
+      "message": "There may be utility in removing this part of the selector, that way we can use this class if we ever want to hide other things (like if we refactor the \u003ca\u003e tags to not bind to hidden)",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0ff302c_bcb488a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T10:46:02Z",
+      "side": 1,
+      "message": "JSDoc?",
+      "range": {
+        "startLine": 489,
+        "startChar": 4,
+        "endLine": 489,
+        "endChar": 21
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbbe7c6d_be1418f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T10:46:02Z",
+      "side": 1,
+      "message": "Might it be worth it to just roll this into `getAccount` above? I.e. having an opt_userId param, and defaulting to self.",
+      "range": {
+        "startLine": 489,
+        "startChar": 0,
+        "endLine": 491,
+        "endChar": 6
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c61a6642_49f632ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T10:46:02Z",
+      "side": 1,
+      "message": "I\u0027m flabbergasted that this is necessary. If the account status isn\u0027t a part of the account detail, that should be filed as a bug against the backend.",
+      "range": {
+        "startLine": 586,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 0
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

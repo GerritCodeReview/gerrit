@@ -16,6 +16,98 @@
       "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceac1cc5_f0126a84",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T21:05:09Z",
+      "side": 1,
+      "message": "setOriginalValue(v) to be consistent with the lines above and below",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 22
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5fcbb4_21ff661b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T21:05:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I understand this, what if:\n\n1. user votes Code-Review+1\n\n2. user changes vote to Code-Review+2\n\n3. change is moved to a branch where user can only vote Code-Review+1, hence the vote is squashed to Code-Review+1\n\n4. change is moved back to the branch where user can vote Code-Review+2, hence Code-Review+2 should be restored as it was the value from before squashing, but wouldn\u0027t this code detect the vote from 1. as original value?",
+      "range": {
+        "startLine": 847,
+        "startChar": 4,
+        "endLine": 853,
+        "endChar": 36
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca9db54_fa7abdb7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T21:05:09Z",
+      "side": 1,
+      "message": "nit: uses spaces",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 1
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f31d328_e4236411",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T21:05:09Z",
+      "side": 1,
+      "message": "spaces",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 1
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

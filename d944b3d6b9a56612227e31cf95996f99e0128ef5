@@ -22,6 +22,30 @@
       "revId": "d944b3d6b9a56612227e31cf95996f99e0128ef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b40e4ab_04cd68ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T15:46:49Z",
+      "side": 1,
+      "message": "I actually just uploaded a patch cleaning this up that does not include them :)",
+      "parentUuid": "9f8c9462_a375343a",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "d944b3d6b9a56612227e31cf95996f99e0128ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

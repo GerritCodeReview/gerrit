@@ -34,6 +34,24 @@
       "revId": "cc36aa3b91d8c8f912ca96e7b9ca74d622566c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "187482a9_ee2749a5",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-01T14:10:45Z",
+      "side": 1,
+      "message": "OK, let\u0027s leave them.  No point creating a new patch set and kicking CI again.",
+      "parentUuid": "5ae0d467_fb28cc8f",
+      "revId": "cc36aa3b91d8c8f912ca96e7b9ca74d622566c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

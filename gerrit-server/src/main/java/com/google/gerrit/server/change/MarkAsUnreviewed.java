@@ -14,66 +14,63 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Mute implements RestModifyView<ChangeResource, Mute.Input>, UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Mute.class);
+public class MarkAsUnreviewed
+    implements RestModifyView<ChangeResource, MarkAsUnreviewed.Input>, UiAction<ChangeResource> {
+  private static final Logger log = LoggerFactory.getLogger(MarkAsUnreviewed.class);
 
   public static class Input {}
 
+  private final Provider<ReviewDb> dbProvider;
+  private final ChangeData.Factory changeDataFactory;
   private final StarredChangesUtil stars;
 
   @Inject
-  Mute(StarredChangesUtil stars) {
+  MarkAsUnreviewed(
+      Provider<ReviewDb> dbProvider,
+      ChangeData.Factory changeDataFactory,
+      StarredChangesUtil stars) {
+    this.dbProvider = dbProvider;
+    this.changeDataFactory = changeDataFactory;
     this.stars = stars;
   }
 
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
-        .setLabel("Mute")
-        .setTitle("Mute the change to unhighlight it in the dashboard")
-        .setVisible(isMuteable(rsrc));
+        .setLabel("Mark Unreviewed")
+        .setTitle("Mark the change as unreviewed to highlight it in the dashboard")
+        .setVisible(isReviewed(rsrc));
   }
 
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, OrmException, IllegalLabelException {
-    if (rsrc.isUserOwner()) {
-      throw new BadRequestException("cannot mute own change");
-    }
-    if (!isMuted(rsrc)) {
-      stars.mute(rsrc);
-    }
+      throws OrmException, IllegalLabelException {
+    stars.markAsUnreviewed(rsrc);
     return Response.ok("");
   }
 
-  private boolean isMuted(ChangeResource rsrc) {
+  private boolean isReviewed(ChangeResource rsrc) {
     try {
-      return stars.isMuted(rsrc);
+      return changeDataFactory
+          .create(dbProvider.get(), rsrc.getNotes())
+          .isReviewedBy(rsrc.getUser().asIdentifiedUser().getAccountId());
     } catch (OrmException e) {
-      log.error("failed to check muted star", e);
-    }
-    return false;
-  }
-
-  private boolean isMuteable(ChangeResource rsrc) {
-    try {
-      return !rsrc.isUserOwner() && !isMuted(rsrc) && !stars.isIgnored(rsrc);
-    } catch (OrmException e) {
-      log.error("failed to check ignored star", e);
+      log.error("failed to check if change is reviewed", e);
     }
     return false;
   }

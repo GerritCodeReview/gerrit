@@ -18,10 +18,16 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Provider;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions {
@@ -48,6 +54,64 @@ public class DynamicOptions {
    * my-plugin, then the --verbose option as used by the caller would be --my-plugin--verbose.
    */
   public interface DynamicBean {}
+
+  /**
+   * To provide additional options to a command in another classloader, bind a ClassNameProvider
+   * which provides the name of your DynamicBean in the other classLoader.
+   *
+   * <p>Do this by binding to just the name of the command you are going to bind to so that your
+   * classLoader does not load the command's class which likely is not in your classpath. To ensure
+   * that the command's class is not in your classpath, you can exclude it during your build.
+   *
+   * <p>For example:
+   *
+   * <pre>
+   *   bind(com.google.gerrit.server.DynamicOptions.DynamicBean.class)
+   *       .annotatedWith(Exports.named( "com.google.gerrit.plugins.otherplugin.command"))
+   *       .to(MyOptionsClassNameProvider.class);
+   *
+   *   static class MyOptionsClassNameProvider implements DynamicOptions.ClassNameProvider {
+   *     @Override
+   *     public String getClassName() {
+   *       return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
+   *     }
+   *   }
+   * </pre>
+   */
+  public interface ClassNameProvider extends DynamicBean {
+    String getClassName();
+  }
+
+  /**
+   * To provide additional Guice bindings for options to a command in another classloader, bind a
+   * ModulesClassNamesProvider which provides the name of your Modules needed for your DynamicBean
+   * in the other classLoader.
+   *
+   * <p>Do this by binding to the name of the command you are going to bind to and providing an
+   * Iterable of Module names to instantiate and add to the Injector used to instantiate the
+   * DynamicBean in the other classLoader. For example:
+   *
+   * <pre>
+   *   bind(com.google.gerrit.server.DynamicOptions.DynamicBean.class)
+   *       .annotatedWith(Exports.named(
+   *           "com.google.gerrit.plugins.otherplugin.command"))
+   *       .to(MyOptionsModulesClassNamesProvider.class);
+   *
+   *   static class MyOptionsModulesClassNamesProvider implements DynamicOptions.ClassNameProvider {
+   *     @Override
+   *     public String getClassName() {
+   *       return "com.googlesource.gerrit.plugins.myplugin.CommandOptions";
+   *     }
+   *     @Override
+   *     public Iterable<String> getModulesClassNames()() {
+   *       return "com.googlesource.gerrit.plugins.myplugin.MyOptionsModule";
+   *     }
+   *   }
+   * </pre>
+   */
+  public interface ModulesClassNamesProvider extends ClassNameProvider {
+    Iterable<String> getModulesClassNames();
+  }
 
   /**
    * Implement this if your DynamicBean needs an opportunity to act on the Bean directly before or
@@ -81,6 +145,24 @@ public class DynamicOptions {
   public interface BeanReceiver {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
+
+  /**
+   * MergedClassloaders allow us to load classes from both plugin classloaders. Store the merged
+   * classloaders in a Map to avoid creating a new classloader for each invocation. Use a
+   * WeakHashMap to avoid leaking these MergedClassLoaders once either plugin is unloaded. Since the
+   * WeakHashMap only takes care of ensuring the Keys can get garbage collected, use WeakReferences
+   * to store the MergedClassloaders in the WeakHashMap.
+   *
+   * <p>Outter keys are the bean plugin's classloaders (the plugin being extended)
+   *
+   * <p>Inner keys are the dynamicBeans plugin's classloaders (the extending plugin)
+   *
+   * <p>The value is the MergedClassLoader representing the merging of the outter and inner key
+   * classloaders.
+   */
+  protected static Map<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>> mergedClByCls =
+      Collections.synchronizedMap(
+          new WeakHashMap<ClassLoader, Map<ClassLoader, WeakReference<ClassLoader>>>());
 
   protected Object bean;
   protected Map<String, DynamicBean> beansByPlugin;
@@ -118,22 +200,61 @@ public class DynamicOptions {
   public DynamicBean getDynamicBean(Object bean, DynamicBean dynamicBean) {
     ClassLoader coreCl = getClass().getClassLoader();
     ClassLoader beanCl = bean.getClass().getClassLoader();
+
+    ClassLoader loader = beanCl;
     if (beanCl != coreCl) { // bean from a plugin?
       ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
       if (beanCl != dynamicBeanCl) { // in a different plugin?
-        ClassLoader mergedCL = new DelegatingClassLoader(beanCl, dynamicBeanCl);
-        try {
-          return injector
-              .createChildInjector()
-              .getInstance(
-                  (Class<DynamicOptions.DynamicBean>)
-                      mergedCL.loadClass(dynamicBean.getClass().getCanonicalName()));
-        } catch (ClassNotFoundException e) {
-          throw new RuntimeException(e);
-        }
+        loader = getMergedClassLoader(beanCl, dynamicBeanCl);
       }
     }
+
+    String className = null;
+    if (dynamicBean instanceof ClassNameProvider) {
+      className = ((ClassNameProvider) dynamicBean).getClassName();
+    } else if (loader != beanCl) { // in a different plugin?
+      className = dynamicBean.getClass().getCanonicalName();
+    }
+
+    if (className != null) {
+      try {
+        List<Module> modules = new ArrayList<>();
+        Injector modulesInjector = injector;
+        if (dynamicBean instanceof ModulesClassNamesProvider) {
+          modulesInjector = injector.createChildInjector();
+          for (String moduleName :
+              ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
+            Class<Module> mClass = (Class<Module>) loader.loadClass(moduleName);
+            modules.add(modulesInjector.getInstance(mClass));
+          }
+        }
+        return modulesInjector
+            .createChildInjector(modules)
+            .getInstance((Class<DynamicOptions.DynamicBean>) loader.loadClass(className));
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
     return dynamicBean;
+  }
+
+  protected ClassLoader getMergedClassLoader(ClassLoader beanCl, ClassLoader dynamicBeanCl) {
+    Map<ClassLoader, WeakReference<ClassLoader>> mergedClByCl = mergedClByCls.get(beanCl);
+    if (mergedClByCl == null) {
+      mergedClByCl = Collections.synchronizedMap(new WeakHashMap<>());
+      mergedClByCls.put(beanCl, mergedClByCl);
+    }
+    WeakReference<ClassLoader> mergedClRef = mergedClByCl.get(dynamicBeanCl);
+    ClassLoader mergedCl = null;
+    if (mergedClRef != null) {
+      mergedCl = mergedClRef.get();
+    }
+    if (mergedCl == null) {
+      mergedCl = new DelegatingClassLoader(beanCl, dynamicBeanCl);
+      mergedClByCl.put(dynamicBeanCl, new WeakReference(mergedCl));
+    }
+    return mergedCl;
   }
 
   public void parseDynamicBeans(CmdLineParser clp) {

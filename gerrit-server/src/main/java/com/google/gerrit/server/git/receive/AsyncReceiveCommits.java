@@ -241,11 +241,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() throws IOException {
-    Capable result = projectControl.canPushToAtLeastOneRef();
-    if (result != Capable.OK) {
-      return result;
-    }
-
     try {
       contributorAgreements.check(
           projectControl.getProject().getNameKey(), projectControl.getUser());

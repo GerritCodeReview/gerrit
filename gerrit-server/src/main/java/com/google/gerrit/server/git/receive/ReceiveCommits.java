@@ -2126,7 +2126,7 @@ class ReceiveCommits {
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        recipients.add(getRecipientsFromFooters(db, accountResolver, footerLines));
+        recipients.add(getRecipientsFromFooters(accountResolver, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(

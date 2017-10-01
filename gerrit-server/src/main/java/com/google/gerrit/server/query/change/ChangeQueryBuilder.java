@@ -901,7 +901,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (isSelf(who)) {
       return is_visible();
     }
-    Set<Account.Id> m = args.accountResolver.findAll(args.db.get(), who);
+    Set<Account.Id> m = args.accountResolver.findAll(who);
     if (!m.isEmpty()) {
       List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
       for (Account.Id id : m) {
@@ -1258,7 +1258,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (isSelf(who)) {
       return Collections.singleton(self());
     }
-    Set<Account.Id> matches = args.accountResolver.findAll(args.db.get(), who);
+    Set<Account.Id> matches = args.accountResolver.findAll(who);
     if (matches.isEmpty()) {
       throw error("User " + who + " not found");
     }

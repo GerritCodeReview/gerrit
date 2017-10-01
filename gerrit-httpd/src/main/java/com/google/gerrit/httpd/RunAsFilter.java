@@ -21,7 +21,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
@@ -30,7 +29,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
@@ -59,7 +57,6 @@ class RunAsFilter implements Filter {
     }
   }
 
-  private final Provider<ReviewDb> db;
   private final boolean enabled;
   private final DynamicItem<WebSession> session;
   private final PermissionBackend permissionBackend;
@@ -67,12 +64,10 @@ class RunAsFilter implements Filter {
 
   @Inject
   RunAsFilter(
-      Provider<ReviewDb> db,
       AuthConfig config,
       DynamicItem<WebSession> session,
       PermissionBackend permissionBackend,
       AccountResolver accountResolver) {
-    this.db = db;
     this.enabled = config.isRunAsEnabled();
     this.session = session;
     this.permissionBackend = permissionBackend;
@@ -111,7 +106,7 @@ class RunAsFilter implements Filter {
 
       Account target;
       try {
-        target = accountResolver.find(db.get(), runas);
+        target = accountResolver.find(runas);
       } catch (OrmException | IOException | ConfigInvalidException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);

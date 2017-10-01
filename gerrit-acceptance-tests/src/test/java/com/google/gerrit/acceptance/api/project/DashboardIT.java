@@ -59,6 +59,15 @@ public class DashboardIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setDefaultDashboard() throws Exception {
+    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    assertThat(info.isDefault).isNull();
+    gApi.projects().name(project.get()).dashboard(info.id).setDefault();
+    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isTrue();
+    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(info.id);
+  }
+
+  @Test
   public void cannotGetDashboardWithInheritedForNonDefault() throws Exception {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     exception.expect(BadRequestException.class);

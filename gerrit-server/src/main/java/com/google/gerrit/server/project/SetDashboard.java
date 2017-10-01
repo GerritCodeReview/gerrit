@@ -27,7 +27,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-class SetDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
+public class SetDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> defaultSetter;
 
   @Inject

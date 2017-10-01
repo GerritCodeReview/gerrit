@@ -23,6 +23,8 @@ public interface DashboardApi {
 
   DashboardInfo get(boolean inherited) throws RestApiException;
 
+  void setDefault() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -35,6 +37,11 @@ public interface DashboardApi {
 
     @Override
     public DashboardInfo get(boolean inherited) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setDefault() throws RestApiException {
       throw new NotImplementedException();
     }
   }

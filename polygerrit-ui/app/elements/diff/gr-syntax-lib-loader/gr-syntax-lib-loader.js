@@ -26,6 +26,7 @@
 
         // NOTE: intended singleton.
         value: {
+          configured: false,
           loading: false,
           callbacks: [],
         },
@@ -60,12 +61,14 @@
     },
 
     _getHighlightLib() {
-      return window.hljs;
-    },
+      const lib = window.hljs;
+      if (lib && !this._state.configured) {
+        this._state.configured = true;
 
-    _configureHighlightLib() {
-      this._getHighlightLib().configure(
+        lib.configure(
           {classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+      }
+      return lib;
     },
 
     _getLibRoot() {
@@ -93,10 +96,8 @@
         }
 
         script.src = src;
-        script.onload = function() {
-          this._configureHighlightLib();
-          resolve();
-        }.bind(this);
+        script.onload = resolve;
+        script.onerror = reject;
         Polymer.dom(document.head).appendChild(script);
       });
     },

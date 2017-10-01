@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa4b1ae5_c5683e8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-10-01T15:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce847163_1dfb8322",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e314c98c_fea3a354",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-01T14:01:59Z",
       "side": 1,
       "message": "What if it isn\u0027t a Module? You will get a ClassCastException, which will bubble up. I think that\u0027s ok.",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70234ddf_f01ee25d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-10-01T15:16:36Z",
+      "side": 1,
+      "message": "We may want to improve it later so that it doesn\u0027t bubble up.  I need to think about the implications a bit.  We were already bubbling up on these below.",
+      "parentUuid": "e314c98c_fea3a354",
       "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ef3c599d_7a93fcb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-10-01T15:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f8e8230_708ffb86",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d11e033_b783b0f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbad6b78_b7157f86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-10-01T15:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d11e033_b783b0f6",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

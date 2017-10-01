@@ -88,14 +88,15 @@ limitations under the License.
       }
       :host:not([down-arrow]) .downArrow {display: none; }
       :host([down-arrow]) .downArrow {
+        border-top: .36em solid var(--gr-button-arrow-color, #ccc);
         border-left: .36em solid transparent;
         border-right: .36em solid transparent;
-        border-top: .36em solid #ccc;
+        margin-bottom: .05em;
         margin-left: .5em;
         transition: border-top-color 200ms;
       }
-      :host([down-arrow]):hover .downArrow {
-        border-top-color: #666;
+      :host([down-arrow]) paper-button:hover .downArrow {
+        border-top-color: var(--gr-button-arrow-hover-color, #666);
       }
       :host([loading]) paper-button,
       :host([disabled]) paper-button {

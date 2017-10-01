@@ -61,7 +61,7 @@ limitations under the License.
       :host([link]) paper-button:focus,
       paper-button[raised]:hover,
       paper-button[raised]:focus  {
-        color: var(--color-button-hover);
+        color: var(--gr-button-hover, --color-button-hover);
       }
       :host([primary]) paper-button[raised]:hover,
       :host([primary]) paper-button[raised]:focus,
@@ -76,9 +76,6 @@ limitations under the License.
         min-width: 0;
         padding: .4em .85em;
         @apply --gr-button;
-      }
-      paper-button:not(:hover):not(:focus){
-        box-shadow: none;
       }
       paper-button:hover {
         @apply --gr-button-hover;
@@ -112,50 +109,6 @@ limitations under the License.
         background-color: #efefef;
         color: #aaa;
       }
-
-      /*
-
-      :host:focus:not([link]),
-      :host:hover:not([link]) {
-        background-color: #f8f8f8;
-        border-color: #aaa;
-      }
-      :host(:active) {
-        border-color: #d1d2d3;
-        color: #aaa;
-      }
-      :host([primary]:focus) {
-        box-shadow: 0 0 1px var(--color-link);
-        background-color: #4d90fe;
-      }
-      :host([primary]:not([disabled]):hover) {
-        background-color: #4d90fe;
-        border-color: var(--color-link);
-      }
-      :host([primary]:active) {
-        border-color: #0c2188;
-      }
-      :host([secondary]:focus) {
-        box-shadow: 0 0 1px #f00;
-        background-color: #d14836;
-      }
-      :host([secondary]:not([disabled]):hover) {
-        background-color: #c53727;
-        border: 1px solid #b0281a;
-      }
-      :host([secondary]:active) {
-        border-color: #941c0c;
-      }
-      :host([primary][loading]) {
-        background-color: #7caeff;
-        border-color: transparent;
-        color: #fff;
-      }
-      :host([primary][disabled]) {
-        background-color: #4d90fe;
-        color: #fff;
-        opacity: .5;
-      } */
     </style>
     <paper-button raised="[[!link]]">
       <content></content>

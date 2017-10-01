@@ -17,6 +17,6 @@ function rev() {
 echo STABLE_BUILD_GERRIT_LABEL $(rev .)
 for p in plugins/* ; do
   test -d "$p" || continue
-  echo STABLE_BUILD_$(echo $(basename $p)_LABEL|tr '[a-z]' '[A-Z]' ) $(rev $p)
+  echo STABLE_BUILD_$(echo $(basename $p)_LABEL|tr '[a-z]' '[A-Z]' ) $(rev $p || echo unknown)
 done
 echo "STABLE_WORKSPACE_ROOT ${PWD}"

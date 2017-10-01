@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "0d02a610_f0446701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb825343_bbec64bc",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "209f6848_50b4d1d7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -67,6 +85,30 @@
     },
     {
       "key": {
+        "uuid": "b5bbefde_461a681d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3404,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e18cd8b_b323ed85",
+      "range": {
+        "startLine": 3404,
+        "startChar": 14,
+        "endLine": 3404,
+        "endChar": 65
+      },
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8700f58_aef27054",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
         "patchSetId": 3
@@ -78,6 +120,24 @@
       "writtenOn": "2017-09-30T15:29:58Z",
       "side": 1,
       "message": "anyMatch",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb6d6dd_6d663e6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "b8700f58_aef27054",
       "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -155,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "76e89491_937d2bf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12c45f3f_bc4ac92b",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35b70337_5b567a32",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 3
@@ -208,6 +286,24 @@
     },
     {
       "key": {
+        "uuid": "aa2b53f1_845a0f6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "\u003e Would be ok, but I don\u0027t think it\u0027s necessary in this change. Most often \n\u003e the way it will go \"back\" to state 1 is when a new patch set is pushed.\n\nYes, I don\u0027t think it necessary at this point in time.",
+      "parentUuid": "b632889d_26e27568",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fd7d0c1_1d300ced",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 3
@@ -254,6 +350,30 @@
       "writtenOn": "2017-09-30T15:29:58Z",
       "side": 1,
       "message": "toSet doesn\u0027t preserve order. I think toList would be better. Or toImmutableSet.",
+      "range": {
+        "startLine": 67,
+        "startChar": 31,
+        "endLine": 67,
+        "endChar": 36
+      },
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f336af_8993faef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_161.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T09:28:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f4fe695_315a0483",
       "range": {
         "startLine": 67,
         "startChar": 31,

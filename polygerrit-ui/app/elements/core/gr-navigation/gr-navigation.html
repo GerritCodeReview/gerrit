@@ -57,6 +57,7 @@ limitations under the License.
       console.warn('Use of uninitialized routing');
     };
 
+    const EDIT_PATCHNUM = 'edit';
     const PARENT_PATCHNUM = 'PARENT';
 
     window.Gerrit.Nav = {
@@ -277,6 +278,7 @@ limitations under the License.
           changeNum,
           project,
           path,
+          patchNum: EDIT_PATCHNUM,
         });
       },
 

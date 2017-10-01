@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "c5b4eef9_1f489904",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T08:25:16Z",
+      "side": 1,
+      "message": "It may be helpful to add a comment documenting these situations to avoid future regressions.",
+      "parentUuid": "2040d457_d04122c9",
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d695254_9b7d72dd",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6

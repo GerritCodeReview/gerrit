@@ -174,7 +174,7 @@ class InitHttpd implements InitStep {
     } catch (IOException e) {
       throw die("Cannot create directory " + tmpdir, e);
     }
-    chmod(0600, tmpdir);
+    chmod("rwx------", tmpdir);
 
     Path tmpstore = tmpdir.resolve("keystore");
     Runtime.getRuntime()
@@ -198,7 +198,7 @@ class InitHttpd implements InitStep {
               ssl_pass, //
             })
         .waitFor();
-    chmod(0600, tmpstore);
+    chmod("rw-------", tmpstore);
 
     try {
       Files.move(tmpstore, store);

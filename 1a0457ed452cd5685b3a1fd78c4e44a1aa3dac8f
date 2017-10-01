@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69701fb1_b65fb33a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-01T10:42:31Z",
+      "side": 1,
+      "message": "newDashboardInfo?\n\nnormalizeDashboardRef was already public, no?",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "1a0457ed452cd5685b3a1fd78c4e44a1aa3dac8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16587b4_0d578b41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-01T10:42:31Z",
+      "side": 1,
+      "message": "any reason for moving this method?",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "1a0457ed452cd5685b3a1fd78c4e44a1aa3dac8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

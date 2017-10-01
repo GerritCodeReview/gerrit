@@ -9,7 +9,7 @@ demonstration purposes only. They are not intended for use in a production
 environment.
 
 For a more detailed installation guide, see
-link:install.txt[Standalone Daemon Installation Guide].
+link:install.html[Standalone Daemon Installation Guide].
 ====
 
 == Before you begin
@@ -103,14 +103,7 @@ http://localhost:8080
 Through this quickstart, you now have a simple version of Gerrit running on your
 Linux machine. You can use this installation to explore the UI and become
 familiar with some of Gerrit's features. For a more detailed installation guide,
-see link:install.txt[Standalone Daemon Installation Guide].
-
-To learn more about Gerrit, see the following How-to topics:
-
-* Adding users to Gerrit
-* Cloning a repository into Gerrit
-* Making a change
-* Reviewing a change
+see link:install.html[Standalone Daemon Installation Guide].
 
 GERRIT
 ------

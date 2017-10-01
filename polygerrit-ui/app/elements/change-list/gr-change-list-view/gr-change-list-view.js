@@ -19,6 +19,8 @@
     CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
   };
 
+  const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
+
   const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
   Polymer({
@@ -84,7 +86,10 @@
       /**
        * Change objects loaded from the server.
        */
-      _changes: Array,
+      _changes: {
+        type: Array,
+        observer: '_changesChanged',
+      },
 
       /**
        * For showing a "loading..." string during ajax requests.
@@ -92,6 +97,12 @@
       _loading: {
         type: Boolean,
         value: true,
+      },
+
+      /** @type {?String} */
+      _userId: {
+        type: String,
+        value: null,
       },
     },
 
@@ -187,6 +198,19 @@
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));
+    },
+
+    _changesChanged(changes) {
+      if (!changes || !changes.length ||
+          !USER_QUERY_PATTERN.test(this._query)) {
+        this._userId = null;
+        return;
+      }
+      this._userId = changes[0].owner.email;
+    },
+
+    _computeUserHeaderClass(userId) {
+      return userId ? '' : 'hide';
     },
   });
 })();

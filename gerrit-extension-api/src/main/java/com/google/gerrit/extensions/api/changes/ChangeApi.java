@@ -133,6 +133,14 @@ public interface ChangeApi {
   boolean muted() throws RestApiException;
 
   /**
+   * Mark this change as reviewed/unreviewed.
+   *
+   * @param reviewed flag to decide if this change should be marked as reviewed ({@code true}) or
+   *     unreviewed ({@code false})
+   */
+  void markAsReviewed(boolean reviewed) throws RestApiException;
+
+  /**
    * Create a new change that reverts this change.
    *
    * @see Changes#id(int)
@@ -589,6 +597,11 @@ public interface ChangeApi {
 
     @Override
     public boolean muted() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void markAsReviewed(boolean reviewed) throws RestApiException {
       throw new NotImplementedException();
     }
 

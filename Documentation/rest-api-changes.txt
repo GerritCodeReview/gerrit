@@ -2363,6 +2363,42 @@ Unmutes a change.
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unmute HTTP/1.0
 ----
 
+[[mark-as-reviewed]]
+=== Mark as Reviewed
+--
+'PUT /changes/link:#change-id[\{change-id\}]/reviewed'
+--
+
+Marks a change as reviewed.
+
+This allows users to "de-highlight" changes in their dashboard until a new
+patch set is uploaded.
+
+This differs from the link:#ignore[ignore] endpoint, which will mute
+emails and hide the change from dashboard completely until it is
+link:#unignore[unignored] again.
+
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewed HTTP/1.0
+----
+
+[[mark-as-unreviewed]]
+=== Mark as Unreviewed
+--
+'PUT /changes/link:#change-id[\{change-id\}]/unreviewed'
+--
+
+Marks a change as unreviewed.
+
+This allows users to "highlight" changes in their dashboard
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unreviewed HTTP/1.0
+----
+
 [[get-hashtags]]
 === Get Hashtags
 --

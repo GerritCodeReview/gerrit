@@ -69,6 +69,8 @@ import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
 import com.google.gerrit.server.change.ListChangeRobotComments;
+import com.google.gerrit.server.change.MarkAsReviewed;
+import com.google.gerrit.server.change.MarkAsUnreviewed;
 import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.Mute;
 import com.google.gerrit.server.change.PostHashtags;
@@ -142,6 +144,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Unignore unignore;
   private final Mute mute;
   private final Unmute unmute;
+  private final MarkAsReviewed markAsReviewed;
+  private final MarkAsUnreviewed markAsUnreviewed;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
@@ -187,6 +191,8 @@ class ChangeApiImpl implements ChangeApi {
       Unignore unignore,
       Mute mute,
       Unmute unmute,
+      MarkAsReviewed markAsReviewed,
+      MarkAsUnreviewed markAsUnreviewed,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
@@ -230,6 +236,8 @@ class ChangeApiImpl implements ChangeApi {
     this.unignore = unignore;
     this.mute = mute;
     this.unmute = unmute;
+    this.markAsReviewed = markAsReviewed;
+    this.markAsUnreviewed = markAsUnreviewed;
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
@@ -697,6 +705,22 @@ class ChangeApiImpl implements ChangeApi {
       return stars.isMuted(change);
     } catch (OrmException e) {
       throw asRestApiException("Cannot check if muted", e);
+    }
+  }
+
+  @Override
+  public void markAsReviewed(boolean reviewed) throws RestApiException {
+    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
+    // StarredChangesUtil.
+    try {
+      if (reviewed) {
+        markAsReviewed.apply(change, new MarkAsReviewed.Input());
+      } else {
+        markAsUnreviewed.apply(change, new MarkAsUnreviewed.Input());
+      }
+    } catch (OrmException | IllegalLabelException e) {
+      throw asRestApiException(
+          "Cannot mark change as " + (reviewed ? "reviewed" : "unreviewed"), e);
     }
   }
 

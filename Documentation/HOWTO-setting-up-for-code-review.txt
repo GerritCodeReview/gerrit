@@ -1,0 +1,113 @@
+= Setting up for code review
+
+If you're familiar with typical developer workflows with git, you can easily
+set up an environment that uses Gerrit.
+
+This topic covers how to clone a git repository and configure it to add a
+Gerrit Change-Id to new commits automatically. To learn about Change-Ids and
+their role in the Gerrit workflow, see link:CONCEPT-Change-Id.html[Change-Ids].
+
+== Locating the URL of the git repository
+
+The first step for setting up for code review is to locate the URL of the git
+repository.
+
+To locate the URL using Gerrit:
+
+. From the main page, select *Projects*.
+. Select *List*.
++
+A list of project appears.
+. Click the name of the project you want to clone.
+
+To locate the URL using PolyGerrit:
+
+. From the main page, select *More*.
++
+A list of projects appears.
+. Click the name of the project you want to clone.
+
+== Cloning a repository with a commmit-msg hook
+
+When cloning the URL for use with Gerrit, it is recommended that you select
+the command from the *Clone with commit-msg hook* field. For example:
+
+[subs="quotes"]
+----
+git clone https://[.underline]#[GERRIT-SERVER-URL]#/[PROJECT] && (cd [PROJECT] && \
+curl -Lo `git rev-parse --git-dir`/hooks/commit-msg
+https://[GERRIT-SERVER-URL]/tools/hooks/commit-msg ; \
+chmod +x `git rev-parse --git-dir`/hooks/commit-msg)
+----
+
+Where:
+
+* [GERRIT-SERVER-URL] is the URL of the Gerrit server
+* [PROJECT] is the project you want to clone
+
+This command clones the repository and configures a
+link:https://git-scm.com/book/gr/v2/Customizing-Git-Git-Hooks[commit-msg hook]
+to add a link:CONCEPT-Change-Id.html[Change-Id] to each commit.
+NOTE: To learn more about Change-Ids, see
+link:CONCEPT-Change-Id.html[Change-Id].
+
+== Cloning a repository manually
+
+You also have the option of cloning a repository manaully. To do so, select the
+command from the *Clone* field. For example:
+
+....
+git clone https://[GERRIT-SERVER-URL]/[PROJECT]
+....
+
+Where:
+
+* [GERRIT-SERVER-URL] is the URL of the Gerrit server
+* [PROJECT] is the project you want to clone
+
+Gerrit uses git's
+link:https://git-scm.com/book/gr/v2/Customizing-Git-Git-Hooks[commit-msg hook]
+to automatically add a link:CONCEPT-Change-Id.html[Change-Id] to a commit. To
+add this hook, type the following:
+
+....
+curl -Lo .git/hooks/commit-msg http://[GERRIT-SERVER-URL]/tools/hooks/commit-msg
+....
+
+Where `[GERRIT-SERVER-URL]` is the URL of your Gerrit server.
+
+Alternatively, if you have configured SSH connections to the Gerrit server, you
+can use:
+
+....
+scp -p -P 29418 [YOUR-EMAIL-ADDRESS]:hooks/commit-msg .git/hooks/
+....
+
+Where [YOUR-EMAIL-ADDRESS] is your email address.
+
+NOTE: To learn more about Change-Ids, see
+link:CONCEPT-Change-Id.html[Change-Id].
+
+
+After you add the hook, you must set it to be executable by using the following
+command:
+
+....
+chmod u+x .git/hooks/commit-msg
+....
+
+== Next steps
+
+You now have cloned a git repository and configured git to assign a Change-Id
+to each commit. To learn more about how the Change-Id affects your commits, see
+WORKING_WITH_CHANGES. You may find these other topics helpful:
+
+* link:CONCEPT-Change-Id.html[Change-Ids]
+* link:cmd-hook-commit-msg.html[commit-msg]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "4d4c739a_23aa8111",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:09:44Z",
+      "side": 1,
+      "message": "Oh, I just realized that it actually does autogrow. Still, I wonder if we can do that in another way, since the undo stack problem is probably more severe in a file-editing context. (Issue 4271)",
+      "parentUuid": "5b0736d3_36b5eb59",
+      "range": {
+        "startLine": 99,
+        "startChar": 9,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c01aff27_a28c6a75",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
         "patchSetId": 8

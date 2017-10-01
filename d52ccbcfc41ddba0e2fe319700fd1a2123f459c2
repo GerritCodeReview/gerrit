@@ -22,6 +22,30 @@
       "revId": "d52ccbcfc41ddba0e2fe319700fd1a2123f459c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0718b791_07120a35",
+        "filename": "gerrit-acceptance-framework/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T20:36:38Z",
+      "side": 0,
+      "message": "Too late, I released the Maven repo :(",
+      "parentUuid": "da14d444_4c92e442",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "d52ccbcfc41ddba0e2fe319700fd1a2123f459c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

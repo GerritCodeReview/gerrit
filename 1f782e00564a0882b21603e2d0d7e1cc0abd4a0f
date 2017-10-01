@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e88156_fc6d0036",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T13:02:41Z",
+      "side": 1,
+      "message": "Should we rather support all kind of group IDs that are listed in the group-id section below?",
+      "range": {
+        "startLine": 129,
+        "startChar": 44,
+        "endLine": 129,
+        "endChar": 59
+      },
+      "revId": "1f782e00564a0882b21603e2d0d7e1cc0abd4a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

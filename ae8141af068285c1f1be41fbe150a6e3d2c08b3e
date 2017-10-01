@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d608edbe_ee4cedbf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T12:48:31Z",
+      "side": 1,
+      "message": "Should the same change be done in WebAppInitializer?",
+      "revId": "ae8141af068285c1f1be41fbe150a6e3d2c08b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

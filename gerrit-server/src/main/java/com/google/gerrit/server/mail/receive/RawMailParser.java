@@ -25,6 +25,7 @@ import com.google.gerrit.server.mail.Address;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.dom.Entity;
 import org.apache.james.mime4j.dom.Message;
@@ -65,7 +66,11 @@ public class RawMailParser {
     if (mimeMessage.getSubject() != null) {
       messageBuilder.subject(mimeMessage.getSubject());
     }
-    messageBuilder.dateReceived(mimeMessage.getDate().toInstant());
+    Date date = mimeMessage.getDate();
+    if (date == null) {
+      throw new MailParsingException("Can't parse email due to missing date");
+    }
+    messageBuilder.dateReceived(date.toInstant());
 
     // Add From, To and Cc
     if (mimeMessage.getFrom() != null && mimeMessage.getFrom().size() > 0) {

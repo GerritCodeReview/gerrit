@@ -30,6 +30,9 @@ limitations under the License.
       select {
         max-width: 15em;
       }
+      .arrow {
+        margin: 0 .5em;
+      }
       @media screen and (max-width: 50em) {
         .filesWeblinks {
           display: none;
@@ -49,7 +52,7 @@ limitations under the License.
            href$="[[weblink.url]]">[[weblink.name]]</a>
       </template>
     </span>
-    &rarr;
+    <span class="arrow">&rarr;</span>
     <span class="patchRange">
       <gr-dropdown-list
           id="patchNumDropdown"

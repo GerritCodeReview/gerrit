@@ -42,7 +42,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     blockRead("refs/*");
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).branches().get();
+    gApi.projects().name(project).branches().get();
   }
 
   @Test
@@ -163,7 +163,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   private ListRefsRequest<BranchInfo> list() throws Exception {
-    return gApi.projects().name(project.get()).branches();
+    return gApi.projects().name(project).branches();
   }
 
   private static BranchInfo branch(String ref, String revision, boolean canDelete) {

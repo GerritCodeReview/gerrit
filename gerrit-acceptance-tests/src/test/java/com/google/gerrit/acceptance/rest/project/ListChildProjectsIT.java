@@ -34,7 +34,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listNoChildren() throws Exception {
-    assertThatNameList(gApi.projects().name(project.get()).children()).isEmpty();
+    assertThatNameList(gApi.projects().name(project).children()).isEmpty();
   }
 
   @Test

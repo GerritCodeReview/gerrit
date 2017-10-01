@@ -188,7 +188,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // TODO: change this if/when DfsRepository#getReflogReader is implemented.
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("reflog not supported");
-    gApi.projects().name(project.get()).branch("master").reflog();
+    gApi.projects().name(project).branch("master").reflog();
   }
 
   @Test
@@ -410,7 +410,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
 
     PushOneCommit.Result r = createWorkInProgressChange();
     String changeId = r.getChangeId();
@@ -594,7 +594,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     BranchInput b = new BranchInput();
     b.revision = repo().exactRef("HEAD").getObjectId().name();
-    gApi.projects().name(project.get()).branch("other").create(b);
+    gApi.projects().name(project).branch("other").create(b);
 
     PushOneCommit push2 =
         pushFactory.create(
@@ -1385,7 +1385,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
 
     PushOneCommit.Result result = createChange();
 
@@ -2957,7 +2957,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
     ConfigInput configInput = new ConfigInput();
     configInput.requireChangeId = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(configInput);
+    gApi.projects().name(project).config(configInput);
 
     PushOneCommit.Result r = createChange();
     r.assertOkStatus();

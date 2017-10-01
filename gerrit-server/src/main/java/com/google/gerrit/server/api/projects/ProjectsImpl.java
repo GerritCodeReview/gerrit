@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ListProjects.FilterType;
@@ -57,6 +58,11 @@ class ProjectsImpl implements Projects {
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve project", e);
     }
+  }
+
+  @Override
+  public ProjectApi name(Project.NameKey name) throws RestApiException {
+    return name(name.get());
   }
 
   @Override

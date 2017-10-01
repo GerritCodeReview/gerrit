@@ -107,7 +107,7 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   private TagApi tag() throws Exception {
-    return gApi.projects().name(project.get()).tag(TAG);
+    return gApi.projects().name(project).tag(TAG);
   }
 
   private void assertDeleteSucceeds() throws Exception {

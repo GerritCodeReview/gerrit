@@ -45,7 +45,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
   }
 
   @Test
@@ -282,7 +282,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.FALSE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
 
     PushOneCommit.Result r = createChange();
 

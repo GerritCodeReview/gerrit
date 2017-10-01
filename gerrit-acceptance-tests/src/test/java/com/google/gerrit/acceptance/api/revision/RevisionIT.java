@@ -307,7 +307,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(in.destination).create(new BranchInput());
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
@@ -347,7 +347,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String id = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbe3f";
     in.message = "it goes to foo branch\n\nChange-Id: " + id;
 
-    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(in.destination).create(new BranchInput());
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
@@ -367,7 +367,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(in.destination).create(new BranchInput());
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
@@ -442,7 +442,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(in.destination).create(new BranchInput());
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     assertThat(orig.get().messages).hasSize(1);
@@ -467,7 +467,7 @@ public class RevisionIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
-    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(in.destination).create(new BranchInput());
 
     PushOneCommit push =
         pushFactory.create(
@@ -498,7 +498,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     BranchInput bin = new BranchInput();
     bin.revision = r1.getCommit().getParent(0).name();
-    gApi.projects().name(project.get()).branch("foo").create(bin);
+    gApi.projects().name(project).branch("foo").create(bin);
 
     PushOneCommit.Result r2 =
         pushFactory

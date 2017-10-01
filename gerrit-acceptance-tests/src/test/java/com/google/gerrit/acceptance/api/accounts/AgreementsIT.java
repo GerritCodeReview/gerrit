@@ -172,11 +172,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     // Create a new branch
     setApiUser(admin);
     BranchInfo dest =
-        gApi.projects()
-            .name(project.get())
-            .branch("cherry-pick-to")
-            .create(new BranchInput())
-            .get();
+        gApi.projects().name(project).branch("cherry-pick-to").create(new BranchInput()).get();
 
     // Create a change succeeds when agreement is not required
     setUseContributorAgreements(InheritableBoolean.FALSE);

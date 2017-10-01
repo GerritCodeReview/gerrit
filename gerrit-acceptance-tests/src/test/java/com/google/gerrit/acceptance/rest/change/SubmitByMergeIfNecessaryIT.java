@@ -310,7 +310,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     submit(change1.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteHead();
 
-    gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
+    gApi.projects().name(project).branch("branch").create(new BranchInput());
 
     PushOneCommit.Result change2 =
         createChange(
@@ -358,7 +358,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     submit(change1.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteHead();
 
-    gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
+    gApi.projects().name(project).branch("branch").create(new BranchInput());
 
     PushOneCommit.Result change2 =
         createChange(
@@ -424,7 +424,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // Then we create a change to be applied to master, which is
     // then cherry picked back to stable. The stable branch will
     // be merged up into master again.
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
+    gApi.projects().name(project).branch("stable").create(new BranchInput());
 
     // Push a change to master
     PushOneCommit push =
@@ -477,7 +477,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void openChangeForTargetBranchPreventsMerge() throws Exception {
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
+    gApi.projects().name(project).branch("stable").create(new BranchInput());
 
     // Propose a change for master, but leave it open for master!
     PushOneCommit change =

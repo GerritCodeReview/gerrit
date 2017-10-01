@@ -312,11 +312,11 @@ public class CreateChangeIT extends AbstractDaemonTest {
     CherryPickInput input = new CherryPickInput();
     input.destination = "foo";
     input.message = "it goes to foo branch";
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(input.destination).create(new BranchInput());
 
     RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
     ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
+        gApi.projects().name(project).commit(revCommit.getName()).cherryPick(input).get();
 
     assertThat(changeInfo.messages).hasSize(1);
     Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
@@ -342,10 +342,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String changeId = footers.get(0);
 
     input.message = "it goes to foo branch\n\nChange-Id: " + changeId;
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
+    gApi.projects().name(project).branch(input.destination).create(new BranchInput());
 
     ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
+        gApi.projects().name(project).commit(revCommit.getName()).cherryPick(input).get();
 
     assertThat(changeInfo.messages).hasSize(1);
     Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();

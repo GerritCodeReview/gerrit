@@ -821,7 +821,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     RevCommit initialHead = getRemoteHead();
 
     // Create a stable branch and bootstrap it.
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
+    gApi.projects().name(project).branch("stable").create(new BranchInput());
     PushOneCommit push =
         pushFactory.create(db, user.getIdent(), testRepo, "initial commit", "a.txt", "a");
     PushOneCommit.Result change = push.to("refs/heads/stable");
@@ -966,7 +966,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     ConfigInput ci = new ConfigInput();
     ci.matchAuthorToCommitterDate = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(ci);
+    gApi.projects().name(project).config(ci);
 
     RevCommit initialHead = getRemoteHead();
     testRepo.reset(initialHead);

@@ -59,7 +59,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     setApiUser(admin);
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
   }
 
   private static final SubjectFactory<FakeEmailSenderSubject, FakeEmailSender>

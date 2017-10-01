@@ -105,17 +105,17 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void createBranch() throws Exception {
     allow("refs/*", Permission.READ, ANONYMOUS_USERS);
-    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+    gApi.projects().name(project).branch("foo").create(new BranchInput());
   }
 
   @Test
   public void descriptionChangeCausesRefUpdate() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
-    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    assertThat(gApi.projects().name(project).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
     in.description = "new project description";
-    gApi.projects().name(project.get()).description(in);
-    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
+    gApi.projects().name(project).description(in);
+    assertThat(gApi.projects().name(project).description()).isEqualTo(in.description);
 
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
@@ -124,27 +124,27 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void descriptionIsDeletedWhenNotSpecified() throws Exception {
-    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    assertThat(gApi.projects().name(project).description()).isEmpty();
     DescriptionInput in = new DescriptionInput();
     in.description = "new project description";
-    gApi.projects().name(project.get()).description(in);
-    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
+    gApi.projects().name(project).description(in);
+    assertThat(gApi.projects().name(project).description()).isEqualTo(in.description);
     in.description = null;
-    gApi.projects().name(project.get()).description(in);
-    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    gApi.projects().name(project).description(in);
+    assertThat(gApi.projects().name(project).description()).isEmpty();
   }
 
   @Test
   public void configChangeCausesRefUpdate() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
-    ConfigInfo info = gApi.projects().name(project.get()).config();
+    ConfigInfo info = gApi.projects().name(project).config();
     assertThat(info.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     ConfigInput input = new ConfigInput();
     input.submitType = SubmitType.CHERRY_PICK;
-    info = gApi.projects().name(project.get()).config(input);
+    info = gApi.projects().name(project).config(input);
     assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
-    info = gApi.projects().name(project.get()).config();
+    info = gApi.projects().name(project).config();
     assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
 
     RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
@@ -155,7 +155,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void setConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
-    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    ConfigInfo info = gApi.projects().name(project).config(input);
     assertThat(info.description).isEqualTo(input.description);
     assertThat(info.useContributorAgreements.configuredValue)
         .isEqualTo(input.useContributorAgreements);
@@ -176,11 +176,11 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void setPartialConfig() throws Exception {
     ConfigInput input = createTestConfigInput();
-    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    ConfigInfo info = gApi.projects().name(project).config(input);
 
     ConfigInput partialInput = new ConfigInput();
     partialInput.useContributorAgreements = InheritableBoolean.FALSE;
-    info = gApi.projects().name(project.get()).config(partialInput);
+    info = gApi.projects().name(project).config(partialInput);
 
     assertThat(info.description).isNull();
     assertThat(info.useContributorAgreements.configuredValue)
@@ -205,7 +205,7 @@ public class ProjectIT extends AbstractDaemonTest {
     setApiUser(user);
     exception.expect(AuthException.class);
     exception.expectMessage("restricted to project owner");
-    gApi.projects().name(project.get()).config(input);
+    gApi.projects().name(project).config(input);
   }
 
   private ConfigInput createTestConfigInput() {

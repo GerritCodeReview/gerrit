@@ -531,7 +531,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
     Change change1 = insert(repo, newChangeWorkInProgress(repo));
     Account.Id user1 = createAccount("user1");
     Account.Id user2 = createAccount("user2");
@@ -1757,7 +1757,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
 
     String userByEmail = "un.registered@reviewer.com";
     String userByEmailWithName = "John Doe <" + userByEmail + ">";
@@ -1805,7 +1805,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject(project.get());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
+    gApi.projects().name(project).config(conf);
 
     String userByEmail = "John Doe <un.registered@reviewer.com>";
 

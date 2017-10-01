@@ -73,14 +73,14 @@ public class TagsIT extends AbstractDaemonTest {
     blockRead("refs/*");
     setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).tags().get();
+    gApi.projects().name(project).tags().get();
   }
 
   @Test
   public void getTagOfNonVisibleProject() throws Exception {
     blockRead("refs/*");
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).tag("tag").get();
+    gApi.projects().name(project).tag("tag").get();
   }
 
   @Test
@@ -345,11 +345,11 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private ListRefsRequest<TagInfo> getTags() throws Exception {
-    return gApi.projects().name(project.get()).tags();
+    return gApi.projects().name(project).tags();
   }
 
   private TagApi tag(String tagname) throws Exception {
-    return gApi.projects().name(project.get()).tag(tagname);
+    return gApi.projects().name(project).tag(tagname);
   }
 
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {

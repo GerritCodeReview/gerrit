@@ -84,12 +84,11 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     gApi.changes().id(id).current().submit();
 
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.projects().name(project.get()).get().description).isEqualTo(desc);
+    assertThat(gApi.projects().name(project).get().description).isEqualTo(desc);
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("project", null, "description")).isEqualTo(desc);
     String changeRev = gApi.changes().id(id).get().currentRevision;
-    String branchRev =
-        gApi.projects().name(project.get()).branch(RefNames.REFS_CONFIG).get().revision;
+    String branchRev = gApi.projects().name(project).branch(RefNames.REFS_CONFIG).get().revision;
     assertThat(changeRev).isEqualTo(branchRev);
     return id;
   }
@@ -128,7 +127,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
                   + "The change must be submitted by a Gerrit administrator.");
     }
 
-    assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(allProjects.get());
+    assertThat(gApi.projects().name(project).get().parent).isEqualTo(allProjects.get());
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
         .isAnyOf(null, allProjects.get());
@@ -136,7 +135,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     setApiUser(admin);
     gApi.changes().id(id).current().submit();
     assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(parent.name);
+    assertThat(gApi.projects().name(project).get().parent).isEqualTo(parent.name);
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("access", null, "inheritFrom")).isEqualTo(parent.name);
   }

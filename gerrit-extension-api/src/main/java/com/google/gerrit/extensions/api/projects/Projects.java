@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +38,9 @@ public interface Projects {
    * @throws RestApiException if an error occurred.
    */
   ProjectApi name(String name) throws RestApiException;
+
+  /** @see #name(String) */
+  ProjectApi name(Project.NameKey name) throws RestApiException;
 
   /**
    * Create a project using the default configuration.
@@ -178,6 +182,11 @@ public interface Projects {
   class NotImplemented implements Projects {
     @Override
     public ProjectApi name(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ProjectApi name(Project.NameKey name) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -168,7 +168,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   }
 
   private ProjectApi project() throws Exception {
-    return gApi.projects().name(project.get());
+    return gApi.projects().name(project);
   }
 
   private void assertBranches(List<String> branches) throws Exception {

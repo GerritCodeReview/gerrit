@@ -94,7 +94,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     fileCounter = new AtomicInteger();
-    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
+    gApi.projects().name(project).branch("test").create(new BranchInput());
     testChangeId = createChange("test", "test change").getChange().getId();
   }
 
@@ -210,7 +210,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     RevCommit initialCommit = r1.getCommit().getParent(0);
     BranchInput bin = new BranchInput();
     bin.revision = initialCommit.name();
-    gApi.projects().name(project.get()).branch("branch").create(bin);
+    gApi.projects().name(project).branch("branch").create(bin);
 
     testRepo.reset(initialCommit);
     PushOneCommit.Result r2 = createChange("branch", "MERGE_ALWAYS 1");

@@ -24,12 +24,12 @@ public class DashboardIT extends AbstractDaemonTest {
   @Test
   public void defaultDashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).defaultDashboard().get();
+    gApi.projects().name(project).defaultDashboard().get();
   }
 
   @Test
   public void dashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).dashboard("my:dashboard").get();
+    gApi.projects().name(project).dashboard("my:dashboard").get();
   }
 }

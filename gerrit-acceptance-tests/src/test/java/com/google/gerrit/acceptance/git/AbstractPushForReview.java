@@ -1050,7 +1050,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    gApi.projects().name(project.get()).branch("otherBranch").create(new BranchInput());
+    gApi.projects().name(project).branch("otherBranch").create(new BranchInput());
 
     PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
     r2.assertOkStatus();
@@ -1090,7 +1090,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
     rBase.assertOkStatus();
 
-    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+    gApi.projects().name(project).branch("foo").create(new BranchInput());
 
     PushOneCommit push =
         pushFactory.create(
@@ -1848,7 +1848,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // No open changes; branch was advanced.
     String q = commits.stream().map(ObjectId::name).collect(joining(" OR commit:", "commit:", ""));
     assertThat(gApi.changes().query(q).get()).isEmpty();
-    assertThat(gApi.projects().name(project.get()).branch(master).get().revision)
+    assertThat(gApi.projects().name(project).branch(master).get().revision)
         .isEqualTo(Iterables.getLast(commits).name());
   }
 

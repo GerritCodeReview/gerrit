@@ -48,7 +48,7 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
 
     grantTagPermissions();
-    gApi.projects().name(project.get()).tag("test-tag").create(new TagInput());
+    gApi.projects().name(project).tag("test-tag").create(new TagInput());
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)
         .containsExactly("test-tag");

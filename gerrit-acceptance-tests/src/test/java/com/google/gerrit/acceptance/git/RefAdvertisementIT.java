@@ -104,7 +104,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private void setUpChanges() throws Exception {
-    gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
+    gApi.projects().name(project).branch("branch").create(new BranchInput());
 
     // First 2 changes are merged, which means the tags pointing to them are
     // visible.

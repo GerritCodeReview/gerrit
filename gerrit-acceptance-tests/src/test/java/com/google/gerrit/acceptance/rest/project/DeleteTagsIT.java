@@ -143,7 +143,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   }
 
   private ProjectApi project() throws Exception {
-    return gApi.projects().name(project.get());
+    return gApi.projects().name(project);
   }
 
   private void assertTags(List<String> expected) throws Exception {

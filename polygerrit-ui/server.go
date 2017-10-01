@@ -50,7 +50,6 @@ func main() {
 	http.HandleFunc("/changes/", handleRESTProxy)
 	http.HandleFunc("/accounts/", handleRESTProxy)
 	http.HandleFunc("/config/", handleRESTProxy)
-	http.HandleFunc("/projects/", handleRESTProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
 	if len(*plugins) > 0 {
 		http.Handle("/plugins/", http.StripPrefix("/plugins/",
@@ -205,6 +204,14 @@ var (
 )
 
 func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    if strings.HasPrefix(r.URL.Path, "/projects") {
+        if !strings.Contains(r.URL.Path, ",dashboards/") {
+            handleRESTProxy(w, r)
+            return
+        }
+        r.URL.Path = "/"
+    }
+
 	log.Printf("%s %s %s %s\n", r.Proto, r.Method, r.RemoteAddr, r.URL)
 	for _, prefix := range fePaths {
 		if strings.HasPrefix(r.URL.Path, prefix) {

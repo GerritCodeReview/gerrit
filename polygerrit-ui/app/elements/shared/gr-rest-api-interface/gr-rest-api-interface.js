@@ -274,7 +274,7 @@
 
     getGroupConfig(group) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this._fetchSharedCacheURL('/groups/' + encodeName + '/detail');
     },
 
     /**
@@ -348,8 +348,8 @@
      */
     getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
-      return this._fetchSharedCacheURL(`/groups/?owned&q=${encodeName}`)
-          .then(configs => configs.hasOwnProperty(groupName));
+      return this._fetchSharedCacheURL('/groups/?owned&q=' + encodeName)
+          .then(configs => configs.hasOwnProperty(encodeName));
     },
 
     getGroupMembers(groupName) {
@@ -1650,7 +1650,7 @@
     setChangeTopic(changeNum, topic) {
       const p = {topic};
       return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
-          .then(this.getResponseObject.bind(this));
+          .then(this.getResponseObject);
     },
 
     /**
@@ -1660,7 +1660,7 @@
      */
     setChangeHashtag(changeNum, hashtag) {
       return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
-          hashtag).then(this.getResponseObject.bind(this));
+          hashtag).then(this.getResponseObject);
     },
 
     deleteAccountHttpPassword() {
@@ -1674,7 +1674,7 @@
      */
     generateAccountHttpPassword() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
-          .then(this.getResponseObject.bind(this));
+          .then(this.getResponseObject);
     },
 
     getAccountSSHKeys() {
@@ -1777,7 +1777,7 @@
       const endpoint = `/comments/${commentID}/delete`;
       const payload = {reason};
       return this.getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
-          payload).then(this.getResponseObject.bind(this));
+          payload).then(this.getResponseObject);
     },
 
     /**
@@ -1816,13 +1816,7 @@
     getFromProjectLookup(changeNum) {
       const project = this._projectLookup[changeNum];
       if (project) { return Promise.resolve(project); }
-
-      const onError = response => {
-        // Fire a page error so that the visual 404 is displayed.
-        this.fire('page-error', {response});
-      };
-
-      return this.getChange(changeNum, onError).then(change => {
+      return this.getChange(changeNum).then(change => {
         if (!change || !change.project) { return; }
         this.setInProjectLookup(changeNum, change.project);
         return change.project;
@@ -1853,7 +1847,7 @@
 
    /**
     * Alias for _changeBaseURL.then(fetchJSON).
-    * @todo(beckysiegel) clean up comments
+     * @todo(beckysiegel) clean up comments
     * @param {string|number} changeNum
     * @param {string} endpoint
     * @param {?string|number=} opt_patchNum gets passed as null.
@@ -1871,20 +1865,10 @@
       });
     },
 
-    /**
-     * Get blame information for the given diff.
-     * @param {string|number} changeNum
-     * @param {string|number} patchNum
-     * @param {string} path
-     * @param {boolean=} opt_base If true, requests blame for the base of the
-     *     diff, rather than the revision.
-     * @return {!Promise<!Object>}
-     */
-    getBlame(changeNum, patchNum, path, opt_base) {
-      const encodedPath = encodeURIComponent(path);
-      return this._getChangeURLAndFetch(changeNum,
-          `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
-          opt_base ? {base: 't'} : undefined);
+    getDashboard(project, dashboard) {
+      return this._fetchSharedCacheURL(
+          '/projects/' + encodeURIComponent(project) + '/dashboards/' +
+          encodeURIComponent(dashboard));
     },
   });
 })();

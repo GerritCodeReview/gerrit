@@ -17,6 +17,7 @@
   const RoutePattern = {
     ROOT: '/',
     DASHBOARD: '/dashboard/(.*)',
+    PROJECT_DASHBOARD: '/projects/(.*),dashboards/(.*)',
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
@@ -461,6 +462,9 @@
 
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
+      this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
+          '_handleProjectDashboardRoute');
+
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
       this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
@@ -716,6 +720,14 @@
             user: data.params[0],
           });
         }
+      });
+    },
+
+    _handleProjectDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.DASHBOARD,
+        project: data.params[0],
+        dashboard: data.params[1],
       });
     },
 

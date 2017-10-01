@@ -89,22 +89,50 @@
     },
 
     _computeTitle(user) {
-      if (user === 'self') {
+      if (!user || user === 'self') {
         return 'My Reviews';
       }
       return 'Dashboard for ' + user;
     },
 
+    _getProjectDashboard(project, dashboard) {
+      return this.$.restAPI.getDashboard(project, dashboard).then(response => {
+        console.log('response:', response);
+        return {
+          title: response.title,
+          sections: response.sections.map(section => {
+            const suffix = section.foreach ? ' ' + section.foreach : '';
+            return {
+              name: section.name,
+              query: section.query.replace(/\$\{project\}/g, project) + suffix,
+            };
+          }),
+        };
+      });
+    },
+
+    _getUserDashboard(user, sections, title) {
+      sections = sections
+        .filter(section => (user === 'self' || !section.selfOnly))
+        .map(section => {
+          const suffix = section.suffixForDashboard ?
+              ' ' + section.suffixForDashboard : '';
+          return {
+            name: section.name,
+            query: section.query.replace(/\$\{user\}/g, user) + suffix,
+          };
+        });
+      return Promise.resolve({title, sections});
+    },
+
     _paramsChanged(paramsChangeRecord) {
       const params = paramsChangeRecord.base;
 
-      if (!params.user && !params.sections) {
+      if (!params.project && !params.sections && !params.user) {
         return;
       }
 
       const user = params.user || 'self';
-      const sections = (params.sections || DEFAULT_SECTIONS).filter(
-          section => (user === 'self' || !section.selfOnly));
       const title = params.title || this._computeTitle(user);
 
       // NOTE: This method may be called before attachment. Fire title-change
@@ -112,37 +140,38 @@
       this.async(() => this.fire('title-change', {title}));
 
       // Return if params indicate no longer in view.
-      if (!user && sections === DEFAULT_SECTIONS) {
+      if (!user && !params.project && sections === DEFAULT_SECTIONS) {
         return;
       }
 
       this._loading = true;
-      const queries =
-          sections.map(
-              section => this._dashboardQueryForSection(section, user));
-      this.$.restAPI.getChanges(null, queries, null, this.options)
-          .then(results => {
-            this._results = sections.map((section, i) => {
-              return {
-                sectionName: section.name,
-                query: queries[i],
-                results: results[i],
-              };
-            });
-            this._loading = false;
-          }).catch(err => {
-            this._loading = false;
-            console.warn(err.message);
+
+      const dashboardPromise = params.project ?
+          this._getProjectDashboard(params.project, params.dashboard) :
+          this._getUserDashboard(
+              params.user || 'self',
+              params.sections || DEFAULT_SECTIONS,
+              params.title || this._computeTitle(params.user));
+
+      dashboardPromise.then(dashboard => {
+        console.log('dashboard:', dashboard);
+        const queries = dashboard.sections.map(section => section.query);
+        const req =
+            this.$.restAPI.getChanges(null, queries, null, this.options);
+        return req.then(response => {
+          this._loading = false;
+          this._results = response.map((results, i) => {
+            return {
+              sectionName: dashboard.sections[i].name,
+              query: dashboard.sections[i].query,
+              results,
+            };
           });
+        });
+      }).catch(err => {
+        this._loading = false;
+        console.warn(err.message);
+      });
     },
-
-    _dashboardQueryForSection(section, user) {
-      const query =
-          section.suffixForDashboard ?
-          section.query + ' ' + section.suffixForDashboard :
-          section.query;
-      return query.replace(/\$\{user\}/g, user);
-    },
-
   });
 })();

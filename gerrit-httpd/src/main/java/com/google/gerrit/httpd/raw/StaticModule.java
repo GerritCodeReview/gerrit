@@ -136,6 +136,7 @@ public class StaticModule extends ServletModule {
     }
     if (options.enablePolyGerrit()) {
       install(new PolyGerritModule());
+      serveRegex("^/projects/(.*),dashboards/(.*)").with(named(POLYGERRIT_INDEX_SERVLET));
     }
     if (options.enableGwtUi()) {
       install(new GwtUiModule());

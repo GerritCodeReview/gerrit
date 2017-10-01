@@ -100,6 +100,9 @@ public final class PatchSetApproval {
   @Column(id = 8)
   protected boolean postSubmit;
 
+  @Column(id = 9)
+  protected short originalValue;
+
   // DELETED: id = 4 (changeOpen)
   // DELETED: id = 5 (changeSortKey)
 
@@ -108,12 +111,14 @@ public final class PatchSetApproval {
   public PatchSetApproval(PatchSetApproval.Key k, short v, Date ts) {
     key = k;
     setValue(v);
+    setOriginalValue(v);
     setGranted(ts);
   }
 
   public PatchSetApproval(PatchSet.Id psId, PatchSetApproval src) {
     key = new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     value = src.getValue();
+    originalValue = src.getOriginalValue();
     granted = src.granted;
     realAccountId = src.realAccountId;
     tag = src.tag;
@@ -155,6 +160,14 @@ public final class PatchSetApproval {
 
   public void setValue(short v) {
     value = v;
+  }
+
+  public short getOriginalValue() {
+    return originalValue;
+  }
+
+  public void setOriginalValue(short v) {
+    originalValue = v;
   }
 
   public Timestamp getGranted() {
@@ -200,6 +213,8 @@ public final class PatchSetApproval {
             .append(key)
             .append(": ")
             .append(value)
+            .append(",originalValue:")
+            .append(originalValue)
             .append(",tag:")
             .append(tag)
             .append(",realAccountId:")
@@ -216,6 +231,7 @@ public final class PatchSetApproval {
       PatchSetApproval p = (PatchSetApproval) o;
       return Objects.equals(key, p.key)
           && Objects.equals(value, p.value)
+          && Objects.equals(originalValue, p.originalValue)
           && Objects.equals(granted, p.granted)
           && Objects.equals(tag, p.tag)
           && Objects.equals(realAccountId, p.realAccountId)
@@ -226,6 +242,6 @@ public final class PatchSetApproval {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value, granted, tag);
+    return Objects.hash(key, value, originalValue, granted, tag);
   }
 }

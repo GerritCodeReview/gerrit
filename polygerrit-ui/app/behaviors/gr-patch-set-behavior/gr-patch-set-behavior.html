@@ -156,7 +156,6 @@ limitations under the License.
                 };
               });
       }
-      patchNums.sort((a, b) => { return a.num - b.num; });
       return Gerrit.PatchSetBehavior._computeWipForPatchSets(change, patchNums);
     },
 

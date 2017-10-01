@@ -22,9 +22,11 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.DashboardsCollection;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
@@ -43,20 +45,20 @@ public class DashboardIT extends AbstractDaemonTest {
   @Test
   public void defaultDashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).defaultDashboard().get();
+    project().defaultDashboard().get();
   }
 
   @Test
   public void dashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).dashboard("my:dashboard").get();
+    project().dashboard("my:dashboard").get();
   }
 
   @Test
   public void getDashboard() throws Exception {
     assertThat(dashboards()).isEmpty();
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
-    DashboardInfo result = gApi.projects().name(project.get()).dashboard(info.id).get();
+    DashboardInfo result = project().dashboard(info.id).get();
     assertThat(result.id).isEqualTo(info.id);
     assertThat(result.path).isEqualTo(info.path);
     assertThat(result.ref).isEqualTo(info.ref);
@@ -69,24 +71,24 @@ public class DashboardIT extends AbstractDaemonTest {
   public void setDefaultDashboard() throws Exception {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     assertThat(info.isDefault).isNull();
-    gApi.projects().name(project.get()).dashboard(info.id).setDefault();
-    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isTrue();
-    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(info.id);
+    project().dashboard(info.id).setDefault();
+    assertThat(project().dashboard(info.id).get().isDefault).isTrue();
+    assertThat(project().defaultDashboard().get().id).isEqualTo(info.id);
   }
 
   @Test
   public void setDefaultDashboardByProject() throws Exception {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     assertThat(info.isDefault).isNull();
-    gApi.projects().name(project.get()).defaultDashboard(info.id);
-    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isTrue();
-    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(info.id);
+    project().defaultDashboard(info.id);
+    assertThat(project().dashboard(info.id).get().isDefault).isTrue();
+    assertThat(project().defaultDashboard().get().id).isEqualTo(info.id);
 
-    gApi.projects().name(project.get()).removeDefaultDashboard();
-    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isNull();
+    project().removeDefaultDashboard();
+    assertThat(project().dashboard(info.id).get().isDefault).isNull();
 
     exception.expect(ResourceNotFoundException.class);
-    gApi.projects().name(project.get()).defaultDashboard().get();
+    project().defaultDashboard().get();
   }
 
   @Test
@@ -95,14 +97,14 @@ public class DashboardIT extends AbstractDaemonTest {
     DashboardInfo d2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
     assertThat(d1.isDefault).isNull();
     assertThat(d2.isDefault).isNull();
-    gApi.projects().name(project.get()).dashboard(d1.id).setDefault();
-    assertThat(gApi.projects().name(project.get()).dashboard(d1.id).get().isDefault).isTrue();
-    assertThat(gApi.projects().name(project.get()).dashboard(d2.id).get().isDefault).isNull();
-    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(d1.id);
-    gApi.projects().name(project.get()).dashboard(d2.id).setDefault();
-    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(d2.id);
-    assertThat(gApi.projects().name(project.get()).dashboard(d1.id).get().isDefault).isNull();
-    assertThat(gApi.projects().name(project.get()).dashboard(d2.id).get().isDefault).isTrue();
+    project().dashboard(d1.id).setDefault();
+    assertThat(project().dashboard(d1.id).get().isDefault).isTrue();
+    assertThat(project().dashboard(d2.id).get().isDefault).isNull();
+    assertThat(project().defaultDashboard().get().id).isEqualTo(d1.id);
+    project().dashboard(d2.id).setDefault();
+    assertThat(project().defaultDashboard().get().id).isEqualTo(d2.id);
+    assertThat(project().dashboard(d1.id).get().isDefault).isNull();
+    assertThat(project().dashboard(d2.id).get().isDefault).isTrue();
   }
 
   @Test
@@ -110,18 +112,22 @@ public class DashboardIT extends AbstractDaemonTest {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     exception.expect(BadRequestException.class);
     exception.expectMessage("inherited flag can only be used with default");
-    gApi.projects().name(project.get()).dashboard(info.id).get(true);
+    project().dashboard(info.id).get(true);
   }
 
   private List<DashboardInfo> dashboards() throws Exception {
-    return gApi.projects().name(project.get()).dashboards().get();
+    return project().dashboards().get();
+  }
+
+  private ProjectApi project() throws RestApiException {
+    return gApi.projects().name(project.get());
   }
 
   private DashboardInfo createDashboard(String ref, String path) throws Exception {
     DashboardInfo info = DashboardsCollection.newDashboardInfo(ref, path);
     String canonicalRef = DashboardsCollection.normalizeDashboardRef(info.ref);
     try {
-      gApi.projects().name(project.get()).branch(canonicalRef).create(new BranchInput());
+      project().branch(canonicalRef).create(new BranchInput());
     } catch (ResourceConflictException e) {
       // The branch already exists if this method has already been called once.
       if (!e.getMessage().contains("already exists")) {
@@ -139,7 +145,7 @@ public class DashboardIT extends AbstractDaemonTest {
               + "query = is:open";
       cb.add(info.path, content);
       RevCommit c = cb.create();
-      gApi.projects().name(project.get()).commit(c.name());
+      project().commit(c.name());
     }
     return info;
   }

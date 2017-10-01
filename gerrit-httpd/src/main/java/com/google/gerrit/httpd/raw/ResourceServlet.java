@@ -31,7 +31,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.hash.Hashing;
-import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -252,7 +251,7 @@ public abstract class ResourceServlet extends HttpServlet {
       return true;
     }
 
-    long lastModified = FileUtil.lastModified(p);
+    long lastModified = getLastModifiedTime(p).toMillis();
     if (req.getDateHeader(IF_MODIFIED_SINCE) >= lastModified) {
       rsp.setStatus(SC_NOT_MODIFIED);
       return true;

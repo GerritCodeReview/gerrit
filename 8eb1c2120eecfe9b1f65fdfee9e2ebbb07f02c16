@@ -34,6 +34,24 @@
       "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507777d4_155827c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T20:44:53Z",
+      "side": 1,
+      "message": "\u003e I wonder if this is the right approach for handling ignored changes. \n\u003e Maybe we should just have the \n\u003e ChangeQueryProcessor/ChangeQueryRewriter add the -is:ignored \n\u003e term?\n\nWe could do this similar to how account queries automatically add \"is:active\", but only if neither \"is:active\" nor \"is:inactive\" appears in the query that was provided by the user. So for change queries we could add \"-is:ignored\" if \"is:ignored\" doesn\u0027t appear in the query. This way you can still find ignored changes if you explicitly query for them.",
+      "parentUuid": "2041646f_27213380",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

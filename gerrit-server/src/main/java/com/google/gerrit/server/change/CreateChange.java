@@ -20,14 +20,12 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -57,8 +55,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CommitsCollection;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -110,6 +108,7 @@ public class CreateChange
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   CreateChange(
@@ -130,7 +129,8 @@ public class CreateChange
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
@@ -149,6 +149,7 @@ public class CreateChange
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
+    this.contributorAgreements = contributorAgreements;
   }
 
   @Override
@@ -175,7 +176,7 @@ public class CreateChange
     }
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
-    checkValidCLA(rsrc.getControl());
+    contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
 
     Project.NameKey project = rsrc.getNameKey();
     String refName = RefNames.fullName(input.branch);
@@ -340,12 +341,5 @@ public class CreateChange
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
     return inserter.insert(new TreeFormatter());
-  }
-
-  static void checkValidCLA(ProjectControl ctl) throws AuthException {
-    Capable capable = ctl.canPushToAtLeastOneRef();
-    if (capable != Capable.OK) {
-      throw new AuthException(capable.getMessage());
-    }
   }
 }

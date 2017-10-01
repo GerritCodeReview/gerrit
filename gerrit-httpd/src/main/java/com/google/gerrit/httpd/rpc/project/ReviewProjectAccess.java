@@ -43,6 +43,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
@@ -94,6 +95,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       BatchUpdate.Factory updateFactory,
       Provider<SetParent> setParent,
       Sequences seq,
+      ContributorAgreementsChecker contributorAgreements,
       @Assisted("projectName") Project.NameKey projectName,
       @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
@@ -110,6 +112,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         sectionList,
         parentProjectName,
         message,
+        contributorAgreements,
         false);
     this.db = db;
     this.permissionBackend = permissionBackend;

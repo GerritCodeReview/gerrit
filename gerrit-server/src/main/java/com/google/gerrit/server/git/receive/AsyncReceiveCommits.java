@@ -32,6 +32,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -45,6 +46,7 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -167,6 +169,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final ReceiveConfig receiveConfig;
+  private final ContributorAgreementsChecker contributorAgreements;
   private final long timeoutMillis;
   private final ProjectControl projectControl;
   private final Repository repo;
@@ -185,6 +188,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       ReceiveConfig receiveConfig,
       TransferConfig transferConfig,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
+      ContributorAgreementsChecker contributorAgreements,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo,
@@ -195,6 +199,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
+    this.contributorAgreements = contributorAgreements;
     this.timeoutMillis = timeoutMillis;
     this.projectControl = projectControl;
     this.repo = repo;
@@ -235,15 +240,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   /** Determine if the user can upload commits. */
-  public Capable canUpload() {
+  public Capable canUpload() throws IOException {
     Capable result = projectControl.canPushToAtLeastOneRef();
     if (result != Capable.OK) {
       return result;
     }
-    if (receiveConfig.checkMagicRefs) {
-      result = MagicBranch.checkMagicBranchRefs(repo, projectControl.getProject());
+
+    try {
+      contributorAgreements.check(
+          projectControl.getProject().getNameKey(), projectControl.getUser());
+    } catch (AuthException e) {
+      return new Capable(e.getMessage());
     }
-    return result;
+
+    if (receiveConfig.checkMagicRefs) {
+      return MagicBranch.checkMagicBranchRefs(repo, projectControl.getProject());
+    }
+    return Capable.OK;
   }
 
   @Override

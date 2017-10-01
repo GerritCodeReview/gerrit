@@ -16,10 +16,14 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
@@ -39,11 +43,19 @@ final class Upload extends AbstractGitCommand {
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private SshSession session;
+  @Inject private PermissionBackend permissionBackend;
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    if (!projectControl.canRunUploadPack()) {
+    try {
+      permissionBackend
+          .user(projectControl.getUser())
+          .project(projectControl.getProject().getNameKey())
+          .check(ProjectPermission.RUN_UPLOAD_PACK);
+    } catch (AuthException e) {
       throw new Failure(1, "fatal: upload-pack not permitted on this server");
+    } catch (PermissionBackendException e) {
+      throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
     final UploadPack up = new UploadPack(repo);

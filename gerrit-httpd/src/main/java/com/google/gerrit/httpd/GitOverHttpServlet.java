@@ -234,13 +234,16 @@ public class GitOverHttpServlet extends GitServlet {
   static class UploadFilter implements Filter {
     private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
+    private final PermissionBackend permissionBackend;
 
     @Inject
     UploadFilter(
         VisibleRefFilter.Factory refFilterFactory,
-        UploadValidators.Factory uploadValidatorsFactory) {
+        UploadValidators.Factory uploadValidatorsFactory,
+        PermissionBackend permissionBackend) {
       this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
+      this.permissionBackend = permissionBackend;
     }
 
     @Override
@@ -251,13 +254,20 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
-      if (!pc.canRunUploadPack()) {
+      try {
+        permissionBackend
+            .user(pc.getUser())
+            .project(pc.getProject().getNameKey())
+            .check(ProjectPermission.RUN_UPLOAD_PACK);
+      } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
             HttpServletResponse.SC_FORBIDDEN,
             "upload-pack not permitted on this server");
         return;
+      } catch (PermissionBackendException e) {
+        throw new ServletException(e);
       }
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
@@ -312,10 +322,14 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFilter implements Filter {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
+    private final PermissionBackend permissionBackend;
 
     @Inject
-    ReceiveFilter(@Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
+    ReceiveFilter(
+        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
+        PermissionBackend permissionBackend) {
       this.cache = cache;
+      this.permissionBackend = permissionBackend;
     }
 
     @Override
@@ -329,13 +343,20 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
 
-      if (!pc.canRunReceivePack()) {
+      try {
+        permissionBackend
+            .user(pc.getUser())
+            .project(pc.getProject().getNameKey())
+            .check(ProjectPermission.RUN_RECEIVE_PACK);
+      } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
             HttpServletResponse.SC_FORBIDDEN,
             "receive-pack not permitted on this server");
         return;
+      } catch (PermissionBackendException e) {
+        throw new RuntimeException(e);
       }
 
       Capable s = arc.canUpload();

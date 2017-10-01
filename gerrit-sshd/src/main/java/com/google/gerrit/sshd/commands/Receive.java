@@ -17,11 +17,15 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
@@ -51,6 +55,7 @@ final class Receive extends AbstractGitCommand {
   @Inject private AsyncReceiveCommits.Factory factory;
   @Inject private IdentifiedUser currentUser;
   @Inject private SshSession session;
+  @Inject private PermissionBackend permissionBackend;
 
   private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
       MultimapBuilder.hashKeys(2).hashSetValues().build();
@@ -77,8 +82,15 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    if (!projectControl.canRunReceivePack()) {
+    try {
+      permissionBackend
+          .user(currentUser)
+          .project(project.getNameKey())
+          .check(ProjectPermission.RUN_RECEIVE_PACK);
+    } catch (AuthException e) {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
+    } catch (PermissionBackendException e) {
+      throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
     AsyncReceiveCommits arc = factory.create(projectControl, repo, null, reviewers);

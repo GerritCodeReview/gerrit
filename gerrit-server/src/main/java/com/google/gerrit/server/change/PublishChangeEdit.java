@@ -26,8 +26,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -76,18 +76,18 @@ public class PublishChangeEdit
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;
-    private final ProjectControl.GenericFactory projectControlFactory;
+    private final ContributorAgreementsChecker contributorAgreementsChecker;
 
     @Inject
     Publish(
         RetryHelper retryHelper,
         ChangeEditUtil editUtil,
         NotifyUtil notifyUtil,
-        ProjectControl.GenericFactory projectControlFactory) {
+        ContributorAgreementsChecker contributorAgreementsChecker) {
       super(retryHelper);
       this.editUtil = editUtil;
       this.notifyUtil = notifyUtil;
-      this.projectControlFactory = projectControlFactory;
+      this.contributorAgreementsChecker = contributorAgreementsChecker;
     }
 
     @Override
@@ -95,8 +95,7 @@ public class PublishChangeEdit
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
         throws IOException, OrmException, RestApiException, UpdateException, ConfigInvalidException,
             NoSuchProjectException {
-      CreateChange.checkValidCLA(
-          projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()));
+      contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(

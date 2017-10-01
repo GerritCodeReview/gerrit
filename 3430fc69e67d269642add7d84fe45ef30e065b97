@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6551c549_8cddeaf2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "436f628d_290c4c94",
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9023bfd7_7bc8fe07",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f2f95369_5feb0094",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9023bfd7_7bc8fe07",
+      "range": {
+        "startLine": 598,
+        "startChar": 43,
+        "endLine": 598,
+        "endChar": 48
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51960fa8_20beee2f",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2040d457_d04122c9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:10:07Z",
+      "side": 1,
+      "message": "See gr-router_test.js, line 1218.",
+      "parentUuid": "51960fa8_20beee2f",
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "ad170f1f_e8abcfa4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:10:07Z",
+      "side": 1,
+      "message": "My change does make this docstring more accurate, as previously a single-section dashboard was broken because it didn\u0027t understand the server\u0027s {Array\u003c!Object\u003e} response.\n\nSee my comment reply below for why this should stay as is for now.",
+      "parentUuid": "2d695254_9b7d72dd",
+      "range": {
+        "startLine": 725,
+        "startChar": 23,
+        "endLine": 725,
+        "endChar": 32
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02533ac1_183c0040",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -102,6 +186,30 @@
       "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c51928c_48a033ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:10:07Z",
+      "side": 1,
+      "message": "Not without updating all call sites that pass in a bare string query. I don\u0027t think they expect the array of result sets response. (Tried it and search was broken, but didn\u0027t investigate).",
+      "parentUuid": "02533ac1_183c0040",
+      "range": {
+        "startLine": 764,
+        "startChar": 8,
+        "endLine": 766,
+        "endChar": 9
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

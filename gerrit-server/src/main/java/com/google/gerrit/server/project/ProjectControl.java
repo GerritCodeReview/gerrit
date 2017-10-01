@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -203,19 +202,6 @@ public class ProjectControl {
   /** Is this user a project owner? */
   public boolean isOwner() {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
-  }
-
-  /**
-   * @return {@code Capable.OK} if the user can upload to at least one reference. Does not check
-   *     Contributor Agreements.
-   */
-  public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH)
-        && !canPerformOnAnyRef(Permission.CREATE_TAG)
-        && !isOwner()) {
-      return new Capable("Upload denied for project '" + state.getName() + "'");
-    }
-    return Capable.OK;
   }
 
   /** Can the user run upload pack? */

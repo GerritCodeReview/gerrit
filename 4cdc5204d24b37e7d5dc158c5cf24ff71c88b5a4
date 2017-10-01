@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "267b2ce2_28022196",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-01T14:58:56Z",
+      "side": 1,
+      "message": "this needs to be rebased; there have been several more changes merged today that touch this file.",
+      "revId": "4cdc5204d24b37e7d5dc158c5cf24ff71c88b5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

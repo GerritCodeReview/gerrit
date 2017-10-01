@@ -8,13 +8,13 @@ java_library(
         ":compress-lzf",
         ":hppc",
         ":jna",
+        ":joda-time",
         ":jsr166e",
         ":netty",
         ":t-digest",
         "//lib/jackson:jackson-core",
         "//lib/jackson:jackson-dataformat-cbor",
         "//lib/jackson:jackson-dataformat-smile",
-        "//lib/joda:joda-time",
         "//lib/lucene:lucene-codecs",
         "//lib/lucene:lucene-highlighter",
         "//lib/lucene:lucene-join",
@@ -45,6 +45,19 @@ java_library(
         "//lib/httpcomponents:httpcore-nio",
         "//lib/httpcomponents:httpcore-niossl",
     ],
+)
+
+java_library(
+    name = "joda-time",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@joda_time//jar"],
+    runtime_deps = ["joda-convert"],
+)
+
+java_library(
+    name = "joda-convert",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@joda_convert//jar"],
 )
 
 java_library(

@@ -192,18 +192,6 @@ maven_jar(
     sha1 = "de80fe047052445869b96f6def6baca7182c95af",
 )
 
-maven_jar(
-    name = "joda_time",
-    artifact = "joda-time:joda-time:2.9.9",
-    sha1 = "f7b520c458572890807d143670c9b24f4de90897",
-)
-
-maven_jar(
-    name = "joda_convert",
-    artifact = "org.joda:joda-convert:1.8.1",
-    sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
-)
-
 load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
 
 maven_jar(
@@ -939,6 +927,18 @@ maven_jar(
     name = "jest",
     artifact = "io.searchbox:jest:" + JEST_VERSION,
     sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
+)
+
+maven_jar(
+    name = "joda_time",
+    artifact = "joda-time:joda-time:2.9.9",
+    sha1 = "f7b520c458572890807d143670c9b24f4de90897",
+)
+
+maven_jar(
+    name = "joda_convert",
+    artifact = "org.joda:joda-convert:1.8.1",
+    sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
 )
 
 maven_jar(

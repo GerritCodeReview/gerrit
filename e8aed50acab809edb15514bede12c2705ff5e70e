@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "12c45f3f_bc4ac92b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T07:30:29Z",
+      "side": 1,
+      "message": "\u003e I dunno. Is there a use case for ever marking a revision other than the \n\u003e current revision? If not, then I don\u0027t see the value.\n\nI don\u0027t see any use case for this at the moment. I agree we should only do this when we have a need for it.\n\nMoreover we want to have it as change action so that the buttons appear on the change screen automatically (at least for GWT). This means we need the REST endpoint on change level.",
+      "parentUuid": "c24043f8_6e665a71",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35b70337_5b567a32",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 3
@@ -201,6 +219,24 @@
       "writtenOn": "2017-09-30T15:34:55Z",
       "side": 1,
       "message": "This means we will also have to temporarily revert this change internally :(",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e819f625_df5106c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T07:30:29Z",
+      "side": 1,
+      "message": "The last time I worked around this, but letting the revert keep an empty schema migration. Since we don\u0027t use the schema migrations internally we don\u0027t care about what they do. However we have the same issue with the new change index version.",
+      "parentUuid": "2fd7d0c1_1d300ced",
       "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

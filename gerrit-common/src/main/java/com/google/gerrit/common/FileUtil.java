@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -45,28 +46,12 @@ public class FileUtil {
     }
   }
 
-  public static void chmod(int mode, Path path) {
-    // TODO(dborowitz): Is there a portable way to do this with NIO?
-    chmod(mode, path.toFile());
+  public static void chmod(String mode, Path path) throws IOException {
+    Files.setPosixFilePermissions(path, PosixFilePermissions.fromString(mode));
   }
 
-  public static void chmod(int mode, File path) {
-    path.setReadable(false, false /* all */);
-    path.setWritable(false, false /* all */);
-    path.setExecutable(false, false /* all */);
-
-    path.setReadable((mode & 0400) == 0400, true /* owner only */);
-    path.setWritable((mode & 0200) == 0200, true /* owner only */);
-    if (path.isDirectory() || (mode & 0100) == 0100) {
-      path.setExecutable(true, true /* owner only */);
-    }
-
-    if ((mode & 0044) == 0044) {
-      path.setReadable(true, false /* all */);
-    }
-    if ((mode & 0011) == 0011) {
-      path.setExecutable(true, false /* all */);
-    }
+  public static void chmod(String mode, File file) throws IOException {
+    chmod(mode, file.toPath());
   }
 
   /**

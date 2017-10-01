@@ -50,7 +50,6 @@ import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -107,7 +106,6 @@ public abstract class SubmitStrategy {
 
     final AccountCache accountCache;
     final ApprovalsUtil approvalsUtil;
-    final ChangeControl.GenericFactory changeControlFactory;
     final ChangeMerged changeMerged;
     final ChangeMessagesUtil cmUtil;
     final EmailMerge.Factory mergedSenderFactory;
@@ -146,7 +144,6 @@ public abstract class SubmitStrategy {
     Arguments(
         AccountCache accountCache,
         ApprovalsUtil approvalsUtil,
-        ChangeControl.GenericFactory changeControlFactory,
         ChangeMerged changeMerged,
         ChangeMessagesUtil cmUtil,
         EmailMerge.Factory mergedSenderFactory,
@@ -178,7 +175,6 @@ public abstract class SubmitStrategy {
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
-      this.changeControlFactory = changeControlFactory;
       this.changeMerged = changeMerged;
       this.mergedSenderFactory = mergedSenderFactory;
       this.repoManager = repoManager;

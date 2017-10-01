@@ -34,7 +34,6 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
   private final PermissionBackend permissionBackend;
@@ -82,7 +80,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       Provider<ReviewDb> db,
-      ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend) {
@@ -96,7 +93,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.db = db;
     this.userProvider = userProvider;
-    this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;
     this.permissionBackend = permissionBackend;
@@ -142,8 +138,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
         pred,
-        new ChangeIsVisibleToPredicate(
-            db, notesFactory, changeControlFactory, userProvider.get(), permissionBackend),
+        new ChangeIsVisibleToPredicate(db, notesFactory, userProvider.get(), permissionBackend),
         start);
   }
 }

@@ -3374,42 +3374,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void mute() throws Exception {
-    TestAccount user2 = accountCreator.user2();
-
-    PushOneCommit.Result r = createChange();
-
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-
-    setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
-    gApi.changes().id(r.getChangeId()).mute(true);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isTrue();
-
-    setApiUser(user2);
-    sender.clear();
-    amendChange(r.getChangeId());
-
-    setApiUser(user);
-    assertThat(gApi.changes().id(r.getChangeId()).muted()).isFalse();
-
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress);
-  }
-
-  @Test
-  public void cannotMuteOwnChange() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("cannot mute own change");
-    gApi.changes().id(changeId).mute(true);
-  }
-
-  @Test
   public void markAsReviewed() throws Exception {
     TestAccount user2 = accountCreator.user2();
 

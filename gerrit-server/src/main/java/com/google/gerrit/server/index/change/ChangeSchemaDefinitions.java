@@ -91,7 +91,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V46 = schema(V45);
 
   // Removal of draft change workflow requires reindexing
-  static final Schema<ChangeData> V47 = schema(V46);
+  @Deprecated static final Schema<ChangeData> V47 = schema(V46);
+
+  // Rename of star label 'mute' to 'reviewed' requires reindexing
+  static final Schema<ChangeData> V48 = schema(V47);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

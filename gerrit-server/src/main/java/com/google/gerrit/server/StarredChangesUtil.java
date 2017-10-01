@@ -157,7 +157,6 @@ public class StarredChangesUtil {
 
   public static final String DEFAULT_LABEL = "star";
   public static final String IGNORE_LABEL = "ignore";
-  public static final String MUTE_LABEL = "mute";
   public static final String REVIEWED_LABEL = "reviewed";
   public static final String UNREVIEWED_LABEL = "unreviewed";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
@@ -335,36 +334,6 @@ public class StarredChangesUtil {
     return isIgnoredBy(rsrc.getChange().getId(), rsrc.getUser().asIdentifiedUser().getAccountId());
   }
 
-  private static String getMuteLabel(Change change) {
-    return MUTE_LABEL + "/" + change.currentPatchSetId().get();
-  }
-
-  public void mute(ChangeResource rsrc) throws OrmException, IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(getMuteLabel(rsrc.getChange())),
-        ImmutableSet.of());
-  }
-
-  public void unmute(ChangeResource rsrc) throws OrmException, IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(),
-        ImmutableSet.of(getMuteLabel(rsrc.getChange())));
-  }
-
-  public boolean isMutedBy(Change change, Account.Id accountId) throws OrmException {
-    return getLabels(accountId, change.getId()).contains(getMuteLabel(change));
-  }
-
-  public boolean isMuted(ChangeResource rsrc) throws OrmException {
-    return isMutedBy(rsrc.getChange(), rsrc.getUser().asIdentifiedUser().getAccountId());
-  }
-
   private static String getReviewedLabel(Change change) {
     return getReviewedLabel(change.currentPatchSetId().get());
   }
@@ -399,7 +368,7 @@ public class StarredChangesUtil {
         ImmutableSet.of(getReviewedLabel(rsrc.getChange())));
   }
 
-  private static StarRef readLabels(Repository repo, String refName) throws IOException {
+  public static StarRef readLabels(Repository repo, String refName) throws IOException {
     Ref ref = repo.exactRef(refName);
     if (ref == null) {
       return StarRef.MISSING;

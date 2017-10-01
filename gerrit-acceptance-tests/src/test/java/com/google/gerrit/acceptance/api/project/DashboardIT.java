@@ -75,6 +75,15 @@ public class DashboardIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setDefaultDashboardByProject() throws Exception {
+    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    assertThat(info.isDefault).isNull();
+    gApi.projects().name(project.get()).defaultDashboard(info.id);
+    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isTrue();
+    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(info.id);
+  }
+
+  @Test
   public void replaceDefaultDashboard() throws Exception {
     DashboardInfo d1 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
     DashboardInfo d2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");

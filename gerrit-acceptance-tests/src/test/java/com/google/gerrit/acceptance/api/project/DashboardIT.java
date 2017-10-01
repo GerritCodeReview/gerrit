@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.project.DashboardsCollection;
 import java.util.List;
@@ -88,7 +89,14 @@ public class DashboardIT extends AbstractDaemonTest {
   private DashboardInfo createDashboard(String ref, String path) throws Exception {
     DashboardInfo info = DashboardsCollection.newDashboardInfo(ref, path);
     String canonicalRef = DashboardsCollection.normalizeDashboardRef(info.ref);
-    gApi.projects().name(project.get()).branch(canonicalRef).create(new BranchInput());
+    try {
+      gApi.projects().name(project.get()).branch(canonicalRef).create(new BranchInput());
+    } catch (ResourceConflictException e) {
+      // The branch already exists if this method has already been called once.
+      if (!e.getMessage().contains("already exists")) {
+        throw e;
+      }
+    }
     try (Repository r = repoManager.openRepository(project)) {
       TestRepository<Repository>.CommitBuilder cb =
           new TestRepository<>(r).branch(canonicalRef).commit();

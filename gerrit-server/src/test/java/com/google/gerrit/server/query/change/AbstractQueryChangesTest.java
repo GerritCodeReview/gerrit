@@ -1232,7 +1232,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    long startMs = TestTimeUtil.START.getMillis();
+    long startMs = TestTimeUtil.START.toEpochMilli();
     Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
 
@@ -1259,7 +1259,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    long startMs = TestTimeUtil.START.getMillis();
+    long startMs = TestTimeUtil.START.toEpochMilli();
     Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
@@ -1281,7 +1281,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
-    long startMs = TestTimeUtil.START.getMillis();
+    long startMs = TestTimeUtil.START.toEpochMilli();
     Change change1 = insert(repo, newChange(repo), null, new Timestamp(startMs));
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);

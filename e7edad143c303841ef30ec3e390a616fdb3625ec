@@ -16,6 +16,24 @@
       "revId": "e7edad143c303841ef30ec3e390a616fdb3625ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "124506f9_e6d037ab",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T14:07:25Z",
+      "side": 0,
+      "message": "Exactly -- and slipped through the cracks until edits became a thing. At that time, a patchnum became typed (string|number), and then JS did weird things with subtraction.",
+      "parentUuid": "0dbe29e5_f92e068c",
+      "revId": "e7edad143c303841ef30ec3e390a616fdb3625ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

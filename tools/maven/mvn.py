@@ -49,6 +49,7 @@ elif 'deploy' == args.a:
   cmd = mvn() + [
     'gpg:sign-and-deploy-file',
     '-DrepositoryId=%s' % args.repository,
+    '-Dversion=%s' % args.v,
     '-Durl=%s' % args.url,
   ]
 else:
@@ -59,6 +60,7 @@ for spec in args.s:
   artifact, packaging_type, src = spec.split(':')
   exe = cmd + [
     '-DartifactId=%s' % artifact,
+    '-Dversion=%s' % args.v,
     '-Dpackaging=%s' % packaging_type,
     '-Dfile=%s' % src,
   ]

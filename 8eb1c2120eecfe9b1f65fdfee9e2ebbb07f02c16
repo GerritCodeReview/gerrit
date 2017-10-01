@@ -16,6 +16,24 @@
       "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2041646f_27213380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T14:38:36Z",
+      "side": 1,
+      "message": "I agree that that\u0027s worth considering, but I don\u0027t think blocking this change is necessary. I think filing a monorail issue would be more appropriate.\n\nThis change provides an immediate fix for dashboards only. It also closes a critical testing gap for our dashboard configuration. If we want to exclude ignored changes from search results in general, then updating dashboard queries and tests will be trivial to do when we make that change.\n\nI\u0027d also like to consider a similar treatment for WIP changes. Ideally they wouldn\u0027t show up in search results unless a search operator or other option is given that specifically enables their inclusion.",
+      "parentUuid": "b7fcbbf2_fb107cc9",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

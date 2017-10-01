@@ -44,8 +44,9 @@ limitations under the License.
         display: initial;
       }
       .patchInfo-header {
-        background-color: #f6f6f6;
-        border-bottom: 1px solid #ebebeb;
+        background-color: #fafafa;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
         display: flex;
         height: 3.2em;
         padding: 0 calc(var(--default-horizontal-margin) / 2);
@@ -56,8 +57,15 @@ limitations under the License.
         margin: 0 .25em;
         width: 100%;
       }
+      .patchInfo-left {
+        align-items: center;
+        display: flex;
+      }
       .latestPatchContainer {
         display: none;
+      }
+      .latestPatchContainer a {
+        text-decoration: none;
       }
       gr-editable-label.descriptionLabel {
         max-width: 100%;
@@ -79,6 +87,13 @@ limitations under the License.
       .editLoaded .showOnEdit {
         display: initial;
       }
+      .patchInfo-header-wrapper .container {
+        align-items: center;
+        display: flex;
+      }
+      #modeSelect {
+        margin-left: .1em;
+      }
       .fileList-header {
         align-items: center;
         display: flex;
@@ -95,7 +110,13 @@ limitations under the License.
         justify-content: flex-end;
       }
       .separator {
-        margin: 0 .25em;
+        background-color: rgba(0, 0, 0, .3);
+        height: 1.5em;
+        margin: 0 .4em;
+        width: 1px;
+      }
+      .separator.transparent {
+        background-color: transparent;
       }
       .expandInline {
         padding-right: .25em;
@@ -118,7 +139,7 @@ limitations under the License.
     </style>
     <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-header-wrapper">
-        <div>
+        <div class="patchInfo-left">
           <span class="label">Files</span>
           <gr-patch-range-select
               id="rangeSelect"
@@ -130,23 +151,23 @@ limitations under the License.
               revisions="[[change.revisions]]"
               on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
-          /
+          <span class="separator"></span>
           <gr-commit-info
               change="[[change]]"
               server-config="[[serverConfig]]"
               commit-info="[[commitInfo]]"></gr-commit-info>
-          <span class="latestPatchContainer">
-            /
+          <span class="container latestPatchContainer">
+            <span class="separator"></span>
             <a href$="[[changeUrl]]">Go to latest patch set</a>
           </span>
-          <span class="downloadContainer desktop">
-            /
+          <span class="container downloadContainer desktop">
+            <span class="separator"></span>
             <gr-button link
                 class="download"
                 on-tap="_handleDownloadTap">Download</gr-button>
           </span>
-          <span class="descriptionContainer hideOnEdit">
-            /
+          <span class="container descriptionContainer hideOnEdit">
+            <span class="separator"></span>
             <gr-editable-label
                 id="descriptionLabel"
                 class="descriptionLabel"
@@ -176,7 +197,7 @@ limitations under the License.
               id="expandBtn"
               link
               on-tap="_expandAllDiffs">Show diffs</gr-button>
-          <span class="separator">/</span>
+          <span class="separator"></span>
           <gr-button
               id="collapseBtn"
               link
@@ -188,7 +209,7 @@ limitations under the License.
             Bulk actions disabled because there are too many files.
           </div>
         </template>
-        <span class="separator">/</span>
+        <span class="separator"></span>
         <gr-select
             id="modeSelect"
             bind-value="{{diffViewMode}}">

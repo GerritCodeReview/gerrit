@@ -23,6 +23,8 @@ limitations under the License.
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-plugin-host.html">
 
+<script>void(0);</script>
+
 <test-fixture id="basic">
   <template>
     <gr-plugin-host></gr-plugin-host>
@@ -61,9 +63,9 @@ limitations under the License.
         plugin: {html_resource_paths: ['foo/bar', 'baz']},
       };
       assert.isTrue(element.importHref.calledWith(
-          '/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+          '/foo/bar', null, Gerrit._pluginInstalled, true));
       assert.isTrue(element.importHref.calledWith(
-          '/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+          '/baz', null, Gerrit._pluginInstalled, true));
     });
 
     test('imports relative html plugins from config with a base url', () => {
@@ -71,11 +73,9 @@ limitations under the License.
       element.config = {
         plugin: {html_resource_paths: ['foo/bar', 'baz']}};
       assert.isTrue(element.importHref.calledWith(
-          '/the-base/foo/bar', Gerrit._pluginInstalled, Gerrit._pluginInstalled,
-          true));
+          '/the-base/foo/bar', null, Gerrit._pluginInstalled, true));
       assert.isTrue(element.importHref.calledWith(
-          '/the-base/baz', Gerrit._pluginInstalled, Gerrit._pluginInstalled,
-          true));
+          '/the-base/baz', null, Gerrit._pluginInstalled, true));
     });
 
     test('imports absolute html plugins from config', () => {
@@ -88,11 +88,9 @@ limitations under the License.
         },
       };
       assert.isTrue(element.importHref.calledWith(
-          'http://example.com/foo/bar', Gerrit._pluginInstalled,
-          Gerrit._pluginInstalled, true));
+          'http://example.com/foo/bar', null, Gerrit._pluginInstalled, true));
       assert.isTrue(element.importHref.calledWith(
-          'https://example.com/baz', Gerrit._pluginInstalled,
-          Gerrit._pluginInstalled, true));
+          'https://example.com/baz', null, Gerrit._pluginInstalled, true));
     });
 
     test('adds js plugins from config to the body', () => {
@@ -139,9 +137,9 @@ limitations under the License.
         },
       };
       assert.isTrue(element.importHref.calledWith(
-          '/oof', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+          '/oof', null, Gerrit._pluginInstalled, true));
       assert.isTrue(element.importHref.calledWith(
-          '/some', Gerrit._pluginInstalled, Gerrit._pluginInstalled, true));
+          '/some', null, Gerrit._pluginInstalled, true));
     });
   });
 </script>

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5db0c50_2d85b805",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T12:22:58Z",
+      "side": 1,
+      "message": "Let\u0027s chat with Arnab about this later. We could do it in a follow-up change if necessary.",
+      "parentUuid": "c5d31cbe_f6e6ca65",
+      "revId": "4f52778ed8d5b69bdfbfc5a65abc0d03ec24edf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d5d3839_cd2dcbab",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "4f52778ed8d5b69bdfbfc5a65abc0d03ec24edf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b84c8442_ddfa829d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T12:22:58Z",
+      "side": 1,
+      "message": "Yeah, I guess that makes sense for the buttons that have a min width.",
+      "parentUuid": "0d5d3839_cd2dcbab",
+      "revId": "4f52778ed8d5b69bdfbfc5a65abc0d03ec24edf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

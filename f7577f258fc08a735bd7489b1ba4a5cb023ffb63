@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4503e227_f4da9b58",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-10-01T13:06:23Z",
+      "side": 1,
+      "message": "could we have implement this only for NoteDB, or will this generate too much confusion?",
+      "range": {
+        "startLine": 94,
+        "startChar": 70,
+        "endLine": 94,
+        "endChar": 78
+      },
+      "revId": "f7577f258fc08a735bd7489b1ba4a5cb023ffb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

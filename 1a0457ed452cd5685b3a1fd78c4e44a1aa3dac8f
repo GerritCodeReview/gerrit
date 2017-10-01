@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb48b251_a120bb9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-01T10:59:42Z",
+      "side": 1,
+      "message": "Yes.  Must have had a bit of a brain freeze when I committed this.",
+      "parentUuid": "69701fb1_b65fb33a",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "1a0457ed452cd5685b3a1fd78c4e44a1aa3dac8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16587b4_0d578b41",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1

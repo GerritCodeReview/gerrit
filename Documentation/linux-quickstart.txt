@@ -73,7 +73,7 @@ message informs you that the Gerrit service is now running.
 == Update the listen URL
 
 Another recommended task is to change the URL that Gerrit listens to from `*`
-to `localhost`. This changes helps prevent outside connections from contacting
+to `localhost`. This change helps prevent outside connections from contacting
 the instance.
 
 ....

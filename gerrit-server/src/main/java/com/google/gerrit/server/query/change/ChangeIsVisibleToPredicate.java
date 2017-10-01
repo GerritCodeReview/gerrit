@@ -23,28 +23,23 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
-  protected final ChangeControl.GenericFactory changeControlFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
 
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       CurrentUser user,
       PermissionBackend permissionBackend) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
-    this.changeControlFactory = changeControlFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
   }
@@ -59,15 +54,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       return false;
     }
 
-    ChangeControl changeControl;
     ChangeNotes notes = notesFactory.createFromIndexedChange(change);
-    try {
-      changeControl = changeControlFactory.controlFor(notes, user);
-    } catch (NoSuchChangeException e) {
-      // Ignored
-      return false;
-    }
-
     boolean visible;
     try {
       visible =
@@ -80,7 +67,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       throw new OrmException("unable to check permissions", e);
     }
     if (visible) {
-      cd.cacheVisibleTo(changeControl);
+      cd.cacheVisibleTo(user);
       return true;
     }
     return false;

@@ -35,13 +35,12 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -74,8 +73,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private final RebaseUtil rebaseUtil;
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<CurrentUser> userProvider;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   public Rebase(
@@ -85,16 +83,14 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       RebaseUtil rebaseUtil,
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
-      Provider<CurrentUser> userProvider,
-      ChangeControl.GenericFactory changeControlFactory) {
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
     this.json = json;
     this.dbProvider = dbProvider;
-    this.userProvider = userProvider;
-    this.changeControlFactory = changeControlFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -132,7 +128,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
   private ObjectId findBaseRev(
       Repository repo, RevWalk rw, RevisionResource rsrc, RebaseInput input)
-      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+      throws RestApiException, OrmException, IOException, NoSuchChangeException, AuthException,
+          PermissionBackendException {
     Branch.NameKey destRefKey = rsrc.getChange().getDest();
     if (input == null || input.base == null) {
       return rebaseUtil.findBaseRevision(rsrc.getPatchSet(), destRefKey, repo, rw);
@@ -150,19 +147,20 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       return destRef.getObjectId();
     }
 
-    @SuppressWarnings("resource")
-    ReviewDb db = dbProvider.get();
     Base base = rebaseUtil.parseBase(rsrc, str);
     if (base == null) {
       throw new ResourceConflictException("base revision is missing: " + str);
     }
     PatchSet.Id baseId = base.patchSet().getId();
-    ChangeControl baseCtl = changeControlFactory.controlFor(base.notes(), userProvider.get());
-    if (!baseCtl.isVisible(db)) {
-      throw new AuthException("base revision not accessible: " + str);
-    } else if (change.getId().equals(baseId.getParentKey())) {
+    if (change.getId().equals(baseId.getParentKey())) {
       throw new ResourceConflictException("cannot rebase change onto itself");
     }
+
+    permissionBackend
+        .user(rsrc.getUser())
+        .database(dbProvider)
+        .change(base.notes())
+        .check(ChangePermission.READ);
 
     Change baseChange = base.notes().getChange();
     if (!baseChange.getProject().equals(change.getProject())) {
@@ -228,18 +226,12 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       extends RetryingRestModifyView<ChangeResource, RebaseInput, ChangeInfo> {
     private final PatchSetUtil psUtil;
     private final Rebase rebase;
-    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
-    CurrentRevision(
-        RetryHelper retryHelper,
-        PatchSetUtil psUtil,
-        Rebase rebase,
-        ChangeControl.GenericFactory changeControlFactory) {
+    CurrentRevision(RetryHelper retryHelper, PatchSetUtil psUtil, Rebase rebase) {
       super(retryHelper);
       this.psUtil = psUtil;
       this.rebase = rebase;
-      this.changeControlFactory = changeControlFactory;
     }
 
     @Override
@@ -250,10 +242,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!changeControlFactory
-          .controlFor(rsrc.getNotes(), rsrc.getUser())
-          .isVisible(rebase.dbProvider.get())) {
-        throw new AuthException("current revision not accessible");
       }
       return rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input);
     }

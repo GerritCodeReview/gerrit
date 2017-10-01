@@ -47,6 +47,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -122,7 +123,7 @@ public class GetDiff implements RestReadView<FileResource> {
   @Override
   public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
-          InvalidChangeOperationException, IOException {
+          InvalidChangeOperationException, IOException, PermissionBackendException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;

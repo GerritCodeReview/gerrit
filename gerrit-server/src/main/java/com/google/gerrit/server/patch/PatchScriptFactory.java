@@ -37,7 +37,9 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -90,7 +92,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final DiffPreferencesInfo diffPrefs;
   private final ChangeEditUtil editReader;
   private final Provider<CurrentUser> userProvider;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final PermissionBackend permissionBackend;
   private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
@@ -113,7 +115,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
-      ChangeControl.GenericFactory changeControlFactory,
+      PermissionBackend permissionBackend,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -128,7 +130,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
     this.userProvider = userProvider;
-    this.changeControlFactory = changeControlFactory;
+    this.permissionBackend = permissionBackend;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -149,7 +151,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
-      ChangeControl.GenericFactory changeControlFactory,
+      PermissionBackend permissionBackend,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -164,7 +166,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
     this.userProvider = userProvider;
-    this.changeControlFactory = changeControlFactory;
+    this.permissionBackend = permissionBackend;
 
     this.fileName = fileName;
     this.psa = null;
@@ -187,7 +189,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   @Override
   public PatchScript call()
       throws OrmException, LargeObjectException, AuthException, InvalidChangeOperationException,
-          IOException {
+          IOException, PermissionBackendException {
     if (parentNum < 0) {
       validatePatchSetId(psa);
     }
@@ -195,10 +197,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     PatchSet psEntityA = psa != null ? psUtil.get(db, notes, psa) : null;
     PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, notes, psb);
-
-    ChangeControl ctl = changeControlFactory.controlFor(notes, userProvider.get());
-    if ((psEntityA != null && !ctl.isVisible(db)) || (psEntityB != null && !ctl.isVisible(db))) {
-      throw new NoSuchChangeException(changeId);
+    if (psEntityA != null || psEntityB != null) {
+      try {
+        permissionBackend
+            .user(userProvider)
+            .change(notes)
+            .database(db)
+            .check(ChangePermission.READ);
+      } catch (AuthException e) {
+        throw new NoSuchChangeException(changeId);
+      }
     }
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {
@@ -212,8 +220,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         final PatchScriptBuilder b = newBuilder(list, git);
         final PatchListEntry content = list.get(fileName);
 
-        loadCommentsAndHistory(
-            ctl, content.getChangeType(), content.getOldName(), content.getNewName());
+        loadCommentsAndHistory(content.getChangeType(), content.getOldName(), content.getNewName());
 
         return b.toPatchScript(content, comments, history);
       } catch (PatchListNotAvailableException e) {
@@ -285,8 +292,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadCommentsAndHistory(
-      ChangeControl ctl, ChangeType changeType, String oldName, String newName)
+  private void loadCommentsAndHistory(ChangeType changeType, String oldName, String newName)
       throws OrmException {
     Map<Patch.Key, Patch> byKey = new HashMap<>();
 
@@ -298,9 +304,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       //
       history = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(db, notes)) {
-        if (!ctl.isVisible(db)) {
-          continue;
-        }
         String name = fileName;
         if (psa != null) {
           switch (changeType) {

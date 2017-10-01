@@ -26,7 +26,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -53,7 +52,6 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   private final ChangeNotes.Factory notesFactory;
   private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
-  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Option(
     name = "--claimed-original",
@@ -70,15 +68,13 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider,
-      PatchSetUtil psUtil,
-      ChangeControl.GenericFactory changeControlFactory) {
+      PatchSetUtil psUtil) {
     this.mergeUtilFactory = mergeUtilFactory;
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
     this.psUtil = psUtil;
-    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -88,10 +84,6 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
     PatchSet currentPatchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");
-    } else if (!changeControlFactory
-        .controlFor(rsrc.getNotes(), rsrc.getUser())
-        .isVisible(dbProvider.get())) {
-      throw new AuthException("current revision not accessible");
     }
     return getPureRevert(rsrc.getNotes());
   }

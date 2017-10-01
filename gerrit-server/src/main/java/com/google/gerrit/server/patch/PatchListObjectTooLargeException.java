@@ -19,6 +19,7 @@ package com.google.gerrit.server.patch;
  * {@code LargeObjectException}. This is not thrown on the first computation.
  */
 public class PatchListObjectTooLargeException extends PatchListNotAvailableException {
+  private static final long serialVersionUID = 1L;
 
   public PatchListObjectTooLargeException(String message) {
     super(message);

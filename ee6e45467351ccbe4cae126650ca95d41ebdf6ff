@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ef3d2f6_70772792",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T13:24:57Z",
+      "side": 1,
+      "message": "Consider using a stub here to assert that it\u0027s called exactly once.\n\n configure: sinon.stub(),\n\n..followed by..\n\n assert.isTrue(window.hljs.configure.calledOnce);",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 27
+      },
+      "revId": "ee6e45467351ccbe4cae126650ca95d41ebdf6ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce847163_1dfb8322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T13:56:51Z",
+      "side": 1,
+      "message": "Nit: wrap in \u003cpre\u003e",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8e8230_708ffb86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T13:56:51Z",
+      "side": 1,
+      "message": "Nit: long line.",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d11e033_b783b0f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T13:56:51Z",
+      "side": 1,
+      "message": "I\u0027m generally in favor of logging exceptions rather than dropping them completely silently.",
+      "revId": "5bf8a58bfc052c34f86bc882514689e7c7c2c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

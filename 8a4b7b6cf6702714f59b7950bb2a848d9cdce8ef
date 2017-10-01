@@ -22,6 +22,30 @@
       "revId": "8a4b7b6cf6702714f59b7950bb2a848d9cdce8ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f147994e_3aaf341c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-01T11:01:27Z",
+      "side": 1,
+      "message": "The test here is that the get doesn\u0027t fail, but yes, we can at least assert that the content is as expected.",
+      "parentUuid": "e3debb8c_3c96832a",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 60
+      },
+      "revId": "8a4b7b6cf6702714f59b7950bb2a848d9cdce8ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

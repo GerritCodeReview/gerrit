@@ -357,11 +357,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals())
+    PatchSetApproval expected = new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen());
+    expected.setOriginalValue((short) 1);
+	assertThat(notes.getApprovals())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                expected));
   }
 
   @Test
@@ -383,11 +385,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals())
+    PatchSetApproval expected = new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen());
+    expected.setOriginalValue((short) 1);
+	assertThat(notes.getApprovals())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 psa.getPatchSetId(),
-                new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+                expected));
 
     // Add back approval on same label.
     update = newUpdate(c, otherUser);
@@ -523,6 +527,45 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     .put(REVIEWER, new Account.Id(1), ts)
                     .put(REVIEWER, new Account.Id(2), ts)
                     .build()));
+  }
+
+  @Test
+  public void approvalsOriginalValue() throws Exception {
+    Change c = newChange();
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 2);
+    update.commit();
+
+    incrementPatchSet(c);
+    PatchSet.Id ps2 = c.currentPatchSetId();
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) 2);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetId(ps1);
+    update.putApproval("Code-Review", (short) 1);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Verified", (short) 1);
+    update.commit();
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = newNotes(c).getApprovals();
+    PatchSetApproval cr = Iterables.getOnlyElement(approvals.get(ps1));
+    assertThat(cr.getKey().getLabelId().get()).isEqualTo("Code-Review");
+    assertThat(cr.getPatchSetId()).isEqualTo(ps1);
+    assertThat(cr.getValue()).isEqualTo(1);
+    assertThat(cr.getOriginalValue()).isEqualTo(2);
+
+    PatchSetApproval v = Iterables.getOnlyElement(approvals.get(ps2));
+    assertThat(v.getKey().getLabelId().get()).isEqualTo("Verified");
+    assertThat(v.getPatchSetId()).isEqualTo(ps2);
+    assertThat(v.getValue()).isEqualTo(1);
+    assertThat(v.getOriginalValue()).isEqualTo(2);
   }
 
   @Test

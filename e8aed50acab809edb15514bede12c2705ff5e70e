@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "a567d4c9_7d09935a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T12:21:07Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/homepage/+/129899",
+      "parentUuid": "0d02a610_f0446701",
+      "revId": "e8aed50acab809edb15514bede12c2705ff5e70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "209f6848_50b4d1d7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

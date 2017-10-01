@@ -75,6 +75,22 @@ public class DashboardIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void replaceDefaultDashboard() throws Exception {
+    DashboardInfo d1 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
+    DashboardInfo d2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
+    assertThat(d1.isDefault).isNull();
+    assertThat(d2.isDefault).isNull();
+    gApi.projects().name(project.get()).dashboard(d1.id).setDefault();
+    assertThat(gApi.projects().name(project.get()).dashboard(d1.id).get().isDefault).isTrue();
+    assertThat(gApi.projects().name(project.get()).dashboard(d2.id).get().isDefault).isNull();
+    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(d1.id);
+    gApi.projects().name(project.get()).dashboard(d2.id).setDefault();
+    assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(d2.id);
+    assertThat(gApi.projects().name(project.get()).dashboard(d1.id).get().isDefault).isNull();
+    assertThat(gApi.projects().name(project.get()).dashboard(d2.id).get().isDefault).isTrue();
+  }
+
+  @Test
   public void cannotGetDashboardWithInheritedForNonDefault() throws Exception {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     exception.expect(BadRequestException.class);

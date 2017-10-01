@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "309ec102_1ea1777e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-01T08:18:42Z",
+      "side": 1,
+      "message": "At the moment, it\u0027s one way and there\u0027s no support for data binding.",
+      "parentUuid": "d5af0915_3aa48edd",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "781128d447e4571a5369464350021fc8927ca154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1780ea28_a0c68493",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "781128d447e4571a5369464350021fc8927ca154",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ca5d048_14773069",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-01T08:18:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1780ea28_a0c68493",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "781128d447e4571a5369464350021fc8927ca154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

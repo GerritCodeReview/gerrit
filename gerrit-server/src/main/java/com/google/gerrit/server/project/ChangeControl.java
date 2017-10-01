@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -27,7 +25,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -46,65 +43,15 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 /** Access control management for a user accessing a single change. */
-public class ChangeControl {
+class ChangeControl {
   @Singleton
-  public static class GenericFactory {
-    private final ProjectControl.GenericFactory projectControl;
-    private final ChangeNotes.Factory notesFactory;
-
-    @Inject
-    GenericFactory(ProjectControl.GenericFactory p, ChangeNotes.Factory n) {
-      projectControl = p;
-      notesFactory = n;
-    }
-
-    public ChangeControl controlFor(
-        ReviewDb db, Project.NameKey project, Change.Id changeId, CurrentUser user)
-        throws OrmException {
-      return controlFor(notesFactory.create(db, project, changeId), user);
-    }
-
-    public ChangeControl controlFor(ReviewDb db, Change change, CurrentUser user)
-        throws OrmException {
-      final Project.NameKey projectKey = change.getProject();
-      try {
-        return projectControl.controlFor(projectKey, user).controlFor(db, change);
-      } catch (NoSuchProjectException e) {
-        throw new NoSuchChangeException(change.getId(), e);
-      } catch (IOException e) {
-        // TODO: propagate this exception
-        throw new NoSuchChangeException(change.getId(), e);
-      }
-    }
-
-    public ChangeControl controlFor(ChangeNotes notes, CurrentUser user)
-        throws NoSuchChangeException {
-      try {
-        return projectControl.controlFor(notes.getProjectName(), user).controlFor(notes);
-      } catch (NoSuchProjectException | IOException e) {
-        throw new NoSuchChangeException(notes.getChangeId(), e);
-      }
-    }
-
-    public ChangeControl validateFor(Change.Id changeId, CurrentUser user) throws OrmException {
-      return validateFor(notesFactory.createChecked(changeId), user);
-    }
-
-    public ChangeControl validateFor(ChangeNotes notes, CurrentUser user) throws OrmException {
-      return controlFor(notes, user);
-    }
-  }
-
-  @Singleton
-  public static class Factory {
+  static class Factory {
     private final ChangeData.Factory changeDataFactory;
     private final ChangeNotes.Factory notesFactory;
     private final ApprovalsUtil approvalsUtil;
@@ -152,7 +99,7 @@ public class ChangeControl {
     this.patchSetUtil = patchSetUtil;
   }
 
-  public ChangeControl forUser(CurrentUser who) {
+  ChangeControl forUser(CurrentUser who) {
     if (getUser().equals(who)) {
       return this;
     }
@@ -160,37 +107,24 @@ public class ChangeControl {
         changeDataFactory, approvalsUtil, getRefControl().forUser(who), notes, patchSetUtil);
   }
 
-  public RefControl getRefControl() {
+  private RefControl getRefControl() {
     return refControl;
   }
 
-  public CurrentUser getUser() {
+  private CurrentUser getUser() {
     return getRefControl().getUser();
   }
 
-  public ProjectControl getProjectControl() {
+  private ProjectControl getProjectControl() {
     return getRefControl().getProjectControl();
   }
 
-  public Project getProject() {
-    return getProjectControl().getProject();
-  }
-
-  public Change.Id getId() {
-    return notes.getChangeId();
-  }
-
-  public Change getChange() {
+  private Change getChange() {
     return notes.getChange();
   }
 
-  public ChangeNotes getNotes() {
+  private ChangeNotes getNotes() {
     return notes;
-  }
-
-  /** Can this user see this change? */
-  public boolean isVisible(ReviewDb db) throws OrmException {
-    return isVisible(db, null);
   }
 
   /** Can this user see this change? */
@@ -202,34 +136,8 @@ public class ChangeControl {
   }
 
   /** Can the user see this change? Does not account for draft status */
-  public boolean isRefVisible() {
+  private boolean isRefVisible() {
     return getRefControl().isVisible();
-  }
-
-  /** Can this user see the given patchset? */
-  public boolean isPatchVisible(PatchSet ps, ChangeData cd) throws OrmException {
-    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
-    checkArgument(
-        cd.getId().equals(ps.getId().getParentKey()), "%s not for change %s", ps, cd.getId());
-    return isVisible(cd.db());
-  }
-
-  /**
-   * @return patches for the change visible to the current user.
-   * @throws OrmException an error occurred reading the database.
-   */
-  public Collection<PatchSet> getVisiblePatchSets(Collection<PatchSet> patchSets, ReviewDb db)
-      throws OrmException {
-    // TODO(hiesel) These don't need to be migrated, just remove after support for drafts is removed
-    Predicate<? super PatchSet> predicate =
-        ps -> {
-          try {
-            return isVisible(db);
-          } catch (OrmException e) {
-            return false;
-          }
-        };
-    return patchSets.stream().filter(predicate).collect(toList());
   }
 
   /** Can this user abandon this change? */
@@ -243,7 +151,7 @@ public class ChangeControl {
   }
 
   /** Can this user delete this change? */
-  public boolean canDelete(Change.Status status) {
+  private boolean canDelete(Change.Status status) {
     switch (status) {
       case NEW:
       case ABANDONED:
@@ -285,7 +193,7 @@ public class ChangeControl {
   }
 
   /** Is the current patch set locked against state changes? */
-  boolean isPatchSetLocked(ReviewDb db) throws OrmException {
+  private boolean isPatchSetLocked(ReviewDb db) throws OrmException {
     if (getChange().getStatus() == Change.Status.MERGED) {
       return false;
     }

@@ -27,6 +27,7 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RelatedChangesSorter.PatchSetData;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -64,14 +65,15 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
-      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException {
+      throws RepositoryNotFoundException, IOException, OrmException, NoSuchProjectException,
+          PermissionBackendException {
     RelatedInfo relatedInfo = new RelatedInfo();
     relatedInfo.changes = getRelated(rsrc);
     return relatedInfo;
   }
 
   private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException, NoSuchProjectException {
+      throws OrmException, IOException, NoSuchProjectException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes());
     if (groups.isEmpty()) {
       return Collections.emptyList();

@@ -55,7 +55,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -507,20 +506,17 @@ public class Submit
     private final Submit submit;
     private final ChangeJson.Factory json;
     private final PatchSetUtil psUtil;
-    private final ChangeControl.GenericFactory changeControlFactory;
 
     @Inject
     CurrentRevision(
         Provider<ReviewDb> dbProvider,
         Submit submit,
         ChangeJson.Factory json,
-        PatchSetUtil psUtil,
-        ChangeControl.GenericFactory changeControlFactory) {
+        PatchSetUtil psUtil) {
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
       this.psUtil = psUtil;
-      this.changeControlFactory = changeControlFactory;
     }
 
     @Override
@@ -530,10 +526,6 @@ public class Submit
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!changeControlFactory
-          .controlFor(rsrc.getNotes(), rsrc.getUser())
-          .isVisible(dbProvider.get())) {
-        throw new AuthException("current revision not accessible");
       }
 
       Output out = submit.apply(new RevisionResource(rsrc, ps), input);

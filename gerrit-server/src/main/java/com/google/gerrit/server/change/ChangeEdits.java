@@ -214,7 +214,8 @@ public class ChangeEdits
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc)
-        throws AuthException, IOException, ResourceNotFoundException, OrmException {
+        throws AuthException, IOException, ResourceNotFoundException, OrmException,
+            PermissionBackendException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
         return Response.none();

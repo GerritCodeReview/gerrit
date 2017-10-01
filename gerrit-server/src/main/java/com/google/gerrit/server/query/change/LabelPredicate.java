@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Provider;
@@ -38,7 +37,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   protected static class Args {
     protected final ProjectCache projectCache;
     protected final PermissionBackend permissionBackend;
-    protected final ChangeControl.GenericFactory ccFactory;
     protected final IdentifiedUser.GenericFactory userFactory;
     protected final Provider<ReviewDb> dbProvider;
     protected final String value;
@@ -48,7 +46,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected Args(
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
-        ChangeControl.GenericFactory ccFactory,
         IdentifiedUser.GenericFactory userFactory,
         Provider<ReviewDb> dbProvider,
         String value,
@@ -56,7 +53,6 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         AccountGroup.UUID group) {
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
-      this.ccFactory = ccFactory;
       this.userFactory = userFactory;
       this.dbProvider = dbProvider;
       this.value = value;
@@ -87,14 +83,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     super(
         predicates(
             new Args(
-                a.projectCache,
-                a.permissionBackend,
-                a.changeControlGenericFactory,
-                a.userFactory,
-                a.db,
-                value,
-                accounts,
-                group)));
+                a.projectCache, a.permissionBackend, a.userFactory, a.db, value, accounts, group)));
     this.value = value;
   }
 

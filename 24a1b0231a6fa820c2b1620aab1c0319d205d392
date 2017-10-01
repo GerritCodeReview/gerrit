@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffed2882_06c95b43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-01T11:32:50Z",
+      "side": 1,
+      "message": "paper-button has some horizontal margin that\u0027s messing up layouting, setting margin:0 here would fix that.",
+      "revId": "24a1b0231a6fa820c2b1620aab1c0319d205d392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -88,6 +88,13 @@ public class DashboardsCollection
     return id != null && isDefaultDashboard(id.toString());
   }
 
+  public static String normalizeDashboardRef(String ref) {
+    if (!ref.startsWith(REFS_DASHBOARDS)) {
+      return REFS_DASHBOARDS + ref;
+    }
+    return ref;
+  }
+
   @Override
   public RestView<ProjectResource> list() throws ResourceNotFoundException {
     return list.get();
@@ -131,13 +138,6 @@ public class DashboardsCollection
     throw new ResourceNotFoundException(id);
   }
 
-  public static String normalizeDashboardRef(String ref) {
-    if (!ref.startsWith(REFS_DASHBOARDS)) {
-      return REFS_DASHBOARDS + ref;
-    }
-    return ref;
-  }
-
   private DashboardResource parse(ProjectControl ctl, DashboardInfo info, ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
@@ -173,7 +173,7 @@ public class DashboardsCollection
     return views;
   }
 
-  static DashboardInfo newDashboardInfo(String ref, String path) {
+  public static DashboardInfo newDashboardInfo(String ref, String path) {
     DashboardInfo info = new DashboardInfo();
     info.ref = ref;
     info.path = path;

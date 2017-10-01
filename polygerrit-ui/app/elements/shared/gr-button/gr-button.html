@@ -52,21 +52,21 @@ limitations under the License.
       }
       /* todo (beckysiegel) switch all secondary to primary as there is no color
         distinction anymore. */
-      :host([primary]) paper-button[raised],
-      :host([secondary]) paper-button[raised] {
+      :host([primary]):not([disabled]) paper-button[raised],
+      :host([secondary]):not([disabled]) paper-button[raised] {
         background-color: var(--color-link);
         color: #fff;
       }
-      :host([link]) paper-button:hover,
-      :host([link]) paper-button:focus,
-      paper-button[raised]:hover,
-      paper-button[raised]:focus  {
+      :host([link]):not([disabled]) paper-button:hover,
+      :host([link]):not([disabled]) paper-button:focus,
+      host:not([disabled]) paper-button[raised]:hover,
+      host:not([disabled]) paper-button[raised]:focus  {
         color: var(--gr-button-hover-color, --color-button-hover);
       }
-      :host([primary]) paper-button[raised]:hover,
-      :host([primary]) paper-button[raised]:focus,
-      :host([secondary]) paper-button[raised]:hover,
-      :host([secondary]) paper-button[raised]:focus {
+      :host([primary]):not([disabled]) paper-button[raised]:hover,
+      :host([primary]):not([disabled]) paper-button[raised]:focus,
+      :host([secondary]):not([disabled]) paper-button[raised]:hover,
+      :host([secondary]):not([disabled]) paper-button[raised]:focus {
         background-color: var(--gr-button-hover-background-color, --color-button-hover);
         color: var(--gr-button-color, #fff);
       }

@@ -173,7 +173,7 @@ public class DashboardsCollection
     return views;
   }
 
-  static DashboardInfo newDashboardInfo(String ref, String path) {
+  public static DashboardInfo newDashboardInfo(String ref, String path) {
     DashboardInfo info = new DashboardInfo();
     info.ref = ref;
     info.path = path;

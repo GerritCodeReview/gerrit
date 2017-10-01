@@ -154,6 +154,12 @@ public interface ProjectApi {
    */
   DashboardApi defaultDashboard() throws RestApiException;
 
+  abstract class ListDashboardsRequest {
+    public abstract List<DashboardInfo> get() throws RestApiException;
+  }
+
+  ListDashboardsRequest dashboards() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -271,6 +277,11 @@ public interface ProjectApi {
 
     @Override
     public DashboardApi defaultDashboard() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ListDashboardsRequest dashboards() throws RestApiException {
       throw new NotImplementedException();
     }
   }

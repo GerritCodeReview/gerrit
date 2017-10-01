@@ -21,9 +21,11 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,11 +53,9 @@ public class GetDashboard implements RestReadView<DashboardResource> {
 
   @Override
   public DashboardInfo apply(DashboardResource resource)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException {
     if (inherited && !resource.isProjectDefault()) {
-      // inherited flag can only be used with default.
-      throw new ResourceNotFoundException("inherited");
+      throw new BadRequestException("inherited flag can only be used with default");
     }
 
     String project = resource.getControl().getProject().getName();

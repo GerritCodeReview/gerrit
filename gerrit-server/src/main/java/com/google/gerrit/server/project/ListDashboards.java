@@ -46,7 +46,7 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class ListDashboards implements RestReadView<ProjectResource> {
+public class ListDashboards implements RestReadView<ProjectResource> {
   private static final Logger log = LoggerFactory.getLogger(ListDashboards.class);
 
   private final GitRepositoryManager gitManager;

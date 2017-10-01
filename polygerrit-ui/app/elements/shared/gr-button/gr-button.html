@@ -50,6 +50,9 @@ limitations under the License.
         background-color: var(--gr-button-background, #fff);
         color: var(--gr-button-color, --color-link);
       }
+      :host([no-uppercase]) paper-button {
+        text-transform: none;
+      }
       /* todo (beckysiegel) switch all secondary to primary as there is no color
         distinction anymore. */
       :host([primary]) paper-button[raised],

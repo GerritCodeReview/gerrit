@@ -57,6 +57,10 @@ limitations under the License.
         background-color: var(--color-link);
         color: #fff;
       }
+      :host([primary][disabled]) paper-button[raised],
+      :host([disabled]) paper-button {
+        opacity: .5;
+      }
       :host([link]) paper-button:hover,
       :host([link]) paper-button:focus,
       paper-button[raised]:hover,
@@ -108,7 +112,7 @@ limitations under the License.
         color: #aaa;
       }
     </style>
-    <paper-button raised="[[!link]]">
+    <paper-button raised="[[!link]]" disabled="[[disabled]]">
       <content></content>
       <i class="downArrow"></i>
     </paper-button>

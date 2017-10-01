@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1506855524 +0200\nnonce ANEgCxdzIth5fwwpgaeN+dZakQ77HkRonMggOMfqVe/SLJUdGstQ7v4Z52Cq+ZpnxbgAcP+zokZg\n\n0000000000000000000000000000000000000000 29351648d75925ee6c2f6753616c70be018f2de8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ0MpkAAoJEHFVO370GiZWw9EH/RV7j40V4PMfCYVOVGntegcH\nwslmY/7Vl3JpvYKDtyt1In1SMgNysc3GAEn4yIb2+gwD6z7Wd7liqhVtVycskkC+\njWJg4rlCLcbTim633XJVPbzMgqsfvCVqPF1JfnRpjNfmgWqq+7VbwodyIJzBufT9\nXoLdfYhTbnDGAAiShox56NN85qzvvjJiALY32wnQxHx9uNnj/rQ2+6fjqs0Yqrqp\n1cxc/ScEULQf2noGeMvpPAngZU2p4Oj2zlgNAlwe2vjXXzqNB3yvyUBvtSm7FWIG\nm/zTamqeISuIXS2hCbgCCT/LurljaKfQPLtmmNn10IrllVYo5j7C1TjFjxDsXGw\u003d\n\u003dJzR5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b62bb3_f75f8e38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkAsReviewed.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-01T12:24:53Z",
+      "side": 1,
+      "message": "I wonder can this be Mark Reviewed?",
+      "range": {
+        "startLine": 56,
+        "startChar": 19,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "5c3dba8068bd6bde93896430c4f5d7311d0a5c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50a7392d_d46a7d1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkAsUnreviewed.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-01T12:24:53Z",
+      "side": 1,
+      "message": "I wonder can this be Mark Unreviewed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 37
+      },
+      "revId": "5c3dba8068bd6bde93896430c4f5d7311d0a5c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da14d444_4c92e442",
+        "filename": "gerrit-acceptance-framework/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T20:25:42Z",
+      "side": 0,
+      "message": "I think we want to keep Luca and Patrick here and in the other pom.xml files.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 15
+      },
+      "revId": "d52ccbcfc41ddba0e2fe319700fd1a2123f459c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

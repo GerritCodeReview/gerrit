@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef775e87_dfabcb62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T14:27:44Z",
+      "side": 1,
+      "message": "It looks like the firstCallHandler stub isn\u0027t used and because the get() method returns a promise, we might get away with returning the promise to avoid the flush() and the done().\n\nDoes the following work?\n\ntest(\u0027configures hljs\u0027, () \u003d\u003e {\n  return element.get().then(() \u003d\u003e {\n    assert.isTrue(window.hljs.configure.calledOnce);\n  });\n});",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "476c2bac56fb97adba285796c49478db26c416a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

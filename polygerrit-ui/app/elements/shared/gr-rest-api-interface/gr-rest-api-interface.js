@@ -1843,7 +1843,7 @@
      * @param {?string} endpoint gets passed as null.
      * @param {?Object|number|string=} opt_payload gets passed as null, string,
      *    Object, or number.
-     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      * @param {?=} opt_contentType
      * @return {!Promise<!Object>}

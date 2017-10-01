@@ -181,8 +181,9 @@
     _generateUrl(params) {
       const base = this.getBaseUrl();
       let url = '';
+      const Views = Gerrit.Nav.View;
 
-      if (params.view === Gerrit.Nav.View.SEARCH) {
+      if (params.view === Views.SEARCH) {
         const operators = [];
         if (params.owner) {
           operators.push('owner:' + this.encodeURL(params.owner, false));
@@ -213,7 +214,7 @@
           }
         }
         url = '/q/' + operators.join('+');
-      } else if (params.view === Gerrit.Nav.View.CHANGE) {
+      } else if (params.view === Views.CHANGE) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
         if (params.project) {
@@ -221,13 +222,16 @@
         } else {
           url = `/c/${params.changeNum}${range}`;
         }
-      } else if (params.view === Gerrit.Nav.View.DASHBOARD) {
+      } else if (params.view === Views.DASHBOARD) {
         url = `/dashboard/${params.user || 'self'}`;
-      } else if (params.view === Gerrit.Nav.View.DIFF) {
+      } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
 
         let suffix = `${range}/${this.encodeURL(params.path, true)}`;
+
+        if (params.view === Views.EDIT) { suffix += ',edit'; }
+
         if (params.lineNum) {
           suffix += '#';
           if (params.leftSide) { suffix += 'b'; }
@@ -238,9 +242,6 @@
           url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
         } else {
           url = `/c/${params.changeNum}${suffix}`;
-        }
-        if (params.edit) {
-          url += ',edit';
         }
       } else {
         throw new Error('Can\'t generate');

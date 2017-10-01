@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
+<link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
@@ -49,6 +50,12 @@ limitations under the License.
       };
       :host(.editLoaded) .hideOnEdit {
         display: none;
+      }
+      .showOnEdit {
+        display: none;
+      }
+      :host(.editLoaded) .showOnEdit {
+        display: initial;
       }
       .reviewed,
       .status {
@@ -184,6 +191,10 @@ limitations under the License.
         display: initial;
         opacity: 100;
       }
+      .editFileControls {
+        margin-left: 1em;
+        width: 4em;
+      }
       @media screen and (max-width: 50em) {
         .desktop {
           display: none;
@@ -299,6 +310,12 @@ limitations under the License.
               <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
             </label>
           </div>
+          <div class="editFileControls showOnEdit">
+            <gr-edit-file-controls
+                class$="[[_computeClass('', file.__path)]]"
+                file-path="[[file.__path]]"
+                on-edit-tap="_handleEditTap"></gr-edit-file-controls>
+          </div>
         </div>
         <template is="dom-if"
             if="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]">
@@ -338,6 +355,7 @@ limitations under the License.
       </div>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
+      <div class="editFileControls showOnEdit"></div>
     </div>
     <div
         class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"

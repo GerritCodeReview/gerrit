@@ -65,7 +65,9 @@ public class RawMailParser {
     if (mimeMessage.getSubject() != null) {
       messageBuilder.subject(mimeMessage.getSubject());
     }
-    messageBuilder.dateReceived(mimeMessage.getDate().toInstant());
+    if (mimeMessage.getDate() != null) {
+      messageBuilder.dateReceived(mimeMessage.getDate().toInstant());
+    }
 
     // Add From, To and Cc
     if (mimeMessage.getFrom() != null && mimeMessage.getFrom().size() > 0) {

@@ -609,21 +609,29 @@ limitations under the License.
       flushAsynchronousOperations();
       const fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      const commitMsg = fileRows[0].querySelector(
-          'input.reviewed[type="checkbox"]');
-      const fileAdded = fileRows[1].querySelector(
-          'input.reviewed[type="checkbox"]');
-      const myFile = fileRows[2].querySelector(
-          'input.reviewed[type="checkbox"]');
+      const checkSelector = 'input.reviewed[type="checkbox"]';
+      const commitMsg = fileRows[0].querySelector(checkSelector);
+      const fileAdded = fileRows[1].querySelector(checkSelector);
+      const myFile = fileRows[2].querySelector(checkSelector);
 
       assert.isTrue(commitMsg.checked);
       assert.isFalse(fileAdded.checked);
       assert.isTrue(myFile.checked);
 
-      MockInteractions.tap(commitMsg);
+      const commitReviewLabel = fileRows[0].querySelector('.reviewedLabel');
+      const markReviewLabel = commitMsg.nextElementSibling;
+      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+
+      MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
-      MockInteractions.tap(commitMsg);
+      assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
+
+      MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
+      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
     });
 
     test('patch set from revisions', () => {
@@ -1207,12 +1215,15 @@ limitations under the License.
 
       test('reviewed checkbox', () => {
         const alertStub = sandbox.stub();
+        const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
+
         element.addEventListener('show-alert', alertStub);
         element.editLoaded = false;
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$$('.reviewed')));
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isFalse(alertStub.called);
+        assert.isTrue(saveReviewStub.calledOnce);
 
         element.editLoaded = true;
         flushAsynchronousOperations();
@@ -1220,6 +1231,7 @@ limitations under the License.
         assert.isFalse(isVisible(element.$$('.reviewed')));
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isTrue(alertStub.called);
+        assert.isTrue(saveReviewStub.calledOnce);
       });
 
       test('_getReviewedFiles does not call API', () => {

@@ -37,6 +37,7 @@ limitations under the License.
         display: block;
       }
       .row {
+        align-items: center;
         border-top: 1px solid #eee;
         display: flex;
         padding: .1em .25em;
@@ -44,6 +45,9 @@ limitations under the License.
       :host(.loading) .row {
         opacity: .5;
       };
+      :host(.editLoaded) .hideOnEdit {
+        display: none;
+      }
       .reviewed,
       .status {
         align-items: center;
@@ -107,14 +111,13 @@ limitations under the License.
         font-family: var(--font-family-bold);
       }
       .show-hide {
-        margin-left: .4em;
+        width: 1em;
       }
       .fileListButton {
         margin: .5em;
       }
       .totalChanges {
         justify-content: flex-end;
-        padding-right: 2.6em;
         text-align: right;
       }
       .warning {
@@ -129,7 +132,6 @@ limitations under the License.
         display: block;
         font-size: .8em;
         min-width: 2em;
-        margin-top: .1em;
       }
       gr-diff {
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
@@ -147,11 +149,38 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      #container.editLoaded .hideOnEdit {
-        display: none;
-      }
       .expandInline {
         padding-right: .25em;
+      }
+      .reviewed {
+        margin-left: 2em;
+        width: 15em;
+      }
+      .reviewed label {
+        color: #2A66D9;
+        opacity: 0;
+        justify-content: flex-end;
+        width: 100%;
+      }
+      .reviewed label:hover {
+        cursor: pointer;
+        opacity: 100;
+      }
+      .row:hover .reviewed label,
+      .row:focus .reviewed label {
+        opacity: 100;
+      }
+      .reviewed input {
+        display: none;
+      }
+      .reviewedLabel {
+        color: rgba(0, 0, 0, .54);
+        margin-right: 1em;
+        opacity: 0;
+      }
+      .reviewedLabel.isReviewed {
+        display: initial;
+        opacity: 100;
       }
       @media screen and (max-width: 50em) {
         .desktop {
@@ -185,7 +214,6 @@ limitations under the License.
     </style>
     <div
         id="container"
-        class$="[[_computeContainerClass(editLoaded)]]"
         on-tap="_handleFileListTap">
       <template is="dom-repeat"
           items="[[_shownFiles]]"
@@ -194,13 +222,14 @@ limitations under the License.
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
         <div class="file-row row" data-path$="[[file.__path]]" tabindex="-1">
-          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
-            <input
-                type="checkbox"
-                checked="[[file.isReviewed]]"
-                class="reviewed"
-                aria-label="Reviewed checkbox"
-                title="Mark as reviewed (shortcut: r)">
+          <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
+            <label class="show-hide" data-path$="[[file.__path]]"
+                data-expand=true>
+              <input type="checkbox" class="show-hide"
+                  checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                  data-path$="[[file.__path]]" data-expand=true>
+              [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
+            </label>
           </div>
           <div class$="[[_computeClass('status', file.__path)]]"
               tabindex="0"
@@ -261,13 +290,11 @@ limitations under the License.
               [[_formatPercentage(file.size, file.size_delta)]]
             </span>
           </div>
-          <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
-            <label class="show-hide" data-path$="[[file.__path]]"
-                data-expand=true>
-              <input type="checkbox" class="show-hide"
-                  checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
-                  data-path$="[[file.__path]]" data-expand=true>
-              [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
+          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
+            <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
+            <label>
+              <input class="reviewed" type="checkbox" checked="[[file.isReviewed]]">
+              <span class="markReviewed" title="Mark as reviewed (shortcut: r)">[[_computeReviewedText(file.isReviewed)]]</span>
             </label>
           </div>
         </div>
@@ -307,6 +334,8 @@ limitations under the License.
           -[[_patchChange.deleted]]
         </span>
       </div>
+      <!-- Empty div here exists to keep spacing in sync with file rows. -->
+      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
     </div>
     <div
         class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"

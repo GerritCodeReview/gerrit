@@ -22,6 +22,47 @@
       "revId": "f7577f258fc08a735bd7489b1ba4a5cb023ffb63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd28c92_5cd54e95",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T13:43:16Z",
+      "side": 1,
+      "message": "I think a solution that meets EXP-{1,2} needs to be supported in ReviewDb.\n\nIf you asked me in six months, then maybe I would have a different answer, but that\u0027s not the timeline we\u0027re working with here.",
+      "parentUuid": "4503e227_f4da9b58",
+      "range": {
+        "startLine": 94,
+        "startChar": 70,
+        "endLine": 94,
+        "endChar": 78
+      },
+      "revId": "f7577f258fc08a735bd7489b1ba4a5cb023ffb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835d83b2_4551ae15",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T13:43:16Z",
+      "side": 1,
+      "message": "This implementation is pretty easy. Implemented a rough proof-of-concept in https://gerrit-review.googlesource.com/c/gerrit/+/129886",
+      "revId": "f7577f258fc08a735bd7489b1ba4a5cb023ffb63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

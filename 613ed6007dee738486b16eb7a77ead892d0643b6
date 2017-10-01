@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02b41fa1_cb55cd67",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T11:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de8be363_f9996cc7",
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2a11651_9b40b38e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89851d05_0421e556",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T11:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2a11651_9b40b38e",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 20
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7f7cc6ec_b2bde261",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T11:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ff302c_bcb488a3",
+      "range": {
+        "startLine": 489,
+        "startChar": 4,
+        "endLine": 489,
+        "endChar": 21
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbbe7c6d_be1418f8",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "20e9fe1d_18a93fc8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T11:31:12Z",
+      "side": 1,
+      "message": "I tried this approach originally too, however, because we use getAccount to check authentication, in addition to getting the current user details, that function works differently and rolling the functionality together breaks just about everything.",
+      "parentUuid": "cbbe7c6d_be1418f8",
+      "range": {
+        "startLine": 489,
+        "startChar": 0,
+        "endLine": 491,
+        "endChar": 6
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c61a6642_49f632ee",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -108,6 +198,30 @@
       "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca6054a0_2a60e1b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T11:31:12Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem that bad to me, but I went ahead and filed issue 7314.",
+      "parentUuid": "c61a6642_49f632ee",
+      "range": {
+        "startLine": 586,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 0
+      },
+      "revId": "613ed6007dee738486b16eb7a77ead892d0643b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

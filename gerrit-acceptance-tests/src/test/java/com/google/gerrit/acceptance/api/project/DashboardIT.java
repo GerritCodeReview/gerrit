@@ -29,10 +29,16 @@ import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class DashboardIT extends AbstractDaemonTest {
+  @Before
+  public void setup() throws Exception {
+    allow("refs/meta/dashboards/*", Permission.CREATE, REGISTERED_USERS);
+  }
+
   @Test
   public void defaultDashboardDoesNotExist() throws Exception {
     exception.expect(ResourceNotFoundException.class);
@@ -82,7 +88,6 @@ public class DashboardIT extends AbstractDaemonTest {
   private DashboardInfo createDashboard(String ref, String path) throws Exception {
     DashboardInfo info = DashboardsCollection.newDashboardInfo(ref, path);
     String canonicalRef = DashboardsCollection.normalizeDashboardRef(info.ref);
-    allow("refs/meta/dashboards/*", Permission.CREATE, REGISTERED_USERS);
     gApi.projects().name(project.get()).branch(canonicalRef).create(new BranchInput());
     try (Repository r = repoManager.openRepository(project)) {
       TestRepository<Repository>.CommitBuilder cb =

@@ -870,7 +870,6 @@ public class RefControlTest {
     return new ProjectControl(
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
-        projectCache,
         sectionSorter,
         null, // commitsCollection
         changeControlFactory,

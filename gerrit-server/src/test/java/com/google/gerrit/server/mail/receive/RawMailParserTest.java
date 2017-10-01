@@ -65,7 +65,7 @@ public class RawMailParserTest extends GerritBaseTests {
     assertThat(have.to()).isEqualTo(want.to());
     assertThat(have.from()).isEqualTo(want.from());
     assertThat(have.cc()).isEqualTo(want.cc());
-    assertThat(have.dateReceived().getMillis()).isEqualTo(want.dateReceived().getMillis());
+    assertThat(have.dateReceived()).isEqualTo(want.dateReceived());
     assertThat(have.additionalHeaders()).isEqualTo(want.additionalHeaders());
     assertThat(have.subject()).isEqualTo(want.subject());
     assertThat(have.textContent()).isEqualTo(want.textContent());

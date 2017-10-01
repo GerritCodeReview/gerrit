@@ -88,8 +88,11 @@ limitations under the License.
     });
 
     suite('preloaded', () => {
+      const hljsStub = {
+        configure: () => {}
+      };
       setup(() => {
-        window.hljs = 'test-object';
+        window.hljs = hljsStub;
       });
 
       teardown(() => {
@@ -101,7 +104,7 @@ limitations under the License.
         element.get().then(firstCallHandler);
         flush(() => {
           assert.isTrue(firstCallHandler.called);
-          assert.isTrue(firstCallHandler.calledWith('test-object'));
+          assert.isTrue(firstCallHandler.calledWith(hljsStub));
           done();
         });
       });

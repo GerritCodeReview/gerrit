@@ -139,7 +139,6 @@ public class ProjectControl {
   ProjectControl(
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
-      ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       CommitsCollection commits,
       ChangeControl.Factory changeControlFactory,

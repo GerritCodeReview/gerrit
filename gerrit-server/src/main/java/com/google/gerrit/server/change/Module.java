@@ -90,8 +90,6 @@ public class Module extends RestApiModule {
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     put(CHANGE_KIND, "ignore").to(Ignore.class);
     put(CHANGE_KIND, "unignore").to(Unignore.class);
-    put(CHANGE_KIND, "mute").to(Mute.class);
-    put(CHANGE_KIND, "unmute").to(Unmute.class);
     put(CHANGE_KIND, "reviewed").to(MarkAsReviewed.class);
     put(CHANGE_KIND, "unreviewed").to(MarkAsUnreviewed.class);
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7fcbbf2_fb107cc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T14:18:34Z",
+      "side": 1,
+      "message": "I wonder if this is the right approach for handling ignored changes. Maybe we should just have the ChangeQueryProcessor/ChangeQueryRewriter add the -is:ignored term?\n\nAnother way of looking at it: if a user types an arbitrary query [message:foo owner:bar] into the search box, should it omit ignored changes? If arbitrary searches should return ignored changes, then it\u0027s appropriate to just omit them from dashboard queries, and this change is probably fine as-is. If OTOH all searches should omit ignored changes, then we need a more general approach in the backend.",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

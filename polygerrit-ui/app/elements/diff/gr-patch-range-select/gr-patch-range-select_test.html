@@ -79,19 +79,74 @@ limitations under the License.
           patchRange.basePatchNum, sortedRevisions));
     });
 
-    test('_updateSelected called with subproperty changes', () => {
-      sandbox.stub(element, '_updateSelected');
-      element.patchRange = {patchNum: 1, basePatchNum: 'PARENT'};
-      assert.equal(element._updateSelected.callCount, 1);
-
-      element.set('patchRange.patchNum', 2);
-      assert.equal(element._updateSelected.callCount, 2);
-
-      element.set('patchRange.basePatchNum', 1);
-      assert.equal(element._updateSelected.callCount, 3);
+    test('_computeBaseDropdownContent', () => {
+      element.comments = {};
+      const availablePatches = [
+        {num: 1},
+        {num: 2},
+        {num: 3},
+        {num: 'edit'},
+      ];
+      const revisions = [
+        {
+          commit: {},
+          _number: 2,
+          description: 'description',
+        },
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      const patchNum = 1;
+      const sortedRevisions = [
+        {_number: 1},
+        {_number: 2},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 3},
+      ];
+      const expectedResult = [
+        {
+          text: 'Base',
+          value: 'PARENT',
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset 1',
+          text: 'Patchset 1',
+          mobileText: '1',
+          bottomText: '',
+          value: 1,
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset 2',
+          text: 'Patchset 2',
+          mobileText: '2 description',
+          bottomText: 'description',
+          value: 2,
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset 3',
+          text: 'Patchset 3',
+          mobileText: '3',
+          bottomText: '',
+          value: 3,
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset edit',
+          text: 'Patchset edit',
+          mobileText: 'edit',
+          bottomText: '',
+          value: 'edit',
+        },
+      ];
+      assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
+          patchNum, sortedRevisions, revisions), expectedResult);
     });
 
-    test('_computeLeftDisabled called when patchNum updates', () => {
+    test('_computeBaseDropdownContent called when patchNum updates', () => {
       element.revisions = [
         {commit: {}},
         {commit: {}},
@@ -104,118 +159,103 @@ limitations under the License.
         {num: 3},
         {num: 'edit'},
       ];
-      element.patchRange = {patchNum: 2, basePatchNum: 'PARENT'};
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
+      flushAsynchronousOperations();
+
+      sandbox.stub(element, '_computeBaseDropdownContent');
+
+      // Should be recomputed for each available patch
+      element.set('patchNum', 1);
+      assert.equal(element._computeBaseDropdownContent.callCount, 1);
+    });
+
+    test('_computePatchDropdownContent called when basePatchNum updates', () => {
+      element.revisions = [
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      element.availablePatches = [
+        {num: 1},
+        {num: 2},
+        {num: 3},
+        {num: 'edit'},
+      ];
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
       flushAsynchronousOperations();
 
       // Should be recomputed for each available patch
-      sandbox.stub(element, '_computeLeftDisabled');
-      element.set('patchRange.patchNum', '1');
-      assert.equal(element._computeLeftDisabled.callCount, 4);
+      sandbox.stub(element, '_computePatchDropdownContent');
+      element.set('basePatchNum', 1);
+      assert.equal(element._computePatchDropdownContent.callCount, 1);
     });
 
-    test('_computeRightDisabled called when basePatchNum updates', () => {
-      element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
-      element.availablePatches = [
+    test('_computePatchDropdownContent', () => {
+      element.comments = {};
+      const availablePatches = [
         {num: 1},
         {num: 2},
         {num: 3},
         {num: 'edit'},
       ];
-      element.patchRange = {patchNum: 2, basePatchNum: 'PARENT'};
-      flushAsynchronousOperations();
-
-      // Should be recomputed for each available patch
-      sandbox.stub(element, '_computeRightDisabled');
-      element.set('patchRange.basePatchNum', '1');
-      assert.equal(element._computeRightDisabled.callCount, 4);
-    });
-
-
-    test('changes in patch range fire event', done => {
-      sandbox.stub(element, '_computeLeftDisabled').returns(false);
-      sandbox.stub(element, '_computeRightDisabled').returns(false);
-      const patchRangeChangedStub = sandbox.stub();
-      element.addEventListener('patch-range-change', patchRangeChangedStub);
-
-      const leftSelectEl = element.$.leftPatchSelect;
-      const rightSelectEl = element.$.rightPatchSelect;
-      const blurSpy = sandbox.spy(leftSelectEl, 'blur');
-      element.changeNum = '42';
-      element.path = 'path/to/file.txt';
-      element.availablePatches =
-          [{num: '1'}, {num: '2'}, {num: '3'}, {num: 'edit'}];
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
-      flushAsynchronousOperations();
-
-      let numEvents = 0;
-      leftSelectEl.addEventListener('change', e => {
-        numEvents++;
-        if (numEvents === 1) {
-          assert.deepEqual(patchRangeChangedStub.lastCall.args[0].detail,
-              {rightPatch: '3', leftPatch: 'PARENT'});
-          leftSelectEl.nativeSelect.value = 'edit';
-          element.fire('change', {}, {node: leftSelectEl});
-          assert(blurSpy.called, 'Dropdown should be blurred after selection');
-        } else if (numEvents === 2) {
-          assert.deepEqual(patchRangeChangedStub.lastCall.args[0].detail,
-              {rightPatch: '3', leftPatch: 'edit'});
-          rightSelectEl.nativeSelect.value = '1';
-          element.fire('change', {}, {node: rightSelectEl});
-        }
-      });
-      rightSelectEl.addEventListener('change', e => {
-        assert.deepEqual(patchRangeChangedStub.lastCall.args[0].detail,
-            {rightPatch: '1', leftPatch: 'edit'});
-        done();
-      });
-      leftSelectEl.nativeSelect.value = 'PARENT';
-      rightSelectEl.nativeSelect.value = '3';
-      element.fire('change', {}, {node: leftSelectEl});
-    });
-
-    test('diff against dropdown', done => {
-      element.revisions = [
-        {commit: {}},
+      const revisions = [
+        {
+          commit: {},
+          _number: 2,
+          description: 'description',
+        },
         {commit: {}},
         {commit: {}},
         {commit: {}},
       ];
-      element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
+      const basePatchNum = 1;
+      const sortedRevisions = [
+        {_number: 1},
+        {_number: 2},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 3},
       ];
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '3',
-      };
 
-      const patchRangeChangedStub = sandbox.stub();
-      element.addEventListener('patch-range-change', patchRangeChangedStub);
+      const expectedResult = [
+        {
+          disabled: true,
+          triggerText: 'Patchset 1',
+          text: 'Patchset 1',
+          mobileText: '1',
+          bottomText: '',
+          value: 1,
+        },
+        {
+          disabled: false,
+          triggerText: 'Patchset 2',
+          text: 'Patchset 2',
+          mobileText: '2 description',
+          bottomText: 'description',
+          value: 2,
+        },
+        {
+          disabled: false,
+          triggerText: 'Patchset 3',
+          text: 'Patchset 3',
+          mobileText: '3',
+          bottomText: '',
+          value: 3,
+        },
+        {
+          disabled: false,
+          triggerText: 'Patchset edit',
+          text: 'Patchset edit',
+          mobileText: 'edit',
+          bottomText: '',
+          value: 'edit',
+        },
+      ];
 
-      flush(() => {
-        const selectEl = element.$.leftPatchSelect;
-        assert.equal(selectEl.nativeSelect.value, 'PARENT');
-        assert.isTrue(element.$$('#leftPatchSelect option[value="3"]')
-            .hasAttribute('disabled'));
-        selectEl.addEventListener('change', () => {
-          assert.equal(selectEl.nativeSelect.value, 'edit');
-          assert.deepEqual(patchRangeChangedStub.lastCall.args[0].detail,
-              {leftPatch: 'edit', rightPatch: '3'});
-          done();
-        });
-        selectEl.nativeSelect.value = 'edit';
-        element.fire('change', {}, {node: selectEl.nativeSelect});
-      });
+      assert.deepEqual(element._computePatchDropdownContent(availablePatches,
+          basePatchNum, sortedRevisions, revisions), expectedResult);
     });
 
     test('filesWeblinks', () => {
@@ -264,12 +304,12 @@ limitations under the License.
       };
 
       assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(3 comments, 1 unresolved)');
+          ' (3 comments, 1 unresolved)');
 
       // Test string with no unresolved comments.
       delete comments['foo'];
       assert.equal(element._computePatchSetCommentsString(comments, 1),
-          '(2 comments)');
+          ' (2 comments)');
 
       // Test string with no comments.
       delete comments['bar'];

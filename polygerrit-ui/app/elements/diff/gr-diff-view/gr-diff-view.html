@@ -283,11 +283,11 @@ limitations under the License.
           <gr-patch-range-select
               id="rangeSelect"
               change-num="[[_changeNum]]"
-              patch-range="[[_patchRange]]"
+              patch-num="{{_patchNum}}"
+              base-patch-num="{{_basePatchNum}}"
               files-weblinks="[[_filesWeblinks]]"
-              available-patches="[[_computeAvailablePatches(_change.revisions, _change.revisions.*)]]"
-              revisions="[[_change.revisions]]"
-              on-patch-range-change="_handlePatchChange">
+              available-patches="[[_allPatchSets]]"
+              revisions="[[_change.revisions]]">
           </gr-patch-range-select>
           <span class="download desktop">
             <span class="separator">/</span>

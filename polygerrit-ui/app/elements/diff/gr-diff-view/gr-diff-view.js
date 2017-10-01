@@ -63,6 +63,22 @@
       },
 
       _patchRange: Object,
+      // These are kept as separate properties from the patchRange so that the
+      // observer can be aware of the previous value. In order to view sub
+      // property changes for _patchRange, a complex observer must be used, and
+      // that only displays the new value.
+      //
+      // If a previous value did not exist, the change is not reloaded with the
+      // new patches. This is just the initial setting from the change view vs.
+      // an update coming from the two way data binding.
+      _patchNum: {
+        type: String,
+        observer: '_patchOrBaseChanged',
+      },
+      _basePatchNum: {
+        type: String,
+        observer: '_patchOrBaseChanged',
+      },
       /**
        * @type {{
        *  subject: string,
@@ -124,7 +140,6 @@
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
       },
-
       _isBlameSupported: {
         type: Boolean,
         value: false,
@@ -133,6 +148,10 @@
       _isBlameLoading: {
         type: Boolean,
         value: false,
+      },
+      _allPatchSets: {
+        type: Array,
+        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
       },
     },
 
@@ -147,6 +166,7 @@
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
       '_setReviewedObserver(_loggedIn, params.*)',
+      '_patchRangeChanged(_patchRange.*)',
     ],
 
     keyBindings: {
@@ -563,6 +583,17 @@
       this.$.cursor.initialLineNumber = params.lineNum;
     },
 
+    _patchRangeChanged() {
+      this._basePatchNum = this._patchRange.basePatchNum;
+      this._patchNum = this._patchRange.patchNum;
+    },
+
+    _patchOrBaseChanged(patchNew, patchOld) {
+      if (!patchOld) { return; }
+
+      this._handlePatchChange(this._basePatchNum, this._patchNum);
+    },
+
     _pathChanged(path) {
       if (path) {
         this.fire('title-change',
@@ -591,12 +622,6 @@
         patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
       }
       return patchStr;
-    },
-
-    _computeAvailablePatches(revs) {
-      return this.sortRevisions(Object.values(revs)).map(e => {
-        return {num: e._number};
-      });
     },
 
     /**
@@ -675,11 +700,9 @@
       this.$.dropdown.open();
     },
 
-    _handlePatchChange(e) {
-      const rightPatch = e.detail.rightPatch;
-      const leftPatch = e.detail.leftPatch;
+    _handlePatchChange(basePatchNum, patchNum) {
       Gerrit.Nav.navigateToDiff(
-          this._change, this._path, rightPatch, leftPatch);
+          this._change, this._path, patchNum, basePatchNum);
     },
 
     _handlePrefsTap(e) {

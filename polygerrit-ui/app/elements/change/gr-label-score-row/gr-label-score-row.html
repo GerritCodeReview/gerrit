@@ -51,19 +51,24 @@ limitations under the License.
       .selectedValueText.hidden {
         display: none;
       }
-      iron-selector > gr-button:first-of-type {
-        border-bottom-left-radius: 2px;
-        border-top-left-radius: 2px;
-      }
-      iron-selector > gr-button:last-of-type {
-        border-bottom-right-radius: 2px;
-        border-top-right-radius: 2px;
-      }
-      iron-selector > gr-button.iron-selected {
-        background-color: #ddd;
-      }
       gr-button {
         min-width: 40px;
+        --gr-button: {
+          border: 1px solid #d1d2d3;
+          border-radius: 12px;
+          box-shadow: none;
+          padding: .2em .85em;
+        }
+        --gr-button-background: #f5f5f5;
+        --gr-button-color: black;
+        --gr-button-hover-color: black;
+
+      }
+      iron-selector > gr-button.iron-selected {
+        --gr-button-background:#ddd;
+        --gr-button-color: black;
+        --gr-button-hover-background-color: #ddd;
+        --gr-button-hover-color: black;
       }
       .placeholder {
         display: inline-block;

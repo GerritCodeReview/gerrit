@@ -83,6 +83,7 @@ limitations under the License.
               </template>
               <td>
                 <gr-button
+                    link
                     data-index$="[[projectIndex]]"
                     on-tap="_handleRemoveProject">Delete</gr-button>
               </td>
@@ -106,7 +107,7 @@ limitations under the License.
                   placeholder="branch:name, or other search expression">
             </th>
             <th>
-              <gr-button on-tap="_handleAddProject">Add</gr-button>
+              <gr-button link on-tap="_handleAddProject">Add</gr-button>
             </th>
           </tr>
         </tfoot>

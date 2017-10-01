@@ -18,122 +18,100 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-button">
   <template strip-whitespace>
     <style include="shared-styles">
       :host {
-        background-color: #f5f5f5;
-        border: 1px solid #d1d2d3;
-        border-radius: 2px;
-        box-sizing: border-box;
-        color: #333;
-        cursor: pointer;
         display: inline-block;
         font-family: var(--font-family-bold);
         font-size: 12px;
-        outline-width: 0;
-        padding: .4em .85em;
         position: relative;
-        text-align: center;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
       }
       :host([hidden]) {
         display: none;
       }
-      :host([primary]),
-      :host([secondary]) {
-        color: #fff;
-      }
-      :host([primary]) {
-        background-color: #4d90fe;
-        border-color: #3079ed;
-      }
-      :host([secondary]) {
-        background-color: #d14836;
-        border-color: transparent;
-      }
-      :host([small]) {
-        font-size: 12px;
-      }
       :host([link]) {
         background-color: transparent;
         border: none;
-        color: #00f;
+        color: var(--color-link);
         font-size: inherit;
-        font-family: var(--font-family);
-        padding: 0;
-        text-decoration: underline;
+        font-family: var(--font-family-bold);
+        text-transform: none;
       }
-      :host([loading]),
-      :host([disabled]) {
+      :host([link]) paper-button {
+        margin: 0;
+        padding: 0;
+        @apply --gr-button;
+      }
+      paper-button[raised] {
+        background-color: var(--gr-button-background, #fff);
+        color: var(--gr-button-color, --color-link);
+      }
+      /* todo (beckysiegel) switch all secondary to primary as there is no color
+        distinction anymore. */
+      :host([primary]) paper-button[raised],
+      :host([secondary]) paper-button[raised] {
+        background-color: var(--color-link);
+        color: #fff;
+      }
+      :host([link]) paper-button:hover,
+      :host([link]) paper-button:focus,
+      paper-button[raised]:hover,
+      paper-button[raised]:focus  {
+        color: var(--gr-button-hover-color, --color-button-hover);
+      }
+      :host([primary]) paper-button[raised]:hover,
+      :host([primary]) paper-button[raised]:focus,
+      :host([secondary]) paper-button[raised]:hover,
+      :host([secondary]) paper-button[raised]:focus {
+        background-color: var(--gr-button-hover-background-color, --color-button-hover);
+        color: var(--gr-button-color, #fff);
+      }
+      paper-button,
+      paper-button[raised],
+      paper-button[link] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        min-width: 0;
+        padding: .4em .85em;
+        @apply --gr-button;
+      }
+      :host([link]) paper-button {
+        --paper-button: {
+          padding: 0;
+        }
+      }
+      :host:not([down-arrow]) .downArrow {display: none; }
+      :host([down-arrow]) .downArrow {
+        border-left: .36em solid transparent;
+        border-right: .36em solid transparent;
+        border-top: .36em solid #ccc;
+        margin-left: .5em;
+        transition: border-top-color 200ms;
+      }
+      :host([down-arrow]):hover .downArrow {
+        border-top-color: #666;
+      }
+      :host([loading]) paper-button,
+      :host([disabled]) paper-button {
+        color: #aaa;
+      }
+      :host([loading]) paper-button,
+      :host([loading][disabled]) paper-button {
+        cursor: wait;
         background-color: #efefef;
         color: #aaa;
       }
-      :host([disabled]) {
-        cursor: default;
-      }
-      :host([loading]),
-      :host([loading][disabled]) {
-        cursor: wait;
-      }
-      :host:focus:not([link]),
-      :host:hover:not([link]) {
-        background-color: #f8f8f8;
-        border-color: #aaa;
-      }
-      :host(:active) {
-        border-color: #d1d2d3;
-        color: #aaa;
-      }
-      :host([primary]:focus),
-      :host([secondary]:focus),
-      :host([primary]:active),
-      :host([secondary]:active) {
-        color: #fff;
-      }
-      :host([primary]:focus) {
-        box-shadow: 0 0 1px #00f;
-        background-color: #4d90fe;
-      }
-      :host([primary]:not([disabled]):hover) {
-        background-color: #4d90fe;
-        border-color: #00F;
-      }
-      :host([primary]:active),
-      :host([secondary]:active) {
-        box-shadow: none;
-      }
-      :host([primary]:active) {
-        border-color: #0c2188;
-      }
-      :host([secondary]:focus) {
-        box-shadow: 0 0 1px #f00;
-        background-color: #d14836;
-      }
-      :host([secondary]:not([disabled]):hover) {
-        background-color: #c53727;
-        border: 1px solid #b0281a;
-      }
-      :host([secondary]:active) {
-        border-color: #941c0c;
-      }
-      :host([primary][loading]) {
-        background-color: #7caeff;
-        border-color: transparent;
-        color: #fff;
-      }
-      :host([primary][disabled]) {
-        background-color: #4d90fe;
-        color: #fff;
-        opacity: .5;
-      }
     </style>
-    <content></content>
+    <paper-button raised="[[!link]]">
+      <content></content>
+      <i class="downArrow"></i>
+    </paper-button>
   </template>
   <script src="gr-button.js"></script>
 </dom-module>

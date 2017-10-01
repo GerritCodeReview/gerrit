@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const AWAIT_MAX_ITERS = 10;
+  const AWAIT_STEP = 5;
+
   Polymer({
     is: 'gr-autocomplete-dropdown',
 
@@ -31,8 +34,14 @@
 
     properties: {
       index: Number,
-      moveToRoot: Boolean,
-      fixedPosition: Boolean,
+      verticalOffset: {
+        type: Number,
+        value: null,
+      },
+      horizontalOffset: {
+        type: Number,
+        value: null,
+      },
       suggestions: {
         type: Array,
         observer: '_resetCursorStops',
@@ -55,31 +64,47 @@
       tab: '_handleTab',
     },
 
-    attached() {
-      if (this.fixedPosition) {
-        this.classList.add('fixed');
-      }
-    },
-
     close() {
-      if (this.moveToRoot) {
-        Gerrit.getRootElement().removeChild(this);
-      } else {
-        this.hidden = true;
-      }
+      this.$.dropdown.close();
     },
 
     open() {
-      if (this.moveToRoot) {
-        Gerrit.getRootElement().appendChild(this);
-      }
-      this._resetCursorStops();
-      this._resetCursorIndex();
+      this._open().then(() => {
+        this._resetCursorStops();
+        this._resetCursorIndex();
+        this.fire('open-complete');
+      });
     },
 
-    setPosition(top, left) {
-      this.style.top = top;
-      this.style.left = left;
+    // TODO (beckysiegel) look into making this a behavior since it's used
+    // 3 times now.
+    _open(...args) {
+      return new Promise(resolve => {
+        Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
+        this._awaitOpen(resolve);
+      });
+    },
+
+    /**
+     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+     * opening. Eventually replace with a direct way to listen to the overlay.
+     */
+    _awaitOpen(fn) {
+      let iters = 0;
+      const step = () => {
+        this.async(() => {
+          if (this.style.display !== 'none') {
+            fn.call(this);
+          } else if (iters++ < AWAIT_MAX_ITERS) {
+            step.call(this);
+          }
+        }, AWAIT_STEP);
+      };
+      step.call(this);
+    },
+
+    get isHidden() {
+      return !this.$.dropdown.opened;
     },
 
     getCurrentText() {
@@ -134,9 +159,7 @@
 
     _handleEscape() {
       this._fireClose();
-      if (!this.hidden) {
-        this.close();
-      }
+      this.close();
     },
 
     _handleTapItem(e) {

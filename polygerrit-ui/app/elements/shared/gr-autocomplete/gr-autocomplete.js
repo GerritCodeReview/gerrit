@@ -147,6 +147,7 @@
 
     observers: [
       '_textChanged(text)',
+      '_maybeOpenDropdown(_suggestions, _focused)',
     ],
 
     _textChanged() {
@@ -230,8 +231,11 @@
       });
     },
 
-    _computeSuggestionsHidden(suggestions, focused) {
-      return !(suggestions.length && focused);
+    _maybeOpenDropdown(suggestions, focused) {
+      if (suggestions.length > 0 && focused) {
+        return this.$.suggestions.open();
+      }
+      return this.$.suggestions.close();
     },
 
     _computeClass(borderless) {
@@ -280,7 +284,7 @@
 
     _cancel() {
       if (this._suggestions.length) {
-        this._suggestions = [];
+        this.set('_suggestions', []);
       } else {
         this.fire('cancel');
       }

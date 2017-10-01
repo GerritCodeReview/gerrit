@@ -15,7 +15,6 @@
   'use strict';
 
   const MAX_ITEMS_DROPDOWN = 10;
-  const VERTICAL_OFFSET = 7;
 
   const ALL_SUGGESTIONS = [
     {value: '💯', match: '100'},
@@ -63,8 +62,6 @@
       rows: Number,
       maxRows: Number,
       placeholder: String,
-      fixedPositionDropdown: Boolean,
-      moveToRoot: Boolean,
       text: {
         type: String,
         notify: true,
@@ -95,6 +92,12 @@
       },
       _index: Number,
       _suggestions: Array,
+      // Offset makes dropdown appear below text.
+      _verticalOffset: {
+        type: Number,
+        value: 20,
+        readOnly: true,
+      },
     },
 
     behaviors: [
@@ -120,22 +123,11 @@
       if (this.backgroundColor) {
         this.updateStyles({'--background-color': this.backgroundColor});
       }
-      this.listen(this.$.emojiSuggestions, 'dropdown-closed', '_resetAndFocus');
-      this.listen(this.$.emojiSuggestions, 'item-selected',
-          '_handleEmojiSelect');
     },
 
-    detached() {
-      this.closeDropdown();
-      this.listen(this.$.emojiSuggestions, 'dropdown-closed', '_resetAndFocus');
-      this.listen(this.$.emojiSuggestions, 'item-selected',
-          '_handleEmojiSelect');
-    },
 
     closeDropdown() {
-      if (!this.$.emojiSuggestions.hidden) {
-        this._closeEmojiDropdown();
-      }
+      return this.$.emojiSuggestions.close();
     },
 
     getNativeTextarea() {
@@ -161,7 +153,6 @@
 
     _resetAndFocus() {
       this._resetEmojiDropdown();
-      this.$.textarea.textarea.focus();
     },
 
     _handleUpKey(e) {
@@ -197,14 +188,17 @@
       return this.text.substr(0, this._colonIndex || 0) +
           value + this.text.substr(this.$.textarea.selectionStart) + ' ';
     },
-
-    _getPositionOfCursor() {
+    /**
+     * Uses a hidden element with the same width and styling of the textarea and
+     * the text up until the point of interest. Then the emoji selection
+     * element is added to the end so that they are correctly positioned by the
+     * end of the last character entered.
+     */
+    _updateCaratPosition() {
       this.$.hiddenText.textContent = this.$.textarea.value.substr(0,
           this.$.textarea.selectionStart);
 
-      const caratSpan = document.createElement('span');
-      this.$.hiddenText.appendChild(caratSpan);
-      return caratSpan.getBoundingClientRect();
+      this.$.hiddenText.appendChild(this.$.emojiSuggestions);
     },
 
     _getFontSize() {
@@ -215,29 +209,6 @@
 
     _getScrollTop() {
       return document.body.scrollTop;
-    },
-
-    /**
-     * This positions the dropdown to be just below the cursor position. It is
-     * calculated by having a hidden element with the same width and styling of
-     * the tetarea and the text up until the point of interest. Then a span
-     * element is added to the end so that there is a specific element to get
-     * the position of.  Line height is determined (or falls back to 12px) as
-     * extra height to add.
-     */
-    _updateSelectorPosition() {
-      // These are broken out into separate functions for testability.
-      const caratPosition = this._getPositionOfCursor();
-      const fontSize = this._getFontSize();
-
-      let top = caratPosition.top + fontSize + VERTICAL_OFFSET;
-
-      if (!this.fixedPositionDropdown) {
-        top += this._getScrollTop();
-      }
-      top += 'px';
-      const left = caratPosition.left + 'px';
-      this.$.emojiSuggestions.setPosition(top, left);
     },
 
     /**
@@ -278,23 +249,16 @@
           this._resetEmojiDropdown();
         // Otherwise open the dropdown and set the position to be just below the
         // cursor.
-        } else if (this.$.emojiSuggestions.hidden) {
+        } else if (this.$.emojiSuggestions.isHidden) {
           this._hideAutocomplete = false;
           this._openEmojiDropdown();
-          this._updateSelectorPosition();
+          this._updateCaratPosition();
         }
         this.$.textarea.textarea.focus();
       }
     },
-
-    _closeEmojiDropdown() {
-      this.$.emojiSuggestions.close();
-      this.$.emojiSuggestions.hidden = true;
-    },
-
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
-      this.$.emojiSuggestions.hidden = false;
     },
 
     _formatSuggestions(matchedSuggestions) {

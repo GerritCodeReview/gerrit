@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "c4050296_b6b2196a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkAsReviewed.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T12:35:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10b5dc58_d8c9b329",
+      "range": {
+        "startLine": 56,
+        "startChar": 19,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "5c3dba8068bd6bde93896430c4f5d7311d0a5c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50a7392d_d46a7d1f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkAsUnreviewed.java",
         "patchSetId": 5
@@ -133,6 +157,30 @@
       "writtenOn": "2017-10-01T12:24:53Z",
       "side": 1,
       "message": "I wonder can this be Mark Unreviewed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 37
+      },
+      "revId": "5c3dba8068bd6bde93896430c4f5d7311d0a5c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5477cb4_63c3f926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkAsUnreviewed.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T12:35:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50a7392d_d46a7d1f",
       "range": {
         "startLine": 55,
         "startChar": 19,

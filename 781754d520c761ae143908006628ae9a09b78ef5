@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d2766e37_5656ea2e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-01T13:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559562da_7d26fa94",
+      "range": {
+        "startLine": 644,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 19
+      },
+      "revId": "781754d520c761ae143908006628ae9a09b78ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71998132_f7e6282a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 20
@@ -36,6 +60,24 @@
       "writtenOn": "2017-10-01T12:52:22Z",
       "side": 1,
       "message": "Is it intended to also run this on slaves?",
+      "revId": "781754d520c761ae143908006628ae9a09b78ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad3febf_6241ab18",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-01T13:06:36Z",
+      "side": 1,
+      "message": "No, Done",
+      "parentUuid": "71998132_f7e6282a",
       "revId": "781754d520c761ae143908006628ae9a09b78ef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

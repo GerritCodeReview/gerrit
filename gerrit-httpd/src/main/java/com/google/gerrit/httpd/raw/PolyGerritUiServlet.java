@@ -15,10 +15,16 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.TimeUtil;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 
 class PolyGerritUiServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
+
+  private static final FileTime NOW = FileTime.fromMillis(TimeUtil.nowMs());
 
   private final Path ui;
 
@@ -30,5 +36,17 @@ class PolyGerritUiServlet extends ResourceServlet {
   @Override
   protected Path getResourcePath(String pathInfo) {
     return ui.resolve(pathInfo);
+  }
+
+  @Override
+  protected FileTime getLastModifiedTime(Path p) throws IOException {
+    if (ui.getFileSystem().equals(FileSystems.getDefault())) {
+      // Assets are being served from disk, so we can trust the mtime.
+      return super.getLastModifiedTime(p);
+    }
+    // Assume this FileSystem is serving from a WAR. All WAR outputs from the build process have
+    // mtimes of 1980/1/1, so we can't trust it, and return the initialization time of this class
+    // instead.
+    return NOW;
   }
 }

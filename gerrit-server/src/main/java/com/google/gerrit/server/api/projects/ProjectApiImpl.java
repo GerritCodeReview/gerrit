@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static com.google.gerrit.server.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DashboardApi;
+import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
@@ -39,6 +41,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -58,6 +61,7 @@ import com.google.gerrit.server.project.GetConfig;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
+import com.google.gerrit.server.project.ListDashboards;
 import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
@@ -68,6 +72,7 @@ import com.google.gerrit.server.project.SetAccess;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectApiImpl implements ProjectApi {
@@ -104,6 +109,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final CommitApiImpl.Factory commitApi;
   private final DashboardApiImpl.Factory dashboardApi;
   private final CheckAccess checkAccess;
+  private final Provider<ListDashboards> listDashboards;
 
   @AssistedInject
   ProjectApiImpl(
@@ -132,6 +138,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Provider<ListDashboards> listDashboards,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -160,6 +167,7 @@ public class ProjectApiImpl implements ProjectApi {
         commitApi,
         dashboardApi,
         checkAccess,
+        listDashboards,
         null);
   }
 
@@ -190,6 +198,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Provider<ListDashboards> listDashboards,
       @Assisted String name) {
     this(
         user,
@@ -218,6 +227,7 @@ public class ProjectApiImpl implements ProjectApi {
         commitApi,
         dashboardApi,
         checkAccess,
+        listDashboards,
         name);
   }
 
@@ -248,6 +258,7 @@ public class ProjectApiImpl implements ProjectApi {
       CommitApiImpl.Factory commitApi,
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
+      Provider<ListDashboards> listDashboards,
       String name) {
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -275,6 +286,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.createAccessChange = createAccessChange;
     this.dashboardApi = dashboardApi;
     this.checkAccess = checkAccess;
+    this.listDashboards = listDashboards;
     this.name = name;
   }
 
@@ -471,6 +483,27 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public DashboardApi defaultDashboard() throws RestApiException {
     return dashboard(DEFAULT_DASHBOARD_NAME);
+  }
+
+  @Override
+  public ListDashboardsRequest dashboards() throws RestApiException {
+    return new ListDashboardsRequest() {
+      @Override
+      public List<DashboardInfo> get() throws RestApiException {
+        try {
+          List<?> r = listDashboards.get().apply(checkExists());
+          if (r.isEmpty()) {
+            return Collections.emptyList();
+          }
+          if (r.get(0) instanceof DashboardInfo) {
+            return r.stream().map(i -> (DashboardInfo) i).collect(toList());
+          }
+          throw new NotImplementedException("list with inheritance");
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list dashboards", e);
+        }
+      }
+    };
   }
 
   private ProjectResource checkExists() throws ResourceNotFoundException {

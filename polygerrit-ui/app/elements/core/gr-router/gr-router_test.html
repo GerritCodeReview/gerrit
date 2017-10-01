@@ -280,6 +280,17 @@ limitations under the License.
             '/c/test/+/42/2/file.cpp#b123');
       });
 
+      test('edit', () => {
+        const params = {
+          view: Gerrit.Nav.View.EDIT,
+          changeNum: '42',
+          project: 'test',
+          path: 'x+y/path.cpp',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/test/+/42/x%252By/path.cpp,edit');
+      });
+
       test('_getPatchRangeExpression', () => {
         const params = {};
         let actual = element._getPatchRangeExpression(params);

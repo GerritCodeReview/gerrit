@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -73,7 +74,11 @@ public class ChangeAbandoned {
       }
     } catch (PatchListObjectTooLargeException e) {
       log.warn("Couldn't fire event: " + e.getMessage());
-    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
+    } catch (PatchListNotAvailableException
+        | GpgException
+        | IOException
+        | OrmException
+        | PermissionBackendException e) {
       log.error("Couldn't fire event", e);
     }
   }

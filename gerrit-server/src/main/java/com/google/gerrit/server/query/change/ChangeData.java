@@ -72,7 +72,6 @@ import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -326,7 +325,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, project, id, null, null);
+            null, null, null, null, project, id, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -349,7 +348,6 @@ public class ChangeData {
   private final TrackingFooters trackingFooters;
   private final GetPureRevert pureRevert;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -375,7 +373,6 @@ public class ChangeData {
   private Collection<Comment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
-  private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
@@ -420,7 +417,6 @@ public class ChangeData {
       TrackingFooters trackingFooters,
       GetPureRevert pureRevert,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -443,7 +439,6 @@ public class ChangeData {
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
-    this.changeControlFactory = changeControlFactory;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
@@ -554,22 +549,8 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  private ChangeControl changeControl() throws OrmException {
-    // TODO(hiesel): Remove this method.
-    if (changeControl == null) {
-      Change c = change();
-      try {
-        changeControl = changeControlFactory.controlFor(db, c, userFactory.create(c.getOwner()));
-      } catch (NoSuchChangeException e) {
-        throw new OrmException(e);
-      }
-    }
-    return changeControl;
-  }
-
-  void cacheVisibleTo(ChangeControl ctl) {
-    visibleTo = ctl.getUser();
-    changeControl = ctl;
+  void cacheVisibleTo(CurrentUser user) {
+    visibleTo = user;
   }
 
   public Change change() throws OrmException {
@@ -980,15 +961,8 @@ public class ChangeData {
           return null;
         }
         PatchSet ps = currentPatchSet();
-        try {
-          if (ps == null || !changeControl().isVisible(db)) {
-            return null;
-          }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            return null;
-          }
-          throw e;
+        if (ps == null) {
+          return null;
         }
 
         try (Repository repo = repoManager.openRepository(project())) {

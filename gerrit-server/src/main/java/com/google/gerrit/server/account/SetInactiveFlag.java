@@ -14,17 +14,18 @@
 
 package com.google.gerrit.server.account;
 
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class SetInactiveFlag {
@@ -36,14 +37,14 @@ public class SetInactiveFlag {
     this.accountsUpdate = accountsUpdate;
   }
 
-  public Response<?> deactivate(IdentifiedUser user)
+  public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
     Account account =
         accountsUpdate
             .create()
             .update(
-                user.getAccountId(),
+                accountId,
                 a -> {
                   if (!a.isActive()) {
                     alreadyInactive.set(true);
@@ -60,14 +61,14 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
-  public Response<String> activate(IdentifiedUser user)
+  public Response<String> activate(Account.Id accountId)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
     Account account =
         accountsUpdate
             .create()
             .update(
-                user.getAccountId(),
+                accountId,
                 a -> {
                   if (a.isActive()) {
                     alreadyActive.set(true);

@@ -49,6 +49,6 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
     if (self.get() == rsrc.getUser()) {
       throw new ResourceConflictException("cannot deactivate own account");
     }
-    return setInactiveFlag.deactivate(rsrc.getUser());
+    return setInactiveFlag.deactivate(rsrc.getUser().getAccountId());
   }
 }

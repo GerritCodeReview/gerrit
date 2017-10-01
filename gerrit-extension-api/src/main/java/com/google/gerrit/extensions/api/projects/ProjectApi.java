@@ -154,6 +154,16 @@ public interface ProjectApi {
    */
   DashboardApi defaultDashboard() throws RestApiException;
 
+  /**
+   * Set the project's default dashboard.
+   *
+   * @param name the dashboard to set as default.
+   */
+  void defaultDashboard(String name) throws RestApiException;
+
+  /** Remove the project's default dashboard. */
+  void removeDefaultDashboard() throws RestApiException;
+
   abstract class ListDashboardsRequest {
     public abstract List<DashboardInfo> get() throws RestApiException;
   }
@@ -282,6 +292,16 @@ public interface ProjectApi {
 
     @Override
     public ListDashboardsRequest dashboards() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void defaultDashboard(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void removeDefaultDashboard() throws RestApiException {
       throw new NotImplementedException();
     }
   }

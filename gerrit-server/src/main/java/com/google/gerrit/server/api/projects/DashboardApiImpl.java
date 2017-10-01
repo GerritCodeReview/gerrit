@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.common.SetDashboardInput;
@@ -51,7 +52,7 @@ public class DashboardApiImpl implements DashboardApi {
       Provider<GetDashboard> get,
       SetDashboard set,
       @Assisted ProjectResource project,
-      @Assisted String id) {
+      @Assisted @Nullable String id) {
     this.dashboards = dashboards;
     this.get = get;
     this.set = set;
@@ -80,7 +81,8 @@ public class DashboardApiImpl implements DashboardApi {
     try {
       set.apply(DashboardResource.projectDefault(project.getControl()), input);
     } catch (Exception e) {
-      throw asRestApiException("Cannot set default dashboard", e);
+      String msg = String.format("Cannot %s default dashboard", id != null ? "set" : "remove");
+      throw asRestApiException(msg, e);
     }
   }
 

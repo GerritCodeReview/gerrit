@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.DashboardsCollection;
 import com.google.gerrit.server.project.GetDashboard;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.SetDashboard;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -39,6 +41,7 @@ public class DashboardApiImpl implements DashboardApi {
 
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> get;
+  private final SetDashboard set;
   private final ProjectResource project;
   private final String id;
 
@@ -46,10 +49,12 @@ public class DashboardApiImpl implements DashboardApi {
   DashboardApiImpl(
       DashboardsCollection dashboards,
       Provider<GetDashboard> get,
+      SetDashboard set,
       @Assisted ProjectResource project,
       @Assisted String id) {
     this.dashboards = dashboards;
     this.get = get;
+    this.set = set;
     this.project = project;
     this.id = id;
   }
@@ -65,6 +70,17 @@ public class DashboardApiImpl implements DashboardApi {
       return get.get().setInherited(inherited).apply(resource());
     } catch (IOException | PermissionBackendException | ConfigInvalidException e) {
       throw asRestApiException("Cannot read dashboard", e);
+    }
+  }
+
+  @Override
+  public void setDefault() throws RestApiException {
+    SetDashboardInput input = new SetDashboardInput();
+    input.id = id;
+    try {
+      set.apply(DashboardResource.projectDefault(project.getControl()), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set default dashboard", e);
     }
   }
 

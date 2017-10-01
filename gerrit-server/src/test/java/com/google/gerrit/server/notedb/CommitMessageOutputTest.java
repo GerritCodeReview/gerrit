@@ -65,7 +65,9 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "Reviewer: Change Owner <1@gerrit>\n"
             + "CC: Other Account <2@gerrit>\n"
             + "Label: Code-Review=-1\n"
-            + "Label: Verified=+1\n",
+            + "Label: Verified=+1\n"
+            + "Original-Label: Code-Review=-1\n"
+            + "Original-Label: Verified=+1\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
@@ -142,7 +144,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\n", update.getResult());
+        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\nOriginal-Label: -Code-Review\n",
+        update.getResult());
   }
 
   @Test

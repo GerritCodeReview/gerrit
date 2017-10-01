@@ -27,6 +27,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ORIGINAL_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
@@ -44,6 +45,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -125,13 +127,24 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }
 
+  @AutoValue
+  public abstract static class ApprovalValue {
+    abstract short value();
+
+    abstract short originalValue();
+
+    public static ApprovalValue create(short value, short originalValue) {
+      return new AutoValue_ChangeUpdate_ApprovalValue(value, originalValue);
+    }
+  }
+
   private final AccountCache accountCache;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
 
-  private final Table<String, Account.Id, Optional<Short>> approvals;
+  private final Table<String, Account.Id, ApprovalValue> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<Comment> comments = new ArrayList<>();
@@ -229,7 +242,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         noteUtil);
   }
 
-  private static Table<String, Account.Id, Optional<Short>> approvals(
+  private static Table<String, Account.Id, ApprovalValue> approvals(
       Comparator<String> nameComparator) {
     return TreeBasedTable.create(nameComparator, comparing(IntKey::get));
   }
@@ -334,7 +347,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApprovalFor(Account.Id reviewer, String label, short value) {
-    approvals.put(label, reviewer, Optional.of(value));
+    approvals.put(label, reviewer, ApprovalValue.create(value, value));
   }
 
   public void removeApproval(String label) {
@@ -342,7 +355,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
-    approvals.put(label, reviewer, Optional.empty());
+    approvals.put(label, reviewer, ApprovalValue.create((short) 0, (short) 0));
+  }
+
+  public void squashApproval(String label, short value, short originalValue) {
+    squashApprovalFor(getAccountId(), label, value, originalValue);
+  }
+
+  public void squashApprovalFor(
+      Account.Id reviewer, String label, short value, short originalValue) {
+    checkState(originalValue != 0, "originalValue cannot be 0");
+    approvals.put(label, reviewer, ApprovalValue.create(value, originalValue));
   }
 
   public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -705,19 +728,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
 
-    for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
+    for (Table.Cell<String, Account.Id, ApprovalValue> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
-      // Label names/values are safe to append without sanitizing.
-      if (!c.getValue().isPresent()) {
-        msg.append('-').append(c.getRowKey());
-      } else {
-        msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
-      }
-      Account.Id id = c.getColumnKey();
-      if (!id.equals(getAccountId())) {
-        addIdent(msg.append(' '), id);
-      }
-      msg.append('\n');
+      appendLabelToMessage(msg, c.getRowKey(), c.getColumnKey(), c.getValue().value());
+    }
+
+    for (Table.Cell<String, Account.Id, ApprovalValue> c : approvals.cellSet()) {
+      addFooter(msg, FOOTER_ORIGINAL_LABEL);
+      appendLabelToMessage(msg, c.getRowKey(), c.getColumnKey(), c.getValue().originalValue());
     }
 
     if (submissionId != null) {
@@ -866,6 +884,19 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       sb.append(sanitizeFooter(Objects.toString(value)));
     }
     sb.append('\n');
+  }
+
+  private void appendLabelToMessage(StringBuilder msg, String label, Account.Id id, short value) {
+    // Label names/values are safe to append without sanitizing.
+    if (value == 0) {
+      msg.append('-').append(label);
+    } else {
+      msg.append(LabelVote.create(label, value).formatWithEquals());
+    }
+    if (!id.equals(getAccountId())) {
+      addIdent(msg.append(' '), id);
+    }
+    msg.append('\n');
   }
 
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {

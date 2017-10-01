@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.server.notedb.ChangeUpdate.ApprovalValue;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -28,11 +29,13 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -59,6 +63,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -504,6 +509,133 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approvals.get(2).getLabel()).isEqualTo("Other-Label");
     assertThat(approvals.get(2).getValue()).isEqualTo(2);
     assertThat(approvals.get(2).isPostSubmit()).isTrue();
+  }
+
+  @Test
+  public void squashRequiresNonZeroOriginalValue() throws Exception {
+    Change change = newChange();
+    exception.expect(IllegalStateException.class);
+    exception.expectMessage("originalValue cannot be 0");
+    squashApprovals(
+        change,
+        changeOwner,
+        change.currentPatchSetId(),
+        ImmutableMap.of("Code-Review", ApprovalValue.create((short) 1, (short) 0)));
+  }
+
+  @Test
+  public void putAndSquashAndRemoveApprovalInOnePatchSet() throws Exception {
+    Change change = newChange();
+    PatchSet.Id ps1 = change.currentPatchSetId();
+    ListMultimap<PatchSet.Id, PatchSetApproval> expectedApprovals =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+
+    // User adds 'Code-Review +2'.
+    addApprovals(change, changeOwner, ps1, ImmutableMap.of("Code-Review", (short) 2));
+
+    // Squash user's 'Code-Review +2' to be 'Code-Review +1'.
+    Date ts =
+        squashApprovals(
+            change,
+            changeOwner,
+            ps1,
+            ImmutableMap.of("Code-Review", ApprovalValue.create((short) 1, (short) 2)));
+    expectedApprovals.put(ps1, createExpectedApproval(ps1, changeOwner, "Code-Review", ts, 1, 2));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // User updates 'Code-Review -2'.
+    ts = addApprovals(change, changeOwner, ps1, ImmutableMap.of("Code-Review", (short) -2));
+    expectedApprovals.clear();
+    expectedApprovals.put(ps1, createExpectedApproval(ps1, changeOwner, "Code-Review", ts, -2, -2));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // User removes its vote.
+    ts = removeApprovals(change, changeOwner, ps1, "Code-Review");
+    expectedApprovals.clear();
+    expectedApprovals.put(ps1, createExpectedApproval(ps1, changeOwner, "Code-Review", ts, 0, 0));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+  }
+
+  @Test
+  public void putAndSquashAndRemoveApprovalsInMultiplePatchSets() throws Exception {
+    Change change = newChange();
+    PatchSet.Id ps1 = change.currentPatchSetId();
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> expectedApprovals =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+
+    // Add 'Code-Review -2' to PS1 as changeOwner.
+    Date ts = addApprovals(change, changeOwner, ps1, ImmutableMap.of("Code-Review", (short) -2));
+    expectedApprovals.put(ps1, createExpectedApproval(ps1, changeOwner, "Code-Review", ts, -2, -2));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // Removes changeOwner's 'Code-Review -2'.
+    ts = removeApprovals(change, changeOwner, ps1, "Code-Review");
+    expectedApprovals.clear();
+    expectedApprovals.put(ps1, createExpectedApproval(ps1, changeOwner, "Code-Review", ts, 0, 0));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // Create PS2.
+    incrementPatchSet(change);
+    PatchSet.Id ps2 = change.currentPatchSetId();
+
+    // Add 'Code-Review -2' and 'Verify -1' as changeOwner.
+    addApprovals(
+        change, changeOwner, ps2, ImmutableMap.of("Code-Review", (short) -2, "Verify", (short) -1));
+    // Update 'Code-Review +2' and 'Verify +1' as changeOwner.
+    addApprovals(
+        change, changeOwner, ps2, ImmutableMap.of("Code-Review", (short) 2, "Verify", (short) 1));
+
+    // Squash changeOwner's votes: squash 'Code-Review' to +1 and remove 'Verify'.
+    ts =
+        squashApprovals(
+            change,
+            changeOwner,
+            ps2,
+            ImmutableMap.of(
+                "Code-Review",
+                ApprovalValue.create((short) 1, (short) 2),
+                "Verify",
+                ApprovalValue.create((short) 0, (short) 1)));
+
+    // Both votes should have reviewer's last vote as the original value.
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, changeOwner, "Code-Review", ts, 1, 2));
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, changeOwner, "Verify", ts, 0, 1));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // Removes changeOwner's 'Code-Review +1'.
+    expectedApprovals.removeAll(ps2);
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, changeOwner, "Verify", ts, 0, 1));
+
+    ts = removeApprovals(change, changeOwner, ps2, "Code-Review");
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, changeOwner, "Code-Review", ts, 0, 0));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // Add 'Code-Review -2' and 'Verify -1' as otherUser.
+    ts =
+        addApprovals(
+            change,
+            otherUser,
+            ps2,
+            ImmutableMap.of("Code-Review", (short) -2, "Verify", (short) -1));
+
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, otherUser, "Code-Review", ts, -2, -2));
+    expectedApprovals.put(ps2, createExpectedApproval(ps2, otherUser, "Verify", ts, -1, -1));
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
+
+    // Create PS3.
+    incrementPatchSet(change);
+    PatchSet.Id ps3 = change.currentPatchSetId();
+
+    // Add 'Code-Review +1' and 'Verify +1' as otherUser.
+    ts =
+        addApprovals(
+            change, otherUser, ps3, ImmutableMap.of("Code-Review", (short) 1, "Verify", (short) 1));
+
+    expectedApprovals.put(ps3, createExpectedApproval(ps3, otherUser, "Code-Review", ts, 1, 1));
+    expectedApprovals.put(ps3, createExpectedApproval(ps3, otherUser, "Verify", ts, 1, 1));
+
+    assertThat(newNotes(change).getApprovals()).containsExactlyEntriesIn(expectedApprovals);
   }
 
   @Test
@@ -3575,5 +3707,51 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setCommit(rw, commit);
     update.commit();
     return tr.parseBody(commit);
+  }
+
+  private Date addApprovals(
+      Change c, IdentifiedUser user, PatchSet.Id psId, Map<String, Short> approvals)
+      throws Exception {
+    ChangeUpdate update = newUpdate(c, user);
+    update.setPatchSetId(psId);
+    for (Map.Entry<String, Short> e : approvals.entrySet()) {
+      update.putApproval(e.getKey(), e.getValue());
+    }
+    update.commit();
+    return update.getWhen();
+  }
+
+  private Date removeApprovals(Change c, IdentifiedUser user, PatchSet.Id psId, String... labels)
+      throws Exception {
+    ChangeUpdate update = newUpdate(c, user);
+    update.setPatchSetId(psId);
+    for (String label : labels) {
+      update.removeApproval(label);
+    }
+    update.commit();
+    return update.getWhen();
+  }
+
+  private Date squashApprovals(
+      Change c, IdentifiedUser user, PatchSet.Id psId, Map<String, ApprovalValue> approvals)
+      throws Exception {
+    ChangeUpdate update = newUpdate(c, user);
+    update.setPatchSetId(psId);
+    for (Map.Entry<String, ApprovalValue> e : approvals.entrySet()) {
+      update.squashApproval(e.getKey(), e.getValue().value(), e.getValue().originalValue());
+    }
+    update.commit();
+    return update.getWhen();
+  }
+
+  private static PatchSetApproval createExpectedApproval(
+      PatchSet.Id id, IdentifiedUser user, String label, Date ts, int value, int originalValue) {
+    PatchSetApproval p =
+        new PatchSetApproval(
+            new PatchSetApproval.Key(id, user.getAccountId(), new LabelId(label)),
+            (short) value,
+            ts);
+    p.setOriginalValue((short) originalValue);
+    return p;
   }
 }

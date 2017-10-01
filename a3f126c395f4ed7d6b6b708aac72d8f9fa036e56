@@ -22,6 +22,30 @@
       "revId": "a3f126c395f4ed7d6b6b708aac72d8f9fa036e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b8c5ac4_47db8e0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-01T08:51:11Z",
+      "side": 1,
+      "message": "Not a problem in the core. We must query the accounts from the secondary index.",
+      "parentUuid": "51afaab5_3f4598bd",
+      "range": {
+        "startLine": 111,
+        "startChar": 46,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "a3f126c395f4ed7d6b6b708aac72d8f9fa036e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
@@ -24,7 +23,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -36,14 +34,12 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
-  private final Provider<ReviewDb> db;
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
 
   @Inject
   public AccountIdHandler(
-      Provider<ReviewDb> db,
       AccountResolver accountResolver,
       AccountManager accountManager,
       AuthConfig authConfig,
@@ -51,7 +47,6 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       @Assisted OptionDef option,
       @Assisted Setter<Account.Id> setter) {
     super(parser, option, setter);
-    this.db = db;
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
@@ -62,7 +57,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     String token = params.getParameter(0);
     Account.Id accountId;
     try {
-      Account a = accountResolver.find(db.get(), token);
+      Account a = accountResolver.find(token);
       if (a != null) {
         accountId = a.getId();
       } else {

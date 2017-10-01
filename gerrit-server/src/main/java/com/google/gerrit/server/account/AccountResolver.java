@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -63,9 +62,8 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account find(ReviewDb db, String nameOrEmail)
-      throws OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> r = findAll(db, nameOrEmail);
+  public Account find(String nameOrEmail) throws OrmException, IOException, ConfigInvalidException {
+    Set<Account.Id> r = findAll(nameOrEmail);
     if (r.size() == 1) {
       return byId.get(r.iterator().next()).getAccount();
     }
@@ -87,13 +85,12 @@ public class AccountResolver {
   /**
    * Find all accounts matching the name or name/email string.
    *
-   * @param db open database handle.
    * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
    *     address ("email@example"), a full name ("Full Name"), an account id ("18419") or an user
    *     name ("username").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail)
+  public Set<Account.Id> findAll(String nameOrEmail)
       throws OrmException, IOException, ConfigInvalidException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
@@ -119,34 +116,30 @@ public class AccountResolver {
       }
     }
 
-    return findAllByNameOrEmail(db, nameOrEmail);
+    return findAllByNameOrEmail(nameOrEmail);
   }
 
   /**
    * Locate exactly one account matching the name or name/email string.
    *
-   * @param db open database handle.
    * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
    *     address ("email@example"), a full name ("Full Name").
    * @return the single account that matches; null if no account matches or there are multiple
    *     candidates.
    */
-  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail)
-      throws OrmException, IOException {
-    Set<Account.Id> r = findAllByNameOrEmail(db, nameOrEmail);
+  public Account findByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
+    Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
     return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
   }
 
   /**
    * Locate exactly one account matching the name or name/email string.
    *
-   * @param db open database handle.
    * @param nameOrEmail a string of the format "Full Name &lt;email@example&gt;", just the email
    *     address ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail)
-      throws OrmException, IOException {
+  public Set<Account.Id> findAllByNameOrEmail(String nameOrEmail) throws OrmException, IOException {
     int lt = nameOrEmail.indexOf('<');
     int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {

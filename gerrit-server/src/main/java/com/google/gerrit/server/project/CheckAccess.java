@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -34,7 +33,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
@@ -43,18 +41,15 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckInput> {
   private final AccountResolver accountResolver;
-  private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PermissionBackend permissionBackend;
 
   @Inject
   CheckAccess(
       AccountResolver resolver,
-      Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory userFactory,
       PermissionBackend permissionBackend) {
     this.accountResolver = resolver;
-    this.db = db;
     this.userFactory = userFactory;
     this.permissionBackend = permissionBackend;
   }
@@ -72,7 +67,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       throw new BadRequestException("input requires 'account'");
     }
 
-    Account match = accountResolver.find(db.get(), input.account);
+    Account match = accountResolver.find(input.account);
     if (match == null) {
       throw new UnprocessableEntityException(
           String.format("cannot find account %s", input.account));

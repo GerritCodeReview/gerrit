@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -51,7 +50,6 @@ public class LsUserRefs extends SshCommand {
   @Inject private AccountResolver accountResolver;
   @Inject private OneOffRequestContext requestContext;
   @Inject private VisibleRefFilter.Factory refFilterFactory;
-  @Inject private ReviewDb db;
   @Inject private GitRepositoryManager repoManager;
 
   @Option(
@@ -79,7 +77,7 @@ public class LsUserRefs extends SshCommand {
   protected void run() throws Failure {
     Account userAccount;
     try {
-      userAccount = accountResolver.find(db, userName);
+      userAccount = accountResolver.find(userName);
     } catch (OrmException | IOException | ConfigInvalidException e) {
       throw die(e);
     }

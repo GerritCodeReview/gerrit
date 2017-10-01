@@ -291,7 +291,7 @@ public class ReplaceOp implements BatchUpdateOp {
             psDescription);
 
     update.setPsDescription(psDescription);
-    recipients.add(getRecipientsFromFooters(ctx.getDb(), accountResolver, commit.getFooterLines()));
+    recipients.add(getRecipientsFromFooters(accountResolver, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getNotes());
     MailRecipients oldRecipients = getRecipientsFromReviewers(cd.reviewers());

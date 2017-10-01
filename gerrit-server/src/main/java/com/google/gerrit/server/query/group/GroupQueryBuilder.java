@@ -27,7 +27,6 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +56,6 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
 
   public static class Arguments {
-    final Provider<ReviewDb> db;
     final GroupIndex groupIndex;
     final GroupCache groupCache;
     final GroupBackend groupBackend;
@@ -66,12 +63,10 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
     @Inject
     Arguments(
-        Provider<ReviewDb> db,
         GroupIndexCollection groupIndexCollection,
         GroupCache groupCache,
         GroupBackend groupBackend,
         AccountResolver accountResolver) {
-      this.db = db;
       this.groupIndex = groupIndexCollection.getSearchIndex();
       this.groupCache = groupCache;
       this.groupBackend = groupBackend;
@@ -189,7 +184,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
 
   private Set<Account.Id> parseAccount(String nameOrEmail)
       throws QueryParseException, OrmException, IOException, ConfigInvalidException {
-    Set<Account.Id> foundAccounts = args.accountResolver.findAll(args.db.get(), nameOrEmail);
+    Set<Account.Id> foundAccounts = args.accountResolver.findAll(nameOrEmail);
     if (foundAccounts.isEmpty()) {
       throw error("User " + nameOrEmail + " not found");
     }

@@ -1260,7 +1260,14 @@
       const e = '/edit/' + encodeURIComponent(path);
       let payload = null;
       if (opt_base) { payload = {base: true}; }
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e, payload);
+      return this.getChangeURLAndSend(changeNum, 'GET', null, e, payload)
+          .then(res => {
+            if (!res.ok) { return res; }
+            return res.text().then(text => {
+              res.text = atob(text);
+              return res;
+            });
+          });
     },
 
     rebaseChangeEdit(changeNum) {

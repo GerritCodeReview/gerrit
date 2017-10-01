@@ -16,8 +16,9 @@ package com.google.gerrit.server.mail.receive.data;
 
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.receive.MailMessage;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import org.junit.Ignore;
 
 /** Tests parsing a Base64 encoded subject. */
@@ -58,7 +59,10 @@ public class Base64HeaderMessage extends RawMailMessage {
         .addTo(new Address("ekempin", "ekempin@google.com"))
         .textContent(textContent)
         .subject("\uD83D\uDE1B test")
-        .dateReceived(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC));
+        .dateReceived(
+            LocalDateTime.of(2016, Month.OCTOBER, 25, 9, 11, 35)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant());
     return expect.build();
   }
 }

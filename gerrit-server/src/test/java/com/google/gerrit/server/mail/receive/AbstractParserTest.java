@@ -20,9 +20,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.mail.Address;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
 import org.junit.Ignore;
 
 @Ignore
@@ -85,7 +85,7 @@ public class AbstractParserTest {
     MailMessage.Builder b = MailMessage.builder();
     b.id("id");
     b.from(new Address("Foo Bar", "foo@bar.com"));
-    b.dateReceived(new DateTime());
+    b.dateReceived(Instant.now());
     b.subject("");
     return b;
   }

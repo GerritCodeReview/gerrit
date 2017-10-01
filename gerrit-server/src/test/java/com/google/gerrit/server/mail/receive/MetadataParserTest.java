@@ -20,8 +20,10 @@ import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MetadataName;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import org.junit.Test;
 
 public class MetadataParserTest {
@@ -31,7 +33,7 @@ public class MetadataParserTest {
     // email headers of the message.
     MailMessage.Builder b = MailMessage.builder();
     b.id("");
-    b.dateReceived(new DateTime());
+    b.dateReceived(Instant.now());
     b.subject("");
 
     b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_NUMBER) + "123");
@@ -48,8 +50,11 @@ public class MetadataParserTest {
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime())
-        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.toInstant())
+        .isEqualTo(
+            LocalDateTime.of(2016, Month.OCTOBER, 25, 9, 11, 35)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant());
   }
 
   @Test
@@ -58,7 +63,7 @@ public class MetadataParserTest {
     // the text body of the message.
     MailMessage.Builder b = MailMessage.builder();
     b.id("");
-    b.dateReceived(new DateTime());
+    b.dateReceived(Instant.now());
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
@@ -77,8 +82,11 @@ public class MetadataParserTest {
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime())
-        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.toInstant())
+        .isEqualTo(
+            LocalDateTime.of(2016, Month.OCTOBER, 25, 9, 11, 35)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant());
   }
 
   @Test
@@ -87,7 +95,7 @@ public class MetadataParserTest {
     // the HTML body of the message.
     MailMessage.Builder b = MailMessage.builder();
     b.id("");
-    b.dateReceived(new DateTime());
+    b.dateReceived(Instant.now());
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
@@ -111,7 +119,10 @@ public class MetadataParserTest {
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime())
-        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.toInstant())
+        .isEqualTo(
+            LocalDateTime.of(2016, Month.OCTOBER, 25, 9, 11, 35)
+                .atOffset(ZoneOffset.UTC)
+                .toInstant());
   }
 }

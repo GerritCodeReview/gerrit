@@ -16,6 +16,24 @@
       "revId": "cc36aa3b91d8c8f912ca96e7b9ca74d622566c3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae0d467_fb28cc8f",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-01T14:05:14Z",
+      "side": 1,
+      "message": "I moved them to the definitions of the other libraries which are solely used by Elasticsearch. If we don\u0027t care about having them close together, I can revert the modifications for this file.",
+      "parentUuid": "50686103_88611e10",
+      "revId": "cc36aa3b91d8c8f912ca96e7b9ca74d622566c3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

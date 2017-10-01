@@ -2,7 +2,6 @@ load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 DEPS = [
     "//lib/greenmail",
-    "//lib/joda:joda-time",
     "//lib/mail",
 ]
 

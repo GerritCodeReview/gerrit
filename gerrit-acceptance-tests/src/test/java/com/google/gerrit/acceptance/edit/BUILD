@@ -4,7 +4,4 @@ acceptance_tests(
     srcs = ["ChangeEditIT.java"],
     group = "edit",
     labels = ["edit"],
-    deps = [
-        "//lib/joda:joda-time",
-    ],
 )

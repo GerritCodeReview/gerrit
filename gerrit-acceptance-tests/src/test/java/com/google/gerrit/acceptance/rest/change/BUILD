@@ -15,7 +15,6 @@ acceptance_tests(
     labels = ["rest"],
     deps = [
         ":submit_util",
-        "//lib/joda:joda-time",
     ],
 )
 

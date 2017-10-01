@@ -22,10 +22,13 @@ limitations under the License.
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <link rel="import" href="gr-endpoint-decorator.html">
+<link rel="import" href="../gr-endpoint-param/gr-endpoint-param.html">
 
 <test-fixture id="basic">
   <template>
-    <gr-endpoint-decorator name="foo"></gr-endpoint-decorator>
+    <gr-endpoint-decorator name="foo">
+      <gr-endpoint-param name="someparam" value="barbar"></gr-endpoint-param>
+    </gr-endpoint-decorator>
   </template>
 </test-fixture>
 
@@ -44,6 +47,7 @@ limitations under the License.
       domHookStub = {
         handleInstanceAttached: sandbox.stub(),
         handleInstanceDetached: sandbox.stub(),
+        getPublicAPI: () => domHookStub,
       };
       sandbox.stub(
           GrDomHooksManager.prototype, 'getDomHook').returns(domHookStub);
@@ -53,6 +57,7 @@ limitations under the License.
         plugin = p;
         plugin.registerCustomComponent('foo', 'some-module');
         plugin.registerCustomComponent('foo', 'other-module', {replace: true});
+        plugin.registerCustomComponent('bar', 'some-module');
       }, '0.1', 'http://some/plugin/url.html');
 
       sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
@@ -109,6 +114,12 @@ limitations under the License.
             element._initDecoration.lastCall.args[1], plugin);
         done();
       });
+    });
+
+    test('params', () => {
+      const instance = document.createElement('foo');
+      element._initProperties(instance, plugin);
+      assert.equal(instance.someparam, 'barbar');
     });
   });
 </script>

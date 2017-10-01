@@ -22,6 +22,30 @@
       "revId": "476c2bac56fb97adba285796c49478db26c416a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acbb02a0_d981fcd7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-10-01T14:38:39Z",
+      "side": 1,
+      "message": "Done. It still needs the done async callback as .get returns a promise.",
+      "parentUuid": "ef775e87_dfabcb62",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "476c2bac56fb97adba285796c49478db26c416a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

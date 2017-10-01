@@ -495,6 +495,15 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
+  public void removeDefaultDashboard() throws RestApiException {
+    try {
+      dashboardApi.create(checkExists(), null).setDefault();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot remove default dashboard", e);
+    }
+  }
+
+  @Override
   public ListDashboardsRequest dashboards() throws RestApiException {
     return new ListDashboardsRequest() {
       @Override

@@ -81,6 +81,12 @@ public class DashboardIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).defaultDashboard(info.id);
     assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isTrue();
     assertThat(gApi.projects().name(project.get()).defaultDashboard().get().id).isEqualTo(info.id);
+
+    gApi.projects().name(project.get()).removeDefaultDashboard();
+    assertThat(gApi.projects().name(project.get()).dashboard(info.id).get().isDefault).isNull();
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects().name(project.get()).defaultDashboard().get();
   }
 
   @Test

@@ -37,12 +37,6 @@ limitations under the License.
         -webkit-user-select: text;
         user-select: text;
       }
-      .downArrow {
-        display: inline-block;
-        font-size: .6em;
-        user-select: none;
-        vertical-align: middle;
-      }
       .dropdown-trigger {
         cursor: pointer;
         padding: 0;
@@ -77,14 +71,15 @@ limitations under the License.
           background-color: #f2f2f2;
         }
       }
+      gr-button {
+        --gr-button-arrow-color: var(--color-link);
+        --gr-button-arrow-hover-color: var(--color-link-hover);
+      }
       paper-item:not(:last-of-type) {
         border-bottom: 1px solid #ddd;
       }
       #trigger {
-        color: black;
-        font: inherit;
         padding: .3em 0;
-        text-decoration: none;
       }
       .bottomContent {
         color: rgba(0,0,0,.54);
@@ -130,15 +125,13 @@ limitations under the License.
       }
     </style>
     <gr-button
+        down-arrow
         link
         id="trigger"
         class="dropdown-trigger"
         on-tap="_showDropdownTapHandler"
         slot="dropdown-trigger">
       <span>[[text]]</span>
-      <span
-          class="downArrow"
-          on-tap="_showDropdownTapHandler">&#9660;</span>
     </gr-button>
     <iron-dropdown
         id="dropdown"

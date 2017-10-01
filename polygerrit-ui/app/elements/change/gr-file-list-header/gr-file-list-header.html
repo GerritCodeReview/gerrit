@@ -56,6 +56,10 @@ limitations under the License.
         margin: 0 .25em;
         width: 100%;
       }
+      .patchInfo-left {
+        align-items: center;
+        display: flex;
+      }
       .latestPatchContainer {
         display: none;
       }
@@ -118,7 +122,7 @@ limitations under the License.
     </style>
     <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-header-wrapper">
-        <div>
+        <div class="patchInfo-left">
           <span class="label">Files</span>
           <gr-patch-range-select
               id="rangeSelect"

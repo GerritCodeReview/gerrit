@@ -33,6 +33,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SQUASHED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -132,6 +133,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
+  private final Table<String, Account.Id, Optional<Short>> squashedApprovals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<Comment> comments = new ArrayList<>();
@@ -257,6 +259,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
+    this.squashedApprovals = approvals(labelNameComparator);
   }
 
   @AssistedInject
@@ -295,6 +298,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
+    this.squashedApprovals = approvals(labelNameComparator);
   }
 
   public ObjectId commit() throws IOException, OrmException {
@@ -343,6 +347,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void removeApprovalFor(Account.Id reviewer, String label) {
     approvals.put(label, reviewer, Optional.empty());
+  }
+
+  public void squashApproval(String label, Optional<Short> value) {
+    squashApprovalFor(getAccountId(), label, value);
+  }
+
+  public void squashApprovalFor(Account.Id reviewer, String label, Optional<Short> value) {
+    squashedApprovals.put(label, reviewer, value);
   }
 
   public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -623,6 +635,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws OrmException, IOException {
     checkState(deleteCommentRewriter == null, "cannot update and rewrite ref in one BatchUpdate");
+    checkState(
+        approvals.isEmpty() || squashedApprovals.isEmpty(),
+        "cannot put and squash approvals in one BatchUpdate");
 
     CommitBuilder cb = new CommitBuilder();
 
@@ -707,17 +722,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
-      // Label names/values are safe to append without sanitizing.
-      if (!c.getValue().isPresent()) {
-        msg.append('-').append(c.getRowKey());
-      } else {
-        msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
-      }
-      Account.Id id = c.getColumnKey();
-      if (!id.equals(getAccountId())) {
-        addIdent(msg.append(' '), id);
-      }
-      msg.append('\n');
+      appendLabelInfoToMessage(msg, c);
+    }
+
+    for (Table.Cell<String, Account.Id, Optional<Short>> c : squashedApprovals.cellSet()) {
+      addFooter(msg, FOOTER_SQUASHED_LABEL);
+      appendLabelInfoToMessage(msg, c);
     }
 
     if (submissionId != null) {
@@ -799,6 +809,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public boolean isEmpty() {
     return commitSubject == null
         && approvals.isEmpty()
+        && squashedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()
@@ -854,6 +865,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   void setReadOnlyUntil(Timestamp readOnlyUntil) {
     this.readOnlyUntil = readOnlyUntil;
+  }
+
+  private void appendLabelInfoToMessage(
+      StringBuilder msg, Table.Cell<String, Account.Id, Optional<Short>> c) {
+    // Label names/values are safe to append without sanitizing.
+    if (!c.getValue().isPresent()) {
+      msg.append('-').append(c.getRowKey());
+    } else {
+      msg.append(LabelVote.create(c.getRowKey(), c.getValue().get()).formatWithEquals());
+    }
+    Account.Id id = c.getColumnKey();
+    if (!id.equals(getAccountId())) {
+      addIdent(msg.append(' '), id);
+    }
+    msg.append('\n');
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

@@ -160,6 +160,30 @@
     },
     {
       "key": {
+        "uuid": "d9dccb6d_91b065b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-01T08:56:47Z",
+      "side": 1,
+      "message": "There\u0027s no reason why not. Mind if I address this in a followup change? I have a commit coming that refactors gr-dashboard-view, which will make it easier to support this.",
+      "parentUuid": "e426c532_b9845b96",
+      "range": {
+        "startLine": 651,
+        "startChar": 15,
+        "endLine": 651,
+        "endChar": 23
+      },
+      "revId": "3430fc69e67d269642add7d84fe45ef30e065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d695254_9b7d72dd",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6

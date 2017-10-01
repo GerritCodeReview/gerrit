@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a13eaf1c_1032ca2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T11:41:00Z",
+      "side": 1,
+      "message": "Actually this is only the test class. Not sure where PG decides on the UI label. The label can still be changed in a follow-up commit I guess.",
+      "parentUuid": "c9f5e7b7_ff2e4f73",
+      "range": {
+        "startLine": 878,
+        "startChar": 18,
+        "endLine": 878,
+        "endChar": 26
+      },
+      "revId": "1ba51f1bc45b36499e14ce69f6d81ca4c9245bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bd48d11_3739abe6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 6
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "3ced233f_f9cbaf83",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T11:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bd48d11_3739abe6",
+      "revId": "1ba51f1bc45b36499e14ce69f6d81ca4c9245bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1cdb98d_228be7de",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 6
@@ -54,6 +96,30 @@
       "writtenOn": "2017-10-01T11:10:49Z",
       "side": 1,
       "message": "Should this be \u0027Mark As Unreviewed\u0027?",
+      "range": {
+        "startLine": 917,
+        "startChar": 18,
+        "endLine": 917,
+        "endChar": 28
+      },
+      "revId": "1ba51f1bc45b36499e14ce69f6d81ca4c9245bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bbfcc1_bc82b48f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-01T11:41:00Z",
+      "side": 1,
+      "message": "same here",
+      "parentUuid": "d1cdb98d_228be7de",
       "range": {
         "startLine": 917,
         "startChar": 18,

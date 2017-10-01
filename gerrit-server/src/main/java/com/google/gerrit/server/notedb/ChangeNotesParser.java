@@ -843,10 +843,15 @@ class ChangeNotesParser {
       psa.setRealAccountId(realAccountId);
     }
     ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, l.label());
-    if (!approvals.containsKey(k)) {
+
+    PatchSetApproval old = approvals.get(k);
+    if (old == null) {
       approvals.put(k, psa);
+    } else {
+      psa = old;
     }
-    return psa;
+    psa.setOriginalValue(l.value());
+    return psa; // TODO(dborowitz): Ok to pass old instead of new psa? I think so
   }
 
   private PatchSetApproval parseRemoveApproval(

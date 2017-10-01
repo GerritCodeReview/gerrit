@@ -97,12 +97,12 @@ public class SitePathInitializer {
     savePublic(flags.cfg);
 
     extract(site.gerrit_sh, getClass(), "gerrit.sh");
-    chmod(0755, site.gerrit_sh);
+    chmod("rwxr-xr-x", site.gerrit_sh);
     extract(site.gerrit_service, getClass(), "gerrit.service");
-    chmod(0755, site.gerrit_service);
+    chmod("rwxr-xr-x", site.gerrit_service);
     extract(site.gerrit_socket, getClass(), "gerrit.socket");
-    chmod(0755, site.gerrit_socket);
-    chmod(0700, site.tmp_dir);
+    chmod("rwxr-xr-x", site.gerrit_socket);
+    chmod("rwx------", site.tmp_dir);
 
     extractMailExample("Abandoned.soy");
     extractMailExample("AbandonedHtml.soy");
@@ -162,7 +162,7 @@ public class SitePathInitializer {
   private void extractMailExample(String orig) throws Exception {
     Path ex = site.mail_dir.resolve(orig + ".example");
     extract(ex, EmailModule.class, orig);
-    chmod(0444, ex);
+    chmod("r--r--r--", ex);
   }
 
   private static List<InitStep> stepsOf(Injector injector) {

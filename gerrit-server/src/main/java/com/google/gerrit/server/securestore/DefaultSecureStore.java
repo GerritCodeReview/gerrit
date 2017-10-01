@@ -139,7 +139,7 @@ public class DefaultSecureStore extends SecureStore {
         throw new IOException("Cannot lock " + path);
       }
       try {
-        FileUtil.chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
+        FileUtil.chmod("rw-------", new File(path.getParentFile(), path.getName() + ".lock"));
         lf.write(out);
         if (!lf.commit()) {
           throw new IOException("Cannot commit write to " + path);

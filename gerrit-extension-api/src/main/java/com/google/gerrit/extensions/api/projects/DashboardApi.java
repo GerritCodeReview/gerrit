@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -22,6 +23,8 @@ public interface DashboardApi {
   DashboardInfo get() throws RestApiException;
 
   DashboardInfo get(boolean inherited) throws RestApiException;
+
+  DashboardInfo create(SetDashboardInput input) throws RestApiException;
 
   void setDefault() throws RestApiException;
 
@@ -37,6 +40,11 @@ public interface DashboardApi {
 
     @Override
     public DashboardInfo get(boolean inherited) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DashboardInfo create(SetDashboardInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

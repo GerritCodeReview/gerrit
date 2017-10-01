@@ -189,7 +189,7 @@ public class DashboardsCollection
     }
   }
 
-  static DashboardInfo newDashboardInfo(String id) throws InvalidDashboardId {
+  public static DashboardInfo newDashboardInfo(String id) throws InvalidDashboardId {
     DashboardInfo info = new DashboardInfo();
     List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     if (parts.size() != 2) {
@@ -239,7 +239,7 @@ public class DashboardsCollection
   }
 
   private static String replace(String project, String query) {
-    return query.replace("${project}", project);
+    return query == null ? query : query.replace("${project}", project);
   }
 
   private static String defaultOf(Project proj) {

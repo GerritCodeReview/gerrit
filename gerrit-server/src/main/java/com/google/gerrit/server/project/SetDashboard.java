@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.common.SetDashboardInput;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -29,10 +29,12 @@ import java.io.IOException;
 @Singleton
 public class SetDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> defaultSetter;
+  private final Provider<GetDashboard> get;
 
   @Inject
-  SetDashboard(Provider<SetDefaultDashboard> defaultSetter) {
+  SetDashboard(Provider<SetDefaultDashboard> defaultSetter, Provider<GetDashboard> get) {
     this.defaultSetter = defaultSetter;
+    this.get = get;
   }
 
   @Override
@@ -42,7 +44,11 @@ public class SetDashboard implements RestModifyView<DashboardResource, SetDashbo
       return defaultSetter.get().apply(resource, input);
     }
 
-    // TODO: Implement creation/update of dashboards by API.
-    throw new MethodNotAllowedException();
+    if (input == null) {
+      throw new BadRequestException("input is required");
+    }
+
+    //TODO: Might need to create a new DashboardResource instance
+    return Response.ok(get.get().apply(resource));
   }
 }

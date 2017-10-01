@@ -34,6 +34,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 public class DashboardApiImpl implements DashboardApi {
   interface Factory {
@@ -71,6 +72,18 @@ public class DashboardApiImpl implements DashboardApi {
       return get.get().setInherited(inherited).apply(resource());
     } catch (IOException | PermissionBackendException | ConfigInvalidException e) {
       throw asRestApiException("Cannot read dashboard", e);
+    }
+  }
+
+  @Override
+  public DashboardInfo create(SetDashboardInput input) throws RestApiException {
+    try {
+      DashboardInfo info = DashboardsCollection.newDashboardInfo(input.id);
+      DashboardResource resource = new DashboardResource(project.getControl(),
+          DashboardsCollection.normalizeDashboardRef(info.ref), info.path, new Config(), false);
+      return set.apply(resource, input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create dashboard", e);
     }
   }
 

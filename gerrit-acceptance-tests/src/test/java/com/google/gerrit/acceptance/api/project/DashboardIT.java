@@ -17,12 +17,15 @@ package com.google.gerrit.acceptance.api.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.common.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -113,6 +116,23 @@ public class DashboardIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("inherited flag can only be used with default");
     project().dashboard(info.id).get(true);
+  }
+
+  @Test
+  public void createNewDashboard() throws Exception {
+    SetDashboardInput input = new SetDashboardInput();
+    input.id = "default:new";
+    input.title = "Reviewer";
+    input.description = "Own review requests";
+    input.foreach = "owner:self";
+    DashboardSectionInfo section = new DashboardSectionInfo();
+    section.name = "Open";
+    section.query = "is:open";
+    input.sections = ImmutableList.of(section);
+    DashboardInfo info = project().dashboard("default:new").create(input);
+    assertThat(info).isNotNull();
+    assertThat(info.id).isEqualTo(input.id);
+    project().dashboard("default:new").get();
   }
 
   private List<DashboardInfo> dashboards() throws Exception {

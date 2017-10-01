@@ -14,9 +14,15 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.List;
 
 public class SetDashboardInput {
   @DefaultInput public String id;
   public String commitMessage;
+  public String description;
+  public String foreach;
+  public String title;
+  public List<DashboardSectionInfo> sections;
 }

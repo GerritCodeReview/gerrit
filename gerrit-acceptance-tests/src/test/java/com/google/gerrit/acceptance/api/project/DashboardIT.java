@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.project.DashboardsCollection;
+import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -46,6 +47,7 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void getDashboard() throws Exception {
+    assertThat(dashboards()).isEmpty();
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     DashboardInfo result = gApi.projects().name(project.get()).dashboard(info.id).get();
     assertThat(result.id).isEqualTo(info.id);
@@ -53,6 +55,7 @@ public class DashboardIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(info.ref);
     assertThat(result.project).isEqualTo(project.get());
     assertThat(result.definingProject).isEqualTo(project.get());
+    assertThat(dashboards()).hasSize(1);
   }
 
   @Test
@@ -61,6 +64,10 @@ public class DashboardIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("inherited flag can only be used with default");
     gApi.projects().name(project.get()).dashboard(info.id).get(true);
+  }
+
+  private List<DashboardInfo> dashboards() throws Exception {
+    return gApi.projects().name(project.get()).dashboards().get();
   }
 
   private DashboardInfo createDashboard(String ref, String path) throws Exception {

@@ -35,7 +35,6 @@ import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -132,17 +131,9 @@ public class RefControlTest {
     assertThat(u.controlForRef(ref).canSubmit(false)).named("can submit " + ref).isFalse();
   }
 
-  private void assertCanUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("can upload").isEqualTo(Capable.OK);
-  }
-
   private void assertCreateChange(String ref, ProjectControl u) {
     boolean create = u.asForProject().ref(ref).testOrFalse(RefPermission.CREATE_CHANGE);
     assertThat(create).named("can create change " + ref).isTrue();
-  }
-
-  private void assertCannotUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isNotEqualTo(Capable.OK);
   }
 
   private void assertCannotCreateChange(String ref, ProjectControl u) {
@@ -396,7 +387,6 @@ public class RefControlTest {
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
 
     ProjectControl u = user(local);
-    assertCanUpload(u);
     assertCreateChange("refs/heads/master", u);
     assertCannotCreateChange("refs/heads/foobar", u);
   }
@@ -429,7 +419,6 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
 
     ProjectControl u = user(local);
-    assertCanUpload(u);
     assertCreateChange("refs/heads/master", u);
     assertCreateChange("refs/heads/foobar", u);
   }
@@ -499,15 +488,7 @@ public class RefControlTest {
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
 
     ProjectControl u = user(local);
-    assertCannotUpload(u);
     assertCannotCreateChange("refs/heads/master", u);
-  }
-
-  @Test
-  public void usernamePatternCanUploadToAnyRef() {
-    allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
-    ProjectControl u = user(local, "a-registered-user");
-    assertCanUpload(u);
   }
 
   @Test

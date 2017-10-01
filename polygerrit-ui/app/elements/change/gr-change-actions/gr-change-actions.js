@@ -667,12 +667,13 @@
     _handleActionTap(e) {
       e.preventDefault();
       const el = Polymer.dom(e).rootTarget;
-      const key = el.getAttribute('data-action-key');
+      // todo (beckysiegel) this will not work with shadow dom.
+      const key = el.parentElement.getAttribute('data-action-key');
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
         this.fire(`${key}-tap`, {node: el});
         return;
       }
-      const type = el.getAttribute('data-action-type');
+      const type = el.parentElement.getAttribute('data-action-type');
       this._handleAction(type, key);
     },
 

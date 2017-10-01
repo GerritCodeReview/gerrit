@@ -61,7 +61,7 @@ limitations under the License.
       :host([link]) paper-button:focus,
       paper-button[raised]:hover,
       paper-button[raised]:focus  {
-        color: var(--color-button-hover);
+        color: var(--gr-button-hover, --color-button-hover);
       }
       :host([primary]) paper-button[raised]:hover,
       :host([primary]) paper-button[raised]:focus,
@@ -76,9 +76,6 @@ limitations under the License.
         min-width: 0;
         padding: .4em .85em;
         @apply --gr-button;
-      }
-      paper-button:not(:hover):not(:focus){
-        box-shadow: none;
       }
       paper-button:hover {
         @apply --gr-button-hover;

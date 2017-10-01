@@ -1084,6 +1084,22 @@ public class ChangeData {
     return draftsByUser;
   }
 
+  public boolean isReviewedBy(Account.Id accountId) throws OrmException {
+    Collection<String> stars = stars(accountId);
+
+    if (stars.contains(
+        StarredChangesUtil.REVIEWED_LABEL + "/" + currentPatchSet().getPatchSetId())) {
+      return true;
+    }
+
+    if (stars.contains(
+        StarredChangesUtil.UNREVIEWED_LABEL + "/" + currentPatchSet().getPatchSetId())) {
+      return false;
+    }
+
+    return reviewedBy().contains(accountId);
+  }
+
   public Set<Account.Id> reviewedBy() throws OrmException {
     if (reviewedBy == null) {
       if (!lazyLoad) {

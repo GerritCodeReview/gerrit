@@ -32,6 +32,10 @@
         observer: '_disabledChanged',
         reflectToAttribute: true,
       },
+      noUppercase: {
+        type: Boolean,
+        value: false,
+      },
       _enabledTabindex: {
         type: String,
         value: '0',

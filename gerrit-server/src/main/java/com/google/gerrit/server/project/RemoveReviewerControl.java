@@ -29,27 +29,29 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class RemoveReviewerControl {
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
-  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
   RemoveReviewerControl(
       PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
-      ChangeControl.GenericFactory changeControlFactory) {
+      ProjectControl.GenericFactory projectControlFactory) {
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
-    this.changeControlFactory = changeControlFactory;
+    this.projectControlFactory = projectControlFactory;
   }
 
   /** @throws AuthException if this user is not allowed to remove this approval. */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException, NoSuchChangeException, OrmException {
+      throws PermissionBackendException, AuthException, NoSuchProjectException, OrmException,
+          IOException {
     if (canRemoveReviewerWithoutPermissionCheck(
         notes.getChange(), currentUser, approval.getAccountId(), approval.getValue())) {
       return;
@@ -65,7 +67,7 @@ public class RemoveReviewerControl {
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException, NoSuchChangeException, OrmException {
+      throws PermissionBackendException, NoSuchProjectException, OrmException, IOException {
     if (canRemoveReviewerWithoutPermissionCheck(cd.change(), currentUser, reviewer, value)) {
       return true;
     }
@@ -78,7 +80,7 @@ public class RemoveReviewerControl {
 
   private boolean canRemoveReviewerWithoutPermissionCheck(
       Change change, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws NoSuchChangeException, OrmException {
+      throws NoSuchProjectException, OrmException, IOException {
     if (!change.getStatus().isOpen()) {
       return false;
     }
@@ -94,11 +96,10 @@ public class RemoveReviewerControl {
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
-    ChangeControl changeControl =
-        changeControlFactory.controlFor(dbProvider.get(), change, currentUser);
-    if (changeControl.getRefControl().isOwner() // branch owner
-        || changeControl.getProjectControl().isOwner() // project owner
-        || changeControl.getProjectControl().isAdmin()) { // project admin
+    ProjectControl ctl = projectControlFactory.controlFor(change.getProject(), currentUser);
+    if (ctl.controlForRef(change.getDest()).isOwner() // branch owner
+        || ctl.isOwner() // project owner
+        || ctl.isAdmin()) { // project admin
       return true;
     }
     return false;

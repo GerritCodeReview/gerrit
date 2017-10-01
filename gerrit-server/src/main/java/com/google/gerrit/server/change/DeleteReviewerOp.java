@@ -39,6 +39,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -119,7 +120,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
-          IOException {
+          IOException, NoSuchProjectException {
     Account.Id reviewerId = reviewer.getId();
     if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
       throw new ResourceNotFoundException();

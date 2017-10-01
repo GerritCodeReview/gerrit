@@ -38,9 +38,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -106,8 +104,6 @@ public class MergeSuperSet {
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
-  private final ProjectCache projectCache;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -119,17 +115,13 @@ public class MergeSuperSet {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
       PermissionBackend permissionBackend,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
-      ChangeControl.GenericFactory changeControlFactory,
-      ProjectCache projectCache) {
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.permissionBackend = permissionBackend;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
-    this.changeControlFactory = changeControlFactory;
-    this.projectCache = projectCache;
     queryCache = new HashMap<>();
     heads = new HashMap<>();
   }
@@ -160,7 +152,7 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps, boolean visible)
+  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps)
       throws OrmException, IOException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
@@ -172,10 +164,6 @@ public class MergeSuperSet {
     // doesn't match that, we may pick the wrong submit type and produce a
     // misleading (but still nonzero) count of the non visible changes that
     // would be submitted together with the visible ones.
-    if (!visible) {
-      return projectCache.checkedGet(cd.project()).getProject().getSubmitType();
-    }
-
     SubmitTypeRecord str =
         ps == cd.currentPatchSet()
             ? cd.submitTypeRecord()
@@ -247,18 +235,7 @@ public class MergeSuperSet {
         // is visible, we use the most recent one.  Otherwise, use the current
         // patch set.
         PatchSet ps = cd.currentPatchSet();
-        boolean visiblePatchSet = visible;
-        ChangeControl ctl = changeControlFactory.controlFor(cd.notes(), user);
-        if (!ctl.isPatchVisible(ps, cd)) {
-          Iterable<PatchSet> visiblePatchSets = ctl.getVisiblePatchSets(cd.patchSets(), db);
-          if (Iterables.isEmpty(visiblePatchSets)) {
-            visiblePatchSet = false;
-          } else {
-            ps = Iterables.getLast(visiblePatchSets);
-          }
-        }
-
-        if (submitType(user, cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
+        if (submitType(user, cd, ps) == SubmitType.CHERRY_PICK) {
           if (visible) {
             visibleChanges.add(cd);
           } else {

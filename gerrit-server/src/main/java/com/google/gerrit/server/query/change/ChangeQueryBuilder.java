@@ -70,7 +70,6 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
@@ -196,7 +195,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
     final PermissionBackend permissionBackend;
-    final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
     final ChangeIndex index;
     final ChangeIndexRewriter rewriter;
@@ -233,7 +231,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
-        ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
@@ -263,7 +260,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           userFactory,
           self,
           permissionBackend,
-          changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
           commentsUtil,
@@ -295,7 +291,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
-        ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
@@ -324,7 +319,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.self = self;
       this.permissionBackend = permissionBackend;
       this.notesFactory = notesFactory;
-      this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
       this.commentsUtil = commentsUtil;
       this.accountResolver = accountResolver;
@@ -357,7 +351,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           userFactory,
           Providers.of(otherUser),
           permissionBackend,
-          changeControlGenericFactory,
           notesFactory,
           changeDataFactory,
           commentsUtil,
@@ -926,8 +919,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new ChangeIsVisibleToPredicate(
-        args.db, args.notesFactory, args.changeControlGenericFactory, user, args.permissionBackend);
+    return new ChangeIsVisibleToPredicate(args.db, args.notesFactory, user, args.permissionBackend);
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {

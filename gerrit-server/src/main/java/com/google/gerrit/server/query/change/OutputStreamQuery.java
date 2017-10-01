@@ -31,7 +31,6 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
@@ -84,7 +83,6 @@ public class OutputStreamQuery {
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -110,7 +108,6 @@ public class OutputStreamQuery {
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       CurrentUser user,
-      ChangeControl.GenericFactory changeControlFactory,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
     this.repoManager = repoManager;
@@ -119,7 +116,6 @@ public class OutputStreamQuery {
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.user = user;
-    this.changeControlFactory = changeControlFactory;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
@@ -278,13 +274,12 @@ public class OutputStreamQuery {
       }
     }
 
-    ChangeControl ctl = changeControlFactory.controlFor(db, d.change(), user);
     if (includePatchSets) {
       eventFactory.addPatchSets(
           db,
           rw,
           c,
-          ctl.getVisiblePatchSets(d.patchSets(), db),
+          d.patchSets(),
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles,
           d.change(),
@@ -293,7 +288,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      if (current != null && ctl.isVisible(d.db())) {
+      if (current != null) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 
@@ -313,7 +308,7 @@ public class OutputStreamQuery {
             db,
             rw,
             c,
-            ctl.getVisiblePatchSets(d.patchSets(), db),
+            d.patchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles,
             d.change(),

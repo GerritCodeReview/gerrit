@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9d20f69_ab0112c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T15:21:14Z",
+      "side": 1,
+      "message": "In the new designs this color should be #fafafa",
+      "range": {
+        "startLine": 47,
+        "startChar": 26,
+        "endLine": 47,
+        "endChar": 33
+      },
+      "revId": "107ce3dcdbdcfbab7a86aaa9b6b9f655c0fa5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad2aa816_6e1174d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T15:21:14Z",
+      "side": 1,
+      "message": "fafafa",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "107ce3dcdbdcfbab7a86aaa9b6b9f655c0fa5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0acfd0a_067004aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T15:21:14Z",
+      "side": 1,
+      "message": "this should have a bottom border as well, to separate the controls from the messages.",
+      "range": {
+        "startLine": 50,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 31
+      },
+      "revId": "107ce3dcdbdcfbab7a86aaa9b6b9f655c0fa5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7deb78ee_1c92a453",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-01T15:21:14Z",
+      "side": 1,
+      "message": "is there a reason this is an attribute and not a class?",
+      "range": {
+        "startLine": 65,
+        "startChar": 17,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "107ce3dcdbdcfbab7a86aaa9b6b9f655c0fa5549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

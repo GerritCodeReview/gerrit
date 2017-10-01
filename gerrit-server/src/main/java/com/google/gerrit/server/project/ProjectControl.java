@@ -219,11 +219,6 @@ public class ProjectControl {
     return Capable.OK;
   }
 
-  /** Does this user have ownership on at least one reference name? */
-  public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER) || isAdmin();
-  }
-
   /** Can the user run upload pack? */
   private boolean canRunUploadPack() {
     for (AccountGroup.UUID group : uploadGroups) {

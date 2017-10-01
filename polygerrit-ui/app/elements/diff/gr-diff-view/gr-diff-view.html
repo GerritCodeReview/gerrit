@@ -59,6 +59,7 @@ limitations under the License.
         padding: .75em var(--default-horizontal-margin);
       }
       .patchRangeLeft {
+        align-items: center;
         display: flex;
       }
       .navLink:not([href]),
@@ -78,12 +79,6 @@ limitations under the License.
       }
       .mobile {
         display: none;
-      }
-      .downArrow {
-        display: inline-block;
-        font-size: .6em;
-        user-select: none;
-        vertical-align: middle;
       }
       .dropdown-trigger {
         cursor: pointer;
@@ -227,9 +222,14 @@ limitations under the License.
               on-change="_handleReviewedChange"
               hidden$="[[!_loggedIn]]" hidden>
           <div class="jumpToFileContainer desktop">
-            <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+            <gr-button
+                down-arrow
+                no-uppercase
+                link
+                class="dropdown-trigger"
+                id="trigger"
+                on-tap="_showDropdownTapHandler">
               <span>[[computeDisplayPath(_path)]]</span>
-              <span class="downArrow">&#9660;</span>
             </gr-button>
             <!-- *-align="" to disable iron-dropdown's element positioning. -->
             <iron-dropdown id="dropdown"

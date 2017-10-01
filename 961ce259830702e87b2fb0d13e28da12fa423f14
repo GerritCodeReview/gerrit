@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "829bd60d_90417d01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T14:08:54Z",
+      "side": 1,
+      "message": "This broke my brain a little bit. Can you document what are the keys and values?",
+      "revId": "961ce259830702e87b2fb0d13e28da12fa423f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c4f42fd_722105bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DynamicOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-01T14:08:54Z",
+      "side": 1,
+      "message": "Maybe this can just be \"new WeakHashMap\u003c\u003e()\"?",
+      "range": {
+        "startLine": 234,
+        "startChar": 26,
+        "endLine": 234,
+        "endChar": 65
+      },
+      "revId": "961ce259830702e87b2fb0d13e28da12fa423f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

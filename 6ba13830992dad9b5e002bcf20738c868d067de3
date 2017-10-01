@@ -16,6 +16,24 @@
       "revId": "6ba13830992dad9b5e002bcf20738c868d067de3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88bc3ef_c598278a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-01T14:14:06Z",
+      "side": 1,
+      "message": "I like it taller, but how about 9em to split the difference?",
+      "parentUuid": "087cc2c6_406455cd",
+      "revId": "6ba13830992dad9b5e002bcf20738c868d067de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

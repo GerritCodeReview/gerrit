@@ -77,7 +77,7 @@ the `gerrit-security-fixes` project be taken over into the public
 === Update Versions and Create Release Tag
 
 Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
-file must be updated, e.g. change it from `2.5-SNAPSHOT` to `2.5`.
+file must be updated, e.g. change it from `$version-SNAPSHOT` to `$version`.
 
 In addition the version must be updated in a number of pom.xml files.
 
@@ -91,13 +91,14 @@ version as parameter, e.g.:
 Commit the changes and create a signed release tag on the new commit:
 
 ----
-  git tag -s -m "v2.5" v2.5
+  version=2.15
+  git tag -s -m "v$version" "v$version"
 ----
 
 Tag the plugins:
 
 ----
-  git submodule foreach git tag -s -m "v2.5" v2.5
+  git submodule foreach git tag -s -m "v$version" "v$version"
 ----
 
 [[build-gerrit]]
@@ -241,11 +242,11 @@ gerrit-releases bucket in the Google cloud storage console]
 [[push-stable]]
 ==== Push the Stable Branch
 
-* Create the stable branch `stable-2.5` in the `gerrit` project via the
+* Create the stable branch `stable-$version` in the `gerrit` project via the
 link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
 Gerrit Web UI] or by push.
 
-* Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
+* Push the commits done on `stable-$version` to `refs/for/stable-$version` and
 get them merged
 
 
@@ -255,13 +256,13 @@ get them merged
 Push the new Release Tag:
 
 ----
-  git push gerrit-review tag v2.5
+  git push gerrit-review tag v$version
 ----
 
 Push the new Release Tag on the plugins:
 
 ----
-  git submodule foreach git push gerrit-review tag v2.5
+  git submodule foreach git push gerrit-review tag v$version
 ----
 
 
@@ -298,11 +299,11 @@ homepage project] to change the version numbers to the new version.
 Update the issues by hand. There is no script for this.
 
 Our current process is an issue should be updated to say `Status =
-Submitted, FixedIn-2.5` once the change is submitted, but before the
+Submitted, FixedIn-$version` once the change is submitted, but before the
 release.
 
 After the release is actually made, you can search in Google Code for
-`Status=Submitted FixedIn=2.5` and then batch update these changes
+`Status=Submitted FixedIn=$version` and then batch update these changes
 to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.
 

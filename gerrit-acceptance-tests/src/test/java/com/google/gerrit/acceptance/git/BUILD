@@ -16,7 +16,6 @@ java_library(
     srcs = ["AbstractPushForReview.java"],
     deps = [
         "//gerrit-acceptance-tests:lib",
-        "//lib/joda:joda-time",
     ],
 )
 

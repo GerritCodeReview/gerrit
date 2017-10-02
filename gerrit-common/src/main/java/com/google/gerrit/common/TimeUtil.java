@@ -15,14 +15,21 @@
 package com.google.gerrit.common;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import java.sql.Timestamp;
-import org.joda.time.DateTimeUtils;
+import java.util.function.LongSupplier;
 
 /** Static utility methods for dealing with dates and times. */
-@GwtIncompatible("Unemulated org.joda.time.DateTimeUtils")
+@GwtIncompatible("Unemulated Java 8 functionalities")
 public class TimeUtil {
+  private static final LongSupplier SYSTEM_CURRENT_MILLIS_SUPPLIER = System::currentTimeMillis;
+
+  private static volatile LongSupplier currentMillisSupplier = SYSTEM_CURRENT_MILLIS_SUPPLIER;
+
   public static long nowMs() {
-    return DateTimeUtils.currentTimeMillis();
+    // We should rather use Instant.now(Clock).toEpochMilli() instead but this would require some
+    // changes in our testing code as we wouldn't have clock steps anymore.
+    return currentMillisSupplier.getAsLong();
   }
 
   public static Timestamp nowTs() {
@@ -31,6 +38,16 @@ public class TimeUtil {
 
   public static Timestamp roundToSecond(Timestamp t) {
     return new Timestamp((t.getTime() / 1000) * 1000);
+  }
+
+  @VisibleForTesting
+  public static void setCurrentMillisSupplier(LongSupplier customCurrentMillisSupplier) {
+    currentMillisSupplier = customCurrentMillisSupplier;
+  }
+
+  @VisibleForTesting
+  public static void resetCurrentMillisSupplier() {
+    currentMillisSupplier = SYSTEM_CURRENT_MILLIS_SUPPLIER;
   }
 
   private TimeUtil() {}

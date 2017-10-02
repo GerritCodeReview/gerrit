@@ -33,7 +33,6 @@ import org.apache.james.mime4j.dom.Multipart;
 import org.apache.james.mime4j.dom.TextBody;
 import org.apache.james.mime4j.dom.address.Mailbox;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
-import org.joda.time.DateTime;
 
 /** Parses raw email content received through POP3 or IMAP into an internal {@link MailMessage}. */
 public class RawMailParser {
@@ -66,7 +65,9 @@ public class RawMailParser {
     if (mimeMessage.getSubject() != null) {
       messageBuilder.subject(mimeMessage.getSubject());
     }
-    messageBuilder.dateReceived(new DateTime(mimeMessage.getDate()));
+    if (mimeMessage.getDate() != null) {
+      messageBuilder.dateReceived(mimeMessage.getDate().toInstant());
+    }
 
     // Add From, To and Cc
     if (mimeMessage.getFrom() != null && mimeMessage.getFrom().size() > 0) {

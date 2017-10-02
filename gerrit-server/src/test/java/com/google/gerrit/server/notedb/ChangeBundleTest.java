@@ -46,13 +46,14 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +68,7 @@ public class ChangeBundleTest extends GerritBaseTests {
       CodecFactory.encoder(PatchSetApproval.class);
   private static final ProtobufCodec<PatchLineComment> PATCH_LINE_COMMENT_CODEC =
       CodecFactory.encoder(PatchLineComment.class);
+  private static final String TIMEZONE_ID = "US/Eastern";
 
   private String systemTimeZoneProperty;
   private TimeZone systemTimeZone;
@@ -76,10 +78,9 @@ public class ChangeBundleTest extends GerritBaseTests {
 
   @Before
   public void setUp() {
-    String tz = "US/Eastern";
-    systemTimeZoneProperty = System.setProperty("user.timezone", tz);
+    systemTimeZoneProperty = System.setProperty("user.timezone", TIMEZONE_ID);
     systemTimeZone = TimeZone.getDefault();
-    TimeZone.setDefault(TimeZone.getTimeZone(tz));
+    TimeZone.setDefault(TimeZone.getTimeZone(TIMEZONE_ID));
     long maxMs = ChangeRebuilderImpl.MAX_WINDOW_MS;
     assertThat(maxMs).isGreaterThan(1000L);
     TestTimeUtil.resetWithClockStep(maxMs * 2, MILLISECONDS);
@@ -1517,8 +1518,11 @@ public class ChangeBundleTest extends GerritBaseTests {
     PatchSetApproval a2 = clone(a1);
     a2.setGranted(
         new Timestamp(
-            new DateTime(1900, 1, 1, 0, 0, 0, DateTimeZone.forTimeZone(TimeZone.getDefault()))
-                .getMillis()));
+            LocalDate.of(1900, Month.JANUARY, 1)
+                .atStartOfDay()
+                .atZone(ZoneId.of(TIMEZONE_ID))
+                .toInstant()
+                .toEpochMilli()));
 
     // Both are ReviewDb, exact match is required.
     ChangeBundle b1 =

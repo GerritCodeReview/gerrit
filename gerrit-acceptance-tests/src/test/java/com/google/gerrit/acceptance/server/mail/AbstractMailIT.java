@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.mail.receive.MailMessage;
+import java.time.Instant;
 import java.util.HashMap;
-import org.joda.time.DateTime;
 import org.junit.Ignore;
 
 @Ignore
@@ -36,7 +36,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
     b.from(user.emailAddress);
     b.addTo(user.emailAddress); // Not evaluated
     b.subject("");
-    b.dateReceived(new DateTime());
+    b.dateReceived(Instant.now());
     return b;
   }
 

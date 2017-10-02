@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.mail.Address;
-import org.joda.time.DateTime;
+import java.time.Instant;
 
 /**
  * A simplified representation of an RFC 2045-2047 mime email message used for representing received
@@ -40,7 +40,7 @@ public abstract class MailMessage {
 
   public abstract ImmutableList<Address> cc();
   // Metadata
-  public abstract DateTime dateReceived();
+  public abstract Instant dateReceived();
 
   public abstract ImmutableList<String> additionalHeaders();
   // Content
@@ -84,7 +84,7 @@ public abstract class MailMessage {
       return this;
     }
 
-    public abstract Builder dateReceived(DateTime val);
+    public abstract Builder dateReceived(Instant instant);
 
     public abstract ImmutableList.Builder<String> additionalHeadersBuilder();
 

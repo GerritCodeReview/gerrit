@@ -77,6 +77,5 @@ junit_tests(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/joda:joda-time",
     ],
 )

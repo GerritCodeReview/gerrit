@@ -28,7 +28,6 @@ gwt_module(
         "//lib:gwtorm_client",
         "//lib:servlet-api-3_1",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/joda:joda-time",
         "//lib/log:api",
     ],
     gwt_xml = SRC + "Common.gwt.xml",
@@ -53,7 +52,6 @@ java_library(
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/joda:joda-time",
         "//lib/log:api",
     ],
 )

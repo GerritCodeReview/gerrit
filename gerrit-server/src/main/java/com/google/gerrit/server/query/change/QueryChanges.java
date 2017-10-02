@@ -112,8 +112,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       out = query();
     } catch (QueryParseException e) {
       // This is a hack to detect an operator that requires authentication.
-      Pattern p =
-          Pattern.compile("^Error in operator (.*:self|is:watched|is:owner|is:reviewer|has:.*)$");
+      Pattern p = Pattern.compile("^Error in operator (.*:self|is:watched|is:owner|is:reviewer)$");
       Matcher m = p.matcher(e.getMessage());
       if (m.matches()) {
         String op = m.group(1);

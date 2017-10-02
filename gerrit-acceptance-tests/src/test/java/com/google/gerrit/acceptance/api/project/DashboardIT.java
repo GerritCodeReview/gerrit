@@ -139,9 +139,10 @@ public class DashboardIT extends AbstractDaemonTest {
           new TestRepository<>(r).branch(canonicalRef).commit();
       String content =
           "[dashboard]\n"
-              + "Description = Test\n"
+              + "Title = Reviewer\n"
+              + "Description = Own review requests\n"
               + "foreach = owner:self\n"
-              + "[section \"Mine\"]\n"
+              + "[section \"Open\"]\n"
               + "query = is:open";
       cb.add(info.path, content);
       RevCommit c = cb.create();

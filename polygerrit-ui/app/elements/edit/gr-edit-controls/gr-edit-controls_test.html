@@ -1,0 +1,100 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-edit-controls</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<link rel="import" href="gr-edit-controls.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-edit-controls></gr-edit-controls>
+  </template>
+</test-fixture>
+
+<script>
+suite('gr-edit-controls tests', () => {
+  let element;
+  let sandbox;
+  let showDialogSpy;
+  let closeDialogSpy;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    element = fixture('basic');
+    showDialogSpy = sandbox.spy(element, '_showDialog');
+    closeDialogSpy = sandbox.spy(element, '_closeDialog');
+    flushAsynchronousOperations();
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('all actions exist', () => {
+    assert.equal(Polymer.dom(element.root).querySelectorAll('gr-button').length,
+        1);
+  });
+
+  suite('edit button CUJ', () => {
+    let navStubs;
+
+    setup(() => {
+      navStubs = [
+        sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff'),
+        sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl'),
+      ];
+    });
+
+    test('edit', () => {
+      MockInteractions.tap(element.$$('#edit'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element.$.editDialog.disabled);
+        element._path = 'src/test.cpp';
+        assert.isFalse(element.$.editDialog.disabled);
+        MockInteractions.tap(element.$.editDialog.$$('gr-button[primary]'));
+        for (const stub of navStubs) { assert.isTrue(stub.called); }
+        assert.isTrue(closeDialogSpy.called);
+      });
+    });
+
+    test('cancel', () => {
+      MockInteractions.tap(element.$$('#edit'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element.$.editDialog.disabled);
+        element._path = 'src/test.cpp';
+        assert.isFalse(element.$.editDialog.disabled);
+        MockInteractions.tap(element.$.editDialog.$$('gr-button'));
+        for (const stub of navStubs) { assert.isFalse(stub.called); }
+        assert.isTrue(closeDialogSpy.called);
+        assert.equal(element._path, '');
+      });
+    });
+  });
+
+  test('openEditDialog', () => {
+    return element.openEditDialog('test/path.cpp').then(() => {
+      assert.isFalse(element.$.editDialog.hasAttribute('hidden'));
+      assert.equal(element.$.editDialog.querySelector('.input').value,
+          'test/path.cpp');
+    });
+  });
+});
+</script>

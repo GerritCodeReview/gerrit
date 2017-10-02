@@ -1149,11 +1149,9 @@ limitations under the License.
     });
 
     test('_computeEditLoaded', () => {
-      const callCompute = range => element._computeEditLoaded({base: range});
-      assert.isFalse(callCompute({}));
-      assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
-      assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
-      assert.isTrue(callCompute({basePatchNum: 1, patchNum: 'edit'}));
+      assert.isFalse(element._computeEditLoaded(1));
+      assert.isFalse(element._computeEditLoaded(''));
+      assert.isTrue(element._computeEditLoaded(element.EDIT_NAME));
     });
 
     test('_processEdit', () => {

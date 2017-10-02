@@ -207,7 +207,7 @@ public class GetDiff implements RestReadView<FileResource> {
       String revA =
           basePatchSet != null
               ? basePatchSet.getRefName()
-              : resource.getRevision().getPatchSet().getRefName() + "^1";
+              : content.commitIdA;
       String revB =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()

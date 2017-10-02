@@ -297,6 +297,48 @@ limitations under the License.
         actual = element._getPatchRangeExpression(params);
         assert.equal(actual, '2..');
       });
+
+      suite('dashboard', () => {
+        test('self dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+          };
+          assert.equal(element._generateUrl(params), '/dashboard/self');
+        });
+
+        test('user dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'user',
+          };
+          assert.equal(element._generateUrl(params), '/dashboard/user');
+        });
+
+        test('custom self dashboard, no title', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: 'query 2'},
+            ],
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/?section%201=query%201&section%202=query%202');
+        });
+
+        test('custom user dashboard, with title', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'user',
+            sections: [{name: 'name', query: 'query'}],
+            title: 'custom dashboard',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/user?name=query&title=custom%20dashboard');
+        });
+      });
     });
 
     suite('param normalization', () => {
@@ -514,7 +556,7 @@ limitations under the License.
           assert.isFalse(redirectStub.called);
         });
 
-        test('redirects to dahsboard if logged in', () => {
+        test('redirects to dashboard if logged in', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {
@@ -625,35 +667,31 @@ limitations under the License.
         });
 
         test('no user specified', () => {
-          const data = {canonicalPath: '/dashboard', params: {}};
-          const result = element._handleDashboardRoute(data);
-          assert.isNotOk(result);
-          assert.isFalse(setParamsStub.called);
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isTrue(redirectStub.called);
-          assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleDashboardRoute(data, '').then(() => {
+            assert.isFalse(setParamsStub.called);
+            assert.isFalse(redirectToLoginStub.called);
+            assert.isTrue(redirectStub.called);
+            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+          });
         });
 
-        test('own dahsboard but signed out redirects to login', () => {
+        test('own dashboard but signed out redirects to login', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
-          const data = {canonicalPath: '/dashboard', params: {0: 'seLF'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'seLF'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isTrue(redirectToLoginStub.calledOnce);
             assert.isFalse(redirectStub.called);
             assert.isFalse(setParamsStub.called);
           });
         });
 
-        test('non-self dahsboard but signed out does not redirect', () => {
+        test('non-self dashboard but signed out does not redirect', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
-          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(setParamsStub.called);
             assert.isTrue(redirectStub.calledOnce);
@@ -661,13 +699,11 @@ limitations under the License.
           });
         });
 
-        test('dahsboard while signed in sets params', () => {
+        test('dashboard while signed in sets params', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
-          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
@@ -676,6 +712,42 @@ limitations under the License.
               user: 'foo',
             });
           });
+        });
+
+        test('custom dashboard without title', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleDashboardRoute(data, '?a=b&c&d=e').then(() => {
+            assert.isFalse(redirectToLoginStub.called);
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(setParamsStub.calledOnce);
+            assert.deepEqual(setParamsStub.lastCall.args[0], {
+              view: Gerrit.Nav.View.DASHBOARD,
+              user: 'self',
+              sections: [
+                {name: 'a', query: 'b'},
+                {name: 'd', query: 'e'},
+              ],
+              title: 'Custom Dashboard',
+            });
+          });
+        });
+
+        test('custom dashboard with title', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleDashboardRoute(data, '?a=b&c&d=&=e&title=t')
+              .then(() => {
+                assert.isFalse(redirectToLoginStub.called);
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'b'},
+                  ],
+                  title: 't',
+                });
+              });
         });
       });
 
@@ -1168,6 +1240,32 @@ limitations under the License.
           assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
           assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
         });
+      });
+    });
+
+    suite('_parseQueryString', () => {
+      test('empty queries', () => {
+        assert.deepEqual(element._parseQueryString(''), []);
+        assert.deepEqual(element._parseQueryString('?'), []);
+        assert.deepEqual(element._parseQueryString('??'), []);
+        assert.deepEqual(element._parseQueryString('&&&'), []);
+      });
+
+      test('url decoding', () => {
+        assert.deepEqual(element._parseQueryString('+'), [[' ', '']]);
+        assert.deepEqual(element._parseQueryString('???+%3d+'), [[' = ', '']]);
+        assert.deepEqual(
+            element._parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
+            [['name', 'value']]);
+      });
+
+      test('multiple parameters', () => {
+        assert.deepEqual(
+            element._parseQueryString('a=b&c=d&e=f'),
+            [['a', 'b'], ['c', 'd'], ['e', 'f']]);
+        assert.deepEqual(
+            element._parseQueryString('&a=b&&&e=f&'),
+            [['a', 'b'], ['e', 'f']]);
       });
     });
   });

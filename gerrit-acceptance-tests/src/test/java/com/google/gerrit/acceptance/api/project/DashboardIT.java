@@ -59,11 +59,14 @@ public class DashboardIT extends AbstractDaemonTest {
   public void getDashboard() throws Exception {
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     DashboardInfo result = project().dashboard(info.id).get();
-    assertThat(result.id).isEqualTo(info.id);
-    assertThat(result.path).isEqualTo(info.path);
-    assertThat(result.ref).isEqualTo(info.ref);
-    assertThat(result.project).isEqualTo(project.get());
-    assertThat(result.definingProject).isEqualTo(project.get());
+    assertDashboardInfo(result, info);
+  }
+
+  @Test
+  public void getDashboardNonDefault() throws Exception {
+    DashboardInfo info = createDashboard("my", "test");
+    DashboardInfo result = project().dashboard(info.id).get();
+    assertDashboardInfo(result, info);
   }
 
   @Test
@@ -121,6 +124,14 @@ public class DashboardIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("inherited flag can only be used with default");
     project().dashboard(info.id).get(true);
+  }
+
+  private void assertDashboardInfo(DashboardInfo actual, DashboardInfo expected) throws Exception {
+    assertThat(actual.id).isEqualTo(expected.id);
+    assertThat(actual.path).isEqualTo(expected.path);
+    assertThat(actual.ref).isEqualTo(expected.ref);
+    assertThat(actual.project).isEqualTo(project.get());
+    assertThat(actual.definingProject).isEqualTo(project.get());
   }
 
   private List<DashboardInfo> dashboards() throws Exception {

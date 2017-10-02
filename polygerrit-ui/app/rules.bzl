@@ -73,18 +73,21 @@ def polygerrit_bundle(name, srcs, outs, app):
       name + "_top_sources",
       "//lib/fonts:robotofonts",
       "//lib/js:highlightjs_files",
+      "@codemirror-minified//:zipfile",
+      "//lib/js:codemirror-minified",
       # we extract from the zip, but depend on the component for license checking.
       "@webcomponentsjs//:zipfile",
       "//lib/js:webcomponentsjs"
     ],
     outs = outs,
     cmd = " && ".join([
-      "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
+      "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{codemirror-minified,highlightjs,webcomponentsjs},elements}",
       "for f in $(locations " + name + "_app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/"  + appName + ".$$ext; done",
       "cp $(locations //lib/fonts:robotofonts) $$TMP/polygerrit_ui/fonts/",
       "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
       "for f in $(locations "+ name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
       "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+      "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @codemirror-minified//:zipfile) codemirror-minified/**",
       "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
       "cd $$TMP",
       "find . -exec touch -t 198001010000 '{}' ';'",

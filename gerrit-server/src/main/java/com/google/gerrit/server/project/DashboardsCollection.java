@@ -238,8 +238,8 @@ public class DashboardsCollection
     return info;
   }
 
-  private static String replace(String project, String query) {
-    return query.replace("${project}", project);
+  private static String replace(String project, String input) {
+    return input.replace("${project}", project);
   }
 
   private static String defaultOf(Project proj) {

@@ -18,11 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -57,14 +59,14 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void getDashboard() throws Exception {
-    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    DashboardInfo info = createTestDashboard();
     DashboardInfo result = project().dashboard(info.id).get();
     assertDashboardInfo(result, info);
   }
 
   @Test
   public void getDashboardNonDefault() throws Exception {
-    DashboardInfo info = createDashboard("my", "test");
+    DashboardInfo info = createTestDashboard("my", "test");
     DashboardInfo result = project().dashboard(info.id).get();
     assertDashboardInfo(result, info);
   }
@@ -72,15 +74,15 @@ public class DashboardIT extends AbstractDaemonTest {
   @Test
   public void listDashboards() throws Exception {
     assertThat(dashboards()).isEmpty();
-    DashboardInfo info1 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
-    DashboardInfo info2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
+    DashboardInfo info1 = createTestDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
+    DashboardInfo info2 = createTestDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
     assertThat(dashboards().stream().map(d -> d.id).collect(toList()))
         .containsExactly(info1.id, info2.id);
   }
 
   @Test
   public void setDefaultDashboard() throws Exception {
-    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    DashboardInfo info = createTestDashboard();
     assertThat(info.isDefault).isNull();
     project().dashboard(info.id).setDefault();
     assertThat(project().dashboard(info.id).get().isDefault).isTrue();
@@ -89,7 +91,7 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void setDefaultDashboardByProject() throws Exception {
-    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    DashboardInfo info = createTestDashboard();
     assertThat(info.isDefault).isNull();
     project().defaultDashboard(info.id);
     assertThat(project().dashboard(info.id).get().isDefault).isTrue();
@@ -104,8 +106,8 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void replaceDefaultDashboard() throws Exception {
-    DashboardInfo d1 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
-    DashboardInfo d2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
+    DashboardInfo d1 = createTestDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
+    DashboardInfo d2 = createTestDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
     assertThat(d1.isDefault).isNull();
     assertThat(d2.isDefault).isNull();
     project().dashboard(d1.id).setDefault();
@@ -120,7 +122,7 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void cannotGetDashboardWithInheritedForNonDefault() throws Exception {
-    DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    DashboardInfo info = createTestDashboard();
     exception.expect(BadRequestException.class);
     exception.expectMessage("inherited flag can only be used with default");
     project().dashboard(info.id).get(true);
@@ -132,6 +134,14 @@ public class DashboardIT extends AbstractDaemonTest {
     assertThat(actual.ref).isEqualTo(expected.ref);
     assertThat(actual.project).isEqualTo(project.get());
     assertThat(actual.definingProject).isEqualTo(project.get());
+    assertThat(actual.description).isEqualTo(expected.description);
+    assertThat(actual.title).isEqualTo(expected.title);
+    assertThat(actual.foreach).isEqualTo(expected.foreach);
+    if (expected.sections == null) {
+      assertThat(actual.sections).isNull();
+    } else {
+      assertThat(actual.sections.size()).isEqualTo(expected.sections.size());
+    }
   }
 
   private List<DashboardInfo> dashboards() throws Exception {
@@ -142,8 +152,27 @@ public class DashboardIT extends AbstractDaemonTest {
     return gApi.projects().name(project.get());
   }
 
-  private DashboardInfo createDashboard(String ref, String path) throws Exception {
+  private DashboardInfo newDashboardInfo(String ref, String path) {
     DashboardInfo info = DashboardsCollection.newDashboardInfo(ref, path);
+    info.title = "Reviewer";
+    info.description = "Own review requests";
+    info.foreach = "owner:self";
+    DashboardSectionInfo section = new DashboardSectionInfo();
+    section.name = "Open";
+    section.query = "is:open";
+    info.sections = ImmutableList.of(section);
+    return info;
+  }
+
+  private DashboardInfo createTestDashboard() throws Exception {
+    return createTestDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+  }
+
+  private DashboardInfo createTestDashboard(String ref, String path) throws Exception {
+    return createDashboard(newDashboardInfo(ref, path));
+  }
+
+  private DashboardInfo createDashboard(DashboardInfo info) throws Exception {
     String canonicalRef = DashboardsCollection.normalizeDashboardRef(info.ref);
     try {
       project().branch(canonicalRef).create(new BranchInput());
@@ -156,14 +185,27 @@ public class DashboardIT extends AbstractDaemonTest {
     try (Repository r = repoManager.openRepository(project)) {
       TestRepository<Repository>.CommitBuilder cb =
           new TestRepository<>(r).branch(canonicalRef).commit();
-      String content =
-          "[dashboard]\n"
-              + "Title = Reviewer\n"
-              + "Description = Own review requests\n"
-              + "foreach = owner:self\n"
-              + "[section \"Open\"]\n"
-              + "query = is:open";
-      cb.add(info.path, content);
+      StringBuilder content = new StringBuilder("[dashboard]").append(System.lineSeparator());
+      if (info.title != null) {
+        content.append("title = ").append(info.title).append(System.lineSeparator());
+      }
+      if (info.description != null) {
+        content.append("description = ").append(info.description).append(System.lineSeparator());
+      }
+      if (info.foreach != null) {
+        content.append("foreach = ").append(info.foreach).append(System.lineSeparator());
+      }
+      if (info.sections != null) {
+        for (DashboardSectionInfo section : info.sections) {
+          content
+              .append("[section \"")
+              .append(section.name)
+              .append("\"]")
+              .append(System.lineSeparator());
+          content.append("query = ").append(section.query).append(System.lineSeparator());
+        }
+      }
+      cb.add(info.path, content.toString());
       RevCommit c = cb.create();
       project().commit(c.name());
     }

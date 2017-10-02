@@ -252,7 +252,7 @@ public class DynamicOptions {
     }
     if (mergedCl == null) {
       mergedCl = new DelegatingClassLoader(beanCl, dynamicBeanCl);
-      mergedClByCl.put(dynamicBeanCl, new WeakReference(mergedCl));
+      mergedClByCl.put(dynamicBeanCl, new WeakReference<>(mergedCl));
     }
     return mergedCl;
   }

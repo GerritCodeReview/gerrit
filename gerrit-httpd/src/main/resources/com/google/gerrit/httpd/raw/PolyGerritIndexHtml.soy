@@ -48,6 +48,17 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  // CodeMirror follows jsdoc and not closure compiler.
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror/lib/codemirror.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror/addon/dialog/dialog.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror/theme/monokai.css">{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/lib/codemirror.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/mode/javascript/javascript.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/mode/php/php.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/mode/meta.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/addon/dialog/dialog.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror/keymap/vim.js"></script>{\n}
+
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
   // Contact your local security engineer if you have any questions, and

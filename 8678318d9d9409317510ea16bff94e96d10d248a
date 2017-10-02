@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be335ac_8474719d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-02T12:07:51Z",
+      "side": 1,
+      "message": "I\u0027m really hoping we never run into a problem where building a new bugfix release with a newer version of bazel than the original release was built with introduces some new bug or behavior change.\n\nI know when we talked in person we agreed it would be a PITA to require maintainers to build stable branches with an older version of bazel, so I\u0027m not proposing that. Just hoping we don\u0027t regret the decision.",
+      "revId": "8678318d9d9409317510ea16bff94e96d10d248a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

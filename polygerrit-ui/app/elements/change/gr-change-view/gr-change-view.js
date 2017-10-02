@@ -197,7 +197,7 @@
       _sortedRevisions: Array,
       _editLoaded: {
         type: Boolean,
-        computed: '_computeEditLoaded(_patchNum)',
+        computed: '_computeEditLoaded(_patchRange.*)',
       },
     },
 
@@ -1287,8 +1287,9 @@
       return change.work_in_progress ? 'header wip' : 'header';
     },
 
-    _computeEditLoaded(patchNum) {
-      return this.patchNumEquals(patchNum, this.EDIT_NAME);
+    _computeEditLoaded(patchRangeRecord) {
+      const patchRange = patchRangeRecord.base || {};
+      return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },
   });
 })();

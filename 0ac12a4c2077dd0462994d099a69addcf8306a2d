@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05806813_b270e38e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-02T11:22:59Z",
+      "side": 0,
+      "message": "for you @viktard :)",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 7
+      },
+      "revId": "0ac12a4c2077dd0462994d099a69addcf8306a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

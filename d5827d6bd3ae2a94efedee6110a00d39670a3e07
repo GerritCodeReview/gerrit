@@ -22,6 +22,30 @@
       "revId": "d5827d6bd3ae2a94efedee6110a00d39670a3e07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ba674b5_07007eba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-02T10:58:22Z",
+      "side": 1,
+      "message": "Yes. If you have a change with an edit patchset, the patchset description section should be hidden -- it wasn\u0027t.",
+      "parentUuid": "c8ae1a6a_949c3520",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "d5827d6bd3ae2a94efedee6110a00d39670a3e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

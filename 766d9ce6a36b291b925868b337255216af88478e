@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b56a74f_42a4fca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-02T12:02:17Z",
+      "side": 1,
+      "message": "seeing",
+      "revId": "766d9ce6a36b291b925868b337255216af88478e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c335cfd9_5c67b99a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListObjectTooLargeException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-02T12:02:17Z",
+      "side": 1,
+      "message": "Missing AOSP header",
+      "revId": "766d9ce6a36b291b925868b337255216af88478e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -111,8 +111,12 @@ Tag the plugins:
   ./tools/maven/api.sh install
 ----
 
-* Sanity check WAR
-* Test the new Gerrit version
+* Verify the WAR version:
++
+----
+  java -jar ~/dl/gerrit-$version.war --version
+----
+* Try upgrading a test site and launching the daemon
 
 * Verify plugin versions
 +

@@ -398,6 +398,30 @@
     },
     {
       "key": {
+        "uuid": "a8a6f2a1_353d9ab5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-02T12:39:57Z",
+      "side": 1,
+      "message": "Serialization formats like b64 are the sort of things I\u0027d expect the API interface to handle, but it shouldn\u0027t block this change.",
+      "parentUuid": "03c980d5_5252015a",
+      "range": {
+        "startLine": 115,
+        "startChar": 17,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "ac7d3db9bce1d3dc34b5dd30005ca7883c0cbb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "788b3a2b_be7c7e33",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 8

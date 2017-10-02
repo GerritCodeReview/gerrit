@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0ad85e9_51b93d8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-02T08:10:04Z",
+      "side": 0,
+      "message": "We can\u0027t set the height like this due to smaller screens wrapping on mobile. The padding that was added results in approximately the same height when it is a single row. See screenshot in bug: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7317",
+      "parentUuid": "a228af40_15c8292b",
+      "revId": "c0e4a3154429eb09cabd0ff1a478cb40a6dfdfcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27b93561_8b492166",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "c0e4a3154429eb09cabd0ff1a478cb40a6dfdfcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08919eb_935e54db",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-02T08:10:04Z",
+      "side": 0,
+      "message": "ditto",
+      "parentUuid": "27b93561_8b492166",
+      "revId": "c0e4a3154429eb09cabd0ff1a478cb40a6dfdfcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

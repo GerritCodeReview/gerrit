@@ -35,6 +35,7 @@ import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
@@ -232,6 +233,8 @@ public class CommentSender extends ReplyToChangeSender {
     if (repo != null) {
       try {
         patchList = getPatchList();
+      } catch (PatchListObjectTooLargeException e) {
+        log.warn("Failed to get patch list: " + e.getMessage());
       } catch (PatchListNotAvailableException e) {
         log.error("Failed to get patch list", e);
       }

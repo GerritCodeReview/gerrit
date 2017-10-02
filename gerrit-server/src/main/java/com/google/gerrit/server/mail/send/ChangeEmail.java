@@ -37,6 +37,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -539,6 +540,9 @@ public abstract class ChangeEmail extends NotificationEmail {
         // Currently these always have a null oldId in the PatchList.
         return "[Octopus merge; cannot be formatted as a diff.]\n";
       }
+    } catch (PatchListObjectTooLargeException e) {
+      log.warn("Cannot format patch " + e.getMessage());
+      return "";
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot format patch", e);
       return "";

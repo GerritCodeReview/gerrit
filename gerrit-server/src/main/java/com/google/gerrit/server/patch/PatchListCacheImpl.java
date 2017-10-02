@@ -101,7 +101,7 @@ public class PatchListCacheImpl implements PatchListCache {
     try {
       PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
       if (pl instanceof LargeObjectTombstone) {
-        throw new PatchListNotAvailableException(
+        throw new PatchListObjectTooLargeException(
             "Error computing " + key + ". Previous attempt failed with LargeObjectException");
       }
       return pl;

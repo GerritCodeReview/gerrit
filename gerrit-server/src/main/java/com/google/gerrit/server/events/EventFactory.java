@@ -56,6 +56,7 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -427,6 +428,8 @@ public class EventFactory {
         p.insertions = patch.getInsertions();
         patchSetAttribute.files.add(p);
       }
+    } catch (PatchListObjectTooLargeException e) {
+      log.warn("Cannot get patch list: " + e.getMessage());
     } catch (PatchListNotAvailableException e) {
       log.warn("Cannot get patch list", e);
     }
@@ -500,6 +503,8 @@ public class EventFactory {
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
     } catch (IOException | OrmException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
+    } catch (PatchListObjectTooLargeException e) {
+      log.warn(String.format("Cannot get size information for %s: %s", pId, e.getMessage()));
     } catch (PatchListNotAvailableException e) {
       log.error(String.format("Cannot get size information for %s.", pId), e);
     }

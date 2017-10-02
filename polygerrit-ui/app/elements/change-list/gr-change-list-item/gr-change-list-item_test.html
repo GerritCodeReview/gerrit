@@ -186,5 +186,16 @@ limitations under the License.
       const elementClass = '.bad';
       assert.isNotOk(element.$$(elementClass));
     });
+
+    test('assignee only displayed if there is one', () => {
+      assert.isNotOk(element.$$('.assignee gr-account-link'));
+      element.change = {
+        assignee: {
+          name: 'test',
+        },
+      };
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('.assignee gr-account-link'));
+    });
   });
 </script>

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f87ad610_376dff39",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-02T11:05:48Z",
+      "side": 1,
+      "message": "For 2.0 compatibility I think we still want `.dispatchEvent`, note that the link you posted is for 1.0 Polymer.\n\nhttps://www.polymer-project.org/2.0/docs/devguide/events",
+      "parentUuid": "6bdb7b4d_59824470",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb94d03e_7d3e0b62",
         "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.js",
         "patchSetId": 1

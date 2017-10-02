@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const HLJS_PATH = 'bower_components/codemirror/lib/codemirror.js';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
@@ -61,7 +61,7 @@
     },
 
     _getHighlightLib() {
-      const lib = window.hljs;
+      const lib = window.CodeMirror;
       if (lib && !this._state.configured) {
         this._state.configured = true;
 

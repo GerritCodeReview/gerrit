@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
     'application/x-erb': 'erb',
     'text/css': 'css',
     'text/html': 'html',
-    'text/javascript': 'js',
+    'text/javascript': 'javascript',
     'text/x-c': 'cpp',
     'text/x-c++src': 'cpp',
     'text/x-clojure': 'clojure',
@@ -312,16 +312,36 @@
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
+        const codeMirror1 = window.document.getElementsByClassName('contentText');
+        //for (let i = 0, ilen = codeMirror1.length - 1; i < ilen; i++) {
+          result = this._hljs(codeMirror1[3], {
+              value: baseLine,
+              mode: this._baseLanguage,
+              lineNumbers: true,
+              // theme: 'monokai',
+              keyMap: 'vim',
+              readOnly: true,
+          });
+        //}
+
         this.push('_baseRanges', this._rangesFromString(result.value));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
+        const codeMirror2 = window.document.getElementsByClassName('contentText');
+        //for (let i = 0, ilen = codeMirror2.length - 1; i < ilen; i++) {
+          result = this._hljs(codeMirror2[0], {
+              value: revisionLine,
+              mode: this._revisionLanguage,
+              lineNumbers: true,
+              // theme: 'monokai',
+              keyMap: 'vim',
+              readOnly: true,
+          });
+        //}
+
         this.push('_revisionRanges', this._rangesFromString(result.value));
         state.revisionContext = result.top;
       }

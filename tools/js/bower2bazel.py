@@ -33,6 +33,7 @@ import bowerutil
 
 # list of licenses for packages that don't specify one in their bower.json file.
 package_licenses = {
+  "codemirror-minified": "codemirror-minified",
   "es6-promise": "es6-promise",
   "fetch": "fetch",
   "font-roboto": "polymer",

@@ -14,7 +14,10 @@
 (function() {
   'use strict';
 
-  const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const HLJS_PATH = 'bower_components/codemirror-minified/lib/codemirror.js';
+  const HLJS2_PATH = 'bower_components/codemirror-minified/mode/javascript/javascript.js';
+  const HLJS3_PATH = 'bower_components/codemirror-minified/addon/dialog/dialog.js';
+  const HLJS4_PATH = 'bower_components/codemirror-minified/keymap/vim.js';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
@@ -61,11 +64,11 @@
     },
 
     _getHighlightLib() {
-      const lib = window.hljs;
+      const lib = window.CodeMirror;
       if (lib && !this._state.configured) {
         this._state.configured = true;
 
-        lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+        //lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
       }
       return lib;
     },
@@ -98,6 +101,45 @@
         script.onload = resolve;
         script.onerror = reject;
         Polymer.dom(document.head).appendChild(script);
+
+        const script2 = document.createElement('script');
+        const src2 = this._getHLJSUrl2();
+
+        if (!src2) {
+          reject(new Error('Unable to load blank HLJS url.'));
+          return;
+        }
+
+        script2.src = src2;
+        script2.onload = resolve;
+        script2.onerror = reject;
+        Polymer.dom(document.head).appendChild(script2);
+
+        const script3 = document.createElement('script');
+        const src3 = this._getHLJSUrl3();
+
+        if (!src3) {
+          reject(new Error('Unable to load blank HLJS url.'));
+          return;
+        }
+
+        script3.src = src3;
+        script3.onload = resolve;
+        script3.onerror = reject;
+        Polymer.dom(document.head).appendChild(script3);
+
+        const script4 = document.createElement('script');
+        const src4 = this._getHLJSUrl4();
+
+        if (!src4) {
+          reject(new Error('Unable to load blank HLJS url.'));
+          return;
+        }
+
+        script4.src = src4;
+        script4.onload = resolve;
+        script4.onerror = reject;
+        Polymer.dom(document.head).appendChild(script4);
       });
     },
 
@@ -105,6 +147,24 @@
       const root = this._getLibRoot();
       if (!root) { return null; }
       return root + HLJS_PATH;
+    },
+
+    _getHLJSUrl2() {
+      const root = this._getLibRoot();
+      if (!root) { return null; }
+      return root + HLJS2_PATH;
+    },
+
+    _getHLJSUrl3() {
+      const root = this._getLibRoot();
+      if (!root) { return null; }
+      return root + HLJS3_PATH;
+    },
+
+    _getHLJSUrl4() {
+      const root = this._getLibRoot();
+      if (!root) { return null; }
+      return root + HLJS4_PATH;
     },
   });
 })();

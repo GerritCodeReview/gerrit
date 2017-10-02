@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3887fde_1c73e544",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-02T12:51:56Z",
+      "side": 1,
+      "message": "These titles match the extra headers next to the existing (non-plugin) project commands, but I suspect we don\u0027t need them there either, since it says the same thing as the button itself anyway.\n\nNot a blocker, though.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6e5f4b5e_59c03f70",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.html",
         "patchSetId": 1
@@ -48,6 +71,23 @@
       "side": 1,
       "message": "For 2.0 compatibility I think we still want `.dispatchEvent`, note that the link you posted is for 1.0 Polymer.\n\nhttps://www.polymer-project.org/2.0/docs/devguide/events",
       "parentUuid": "6bdb7b4d_59824470",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d5eb05_f40b6905",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-02T12:51:56Z",
+      "side": 1,
+      "message": "This sandbox is not used.",
       "revId": "110afbf487698fa076650b060bac447b52d38eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

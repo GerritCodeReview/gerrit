@@ -40,16 +40,13 @@ limitations under the License.
       .patchInfoOldPatchSet.patchInfo-header {
         background-color: #fff9c4;
       }
-      .patchInfoOldPatchSet .latestPatchContainer {
-        display: initial;
-      }
       .patchInfo-header {
         background-color: #fafafa;
         border-bottom: 1px solid #ddd;
         border-top: 1px solid #ddd;
         display: flex;
-        height: 3.2em;
-        padding: 0 calc(var(--default-horizontal-margin) / 2);
+        min-height: 3.2em;
+        padding: .5em calc(var(--default-horizontal-margin) / 2);
       }
       .patchInfo-header-wrapper {
         align-items: center;
@@ -60,9 +57,13 @@ limitations under the License.
       .patchInfo-left {
         align-items: center;
         display: flex;
+        flex-wrap: wrap;
       }
-      .latestPatchContainer {
+      .patchInfo-header-wrapper .container.latestPatchContainer {
         display: none;
+      }
+      .patchInfoOldPatchSet .container.latestPatchContainer {
+        display: initial;
       }
       .latestPatchContainer a {
         text-decoration: none;
@@ -132,7 +133,7 @@ limitations under the License.
         margin-right: 1em;
       }
       @media screen and (max-width: 50em) {
-        .desktop {
+        .patchInfo-header .desktop {
           display: none;
         }
       }

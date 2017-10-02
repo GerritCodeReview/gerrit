@@ -420,7 +420,7 @@
       html = this._addNewlines(text, html);
     }
 
-    const contentText = this._createElement('div', 'contentText');
+    const contentText = this._createElement('div', 'contentText', 'contentText');
     if (opt_side) {
       contentText.setAttribute('data-side', opt_side);
     }
@@ -578,7 +578,7 @@
     return str;
   };
 
-  GrDiffBuilder.prototype._createElement = function(tagName, className) {
+  GrDiffBuilder.prototype._createElement = function(tagName, className, idName) {
     const el = document.createElement(tagName);
     // When Shady DOM is being used, these classes are added to account for
     // Polymer's polyfill behavior. In order to guarantee sufficient
@@ -589,6 +589,9 @@
     el.classList.add('style-scope', 'gr-diff');
     if (className) {
       el.classList.add(className);
+    }
+    if (idName) {
+      el.setAttribute('id', idName);
     }
     return el;
   };

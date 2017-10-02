@@ -23,5 +23,5 @@ import com.google.gerrit.server.events.Event;
  */
 @ExtensionPoint
 public interface EventListener {
-  void onEvent(Event event);
+       void onEvent(Event event);
 }

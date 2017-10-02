@@ -55,6 +55,7 @@ limitations under the License.
       loadStub.restore();
 
       // Because the element state is a singleton, clean it up.
+      element._state.configured = false;
       element._state.loading = false;
       element._state.callbacks = [];
     });
@@ -88,8 +89,13 @@ limitations under the License.
     });
 
     suite('preloaded', () => {
+      let hljsStub;
+
       setup(() => {
-        window.hljs = 'test-object';
+        hljsStub = {
+          configure: sinon.stub(),
+        };
+        window.hljs = hljsStub;
       });
 
       teardown(() => {
@@ -101,7 +107,14 @@ limitations under the License.
         element.get().then(firstCallHandler);
         flush(() => {
           assert.isTrue(firstCallHandler.called);
-          assert.isTrue(firstCallHandler.calledWith('test-object'));
+          assert.isTrue(firstCallHandler.calledWith(hljsStub));
+          done();
+        });
+      });
+
+      test('configures hljs', done => {
+        element.get().then(() => {
+          assert.isTrue(window.hljs.configure.calledOnce);
           done();
         });
       });

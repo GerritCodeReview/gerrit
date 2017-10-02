@@ -73,22 +73,6 @@ the `gerrit-security-fixes` project be taken over into the public
 
 == Create the Actual Release
 
-To create a Gerrit release the following steps have to be done:
-
-. link:#build-gerrit[Build the Gerrit Release]
-. link:#publish-gerrit[Publish the Gerrit Release]
-.. link:#publish-to-maven-central[Publish the Gerrit artifacts to Maven Central]
-.. link:#publish-to-google-storage[Publish the Gerrit WAR to Google Storage]
-.. link:#push-stable[Push the Stable Branch]
-.. link:#push-tag[Push the Release Tag]
-.. link:#upload-documentation[Upload the Documentation]
-.. link:#finalize-release-notes[Finalize Release Notes]
-.. link:#update-issues[Update the Issues]
-.. link:#announce[Announce on Mailing List]
-. link:#increase-version[Increase Gerrit Version for Current Development]
-. link:#merge-stable[Merge `stable` into `master`]
-
-
 [[update-versions]]
 === Update Versions and Create Release Tag
 

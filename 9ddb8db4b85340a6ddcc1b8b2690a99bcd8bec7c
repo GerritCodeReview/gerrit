@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a56954_d698be97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-02T06:54:37Z",
+      "side": 1,
+      "message": "Better:\n\n  assertThat(dashboards().stream().map(d -\u003e d.id).collect(toList()))\n        .containsExactly(info1.id, info2.id);",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 45
+      },
+      "revId": "9ddb8db4b85340a6ddcc1b8b2690a99bcd8bec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

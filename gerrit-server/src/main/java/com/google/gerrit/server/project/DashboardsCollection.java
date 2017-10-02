@@ -211,8 +211,8 @@ public class DashboardsCollection
     DashboardInfo info = newDashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
-    String query = config.getString("dashboard", null, "title");
-    info.title = replace(project, query == null ? info.path : query);
+    String title = config.getString("dashboard", null, "title");
+    info.title = replace(project, title == null ? info.path : title);
     info.description = replace(project, config.getString("dashboard", null, "description"));
     info.foreach = config.getString("dashboard", null, "foreach");
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c32c01c_5f0a5a85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-02T12:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b56a74f_42a4fca8",
+      "revId": "766d9ce6a36b291b925868b337255216af88478e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c335cfd9_5c67b99a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListObjectTooLargeException.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "766d9ce6a36b291b925868b337255216af88478e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c81afa_34bd324e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListObjectTooLargeException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-02T12:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c335cfd9_5c67b99a",
+      "revId": "766d9ce6a36b291b925868b337255216af88478e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

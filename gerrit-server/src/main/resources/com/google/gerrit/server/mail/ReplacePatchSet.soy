@@ -26,7 +26,7 @@
  * @param patchSet
  * @param projectName
  */
-{template .ReplacePatchSet autoescape="strict" kind="text"}
+{template .ReplacePatchSet kind="text"}
   {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
     Hello{sp}
     {foreach $reviewerName in $email.reviewerNames}

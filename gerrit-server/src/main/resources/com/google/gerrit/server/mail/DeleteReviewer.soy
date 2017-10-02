@@ -24,7 +24,7 @@
  * @param email
  * @param fromName
  */
-{template .DeleteReviewer autoescape="strict" kind="text"}
+{template .DeleteReviewer kind="text"}
   {$fromName} has removed{sp}
   {foreach $reviewerName in $email.reviewerNames}
     {if not isFirst($reviewerName)},{sp}{/if}

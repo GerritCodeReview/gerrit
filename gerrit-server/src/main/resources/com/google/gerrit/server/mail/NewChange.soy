@@ -25,7 +25,7 @@
  * @param patchSet
  * @param projectName
  */
-{template .NewChange autoescape="strict" kind="text"}
+{template .NewChange kind="text"}
   {if $email.reviewerNames}
     Hello{sp}
     {foreach $reviewerName in $email.reviewerNames}

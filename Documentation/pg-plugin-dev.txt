@@ -1,10 +1,5 @@
 = Gerrit Code Review - PolyGerrit Plugin Development
 
-CAUTION: Work in progress. Hard hat area. +
-This document will be populated with details along with implementation. +
-link:https://groups.google.com/d/topic/repo-discuss/vb8WJ4m0hK0/discussion[Join
-the discussion.]
-
 [[loading]]
 == Plugin loading and initialization
 
@@ -33,8 +28,8 @@ Here's a sample `myplugin.html`:
 </dom-module>
 ```
 
-[[low-level-api]]
-== Low-level DOM API
+[[low-level-api-concepts]]
+== Low-level DOM API concepts
 
 Basically, the DOM is the API surface. Low-level API provides methods for
 decorating, replacing, and styling DOM elements exposed through a set of
@@ -126,3 +121,119 @@ Note: TODO: Insert link to the full styling API.
   </style>
 </dom-module>
 ```
+
+[[high-level-api-concepts]]
+== High-level DOM API concepts
+
+High leve API is based on low-level DOM API and is essentially a standartized
+way for doing common tasks. It's less flexible, but will be a bit more stable.
+
+Common way to access high-leve API is through `plugin` instance passed into
+setup callback parameter of `Gerrit.install()`, also sometimes referred as
+`self`.
+
+[[low-level-api]]
+== Low-level DOM API
+
+Low-level DOM API methods are the base of all UI customization.
+
+=== attributeHelper
+`plugin.attributeHelper(element)`
+
+Note: TODO
+
+=== eventHelper
+`plugin.eventHelper(element)`
+
+Note: TODO
+
+=== hook
+`plugin.hook(endpointName, opt_options)`
+
+Note: TODO
+
+=== registerCustomComponent
+`plugin.registerCustomComponent(endpointName, opt_moduleName, opt_options)`
+
+Note: TODO
+
+=== registerStyleModule
+`plugin.registerStyleModule(endpointName, moduleName)`
+
+Note: TODO
+
+[[high-level-api]]
+== High-level API
+
+Plugin instance provides access to number of more specific APIs and methods
+to be used by plugin authors.
+
+=== changeReply
+`plugin.changeReply()`
+
+Note: TODO
+
+=== changeView
+`plugin.changeView()`
+
+Note: TODO
+
+=== delete
+`plugin.delete(url, opt_callback)`
+
+Note: TODO
+
+=== get
+`plugin.get(url, opt_callback)`
+
+Note: TODO
+
+=== getPluginName
+`plugin.getPluginName()`
+
+Note: TODO
+
+=== getServerInfo
+`plugin.getServerInfo()`
+
+Note: TODO
+
+=== on
+`plugin.on(eventName, callback)`
+
+Note: TODO
+
+=== popup
+`plugin.popup(moduleName)`
+
+Note: TODO
+
+=== post
+`plugin.post(url, payload, opt_callback)`
+
+Note: TODO
+
+[plugin-project]
+=== project
+`plugin.project()`
+
+.Params:
+- none
+
+.Returns:
+- Instance of link:pg-plugin-project-api.html[GrProjectApi].
+
+=== put
+`plugin.put(url, payload, opt_callback)`
+
+Note: TODO
+
+=== theme
+`plugin.theme()`
+
+Note: TODO
+
+=== url
+`plugin.url(opt_path)`
+
+Note: TODO

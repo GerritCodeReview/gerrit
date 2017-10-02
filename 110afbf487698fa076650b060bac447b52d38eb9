@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "a15951d9_93bf86c9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-02T13:41:47Z",
+      "side": 1,
+      "message": "/facepalm\n\nI thought this.dispatchEvent was deprecated in favor of this.fire, not the opposite.",
+      "parentUuid": "6229ef5e_bbfa1554",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d5eb05_f40b6905",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command_test.html",
         "patchSetId": 1

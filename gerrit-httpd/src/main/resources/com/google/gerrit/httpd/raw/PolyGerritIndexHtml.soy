@@ -48,6 +48,20 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
   <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  // CodeMirror follows jsdoc and not closure compiler.
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror-minified/lib/codemirror.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror-minified/addon/dialog/dialog.css">{\n}
+  <link rel="stylesheet" href="{$staticResourcePath}/bower_components/codemirror-minified/theme/monokai.css">{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/lib/codemirror.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/css/css.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/htmlmixed/htmlmixed.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/javascript/javascript.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/php/php.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/xml/xml.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/mode/meta.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/addon/dialog/dialog.js"></script>{\n}
+  <script src="{$staticResourcePath}/bower_components/codemirror-minified/keymap/vim.js"></script>{\n}
+
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.
   // Contact your local security engineer if you have any questions, and

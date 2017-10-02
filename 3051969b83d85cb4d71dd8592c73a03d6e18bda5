@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09e7ff21_b85b1b6b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-02T12:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f17c2b_395b822b",
+      "range": {
+        "startLine": 631,
+        "startChar": 16,
+        "endLine": 631,
+        "endChar": 36
+      },
+      "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c93ac55e_e2c20a47",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-02T08:01:32Z",
       "side": 1,
       "message": "Is the while loop to remove multiple leading question-marks?\n\nIf so, optionally, a regex might be more explicit.\n\n qs \u003d qs.replace(/^\\?+/, \u0027\u0027);\n\nThis looks fine too though.",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 637,
+        "endChar": 7
+      },
+      "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2921f489_1784fb33",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-02T12:32:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c93ac55e_e2c20a47",
       "range": {
         "startLine": 635,
         "startChar": 6,
@@ -68,6 +116,30 @@
       "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8331bbb2_c7a443d9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-02T12:32:28Z",
+      "side": 1,
+      "message": "In terms of how _handleDashboardRoute handles this scenario, see line 679. Only name/value pairs with non-empty name and non-empty value produce a section.",
+      "parentUuid": "7fddc3e8_4f9bbc9a",
+      "range": {
+        "startLine": 647,
+        "startChar": 10,
+        "endLine": 648,
+        "endChar": 21
+      },
+      "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

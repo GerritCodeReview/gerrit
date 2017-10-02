@@ -221,7 +221,6 @@
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
       '_updateSortedRevisions(_change.revisions.*)',
-      '_patchRangeChanged(_patchRange.*)',
     ],
 
     keyBindings: {
@@ -320,15 +319,6 @@
 
     _reloadWindow() {
       window.location.reload();
-    },
-
-    /**
-     * Called when the patch range changes. does not detect sub property
-     * updates.
-     */
-    _patchRangeChanged() {
-      this._basePatchNum = this._patchRange.basePatchNum;
-      this._patchNum = this._patchRange.patchNum;
     },
 
     _handleCommitMessageCancel(e) {

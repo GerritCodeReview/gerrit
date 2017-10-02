@@ -116,7 +116,6 @@
       },
       /** @type {?number} */
       _processHandle: Number,
-      _hljs: Object,
     },
 
     addListener(fn) {
@@ -194,38 +193,36 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return this._loadHLJS().then(() => {
-        return new Promise(resolve => {
-          const nextStep = () => {
-            this._processHandle = null;
-            this._processNextLine(state);
+      return new Promise(resolve => {
+        const nextStep = () => {
+          this._processHandle = null;
+          this._processNextLine(state);
 
-            // Move to the next line in the section.
-            state.lineIndex++;
+          // Move to the next line in the section.
+          state.lineIndex++;
 
-            // If the section has been exhausted, move to the next one.
-            if (this._isSectionDone(state)) {
-              state.lineIndex = 0;
-              state.sectionIndex++;
-            }
+          // If the section has been exhausted, move to the next one.
+          if (this._isSectionDone(state)) {
+            state.lineIndex = 0;
+            state.sectionIndex++;
+          }
 
-            // If all sections have been exhausted, finish.
-            if (state.sectionIndex >= this.diff.content.length) {
-              resolve();
-              this._notify(state);
-              return;
-            }
+          // If all sections have been exhausted, finish.
+          if (state.sectionIndex >= this.diff.content.length) {
+            resolve();
+            this._notify(state);
+            return;
+          }
 
-            if (state.lineIndex % 100 === 0) {
-              this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
-            } else {
-              nextStep.call(this);
-            }
-          };
+          if (state.lineIndex % 100 === 0) {
+            this._notify(state);
+            this._processHandle = this.async(nextStep, ASYNC_DELAY);
+          } else {
+            nextStep.call(this);
+          }
+        };
 
-          this._processHandle = this.async(nextStep, 1);
-        });
+        this._processHandle = this.async(nextStep, 1);
       });
     },
 
@@ -312,16 +309,34 @@
 
       if (this._baseLanguage && baseLine !== undefined) {
         baseLine = this._workaround(this._baseLanguage, baseLine);
-        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
-            state.baseContext);
+        console.log(window.document.getElementById('contentText'));
+        console.log(state.baseContext);
+        console.log(window.document.body.parentNode.nodeName);
+        result = window.CodeMirror(window.document.getElementById('contentText'), {
+            value: baseLine,
+            mode: this._baseLanguage,
+            lineNumbers: state.baseContext,
+            readOnly: true
+        });
+        //result = this._hljs.CodeMirror(this._baseLanguage, baseLine, true,
+        //    state.baseContext);
         this.push('_baseRanges', this._rangesFromString(result.value));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
-            true, state.revisionContext);
+        console.log(window.document.getElementById('contentText'));
+        console.log(state.revisionContext);
+        console.log(window.document.body.parentNode.nodeName);
+        result = window.CodeMirror(window.document.getElementById('contentText'), {
+            value: revisionLine,
+            mode: this._revisionLanguage,
+            lineNumbers: state.revisionContext,
+            readOnly: true
+        });
+        //result = this._hljs.highlight(this._revisionLanguage, revisionLine,
+        //    true, state.revisionContext);
         this.push('_revisionRanges', this._rangesFromString(result.value));
         state.revisionContext = result.top;
       }
@@ -435,12 +450,6 @@
       for (const fn of this._listeners) {
         fn(start, end, side);
       }
-    },
-
-    _loadHLJS() {
-      return this.$.libLoader.get().then(hljs => {
-        this._hljs = hljs;
-      });
     },
   });
 })();

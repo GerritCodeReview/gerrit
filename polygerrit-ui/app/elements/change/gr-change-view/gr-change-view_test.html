@@ -790,9 +790,8 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-      element._basePatchNum = 1;
-      element._patchNum = 2;
-      element._patchNum = 3;
+      element._patchRange = {basePatchNum: 1, patchNum: 2};
+      element.$.fileListHeader.patchNum = 3;
       assert.equal(navigateToChangeStub.callCount, 1);
       assert.isTrue(navigateToChangeStub.lastCall
           .calledWithExactly(element._change, 3, 1));

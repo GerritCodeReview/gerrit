@@ -65,6 +65,16 @@ public class DashboardIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getDashboardWithNoDescription() throws Exception {
+    DashboardInfo info = newDashboardInfo(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
+    info.description = null;
+    DashboardInfo created = createDashboard(info);
+    assertThat(created.description).isNull();
+    DashboardInfo result = project().dashboard(created.id).get();
+    assertThat(result.description).isNull();
+  }
+
+  @Test
   public void getDashboardNonDefault() throws Exception {
     DashboardInfo info = createTestDashboard("my", "test");
     DashboardInfo result = project().dashboard(info.id).get();

@@ -95,7 +95,7 @@ off. Migration progress will be reported to the Gerrit logs.
 
 To run the offline migration, run the `migrate-to-note-db` program:
 ----
-  java -jar gerrit.war migrate-to-note-db /path/to/site
+  java -jar gerrit.war migrate-to-note-db -d /path/to/site
 ----
 
 Once started, it is safe to cancel and restart the migration process, or to
@@ -124,7 +124,7 @@ location is still ReviewDb, and data is kept in sync between the two locations.
 To run the migration in trial mode, add `--trial` to `migrate-to-note-db` or
 `daemon`:
 ----
-  java -jar gerrit.war migrate-to-note-db --trial /path/to/site
+  java -jar gerrit.war migrate-to-note-db --trial -d /path/to/site
   # OR
   java -jar gerrit.war daemon -d /path/to/site --migrate-to-note-db --trial
 ----

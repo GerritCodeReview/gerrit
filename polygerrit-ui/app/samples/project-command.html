@@ -1,0 +1,42 @@
+<dom-module id="sample-project-command">
+  <script>
+    Gerrit.install(plugin => {
+      // High-level API
+      plugin.project()
+          .createCommand('Bork', (projectName, projectConfig) => {
+            if (projectName !== 'All-Projects') {
+              return false;
+            }
+          }).onTap(() => {
+            alert('Bork, bork!');
+          });
+
+      // Low-level API
+      plugin.registerCustomComponent(
+          'project-command', 'project-command-low');
+    });
+  </script>
+</dom-module>
+
+<!-- Low-level custom component for project command. -->
+<dom-module id="project-command-low">
+  <template>
+    <gr-project-command
+        title="Low-level bork"
+        on-command-tap="_handleCommandTap">
+    </gr-project-command>
+  </template>
+  <script>
+    Polymer({
+      is: 'project-command-low',
+      attached() {
+        console.log(this.projectName);
+        console.log(this.config);
+        this.hidden = this.projectName !== 'All-Projects';
+      },
+      _handleCommandTap() {
+        alert('(softly) bork, bork.');
+      },
+    });
+  </script>
+</dom-module>

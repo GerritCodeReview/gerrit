@@ -139,7 +139,9 @@ limitations under the License.
     </td>
     <td class="cell assignee"
         hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">
-      <gr-account-link account="[[change.assignee]]"></gr-account-link>
+      <template is="dom-if" if="[[change.assignee]]">
+        <gr-account-link account="[[change.assignee]]"></gr-account-link>
+      </template>
     </td>
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">

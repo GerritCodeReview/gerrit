@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -56,7 +57,6 @@ public class DashboardIT extends AbstractDaemonTest {
 
   @Test
   public void getDashboard() throws Exception {
-    assertThat(dashboards()).isEmpty();
     DashboardInfo info = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test");
     DashboardInfo result = project().dashboard(info.id).get();
     assertThat(result.id).isEqualTo(info.id);
@@ -64,7 +64,15 @@ public class DashboardIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(info.ref);
     assertThat(result.project).isEqualTo(project.get());
     assertThat(result.definingProject).isEqualTo(project.get());
-    assertThat(dashboards()).hasSize(1);
+  }
+
+  @Test
+  public void listDashboards() throws Exception {
+    assertThat(dashboards()).isEmpty();
+    DashboardInfo info1 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test1");
+    DashboardInfo info2 = createDashboard(DashboardsCollection.DEFAULT_DASHBOARD_NAME, "test2");
+    assertThat(dashboards().stream().map(d -> d.id).collect(toList()))
+        .containsExactly(info1.id, info2.id);
   }
 
   @Test

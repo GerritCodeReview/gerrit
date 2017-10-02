@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "910046e0_a954a017",
+        "filename": "plugins/hooks",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-02T12:47:09Z",
+      "side": 1,
+      "message": "Unintentional plugin update.",
+      "revId": "9153ca60ca4f11c7bca827cff1da158400f3f660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

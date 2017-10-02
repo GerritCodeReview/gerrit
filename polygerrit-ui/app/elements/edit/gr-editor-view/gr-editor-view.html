@@ -36,7 +36,7 @@ limitations under the License.
       gr-fixed-panel {
         background-color: #fff;
         border-bottom: 1px #eee solid;
-        z-index: 1;
+        z-index: 10;
       }
       header,
       .subHeader {
@@ -94,7 +94,7 @@ limitations under the License.
       </header>
     </gr-fixed-panel>
     <div class="textareaWrapper">
-        <textarea id="file">{{_newContent}}</textarea>
+      <textarea value="{{_newContent::input}}" id="file"></textarea>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

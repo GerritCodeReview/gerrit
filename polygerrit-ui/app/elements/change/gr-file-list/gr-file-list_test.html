@@ -1238,6 +1238,20 @@ limitations under the License.
         });
       });
     });
+
+    test('editing actions', () => {
+      element.editLoaded = true;
+      element.change = {_number: '42', project: 'test'};
+      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      const editControls =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)')
+            .map(row => row.querySelector('gr-edit-file-controls'));
+
+      // Commit message should not have edit controls.
+      assert.isTrue(editControls[0].classList.contains('invisible'));
+      MockInteractions.tap(editControls[1].$.edit);
+      assert.isTrue(navStub.called);
+    });
   });
   a11ySuite('basic');
 </script>

@@ -239,7 +239,7 @@ public class DashboardsCollection
   }
 
   private static String replace(String project, String input) {
-    return input.replace("${project}", project);
+    return input == null ? input : input.replace("${project}", project);
   }
 
   private static String defaultOf(Project proj) {

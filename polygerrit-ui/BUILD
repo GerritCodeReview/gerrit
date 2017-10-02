@@ -8,6 +8,7 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 bower_component_bundle(
     name = "polygerrit_components.bower_components",
     deps = [
+        "//lib/js:codemirror-minified",
         "//lib/js:es6-promise",
         "//lib/js:fetch",
         # TODO(hanwen): this is inserted separately in the UI zip. Do we need this here?

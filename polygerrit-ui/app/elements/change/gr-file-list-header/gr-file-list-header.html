@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../diff/gr-patch-range-select/gr-patch-range-select.html">
+<link rel="import" href="../../edit/gr-edit-controls/gr-edit-controls.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -74,6 +75,7 @@ limitations under the License.
         display: none;
       }
       #diffPrefsContainer,
+      #editControlsContainer,
       .rightControls {
         align-self: flex-end;
         margin: auto 0 auto auto;
@@ -185,6 +187,9 @@ limitations under the License.
           <gr-button link
               class="prefsButton desktop"
               on-tap="_handlePrefsTap">Diff Preferences</gr-button>
+        </span>
+        <span id="editControlsContainer" class="showOnEdit">
+          <gr-edit-controls change="[[change]]"></gr-edit-controls>
         </span>
       </div>
     </div>

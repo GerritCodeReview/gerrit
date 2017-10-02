@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d957479_fe0e728e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-02T13:21:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d3887fde_1c73e544",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e5f4b5e_59c03f70",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.html",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "110afbf487698fa076650b060bac447b52d38eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7afdcc6_e0760fd0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-02T13:21:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5f4b5e_59c03f70",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "6229ef5e_bbfa1554",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-02T13:21:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f87ad610_376dff39",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d5eb05_f40b6905",
         "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command_test.html",
         "patchSetId": 1
@@ -94,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "c900434e_5758d4c4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-command/gr-project-command_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-02T13:21:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d5eb05_f40b6905",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb94d03e_7d3e0b62",
         "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.js",
         "patchSetId": 1
@@ -108,6 +186,24 @@
       "revId": "110afbf487698fa076650b060bac447b52d38eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa9f470e_1a6bfda8",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-02T13:21:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure I entirely follow, but a) this is private and b) onTap could use this as a parameter and this then could be made non-optional, but that seemed a bit more work with no user-facing impact.",
+      "parentUuid": "fb94d03e_7d3e0b62",
+      "revId": "110afbf487698fa076650b060bac447b52d38eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

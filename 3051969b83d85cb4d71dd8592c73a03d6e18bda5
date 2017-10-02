@@ -140,6 +140,30 @@
       "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b284a6b7_e67a5cd8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-02T12:57:56Z",
+      "side": 1,
+      "message": "In that case, would it make sense to just skip adding the entry in this case? (Since it\u0027s sort of invalid.)",
+      "parentUuid": "8331bbb2_c7a443d9",
+      "range": {
+        "startLine": 647,
+        "startChar": 10,
+        "endLine": 648,
+        "endChar": 21
+      },
+      "revId": "3051969b83d85cb4d71dd8592c73a03d6e18bda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

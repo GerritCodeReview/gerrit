@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a228af40_15c8292b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-02T08:03:36Z",
+      "side": 0,
+      "message": "This change makes the header no longer fit the redline spec.",
+      "revId": "c0e4a3154429eb09cabd0ff1a478cb40a6dfdfcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27b93561_8b492166",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-02T08:03:36Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "c0e4a3154429eb09cabd0ff1a478cb40a6dfdfcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

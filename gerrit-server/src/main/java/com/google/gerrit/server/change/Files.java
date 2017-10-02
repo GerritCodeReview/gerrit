@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -240,6 +241,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         try {
           return copy(res.files(), res.patchSetId(), resource, userId);
+        } catch (PatchListObjectTooLargeException e) {
+          log.warn("Cannot copy patch review flags: " + e.getMessage());
         } catch (IOException | PatchListNotAvailableException e) {
           log.warn("Cannot copy patch review flags", e);
         }

@@ -20,6 +20,10 @@ def define_bower_components():
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
+    name = "codemirror",
+    license = "//lib:LICENSE-codemirror-original",
+  )
+  bower_component(
     name = "es6-promise",
     license = "//lib:LICENSE-es6-promise",
     seed = True,

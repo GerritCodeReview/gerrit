@@ -23,6 +23,11 @@ def load_bower_archives():
     version = "3.5.0",
     sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa")
   bower_archive(
+    name = "codemirror-minified",
+    package = "Dominator008/codemirror-minified",
+    version = "5.28.0",
+    sha1 = "51ba8d9256c63ce95238253c5b2eb7d5b12d6ed3")
+  bower_archive(
     name = "font-roboto",
     package = "PolymerElements/font-roboto",
     version = "1.0.3",

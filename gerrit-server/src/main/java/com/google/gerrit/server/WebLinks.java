@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -35,6 +32,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,8 +129,8 @@ public class WebLinks {
    * @return Links for file history
    */
   public List<WebLinkInfoCommon> getFileHistoryLinks(String project, String revision, String file) {
-    return FluentIterable.from(fileHistoryLinks)
-        .transform(
+    return StreamSupport.stream(fileHistoryLinks.spliterator(), false)
+        .map(
             webLink -> {
               WebLinkInfo info = webLink.getFileHistoryWebLink(project, revision, file);
               if (info == null) {
@@ -143,7 +144,7 @@ public class WebLinks {
               return commonInfo;
             })
         .filter(INVALID_WEBLINK_COMMON)
-        .toList();
+        .collect(Collectors.toList());
   }
 
   /**
@@ -165,8 +166,8 @@ public class WebLinks {
       final int patchSetIdB,
       final String revisionB,
       final String fileB) {
-    return FluentIterable.from(diffLinks)
-        .transform(
+    return StreamSupport.stream(diffLinks.spliterator(), false)
+        .map(
             webLink ->
                 webLink.getDiffLink(
                     project,
@@ -178,7 +179,7 @@ public class WebLinks {
                     revisionB,
                     fileB))
         .filter(INVALID_WEBLINK)
-        .toList();
+        .collect(Collectors.toList());
   }
 
   /**
@@ -209,6 +210,9 @@ public class WebLinks {
 
   private <T extends WebLink> List<WebLinkInfo> filterLinks(
       DynamicSet<T> links, Function<T, WebLinkInfo> transformer) {
-    return FluentIterable.from(links).transform(transformer).filter(INVALID_WEBLINK).toList();
+    return StreamSupport.stream(links.spliterator(), false)
+        .map(transformer)
+        .filter(INVALID_WEBLINK)
+        .collect(Collectors.toList());
   }
 }

@@ -139,12 +139,30 @@
       'c': '_handleCKey',
       '[': '_handleLeftBracketKey',
       ']': '_handleRightBracketKey',
-      'o enter': '_handleOKey',
+      'o': '_handleOKey',
       'n': '_handleNKey',
       'p': '_handlePKey',
       'r': '_handleRKey',
       'shift+a': '_handleCapitalAKey',
       'esc': '_handleEscKey',
+    },
+
+    listeners: {
+      keydown: '_scopedKeydownHandler',
+    },
+
+    /**
+     * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
+     * events must be scoped to a component level (e.g. `enter`) in order to not
+     * override native browser functionality.
+     *
+     * Context: Issue 7277
+     */
+    _scopedKeydownHandler(e) {
+      if (e.keyCode === 13) {
+        // Enter.
+        this._handleOKey(e);
+      }
     },
 
     reload() {

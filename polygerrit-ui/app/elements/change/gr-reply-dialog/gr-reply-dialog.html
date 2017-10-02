@@ -56,6 +56,13 @@ limitations under the License.
         padding: .5em .75em;
         width: 100%;
       }
+      .actions {
+        display: flex;
+        justify-content: space-between;
+      }
+      .actions gr-button {
+        margin-left: 1em;
+      }
       .peopleContainer,
       .labelsContainer {
         flex-shrink: 0;
@@ -134,9 +141,6 @@ limitations under the License.
       }
       #savingLabel.saving {
         display: inline;
-      }
-      #cancelButton {
-        float: right;
       }
       @media screen and (max-width: 50em) {
         :host {
@@ -259,33 +263,40 @@ limitations under the License.
           Saving comments...
         </span>
       </section>
-      <section>
-        <gr-button
-            primary
-            disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
-            class="action send"
-            on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-        <template is="dom-if" if="[[canBeStarted]]">
+      <section class="actions">
+        <div class="left">
+          <span
+              id="checkingStatusLabel"
+              hidden$="[[!_isState(knownLatestState, 'checking')]]">
+            Checking whether patch [[patchNum]] is latest...
+          </span>
+          <span
+              id="notLatestLabel"
+              hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
+            Patch [[patchNum]] is not latest.
+            <gr-button link on-tap="_reload">Reload</gr-button>
+          </span>
+        </div>
+        <div class="right">
           <gr-button
-              disabled="[[_isState(knownLatestState, 'not-latest')]]"
-              class="action save"
-              on-tap="_saveTapHandler">Save</gr-button>
-        </template>
-        <span
-            id="checkingStatusLabel"
-            hidden$="[[!_isState(knownLatestState, 'checking')]]">
-          Checking whether patch [[patchNum]] is latest...
-        </span>
-        <span
-            id="notLatestLabel"
-            hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
-          Patch [[patchNum]] is not latest.
-          <gr-button link on-tap="_reload">Reload</gr-button>
-        </span>
-        <gr-button
-            id="cancelButton"
-            class="action cancel"
-            on-tap="_cancelTapHandler">Cancel</gr-button>
+              link
+              id="cancelButton"
+              class="action cancel"
+              on-tap="_cancelTapHandler">Cancel</gr-button>
+          <gr-button
+              link
+              primary
+              disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
+              class="action send"
+              on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
+          <template is="dom-if" if="[[canBeStarted]]">
+            <gr-button
+                link
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                on-tap="_saveTapHandler">Save</gr-button>
+          </template>
+        </div>
       </section>
     </div>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>

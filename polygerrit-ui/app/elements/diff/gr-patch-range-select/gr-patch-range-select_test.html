@@ -315,5 +315,22 @@ limitations under the License.
       delete comments['bar'];
       assert.equal(element._computePatchSetCommentsString(comments, 1), '');
     });
+
+    test('patch-range-change fires', () => {
+      const handler = sandbox.stub();
+      element.basePatchNum = 1;
+      element.patchNum = 3;
+      element.addEventListener('patch-range-change', handler);
+
+      element.$.basePatchDropdown._handleValueChange(2, [{value: 2}]);
+      assert.isTrue(handler.calledOnce);
+      assert.deepEqual(handler.lastCall.args[0].detail,
+          {basePatchNum: 2, patchNum: 3});
+
+      // BasePatchNum should not have changed, due to one-way data binding.
+      element.$.patchNumDropdown._handleValueChange('edit', [{value: 'edit'}]);
+      assert.deepEqual(handler.lastCall.args[0].detail,
+          {basePatchNum: 1, patchNum: 'edit'});
+    });
   });
 </script>

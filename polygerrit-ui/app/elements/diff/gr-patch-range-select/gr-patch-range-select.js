@@ -22,8 +22,8 @@
    *
    * @event patch-range-change
    *
-   * @property {string} leftPatch
-   * @property {string} rightPatch
+   * @property {string} patchNum
+   * @property {string} basePatchNum
    */
 
   Polymer({
@@ -45,14 +45,8 @@
       comments: Array,
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
-      patchNum: {
-        type: String,
-        notify: true,
-      },
-      basePatchNum: {
-        type: String,
-        notify: true,
-      },
+      patchNum: String,
+      basePatchNum: String,
       revisions: Object,
       _sortedRevisions: Array,
     },
@@ -133,19 +127,6 @@
           this.findSortedIndex(basePatchNum, sortedRevisions);
     },
 
-    // On page load, the dom-if for options getting added occurs after
-    // the value was set in the select. This ensures that after they
-    // are loaded, the correct value will get selected.  I attempted to
-    // debounce these, but because they are detecting two different
-    // events, sometimes the timing was off and one ended up missing.
-    _synchronizeSelectionRight() {
-      this.$.rightPatchSelect.value = this.patchNum;
-    },
-
-    _synchronizeSelectionLeft() {
-      this.$.leftPatchSelect.value = this.basePatchNum;
-    },
-
     // Copied from gr-file-list
     // @todo(beckysiegel) clean up.
     _getCommentsForPath(comments, patchNum, path) {
@@ -218,6 +199,24 @@
       return (rev && rev.description) ?
           (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    },
+
+    /**
+     * Catches value-change events from the patchset dropdowns and determines
+     * whether or not a patch change event should be fired.
+     */
+    _handlePatchChange(e) {
+      const detail = {patchNum: this.patchNum, basePatchNum: this.basePatchNum};
+      const target = Polymer.dom(e).localTarget;
+
+      if (target === this.$.patchNumDropdown) {
+        detail.patchNum = e.detail.value;
+      } else {
+        detail.basePatchNum = e.detail.value;
+      }
+
+      this.dispatchEvent(
+          new CustomEvent('patch-range-change', {detail, bubbles: false}));
     },
   });
 })();

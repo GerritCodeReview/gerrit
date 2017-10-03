@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -211,6 +212,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Provider<CurrentUser> userProvider;
     private final VisibleRefFilter.Factory refFilterFactory;
     private final TransferConfig transferConfig;
+    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
@@ -222,6 +224,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         Provider<CurrentUser> userProvider,
         VisibleRefFilter.Factory refFilterFactory,
         TransferConfig transferConfig,
+        DynamicSet<UploadPackInitializer> uploadPackInitializers,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
@@ -230,6 +233,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.userProvider = userProvider;
       this.refFilterFactory = refFilterFactory;
       this.transferConfig = transferConfig;
+      this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.threadContext = threadContext;
@@ -273,6 +277,9 @@ class InProcessProtocol extends TestProtocol<Context> {
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
+      for (UploadPackInitializer initializer : uploadPackInitializers) {
+        initializer.init(req.project, up);
+      }
       return up;
     }
   }

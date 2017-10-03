@@ -53,9 +53,8 @@
       },
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
-      params: {
-        type: Object,
-      },
+      /** @type {?} */
+      params: Object,
 
       _results: Array,
       _sectionMetadata: {

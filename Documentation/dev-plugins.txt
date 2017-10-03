@@ -495,6 +495,14 @@ notified when JGit successfully receives a pack. This may be useful
 for those plugins which would like to monitor changes in Git
 repositories.
 
+[[upload-pack]]
+== Upload Pack Initializers
+
+Plugins may provide UploadPack initializers which will be invoked
+by Gerrit just before a UploadPack instance will be used. Usually,
+plugins will make use of the setXXX methods on the UploadPack to
+set additional properties on it.
+
 [[pre-upload-hook]]
 == Pre Upload-Pack Hooks
 

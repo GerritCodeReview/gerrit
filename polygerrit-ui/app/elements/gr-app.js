@@ -31,9 +31,7 @@
      */
 
     properties: {
-      /**
-       * @type {{ query: string, view: string }}
-       */
+      /** @type {?} */
       params: Object,
       keyEventTarget: {
         type: Object,

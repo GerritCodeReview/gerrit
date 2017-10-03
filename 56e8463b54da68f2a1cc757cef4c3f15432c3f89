@@ -16,6 +16,24 @@
       "revId": "56e8463b54da68f2a1cc757cef4c3f15432c3f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ac7b76_801d06ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:59:29Z",
+      "side": 1,
+      "message": "The diff view one was different to begin with, so not sure what to change it to but updated the messages list one since I have to push a new patch anyway.",
+      "parentUuid": "9922e552_c46a314f",
+      "revId": "56e8463b54da68f2a1cc757cef4c3f15432c3f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

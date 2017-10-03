@@ -44,7 +44,9 @@ limitations under the License.
           <template is="dom-repeat" items="[[_agreements]]">
             <tr>
               <td class="nameColumn">
-                <a href$="[[getUrlBase(item.url)]]">[[item.name]]</a>
+                <a href$="[[getUrlBase(item.url)]]" rel="external">
+                  [[item.name]]
+                </a>
               </td>
               <td class="descriptionColumn">[[item.description]]</td>
             </tr>

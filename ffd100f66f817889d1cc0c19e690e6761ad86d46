@@ -22,6 +22,30 @@
       "revId": "ffd100f66f817889d1cc0c19e690e6761ad86d46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "398d12a2_dacdb908",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T13:56:52Z",
+      "side": 0,
+      "message": "It was actually not needed prior after the last change as well, but forgot to remove. Because we were manually formatting before, but now we are letting iron-fit-behavior do the formatting.\n\nNote: I did notice an issue with Safari in the reply dialog emoji dropdown in which the dropdown doesn\u0027t extend below the dialog. Firefox is ok and it is unrelated to this comment. I\u0027ll file a bug to look into that one later.",
+      "parentUuid": "caafe0ee_9704413e",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 60
+      },
+      "revId": "ffd100f66f817889d1cc0c19e690e6761ad86d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

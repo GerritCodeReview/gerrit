@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ac9b32d8_55c7ce31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T13:56:52Z",
+      "side": 1,
+      "message": "Ah I think it\u0027s supposed to be like that anyway.",
+      "parentUuid": "e2d395bc_c4c72124",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 0
+      },
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93414e19_08955668",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
         "patchSetId": 3
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f3e0b104_f23ac17b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T13:56:52Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/130437/3/polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js#197",
+      "parentUuid": "93414e19_08955668",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bb291cc_da71359f",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 3
@@ -79,6 +121,24 @@
       "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372edc94_4b200df5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T13:56:52Z",
+      "side": 1,
+      "message": "yep.",
+      "parentUuid": "5bb291cc_da71359f",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

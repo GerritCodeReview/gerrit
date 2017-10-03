@@ -192,14 +192,19 @@ limitations under the License.
        * @param {number} changeNum
        * @param {string} project The name of the project.
        * @param {number=} opt_patchNum
+       * @param {number=} opt_basePatchNum
        * @return {string}
        */
-      getUrlForChangeById(changeNum, project, opt_patchNum) {
+      getUrlForChangeById(changeNum, project, opt_patchNum, opt_basePatchNum) {
+        if (opt_basePatchNum === PARENT_PATCHNUM) {
+          opt_basePatchNum = undefined;
+        }
         return this._getUrlFor({
           view: Gerrit.Nav.View.CHANGE,
           changeNum,
           project,
           patchNum: opt_patchNum,
+          basePatchNum: opt_basePatchNum,
         });
       },
 
@@ -212,6 +217,17 @@ limitations under the License.
       navigateToChange(change, opt_patchNum, opt_basePatchNum) {
         this._navigate(this.getUrlForChange(change, opt_patchNum,
             opt_basePatchNum));
+      },
+
+      /**
+       * @param {number} changeNum
+       * @param {string} project The name of the project.
+       * @param {number=} opt_patchNum
+       * @param {number=} opt_basePatchNum
+       */
+      navigateToChangeById(changeNum, project, opt_patchNum, opt_basePatchNum) {
+        this._navigate(this.getUrlForChangeById(changeNum, project,
+            opt_patchNum, opt_basePatchNum));
       },
 
       /**

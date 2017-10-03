@@ -26,6 +26,7 @@
       /** @type {?} */
       change: Object,
       changeNum: String,
+      projectName: String,
       changeUrl: String,
       comments: Object,
       commitInfo: Object,
@@ -153,9 +154,8 @@
      */
     _patchOrBaseChanged(patchNew, patchOld) {
       if (!patchOld) { return; }
-
-      Gerrit.Nav.navigateToChange(this.change, this.patchNum,
-          this.basePatchNum);
+      Gerrit.Nav.navigateToChangeById(this.changeNum, this.projectName,
+          this.patchNum, this.basePatchNum);
     },
 
     _handlePrefsTap(e) {

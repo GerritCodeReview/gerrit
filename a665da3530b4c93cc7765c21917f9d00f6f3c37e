@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7896c6b0_2ffe985e",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-03T19:12:05Z",
+      "side": 1,
+      "message": "This is just for testing, it will not be checked in.",
+      "revId": "a665da3530b4c93cc7765c21917f9d00f6f3c37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a61f83_e65bcaeb",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-diff-api/gr-diff-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-03T19:12:05Z",
+      "side": 1,
+      "message": "The gr-diff-builder DOM is not populated at this point.\nI would like to ideally run at this point:\n\nelement.content.getLineElByNumber(2, \u0027right\u0027)\n\n\nIs onAttached correct here? maybe gr-endpoint-decorator should be wrapping something else?",
+      "revId": "a665da3530b4c93cc7765c21917f9d00f6f3c37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

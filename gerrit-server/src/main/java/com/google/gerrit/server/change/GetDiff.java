@@ -191,12 +191,7 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
-      // TODO referring to the parent commit by refs/changes/12/60012/1^1
-      // will likely not work for inline edits
-      String revA =
-          basePatchSet != null
-              ? basePatchSet.getRefName()
-              : resource.getRevision().getPatchSet().getRefName() + "^1";
+      String revA = basePatchSet != null ? basePatchSet.getRefName() : content.commitIdA;
       String revB =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()

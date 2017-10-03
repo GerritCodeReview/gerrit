@@ -171,11 +171,11 @@ limitations under the License.
       element.text = 'test';
       element._updateCaratPosition();
       assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
-          element.$.emojiSuggestions.outerHTML);
+          element.$.caratSpan.outerHTML);
     });
 
     test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
-      const resetSpy = sandbox.spy(element, '_resetAndFocus');
+      const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
       element.$.emojiSuggestions.fire('dropdown-closed');
       assert.isTrue(resetSpy.called);
     });
@@ -190,10 +190,6 @@ limitations under the License.
 
     suite('keyboard shortcuts', () => {
       function setupDropdown(callback) {
-        element.$.emojiSuggestions.addEventListener('open-complete', () => {
-          callback();
-        });
-        flushAsynchronousOperations();
         MockInteractions.focus(element.$.textarea);
         element.$.textarea.selectionStart = 1;
         element.$.textarea.selectionEnd = 1;
@@ -201,55 +197,48 @@ limitations under the License.
         element.$.textarea.selectionStart = 1;
         element.$.textarea.selectionEnd = 2;
         element.text = ':1';
+        flushAsynchronousOperations();
       }
 
-      test('escape key', done => {
-        const resestSpy = sandbox.spy(element, '_resetAndFocus');
+      test('escape key', () => {
+        const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
-        assert.isFalse(resestSpy.called);
-        setupDropdown(() => {
-          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
-          assert.isTrue(resestSpy.called);
-          assert.isFalse(!element.$.emojiSuggestions.isHidden);
-          done();
-        });
+        assert.isFalse(resetSpy.called);
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
+        assert.isTrue(resetSpy.called);
+        assert.isFalse(!element.$.emojiSuggestions.isHidden);
       });
 
-      test('up key', done => {
+      test('up key', () => {
         const upSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorUp');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
         assert.isFalse(upSpy.called);
-        setupDropdown(() => {
-          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
-          assert.isTrue(upSpy.called);
-          done();
-        });
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
+        assert.isTrue(upSpy.called);
       });
 
-      test('down key', done => {
+      test('down key', () => {
         const downSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorDown');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
         assert.isFalse(downSpy.called);
-        setupDropdown(() => {
-          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
-          assert.isTrue(downSpy.called);
-          done();
-        });
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
+        assert.isTrue(downSpy.called);
       });
 
-      test('enter key', done => {
+      test('enter key', () => {
         const enterSpy = sandbox.spy(element.$.emojiSuggestions,
             'getCursorTarget');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
         assert.isFalse(enterSpy.called);
-        setupDropdown(() => {
-          MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
-          assert.isTrue(enterSpy.called);
-          flushAsynchronousOperations();
-          // A space is automatically added at the end.
-          assert.equal(element.text, '💯 ');
-          done();
-        });
+        setupDropdown();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+        assert.isTrue(enterSpy.called);
+        flushAsynchronousOperations();
+        // A space is automatically added at the end.
+        assert.equal(element.text, '💯 ');
       });
     });
   });

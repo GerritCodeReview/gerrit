@@ -31,9 +31,11 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +120,9 @@ public class WebLinks {
    * @return Links for files.
    */
   public List<WebLinkInfo> getFileLinks(String project, String revision, String file) {
-    return filterLinks(fileLinks, webLink -> webLink.getFileWebLink(project, revision, file));
+    return Patch.isMagic(file)
+        ? Collections.emptyList()
+        : filterLinks(fileLinks, webLink -> webLink.getFileWebLink(project, revision, file));
   }
 
   /**
@@ -128,6 +132,9 @@ public class WebLinks {
    * @return Links for file history
    */
   public List<WebLinkInfoCommon> getFileHistoryLinks(String project, String revision, String file) {
+    if (Patch.isMagic(file)) {
+      return Collections.emptyList();
+    }
     return FluentIterable.from(fileHistoryLinks)
         .transform(
             webLink -> {
@@ -165,6 +172,9 @@ public class WebLinks {
       final int patchSetIdB,
       final String revisionB,
       final String fileB) {
+    if (Patch.isMagic(fileA) || Patch.isMagic(fileB)) {
+      return Collections.emptyList();
+    }
     return FluentIterable.from(diffLinks)
         .transform(
             webLink ->

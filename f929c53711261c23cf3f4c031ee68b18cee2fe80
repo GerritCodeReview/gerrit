@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91d06903_d9a6e277",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-03T05:55:54Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "f929c53711261c23cf3f4c031ee68b18cee2fe80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4c46a4_8ca7e640",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-03T05:55:54Z",
+      "side": 1,
+      "message": "This seems to be redundant now.  Remove it?",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 46
+      },
+      "revId": "f929c53711261c23cf3f4c031ee68b18cee2fe80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

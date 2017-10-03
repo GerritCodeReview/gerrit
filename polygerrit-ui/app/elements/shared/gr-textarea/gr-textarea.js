@@ -125,7 +125,6 @@
       }
     },
 
-
     closeDropdown() {
       return this.$.emojiSuggestions.close();
     },
@@ -148,10 +147,6 @@
       if (this._hideAutocomplete) { return; }
       e.preventDefault();
       e.stopPropagation();
-      this._resetAndFocus();
-    },
-
-    _resetAndFocus() {
       this._resetEmojiDropdown();
     },
 
@@ -195,10 +190,15 @@
      * end of the last character entered.
      */
     _updateCaratPosition() {
+      this._hideAutocomplete = false;
       this.$.hiddenText.textContent = this.$.textarea.value.substr(0,
           this.$.textarea.selectionStart);
 
+      const caratSpan = this.$.caratSpan;
+      this.$.hiddenText.appendChild(caratSpan);
       this.$.hiddenText.appendChild(this.$.emojiSuggestions);
+      this.$.emojiSuggestions.positionTarget = caratSpan;
+      this._openEmojiDropdown();
     },
 
     _getFontSize() {
@@ -250,8 +250,6 @@
         // Otherwise open the dropdown and set the position to be just below the
         // cursor.
         } else if (this.$.emojiSuggestions.isHidden) {
-          this._hideAutocomplete = false;
-          this._openEmojiDropdown();
           this._updateCaratPosition();
         }
         this.$.textarea.textarea.focus();
@@ -268,7 +266,7 @@
         suggestion.text = suggestion.value + ' ' + suggestion.match;
         suggestions.push(suggestion);
       }
-      this._suggestions = suggestions;
+      this.set('_suggestions', suggestions);
     },
 
     _determineSuggestions(emojiText) {

@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
+  const USER_PLACEHOLDER_PATTERN = /\$\{user\}/g;
+
   // NOTE: These queries are tested in Java. Any changes made to definitions
   // here require corresponding changes to:
   // gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
@@ -104,60 +107,107 @@
       );
     },
 
+    _getProjectDashboard(project, dashboard) {
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+      return this.$.restAPI.getDashboard(
+          project, dashboard, errFn).then(response => {
+            if (!response) {
+              return;
+            }
+            return {
+              title: response.title,
+              sections: response.sections.map(section => {
+                const suffix = response.foreach ? ' ' + response.foreach : '';
+                return {
+                  name: section.name,
+                  query:
+                      section.query.replace(
+                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+                };
+              }),
+            };
+          });
+    },
+
+    _getUserDashboard(user, sections, title) {
+      sections = sections
+        .filter(section => (user === 'self' || !section.selfOnly))
+        .map(section => {
+          const dashboardSection = {
+            name: section.name,
+            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+          };
+          if (section.suffixForDashboard) {
+            dashboardSection.suffixForDashboard = section.suffixForDashboard;
+          }
+          return dashboardSection;
+        });
+      return Promise.resolve({title, sections});
+    },
+
     _computeTitle(user) {
-      if (user === 'self') {
+      if (!user || user === 'self') {
         return 'My Reviews';
       }
       return 'Dashboard for ' + user;
     },
 
+    _isViewActive(params) {
+      return params.view === Gerrit.Nav.View.DASHBOARD;
+    },
+
     _paramsChanged(paramsChangeRecord) {
       const params = paramsChangeRecord.base;
 
-      if (!params.user && !params.sections) {
-        return;
+      if (!this._isViewActive(params)) {
+        return Promise.resolve();
       }
 
       const user = params.user || 'self';
-      const sections = (params.sections || DEFAULT_SECTIONS).filter(
-          section => (user === 'self' || !section.selfOnly));
-      const title = params.title || this._computeTitle(user);
 
       // NOTE: This method may be called before attachment. Fire title-change
       // in an async so that attachment to the DOM can take place first.
+      const title = params.title || this._computeTitle(user);
       this.async(() => this.fire('title-change', {title}));
 
-      // Return if params indicate no longer in view.
-      if (!user && sections === DEFAULT_SECTIONS) {
-        return;
-      }
-
       this._loading = true;
-      const queries =
-          sections.map(
-              section => this._dashboardQueryForSection(section, user));
-      this.$.restAPI.getChanges(null, queries, null, this.options)
-          .then(results => {
-            this._results = sections.map((section, i) => {
-              return {
-                sectionName: section.name,
-                query: queries[i],
-                results: results[i],
-              };
-            });
-            this._loading = false;
-          }).catch(err => {
-            this._loading = false;
-            console.warn(err.message);
-          });
-    },
 
-    _dashboardQueryForSection(section, user) {
-      const query =
-          section.suffixForDashboard ?
-          section.query + ' ' + section.suffixForDashboard :
-          section.query;
-      return query.replace(/\$\{user\}/g, user);
+      const dashboardPromise = params.project ?
+          this._getProjectDashboard(params.project, params.dashboard) :
+          this._getUserDashboard(
+              params.user || 'self',
+              params.sections || DEFAULT_SECTIONS,
+              params.title || this._computeTitle(params.user));
+
+      return dashboardPromise.then(dashboard => {
+        if (!dashboard) {
+          this._loading = false;
+          return;
+        }
+        const queries = dashboard.sections.map(section => {
+          if (section.suffixForDashboard) {
+            return section.query + ' ' + section.suffixForDashboard;
+          }
+          return section.query;
+        });
+        const req =
+            this.$.restAPI.getChanges(null, queries, null, this.options);
+        return req.then(response => {
+          this._loading = false;
+          this._results = response.map((results, i) => {
+            return {
+              sectionName: dashboard.sections[i].name,
+              query: dashboard.sections[i].query,
+              results,
+            };
+          });
+        });
+      }).catch(err => {
+        this._loading = false;
+        console.warn(err);
+      });
     },
 
     _computeUserHeaderClass(userParam) {

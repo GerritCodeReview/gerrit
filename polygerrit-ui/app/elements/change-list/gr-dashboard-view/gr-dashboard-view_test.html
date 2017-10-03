@@ -35,67 +35,226 @@ limitations under the License.
   suite('gr-dashboard-view tests', () => {
     let element;
     let sandbox;
+    let paramsChangedPromise;
 
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
-          () => Promise.resolve());
+          () => Promise.resolve([]));
+
+      let resolver;
+      paramsChangedPromise = new Promise(resolve => {
+        resolver = resolve;
+      });
+      const paramsChanged = element._paramsChanged.bind(element);
+      sandbox.stub(element, '_paramsChanged', params => {
+        paramsChanged(params).then(resolver());
+      });
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    test('nothing happens when user param is falsy', () => {
-      element.params = {};
-      flushAsynchronousOperations();
-      assert.equal(getChangesStub.callCount, 0);
-
-      element.params = {user: ''};
-      flushAsynchronousOperations();
-      assert.equal(getChangesStub.callCount, 0);
-    });
-
-    test('content is refreshed when user param is updated', () => {
-      element.params = {user: 'self'};
-      flushAsynchronousOperations();
-      assert.equal(getChangesStub.callCount, 1);
-    });
-
-    test('viewing another user\'s dashboard omits selfOnly sections', () => {
-      element.params = {
-        sections: [
-          {query: '1'},
-          {query: '2', selfOnly: true},
-        ],
-        user: 'self',
-      };
-      flushAsynchronousOperations();
-      assert.isTrue(
-          getChangesStub.calledWith(null, ['1', '2'], null, element.options));
-
-      element.set('params.user', 'user');
-      flushAsynchronousOperations();
-      assert.isTrue(
-          getChangesStub.calledWith(null, ['1'], null, element.options));
-    });
-
-    test('_dashboardQueryForSection', () => {
-      const query = 'query for ${user}';
-      const suffixForDashboard = 'suffix for ${user}';
-      assert.equal(
-          element._dashboardQueryForSection({query}, 'user'),
-          'query for user');
-      assert.equal(
-          element._dashboardQueryForSection(
-              {query, suffixForDashboard}, 'user'),
-          'query for user suffix for user');
-    });
-
     test('_computeTitle', () => {
       assert.equal(element._computeTitle('self'), 'My Reviews');
       assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
+    });
+
+    suite('_isViewActive', () => {
+      test('nothing happens when user param is falsy', () => {
+        element.params = {};
+        flushAsynchronousOperations();
+        assert.equal(getChangesStub.callCount, 0);
+
+        element.params = {user: ''};
+        flushAsynchronousOperations();
+        assert.equal(getChangesStub.callCount, 0);
+      });
+
+      test('content is refreshed when user param is updated', () => {
+        element.params = {
+          view: Gerrit.Nav.View.DASHBOARD,
+          user: 'self',
+        };
+        return paramsChangedPromise.then(() => {
+          assert.equal(getChangesStub.callCount, 1);
+        });
+      });
+    });
+
+    suite('selfOnly sections', () => {
+      test('viewing self dashboard includes selfOnly sections', () => {
+        element.params = {
+          view: Gerrit.Nav.View.DASHBOARD,
+          sections: [
+            {query: '1'},
+            {query: '2', selfOnly: true},
+          ],
+          user: 'user',
+        };
+        return paramsChangedPromise.then(() => {
+          assert.isTrue(
+              getChangesStub.calledWith(
+                  null, ['1'], null, element.options));
+        });
+      });
+
+      test('viewing another user\'s dashboard omits selfOnly sections', () => {
+        element.params = {
+          view: Gerrit.Nav.View.DASHBOARD,
+          sections: [
+            {query: '1'},
+            {query: '2', selfOnly: true},
+          ],
+          user: 'self',
+        };
+        return paramsChangedPromise.then(() => {
+          assert.isTrue(
+              getChangesStub.calledWith(
+                  null, ['1', '2'], null, element.options));
+        });
+      });
+    });
+
+    test('suffixForDashboard is included in getChanges query', () => {
+      element.params = {
+        view: Gerrit.Nav.View.DASHBOARD,
+        sections: [
+          {query: '1'},
+          {query: '2', suffixForDashboard: 'suffix'},
+        ],
+      };
+      return paramsChangedPromise.then(() => {
+        assert.isTrue(getChangesStub.calledOnce);
+        assert.deepEqual(
+            getChangesStub.firstCall.args,
+            [null, ['1', '2 suffix'], null, element.options]);
+      });
+    });
+
+    suite('_getProjectDashboard', () => {
+      test('dashboard with foreach', () => {
+        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+          title: 'title',
+          // Note: ${project} should not be resolved in foreach!
+          foreach: 'foreach for ${project}',
+          sections: [
+            {name: 'section 1', query: 'query 1'},
+            {name: 'section 2', query: '${project} query 2'},
+          ],
+        }));
+        return element._getProjectDashboard('project', '').then(dashboard => {
+          assert.deepEqual(
+              dashboard,
+              {
+                title: 'title',
+                sections: [
+                  {name: 'section 1', query: 'query 1 foreach for ${project}'},
+                  {
+                    name: 'section 2',
+                    query: 'project query 2 foreach for ${project}',
+                  },
+                ],
+              });
+        });
+      });
+
+      test('dashboard without foreach', () => {
+        sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
+          title: 'title',
+          sections: [
+            {name: 'section 1', query: 'query 1'},
+            {name: 'section 2', query: '${project} query 2'},
+          ],
+        }));
+        return element._getProjectDashboard('project', '').then(dashboard => {
+          assert.deepEqual(
+              dashboard,
+              {
+                title: 'title',
+                sections: [
+                  {name: 'section 1', query: 'query 1'},
+                  {name: 'section 2', query: 'project query 2'},
+                ],
+              });
+        });
+      });
+    });
+
+    suite('_getUserDashboard', () => {
+      const sections = [
+        {name: 'section 1', query: 'query 1'},
+        {name: 'section 2', query: 'query 2 for ${user}'},
+        {name: 'section 3', query: 'self only query', selfOnly: true},
+        {name: 'section 4', query: 'query 4', suffixForDashboard: 'suffix'},
+      ];
+
+      test('dashboard for self', () => {
+        return element._getUserDashboard('self', sections, 'title')
+            .then(dashboard => {
+              assert.deepEqual(
+                  dashboard,
+                  {
+                    title: 'title',
+                    sections: [
+                      {name: 'section 1', query: 'query 1'},
+                      {name: 'section 2', query: 'query 2 for self'},
+                      {name: 'section 3', query: 'self only query'},
+                      {
+                        name: 'section 4',
+                        query: 'query 4',
+                        suffixForDashboard: 'suffix',
+                      },
+                    ],
+                  });
+            });
+      });
+
+      test('dashboard for other user', () => {
+        return element._getUserDashboard('user', sections, 'title')
+            .then(dashboard => {
+              assert.deepEqual(
+                  dashboard,
+                  {
+                    title: 'title',
+                    sections: [
+                      {name: 'section 1', query: 'query 1'},
+                      {name: 'section 2', query: 'query 2 for user'},
+                      {
+                        name: 'section 4',
+                        query: 'query 4',
+                        suffixForDashboard: 'suffix',
+                      },
+                    ],
+                  });
+            });
+      });
+    });
+
+    test('_computeUserHeaderClass', () => {
+      assert.equal(element._computeUserHeaderClass(undefined), 'hide');
+      assert.equal(element._computeUserHeaderClass(''), 'hide');
+      assert.equal(element._computeUserHeaderClass('self'), 'hide');
+      assert.equal(element._computeUserHeaderClass('user'), '');
+    });
+
+    test('404 page', done => {
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getDashboard', (project, dashboard, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.strictEqual(e.detail.response, response);
+        done();
+      });
+      element.params = {
+        view: Gerrit.Nav.View.DASHBOARD,
+        project: 'project',
+        dashboard: 'dashboard',
+      };
     });
   });
 </script>

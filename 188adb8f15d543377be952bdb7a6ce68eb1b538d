@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8327e202_de0351ab",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-03T23:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68544ed1_d68a6795",
+      "revId": "188adb8f15d543377be952bdb7a6ce68eb1b538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2706e903_af25127a",
         "filename": "gerrit-antlr/src/main/java/com/google/gerrit/server/query/QueryRequiresAuthException.java",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "188adb8f15d543377be952bdb7a6ce68eb1b538d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac918f3_6ad88278",
+        "filename": "gerrit-antlr/src/main/java/com/google/gerrit/server/query/QueryRequiresAuthException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-03T23:16:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2706e903_af25127a",
+      "range": {
+        "startLine": 25,
+        "startChar": 36,
+        "endLine": 25,
+        "endChar": 41
+      },
+      "revId": "188adb8f15d543377be952bdb7a6ce68eb1b538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

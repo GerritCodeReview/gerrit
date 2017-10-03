@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -36,12 +35,8 @@ import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.template.soy.data.SanitizedContent;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -53,12 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
-import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +67,6 @@ public abstract class OutgoingEmail {
   private StringBuilder textBody;
   private StringBuilder htmlBody;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify = ImmutableListMultimap.of();
-  protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
   protected List<String> footers;
@@ -237,7 +225,6 @@ public abstract class OutgoingEmail {
    * @throws EmailException if an error occurred.
    */
   protected void init() throws EmailException {
-    setupVelocityContext();
     setupSoyContext();
 
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
@@ -307,11 +294,6 @@ public abstract class OutgoingEmail {
 
   public String getGerritUrl() {
     return args.urlProvider.get();
-  }
-
-  /** Set a header in the outgoing message using a template. */
-  protected void setVHeader(String name, String value) throws EmailException {
-    setHeader(name, velocify(value));
   }
 
   /** Set a header in the outgoing message. */
@@ -537,14 +519,6 @@ public abstract class OutgoingEmail {
     return new Address(a.getFullName(), e);
   }
 
-  protected void setupVelocityContext() {
-    velocityContext = new VelocityContext();
-
-    velocityContext.put("email", this);
-    velocityContext.put("messageClass", messageClass);
-    velocityContext.put("StringUtils", StringUtils.class);
-  }
-
   protected void setupSoyContext() {
     soyContext = new HashMap<>();
     footers = new ArrayList<>();
@@ -559,41 +533,6 @@ public abstract class OutgoingEmail {
     soyContext.put("email", soyContextEmailData);
   }
 
-  protected String velocify(String template) throws EmailException {
-    try {
-      RuntimeInstance runtime = args.velocityRuntime;
-      String templateName = "OutgoingEmail";
-      SimpleNode tree = runtime.parse(new StringReader(template), templateName);
-      InternalContextAdapterImpl ica = new InternalContextAdapterImpl(velocityContext);
-      ica.pushCurrentTemplateName(templateName);
-      try {
-        tree.init(ica, runtime);
-        StringWriter w = new StringWriter();
-        tree.render(ica, w);
-        return w.toString();
-      } finally {
-        ica.popCurrentTemplateName();
-      }
-    } catch (Exception e) {
-      throw new EmailException("Cannot format velocity template: " + template, e);
-    }
-  }
-
-  protected String velocifyFile(String name) throws EmailException {
-    try {
-      RuntimeInstance runtime = args.velocityRuntime;
-      if (runtime.getLoaderNameForResource(name) == null) {
-        name = "com/google/gerrit/server/mail/" + name;
-      }
-      Template template = runtime.getTemplate(name, UTF_8.name());
-      StringWriter w = new StringWriter();
-      template.merge(velocityContext, w);
-      return w.toString();
-    } catch (Exception e) {
-      throw new EmailException("Cannot format velocity template " + name, e);
-    }
-  }
-
   private String soyTemplate(String name, SanitizedContent.ContentKind kind) {
     return args.soyTofu
         .newRenderer("com.google.gerrit.server.mail.template." + name)
@@ -602,25 +541,12 @@ public abstract class OutgoingEmail {
         .render();
   }
 
-  protected String soyTextTemplate(String name) {
+  protected String textTemplate(String name) {
     return soyTemplate(name, SanitizedContent.ContentKind.TEXT);
   }
 
   protected String soyHtmlTemplate(String name) {
     return soyTemplate(name, SanitizedContent.ContentKind.HTML);
-  }
-
-  /**
-   * Evaluate the named template according to the following priority: 1) Velocity file override,
-   * OR... 2) Soy file override, OR... 3) Soy resource.
-   */
-  protected String textTemplate(String name) throws EmailException {
-    String velocityName = name + ".vm";
-    Path filePath = args.site.mail_dir.resolve(velocityName);
-    if (Files.isRegularFile(filePath)) {
-      return velocifyFile(velocityName);
-    }
-    return soyTextTemplate(name);
   }
 
   public String joinStrings(Iterable<Object> in, String joiner) {

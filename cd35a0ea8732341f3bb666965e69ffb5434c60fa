@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3df3ce79_4386b51d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T13:50:40Z",
+      "side": 1,
+      "message": "Are there any repro steps?\n\nCan a test trigger it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d91f98_63413816",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T13:50:40Z",
+      "side": 1,
+      "message": "If `text` is a string (unlike arrays) an empty string is falsy. Is this intended?",
+      "range": {
+        "startLine": 57,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 41
+      },
+      "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

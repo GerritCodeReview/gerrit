@@ -17,28 +17,17 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.List;
 import org.kohsuke.args4j.Argument;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "remove", description = "Disable plugins", runsAt = MASTER_OR_SLAVE)
-final class PluginRemoveCommand extends SshCommand {
+final class PluginRemoveCommand extends PluginAdminSshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin to remove")
   List<String> names;
 
-  @Inject private PluginLoader loader;
-
   @Override
-  protected void run() throws UnloggedFailure {
-    if (!loader.isRemoteAdminEnabled()) {
-      throw die("remote plugin administration is disabled");
-    }
+  protected void doRun() throws UnloggedFailure {
     if (names != null && !names.isEmpty()) {
       loader.disablePlugins(Sets.newHashSet(names));
     }

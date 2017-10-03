@@ -17,13 +17,8 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginInstallException;
-import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,9 +28,8 @@ import java.nio.file.Files;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "install", description = "Install/Add a plugin", runsAt = MASTER_OR_SLAVE)
-final class PluginInstallCommand extends SshCommand {
+final class PluginInstallCommand extends PluginAdminSshCommand {
   @Option(
     name = "--name",
     aliases = {"-n"},
@@ -51,14 +45,9 @@ final class PluginInstallCommand extends SshCommand {
   @Argument(index = 0, metaVar = "-|URL", usage = "JAR to load")
   private String source;
 
-  @Inject private PluginLoader loader;
-
   @SuppressWarnings("resource")
   @Override
-  protected void run() throws UnloggedFailure {
-    if (!loader.isRemoteAdminEnabled()) {
-      throw die("remote installation is disabled");
-    }
+  protected void doRun() throws UnloggedFailure {
     if (Strings.isNullOrEmpty(source)) {
       throw die("Argument \"-|URL\" is required");
     }

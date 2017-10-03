@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "cfb272ea_4038f2eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:20:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t have content, but we use it for it\u0027s inline position after the hidden text (when it gets moved on the line linked above). Added some comments to try to make this clearer.",
+      "parentUuid": "80ee65e2_de72e2a0",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bb291cc_da71359f",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 3

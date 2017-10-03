@@ -72,10 +72,6 @@ limitations under the License.
           background-color: #f2f2f2;
         }
       }
-      gr-button {
-        --gr-button-arrow-color: var(--color-link);
-        --gr-button-arrow-hover-color: var(--color-link-hover);
-      }
       paper-item:not(:last-of-type) {
         border-bottom: 1px solid #ddd;
       }
@@ -94,6 +90,12 @@ limitations under the License.
         justify-content: space-between;
         flex-direction: row;
         width: 100%;
+      }
+       gr-button {
+        --gr-button: {
+          @apply --trigger-style;
+        }
+        --gr-button-hover-color: var(--trigger-hover-color);
       }
       gr-date-formatter {
         color: rgba(0,0,0,.54);

@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "ed7f77ab_dbf442ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-03T10:01:27Z",
+      "side": 1,
+      "message": "Good point. I was hoping we would be able to do this without introducing a new footer in NoteDb, but I guess not.\n\nI think we would need to support 2 different footers:\n\n* \"Label: Foo\u003d2\" creates a new PSA with originalValue \u003d\u003d value \u003d\u003d 2\n* \"Squash-label: Foo\u003d1\" updates value in the previous PSA.\n\nThis may change the equation about which proposal is the simplest.",
+      "parentUuid": "6f5fcbb4_21ff661b",
+      "range": {
+        "startLine": 847,
+        "startChar": 4,
+        "endLine": 853,
+        "endChar": 36
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dca9db54_fa7abdb7",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

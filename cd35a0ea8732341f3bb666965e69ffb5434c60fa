@@ -93,6 +93,30 @@
       "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f77c042_144012c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:15:35Z",
+      "side": 1,
+      "message": "I\u0027m trying to test if these functions throw errors when text is null. The tests seem fine even though it is not fine when run normally....",
+      "parentUuid": "79d8d18e_9da634c1",
+      "range": {
+        "startLine": 57,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 41
+      },
+      "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -52,7 +52,7 @@ limitations under the License.
     });
 
     test('escape key', done => {
-      const closeSpy = sandbox.spy(element.$.dropdown, 'close');
+      const closeSpy = sandbox.spy(element, 'close');
       MockInteractions.pressAndReleaseKeyOn(element, 27);
       flushAsynchronousOperations();
       assert.isTrue(closeSpy.called);
@@ -87,24 +87,24 @@ limitations under the License.
     });
 
     test('down key', () => {
-      element.hidden = true;
+      element.isHidden = true;
       const nextSpy = sandbox.spy(element.$.cursor, 'next');
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isFalse(nextSpy.called);
       assert.equal(element.$.cursor.index, 0);
-      element.hidden = false;
+      element.isHidden = false;
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isTrue(nextSpy.called);
       assert.equal(element.$.cursor.index, 1);
     });
 
     test('up key', () => {
-      element.hidden = true;
+      element.isHidden = true;
       const prevSpy = sandbox.spy(element.$.cursor, 'previous');
       MockInteractions.pressAndReleaseKeyOn(element, 38);
       assert.isFalse(prevSpy.called);
       assert.equal(element.$.cursor.index, 0);
-      element.hidden = false;
+      element.isHidden = false;
       element.$.cursor.setCursorAtIndex(1);
       assert.equal(element.$.cursor.index, 1);
       MockInteractions.pressAndReleaseKeyOn(element, 38);

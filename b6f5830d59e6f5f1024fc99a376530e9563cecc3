@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "315103d0_dfd15525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T14:13:20Z",
+      "side": 1,
+      "message": "The @Deprecated methods in CommentSender.java should be removable as well.",
+      "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1464d96_e2d85132",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2017-10-03T14:01:05Z",
       "side": 1,
       "message": "What\u0027s the plan here?",
+      "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "679e1f7f_45a5d74f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T14:13:20Z",
+      "side": 1,
+      "message": "Would ..\n\nreturn \"\u003cgerrit.\" + change.getCreatedOn()\n    + \".\" + change.key.get()\n    + \".\" + this.getGerritHost()\n    + \"\u003e\"; \n\n.. work here ?",
+      "parentUuid": "e1464d96_e2d85132",
       "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

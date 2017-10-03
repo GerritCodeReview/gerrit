@@ -45,6 +45,14 @@
   Polymer({
     is: 'gr-dropdown-list',
 
+    /**
+     * Fired when the selected value changes
+     *
+     * @event value-change
+     *
+     * @property {string|number} value
+     */
+
     properties: {
       /** @type {!Array<!Defs.item>} */
       items: Object,
@@ -98,6 +106,10 @@
       if (!selectedObj) { return; }
       this.text = selectedObj.triggerText? selectedObj.triggerText :
           selectedObj.text;
+      this.dispatchEvent(new CustomEvent('value-change', {
+        detail: {value},
+        bubbles: false,
+      }));
     },
   });
 })();

@@ -27,6 +27,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -209,15 +210,18 @@ public class GitOverHttpServlet extends GitServlet {
     private final TransferConfig config;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final DynamicSet<PostUploadHook> postUploadHooks;
+    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
 
     @Inject
     UploadFactory(
         TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
-        DynamicSet<PostUploadHook> postUploadHooks) {
+        DynamicSet<PostUploadHook> postUploadHooks,
+        DynamicSet<UploadPackInitializer> uploadPackInitializers) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
+      this.uploadPackInitializers = uploadPackInitializers;
     }
 
     @Override
@@ -227,6 +231,10 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
+      for (UploadPackInitializer initializer : uploadPackInitializers) {
+        initializer.init(pc.getProject().getNameKey(), up);
+      }
       return up;
     }
   }

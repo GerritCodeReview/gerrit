@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -273,6 +274,34 @@ public class CommentSender extends ReplyToChangeSender {
 
     Collections.sort(groups, Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
+  }
+
+  /** Get the set of accounts whose comments have been replied to in this email. */
+  private HashSet<Account.Id> getReplyAccounts() {
+    HashSet<Account.Id> replyAccounts = new HashSet<Account.Id>();
+
+    // Track visited parent UUIDs to avoid cycles.
+    HashSet<String> visitedUuids = new HashSet<String>();
+
+    for (Comment comment : inlineComments) {
+      visitedUuids.add(comment.key.uuid);
+
+      // Traverse the parent relation to the top of the comment thread.
+      Comment current = comment;
+      while (current.parentUuid != null && !visitedUuids.contains(current.parentUuid)) {
+        Optional<Comment> optParent = getParent(current);
+        if (!optParent.isPresent()) {
+          // There is a parent UUID, but it cannot be loaded, break from the comment thread.
+          break;
+        }
+
+        Comment parent = optParent.get();
+        replyAccounts.add(parent.author.getId());
+        visitedUuids.add(current.parentUuid);
+        current = parent;
+      }
+    }
+    return replyAccounts;
   }
 
   /** No longer used except for Velocity. Remove this method when VTL support is removed. */
@@ -612,6 +641,10 @@ public class CommentSender extends ReplyToChangeSender {
     footers.add("Gerrit-Comment-Date: " + getCommentTimestamp());
     footers.add("Gerrit-HasComments: " + (hasComments ? "Yes" : "No"));
     footers.add("Gerrit-HasLabels: " + (labels.isEmpty() ? "No" : "Yes"));
+
+    for (Account.Id account : getReplyAccounts()) {
+      footers.add("Gerrit-Comment-In-Reply-To: " + getNameEmailFor(account));
+    }
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "80ee65e2_de72e2a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T14:07:57Z",
+      "side": 1,
+      "message": "But does it ever have content? It looks to me like an empty span.",
+      "parentUuid": "f3e0b104_f23ac17b",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bb291cc_da71359f",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 3

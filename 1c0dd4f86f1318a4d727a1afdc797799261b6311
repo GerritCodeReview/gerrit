@@ -88,6 +88,24 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4956abe2_57f25c39",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:32:47Z",
+      "side": 1,
+      "message": "(Possibly in conjunction with horizontalAlign and dynamigAlign)",
+      "parentUuid": "a4e671ac_c289aa7c",
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

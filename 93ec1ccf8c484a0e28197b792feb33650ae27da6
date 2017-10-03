@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "129dcccf_d706d9f4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-03T09:30:09Z",
+      "side": 1,
+      "message": "\"UploadPackInitializer instances\"\n\nI think this documentation should mention the actual name of the interface that needs to be implemented.",
+      "range": {
+        "startLine": 501,
+        "startChar": 20,
+        "endLine": 501,
+        "endChar": 43
+      },
+      "revId": "93ec1ccf8c484a0e28197b792feb33650ae27da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

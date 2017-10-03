@@ -43,7 +43,8 @@ limitations under the License.
     <span class="patchRange">
       <gr-dropdown-list
           id="basePatchDropdown"
-          value="{{basePatchNum}}"
+          value="[[basePatchNum]]"
+          on-value-change="_handlePatchChange"
           items="[[_baseDropdownContent]]">
       </gr-dropdown-list>
     </span>
@@ -57,7 +58,8 @@ limitations under the License.
     <span class="patchRange">
       <gr-dropdown-list
           id="patchNumDropdown"
-          value="{{patchNum}}"
+          value="[[patchNum]]"
+          on-value-change="_handlePatchChange"
           items="[[_patchDropdownContent]]">
       </gr-dropdown-list>
       <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">

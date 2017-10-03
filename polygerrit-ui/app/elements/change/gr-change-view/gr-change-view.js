@@ -506,12 +506,13 @@
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || 'PARENT',
       };
+
       this.$.fileList.collapseAllDiffs();
+      this._patchRange = patchRange;
 
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
-          this._patchRange = patchRange;
         }
         this._reloadPatchNumDependentResources().then(() => {
           this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
@@ -523,7 +524,6 @@
       }
 
       this._changeNum = value.changeNum;
-      this._patchRange = patchRange;
       this.$.relatedChanges.clear();
 
       this._reload().then(() => {

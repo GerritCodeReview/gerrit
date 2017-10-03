@@ -70,6 +70,30 @@
       "revId": "a7f7f3bf476a2efa5a5baf6fe2f78cb5c0d71758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b5acbc5_de11d793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-03T13:45:45Z",
+      "side": 1,
+      "message": "I was referring to the bug: and tr: predicates, but having just tested it it looks like it works like this.",
+      "parentUuid": "d562665c_818bc1e9",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "a7f7f3bf476a2efa5a5baf6fe2f78cb5c0d71758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

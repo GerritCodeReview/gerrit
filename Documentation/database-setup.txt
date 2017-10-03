@@ -68,7 +68,7 @@ rights on it:
   mysql
 
   CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
-  CREATE DATABASE reviewdb;
+  CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
 ----

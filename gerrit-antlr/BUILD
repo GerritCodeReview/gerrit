@@ -2,7 +2,10 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 
 java_library(
     name = "query_exception",
-    srcs = ["src/main/java/com/google/gerrit/server/query/QueryParseException.java"],
+    srcs = [
+        "src/main/java/com/google/gerrit/server/query/QueryParseException.java",
+        "src/main/java/com/google/gerrit/server/query/QueryRequiresAuthException.java",
+    ],
     visibility = ["//visibility:public"],
 )
 

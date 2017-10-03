@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa881030_155a0723",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T13:41:49Z",
+      "side": 1,
+      "message": "I think we should agree on some standard for this attribute -- I\u0027ve seen \u0027invisible\u0027 used elsewhere.\n\nNon blocking here though.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2d395bc_c4c72124",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T13:41:49Z",
+      "side": 1,
+      "message": "This could be a getter, like focusStart.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 0
+      },
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93414e19_08955668",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T13:41:49Z",
+      "side": 1,
+      "message": "Where does this get used?",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb291cc_da71359f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T13:41:49Z",
+      "side": 1,
+      "message": "Remove?",
+      "revId": "ece7114c92ffc6a6945990e17d42024aac575fef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -185,6 +185,10 @@
       this._commit();
     },
 
+    get _inputElement() {
+      return this.$.input;
+    },
+
     /**
      * Set the text of the input without triggering the suggestion dropdown.
      * @param {string} text The new text for the input.

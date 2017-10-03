@@ -52,6 +52,24 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0240a691_930188a9",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T14:13:31Z",
+      "side": 1,
+      "message": "I know that I can\u0027t, because then the dialog does not get centered.\n\nWe deal with this in other situations too, like with the reply dialog.",
+      "parentUuid": "c5013571_5854d84e",
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

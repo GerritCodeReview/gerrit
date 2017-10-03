@@ -87,6 +87,24 @@
       "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c69e5e_8a2b212a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-03T08:16:41Z",
+      "side": 1,
+      "message": "Do the method calls on the constructed object count as usage?",
+      "parentUuid": "b0f22668_a829d493",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

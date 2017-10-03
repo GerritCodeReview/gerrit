@@ -22,6 +22,30 @@
       "revId": "3a3aed6ead2c46ccbb0bbe00c75a4541bd1a8307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e402266_bf33417a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-03T11:00:55Z",
+      "side": 0,
+      "message": "An actual fix would be to subclass QueryParseException with something like QueryRequiresAuthException. Can you give that a shot? I have a feeling it might be simple and non-invasive enough to make sense even in a stable branch.",
+      "parentUuid": "2b5bf8d6_502abe09",
+      "range": {
+        "startLine": 116,
+        "startChar": 86,
+        "endLine": 116,
+        "endChar": 94
+      },
+      "revId": "3a3aed6ead2c46ccbb0bbe00c75a4541bd1a8307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

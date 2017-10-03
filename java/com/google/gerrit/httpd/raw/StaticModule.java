@@ -72,7 +72,8 @@ public class StaticModule extends ServletModule {
    * <p>Supports {@code "/*"} as a trailing wildcard.
    */
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
-      ImmutableList.of("/", "/c/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
+      ImmutableList.of(
+          "/", "/c/*", "/p/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
   // TODO(dborowitz): These fragments conflict with the REST API
   // namespace, so they will need to use a different path.
   //"/groups/*",

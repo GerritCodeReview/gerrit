@@ -72,5 +72,11 @@ limitations under the License.
           '/r/?polygerrit=0#/c/1/'
       );
     });
+
+    test('computeGwtUrl for project dashboard', () => {
+      assert.deepEqual(
+          element.computeGwtUrl('/r/p/gerrit/proj/+/dashboard/main:default'),
+          '/r/?polygerrit=0#/projects/gerrit/proj,dashboards/main:default');
+    });
   });
 </script>

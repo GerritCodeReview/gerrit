@@ -27,6 +27,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -214,7 +215,8 @@ public class GitOverHttpServlet extends GitServlet {
     UploadFactory(
         TransferConfig tc,
         DynamicSet<PreUploadHook> preUploadHooks,
-        DynamicSet<PostUploadHook> postUploadHooks) {
+        DynamicSet<PostUploadHook> postUploadHooks,
+        DynamicSet<UploadPackInitializer> uploadPackInitializers) {
       this.config = tc;
       this.preUploadHooks = preUploadHooks;
       this.postUploadHooks = postUploadHooks;
@@ -227,6 +229,9 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      for (UploadPackInitializer initializer : uploadPackInitializers) {
+        initializer.init(ctl.getProject().getNameKey(), rp);
+      }
       return up;
     }
   }

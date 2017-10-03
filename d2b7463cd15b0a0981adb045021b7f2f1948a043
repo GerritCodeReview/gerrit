@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08ae2ea7_6b2fd73e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/DashboardIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-03T12:59:00Z",
+      "side": 1,
+      "message": "Rather hardcode \"\\n\" so that the test behaves the same on all systems?",
+      "range": {
+        "startLine": 188,
+        "startChar": 70,
+        "endLine": 188,
+        "endChar": 92
+      },
+      "revId": "d2b7463cd15b0a0981adb045021b7f2f1948a043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

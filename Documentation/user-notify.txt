@@ -244,6 +244,17 @@ In comment emails, the has-labels footer states whether label votes had
 been posted in that notification using "Yes" or "No", for
 example `Gerrit-HasLabels: No`.
 
+[[Gerrit-Comment-In-Reply-To]]Gerrit-Comment-In-Reply-To::
+
+In comment emails, a comment-in-reply-to footer is present for each
+account who has a comment that is replied-to in that set of comments.
+For example, to apply a filter to Gerrit messages in which your own diff
+comments are responded to, you might search for the following:
+
+----
+  Gerrit-Comment-In-Reply-To: User Name <user@example.com>
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

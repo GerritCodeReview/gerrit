@@ -77,12 +77,19 @@ limitations under the License.
       assert.equal(updateSpy.callCount, 5);
       assert.isNotOk(element.getAttribute('title'));
       assert.isFalse(element.hasTooltip);
+
+      element.text = null;
+      flushAsynchronousOperations();
+      assert.equal(updateSpy.callCount, 6);
+      assert.isNotOk(element.getAttribute('title'));
+      assert.isFalse(element.hasTooltip);
     });
 
     test('_computeDisplayText', () => {
       assert.equal(element._computeDisplayText('foo bar', 100), 'foo bar');
       assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
       assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
+      assert.equal(element._computeDisplayText(null, null), null);
     });
   });
 </script>

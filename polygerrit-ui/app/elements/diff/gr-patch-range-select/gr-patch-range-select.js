@@ -102,8 +102,9 @@
         dropdownContent.push({
           disabled: this._computeRightDisabled(patchNum, basePatchNum,
               _sortedRevisions),
-          triggerText: `Patchset ${patchNum}`,
-          text: `Patchset ${patchNum}` +
+          triggerText: `${patchNum === 'edit' ? '': 'Patchset '}` +
+              patchNum,
+          text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
               `${this._computePatchSetCommentsString(
                   this.comments, patchNum)}`,
           mobileText: this._computeMobileText(patchNum, this.comments,

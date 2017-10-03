@@ -54,7 +54,7 @@
      * enabled.
      */
     _updateTitle(text, limit) {
-      this.hasTooltip = !!limit && text.length > limit;
+      this.hasTooltip = !!limit && !!text && text.length > limit;
       if (this.hasTooltip) {
         this.setAttribute('title', text);
       } else {
@@ -63,10 +63,10 @@
     },
 
     _computeDisplayText(text, limit) {
-      if (!!limit && text.length > limit) {
+      if (!!limit && !!text && text.length > limit) {
         return text.substr(0, limit - 1) + '…';
       }
-      return text;
+      return text ? text : '';
     },
   });
 })();

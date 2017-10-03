@@ -1915,5 +1915,18 @@
           `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
           opt_base ? {base: 't'} : undefined);
     },
+
+    /**
+     * Fetch a project dashboard definition.
+     * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
+     * @param {string} project
+     * @param {string} dashboard
+     * @return {!Promise<!Object>}
+     */
+    getDashboard(project, dashboard) {
+      return this._fetchSharedCacheURL(
+          '/projects/' + encodeURIComponent(project) + '/dashboards/' +
+          encodeURIComponent(dashboard));
+    },
   });
 })();

@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
@@ -56,10 +56,8 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
 
   @Override
   public Response<PluginInfo> apply(TopLevelResource resource, InstallPluginInput input)
-      throws BadRequestException, MethodNotAllowedException, IOException {
-    if (!loader.isRemoteAdminEnabled()) {
-      throw new MethodNotAllowedException("remote installation is disabled");
-    }
+      throws RestApiException, IOException {
+    loader.checkRemoteAdminEnabled();
     try {
       try (InputStream in = openStream(input)) {
         String pluginName = loader.installPluginFromStream(name, in);
@@ -104,7 +102,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
 
     @Override
     public Response<PluginInfo> apply(PluginResource resource, InstallPluginInput input)
-        throws BadRequestException, MethodNotAllowedException, IOException {
+        throws RestApiException, IOException {
       return install.get().setName(resource.getName()).apply(TopLevelResource.INSTANCE, input);
     }
   }

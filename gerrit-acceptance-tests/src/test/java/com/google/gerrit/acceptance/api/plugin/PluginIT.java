@@ -122,7 +122,7 @@ public class PluginIT extends AbstractDaemonTest {
   @Test
   public void installNotAllowed() throws Exception {
     exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage("remote installation is disabled");
+    exception.expectMessage("remote plugin administration is disabled");
     gApi.plugins().install("test.js", new InstallPluginInput());
   }
 

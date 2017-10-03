@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e9ed9e4_5caf9baa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T13:20:10Z",
+      "side": 1,
+      "message": "It\u0027s tempting to say this\u0027d be simpler to just use .replace directly.",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 96,
+        "endChar": 6
+      },
+      "revId": "d9c5d97f1295c01acc38ca801f24974a4dd35b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "299c634a_38ad95ce",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T13:20:10Z",
+      "side": 1,
+      "message": "Is this parameter intended to be optional?",
+      "range": {
+        "startLine": 20,
+        "startChar": 51,
+        "endLine": 20,
+        "endChar": 55
+      },
+      "revId": "d9c5d97f1295c01acc38ca801f24974a4dd35b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "327724ea_ad677494",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1921,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T13:20:10Z",
+      "side": 1,
+      "message": "Nit: Because the docs are in the repo ..\n\n /Documentation/rest-api-projects.html#get-dashboard\n\n.. should be unambiguous, as well as stay under the line limit.",
+      "range": {
+        "startLine": 1921,
+        "startChar": 7,
+        "endLine": 1921,
+        "endChar": 96
+      },
+      "revId": "d9c5d97f1295c01acc38ca801f24974a4dd35b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

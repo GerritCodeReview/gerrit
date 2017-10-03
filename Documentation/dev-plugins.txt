@@ -482,10 +482,15 @@ change being queried with COMMIT_FOOTERS option.
 [[receive-pack]]
 == Receive Pack Initializers
 
-Plugins may provide ReceivePack initializers which will be invoked
-by Gerrit just before a ReceivePack instance will be used. Usually,
-plugins will make use of the setXXX methods on the ReceivePack to
-set additional properties on it.
+Plugins may provide ReceivePackInitializer instances, which will be
+invoked by Gerrit just before a ReceivePack instance will be used.
+Usually, plugins will make use of the setXXX methods on the ReceivePack
+to set additional properties on it.
+
+The interactions with the core Gerrit ReceivePack initialization and
+between ReceivePackInitializers can be complex. Please read the
+ReceivePack Javadoc and Gerrit AsyncReceiveCommits implementation
+carefully.
 
 [[post-receive-hook]]
 == Post Receive-Pack Hooks

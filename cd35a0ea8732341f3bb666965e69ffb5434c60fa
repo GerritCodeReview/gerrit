@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47f87393_d7b4e851",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:02:54Z",
+      "side": 1,
+      "message": "I was getting an error where text when I clicked on a related changes change from one with a topic to another without a topic. In this case, text was null. I tried to add a quick test where text was null, but the test was still passing. I can try harder to add a test, was more concerned about getting a fix in.  I have a repro on my testsite.",
+      "parentUuid": "3df3ce79_4386b51d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79d91f98_63413816",
         "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-03T13:50:40Z",
       "side": 1,
       "message": "If `text` is a string (unlike arrays) an empty string is falsy. Is this intended?",
+      "range": {
+        "startLine": 57,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 41
+      },
+      "revId": "cd35a0ea8732341f3bb666965e69ffb5434c60fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d8d18e_9da634c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-limited-text/gr-limited-text.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-03T14:02:54Z",
+      "side": 1,
+      "message": "Yeah. if Text is an empty string, hasTooltip should also be false.",
+      "parentUuid": "79d91f98_63413816",
       "range": {
         "startLine": 57,
         "startChar": 35,

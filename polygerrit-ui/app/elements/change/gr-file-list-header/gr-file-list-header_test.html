@@ -216,7 +216,8 @@ limitations under the License.
       };
       element.basePatchNum = 1;
       element.patchNum = 2;
-      element.patchNum = 3;
+
+      element._handlePatchChange({detail: {basePatchNum: 1, patchNum: 3}});
       assert.equal(navigateToChangeStub.callCount, 1);
       assert.isTrue(navigateToChangeStub.lastCall
           .calledWithExactly(element.change, 3, 1));

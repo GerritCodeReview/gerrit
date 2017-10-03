@@ -38,16 +38,8 @@
         type: String,
         notify: true,
       },
-      patchNum: {
-        type: String,
-        notify: true,
-        observer: '_patchOrBaseChanged',
-      },
-      basePatchNum: {
-        type: String,
-        notify: true,
-        observer: '_patchOrBaseChanged',
-      },
+      patchNum: String,
+      basePatchNum: String,
       revisions: Array,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
@@ -144,18 +136,11 @@
           this.findSortedIndex(basePatchNum, this.revisions);
     },
 
-    /*
-     * Triggered by _patchNum and _basePatchNum observer, in order to detect if
-     * the patch has been previously set or not. The new patch number is not
-     * explicitly used, because this could be called by either _patchNum or
-     * _basePatchNum's observer. Since the behavior is the same, they are
-     * combined.
-     */
-    _patchOrBaseChanged(patchNew, patchOld) {
-      if (!patchOld) { return; }
-
-      Gerrit.Nav.navigateToChange(this.change, this.patchNum,
-          this.basePatchNum);
+    _handlePatchChange(e) {
+      const {basePatchNum, patchNum} = e.detail;
+      if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
+          this.patchNumEquals(patchNum, this.patchNum)) { return; }
+      Gerrit.Nav.navigateToChange(this.change, patchNum, basePatchNum);
     },
 
     _handlePrefsTap(e) {

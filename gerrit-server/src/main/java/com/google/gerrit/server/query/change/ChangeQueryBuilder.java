@@ -71,6 +71,7 @@ import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryRequiresAuthException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -388,23 +389,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return asUser(userFactory.create(otherId));
     }
 
-    IdentifiedUser getIdentifiedUser() throws QueryParseException {
+    IdentifiedUser getIdentifiedUser() throws QueryRequiresAuthException {
       try {
         CurrentUser u = getUser();
         if (u.isIdentifiedUser()) {
           return u.asIdentifiedUser();
         }
-        throw new QueryParseException(NotSignedInException.MESSAGE);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE);
       } catch (ProvisionException e) {
-        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE, e);
       }
     }
 
-    CurrentUser getUser() throws QueryParseException {
+    CurrentUser getUser() throws QueryRequiresAuthException {
       try {
         return self.get();
       } catch (ProvisionException e) {
-        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE, e);
       }
     }
 

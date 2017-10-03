@@ -24,6 +24,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
+        "//gerrit-antlr:query_auth_exception",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
         "//gerrit-common:annotations",

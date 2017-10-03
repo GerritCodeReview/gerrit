@@ -6,6 +6,13 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
+java_library(
+    name = "query_auth_exception",
+    srcs = ["src/main/java/com/google/gerrit/server/query/QueryRequiresAuthException.java"],
+    visibility = ["//visibility:public"],
+    deps = [":query_exception"],
+)
+
 genrule2(
     name = "query_antlr",
     srcs = ["src/main/antlr3/com/google/gerrit/server/query/Query.g"],
@@ -26,6 +33,7 @@ java_library(
     srcs = [":query_antlr"],
     visibility = ["//visibility:public"],
     deps = [
+        ":query_auth_exception",
         ":query_exception",
         "//lib/antlr:java_runtime",
     ],

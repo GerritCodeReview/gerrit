@@ -102,7 +102,7 @@
         dropdownContent.push({
           disabled: this._computeRightDisabled(patchNum, basePatchNum,
               _sortedRevisions),
-          triggerText: `Patchset ${patchNum}`,
+          triggerText: `diff against Patchset ${patchNum}`,
           text: `Patchset ${patchNum}` +
               `${this._computePatchSetCommentsString(
                   this.comments, patchNum)}`,

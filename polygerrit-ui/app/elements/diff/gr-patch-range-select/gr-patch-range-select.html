@@ -31,8 +31,14 @@ limitations under the License.
       select {
         max-width: 15em;
       }
-      .arrow {
-        margin: 0 .5em;
+      gr-dropdown-list {
+        margin-left: .5em;
+        --trigger-style: {
+          color: rgba(0,0,0,.54);
+          text-transform: none;
+          font-family: var(--font-family);
+        }
+        --trigger-hover-color: rgba(0,0,0,.4);
       }
       @media screen and (max-width: 50em) {
         .filesWeblinks {
@@ -53,7 +59,6 @@ limitations under the License.
            href$="[[weblink.url]]">[[weblink.name]]</a>
       </template>
     </span>
-    <span class="arrow">&rarr;</span>
     <span class="patchRange">
       <gr-dropdown-list
           id="patchNumDropdown"

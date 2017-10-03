@@ -17,6 +17,7 @@
   const RoutePattern = {
     ROOT: '/',
     DASHBOARD: '/dashboard/(.*)',
+    PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.*)/,
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
@@ -244,6 +245,9 @@
           }
           const user = params.user ? params.user : '';
           url = `/dashboard/${user}?${queryParams.join('&')}`;
+        } else if (params.project) {
+          // Project dashboard.
+          url = `/p/${params.project}/+/dashboard/${params.dashboard}`;
         } else {
           // User dashboard.
           url = `/dashboard/${params.user || 'self'}`;
@@ -465,6 +469,9 @@
       this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
 
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
+
+      this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
+          '_handleProjectDashboardRoute');
 
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
@@ -720,6 +727,14 @@
             user: data.params[0],
           });
         }
+      });
+    },
+
+    _handleProjectDashboardRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.DASHBOARD,
+        project: data.params[0],
+        dashboard: decodeURIComponent(data.params[1]),
       });
     },
 

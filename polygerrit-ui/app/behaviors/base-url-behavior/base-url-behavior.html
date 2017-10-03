@@ -20,6 +20,8 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
+  const PROJECT_DASHBOARD_PATTERN = /\/p\/(.+)\/\+\/dashboard\/(.*)/;
+
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
   Gerrit.BaseUrlBehavior = {
     /** @return {string} */
@@ -29,7 +31,11 @@ limitations under the License.
 
     computeGwtUrl(path) {
       const base = this.getBaseUrl();
-      const clientPath = path.substring(base.length);
+      let clientPath = path.substring(base.length);
+      const match = clientPath.match(PROJECT_DASHBOARD_PATTERN);
+      if (match) {
+        clientPath = `/projects/${match[1]},dashboards/${match[2]}`;
+      }
       return base + '/?polygerrit=0#' + clientPath;
     },
   };

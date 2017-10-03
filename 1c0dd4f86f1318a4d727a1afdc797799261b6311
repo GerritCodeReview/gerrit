@@ -124,6 +124,24 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18c49555_ddfc262f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T14:36:07Z",
+      "side": 1,
+      "message": "(Unless there\u0027s an issue with this approach I\u0027m missing? All ears :D)",
+      "parentUuid": "7166aeb3_7a1413d2",
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

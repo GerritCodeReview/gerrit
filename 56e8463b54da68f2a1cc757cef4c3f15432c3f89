@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9922e552_c46a314f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T14:20:23Z",
+      "side": 1,
+      "message": "We probably want to keep the separators here in sync with the ones in the message-list and diff-view.\n\nNot your job at all, I can do that :D -- just figured I\u0027d mention.",
+      "revId": "56e8463b54da68f2a1cc757cef4c3f15432c3f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

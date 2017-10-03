@@ -73,7 +73,7 @@
     } else if (!pathname.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
-      return;
+      // return;
     }
     this._name = pathname.split('/')[2];
 
@@ -200,6 +200,10 @@
 
   Plugin.prototype.project = function() {
     return new GrProjectApi(this);
+  };
+
+  Plugin.prototype.diffHelper = function() {
+    return new GrDiffApi(this);
   };
 
   Plugin.prototype.attributeHelper = function(element) {

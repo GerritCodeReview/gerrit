@@ -180,7 +180,19 @@
 
       return Promise.all(promises).then(() => {
         if (this.prefs) {
-          return this._renderDiffTable();
+          return this._renderDiffTable().then(()=> {
+
+            /*
+            console.log('-----------------------');
+            console.log(this.changeNum);
+            console.log(this.patchRange.patchNum);
+            console.log(this.path);
+	    console.log('-----------------------');
+            this.$.diffBuilder.getLineElByNumber(3, 'right').style.backgroundColor = "red";
+            */
+            console.log('--- gr-diff-builder dom is loaded at this point ---');
+            console.log(document.getElementsByClassName("style-scope gr-diff right lineNum").length)
+          });;
         }
         return Promise.resolve();
       });

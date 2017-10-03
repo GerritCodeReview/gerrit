@@ -125,7 +125,6 @@
       }
     },
 
-
     closeDropdown() {
       return this.$.emojiSuggestions.close();
     },
@@ -148,10 +147,6 @@
       if (this._hideAutocomplete) { return; }
       e.preventDefault();
       e.stopPropagation();
-      this._resetAndFocus();
-    },
-
-    _resetAndFocus() {
       this._resetEmojiDropdown();
     },
 
@@ -190,15 +185,19 @@
     },
     /**
      * Uses a hidden element with the same width and styling of the textarea and
-     * the text up until the point of interest. Then the emoji selection
-     * element is added to the end so that they are correctly positioned by the
-     * end of the last character entered.
+     * the text up until the point of interest. Then caratSpan element is added
+     * to the end and is set to be the positionTarget for the dropdown. Together
+     * this allows the dropdown to appear near where the user is typing.
      */
     _updateCaratPosition() {
+      this._hideAutocomplete = false;
       this.$.hiddenText.textContent = this.$.textarea.value.substr(0,
           this.$.textarea.selectionStart);
 
-      this.$.hiddenText.appendChild(this.$.emojiSuggestions);
+      const caratSpan = this.$.caratSpan;
+      this.$.hiddenText.appendChild(caratSpan);
+      this.$.emojiSuggestions.positionTarget = caratSpan;
+      this._openEmojiDropdown();
     },
 
     _getFontSize() {
@@ -250,8 +249,6 @@
         // Otherwise open the dropdown and set the position to be just below the
         // cursor.
         } else if (this.$.emojiSuggestions.isHidden) {
-          this._hideAutocomplete = false;
-          this._openEmojiDropdown();
           this._updateCaratPosition();
         }
         this.$.textarea.textarea.focus();
@@ -268,7 +265,7 @@
         suggestion.text = suggestion.value + ' ' + suggestion.match;
         suggestions.push(suggestion);
       }
-      this._suggestions = suggestions;
+      this.set('_suggestions', suggestions);
     },
 
     _determineSuggestions(emojiText) {

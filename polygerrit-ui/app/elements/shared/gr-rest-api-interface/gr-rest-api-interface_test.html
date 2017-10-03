@@ -982,5 +982,14 @@ limitations under the License.
         assert.deepEqual(sendSpy.lastCall.args[2], {generate: true});
       });
     });
+
+    test('getDashboard', () => {
+      const fetchStub = sandbox.stub(element, '_fetchSharedCacheURL');
+      element.getDashboard('gerrit/project', 'default:main');
+      assert.isTrue(fetchStub.calledOnce);
+      assert.deepEqual(
+          fetchStub.lastCall.args,
+          ['/projects/gerrit%2Fproject/dashboards/default%3Amain']);
+    });
   });
 </script>

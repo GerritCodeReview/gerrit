@@ -14,9 +14,6 @@
 (function() {
   'use strict';
 
-  const AWAIT_MAX_ITERS = 10;
-  const AWAIT_STEP = 5;
-
   Polymer({
     is: 'gr-autocomplete-dropdown',
 
@@ -34,6 +31,10 @@
 
     properties: {
       index: Number,
+      isHidden: {
+        value: true,
+        reflectToAttribute: true,
+      },
       verticalOffset: {
         type: Number,
         value: null,
@@ -53,6 +54,7 @@
     },
 
     behaviors: [
+      Polymer.IronFitBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
 
@@ -65,46 +67,14 @@
     },
 
     close() {
-      this.$.dropdown.close();
+      this.isHidden = true;
     },
 
     open() {
-      this._open().then(() => {
-        this._resetCursorStops();
-        this._resetCursorIndex();
-        this.fire('open-complete');
-      });
-    },
-
-    // TODO (beckysiegel) look into making this a behavior since it's used
-    // 3 times now.
-    _open(...args) {
-      return new Promise(resolve => {
-        Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
-        this._awaitOpen(resolve);
-      });
-    },
-
-    /**
-     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
-     * opening. Eventually replace with a direct way to listen to the overlay.
-     */
-    _awaitOpen(fn) {
-      let iters = 0;
-      const step = () => {
-        this.async(() => {
-          if (this.style.display !== 'none') {
-            fn.call(this);
-          } else if (iters++ < AWAIT_MAX_ITERS) {
-            step.call(this);
-          }
-        }, AWAIT_STEP);
-      };
-      step.call(this);
-    },
-
-    get isHidden() {
-      return !this.$.dropdown.opened;
+      this.isHidden = false;
+      this.refit();
+      this._resetCursorStops();
+      this._resetCursorIndex();
     },
 
     getCurrentText() {
@@ -112,7 +82,7 @@
     },
 
     _handleUp(e) {
-      if (!this.hidden) {
+      if (!this.isHidden) {
         e.preventDefault();
         e.stopPropagation();
         this.cursorUp();
@@ -120,7 +90,7 @@
     },
 
     _handleDown(e) {
-      if (!this.hidden) {
+      if (!this.isHidden) {
         e.preventDefault();
         e.stopPropagation();
         this.cursorDown();
@@ -128,13 +98,13 @@
     },
 
     cursorDown() {
-      if (!this.hidden) {
+      if (!this.isHidden) {
         this.$.cursor.next();
       }
     },
 
     cursorUp() {
-      if (!this.hidden) {
+      if (!this.isHidden) {
         this.$.cursor.previous();
       }
     },

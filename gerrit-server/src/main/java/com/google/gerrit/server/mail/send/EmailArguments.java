@@ -46,7 +46,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.template.soy.tofu.SoyTofu;
 import java.util.List;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class EmailArguments {
@@ -75,7 +74,6 @@ public class EmailArguments {
   final ChangeQueryBuilder queryBuilder;
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
-  final RuntimeInstance velocityRuntime;
   final SoyTofu soyTofu;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
@@ -106,7 +104,6 @@ public class EmailArguments {
       ChangeQueryBuilder queryBuilder,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
-      RuntimeInstance velocityRuntime,
       @MailTemplates SoyTofu soyTofu,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
@@ -136,7 +133,6 @@ public class EmailArguments {
     this.queryBuilder = queryBuilder;
     this.db = db;
     this.changeDataFactory = changeDataFactory;
-    this.velocityRuntime = velocityRuntime;
     this.soyTofu = soyTofu;
     this.settings = settings;
     this.sshAddresses = sshAddresses;

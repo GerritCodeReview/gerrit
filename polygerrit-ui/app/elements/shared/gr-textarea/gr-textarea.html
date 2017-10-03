@@ -67,12 +67,19 @@ limitations under the License.
       }
     </style>
     <div id="hiddenText"></div>
+    <!-- When the autocomplete is open, the span is moved at the end of
+      hiddenText in order to correctly position the dropdown. After being moved,
+      it is set as the positionTarget for the emojiSuggestions dropdown. -->
+    <span id="caratSpan"></span>
     <gr-autocomplete-dropdown
+        vertical-align="top"
+        horizontal-align="left"
+        dynamic-align
         id="emojiSuggestions"
         suggestions="[[_suggestions]]"
         index="[[_index]]"
         vertical-offset="[[_verticalOffset]]"
-        on-dropdown-closed="_resetAndFocus"
+        on-dropdown-closed="_resetEmojiDropdown"
         on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
     <iron-autogrow-textarea

@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -41,6 +42,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
+  @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private SshSession session;
   @Inject private PermissionBackend permissionBackend;
@@ -68,6 +70,9 @@ final class Upload extends AbstractGitCommand {
     allPreUploadHooks.add(
         uploadValidatorsFactory.create(project, repo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
+    for (UploadPackInitializer initializer : uploadPackInitializers) {
+      initializer.init(projectControl.getProject().getNameKey(), up);
+    }
     try {
       up.upload(in, out, err);
       session.setPeerAgent(up.getPeerUserAgent());

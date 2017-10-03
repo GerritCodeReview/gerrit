@@ -70,6 +70,23 @@
       "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0f22668_a829d493",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-03T08:06:01Z",
+      "side": 1,
+      "message": "Are these lines not causing warnings about unused allocated objects?",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

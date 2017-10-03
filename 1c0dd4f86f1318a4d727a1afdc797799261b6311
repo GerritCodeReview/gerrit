@@ -16,6 +16,24 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1abb4327_68895107",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-03T12:43:26Z",
+      "side": 1,
+      "message": "Wut... Would it? Why would that be true?\n\nThe center call I\u0027m making below exists because the dialog wasn\u0027t centered on first open without it.",
+      "parentUuid": "2890a223_5fd48032",
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

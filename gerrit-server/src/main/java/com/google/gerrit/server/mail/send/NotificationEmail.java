@@ -42,19 +42,6 @@ public abstract class NotificationEmail extends OutgoingEmail {
   @Override
   protected void init() throws EmailException {
     super.init();
-    setListIdHeader();
-  }
-
-  private void setListIdHeader() throws EmailException {
-    // Set a reasonable list id so that filters can be used to sort messages
-    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
-    if (getSettingsUrl() != null) {
-      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
-    }
-  }
-
-  public String getListId() throws EmailException {
-    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   /** Include users and groups that want notification of events. */
@@ -100,13 +87,6 @@ public abstract class NotificationEmail extends OutgoingEmail {
       return getGerritHost() + host.substring(1);
     }
     return host;
-  }
-
-  @Override
-  protected void setupVelocityContext() {
-    super.setupVelocityContext();
-    velocityContext.put("projectName", branch.getParentKey().get());
-    velocityContext.put("branch", branch);
   }
 
   @Override

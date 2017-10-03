@@ -62,7 +62,7 @@
     },
 
     _getLinks(switchAccountUrl, path) {
-      const links = [{name: 'Settings', url: '/settings'}];
+      const links = [{name: 'Settings', url: '/settings/'}];
       if (switchAccountUrl) {
         const replacements = {path};
         const url = this._interpolateUrl(switchAccountUrl, replacements);

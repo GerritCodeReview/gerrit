@@ -53,9 +53,8 @@
       },
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
-      params: {
-        type: Object,
-      },
+      /** @type {?} */
+      params: Object,
 
       _results: Array,
       _sectionMetadata: {
@@ -144,5 +143,8 @@
       return query.replace(/\$\{user\}/g, user);
     },
 
+    _computeUserHeaderClass(userParam) {
+      return userParam === 'self' ? 'hide' : '';
+    },
   });
 })();

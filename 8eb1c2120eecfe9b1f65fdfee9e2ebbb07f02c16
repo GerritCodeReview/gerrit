@@ -52,6 +52,24 @@
       "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7abaec3e_c7033ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-03T08:02:47Z",
+      "side": 1,
+      "message": "I see where that logic is for accounts. I can take a shot at implementing that today for is:ignore.\n\nI\u0027ve filed an issue to track this, in case I don\u0027t manage to get it done: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7328",
+      "parentUuid": "507777d4_155827c1",
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

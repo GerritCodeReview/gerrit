@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3549f7b0_56b5231a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-03T12:19:34Z",
+      "side": 1,
+      "message": "Wording nit: I feel like it\u0027s deterministic. It\u0027d trigger an observer effect that would navigate to the old change number with the new patch range.\n\nOptional:\n\n* \"nondeterministic/strange loading behavior\" → \"an incorrect redirect URL\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "889f397cd13d47e27bced60b7ed85775f104330e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

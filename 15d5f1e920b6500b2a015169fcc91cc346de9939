@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b73bc19a_25d3be3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-03T22:32:15Z",
+      "side": 0,
+      "message": "It looks like this error message is not included any more?",
+      "range": {
+        "startLine": 120,
+        "startChar": 32,
+        "endLine": 120,
+        "endChar": 65
+      },
+      "revId": "15d5f1e920b6500b2a015169fcc91cc346de9939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

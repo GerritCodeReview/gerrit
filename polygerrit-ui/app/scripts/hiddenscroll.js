@@ -24,6 +24,6 @@
         'style', 'width:100px;height:100px;overflow:scroll');
     document.body.appendChild(elem);
     window.Gerrit.hiddenscroll = elem.offsetWidth === elem.clientWidth;
-    elem.remove();
+    elem.parentNode.removeChild(elem);
   });
 })(window);

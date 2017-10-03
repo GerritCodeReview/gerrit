@@ -108,6 +108,7 @@
       _commitInfo: Object,
       _files: Object,
       _changeNum: String,
+      _projectName: String,
       _diffDrafts: {
         type: Object,
         value() { return {}; },
@@ -498,7 +499,8 @@
           (this._patchRange.patchNum !== value.patchNum ||
           this._patchRange.basePatchNum !== value.basePatchNum);
 
-      if (this._changeNum !== value.changeNum) {
+      if (this._changeNum !== value.changeNum ||
+          this._projectName !== value.project) {
         this._initialLoadComplete = false;
       }
 
@@ -523,6 +525,7 @@
       }
 
       this._changeNum = value.changeNum;
+      this._projectName = value.project;
       this._patchRange = patchRange;
       this.$.relatedChanges.clear();
 

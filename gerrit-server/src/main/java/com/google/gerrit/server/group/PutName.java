@@ -18,16 +18,15 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,11 +34,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class PutName implements RestModifyView<GroupResource, Input> {
-  public static class Input {
-    @DefaultInput public String name;
-  }
-
+public class PutName implements RestModifyView<GroupResource, NameInput> {
   private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
@@ -50,7 +45,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public String apply(GroupResource rsrc, Input input)
+  public String apply(GroupResource rsrc, NameInput input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
           ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
     GroupDescription.Internal internalGroup =

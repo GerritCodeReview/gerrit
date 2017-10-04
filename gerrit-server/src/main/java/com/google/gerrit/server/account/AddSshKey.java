@@ -20,6 +20,7 @@ import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -28,7 +29,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AddSshKey.Input;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -45,12 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class AddSshKey implements RestModifyView<AccountResource, Input> {
+public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
   private static final Logger log = LoggerFactory.getLogger(AddSshKey.class);
-
-  public static class Input {
-    public RawInput raw;
-  }
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -73,7 +69,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
+  public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
       throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
@@ -82,10 +78,10 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
     return apply(rsrc.getUser(), input);
   }
 
-  public Response<SshKeyInfo> apply(IdentifiedUser user, Input input)
+  public Response<SshKeyInfo> apply(IdentifiedUser user, SshKeyInput input)
       throws BadRequestException, IOException, ConfigInvalidException {
     if (input == null) {
-      input = new Input();
+      input = new SshKeyInput();
     }
     if (input.raw == null) {
       throw new BadRequestException("SSH public key missing");

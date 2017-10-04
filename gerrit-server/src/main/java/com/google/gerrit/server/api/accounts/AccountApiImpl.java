@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -424,7 +425,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public SshKeyInfo addSshKey(String key) throws RestApiException {
-    AddSshKey.Input in = new AddSshKey.Input();
+    SshKeyInput in = new SshKeyInput();
     in.raw = RawInputUtil.create(key);
     try {
       return addSshKey.apply(account, in).value();

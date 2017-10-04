@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -233,7 +234,7 @@ final class SetAccountCommand extends SshCommand {
       throws RestApiException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     for (String sshKey : sshKeys) {
-      AddSshKey.Input in = new AddSshKey.Input();
+      SshKeyInput in = new SshKeyInput();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
       addSshKey.apply(rsrc, in);
     }

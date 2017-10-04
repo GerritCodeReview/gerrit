@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.TopicInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -436,7 +437,7 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void topic(String topic) throws RestApiException {
-    PutTopic.Input in = new PutTopic.Input();
+    TopicInput in = new TopicInput();
     in.topic = topic;
     try {
       putTopic.apply(change, in);

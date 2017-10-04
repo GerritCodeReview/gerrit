@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.PutHttpPassword.Input;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -40,12 +39,7 @@ import java.security.SecureRandom;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-    public String httpPassword;
-    public boolean generate;
-  }
-
+public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
   private static final int LEN = 31;
   private static final SecureRandom rng;
 
@@ -75,7 +69,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<String> apply(AccountResource rsrc, Input input)
+  public Response<String> apply(AccountResource rsrc, HttpPasswordInput input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
           IOException, ConfigInvalidException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
@@ -83,7 +77,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     }
 
     if (input == null) {
-      input = new Input();
+      input = new HttpPasswordInput();
     }
     input.httpPassword = Strings.emptyToNull(input.httpPassword);
 

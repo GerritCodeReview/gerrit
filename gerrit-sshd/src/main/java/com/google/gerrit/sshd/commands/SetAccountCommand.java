@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.DeleteEmail;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.GetEmails;
 import com.google.gerrit.server.account.GetSshKeys;
+import com.google.gerrit.server.account.HttpPasswordInput;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
 import com.google.gerrit.server.account.PutName;
@@ -201,7 +202,7 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (httpPassword != null || clearHttpPassword) {
-        PutHttpPassword.Input in = new PutHttpPassword.Input();
+        HttpPasswordInput in = new HttpPasswordInput();
         in.httpPassword = httpPassword;
         putHttpPassword.apply(rsrc, in);
       }

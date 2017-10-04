@@ -17,15 +17,14 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.PutDescription.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,11 +33,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Singleton
-public class PutDescription implements RestModifyView<GroupResource, Input> {
-  public static class Input {
-    @DefaultInput public String description;
-  }
-
+public class PutDescription implements RestModifyView<GroupResource, DescriptionInput> {
   private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
@@ -50,11 +45,11 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public Response<String> apply(GroupResource resource, Input input)
+  public Response<String> apply(GroupResource resource, DescriptionInput input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
           IOException {
     if (input == null) {
-      input = new Input(); // Delete would set description to null.
+      input = new DescriptionInput(); // Delete would set description to null.
     }
 
     GroupDescription.Internal internalGroup =

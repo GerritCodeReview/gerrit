@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -176,7 +177,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void description(String description) throws RestApiException {
-    PutDescription.Input in = new PutDescription.Input();
+    DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
       putDescription.apply(rsrc, in);

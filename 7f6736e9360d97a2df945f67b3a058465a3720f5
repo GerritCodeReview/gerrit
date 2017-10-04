@@ -16,6 +16,24 @@
       "revId": "7f6736e9360d97a2df945f67b3a058465a3720f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "298d2521_ac792946",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2017-10-04T17:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c43f28_c5dcb7ce",
+      "revId": "7f6736e9360d97a2df945f67b3a058465a3720f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

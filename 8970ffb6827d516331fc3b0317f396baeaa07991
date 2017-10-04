@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed4cea88_8457d74b",
+        "filename": "gerrit-antlr/src/main/java/com/google/gerrit/server/query/QueryRequiresAuthException.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-04T06:13:25Z",
+      "side": 1,
+      "message": "not needed?",
+      "range": {
+        "startLine": 29,
+        "startChar": 48,
+        "endLine": 29,
+        "endChar": 53
+      },
+      "revId": "8970ffb6827d516331fc3b0317f396baeaa07991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

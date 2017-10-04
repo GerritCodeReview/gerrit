@@ -16,8 +16,8 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.common.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.PutTopic.Input;
 import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -44,15 +43,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Response<String>>
+public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, Response<String>>
     implements UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;
-
-  public static class Input {
-    @DefaultInput public String topic;
-  }
 
   @Inject
   PutTopic(
@@ -68,7 +63,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
 
   @Override
   protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, Input input)
+      BatchUpdate.Factory updateFactory, ChangeResource req, TopicInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
 
@@ -79,7 +74,7 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
           String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
-    Op op = new Op(input != null ? input : new Input());
+    Op op = new Op(input != null ? input : new TopicInput());
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
@@ -90,13 +85,13 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, Input, Resp
   }
 
   private class Op implements BatchUpdateOp {
-    private final Input input;
+    private final TopicInput input;
 
     private Change change;
     private String oldTopicName;
     private String newTopicName;
 
-    Op(Input input) {
+    Op(TopicInput input) {
       this.input = input;
     }
 

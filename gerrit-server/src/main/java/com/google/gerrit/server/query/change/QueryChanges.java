@@ -35,8 +35,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QueryChanges implements RestReadView<TopLevelResource> {
+  private static final Logger log = LoggerFactory.getLogger(QueryChanges.class);
+
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final ChangeQueryProcessor imp;
@@ -115,6 +119,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
         String op = m.group(1);
         throw new AuthException("Must be signed-in to use " + op);
       }
+      log.debug("Reject change query with 400 Bad Request: " + queries, e);
       throw new BadRequestException(e.getMessage(), e);
     }
     return out.size() == 1 ? out.get(0) : out;

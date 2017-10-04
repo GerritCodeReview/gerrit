@@ -16,14 +16,13 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.common.UsernameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.PutUsername.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -35,11 +34,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class PutUsername implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-    @DefaultInput public String username;
-  }
-
+public class PutUsername implements RestModifyView<AccountResource, UsernameInput> {
   private final Provider<CurrentUser> self;
   private final ChangeUserName.Factory changeUserNameFactory;
   private final PermissionBackend permissionBackend;
@@ -58,7 +53,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public String apply(AccountResource rsrc, Input input)
+  public String apply(AccountResource rsrc, UsernameInput input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
           ResourceConflictException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
@@ -71,7 +66,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
     }
 
     if (input == null) {
-      input = new Input();
+      input = new UsernameInput();
     }
 
     try {

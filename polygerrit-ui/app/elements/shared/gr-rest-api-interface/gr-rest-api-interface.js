@@ -229,8 +229,9 @@
     },
 
     getProjectAccess(project) {
-      return this._fetchSharedCacheURL(
-          '/access/?project=' + encodeURIComponent(project));
+      const encodeName = encodeURIComponent(project);
+      return this.send('GET', `/access/?project=${encodeName}`, null,
+          null, null);
     },
 
     saveProjectConfig(project, config, opt_errFn, opt_ctx) {
@@ -1060,8 +1061,9 @@
     },
 
     getProjectAccessRights(projectName) {
-      return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(projectName)}/access`);
+      const encodeName = encodeURIComponent(projectName);
+      return this.send('GET', `/projects/${encodeName}/access`, null,
+          null, null);
     },
 
     setProjectAccessRights(projectName, projectInfo) {

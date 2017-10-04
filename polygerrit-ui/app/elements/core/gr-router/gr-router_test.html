@@ -244,6 +244,11 @@ limitations under the License.
 
         params.basePatchNum = 5;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
+
+        querystring = 'revert&foo=bar'
+        params.querystring = querystring
+        assert.equal(element._generateUrl(params),
+                     '/c/test/+/1234/5..10?' + querystring);
       });
 
       test('diff', () => {
@@ -1103,6 +1108,7 @@ limitations under the License.
               null, // 4 Unused
               9, // 5 Patch number
             ],
+            querystring: '',
           };
           element._handleChangeLegacyRoute(ctx);
           assert.isTrue(normalizeRouteStub.calledOnce);
@@ -1111,6 +1117,7 @@ limitations under the License.
             basePatchNum: 6,
             patchNum: 9,
             view: Gerrit.Nav.View.CHANGE,
+            querystring: '',
           });
         });
 

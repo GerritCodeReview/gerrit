@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
@@ -136,6 +137,12 @@ public class PluginLoader implements LifecycleListener {
 
   public boolean isRemoteAdminEnabled() {
     return remoteAdmin;
+  }
+
+  public void checkRemoteAdminEnabled() throws MethodNotAllowedException {
+    if (!remoteAdmin) {
+      throw new MethodNotAllowedException("remote plugin administration is disabled");
+    }
   }
 
   public Plugin get(String name) {

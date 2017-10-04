@@ -16,30 +16,19 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.PluginInstallException;
-import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.List;
 import org.kohsuke.args4j.Argument;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "reload", description = "Reload/Restart plugins", runsAt = MASTER_OR_SLAVE)
-final class PluginReloadCommand extends SshCommand {
+final class PluginReloadCommand extends PluginAdminSshCommand {
   @Argument(index = 0, metaVar = "NAME", usage = "plugins to reload/restart")
   private List<String> names;
 
-  @Inject private PluginLoader loader;
-
   @Override
-  protected void run() throws UnloggedFailure {
-    if (!loader.isRemoteAdminEnabled()) {
-      throw die("remote plugin administration is disabled");
-    }
+  protected void doRun() throws UnloggedFailure {
     if (names == null || names.isEmpty()) {
       loader.rescan();
     } else {

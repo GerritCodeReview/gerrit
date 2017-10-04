@@ -17,8 +17,8 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -67,11 +67,8 @@ public class PluginsCollection
   }
 
   @Override
-  public InstallPlugin create(TopLevelResource parent, IdString id)
-      throws ResourceNotFoundException, MethodNotAllowedException {
-    if (!loader.isRemoteAdminEnabled()) {
-      throw new MethodNotAllowedException("remote installation is disabled");
-    }
+  public InstallPlugin create(TopLevelResource parent, IdString id) throws RestApiException {
+    loader.checkRemoteAdminEnabled();
     return install.get().setName(id.get()).setCreated(true);
   }
 

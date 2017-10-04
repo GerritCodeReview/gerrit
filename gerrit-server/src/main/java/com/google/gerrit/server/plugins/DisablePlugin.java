@@ -16,7 +16,6 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.PluginInfo;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
@@ -51,9 +50,7 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
     } catch (PermissionBackendException e) {
       throw new RestApiException("Could not check permission", e);
     }
-    if (!loader.isRemoteAdminEnabled()) {
-      throw new MethodNotAllowedException("remote plugin administration is disabled");
-    }
+    loader.checkRemoteAdminEnabled();
     String name = resource.getName();
     loader.disablePlugins(ImmutableSet.of(name));
     return ListPlugins.toPluginInfo(loader.get(name));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0c43f28_c5dcb7ce",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2017-10-04T08:47:47Z",
+      "side": 1,
+      "message": "It might be nicer to start with a value of 2 and alter it to 3 instead.",
+      "revId": "7f6736e9360d97a2df945f67b3a058465a3720f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

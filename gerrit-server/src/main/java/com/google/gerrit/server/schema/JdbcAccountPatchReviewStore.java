@@ -151,7 +151,7 @@ public abstract class JdbcAccountPatchReviewStore
       return "org.postgresql.Driver";
     }
     if (url.contains(MYSQL)) {
-      return "com.mysql.cj.jdbc.Driver";
+      return "com.mysql.jdbc.Driver";
     }
     if (url.contains(MARIADB)) {
       return "org.mariadb.jdbc.Driver";

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -22,6 +24,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
+import java.util.List;
 
 /** Parses a query string meant to be applied to project objects. */
 public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
@@ -38,6 +41,35 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
   @Operator
   public Predicate<ProjectData> name(String name) {
     return ProjectPredicates.name(new Project.NameKey(name));
+  }
+
+  @Operator
+  public Predicate<ProjectData> inname(String namePart) {
+    if (namePart.isEmpty()) {
+      return name(namePart);
+    }
+    return ProjectPredicates.inname(namePart);
+  }
+
+  @Operator
+  public Predicate<ProjectData> description(String description) throws QueryParseException {
+    if (Strings.isNullOrEmpty(description)) {
+      throw error("description operator requires a value");
+    }
+
+    return ProjectPredicates.description(description);
+  }
+
+  @Override
+  protected Predicate<ProjectData> defaultField(String query) throws QueryParseException {
+    // Adapt the capacity of this list when adding more default predicates.
+    List<Predicate<ProjectData>> preds = Lists.newArrayListWithCapacity(3);
+    preds.add(name(query));
+    preds.add(inname(query));
+    if (!Strings.isNullOrEmpty(query)) {
+      preds.add(description(query));
+    }
+    return Predicate.or(preds);
   }
 
   @Operator

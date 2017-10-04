@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -566,7 +567,7 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public void description(String description) throws RestApiException {
-    PutDescription.Input in = new PutDescription.Input();
+    DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
       putDescription.apply(revision, in);

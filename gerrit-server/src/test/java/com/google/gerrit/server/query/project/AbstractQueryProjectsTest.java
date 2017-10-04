@@ -17,11 +17,13 @@ package com.google.gerrit.server.query.project;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.Projects.QueryRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -51,6 +53,7 @@ import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -175,6 +178,49 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     ProjectInfo projectWithHyphen = createProject(name("project-with-hyphen"));
     createProject(name("project-no-match-with-hyphen"));
     assertQuery("name:" + projectWithHyphen.name, projectWithHyphen);
+  }
+
+  @Test
+  public void byInname() throws Exception {
+    String namePart = getSanitizedMethodName();
+    namePart = CharMatcher.is('_').removeFrom(namePart);
+
+    ProjectInfo project1 = createProject(name("project-" + namePart));
+    ProjectInfo project2 = createProject(name("project-" + namePart + "-2"));
+    ProjectInfo project3 = createProject(name("project-" + namePart + "3"));
+
+    assertQuery("inname:" + namePart, project1, project2, project3);
+    assertQuery("inname:" + namePart.toUpperCase(Locale.US), project1, project2, project3);
+    assertQuery("inname:" + namePart.toLowerCase(Locale.US), project1, project2, project3);
+  }
+
+  @Test
+  public void byDescription() throws Exception {
+    ProjectInfo project1 =
+        createProjectWithDescription(name("project1"), "This is a test project.");
+    ProjectInfo project2 = createProjectWithDescription(name("project2"), "ANOTHER TEST PROJECT.");
+    createProjectWithDescription(name("project3"), "Maintainers of project foo.");
+    assertQuery("description:test", project1, project2);
+
+    assertQuery("description:non-existing");
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("description operator requires a value");
+    assertQuery("description:\"\"");
+  }
+
+  @Test
+  public void byDefaultField() throws Exception {
+    ProjectInfo project1 = createProject(name("foo-project"));
+    ProjectInfo project2 = createProject(name("project2"));
+    ProjectInfo project3 =
+        createProjectWithDescription(
+            name("project3"),
+            "decription that contains foo and the UUID of project2: " + project2.id);
+
+    // assertQuery("non-existing");
+    assertQuery("foo", project1, project3);
+    assertQuery(project2.id, project2, project3);
   }
 
   @Test

@@ -22,6 +22,30 @@
       "revId": "1f782e00564a0882b21603e2d0d7e1cc0abd4a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ab65163_0dcea5ec",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-04T10:09:30Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a good point.  I\u0027ll do that in the next patch set.",
+      "parentUuid": "62e88156_fc6d0036",
+      "range": {
+        "startLine": 129,
+        "startChar": 44,
+        "endLine": 129,
+        "endChar": 59
+      },
+      "revId": "1f782e00564a0882b21603e2d0d7e1cc0abd4a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

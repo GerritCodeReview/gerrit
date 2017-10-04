@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -48,7 +49,7 @@ public class RenameGroupCommand extends SshCommand {
   protected void run() throws Failure {
     try {
       GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName));
-      PutName.Input input = new PutName.Input();
+      NameInput input = new NameInput();
       input.name = newGroupName;
       putName.apply(rsrc, input);
     } catch (RestApiException | OrmException | IOException e) {

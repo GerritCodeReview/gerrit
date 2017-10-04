@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.AddSubgroups;
@@ -139,7 +140,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void name(String name) throws RestApiException {
-    PutName.Input in = new PutName.Input();
+    NameInput in = new NameInput();
     in.name = name;
     try {
       putName.apply(rsrc, in);

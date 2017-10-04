@@ -29,6 +29,7 @@ import com.google.common.collect.Sets;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.GpgKeysInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -38,7 +39,6 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -75,12 +75,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-    public List<String> add;
-    public List<String> delete;
-  }
-
+public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput> {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
   private final Provider<CurrentUser> self;
@@ -112,7 +107,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Map<String, GpgKeyInfo> apply(AccountResource rsrc, Input input)
+  public Map<String, GpgKeyInfo> apply(AccountResource rsrc, GpgKeysInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException,
           PGPException, OrmException, IOException, ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
@@ -148,7 +143,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     }
   }
 
-  private Set<Fingerprint> readKeysToRemove(Input input, Collection<ExternalId> existingExtIds) {
+  private Set<Fingerprint> readKeysToRemove(
+      GpgKeysInput input, Collection<ExternalId> existingExtIds) {
     if (input.delete == null || input.delete.isEmpty()) {
       return ImmutableSet.of();
     }
@@ -163,7 +159,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     return fingerprints;
   }
 
-  private List<PGPPublicKeyRing> readKeysToAdd(Input input, Set<Fingerprint> toRemove)
+  private List<PGPPublicKeyRing> readKeysToAdd(GpgKeysInput input, Set<Fingerprint> toRemove)
       throws BadRequestException, IOException {
     if (input.add == null || input.add.isEmpty()) {
       return ImmutableList.of();

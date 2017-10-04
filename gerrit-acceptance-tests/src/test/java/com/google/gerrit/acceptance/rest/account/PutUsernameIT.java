@@ -18,13 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.account.PutUsername;
+import com.google.gerrit.extensions.common.UsernameInput;
 import org.junit.Test;
 
 public class PutUsernameIT extends AbstractDaemonTest {
   @Test
   public void set() throws Exception {
-    PutUsername.Input in = new PutUsername.Input();
+    UsernameInput in = new UsernameInput();
     in.username = "myUsername";
     RestResponse r =
         adminRestSession.put("/accounts/" + accountCreator.create().id.get() + "/username", in);
@@ -34,7 +34,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
 
   @Test
   public void setExisting_Conflict() throws Exception {
-    PutUsername.Input in = new PutUsername.Input();
+    UsernameInput in = new UsernameInput();
     in.username = admin.username;
     adminRestSession
         .put("/accounts/" + accountCreator.create().id.get() + "/username", in)
@@ -43,7 +43,7 @@ public class PutUsernameIT extends AbstractDaemonTest {
 
   @Test
   public void setNew_MethodNotAllowed() throws Exception {
-    PutUsername.Input in = new PutUsername.Input();
+    UsernameInput in = new UsernameInput();
     in.username = "newUsername";
     adminRestSession.put("/accounts/" + admin.username + "/username", in).assertMethodNotAllowed();
   }

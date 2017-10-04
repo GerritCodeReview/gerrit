@@ -55,7 +55,7 @@ using PostgreSQL.
 [[createdb_mysql]]
 === MySQL
 
-Requirements: MySQL version 5.5 or later.
+Requirements: MySQL version 5.1 or later.
 
 This option is also more complicated than the H2 option. Just as with
 PostgreSQL it's also recommended for larger installations.

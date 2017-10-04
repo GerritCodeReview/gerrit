@@ -46,7 +46,7 @@ public class PluginIT extends AbstractDaemonTest {
   private static final RawInput HTML_PLUGIN_CONTENT =
       RawInputUtil.create(HTML_PLUGIN.getBytes(UTF_8));
 
-  private static final List<String> PLUGINS =
+  private static final ImmutableList<String> PLUGINS =
       ImmutableList.of(
           "plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html", "plugin_e.js");
 

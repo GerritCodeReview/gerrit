@@ -20,10 +20,19 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.project.ProjectData;
+import java.util.Locale;
 
 public class ProjectPredicates {
   public static Predicate<ProjectData> name(Project.NameKey nameKey) {
     return new ProjectPredicate(ProjectField.NAME, nameKey.get());
+  }
+
+  public static Predicate<ProjectData> inname(String name) {
+    return new ProjectPredicate(ProjectField.NAME_PART, name.toLowerCase(Locale.US));
+  }
+
+  public static Predicate<ProjectData> description(String description) {
+    return new ProjectPredicate(ProjectField.DESCRIPTION, description);
   }
 
   static class ProjectPredicate extends IndexPredicate<ProjectData> {

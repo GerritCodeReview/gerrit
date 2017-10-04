@@ -23,6 +23,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -284,10 +285,10 @@ final class SetAccountCommand extends SshCommand {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
-        deleteEmail.apply(new AccountResource.Email(user, e.email), new DeleteEmail.Input());
+        deleteEmail.apply(new AccountResource.Email(user, e.email), new Input());
       }
     } else {
-      deleteEmail.apply(new AccountResource.Email(user, email), new DeleteEmail.Input());
+      deleteEmail.apply(new AccountResource.Email(user, email), new Input());
     }
   }
 

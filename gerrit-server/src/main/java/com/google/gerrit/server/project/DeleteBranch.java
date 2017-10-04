@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.DeleteBranch.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -34,7 +34,6 @@ import java.io.IOException;
 
 @Singleton
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
-  public static class Input {}
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final DeleteRef.Factory deleteRefFactory;

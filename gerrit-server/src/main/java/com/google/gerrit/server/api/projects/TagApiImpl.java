@@ -19,6 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CreateTag;
@@ -81,7 +82,7 @@ public class TagApiImpl implements TagApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteTag.apply(resource(), new DeleteTag.Input());
+      deleteTag.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete tag", e);
     }

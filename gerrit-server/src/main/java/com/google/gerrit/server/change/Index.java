@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -34,7 +34,6 @@ import java.io.IOException;
 
 @Singleton
 public class Index extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
-  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;

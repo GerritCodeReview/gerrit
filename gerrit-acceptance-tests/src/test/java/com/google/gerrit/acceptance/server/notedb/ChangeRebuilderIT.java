@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -326,7 +327,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void restApiNotFoundWhenNoteDbDisabled() throws Exception {
     PushOneCommit.Result r = createChange();
     exception.expect(ResourceNotFoundException.class);
-    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Rebuild.Input());
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
   }
 
   @Test
@@ -336,7 +337,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     setNotesMigration(true, false);
 
     checker.assertNoChangeRef(project, id);
-    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Rebuild.Input());
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
     checker.checkChanges(id);
   }
 

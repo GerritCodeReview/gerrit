@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.AddSubgroups;
@@ -269,7 +270,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(rsrc, new Index.Input());
+      index.apply(rsrc, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
     }

@@ -18,16 +18,15 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.OwnerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.PutOwner.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,11 +34,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class PutOwner implements RestModifyView<GroupResource, Input> {
-  public static class Input {
-    @DefaultInput public String owner;
-  }
-
+public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
   private final GroupsCollection groupsCollection;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final Provider<ReviewDb> db;
@@ -58,7 +53,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource resource, Input input)
+  public GroupInfo apply(GroupResource resource, OwnerInput input)
       throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
           BadRequestException, UnprocessableEntityException, OrmException, IOException {
     GroupDescription.Internal internalGroup =

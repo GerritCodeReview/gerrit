@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
+import com.google.gerrit.extensions.common.OwnerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.AddSubgroups;
@@ -161,7 +162,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void owner(String owner) throws RestApiException {
-    PutOwner.Input in = new PutOwner.Input();
+    OwnerInput in = new OwnerInput();
     in.owner = owner;
     try {
       putOwner.apply(rsrc, in);

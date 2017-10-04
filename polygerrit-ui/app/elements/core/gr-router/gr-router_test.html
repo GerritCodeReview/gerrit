@@ -237,13 +237,28 @@ limitations under the License.
           changeNum: '1234',
           project: 'test',
         };
+        const paramsWithQuery = {
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: '1234',
+          project: 'test',
+          querystring: 'revert&foo=bar'
+        };
+
         assert.equal(element._generateUrl(params), '/c/test/+/1234');
+        assert.equal(element._generateUrl(paramsWithQuery),
+                     '/c/test/+/1234?revert&foo=bar');
 
         params.patchNum = 10;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
+        paramsWithQuery.patchNum = 10;
+        assert.equal(element._generateUrl(paramsWithQuery),
+                     '/c/test/+/1234/10?revert&foo=bar');
 
         params.basePatchNum = 5;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
+        paramsWithQuery.basePatchNum = 5;
+        assert.equal(element._generateUrl(paramsWithQuery),
+                     '/c/test/+/1234/5..10?revert&foo=bar');
       });
 
       test('diff', () => {
@@ -1103,6 +1118,7 @@ limitations under the License.
               null, // 4 Unused
               9, // 5 Patch number
             ],
+            querystring: '',
           };
           element._handleChangeLegacyRoute(ctx);
           assert.isTrue(normalizeRouteStub.calledOnce);
@@ -1111,6 +1127,7 @@ limitations under the License.
             basePatchNum: 6,
             patchNum: 9,
             view: Gerrit.Nav.View.CHANGE,
+            querystring: '',
           });
         });
 

@@ -18,11 +18,11 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
@@ -38,7 +38,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
-  public static class Input {}
 
   private final Provider<PersonIdent> serverIdent;
   private final Provider<PublicKeyStore> storeProvider;

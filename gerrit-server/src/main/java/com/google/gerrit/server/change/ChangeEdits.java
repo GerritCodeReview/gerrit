@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
@@ -159,8 +160,7 @@ public class ChangeEdits
     }
   }
 
-  public static class DeleteFile implements RestModifyView<ChangeResource, DeleteFile.Input> {
-    public static class Input {}
+  public static class DeleteFile implements RestModifyView<ChangeResource, Input> {
 
     interface Factory {
       DeleteFile create(String path);
@@ -176,7 +176,7 @@ public class ChangeEdits
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
+    public Response<?> apply(ChangeResource rsrc, Input in)
         throws IOException, AuthException, ResourceConflictException, OrmException,
             PermissionBackendException {
       return deleteContent.apply(rsrc, path);
@@ -342,9 +342,7 @@ public class ChangeEdits
    * restoring a file to its previous contents.
    */
   @Singleton
-  public static class DeleteContent
-      implements RestModifyView<ChangeEditResource, DeleteContent.Input> {
-    public static class Input {}
+  public static class DeleteContent implements RestModifyView<ChangeEditResource, Input> {
 
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
@@ -356,7 +354,7 @@ public class ChangeEdits
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
+    public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, OrmException, IOException,
             PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath());

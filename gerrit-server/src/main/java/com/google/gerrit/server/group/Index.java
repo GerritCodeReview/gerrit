@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.Index.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @Singleton
 public class Index implements RestModifyView<GroupResource, Input> {
-  public static class Input {}
 
   private final GroupCache groupCache;
 

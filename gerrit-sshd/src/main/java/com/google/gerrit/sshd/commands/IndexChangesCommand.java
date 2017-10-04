@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Index;
@@ -55,7 +56,7 @@ final class IndexChangesCommand extends SshCommand {
     boolean ok = true;
     for (ChangeResource rsrc : changes.values()) {
       try {
-        index.apply(rsrc, new Index.Input());
+        index.apply(rsrc, new Input());
       } catch (Exception e) {
         ok = false;
         writeError(

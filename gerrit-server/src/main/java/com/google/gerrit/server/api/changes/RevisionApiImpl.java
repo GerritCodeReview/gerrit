@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -300,13 +301,13 @@ class RevisionApiImpl implements RevisionApi {
   @Override
   public void setReviewed(String path, boolean reviewed) throws RestApiException {
     try {
-      RestModifyView<FileResource, Reviewed.Input> view;
+      RestModifyView<FileResource, Input> view;
       if (reviewed) {
         view = putReviewed;
       } else {
         view = deleteReviewed;
       }
-      view.apply(files.parse(revision, IdString.fromDecoded(path)), new Reviewed.Input());
+      view.apply(files.parse(revision, IdString.fromDecoded(path)), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot update reviewed flag", e);
     }

@@ -114,8 +114,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  static class PutSubgroup implements RestModifyView<GroupResource, PutSubgroup.Input> {
-    static class Input {}
+  static class PutSubgroup implements RestModifyView<GroupResource, Input> {
 
     private final AddSubgroups addSubgroups;
     private final String id;
@@ -144,7 +143,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateSubgroup implements RestModifyView<SubgroupResource, PutSubgroup.Input> {
+  static class UpdateSubgroup implements RestModifyView<SubgroupResource, Input> {
     private final Provider<GetSubgroup> get;
 
     @Inject
@@ -153,7 +152,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public GroupInfo apply(SubgroupResource resource, PutSubgroup.Input input) throws OrmException {
+    public GroupInfo apply(SubgroupResource resource, Input input) throws OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

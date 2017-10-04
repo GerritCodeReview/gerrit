@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -68,8 +69,7 @@ public class RebaseChangeEdit
   }
 
   @Singleton
-  public static class Rebase implements RestModifyView<ChangeResource, Rebase.Input> {
-    public static class Input {}
+  public static class Rebase implements RestModifyView<ChangeResource, Input> {
 
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
@@ -81,7 +81,7 @@ public class RebaseChangeEdit
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
+    public Response<?> apply(ChangeResource rsrc, Input in)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
       Project.NameKey project = rsrc.getProject();

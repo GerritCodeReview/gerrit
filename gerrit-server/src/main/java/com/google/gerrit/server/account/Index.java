@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.Index.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -29,7 +29,6 @@ import java.io.IOException;
 
 @Singleton
 public class Index implements RestModifyView<AccountResource, Input> {
-  public static class Input {}
 
   private final AccountCache accountCache;
   private final PermissionBackend permissionBackend;

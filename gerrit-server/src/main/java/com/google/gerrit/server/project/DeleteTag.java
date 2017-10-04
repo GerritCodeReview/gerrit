@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -28,8 +29,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class DeleteTag implements RestModifyView<TagResource, DeleteTag.Input> {
-  public static class Input {}
+public class DeleteTag implements RestModifyView<TagResource, Input> {
 
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;

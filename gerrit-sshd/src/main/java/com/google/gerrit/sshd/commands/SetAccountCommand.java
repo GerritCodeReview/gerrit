@@ -23,6 +23,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
+import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInput;
@@ -201,7 +202,7 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (httpPassword != null || clearHttpPassword) {
-        PutHttpPassword.Input in = new PutHttpPassword.Input();
+        HttpPasswordInput in = new HttpPasswordInput();
         in.httpPassword = httpPassword;
         putHttpPassword.apply(rsrc, in);
       }

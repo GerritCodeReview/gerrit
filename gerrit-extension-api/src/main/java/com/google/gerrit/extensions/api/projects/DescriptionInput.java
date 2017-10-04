@@ -14,9 +14,6 @@
 
 package com.google.gerrit.extensions.api.projects;
 
-import com.google.gerrit.extensions.restapi.DefaultInput;
-
-public class DescriptionInput {
-  @DefaultInput public String description;
+public class DescriptionInput extends com.google.gerrit.extensions.common.DescriptionInput {
   public String commitMessage;
 }

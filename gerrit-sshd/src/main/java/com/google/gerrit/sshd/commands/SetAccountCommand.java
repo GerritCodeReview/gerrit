@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -196,7 +197,7 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (fullName != null) {
-        PutName.Input in = new PutName.Input();
+        NameInput in = new NameInput();
         in.name = fullName;
         putName.apply(rsrc, in);
       }

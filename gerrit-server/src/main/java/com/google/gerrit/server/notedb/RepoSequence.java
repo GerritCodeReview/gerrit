@@ -36,6 +36,7 @@ import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
@@ -86,6 +87,7 @@ public class RepoSequence {
   private static final Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final String refName;
   private final Seed seed;
@@ -103,16 +105,26 @@ public class RepoSequence {
 
   public RepoSequence(
       GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
       int batchSize) {
-    this(repoManager, projectName, name, seed, batchSize, Runnables.doNothing(), RETRYER);
+    this(
+        repoManager,
+        gitRefUpdated,
+        projectName,
+        name,
+        seed,
+        batchSize,
+        Runnables.doNothing(),
+        RETRYER);
   }
 
   @VisibleForTesting
   RepoSequence(
       GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
       Seed seed,
@@ -120,6 +132,7 @@ public class RepoSequence {
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
+    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = checkNotNull(projectName, "projectName");
 
     checkArgument(
@@ -213,9 +226,13 @@ public class RepoSequence {
   }
 
   private void checkResult(RefUpdate.Result result) throws OrmException {
-    if (result != RefUpdate.Result.NEW && result != RefUpdate.Result.FORCED) {
+    if (!refUpdated(result)) {
       throw new OrmException("failed to update " + refName + ": " + result);
     }
+  }
+
+  private boolean refUpdated(RefUpdate.Result result) {
+    return result == RefUpdate.Result.NEW || result == RefUpdate.Result.FORCED;
   }
 
   private class TryAcquire implements Callable<RefUpdate.Result> {
@@ -275,7 +292,11 @@ public class RepoSequence {
     }
     ru.setNewObjectId(newId);
     ru.setForceUpdate(true); // Required for non-commitish updates.
-    return ru.update(rw);
+    RefUpdate.Result result = ru.update(rw);
+    if (refUpdated(result)) {
+      gitRefUpdated.fire(projectName, ru, null);
+    }
+    return result;
   }
 
   public static ReceiveCommand storeNew(ObjectInserter ins, String name, int val)

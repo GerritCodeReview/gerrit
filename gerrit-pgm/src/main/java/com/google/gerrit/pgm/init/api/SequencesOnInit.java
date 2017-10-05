@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init.api;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
@@ -40,6 +41,7 @@ public class SequencesOnInit {
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,
+            GitReferenceUpdated.DISABLED,
             new Project.NameKey(allUsersName.get()),
             Sequences.NAME_ACCOUNTS,
             accountSeed,

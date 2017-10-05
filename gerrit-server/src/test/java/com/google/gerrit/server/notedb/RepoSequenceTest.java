@@ -25,6 +25,7 @@ import com.github.rholder.retry.StopStrategies;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
@@ -264,7 +265,14 @@ public class RepoSequenceTest {
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
     return new RepoSequence(
-        repoManager, project, name, () -> start, batchSize, afterReadRef, retryer);
+        repoManager,
+        GitReferenceUpdated.DISABLED,
+        project,
+        name,
+        () -> start,
+        batchSize,
+        afterReadRef,
+        retryer);
   }
 
   private ObjectId writeBlob(String sequenceName, String value) {

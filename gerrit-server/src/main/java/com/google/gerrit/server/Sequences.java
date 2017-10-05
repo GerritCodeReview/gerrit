@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.RepoSequence;
@@ -64,6 +65,7 @@ public class Sequences {
       Provider<ReviewDb> db,
       NotesMigration migration,
       GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
       AllProjectsName allProjects,
       AllUsersName allUsers,
       MetricMaker metrics) {
@@ -74,6 +76,7 @@ public class Sequences {
     accountSeq =
         new RepoSequence(
             repoManager,
+            gitRefUpdated,
             allUsers,
             NAME_ACCOUNTS,
             () -> ReviewDb.FIRST_ACCOUNT_ID,
@@ -84,7 +87,8 @@ public class Sequences {
     RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
     int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
     changeSeq =
-        new RepoSequence(repoManager, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
+        new RepoSequence(
+            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
 
     nextIdLatency =
         metrics.newTimer(

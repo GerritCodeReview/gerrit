@@ -61,15 +61,15 @@ public abstract class IndexConfig {
   public abstract static class Builder {
     public abstract Builder maxLimit(int maxLimit);
 
-    abstract int maxLimit();
+    public abstract int maxLimit();
 
     public abstract Builder maxPages(int maxPages);
 
-    abstract int maxPages();
+    public abstract int maxPages();
 
     public abstract Builder maxTerms(int maxTerms);
 
-    abstract int maxTerms();
+    public abstract int maxTerms();
 
     public abstract Builder separateChangeSubIndexes(boolean separate);
 

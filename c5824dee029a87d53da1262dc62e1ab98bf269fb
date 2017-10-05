@@ -22,6 +22,30 @@
       "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82effb6a_9d7465dd",
+        "filename": "version.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-05T13:41:18Z",
+      "side": 1,
+      "message": "I agree. The noise has to be reduced.",
+      "parentUuid": "4deedfec_afcb4777",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

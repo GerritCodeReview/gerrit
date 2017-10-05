@@ -14,9 +14,6 @@
 
 package com.google.gerrit.client;
 
-import static com.google.gerrit.client.CommonConstants.C;
-import static com.google.gerrit.client.CommonMessages.M;
-
 import java.util.Date;
 
 /**
@@ -24,6 +21,9 @@ import java.util.Date;
  * defined by {@code git log --relative-date}.
  */
 public class RelativeDateFormatter {
+  private static CommonConstants constants;
+  private static CommonMessages messages;
+
   static final long SECOND_IN_MILLIS = 1000;
   static final long MINUTE_IN_MILLIS = 60 * SECOND_IN_MILLIS;
   static final long HOUR_IN_MILLIS = 60 * MINUTE_IN_MILLIS;
@@ -31,6 +31,19 @@ public class RelativeDateFormatter {
   static final long WEEK_IN_MILLIS = 7 * DAY_IN_MILLIS;
   static final long MONTH_IN_MILLIS = 30 * DAY_IN_MILLIS;
   static final long YEAR_IN_MILLIS = 365 * DAY_IN_MILLIS;
+
+  static void setConstants(CommonConstants c, CommonMessages m) {
+    constants = c;
+    messages = m;
+  }
+
+  private static CommonConstants c() {
+    return constants != null ? constants : CommonConstants.C;
+  }
+
+  private static CommonMessages m() {
+    return messages != null ? messages : CommonMessages.M;
+  }
 
   /**
    * @param when {@link Date} to format
@@ -42,81 +55,85 @@ public class RelativeDateFormatter {
 
     // shouldn't happen in a perfect world
     if (ageMillis < 0) {
-      return C.inTheFuture();
+      return c().inTheFuture();
     }
 
     // seconds
     if (ageMillis < upperLimit(MINUTE_IN_MILLIS)) {
       long seconds = round(ageMillis, SECOND_IN_MILLIS);
       if (seconds == 1) {
-        return C.oneSecondAgo();
+        return c().oneSecondAgo();
       }
-      return M.secondsAgo(seconds);
+      return m().secondsAgo(seconds);
     }
 
     // minutes
     if (ageMillis < upperLimit(HOUR_IN_MILLIS)) {
       long minutes = round(ageMillis, MINUTE_IN_MILLIS);
       if (minutes == 1) {
-        return C.oneMinuteAgo();
+        return c().oneMinuteAgo();
       }
-      return M.minutesAgo(minutes);
+      return m().minutesAgo(minutes);
     }
 
     // hours
     if (ageMillis < upperLimit(DAY_IN_MILLIS)) {
       long hours = round(ageMillis, HOUR_IN_MILLIS);
       if (hours == 1) {
-        return C.oneHourAgo();
+        return c().oneHourAgo();
       }
-      return M.hoursAgo(hours);
+      return m().hoursAgo(hours);
     }
 
     // up to 14 days use days
     if (ageMillis < 14 * DAY_IN_MILLIS) {
       long days = round(ageMillis, DAY_IN_MILLIS);
       if (days == 1) {
-        return C.oneDayAgo();
+        return c().oneDayAgo();
       }
-      return M.daysAgo(days);
+      return m().daysAgo(days);
     }
 
     // up to 10 weeks use weeks
     if (ageMillis < 10 * WEEK_IN_MILLIS) {
       long weeks = round(ageMillis, WEEK_IN_MILLIS);
       if (weeks == 1) {
-        return C.oneWeekAgo();
+        return c().oneWeekAgo();
       }
-      return M.weeksAgo(weeks);
+      return m().weeksAgo(weeks);
     }
 
     // months
     if (ageMillis < YEAR_IN_MILLIS) {
       long months = round(ageMillis, MONTH_IN_MILLIS);
       if (months == 1) {
-        return C.oneMonthAgo();
+        return c().oneMonthAgo();
       }
-      return M.monthsAgo(months);
+      return m().monthsAgo(months);
     }
 
     // up to 5 years use "year, months" rounded to months
     if (ageMillis < 5 * YEAR_IN_MILLIS) {
       long years = ageMillis / YEAR_IN_MILLIS;
-      String yearLabel = (years > 1) ? C.years() : C.year();
+      String yearLabel = (years > 1) ? c().years() : c().year();
       long months = round(ageMillis % YEAR_IN_MILLIS, MONTH_IN_MILLIS);
-      String monthLabel = (months > 1) ? C.months() : (months == 1 ? C.month() : "");
+      String monthLabel = (months > 1) ? c().months() : (months == 1 ? c().month() : "");
       if (months == 0) {
-        return M.years0MonthsAgo(years, yearLabel);
+        return m().years0MonthsAgo(years, yearLabel);
       }
-      return M.yearsMonthsAgo(years, yearLabel, months, monthLabel);
+      if (months == 12) {
+        years++;
+        return m().years0MonthsAgo(years, yearLabel);
+      }
+      return m().yearsMonthsAgo(years, yearLabel, months, monthLabel);
     }
 
     // years
     long years = round(ageMillis, YEAR_IN_MILLIS);
     if (years == 1) {
-      return C.oneYearAgo();
+      return c().oneYearAgo();
     }
-    return M.yearsAgo(years);
+    return m().yearsAgo(years);
   }
 
   private static long upperLimit(long unit) {

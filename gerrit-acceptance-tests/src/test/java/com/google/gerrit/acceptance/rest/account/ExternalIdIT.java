@@ -55,6 +55,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -579,7 +580,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+          allUsers,
+          repo,
+          rw,
+          ins,
+          rev,
+          noteMap,
+          "Add external ID",
+          admin.getIdent(),
+          admin.getIdent(),
+          null,
+          GitReferenceUpdated.DISABLED);
       return noteId.getName();
     }
   }
@@ -600,7 +611,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+          allUsers,
+          repo,
+          rw,
+          ins,
+          rev,
+          noteMap,
+          "Add external ID",
+          admin.getIdent(),
+          admin.getIdent(),
+          null,
+          GitReferenceUpdated.DISABLED);
       return noteId.getName();
     }
   }
@@ -617,7 +638,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+          allUsers,
+          repo,
+          rw,
+          ins,
+          rev,
+          noteMap,
+          "Add external ID",
+          admin.getIdent(),
+          admin.getIdent(),
+          null,
+          GitReferenceUpdated.DISABLED);
       return noteId.getName();
     }
   }
@@ -634,7 +665,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
       noteMap.set(noteId, dataBlob);
 
       ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, "Add external ID", admin.getIdent(), admin.getIdent());
+          allUsers,
+          repo,
+          rw,
+          ins,
+          rev,
+          noteMap,
+          "Add external ID",
+          admin.getIdent(),
+          admin.getIdent(),
+          null,
+          GitReferenceUpdated.DISABLED);
       return noteId.getName();
     }
   }
@@ -690,6 +731,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
             new DisabledExternalIdCache(),
             serverIdent.get(),
             serverIdent.get(),
+            null,
+            GitReferenceUpdated.DISABLED,
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -726,6 +769,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
             new DisabledExternalIdCache(),
             serverIdent.get(),
             serverIdent.get(),
+            null,
+            GitReferenceUpdated.DISABLED,
             () -> {
               try {
                 extIdsUpdate
@@ -824,7 +869,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
       NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
       ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
       ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, "insert new ID", serverIdent.get(), serverIdent.get());
+          allUsers,
+          repo,
+          rw,
+          ins,
+          rev,
+          noteMap,
+          "insert new ID",
+          serverIdent.get(),
+          serverIdent.get(),
+          null,
+          GitReferenceUpdated.DISABLED);
     }
   }
 
@@ -839,6 +894,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       }
 
       ExternalIdsUpdate.commit(
+          allUsers,
           testRepo.getRepository(),
           testRepo.getRevWalk(),
           ins,
@@ -846,7 +902,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
           noteMap,
           "Add external ID",
           admin.getIdent(),
-          admin.getIdent());
+          admin.getIdent(),
+          null,
+          GitReferenceUpdated.DISABLED);
     }
   }
 

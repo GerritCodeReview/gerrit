@@ -37,7 +37,17 @@
         type: String,
         value: '',
       },
+      _query: {
+        type: Function,
+        value() {
+          return this._queryFiles.bind(this);
+        },
+      },
     },
+
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+    ],
 
     _handleTap(e) {
       e.preventDefault();
@@ -86,6 +96,13 @@
       const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path);
       Gerrit.Nav.navigateToRelativeUrl(url);
       this._closeDialog(Polymer.dom(e).localTarget);
+    },
+
+    _queryFiles(input) {
+      return this.$.restAPI.queryChangeFiles(this.change._number,
+          this.EDIT_NAME, input).then(res => res.map(file => {
+            return {name: file};
+          }));
     },
   });
 })();

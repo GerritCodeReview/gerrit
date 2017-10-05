@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -38,15 +39,15 @@ import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificateParser;
 
 public class GpgApiAdapterImpl implements GpgApiAdapter {
-  private final PostGpgKeys postGpgKeys;
-  private final GpgKeys gpgKeys;
+  private final Provider<PostGpgKeys> postGpgKeys;
+  private final Provider<GpgKeys> gpgKeys;
   private final GpgKeyApiImpl.Factory gpgKeyApiFactory;
   private final GerritPushCertificateChecker.Factory pushCertCheckerFactory;
 
   @Inject
   GpgApiAdapterImpl(
-      PostGpgKeys postGpgKeys,
-      GpgKeys gpgKeys,
+      Provider<PostGpgKeys> postGpgKeys,
+      Provider<GpgKeys> gpgKeys,
       GpgKeyApiImpl.Factory gpgKeyApiFactory,
       GerritPushCertificateChecker.Factory pushCertCheckerFactory) {
     this.postGpgKeys = postGpgKeys;
@@ -64,7 +65,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   public Map<String, GpgKeyInfo> listGpgKeys(AccountResource account)
       throws RestApiException, GpgException {
     try {
-      return gpgKeys.list().apply(account);
+      return gpgKeys.get().list().apply(account);
     } catch (OrmException | PGPException | IOException e) {
       throw new GpgException(e);
     }
@@ -78,7 +79,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     in.add = add;
     in.delete = delete;
     try {
-      return postGpgKeys.apply(account, in);
+      return postGpgKeys.get().apply(account, in);
     } catch (PGPException | OrmException | IOException | ConfigInvalidException e) {
       throw new GpgException(e);
     }
@@ -88,7 +89,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   public GpgKeyApi gpgKey(AccountResource account, IdString idStr)
       throws RestApiException, GpgException {
     try {
-      return gpgKeyApiFactory.create(gpgKeys.parse(account, idStr));
+      return gpgKeyApiFactory.create(gpgKeys.get().parse(account, idStr));
     } catch (PGPException | OrmException | IOException e) {
       throw new GpgException(e);
     }

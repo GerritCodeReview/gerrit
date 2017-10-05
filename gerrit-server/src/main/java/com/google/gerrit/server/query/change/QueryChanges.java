@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gwtorm.server.OrmException;
@@ -32,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +109,8 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     List<List<ChangeInfo>> out;
     try {
       out = query();
+    } catch (QueryRequiresAuthException e) {
+      throw new AuthException("Must be signed-in to use this operator");
     } catch (QueryParseException e) {
       // This is a hack to detect an operator that requires authentication.
       Pattern p =

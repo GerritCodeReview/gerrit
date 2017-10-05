@@ -1,5 +1,9 @@
 workspace(name = "gerrit")
 
+load("//:version.bzl", "check_version")
+
+check_version("0.5.3")
+
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")

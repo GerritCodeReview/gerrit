@@ -21,6 +21,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.SchemaFactory;
@@ -147,16 +149,32 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
+    private final SchemaFactory<ReviewDb> schema;
+    private final Groups groups;
+    private final Provider<GroupIndex> groupIndexProvider;
     private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
-    ByIdLoader(Provider<InternalGroupQuery> groupQueryProvider) {
+    ByIdLoader(
+        SchemaFactory<ReviewDb> schema,
+        Groups groups,
+        GroupIndexCollection groupIndexCollection,
+        Provider<InternalGroupQuery> groupQueryProvider) {
+      this.schema = schema;
+      this.groups = groups;
+      this.groupIndexProvider = groupIndexCollection::getSearchIndex;
       this.groupQueryProvider = groupQueryProvider;
     }
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      return groupQueryProvider.get().byId(key);
+      if (groupIndexProvider.get() != null) {
+        return groupQueryProvider.get().byId(key);
+      }
+
+      try (ReviewDb db = schema.open()) {
+        return groups.getGroup(db, key);
+      }
     }
   }
 

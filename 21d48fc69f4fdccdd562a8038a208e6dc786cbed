@@ -46,6 +46,30 @@
       "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "159fc82e_49beccc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-05T17:13:50Z",
+      "side": 1,
+      "message": "Ahh, and this works because of the behavior, even without explicitly declaring the property in gr-autocomplete-dropdown?",
+      "parentUuid": "6a8112af_8569060a",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

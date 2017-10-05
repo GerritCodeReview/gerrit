@@ -47,6 +47,30 @@
       "revId": "8984d5e0ddfa758ff9153cc26c49eab6d12d08e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ba21d6e_37d3a833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-05T11:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939d9674_f64c20ac",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 69
+      },
+      "revId": "8984d5e0ddfa758ff9153cc26c49eab6d12d08e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

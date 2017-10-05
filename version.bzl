@@ -3,3 +3,7 @@
 # when talking to the destination repository.
 #
 GERRIT_VERSION = "2.16-SNAPSHOT"
+
+def check_version(x):
+    if native.bazel_version < x:
+        fail("Current Bazel version is {}, expected at least {}".format(native.bazel_version, x))

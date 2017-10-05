@@ -121,6 +121,10 @@ public class RelativeDateFormatter {
       if (months == 0) {
         return m().years0MonthsAgo(years, yearLabel);
       }
+      if (months == 12) {
+        years++;
+        return m().years0MonthsAgo(years, yearLabel);
+      }
       return m().yearsMonthsAgo(years, yearLabel, months, monthLabel);
     }
 

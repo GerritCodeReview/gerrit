@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507219841 +0200\nnonce ANEgCxcfjcjziVXaPGKYabIave2i+l9/wccEFb1vQQzTNPxEVua9nsXy3KVG1LgP6kSIQDf8I7fA\n\n0000000000000000000000000000000000000000 b8b763781f3f05e946ab2044cc74ed52cb0ad6e9 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ1lmBAAoJEFG1/Zeg0O9R0JwH/jImWWbgsak518BmtwmjQCm6\nPSbxAyoSUjqqmv+S9ZD97yqZhJ8A0wHJsUat8v2/tjMlL4C7wLSQ6HYbPqF2Jxhs\ngTtVDqubnZoaFGYWIKJqrpBeEMXFTXNuPaZcEYVbemYdOj8nEvL/F6Lw1ZRuxMQK\n9H4LGn/dcyK59I/0OHhbgdmu/2a2Fjkt/CMlRlUL8tcYMqAb9EgHdHtyXSjSrzJA\nCCR842pIsUGVvjr6n0jT7FHQzbyWVAcIHHFtHBLDYcmusL/qOV3u7o9ncDitJpuP\nHcKkCX9s86WXMJn6nadpWB/iQdrLraJATXIsk+10DIeXjrxB+Cetf2sY56r52Qs\u003d\n\u003dYNaH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "131b4742_5df2cb42",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-05T21:29:24Z",
+      "side": 1,
+      "message": "Won\u0027t this NPE if the optional binding doesn\u0027t exist? Why is this not a problem currently with the account index?",
+      "range": {
+        "startLine": 157,
+        "startChar": 80,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e980187_536b81cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-05T20:14:58Z",
+      "side": 1,
+      "message": "your missed type: boolean,",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 17
+      },
+      "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33b7a0a5_0aa6af91",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
         "patchSetId": 9

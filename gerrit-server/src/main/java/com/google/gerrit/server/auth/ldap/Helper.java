@@ -136,6 +136,7 @@ class Helper {
   }
 
   private DirContext kerberosOpen(Properties env) throws LoginException, NamingException {
+    env.put("javax.security.sasl.qop", "auth-conf,auth-int,auth");
     LoginContext ctx = new LoginContext("KerberosLogin");
     ctx.login();
     Subject subject = ctx.getSubject();

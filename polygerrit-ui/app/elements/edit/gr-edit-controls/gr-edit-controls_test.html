@@ -37,12 +37,16 @@ suite('gr-edit-controls tests', () => {
   let sandbox;
   let showDialogSpy;
   let closeDialogSpy;
+  let queryStub;
 
   setup(() => {
     sandbox = sinon.sandbox.create();
     element = fixture('basic');
+    element.change = {_number: '42'};
     showDialogSpy = sandbox.spy(element, '_showDialog');
     closeDialogSpy = sandbox.spy(element, '_closeDialog');
+    queryStub = sandbox.stub(element.$.restAPI, 'queryChangeFiles')
+        .returns(Promise.resolve([]));
     flushAsynchronousOperations();
   });
 
@@ -67,7 +71,9 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(element.$$('#edit'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.editDialog.disabled);
-        element._path = 'src/test.cpp';
+        assert.isFalse(queryStub.called);
+        element.$.editDialog.querySelector('.input').text = 'src/test.cpp';
+        assert.isTrue(queryStub.called);
         assert.isFalse(element.$.editDialog.disabled);
         MockInteractions.tap(element.$.editDialog.$$('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
@@ -79,7 +85,7 @@ suite('gr-edit-controls tests', () => {
       MockInteractions.tap(element.$$('#edit'));
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.editDialog.disabled);
-        element._path = 'src/test.cpp';
+        element.$.editDialog.querySelector('.input').text = 'src/test.cpp';
         assert.isFalse(element.$.editDialog.disabled);
         MockInteractions.tap(element.$.editDialog.$$('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
@@ -92,7 +98,7 @@ suite('gr-edit-controls tests', () => {
   test('openEditDialog', () => {
     return element.openEditDialog('test/path.cpp').then(() => {
       assert.isFalse(element.$.editDialog.hasAttribute('hidden'));
-      assert.equal(element.$.editDialog.querySelector('.input').value,
+      assert.equal(element.$.editDialog.querySelector('.input').text,
           'test/path.cpp');
     });
   });

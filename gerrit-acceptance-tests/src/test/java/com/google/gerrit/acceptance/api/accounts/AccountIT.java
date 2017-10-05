@@ -81,6 +81,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
@@ -413,15 +414,24 @@ public class AccountIT extends AbstractDaemonTest {
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
+    refUpdateCounter.clear();
+
     gApi.accounts().self().starChange(triplet);
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
     assertThat(change.stars).contains(DEFAULT_LABEL);
+    refUpdateCounter.assertRefUpdateFor(
+        RefUpdateCounter.projectRef(
+            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id)));
 
     gApi.accounts().self().unstarChange(triplet);
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).isNull();
+    refUpdateCounter.assertRefUpdateFor(
+        RefUpdateCounter.projectRef(
+            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id)));
+
     accountIndexedCounter.assertNoReindex();
   }
 
@@ -429,6 +439,8 @@ public class AccountIT extends AbstractDaemonTest {
   public void starUnstarChangeWithLabels() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
+    refUpdateCounter.clear();
+
     assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
     assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
 
@@ -447,6 +459,9 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isTrue();
     assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+    refUpdateCounter.assertRefUpdateFor(
+        RefUpdateCounter.projectRef(
+            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id)));
 
     gApi.accounts()
         .self()
@@ -463,6 +478,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isNull();
     assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
+    refUpdateCounter.assertRefUpdateFor(
+        RefUpdateCounter.projectRef(
+            allUsers, RefNames.refsStarredChanges(new Change.Id(change._number), admin.id)));
+
     accountIndexedCounter.assertNoReindex();
 
     setApiUser(user);

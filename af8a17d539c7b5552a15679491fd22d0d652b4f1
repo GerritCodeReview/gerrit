@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507206070 +0200\nnonce ANEgCxcykuYXEY2Lr4QFgwXXNGs7EphUGLeLfFbp/o0Sebaaf1R2VH4GBucyyKbky5ffV4N/+LEA\n\n0000000000000000000000000000000000000000 af8a17d539c7b5552a15679491fd22d0d652b4f1 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ1iO2AAoJEFG1/Zeg0O9RDXQH/3EtoG78TSTIWQlZuV44+vIX\nTz5vb1ou8umNibYMYAb9cs3fOePCsJ1A9qMXNO2cgrtAuf4PEAJ7c8nyIi1lsSyq\n38ygafu6OQKgzTvtWfGVxGQXMJwzD/EcH4tShElRr974zwMZaGT/AsIZgMiHpKCn\nSwMkfQCCvKfwtoSi1T4Vp9XonJ5ssOF86Gg4Y/h1bt0QTMFTiMvKWw7DdKyjm+/0\nT9QsEkRXw4Ss1WncRqjTdDatBcWJZ5SVN7/ZJ4fWESjBpvH1MeX9nvMnl79vlScm\n0GIxY0eaMyjjKIqkir3yxAViTCnvUjVT3vCDkl2NRoqKS2mEyk4TPsafuNCdXZc\u003d\n\u003duEyu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "83462704_0a9ee008",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-05T13:23:19Z",
+      "side": 1,
+      "message": "Same question as in https://gerrit-review.googlesource.com/c/gerrit/+/130870, I don\u0027t see why this is necessary.",
+      "revId": "af8a17d539c7b5552a15679491fd22d0d652b4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

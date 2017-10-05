@@ -38,6 +38,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
@@ -67,6 +68,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -106,6 +108,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -155,6 +158,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
 
+  @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
+
   @Inject private Sequences seq;
 
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
@@ -163,6 +168,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
+  private RefUpdateCounter refUpdateCounter;
+  private RegistrationHandle refUpdateCounterHandle;
   private ExternalIdsUpdate externalIdsUpdate;
   private List<ExternalId> savedExternalIds;
 
@@ -176,6 +183,19 @@ public class AccountIT extends AbstractDaemonTest {
   public void removeAccountIndexEventCounter() {
     if (accountIndexEventCounterHandle != null) {
       accountIndexEventCounterHandle.remove();
+    }
+  }
+
+  @Before
+  public void addRefUpdateCounter() {
+    refUpdateCounter = new RefUpdateCounter();
+    refUpdateCounterHandle = refUpdateListeners.add(refUpdateCounter);
+  }
+
+  @After
+  public void removeRefUpdateCounter() {
+    if (refUpdateCounterHandle != null) {
+      refUpdateCounterHandle.remove();
     }
   }
 
@@ -228,16 +248,19 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void create() throws Exception {
-    create(2); // account creation + external ID creation
+    Account.Id accountId = create(2); // account creation + external ID creation
+    refUpdateCounter.assertRefUpdateFor(RefNames.refsUsers(accountId), RefNames.REFS_EXTERNAL_IDS);
   }
 
   @Test
   @UseSsh
   public void createWithSshKeys() throws Exception {
-    create(3); // account creation + external ID creation + adding SSH keys
+    Account.Id accountId = create(3); // account creation + external ID creation + adding SSH keys
+    refUpdateCounter.assertRefUpdateFor(
+        ImmutableMap.of(RefNames.refsUsers(accountId), 2, RefNames.REFS_EXTERNAL_IDS, 1));
   }
 
-  private void create(int expectedAccountReindexCalls) throws Exception {
+  private Account.Id create(int expectedAccountReindexCalls) throws Exception {
     String name = "foo";
     TestAccount foo = accountCreator.create(name);
     AccountInfo info = gApi.accounts().id(foo.id.get()).get();
@@ -245,6 +268,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo(name);
     accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
     assertUserBranch(foo.getId(), name, null);
+    return foo.getId();
   }
 
   @Test
@@ -1897,6 +1921,39 @@ public class AccountIT extends AbstractDaemonTest {
 
     void assertNoReindex() {
       assertThat(countsByAccount).isEmpty();
+    }
+  }
+
+  private static class RefUpdateCounter implements GitReferenceUpdatedListener {
+    private final AtomicLongMap<String> countsByRef = AtomicLongMap.create();
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      countsByRef.incrementAndGet(event.getRefName());
+    }
+
+    void clear() {
+      countsByRef.clear();
+    }
+
+    long getCount(String ref) {
+      return countsByRef.get(ref);
+    }
+
+    void assertRefUpdateFor(String... refs) {
+      Map<String, Integer> expectedRefUpdateCounts = new HashMap<>();
+      for (String ref : refs) {
+        expectedRefUpdateCounts.put(ref, 1);
+      }
+      assertRefUpdateFor(expectedRefUpdateCounts);
+    }
+
+    void assertRefUpdateFor(Map<String, Integer> expectedRefUpdateCounts) {
+      for (Map.Entry<String, Integer> e : expectedRefUpdateCounts.entrySet()) {
+        assertThat(getCount(e.getKey())).isEqualTo(e.getValue());
+      }
+      assertThat(countsByRef).hasSize(expectedRefUpdateCounts.size());
+      clear();
     }
   }
 }

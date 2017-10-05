@@ -38,31 +38,29 @@ limitations under the License.
         color: red;
       }
     </style>
-    <div>
-      <input
-          id="input"
-          class$="[[_computeClass(borderless)]]"
-          is="iron-input"
-          disabled$="[[disabled]]"
-          bind-value="{{text}}"
-          placeholder="[[placeholder]]"
-          on-keydown="_handleKeydown"
-          on-focus="_onInputFocus"
-          on-blur="_onInputBlur"
-          autocomplete="off"/>
-      <gr-autocomplete-dropdown
-          vertical-align="top"
-          vertical-offset="20"
-          horizontal-align="auto"
-          id="suggestions"
-          on-item-selected="_handleItemSelect"
-          on-keydown="_handleKeydown"
-          suggestions="[[_suggestions]]"
-          role="listbox"
-          index="[[_index]]"
-          position-target="[[_inputElement]]">
-      </gr-autocomplete-dropdown>
-    </div>
+    <input
+        id="input"
+        class$="[[_computeClass(borderless)]]"
+        is="iron-input"
+        disabled$="[[disabled]]"
+        bind-value="{{text}}"
+        placeholder="[[placeholder]]"
+        on-keydown="_handleKeydown"
+        on-focus="_onInputFocus"
+        on-blur="_onInputBlur"
+        autocomplete="off"/>
+    <gr-autocomplete-dropdown
+        vertical-align="top"
+        vertical-offset="20"
+        horizontal-align="auto"
+        id="suggestions"
+        on-item-selected="_handleItemSelect"
+        on-keydown="_handleKeydown"
+        suggestions="[[_suggestions]]"
+        role="listbox"
+        index="[[_index]]"
+        position-target="[[_inputElement]]">
+    </gr-autocomplete-dropdown>
   </template>
   <script src="gr-autocomplete.js"></script>
 </dom-module>

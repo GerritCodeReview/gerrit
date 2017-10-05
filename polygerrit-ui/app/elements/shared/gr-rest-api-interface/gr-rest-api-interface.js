@@ -904,6 +904,17 @@
           patchRange.patchNum);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string} patchNum
+     * @param {string} query
+     * @return {!Promise<!Object>}
+     */
+    queryChangeFiles(changeNum, patchNum, query) {
+      return this._getChangeURLAndFetch(changeNum,
+          `/files?q=${encodeURIComponent(query)}`, patchNum);
+    },
+
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));

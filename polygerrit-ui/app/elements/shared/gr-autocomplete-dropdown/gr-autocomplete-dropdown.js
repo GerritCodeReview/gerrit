@@ -46,6 +46,7 @@
       },
       suggestions: {
         type: Array,
+        value: () => [],
         observer: '_resetCursorStops',
       },
       _suggestionEls: {
@@ -151,8 +152,10 @@
     },
 
     _resetCursorStops() {
-      Polymer.dom.flush();
-      this._suggestionEls = this.$.suggestions.querySelectorAll('li');
+      if (this.suggestions.length > 0) {
+        Polymer.dom.flush();
+        this._suggestionEls = this.$.suggestions.querySelectorAll('li');
+      }
     },
 
     _resetCursorIndex() {

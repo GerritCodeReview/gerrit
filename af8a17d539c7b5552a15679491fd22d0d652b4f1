@@ -17,6 +17,24 @@
       "revId": "af8a17d539c7b5552a15679491fd22d0d652b4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59e5c86e_08231e35",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-05T14:14:31Z",
+      "side": 1,
+      "message": "Clarified that this is not needed for slaves. Still I think it should be included for people that want to backup the account data by replication.\n\nDone",
+      "parentUuid": "83462704_0a9ee008",
+      "revId": "af8a17d539c7b5552a15679491fd22d0d652b4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

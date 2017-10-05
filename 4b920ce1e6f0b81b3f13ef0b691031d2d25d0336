@@ -23,6 +23,30 @@
       "revId": "4b920ce1e6f0b81b3f13ef0b691031d2d25d0336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a07e8b_f66e2c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-05T13:27:20Z",
+      "side": 1,
+      "message": "Yeah, this ref is not needed on slaves. I was more thinking about the use case where replication is used to keep a backup system up-to-date. We used to do this at SAP. I can mention this in the commit message.",
+      "parentUuid": "3cb8fa87_e5b3ee32",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "4b920ce1e6f0b81b3f13ef0b691031d2d25d0336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

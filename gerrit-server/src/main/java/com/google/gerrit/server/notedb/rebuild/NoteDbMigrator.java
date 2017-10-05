@@ -51,6 +51,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.WorkQueue;
@@ -505,6 +506,7 @@ public class NoteDbMigrator implements AutoCloseable {
       RepoSequence seq =
           new RepoSequence(
               repoManager,
+              GitReferenceUpdated.DISABLED,
               allProjects,
               Sequences.NAME_CHANGES,
               // If sequenceGap is 0, this writes into the sequence ref the same ID that is returned

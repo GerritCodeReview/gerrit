@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
@@ -42,7 +43,13 @@ public class Schema_155 extends SchemaVersion {
     @SuppressWarnings("deprecation")
     RepoSequence.Seed accountSeed = () -> db.nextAccountId();
     RepoSequence accountSeq =
-        new RepoSequence(repoManager, allUsersName, Sequences.NAME_ACCOUNTS, accountSeed, 1);
+        new RepoSequence(
+            repoManager,
+            GitReferenceUpdated.DISABLED,
+            allUsersName,
+            Sequences.NAME_ACCOUNTS,
+            accountSeed,
+            1);
 
     // consume one account ID to ensure that the account sequence is initialized in NoteDb
     accountSeq.next();

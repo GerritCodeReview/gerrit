@@ -252,7 +252,8 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id accountId = create(2); // account creation + external ID creation
     refUpdateCounter.assertRefUpdateFor(
         RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
-        RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS));
+        RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
+        RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
   }
 
   @Test
@@ -264,6 +265,9 @@ public class AccountIT extends AbstractDaemonTest {
             RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
             2,
             RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
+            1,
+            RefUpdateCounter.projectRef(
+                allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS),
             1));
   }
 

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "96f86249_a1f7dbd0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-05T19:06:12Z",
+      "side": 1,
+      "message": "Yes -- this is supposed to follow the pattern of the change-actions, in which there is one gr-overlay with many dialogs. Because of that, I need to manage the open state of the overlay separate to the visibility of each dialog.\n\nHidden itself isnt necessary, though. Will switch to a class toggle.",
+      "parentUuid": "ab93d315_a246f14a",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 16
+      },
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6521edf1_23bf608a",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
         "patchSetId": 1
@@ -68,6 +92,30 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffb1196_93727a56",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-05T19:06:12Z",
+      "side": 1,
+      "message": "It ended up being a little more difficult than I wanted for the hackathon... But will take a second look.",
+      "parentUuid": "6521edf1_23bf608a",
+      "range": {
+        "startLine": 72,
+        "startChar": 43,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -257,6 +305,30 @@
       "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b33bb056_64b366f3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-05T19:06:12Z",
+      "side": 1,
+      "message": "This function is supposed to be generic. Later added dialogs will have more than one input.",
+      "parentUuid": "1fd55380_25bf4374",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

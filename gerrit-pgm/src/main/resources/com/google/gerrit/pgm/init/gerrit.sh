@@ -289,7 +289,11 @@ fi
 
 GERRIT_FDS=`get_config --int core.packedGitOpenFiles`
 test -z "$GERRIT_FDS" && GERRIT_FDS=128
-GERRIT_FDS=`expr $GERRIT_FDS + $GERRIT_FDS`
+FDS_MULTIPLIER=2
+USE_LFS=`get_config --get lfs.plugin`
+test -n "$USE_LFS" && FDS_MULTIPLIER=3
+
+GERRIT_FDS=`expr $FDS_MULTIPLIER \* $GERRIT_FDS`
 test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
 GERRIT_STARTUP_TIMEOUT=`get_config --get container.startupTimeout`

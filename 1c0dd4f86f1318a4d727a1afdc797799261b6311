@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "c4b852e3_712ab4de",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-05T19:26:51Z",
+      "side": 1,
+      "message": "Ah, so I didn\u0027t do this in this change because it requires adding more to the rest-api. I think I\u0027m just going to do it in a descendant change -- I\u0027d like to keep the paper-input styling for the autocomplete, which may involve changing the autocomplete itself.",
+      "parentUuid": "1ffb1196_93727a56",
+      "range": {
+        "startLine": 72,
+        "startChar": 43,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "1c0dd4f86f1318a4d727a1afdc797799261b6311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2890a223_5fd48032",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
         "patchSetId": 1

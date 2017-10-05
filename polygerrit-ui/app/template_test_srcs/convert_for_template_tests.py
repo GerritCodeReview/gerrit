@@ -89,6 +89,7 @@ if __name__ == "__main__":
   # Special case for polymer behaviors we are using.
   replaceBehaviorLikeHTML("polygerrit-ui/app/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html", "iron-a11y-keys-behavior.html")
   generateStubBehavior("Polymer.IronOverlayBehavior")
+  generateStubBehavior("Polymer.IronFitBehavior")
 
   #TODO figure out something to do with iron-overlay-behavior. it is hard-coded reformatted.
 

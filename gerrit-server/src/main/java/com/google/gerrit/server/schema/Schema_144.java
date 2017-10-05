@@ -21,6 +21,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -93,7 +94,18 @@ public class Schema_144 extends SchemaVersion {
           ExternalIdsUpdate.upsert(rw, ins, noteMap, extId);
         }
 
-        ExternalIdsUpdate.commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, serverIdent, serverIdent);
+        ExternalIdsUpdate.commit(
+            allUsersName,
+            repo,
+            rw,
+            ins,
+            rev,
+            noteMap,
+            COMMIT_MSG,
+            serverIdent,
+            serverIdent,
+            null,
+            GitReferenceUpdated.DISABLED);
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Failed to migrate external IDs to NoteDb", e);

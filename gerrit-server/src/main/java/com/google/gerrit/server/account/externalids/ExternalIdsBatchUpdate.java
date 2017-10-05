@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ExternalIdsBatchUpdate {
   private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
   private final ExternalIdCache externalIdCache;
@@ -50,10 +52,12 @@ public class ExternalIdsBatchUpdate {
   @Inject
   public ExternalIdsBatchUpdate(
       GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
       AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent serverIdent,
       ExternalIdCache externalIdCache) {
     this.repoManager = repoManager;
+    this.gitRefUpdated = gitRefUpdated;
     this.allUsersName = allUsersName;
     this.serverIdent = serverIdent;
     this.externalIdCache = externalIdCache;
@@ -105,7 +109,17 @@ public class ExternalIdsBatchUpdate {
 
       ObjectId newRev =
           ExternalIdsUpdate.commit(
-              repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+              allUsersName,
+              repo,
+              rw,
+              ins,
+              rev,
+              noteMap,
+              commitMessage,
+              serverIdent,
+              serverIdent,
+              null,
+              gitRefUpdated);
       externalIdCache.onReplace(rev, newRev, toDelete, toAdd);
     }
 

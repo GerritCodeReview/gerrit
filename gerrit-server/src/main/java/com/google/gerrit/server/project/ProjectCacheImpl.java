@@ -28,8 +28,10 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.index.project.ProjectIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
@@ -82,6 +84,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final ProjectCacheClock clock;
+  private final Provider<ProjectIndexer> indexer;
 
   @Inject
   ProjectCacheImpl(
@@ -89,13 +92,15 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list,
-      ProjectCacheClock clock) {
+      ProjectCacheClock clock,
+      Provider<ProjectIndexer> indexer) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
     this.clock = clock;
+    this.indexer = indexer;
   }
 
   @Override
@@ -151,22 +156,20 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void evict(Project p) {
-    if (p != null) {
-      byName.invalidate(p.getNameKey().get());
-    }
+  public void evict(Project p) throws IOException {
+    evict(p.getNameKey());
   }
 
-  /** Invalidate the cached information about the given project. */
   @Override
-  public void evict(Project.NameKey p) {
+  public void evict(Project.NameKey p) throws IOException {
     if (p != null) {
       byName.invalidate(p.get());
     }
+    indexer.get().index(p);
   }
 
   @Override
-  public void remove(Project p) {
+  public void remove(Project p) throws IOException {
     listLock.lock();
     try {
       SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
@@ -181,7 +184,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
-  public void onCreateProject(Project.NameKey newProjectName) {
+  public void onCreateProject(Project.NameKey newProjectName) throws IOException {
     listLock.lock();
     try {
       SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
@@ -192,6 +195,7 @@ public class ProjectCacheImpl implements ProjectCache {
     } finally {
       listLock.unlock();
     }
+    indexer.get().index(newProjectName);
   }
 
   @Override

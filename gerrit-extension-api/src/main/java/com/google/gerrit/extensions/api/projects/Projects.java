@@ -58,6 +58,24 @@ public interface Projects {
 
   ListRequest list();
 
+  /**
+   * Query projects.
+   *
+   * <p>Example code: {@code query().withQuery("name:project").get()}
+   *
+   * @return API for setting parameters and getting result.
+   */
+  QueryRequest query();
+
+  /**
+   * Query projects.
+   *
+   * <p>Shortcut API for {@code query().withQuery(String)}.
+   *
+   * @see #query()
+   */
+  QueryRequest query(String query);
+
   abstract class ListRequest {
     public enum FilterType {
       CODE,
@@ -172,6 +190,56 @@ public interface Projects {
   }
 
   /**
+   * API for setting parameters and getting result. Used for {@code query()}.
+   *
+   * @see #query()
+   */
+  abstract class QueryRequest {
+    private String query;
+    private int limit;
+    private int start;
+
+    /** Execute query and returns the matched projects as list. */
+    public abstract List<ProjectInfo> get() throws RestApiException;
+
+    /**
+     * Set query.
+     *
+     * @param query needs to be in human-readable form.
+     */
+    public QueryRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    /**
+     * Set limit for returned list of projects. Optional; server-default is used when not provided.
+     */
+    public QueryRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    /** Set number of projects to skip. Optional; no projects are skipped when not provided. */
+    public QueryRequest withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public int getStart() {
+      return start;
+    }
+  }
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -193,6 +261,16 @@ public interface Projects {
 
     @Override
     public ListRequest list() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query(String query) {
       throw new NotImplementedException();
     }
   }

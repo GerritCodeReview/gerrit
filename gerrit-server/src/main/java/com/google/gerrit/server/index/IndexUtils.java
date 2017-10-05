@@ -26,6 +26,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import java.io.IOException;
 import java.util.Set;
@@ -92,6 +93,13 @@ public final class IndexUtils {
       return "group:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
     }
     return user.toString();
+  }
+
+  public static Set<String> projectFields(QueryOptions opts) {
+    Set<String> fs = opts.fields();
+    return fs.contains(ProjectField.NAME.getName())
+        ? fs
+        : Sets.union(fs, ImmutableSet.of(ProjectField.NAME.getName()));
   }
 
   private IndexUtils() {

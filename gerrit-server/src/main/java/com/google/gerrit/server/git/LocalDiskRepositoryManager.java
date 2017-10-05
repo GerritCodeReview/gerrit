@@ -196,11 +196,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       Project.NameKey onDiskName = getProjectName(path, dir.getCanonicalFile().toPath());
       onCreateProject(onDiskName);
 
-      loc = FileKey.exact(dir, FS.DETECTED);
-
       if (!names.contains(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
+
+      loc = FileKey.exact(dir, FS.DETECTED);
     } else {
       // It doesn't exist under any of the standard permutations
       // of the repository name, so prefer the standard bare name.

@@ -22,6 +22,30 @@
       "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8112af_8569060a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-05T17:09:48Z",
+      "side": 1,
+      "message": "It basically says align it to the left (l.76) unless there isn\u0027t space, it will pick the values which minimize the cropping\n\nhttps://github.com/PolymerElements/iron-fit-behavior/blob/master/iron-fit-behavior.html#L118",
+      "parentUuid": "33b7a0a5_0aa6af91",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

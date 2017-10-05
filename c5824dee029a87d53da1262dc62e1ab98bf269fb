@@ -46,6 +46,30 @@
       "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b0f3a7_fe88d00b",
+        "filename": "version.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-05T13:50:13Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s possible to eliminate the subsequent error messages from the bazel internals. But you can certainly prepend \"ERROR:\" and maybe append something like a divider line to make this error message more prominent.",
+      "parentUuid": "82effb6a_9d7465dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

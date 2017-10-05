@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
@@ -31,8 +32,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -55,7 +59,8 @@ public class InitAdminUser implements InitStep {
   private final SequencesOnInit sequencesOnInit;
   private final GroupsOnInit groupsOnInit;
   private SchemaFactory<ReviewDb> dbFactory;
-  private AccountIndexCollection indexCollection;
+  private AccountIndexCollection accountIndexCollection;
+  private GroupIndexCollection groupIndexCollection;
 
   @Inject
   InitAdminUser(
@@ -86,8 +91,13 @@ public class InitAdminUser implements InitStep {
   }
 
   @Inject(optional = true)
-  void set(AccountIndexCollection indexCollection) {
-    this.indexCollection = indexCollection;
+  void set(AccountIndexCollection accountIndexCollection) {
+    this.accountIndexCollection = accountIndexCollection;
+  }
+
+  @Inject(optional = true)
+  void set(GroupIndexCollection groupIndexCollection) {
+    this.groupIndexCollection = groupIndexCollection;
   }
 
   @Override
@@ -138,8 +148,14 @@ public class InitAdminUser implements InitStep {
                   Collections.singleton(adminGroup.getGroupUUID()),
                   extIds,
                   new HashMap<>());
-          for (AccountIndex accountIndex : indexCollection.getWriteIndexes()) {
+          for (AccountIndex accountIndex : accountIndexCollection.getWriteIndexes()) {
             accountIndex.replace(as);
+          }
+
+          InternalGroup adminInternalGroup =
+              InternalGroup.create(adminGroup, ImmutableSet.of(id), ImmutableSet.of());
+          for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
+            groupIndex.replace(adminInternalGroup);
           }
         }
       }

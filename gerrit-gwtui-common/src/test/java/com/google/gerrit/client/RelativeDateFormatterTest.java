@@ -22,10 +22,22 @@ import static com.google.gerrit.client.RelativeDateFormatter.YEAR_IN_MILLIS;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
-import org.eclipse.jgit.util.RelativeDateFormatter;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RelativeDateFormatterTest {
+
+  @BeforeClass
+  public static void setConstants() {
+    Constants c = new Constants();
+    RelativeDateFormatter.setConstants(c, c);
+  }
+
+  @AfterClass
+  public static void unsetConstants() {
+    RelativeDateFormatter.setConstants(null, null);
+  }
 
   private static void assertFormat(long ageFromNow, long timeUnit, String expectedFormat) {
     Date d = new Date(System.currentTimeMillis() - ageFromNow * timeUnit);
@@ -41,7 +53,7 @@ public class RelativeDateFormatterTest {
 
   @Test
   public void formatSeconds() {
-    assertFormat(1, SECOND_IN_MILLIS, "1 seconds ago");
+    assertFormat(1, SECOND_IN_MILLIS, "1 second ago");
     assertFormat(89, SECOND_IN_MILLIS, "89 seconds ago");
   }
 
@@ -92,5 +104,112 @@ public class RelativeDateFormatterTest {
   public void formatYears() {
     assertFormat(5, YEAR_IN_MILLIS, "5 years ago");
     assertFormat(60, YEAR_IN_MILLIS, "60 years ago");
+  }
+
+  private static class Constants implements CommonConstants, CommonMessages {
+    @Override
+    public String inTheFuture() {
+      return "in the future";
+    }
+
+    @Override
+    public String month() {
+      return "month";
+    }
+
+    @Override
+    public String months() {
+      return "months";
+    }
+
+    @Override
+    public String year() {
+      return "year";
+    }
+
+    @Override
+    public String years() {
+      return "years";
+    }
+
+    @Override
+    public String oneSecondAgo() {
+      return "1 second ago";
+    }
+
+    @Override
+    public String oneMinuteAgo() {
+      return "1 minute ago";
+    }
+
+    @Override
+    public String oneHourAgo() {
+      return "1 hour ago";
+    }
+
+    @Override
+    public String oneDayAgo() {
+      return "1 day ago";
+    }
+
+    @Override
+    public String oneWeekAgo() {
+      return "1 week ago";
+    }
+
+    @Override
+    public String oneMonthAgo() {
+      return "1 month ago";
+    }
+
+    @Override
+    public String oneYearAgo() {
+      return "1 year ago";
+    }
+
+    @Override
+    public String secondsAgo(long seconds) {
+      return seconds + " seconds ago";
+    }
+
+    @Override
+    public String minutesAgo(long minutes) {
+      return minutes + " minutes ago";
+    }
+
+    @Override
+    public String hoursAgo(long hours) {
+      return hours + " hours ago";
+    }
+
+    @Override
+    public String daysAgo(long days) {
+      return days + " days ago";
+    }
+
+    @Override
+    public String weeksAgo(long weeks) {
+      return weeks + " weeks ago";
+    }
+
+    @Override
+    public String monthsAgo(long months) {
+      return months + " months ago";
+    }
+
+    @Override
+    public String yearsAgo(long years) {
+      return years + " years ago";
+    }
+
+    @Override
+    public String years0MonthsAgo(long years, String yearLabel) {
+      return years + " " + yearLabel + " ago";
+    }
+
+    @Override
+    public String yearsMonthsAgo(long years, String yearLabel, long months, String monthLabel) {
+      return years + " " + yearLabel + ", " + months + " " + monthLabel + " ago";
+    }
   }
 }

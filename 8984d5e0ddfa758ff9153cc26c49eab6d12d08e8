@@ -23,6 +23,30 @@
       "revId": "8984d5e0ddfa758ff9153cc26c49eab6d12d08e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939d9674_f64c20ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-10-05T08:35:08Z",
+      "side": 1,
+      "message": "But with the .get() call also, obviously...",
+      "parentUuid": "f25c225b_f747e196",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 69
+      },
+      "revId": "8984d5e0ddfa758ff9153cc26c49eab6d12d08e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

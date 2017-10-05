@@ -36,6 +36,7 @@ import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -391,23 +392,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return asUser(userFactory.create(otherId));
     }
 
-    IdentifiedUser getIdentifiedUser() throws QueryParseException {
+    IdentifiedUser getIdentifiedUser() throws QueryRequiresAuthException {
       try {
         CurrentUser u = getUser();
         if (u.isIdentifiedUser()) {
           return u.asIdentifiedUser();
         }
-        throw new QueryParseException(NotSignedInException.MESSAGE);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE);
       } catch (ProvisionException e) {
-        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE, e);
       }
     }
 
-    CurrentUser getUser() throws QueryParseException {
+    CurrentUser getUser() throws QueryRequiresAuthException {
       try {
         return self.get();
       } catch (ProvisionException e) {
-        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+        throw new QueryRequiresAuthException(NotSignedInException.MESSAGE, e);
       }
     }
 

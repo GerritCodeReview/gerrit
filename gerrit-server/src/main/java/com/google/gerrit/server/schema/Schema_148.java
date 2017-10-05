@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -84,7 +85,18 @@ public class Schema_148 extends SchemaVersion {
         }
       }
       if (dirty) {
-        ExternalIdsUpdate.commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, serverUser, serverUser);
+        ExternalIdsUpdate.commit(
+            allUsersName,
+            repo,
+            rw,
+            ins,
+            rev,
+            noteMap,
+            COMMIT_MSG,
+            serverUser,
+            serverUser,
+            null,
+            GitReferenceUpdated.DISABLED);
       }
     } catch (IOException e) {
       throw new OrmException("Failed to update external IDs", e);

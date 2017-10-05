@@ -41,11 +41,13 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -111,6 +113,7 @@ public class ExternalIdsUpdate {
     private final ExternalIds externalIds;
     private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
+    private final GitReferenceUpdated gitRefUpdated;
 
     @Inject
     public Server(
@@ -120,7 +123,8 @@ public class ExternalIdsUpdate {
         MetricMaker metricMaker,
         ExternalIds externalIds,
         ExternalIdCache externalIdCache,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        GitReferenceUpdated gitRefUpdated) {
       this.repoManager = repoManager;
       this.accountCache = accountCache;
       this.allUsersName = allUsersName;
@@ -128,12 +132,22 @@ public class ExternalIdsUpdate {
       this.externalIds = externalIds;
       this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
+      this.gitRefUpdated = gitRefUpdated;
     }
 
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
       return new ExternalIdsUpdate(
-          repoManager, accountCache, allUsersName, metricMaker, externalIds, externalIdCache, i, i);
+          repoManager,
+          accountCache,
+          allUsersName,
+          metricMaker,
+          externalIds,
+          externalIdCache,
+          i,
+          i,
+          null,
+          gitRefUpdated);
     }
   }
 
@@ -154,6 +168,7 @@ public class ExternalIdsUpdate {
     private final ExternalIds externalIds;
     private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
+    private final GitReferenceUpdated gitRefUpdated;
 
     @Inject
     public ServerNoReindex(
@@ -162,19 +177,30 @@ public class ExternalIdsUpdate {
         MetricMaker metricMaker,
         ExternalIds externalIds,
         ExternalIdCache externalIdCache,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        GitReferenceUpdated gitRefUpdated) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
       this.metricMaker = metricMaker;
       this.externalIds = externalIds;
       this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
+      this.gitRefUpdated = gitRefUpdated;
     }
 
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
       return new ExternalIdsUpdate(
-          repoManager, null, allUsersName, metricMaker, externalIds, externalIdCache, i, i);
+          repoManager,
+          null,
+          allUsersName,
+          metricMaker,
+          externalIds,
+          externalIdCache,
+          i,
+          i,
+          null,
+          gitRefUpdated);
     }
   }
 
@@ -194,6 +220,7 @@ public class ExternalIdsUpdate {
     private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
+    private final GitReferenceUpdated gitRefUpdated;
 
     @Inject
     public User(
@@ -204,7 +231,8 @@ public class ExternalIdsUpdate {
         ExternalIds externalIds,
         ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        Provider<IdentifiedUser> identifiedUser) {
+        Provider<IdentifiedUser> identifiedUser,
+        GitReferenceUpdated gitRefUpdated) {
       this.repoManager = repoManager;
       this.accountCache = accountCache;
       this.allUsersName = allUsersName;
@@ -213,9 +241,11 @@ public class ExternalIdsUpdate {
       this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
       this.identifiedUser = identifiedUser;
+      this.gitRefUpdated = gitRefUpdated;
     }
 
     public ExternalIdsUpdate create() {
+      IdentifiedUser user = identifiedUser.get();
       PersonIdent i = serverIdent.get();
       return new ExternalIdsUpdate(
           repoManager,
@@ -224,8 +254,10 @@ public class ExternalIdsUpdate {
           metricMaker,
           externalIds,
           externalIdCache,
-          createPersonIdent(i, identifiedUser.get()),
-          i);
+          createPersonIdent(i, user),
+          i,
+          user,
+          gitRefUpdated);
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -253,6 +285,8 @@ public class ExternalIdsUpdate {
   private final ExternalIdCache externalIdCache;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
+  @Nullable private final IdentifiedUser currentUser;
+  private final GitReferenceUpdated gitRefUpdated;
   private final Runnable afterReadRevision;
   private final Retryer<RefsMetaExternalIdsUpdate> retryer;
   private final Counter0 updateCount;
@@ -265,7 +299,9 @@ public class ExternalIdsUpdate {
       ExternalIds externalIds,
       ExternalIdCache externalIdCache,
       PersonIdent committerIdent,
-      PersonIdent authorIdent) {
+      PersonIdent authorIdent,
+      @Nullable IdentifiedUser currentUser,
+      GitReferenceUpdated gitRefUpdated) {
     this(
         repoManager,
         accountCache,
@@ -275,6 +311,8 @@ public class ExternalIdsUpdate {
         externalIdCache,
         committerIdent,
         authorIdent,
+        currentUser,
+        gitRefUpdated,
         Runnables.doNothing(),
         RETRYER);
   }
@@ -289,6 +327,8 @@ public class ExternalIdsUpdate {
       ExternalIdCache externalIdCache,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
+      @Nullable IdentifiedUser currentUser,
+      GitReferenceUpdated gitRefUpdated,
       Runnable afterReadRevision,
       Retryer<RefsMetaExternalIdsUpdate> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
@@ -298,6 +338,8 @@ public class ExternalIdsUpdate {
     this.externalIds = checkNotNull(externalIds, "externalIds");
     this.externalIdCache = checkNotNull(externalIdCache, "externalIdCache");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
+    this.currentUser = currentUser;
+    this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
     this.retryer = checkNotNull(retryer, "retryer");
     this.updateCount =
@@ -732,13 +774,26 @@ public class ExternalIdsUpdate {
       NoteMap noteMap,
       UpdatedExternalIds updatedExtIds)
       throws IOException {
-    ObjectId newRev = commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, committerIdent, authorIdent);
+    ObjectId newRev =
+        commit(
+            allUsersName,
+            repo,
+            rw,
+            ins,
+            rev,
+            noteMap,
+            COMMIT_MSG,
+            committerIdent,
+            authorIdent,
+            currentUser,
+            gitRefUpdated);
     updateCount.increment();
     return RefsMetaExternalIdsUpdate.create(rev, newRev, updatedExtIds);
   }
 
   /** Commits updates to the external IDs. */
   public static ObjectId commit(
+      Project.NameKey project,
       Repository repo,
       RevWalk rw,
       ObjectInserter ins,
@@ -746,7 +801,9 @@ public class ExternalIdsUpdate {
       NoteMap noteMap,
       String commitMessage,
       PersonIdent committerIdent,
-      PersonIdent authorIdent)
+      PersonIdent authorIdent,
+      @Nullable IdentifiedUser user,
+      GitReferenceUpdated gitRefUpdated)
       throws IOException {
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(commitMessage);
@@ -793,6 +850,7 @@ public class ExternalIdsUpdate {
       default:
         throw new IOException("Updating external IDs failed with " + res);
     }
+    gitRefUpdated.fire(project, u, user != null ? user.getAccount() : null);
     return rw.parseCommit(commitId);
   }
 

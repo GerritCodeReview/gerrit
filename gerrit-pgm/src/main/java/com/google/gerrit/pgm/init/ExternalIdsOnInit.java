@@ -16,11 +16,13 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
@@ -67,7 +69,17 @@ public class ExternalIdsOnInit {
 
         PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
         ExternalIdsUpdate.commit(
-            repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+            new Project.NameKey(allUsers),
+            repo,
+            rw,
+            ins,
+            rev,
+            noteMap,
+            commitMessage,
+            serverIdent,
+            serverIdent,
+            null,
+            GitReferenceUpdated.DISABLED);
       }
     }
   }

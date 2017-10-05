@@ -70,6 +70,30 @@
       "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bdd7799_a59fbbbf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-05T18:05:27Z",
+      "side": 1,
+      "message": "Yep, exactly. 👍",
+      "parentUuid": "159fc82e_49beccc3",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 21
+      },
+      "revId": "21d48fc69f4fdccdd562a8038a208e6dc786cbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -692,7 +692,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
-    PushOneCommit.Result r = push.to("refs/for/master/%m=my_test_message");
+    PushOneCommit.Result r = push.to("refs/for/master/%m=my_test%20message%2Cm=");
     r.assertOkStatus();
 
     push =
@@ -714,8 +714,29 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       if (ri.isCurrent) {
         assertThat(ri.description).isEqualTo("new test message");
       } else {
-        assertThat(ri.description).isEqualTo("my test message");
+        assertThat(ri.description).isEqualTo("my test message,m=");
       }
+    }
+  }
+
+  @Test
+  public void pushForMasterWithPercentEncodedMessage() throws Exception {
+    PushOneCommit.Result r =
+        pushTo(
+            "refs/for/master/%m=Punctuation%40%7Bu%7D%20%7C%20%28%E2%95%AF%C2%B0%E2%96%A1%C2%B0%EF"
+                + "%BC%89%E2%95%AF%EF%B8%B5+%E2%94%BB%E2%94%81%E2%94%BB%20%5E%5F%5E");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+    ChangeInfo ci = get(r.getChangeId());
+    Collection<ChangeMessageInfo> changeMessages = ci.messages;
+    assertThat(changeMessages).hasSize(1);
+    for (ChangeMessageInfo cm : changeMessages) {
+      assertThat(cm.message).isEqualTo("Uploaded patch set 1.\nPunctuation@{u} | (╯°□°）╯︵ ┻━┻ ^_^");
+    }
+    Collection<RevisionInfo> revisions = ci.revisions.values();
+    assertThat(revisions).hasSize(1);
+    for (RevisionInfo ri : revisions) {
+      assertThat(ri.description).isEqualTo("Punctuation@{u} | (╯°□°）╯︵ ┻━┻ ^_^");
     }
   }
 

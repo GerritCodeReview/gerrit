@@ -304,8 +304,9 @@ option:
 ----
 
 [NOTE]
-git push refs parameter does not allow spaces.  Use the '_' character instead,
-it will then be applied as "This is a rebase on master".
+git push refs parameter does not allow spaces.  Use the '_' character to represent
+spaces; it will then be applied as "This is a rebase on master". Percent-encoding
+may be used to represent other unsafe characters.
 
 [[publish-comments]]
 ==== Publish Draft Comments

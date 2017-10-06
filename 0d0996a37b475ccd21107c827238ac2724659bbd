@@ -17,6 +17,24 @@
       "revId": "0d0996a37b475ccd21107c827238ac2724659bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "918e5c80_ace6e6cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-06T10:48:23Z",
+      "side": 1,
+      "message": "\u003e Why do we expect that a change is reindexed in this case?\n\nDone.\n\n\u003e Should we also test for reindex when setting the ignore and mute stars?\n\nI think it\u0027s enough to test this for one star label, but we expect that the change is reindexed on setting any star label.",
+      "parentUuid": "81b01532_c0a99491",
+      "revId": "0d0996a37b475ccd21107c827238ac2724659bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

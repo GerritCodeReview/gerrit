@@ -34,8 +34,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -111,8 +109,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final Path basePath;
-  private final Lock namesUpdateLock;
-  private volatile SortedSet<Project.NameKey> names = new TreeSet<>();
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
@@ -120,8 +116,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
-
-    namesUpdateLock = new ReentrantLock(true /* fair */);
   }
 
   /**
@@ -144,32 +138,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    File gitDir = path.resolve(name.get()).toFile();
-    if (!names.contains(name)) {
-      // The this.names list does not hold the project-name but it can still exist
-      // on disk; for instance when the project has been created directly on the
-      // file-system through replication.
-      //
-      if (!name.get().endsWith(Constants.DOT_GIT_EXT)) {
-        if (FileKey.resolve(gitDir, FS.DETECTED) != null) {
-          onCreateProject(name);
-        } else {
-          throw new RepositoryNotFoundException(gitDir);
-        }
-      } else {
-        final File directory = gitDir;
-        if (FileKey.isGitRepository(new File(directory, Constants.DOT_GIT), FS.DETECTED)) {
-          onCreateProject(name);
-        } else if (FileKey.isGitRepository(
-            new File(directory.getParentFile(), directory.getName() + Constants.DOT_GIT_EXT),
-            FS.DETECTED)) {
-          onCreateProject(name);
-        } else {
-          throw new RepositoryNotFoundException(gitDir);
-        }
-      }
-    }
-    final FileKey loc = FileKey.lenient(gitDir, FS.DETECTED);
+    FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
@@ -194,9 +163,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       // Already exists on disk, use the repository we found.
       //
       Project.NameKey onDiskName = getProjectName(path, dir.getCanonicalFile().toPath());
-      onCreateProject(onDiskName);
 
-      if (!names.contains(name)) {
+      if (!onDiskName.equals(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
 
@@ -231,25 +199,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
                 "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name));
       }
 
-      onCreateProject(name);
-
       return db;
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
       e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
-    }
-  }
-
-  private void onCreateProject(Project.NameKey newProjectName) {
-    namesUpdateLock.lock();
-    try {
-      SortedSet<Project.NameKey> n = new TreeSet<>(names);
-      n.add(newProjectName);
-      names = Collections.unmodifiableSortedSet(n);
-    } finally {
-      namesUpdateLock.unlock();
     }
   }
 
@@ -281,21 +236,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public SortedSet<Project.NameKey> list() {
-    // The results of this method are cached by ProjectCacheImpl. Control only
-    // enters here if the cache was flushed by the administrator to force
-    // scanning the filesystem.
-    // Don't rely on the cached names collection but update it to contain
-    // the set of found project names
     ProjectVisitor visitor = new ProjectVisitor(basePath);
     scanProjects(visitor);
-
-    namesUpdateLock.lock();
-    try {
-      names = Collections.unmodifiableSortedSet(visitor.found);
-    } finally {
-      namesUpdateLock.unlock();
-    }
-    return names;
+    return Collections.unmodifiableSortedSet(visitor.found);
   }
 
   protected void scanProjects(ProjectVisitor visitor) {

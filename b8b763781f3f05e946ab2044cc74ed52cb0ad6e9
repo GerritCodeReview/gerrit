@@ -23,6 +23,30 @@
       "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6dc4f46_c204002f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-06T06:00:57Z",
+      "side": 1,
+      "message": "It\u0027s not really optional. It\u0027s not available when this class is instantiated (before the site is created) but it\u0027s guaranteed to be set before the postRun() method is invoked (after the site is created). See: https://gerrit.googlesource.com/gerrit/+/master/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java#148",
+      "parentUuid": "131b4742_5df2cb42",
+      "range": {
+        "startLine": 157,
+        "startChar": 80,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

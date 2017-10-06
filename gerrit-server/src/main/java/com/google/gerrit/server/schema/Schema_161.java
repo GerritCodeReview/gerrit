@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -64,15 +63,18 @@ public class Schema_161 extends SchemaVersion {
       for (Ref ref : git.getRefDatabase().getRefs(RefNames.REFS_STARRED_CHANGES).values()) {
         StarRef starRef = StarredChangesUtil.readLabels(git, ref.getName());
 
-        Set<Integer> mutedPatchSets = getStarredPatchSets(starRef, MUTE_LABEL);
+        Set<Integer> mutedPatchSets =
+            StarredChangesUtil.getStarredPatchSets(starRef.labels(), MUTE_LABEL);
         if (mutedPatchSets.isEmpty()) {
           continue;
         }
 
         Set<Integer> reviewedPatchSets =
-            getStarredPatchSets(starRef, StarredChangesUtil.REVIEWED_LABEL);
+            StarredChangesUtil.getStarredPatchSets(
+                starRef.labels(), StarredChangesUtil.REVIEWED_LABEL);
         Set<Integer> unreviewedPatchSets =
-            getStarredPatchSets(starRef, StarredChangesUtil.UNREVIEWED_LABEL);
+            StarredChangesUtil.getStarredPatchSets(
+                starRef.labels(), StarredChangesUtil.UNREVIEWED_LABEL);
 
         List<String> newLabels =
             starRef
@@ -108,15 +110,5 @@ public class Schema_161 extends SchemaVersion {
     } catch (IOException | IllegalLabelException ex) {
       throw new OrmException(ex);
     }
-  }
-
-  private Set<Integer> getStarredPatchSets(StarRef starRef, String label) {
-    return starRef
-        .labels()
-        .stream()
-        .filter(l -> l.startsWith(label))
-        .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
-        .map(l -> Integer.valueOf(l.substring(label.length() + 1)))
-        .collect(toSet());
   }
 }

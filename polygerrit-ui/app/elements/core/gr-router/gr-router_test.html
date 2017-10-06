@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!--
+@license
 Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -123,8 +124,8 @@ limitations under the License.
       actualDoesNotRequireAuth.sort();
 
       const shouldRequireAutoAuth = [
-        '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
+        '_handleChangeEditRoute',
         '_handleCreateGroupRoute',
         '_handleCreateProjectRoute',
         '_handleDiffEditRoute',
@@ -135,11 +136,12 @@ limitations under the License.
         '_handleGroupListOffsetRoute',
         '_handleGroupMembersRoute',
         '_handleGroupRoute',
+        '_handleNewAgreementsRoute',
         '_handlePluginListFilterOffsetRoute',
         '_handlePluginListFilterRoute',
         '_handlePluginListOffsetRoute',
         '_handlePluginListRoute',
-        '_handleProjectCommandsRoute',
+        '_handleRepoCommandsRoute',
         '_handleSettingsLegacyRoute',
         '_handleSettingsRoute',
       ];
@@ -150,37 +152,42 @@ limitations under the License.
         '_handleBranchListFilterRoute',
         '_handleBranchListOffsetRoute',
         '_handleChangeNumberLegacyRoute',
-        '_handleChangeOrDiffRoute',
+        '_handleChangeRoute',
+        '_handleDiffRoute',
         '_handleDefaultRoute',
         '_handleChangeLegacyRoute',
         '_handleDiffLegacyRoute',
         '_handleLegacyLinenum',
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
-        '_handleProjectAccessRoute',
-        '_handleProjectListFilterOffsetRoute',
-        '_handleProjectListFilterRoute',
-        '_handleProjectListOffsetRoute',
-        '_handleProjectRoute',
+        '_handleProjectDashboardRoute',
+        '_handleProjectsOldRoute',
+        '_handleRepoAccessRoute',
+        '_handleRepoDashboardsRoute',
+        '_handleRepoListFilterOffsetRoute',
+        '_handleRepoListFilterRoute',
+        '_handleRepoListOffsetRoute',
+        '_handleRepoRoute',
         '_handleQueryLegacySuffixRoute',
         '_handleQueryRoute',
         '_handleRegisterRoute',
         '_handleTagListFilterOffsetRoute',
         '_handleTagListFilterRoute',
         '_handleTagListOffsetRoute',
+        '_handlePluginScreen',
       ];
 
       // Handler names that check authentication themselves, and thus don't need
       // it performed for them.
       const selfAuthenticatingHandlers = [
         '_handleDashboardRoute',
+        '_handleCustomDashboardRoute',
         '_handleRootRoute',
       ];
 
       const shouldNotRequireAuth = unauthenticatedHandlers
           .concat(selfAuthenticatingHandlers);
       shouldNotRequireAuth.sort();
-
       assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
     });
 
@@ -225,6 +232,19 @@ limitations under the License.
             '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
             'topic:"g%2525h"+status:op%2525en');
 
+        params.offset = 100;
+        assert.equal(element._generateUrl(params),
+            '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
+            'topic:"g%2525h"+status:op%2525en,100');
+        delete params.offset;
+
+        // The presence of the query param overrides other params.
+        params.query = 'foo$bar';
+        assert.equal(element._generateUrl(params), '/q/foo%2524bar');
+
+        params.offset = 100;
+        assert.equal(element._generateUrl(params), '/q/foo%2524bar,100');
+
         params = {
           view: Gerrit.Nav.View.SEARCH,
           statuses: ['a', 'b', 'c'],
@@ -239,13 +259,41 @@ limitations under the License.
           changeNum: '1234',
           project: 'test',
         };
+        const paramsWithQuery = {
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: '1234',
+          project: 'test',
+          querystring: 'revert&foo=bar',
+        };
+
         assert.equal(element._generateUrl(params), '/c/test/+/1234');
+        assert.equal(element._generateUrl(paramsWithQuery),
+            '/c/test/+/1234?revert&foo=bar');
 
         params.patchNum = 10;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
+        paramsWithQuery.patchNum = 10;
+        assert.equal(element._generateUrl(paramsWithQuery),
+            '/c/test/+/1234/10?revert&foo=bar');
 
         params.basePatchNum = 5;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
+        paramsWithQuery.basePatchNum = 5;
+        assert.equal(element._generateUrl(paramsWithQuery),
+            '/c/test/+/1234/5..10?revert&foo=bar');
+
+        params.messageHash = '#123';
+        assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10#123');
+      });
+
+      test('change with repo name encoding', () => {
+        const params = {
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: '1234',
+          project: 'x+/y+/z+/w',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/x%252B/y%252B/z%252B/w/+/1234');
       });
 
       test('diff', () => {
@@ -282,6 +330,29 @@ limitations under the License.
             '/c/test/+/42/2/file.cpp#b123');
       });
 
+      test('diff with repo name encoding', () => {
+        const params = {
+          view: Gerrit.Nav.View.DIFF,
+          changeNum: '42',
+          path: 'x+y/path.cpp',
+          patchNum: 12,
+          project: 'x+/y',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/x%252B/y/+/42/12/x%252By/path.cpp');
+      });
+
+      test('edit', () => {
+        const params = {
+          view: Gerrit.Nav.View.EDIT,
+          changeNum: '42',
+          project: 'test',
+          path: 'x+y/path.cpp',
+        };
+        assert.equal(element._generateUrl(params),
+            '/c/test/+/42/x%252By/path.cpp,edit');
+      });
+
       test('_getPatchRangeExpression', () => {
         const params = {};
         let actual = element._getPatchRangeExpression(params);
@@ -299,6 +370,115 @@ limitations under the License.
         actual = element._getPatchRangeExpression(params);
         assert.equal(actual, '2..');
       });
+
+      suite('dashboard', () => {
+        test('self dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+          };
+          assert.equal(element._generateUrl(params), '/dashboard/self');
+        });
+
+        test('user dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'user',
+          };
+          assert.equal(element._generateUrl(params), '/dashboard/user');
+        });
+
+        test('custom self dashboard, no title', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: 'query 2'},
+            ],
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/?section%201=query%201&section%202=query%202');
+        });
+
+        test('custom repo dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            sections: [
+              {name: 'section 1', query: 'query 1 ${project}'},
+              {name: 'section 2', query: 'query 2 ${repo}'},
+            ],
+            repo: 'repo-name',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/?section%201=query%201%20repo-name&' +
+              'section%202=query%202%20repo-name');
+        });
+
+        test('custom user dashboard, with title', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: 'user',
+            sections: [{name: 'name', query: 'query'}],
+            title: 'custom dashboard',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/dashboard/user?name=query&title=custom%20dashboard');
+        });
+
+        test('repo dashboard', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            repo: 'gerrit/repo',
+            dashboard: 'default:main',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/p/gerrit/repo/+/dashboard/default:main');
+        });
+
+        test('project dashboard (legacy)', () => {
+          const params = {
+            view: Gerrit.Nav.View.DASHBOARD,
+            project: 'gerrit/project',
+            dashboard: 'default:main',
+          };
+          assert.equal(
+              element._generateUrl(params),
+              '/p/gerrit/project/+/dashboard/default:main');
+        });
+      });
+
+      suite('groups', () => {
+        test('group info', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+          };
+          assert.equal(element._generateUrl(params), '/admin/groups/1234');
+        });
+
+        test('group members', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'members',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,members');
+        });
+
+        test('group audit log', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'log',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,audit-log');
+        });
+      });
     });
 
     suite('param normalization', () => {
@@ -313,11 +493,13 @@ limitations under the License.
       suite('_normalizeLegacyRouteParams', () => {
         let rangeStub;
         let redirectStub;
+        let show404Stub;
 
         setup(() => {
           rangeStub = sandbox.stub(element, '_normalizePatchRangeParams')
               .returns(Promise.resolve());
           redirectStub = sandbox.stub(element, '_redirect');
+          show404Stub = sandbox.stub(element, '_show404');
         });
 
         test('w/o changeNum', () => {
@@ -328,6 +510,7 @@ limitations under the License.
             assert.isFalse(rangeStub.called);
             assert.isNotOk(params.project);
             assert.isFalse(redirectStub.called);
+            assert.isFalse(show404Stub.called);
           });
         });
 
@@ -339,18 +522,19 @@ limitations under the License.
             assert.isTrue(rangeStub.called);
             assert.equal(params.project, 'foo/bar');
             assert.isTrue(redirectStub.calledOnce);
+            assert.isFalse(show404Stub.called);
           });
         });
 
         test('halts on project lookup failure', () => {
           projectLookupStub.returns(Promise.resolve(undefined));
-
           const params = {changeNum: 1234};
           return element._normalizeLegacyRouteParams(params).then(() => {
             assert.isTrue(projectLookupStub.called);
             assert.isFalse(rangeStub.called);
             assert.isUndefined(params.project);
             assert.isFalse(redirectStub.called);
+            assert.isTrue(show404Stub.calledOnce);
           });
         });
       });
@@ -395,16 +579,6 @@ limitations under the License.
           assert.isNotOk(params.basePatchNum);
           assert.equal(params.patchNum, 'edit');
         });
-
-        // TODO(issue 4760): Remove when PG supports diffing against numbered
-        // parents of a merge.
-        test('range -n..m normalizes to m', () => {
-          const params = {basePatchNum: -2, patchNum: 4};
-          const needsRedirect = element._normalizePatchRangeParams(params);
-          assert.isTrue(needsRedirect);
-          assert.isNotOk(params.basePatchNum);
-          assert.equal(params.patchNum, 4);
-        });
       });
     });
 
@@ -425,15 +599,15 @@ limitations under the License.
         setParamsStub = sandbox.stub(element, '_setParams');
       });
 
-      test('_handleAdminPlaceholderRoute', () => {
-        element._handleAdminPlaceholderRoute({params: {}});
-        assert.equal(setParamsStub.lastCall.args[0].view,
-            Gerrit.Nav.View.ADMIN);
-        assert.isTrue(setParamsStub.lastCall.args[0].placeholder);
+      test('_handleAgreementsRoute', () => {
+        const data = {params: {}};
+        element._handleAgreementsRoute(data);
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/settings/#Agreements');
       });
 
-      test('_handleAgreementsRoute', () => {
-        element._handleAgreementsRoute({params: {}});
+      test('_handleNewAgreementsRoute', () => {
+        element._handleNewAgreementsRoute({params: {}});
         assert.isTrue(setParamsStub.calledOnce);
         assert.equal(setParamsStub.lastCall.args[0].view,
             Gerrit.Nav.View.AGREEMENTS);
@@ -480,10 +654,43 @@ limitations under the License.
             '/c/test/+/42#foo');
       });
 
+      test('_handleQueryRoute', () => {
+        const data = {params: ['project:foo/bar/baz']};
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: undefined,
+        });
+
+        data.params.push(',123', '123');
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: '123',
+        });
+      });
+
       test('_handleQueryLegacySuffixRoute', () => {
         element._handleQueryLegacySuffixRoute({path: '/q/foo+bar,n,z'});
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
+      });
+
+
+      test('_handleQueryRoute', () => {
+        const data = {params: ['project:foo/bar/baz']};
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: undefined,
+        });
+
+        data.params.push(',123', '123');
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: '123',
+        });
       });
 
       suite('_handleRegisterRoute', () => {
@@ -522,7 +729,7 @@ limitations under the License.
           assert.isFalse(redirectStub.called);
         });
 
-        test('redirects to dahsboard if logged in', () => {
+        test('redirects to dashboard if logged in', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
           const data = {
@@ -632,36 +839,22 @@ limitations under the License.
           redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
         });
 
-        test('no user specified', () => {
-          const data = {canonicalPath: '/dashboard', params: {}};
-          const result = element._handleDashboardRoute(data);
-          assert.isNotOk(result);
-          assert.isFalse(setParamsStub.called);
-          assert.isFalse(redirectToLoginStub.called);
-          assert.isTrue(redirectStub.called);
-          assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
-        });
-
-        test('own dahsboard but signed out redirects to login', () => {
+        test('own dashboard but signed out redirects to login', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
-          const data = {canonicalPath: '/dashboard', params: {0: 'seLF'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'seLF'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isTrue(redirectToLoginStub.calledOnce);
             assert.isFalse(redirectStub.called);
             assert.isFalse(setParamsStub.called);
           });
         });
 
-        test('non-self dahsboard but signed out does not redirect', () => {
+        test('non-self dashboard but signed out does not redirect', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
-          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(setParamsStub.called);
             assert.isTrue(redirectStub.calledOnce);
@@ -669,13 +862,11 @@ limitations under the License.
           });
         });
 
-        test('dahsboard while signed in sets params', () => {
+        test('dashboard while signed in sets params', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
-          const data = {canonicalPath: '/dashboard', params: {0: 'foo'}};
-          const result = element._handleDashboardRoute(data);
-          assert.isOk(result);
-          return result.then(() => {
+          const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
+          return element._handleDashboardRoute(data, '').then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
@@ -684,6 +875,79 @@ limitations under the License.
               user: 'foo',
             });
           });
+        });
+      });
+
+      suite('_handleCustomDashboardRoute', () => {
+        let redirectToLoginStub;
+
+        setup(() => {
+          redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        });
+
+        test('no user specified', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data, '').then(() => {
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.called);
+            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+          });
+        });
+
+        test('custom dashboard without title', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data, '?a=b&c&d=e')
+              .then(() => {
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'b'},
+                    {name: 'd', query: 'e'},
+                  ],
+                  title: 'Custom Dashboard',
+                });
+              });
+        });
+
+        test('custom dashboard with title', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data,
+              '?a=b&c&d=&=e&title=t')
+              .then(() => {
+                assert.isFalse(redirectToLoginStub.called);
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'b'},
+                  ],
+                  title: 't',
+                });
+              });
+        });
+
+        test('custom dashboard with foreach', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data,
+              '?a=b&c&d=&=e&foreach=is:open')
+              .then(() => {
+                assert.isFalse(redirectToLoginStub.called);
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'is:open b'},
+                  ],
+                  title: 'Custom Dashboard',
+                });
+              });
         });
       });
 
@@ -698,9 +962,8 @@ limitations under the License.
         test('_handleGroupAuditLogRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupAuditLogRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-audit-log',
-            detailType: 'audit-log',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'log',
             groupId: 1234,
           });
         });
@@ -708,9 +971,8 @@ limitations under the License.
         test('_handleGroupMembersRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupMembersRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-members',
-            detailType: 'members',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'members',
             groupId: 1234,
           });
         });
@@ -766,40 +1028,36 @@ limitations under the License.
         test('_handleGroupRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleGroupRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group',
+            view: Gerrit.Nav.View.GROUP,
             groupId: 4321,
           });
         });
       });
 
-      suite('project routes', () => {
-        test('_handleProjectRoute', () => {
+      suite('repo routes', () => {
+        test('_handleRepoRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project',
-            project: 4321,
+          assertDataToParams(data, '_handleRepoRoute', {
+            view: Gerrit.Nav.View.REPO,
+            repo: 4321,
           });
         });
 
-        test('_handleProjectCommandsRoute', () => {
+        test('_handleRepoCommandsRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectCommandsRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project-commands',
-            detailType: 'commands',
-            project: 4321,
+          assertDataToParams(data, '_handleRepoCommandsRoute', {
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.COMMANDS,
+            repo: 4321,
           });
         });
 
-        test('_handleProjectAccessRoute', () => {
+        test('_handleRepoAccessRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectAccessRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project-access',
-            detailType: 'access',
-            project: 4321,
+          assertDataToParams(data, '_handleRepoAccessRoute', {
+            view: Gerrit.Nav.View.REPO,
+            detail: Gerrit.Nav.RepoDetailView.ACCESS,
+            repo: 4321,
           });
         });
 
@@ -807,44 +1065,40 @@ limitations under the License.
           test('_handleBranchListOffsetRoute', () => {
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+              repo: 4321,
               offset: 0,
               filter: null,
             });
 
             data.params[2] = 42;
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+              repo: 4321,
               offset: 42,
               filter: null,
             });
           });
 
           test('_handleBranchListFilterOffsetRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+              repo: 4321,
               offset: 42,
               filter: 'foo',
             });
           });
 
           test('_handleBranchListFilterRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo'}};
+            const data = {params: {repo: 4321, filter: 'foo'}};
             assertDataToParams(data, '_handleBranchListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'branches',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+              repo: 4321,
               filter: 'foo',
             });
           });
@@ -854,100 +1108,96 @@ limitations under the License.
           test('_handleTagListOffsetRoute', () => {
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleTagListOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
+              repo: 4321,
               offset: 0,
               filter: null,
             });
           });
 
           test('_handleTagListFilterOffsetRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
+              repo: 4321,
               offset: 42,
               filter: 'foo',
             });
           });
 
           test('_handleTagListFilterRoute', () => {
-            const data = {params: {project: 4321}};
+            const data = {params: {repo: 4321}};
             assertDataToParams(data, '_handleTagListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
+              repo: 4321,
               filter: null,
             });
 
             data.params.filter = 'foo';
             assertDataToParams(data, '_handleTagListFilterRoute', {
-              view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
-              detailType: 'tags',
-              project: 4321,
+              view: Gerrit.Nav.View.REPO,
+              detail: Gerrit.Nav.RepoDetailView.TAGS,
+              repo: 4321,
               filter: 'foo',
             });
           });
         });
 
-        suite('project list routes', () => {
-          test('_handleProjectListOffsetRoute', () => {
+        suite('repo list routes', () => {
+          test('_handleRepoListOffsetRoute', () => {
             const data = {params: {}};
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 0,
               filter: null,
               openCreateModal: false,
             });
 
             data.params[1] = 42;
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: null,
               openCreateModal: false,
             });
 
             data.hash = 'create';
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: null,
               openCreateModal: true,
             });
           });
 
-          test('_handleProjectListFilterOffsetRoute', () => {
+          test('_handleRepoListFilterOffsetRoute', () => {
             const data = {params: {filter: 'foo', offset: 42}};
-            assertDataToParams(data, '_handleProjectListFilterOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListFilterOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: 'foo',
             });
           });
 
-          test('_handleProjectListFilterRoute', () => {
+          test('_handleRepoListFilterRoute', () => {
             const data = {params: {}};
-            assertDataToParams(data, '_handleProjectListFilterRoute', {
+            assertDataToParams(data, '_handleRepoListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               filter: null,
             });
 
             data.params.filter = 'foo';
-            assertDataToParams(data, '_handleProjectListFilterRoute', {
+            assertDataToParams(data, '_handleRepoListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               filter: 'foo',
             });
           });
@@ -1028,6 +1278,7 @@ limitations under the License.
               null, // 4 Unused
               9, // 5 Patch number
             ],
+            querystring: '',
           };
           element._handleChangeLegacyRoute(ctx);
           assert.isTrue(normalizeRouteStub.calledOnce);
@@ -1036,6 +1287,7 @@ limitations under the License.
             basePatchNum: 6,
             patchNum: 9,
             view: Gerrit.Nav.View.CHANGE,
+            querystring: '',
           });
         });
 
@@ -1084,7 +1336,57 @@ limitations under the License.
               '/c/1234/3..8/foo/bar#b123'));
         });
 
-        suite('_handleChangeOrDiffRoute', () => {
+        suite('_handleChangeRoute', () => {
+          let normalizeRangeStub;
+
+          function makeParams(path, hash) {
+            return {
+              params: [
+                'foo/bar', // 0 Project
+                1234, // 1 Change number
+                null, // 2 Unused
+                null, // 3 Unused
+                4, // 4 Base patch number
+                null, // 5 Unused
+                7, // 6 Patch number
+              ],
+            };
+          }
+
+          setup(() => {
+            normalizeRangeStub = sandbox.stub(element,
+                '_normalizePatchRangeParams');
+            sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          });
+
+          test('needs redirect', () => {
+            normalizeRangeStub.returns(true);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            element._handleChangeRoute(ctx);
+            assert.isTrue(normalizeRangeStub.called);
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.calledOnce);
+            assert.isTrue(redirectStub.calledWithExactly('foo'));
+          });
+
+          test('change view', () => {
+            normalizeRangeStub.returns(false);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            assertDataToParams(ctx, '_handleChangeRoute', {
+              view: Gerrit.Nav.View.CHANGE,
+              project: 'foo/bar',
+              changeNum: 1234,
+              basePatchNum: 4,
+              patchNum: 7,
+            });
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(normalizeRangeStub.called);
+          });
+        });
+
+        suite('_handleDiffRoute', () => {
           let normalizeRangeStub;
 
           function makeParams(path, hash) {
@@ -1114,34 +1416,18 @@ limitations under the License.
             normalizeRangeStub.returns(true);
             sandbox.stub(element, '_generateUrl').returns('foo');
             const ctx = makeParams(null, '');
-            element._handleChangeOrDiffRoute(ctx);
+            element._handleDiffRoute(ctx);
             assert.isTrue(normalizeRangeStub.called);
             assert.isFalse(setParamsStub.called);
             assert.isTrue(redirectStub.calledOnce);
             assert.isTrue(redirectStub.calledWithExactly('foo'));
           });
 
-          test('change view', () => {
-            normalizeRangeStub.returns(false);
-            sandbox.stub(element, '_generateUrl').returns('foo');
-            const ctx = makeParams(null, '');
-            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
-              view: Gerrit.Nav.View.CHANGE,
-              project: 'foo/bar',
-              changeNum: 1234,
-              basePatchNum: 4,
-              patchNum: 7,
-              path: null,
-            });
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(normalizeRangeStub.called);
-          });
-
           test('diff view', () => {
             normalizeRangeStub.returns(false);
             sandbox.stub(element, '_generateUrl').returns('foo');
             const ctx = makeParams('foo/bar/baz', 'b44');
-            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
+            assertDataToParams(ctx, '_handleDiffRoute', {
               view: Gerrit.Nav.View.DIFF,
               project: 'foo/bar',
               changeNum: 1234,
@@ -1164,7 +1450,8 @@ limitations under the License.
             params: [
               'foo/bar', // 0 Project
               1234, // 1 Change number
-              'foo/bar/baz', // 2 File path
+              3, // 2 Patch num
+              'foo/bar/baz', // 3 File path
             ],
           };
           const appParams = {
@@ -1172,6 +1459,7 @@ limitations under the License.
             changeNum: 1234,
             view: Gerrit.Nav.View.EDIT,
             path: 'foo/bar/baz',
+            patchNum: 3,
           };
 
           element._handleDiffEditRoute(ctx);
@@ -1181,6 +1469,70 @@ limitations under the License.
           assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
           assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
         });
+
+        test('_handleChangeEditRoute', () => {
+          const normalizeRangeSpy =
+              sandbox.spy(element, '_normalizePatchRangeParams');
+          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          const ctx = {
+            params: [
+              'foo/bar', // 0 Project
+              1234, // 1 Change number
+              null,
+              3, // 3 Patch num
+            ],
+          };
+          const appParams = {
+            project: 'foo/bar',
+            changeNum: 1234,
+            view: Gerrit.Nav.View.CHANGE,
+            patchNum: 3,
+            edit: true,
+          };
+
+          element._handleChangeEditRoute(ctx);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRangeSpy.calledOnce);
+          assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
+          assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
+          assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        });
+      });
+
+      test('_handlePluginScreen', () => {
+        const ctx = {params: ['foo', 'bar']};
+        assertDataToParams(ctx, '_handlePluginScreen', {
+          view: Gerrit.Nav.View.PLUGIN_SCREEN,
+          plugin: 'foo',
+          screen: 'bar',
+        });
+        assert.isFalse(redirectStub.called);
+      });
+    });
+
+    suite('_parseQueryString', () => {
+      test('empty queries', () => {
+        assert.deepEqual(element._parseQueryString(''), []);
+        assert.deepEqual(element._parseQueryString('?'), []);
+        assert.deepEqual(element._parseQueryString('??'), []);
+        assert.deepEqual(element._parseQueryString('&&&'), []);
+      });
+
+      test('url decoding', () => {
+        assert.deepEqual(element._parseQueryString('+'), [[' ', '']]);
+        assert.deepEqual(element._parseQueryString('???+%3d+'), [[' = ', '']]);
+        assert.deepEqual(
+            element._parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
+            [['name', 'value']]);
+      });
+
+      test('multiple parameters', () => {
+        assert.deepEqual(
+            element._parseQueryString('a=b&c=d&e=f'),
+            [['a', 'b'], ['c', 'd'], ['e', 'f']]);
+        assert.deepEqual(
+            element._parseQueryString('&a=b&&&e=f&'),
+            [['a', 'b'], ['e', 'f']]);
       });
     });
   });

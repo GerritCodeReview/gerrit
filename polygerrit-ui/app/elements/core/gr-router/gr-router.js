@@ -87,8 +87,7 @@
     PLUGIN_LIST_FILTER: '/admin/plugins/q/filter::filter',
     PLUGIN_LIST_FILTER_OFFSET: '/admin/plugins/q/filter::filter,:offset',
 
-    QUERY: '/q/:query',
-    QUERY_OFFSET: '/q/:query,:offset',
+    QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
     /**
      * Support vestigial params from GWT UI.
@@ -550,7 +549,6 @@
       this._mapRoute(RoutePattern.ADMIN_PLACEHOLDER,
           '_handleAdminPlaceholderRoute', true);
 
-      this._mapRoute(RoutePattern.QUERY_OFFSET, '_handleQueryRoute');
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
       this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
@@ -877,8 +875,11 @@
     },
 
     _handleQueryRoute(data) {
-      data.params.view = Gerrit.Nav.View.SEARCH;
-      this._setParams(data.params);
+      this._setParams({
+        view: Gerrit.Nav.View.SEARCH,
+        query: data.params[0],
+        offset: data.params[2],
+      });
     },
 
     _handleQueryLegacySuffixRoute(ctx) {

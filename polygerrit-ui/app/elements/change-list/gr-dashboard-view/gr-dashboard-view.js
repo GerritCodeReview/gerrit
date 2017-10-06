@@ -53,6 +53,8 @@
       },
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
+
+      /** @type {{ user: string }} */
       params: {
         type: Object,
       },
@@ -144,5 +146,8 @@
       return query.replace(/\$\{user\}/g, user);
     },
 
+    _computeUserHeaderClass(userParam) {
+      return userParam === 'self' ? 'hide' : '';
+    },
   });
 })();

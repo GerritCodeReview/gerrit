@@ -34,6 +34,24 @@
       "revId": "d8f9af490e52f75a8e78075c1e67e92ac8de7219",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8823fa01_76747607",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HttpPasswordInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-06T11:08:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d69f34e7_dc6781d2",
+      "revId": "d8f9af490e52f75a8e78075c1e67e92ac8de7219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

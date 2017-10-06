@@ -407,24 +407,23 @@ public class StarredChangesUtil {
       throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
 
-    Set<Integer> reviewedPatchSets =
-        labels
-            .stream()
-            .filter(l -> l.startsWith(REVIEWED_LABEL))
-            .map(l -> Integer.valueOf(l.substring(REVIEWED_LABEL.length() + 1)))
-            .collect(toSet());
-    Set<Integer> unreviewedPatchSets =
-        labels
-            .stream()
-            .filter(l -> l.startsWith(UNREVIEWED_LABEL))
-            .map(l -> Integer.valueOf(l.substring(UNREVIEWED_LABEL.length() + 1)))
-            .collect(toSet());
+    Set<Integer> reviewedPatchSets = getStarredPatchSets(labels, REVIEWED_LABEL);
+    Set<Integer> unreviewedPatchSets = getStarredPatchSets(labels, UNREVIEWED_LABEL);
     Optional<Integer> ps =
         Sets.intersection(reviewedPatchSets, unreviewedPatchSets).stream().findFirst();
     if (ps.isPresent()) {
       throw new MutuallyExclusiveLabelsException(
           getReviewedLabel(ps.get()), getUnreviewedLabel(ps.get()));
     }
+  }
+
+  public static Set<Integer> getStarredPatchSets(Set<String> labels, String label) {
+    return labels
+        .stream()
+        .filter(l -> l.startsWith(label))
+        .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
+        .map(l -> Integer.valueOf(l.substring(label.length() + 1)))
+        .collect(toSet());
   }
 
   private static void validateLabels(Collection<String> labels) throws InvalidLabelsException {

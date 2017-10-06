@@ -336,7 +336,7 @@ limitations under the License.
         sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor
         // on input field update
-        assert.equal(input.$.input.selectionStart, 0);
+        assert.equal(input.$.input.$.input.selectionStart, 0);
         input.text = 'test';
         MockInteractions.focus(input.$.input);
         flushAsynchronousOperations();
@@ -349,14 +349,14 @@ limitations under the License.
       });
 
       test('arrow key navigation', () => {
-        const input = element.$.entry.$.input;
+        const input = element.$.entry.$.input.$.input;
         input.text = '';
         element.accounts = [makeAccount(), makeAccount()];
-        MockInteractions.focus(input.$.input);
+        MockInteractions.focus(input.$.input.$.input);
         flushAsynchronousOperations();
         const chips = element.accountChips;
         const chipsOneSpy = sandbox.spy(chips[1], 'focus');
-        MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+        MockInteractions.pressAndReleaseKeyOn(input.$.input.$.input, 37); // Left
         assert.isTrue(chipsOneSpy.called);
         const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
         MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left

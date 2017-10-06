@@ -47,6 +47,30 @@
       "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13274fd0_3df7687f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-06T21:02:49Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s what @Inject(optional \u003d true) means. Any field annotated with @Inject will not be touched by Guice until you call Injector#injectMembers. What \"optional\" means is: if the injector doesn\u0027t contain a binding for this type, it will silently skip the field, instead of failing with a ProvisionException as it normally would.\n\nIf this class is only ever injected from injectors that have a binding for this type, then \"optional \u003d true\" is not necessary. If this class is injected from an injector that has no binding for this type, then this line will NPE.",
+      "parentUuid": "f6dc4f46_c204002f",
+      "range": {
+        "startLine": 157,
+        "startChar": 80,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

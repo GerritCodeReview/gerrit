@@ -143,6 +143,14 @@
         type: Boolean,
         value: false,
       },
+      // This is used to push the iron-input element up on the page, so
+      // the input is placed in approximately the same position as the
+      // trigger.
+      _verticalOffset: {
+        type: Number,
+        readOnly: true,
+        value: 30,
+      },
     },
 
     observers: [

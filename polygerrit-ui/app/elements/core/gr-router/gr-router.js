@@ -227,10 +227,14 @@
       } else if (params.view === Views.CHANGE) {
         let range = this._getPatchRangeExpression(params);
         if (range.length) { range = '/' + range; }
+        let suffix = `${range}`;
+        if (params.querystring) {
+          suffix += '?' + params.querystring;
+        }
         if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${range}`;
+          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
         } else {
-          url = `/c/${params.changeNum}${range}`;
+          url = `/c/${params.changeNum}${suffix}`;
         }
       } else if (params.view === Views.DASHBOARD) {
         if (params.sections) {
@@ -988,6 +992,7 @@
         basePatchNum: ctx.params[3],
         patchNum: ctx.params[5],
         view: Gerrit.Nav.View.CHANGE,
+        querystring: ctx.querystring,
       };
 
       this._normalizeLegacyRouteParams(params);

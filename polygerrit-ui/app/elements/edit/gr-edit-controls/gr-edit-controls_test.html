@@ -54,7 +54,7 @@ suite('gr-edit-controls tests', () => {
 
   test('all actions exist', () => {
     assert.equal(Polymer.dom(element.root).querySelectorAll('gr-button').length,
-        1);
+        element._actions.length);
   });
 
   suite('edit button CUJ', () => {
@@ -65,6 +65,14 @@ suite('gr-edit-controls tests', () => {
         sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff'),
         sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl'),
       ];
+    });
+
+    test('_isValidPath', () => {
+      assert.isFalse(element._isValidPath(''));
+      assert.isFalse(element._isValidPath('test/'));
+      assert.isFalse(element._isValidPath('/'));
+      assert.isTrue(element._isValidPath('test/path.cpp'));
+      assert.isTrue(element._isValidPath('test.js'));
     });
 
     test('edit', () => {
@@ -95,12 +103,98 @@ suite('gr-edit-controls tests', () => {
     });
   });
 
+  suite('delete button CUJ', () => {
+    let navStub;
+    let deleteStub;
+
+    setup(() => {
+      navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      deleteStub = sandbox.stub(element.$.restAPI, 'deleteFileInChangeEdit');
+    });
+
+    test('delete', () => {
+      deleteStub.returns(Promise.resolve({ok: true}));
+      MockInteractions.tap(element.$$('#delete'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element.$.deleteDialog.disabled);
+        assert.isFalse(queryStub.called);
+        element.$.deleteDialog.querySelector('.input').text = 'src/test.cpp';
+        assert.isTrue(queryStub.called);
+        assert.isFalse(element.$.deleteDialog.disabled);
+        MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+
+        assert.isTrue(deleteStub.called);
+
+        return deleteStub.lastCall.returnValue.then(() => {
+          assert.isTrue(navStub.called);
+          assert.isTrue(closeDialogSpy.called);
+        });
+      });
+    });
+
+    test('delete fails', () => {
+      deleteStub.returns(Promise.resolve({ok: false}));
+      MockInteractions.tap(element.$$('#delete'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element.$.deleteDialog.disabled);
+        assert.isFalse(queryStub.called);
+        element.$.deleteDialog.querySelector('.input').text = 'src/test.cpp';
+        assert.isTrue(queryStub.called);
+        assert.isFalse(element.$.deleteDialog.disabled);
+        MockInteractions.tap(element.$.deleteDialog.$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+
+        assert.isTrue(deleteStub.called);
+
+        return deleteStub.lastCall.returnValue.then(() => {
+          assert.isFalse(navStub.called);
+          assert.isFalse(closeDialogSpy.called);
+        });
+      });
+    });
+
+    test('cancel', () => {
+      MockInteractions.tap(element.$$('#delete'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        assert.isTrue(element.$.deleteDialog.disabled);
+        element.$.deleteDialog.querySelector('.input').text = 'src/test.cpp';
+        assert.isFalse(element.$.deleteDialog.disabled);
+        MockInteractions.tap(element.$.deleteDialog.$$('gr-button'));
+        assert.isFalse(navStub.called);
+        assert.isTrue(closeDialogSpy.called);
+        assert.equal(element._path, '');
+      });
+    });
+  });
+
   test('openEditDialog', () => {
     return element.openEditDialog('test/path.cpp').then(() => {
       assert.isFalse(element.$.editDialog.hasAttribute('hidden'));
       assert.equal(element.$.editDialog.querySelector('.input').text,
           'test/path.cpp');
     });
+  });
+
+  test('_getDialogFromEvent', () => {
+    const spy = sandbox.spy(element, '_getDialogFromEvent');
+    element.addEventListener('tap', element._getDialogFromEvent);
+
+    MockInteractions.tap(element.$.editDialog);
+    flushAsynchronousOperations();
+    assert.equal(spy.lastCall.returnValue.id, 'editDialog');
+
+    MockInteractions.tap(element.$.deleteDialog);
+    flushAsynchronousOperations();
+    assert.equal(spy.lastCall.returnValue.id, 'deleteDialog');
+
+    MockInteractions.tap(element.$.deleteDialog.querySelector('.input'));
+    flushAsynchronousOperations();
+    assert.equal(spy.lastCall.returnValue.id, 'deleteDialog');
+
+    MockInteractions.tap(element);
+    flushAsynchronousOperations();
+    assert.notOk(spy.lastCall.returnValue);
   });
 });
 </script>

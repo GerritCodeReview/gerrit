@@ -24,7 +24,7 @@
  * Private template to generate "View Change" buttons.
  * @param email
  */
-{template .ViewChangeButton kind="html"}
+{template .ViewChangeButton}
   <a href="{$email.changeUrl}">View Change</a>
 {/template}
 
@@ -32,7 +32,7 @@
  * Private template to render PRE block with consistent font-sizing.
  * @param content
  */
-{template .Pre kind="html"}
+{template .Pre}
   {let $preStyle kind="css"}
     font-family: monospace,monospace; // Use this to avoid browsers scaling down
                                       // monospace text.
@@ -56,7 +56,7 @@
  *
  * @param content
  */
-{template .WikiFormat kind="html"}
+{template .WikiFormat}
   {let $blockquoteStyle kind="css"}
     border-left: 1px solid #aaa;
     margin: 10px 0;
@@ -90,7 +90,7 @@
 /**
  * @param diffLines
  */
-{template .UnifiedDiff kind="html"}
+{template .UnifiedDiff}
   {let $addStyle kind="css"}
     color: hsl(120, 100%, 40%);
   {/let}

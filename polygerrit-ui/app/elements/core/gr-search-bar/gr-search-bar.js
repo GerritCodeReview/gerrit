@@ -51,6 +51,7 @@
     'is:open',
     'is:owner',
     'is:pending',
+    'is:private',
     'is:reviewed',
     'is:reviewer',
     'is:starred',

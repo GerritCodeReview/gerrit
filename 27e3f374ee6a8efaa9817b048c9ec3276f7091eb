@@ -16,6 +16,24 @@
       "revId": "27e3f374ee6a8efaa9817b048c9ec3276f7091eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "873f6a96_df8a5cc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-10-06T14:37:57Z",
+      "side": 1,
+      "message": "Should I push a new change to revert to patch set 7 and add the cause (e) ?",
+      "parentUuid": "317c6e21_f80ce7b4",
+      "revId": "27e3f374ee6a8efaa9817b048c9ec3276f7091eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

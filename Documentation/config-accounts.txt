@@ -403,6 +403,18 @@ by the link:config-gerrit.html#notedb.accounts.sequenceBatchSize[
 notedb.accounts.sequenceBatchSize] parameter in the `gerrit.config`
 file.
 
+[[replication]]
+== Replication
+
+To replicate account data the following branches from the `All-Users`
+repository must be replicated:
+
+* `refs/users/*` (user branches)
+* `refs/meta/external-ids` (external IDs)
+* `refs/starred-changes/*` (star labels)
+* `refs/sequences/accounts` (account sequence numbers, not needed for Gerrit
+  slaves)
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

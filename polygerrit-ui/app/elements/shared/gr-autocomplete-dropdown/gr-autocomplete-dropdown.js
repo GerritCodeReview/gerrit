@@ -32,6 +32,7 @@
     properties: {
       index: Number,
       isHidden: {
+        type: Boolean,
         value: true,
         reflectToAttribute: true,
       },

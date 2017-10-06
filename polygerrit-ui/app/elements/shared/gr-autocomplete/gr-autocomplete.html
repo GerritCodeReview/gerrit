@@ -15,10 +15,10 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-autocomplete">
   <template>
@@ -29,39 +29,53 @@ limitations under the License.
         width: 100%;
         @apply --gr-autocomplete;
       }
-      input.borderless,
-      input.borderless:focus {
+      paper-input.borderless,
+      paper-input.borderless:focus {
         border: none;
         outline: none;
       }
-      input.warnUncommitted {
+      paper-input.warnUncommitted {
         color: red;
       }
+      .inputContainer {
+        background-color: #fff;
+      }
+      paper-input {
+        --paper-input-container: {
+          padding: 0;
+          min-width: 15em;
+        }
+        --paper-input-container-input: {
+          font-size: 1em;
+        }
+      }
     </style>
-    <div>
-      <input
-          id="input"
-          class$="[[_computeClass(borderless)]]"
-          is="iron-input"
-          disabled$="[[disabled]]"
-          bind-value="{{text}}"
-          placeholder="[[placeholder]]"
-          on-keydown="_handleKeydown"
-          on-focus="_onInputFocus"
-          on-blur="_onInputBlur"
-          autocomplete="off"/>
-      <gr-autocomplete-dropdown
-          vertical-align="top"
-          vertical-offset="20"
-          horizontal-align="auto"
-          id="suggestions"
-          on-item-selected="_handleItemSelect"
-          on-keydown="_handleKeydown"
-          suggestions="[[_suggestions]]"
-          role="listbox"
-          index="[[_index]]"
-          position-target="[[_inputElement]]">
-      </gr-autocomplete-dropdown>
+    <div class="dropdown-content" slot="dropdown-content">
+      <div class="inputContainer">
+        <paper-input
+            id="input"
+            class$="[[_computeClass(borderless)]]"
+            disabled$="[[disabled]]"
+            value="{{text}}"
+            placeholder="[[placeholder]]"
+            on-keydown="_handleKeydown"
+            on-focus="_onInputFocus"
+            on-blur="_onInputBlur"
+            no-label-float=true>
+        </paper-input>
+        <gr-autocomplete-dropdown
+            vertical-align="top"
+            vertical-offset="[[_verticalOffset]]"
+            horizontal-align="auto"
+            id="suggestions"
+            on-item-selected="_handleItemSelect"
+            on-keydown="_handleKeydown"
+            suggestions="[[_suggestions]]"
+            role="listbox"
+            index="[[_index]]"
+            position-target="[[_inputElement]]">
+        </gr-autocomplete-dropdown>
+      </div>
     </div>
   </template>
   <script src="gr-autocomplete.js"></script>

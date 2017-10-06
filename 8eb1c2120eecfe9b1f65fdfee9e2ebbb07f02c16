@@ -73,6 +73,29 @@
     },
     {
       "key": {
+        "uuid": "9fa21c83_7fa5441c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-06T21:12:56Z",
+      "side": 1,
+      "message": "Nit: Either use /** for Javadoc or a single-line // comment.",
+      "range": {
+        "startLine": 2203,
+        "startChar": 2,
+        "endLine": 2203,
+        "endChar": 4
+      },
+      "revId": "8eb1c2120eecfe9b1f65fdfee9e2ebbb07f02c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0f22668_a829d493",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 8

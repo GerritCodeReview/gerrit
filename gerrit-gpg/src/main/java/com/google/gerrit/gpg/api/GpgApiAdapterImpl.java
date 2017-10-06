@@ -16,6 +16,7 @@ package com.google.gerrit.gpg.api;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.GpgKeysInput;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -75,7 +76,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   public Map<String, GpgKeyInfo> putGpgKeys(
       AccountResource account, List<String> add, List<String> delete)
       throws RestApiException, GpgException {
-    PostGpgKeys.Input in = new PostGpgKeys.Input();
+    GpgKeysInput in = new GpgKeysInput();
     in.add = add;
     in.delete = delete;
     try {

@@ -41,10 +41,12 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.TopicInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -435,7 +437,7 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public void topic(String topic) throws RestApiException {
-    PutTopic.Input in = new PutTopic.Input();
+    TopicInput in = new TopicInput();
     in.topic = topic;
     try {
       putTopic.apply(change, in);
@@ -646,7 +648,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(change, new Index.Input());
+      index.apply(change, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index change", e);
     }
@@ -658,9 +660,9 @@ class ChangeApiImpl implements ChangeApi {
     // StarredChangesUtil.
     try {
       if (ignore) {
-        this.ignore.apply(change, new Ignore.Input());
+        this.ignore.apply(change, new Input());
       } else {
-        unignore.apply(change, new Unignore.Input());
+        unignore.apply(change, new Input());
       }
     } catch (OrmException | IllegalLabelException e) {
       throw asRestApiException("Cannot ignore change", e);
@@ -682,9 +684,9 @@ class ChangeApiImpl implements ChangeApi {
     // StarredChangesUtil.
     try {
       if (reviewed) {
-        markAsReviewed.apply(change, new MarkAsReviewed.Input());
+        markAsReviewed.apply(change, new Input());
       } else {
-        markAsUnreviewed.apply(change, new MarkAsUnreviewed.Input());
+        markAsUnreviewed.apply(change, new Input());
       }
     } catch (OrmException | IllegalLabelException e) {
       throw asRestApiException(

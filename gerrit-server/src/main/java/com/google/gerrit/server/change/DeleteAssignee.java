@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.change.DeleteAssignee.Input;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -45,7 +45,6 @@ import com.google.inject.Singleton;
 @Singleton
 public class DeleteAssignee
     extends RetryingRestModifyView<ChangeResource, Input, Response<AccountInfo>> {
-  public static class Input {}
 
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;

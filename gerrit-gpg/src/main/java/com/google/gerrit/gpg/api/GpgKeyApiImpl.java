@@ -16,6 +16,7 @@ package com.google.gerrit.gpg.api;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKey;
@@ -55,7 +56,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      delete.apply(rsrc, new DeleteGpgKey.Input());
+      delete.apply(rsrc, new Input());
     } catch (PGPException | OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot delete GPG key", e);
     }

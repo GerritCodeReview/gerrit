@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -26,11 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Unignore
-    implements RestModifyView<ChangeResource, Unignore.Input>, UiAction<ChangeResource> {
+public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Unignore.class);
-
-  public static class Input {}
 
   private final StarredChangesUtil stars;
 

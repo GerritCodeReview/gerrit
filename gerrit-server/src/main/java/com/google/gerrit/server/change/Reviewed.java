@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -22,7 +23,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 public class Reviewed {
-  public static class Input {}
 
   @Singleton
   public static class PutReviewed implements RestModifyView<FileResource, Input> {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -30,11 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Ignore
-    implements RestModifyView<ChangeResource, Ignore.Input>, UiAction<ChangeResource> {
+public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Ignore.class);
-
-  public static class Input {}
 
   private final StarredChangesUtil stars;
 

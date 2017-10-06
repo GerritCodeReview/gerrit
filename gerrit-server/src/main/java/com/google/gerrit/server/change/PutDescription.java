@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -42,15 +42,11 @@ import java.util.Collections;
 
 @Singleton
 public class PutDescription
-    extends RetryingRestModifyView<RevisionResource, PutDescription.Input, Response<String>>
+    extends RetryingRestModifyView<RevisionResource, DescriptionInput, Response<String>>
     implements UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
-
-  public static class Input {
-    @DefaultInput public String description;
-  }
 
   @Inject
   PutDescription(
@@ -66,11 +62,11 @@ public class PutDescription
 
   @Override
   protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, Input input)
+      BatchUpdate.Factory updateFactory, RevisionResource rsrc, DescriptionInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 
-    Op op = new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
+    Op op = new Op(input != null ? input : new DescriptionInput(), rsrc.getPatchSet().getId());
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
@@ -83,13 +79,13 @@ public class PutDescription
   }
 
   private class Op implements BatchUpdateOp {
-    private final Input input;
+    private final DescriptionInput input;
     private final PatchSet.Id psId;
 
     private String oldDescription;
     private String newDescription;
 
-    Op(Input input, PatchSet.Id psId) {
+    Op(DescriptionInput input, PatchSet.Id psId) {
       this.input = input;
       this.psId = psId;
     }

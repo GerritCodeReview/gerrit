@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -25,7 +26,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.DeleteEmail.Input;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -41,7 +41,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
-  public static class Input {}
 
   private final Provider<CurrentUser> self;
   private final Realm realm;

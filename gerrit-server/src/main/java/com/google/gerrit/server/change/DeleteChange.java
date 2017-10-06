@@ -17,13 +17,13 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.DeleteChange.Input;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,7 +39,6 @@ import com.google.inject.Singleton;
 @Singleton
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
-  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final Provider<DeleteChangeOp> opProvider;

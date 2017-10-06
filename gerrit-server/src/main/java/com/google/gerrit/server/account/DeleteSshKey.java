@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.DeleteSshKey.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,7 +33,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Input> {
-  public static class Input {}
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;

@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -23,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.change.Rebuild.Input;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -40,7 +40,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Rebuild implements RestModifyView<ChangeResource, Input> {
-  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;

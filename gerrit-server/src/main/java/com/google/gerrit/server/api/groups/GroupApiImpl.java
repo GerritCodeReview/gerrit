@@ -18,9 +18,13 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.NameInput;
+import com.google.gerrit.extensions.common.OwnerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.AddSubgroups;
@@ -138,7 +142,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void name(String name) throws RestApiException {
-    PutName.Input in = new PutName.Input();
+    NameInput in = new NameInput();
     in.name = name;
     try {
       putName.apply(rsrc, in);
@@ -158,7 +162,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void owner(String owner) throws RestApiException {
-    PutOwner.Input in = new PutOwner.Input();
+    OwnerInput in = new OwnerInput();
     in.owner = owner;
     try {
       putOwner.apply(rsrc, in);
@@ -174,7 +178,7 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public void description(String description) throws RestApiException {
-    PutDescription.Input in = new PutDescription.Input();
+    DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
       putDescription.apply(rsrc, in);
@@ -269,7 +273,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(rsrc, new Index.Input());
+      index.apply(rsrc, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
     }

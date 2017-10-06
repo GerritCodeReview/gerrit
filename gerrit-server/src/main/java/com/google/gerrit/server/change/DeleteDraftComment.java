@@ -18,6 +18,7 @@ import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,7 +27,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -44,7 +44,6 @@ import java.util.Optional;
 @Singleton
 public class DeleteDraftComment
     extends RetryingRestModifyView<DraftCommentResource, Input, Response<CommentInfo>> {
-  static class Input {}
 
   private final Provider<ReviewDb> db;
   private final CommentsUtil commentsUtil;

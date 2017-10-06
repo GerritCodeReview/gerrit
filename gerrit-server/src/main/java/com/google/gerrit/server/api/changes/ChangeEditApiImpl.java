@@ -19,6 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -106,7 +107,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteChangeEdit.apply(changeResource, new DeleteChangeEdit.Input());
+      deleteChangeEdit.apply(changeResource, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete change edit", e);
     }

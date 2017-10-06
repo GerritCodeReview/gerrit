@@ -82,8 +82,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class DeleteMember implements RestModifyView<MemberResource, DeleteMember.Input> {
-    static class Input {}
+  static class DeleteMember implements RestModifyView<MemberResource, Input> {
 
     private final Provider<DeleteMembers> delete;
 

@@ -17,10 +17,10 @@ package com.google.gerrit.server.plugins;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.plugins.ReloadPlugin.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.PrintWriter;
@@ -29,7 +29,6 @@ import java.io.StringWriter;
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class ReloadPlugin implements RestModifyView<PluginResource, Input> {
-  public static class Input {}
 
   private final PluginLoader loader;
 

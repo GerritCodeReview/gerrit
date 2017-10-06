@@ -23,7 +23,11 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
+import com.google.gerrit.extensions.common.HttpPasswordInput;
+import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -193,13 +197,13 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (fullName != null) {
-        PutName.Input in = new PutName.Input();
+        NameInput in = new NameInput();
         in.name = fullName;
         putName.apply(rsrc, in);
       }
 
       if (httpPassword != null || clearHttpPassword) {
-        PutHttpPassword.Input in = new PutHttpPassword.Input();
+        HttpPasswordInput in = new HttpPasswordInput();
         in.httpPassword = httpPassword;
         putHttpPassword.apply(rsrc, in);
       }
@@ -232,7 +236,7 @@ final class SetAccountCommand extends SshCommand {
       throws RestApiException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
     for (String sshKey : sshKeys) {
-      AddSshKey.Input in = new AddSshKey.Input();
+      SshKeyInput in = new SshKeyInput();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
       addSshKey.apply(rsrc, in);
     }
@@ -284,10 +288,10 @@ final class SetAccountCommand extends SshCommand {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
-        deleteEmail.apply(new AccountResource.Email(user, e.email), new DeleteEmail.Input());
+        deleteEmail.apply(new AccountResource.Email(user, e.email), new Input());
       }
     } else {
-      deleteEmail.apply(new AccountResource.Email(user, email), new DeleteEmail.Input());
+      deleteEmail.apply(new AccountResource.Email(user, email), new Input());
     }
   }
 

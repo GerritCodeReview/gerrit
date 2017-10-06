@@ -18,11 +18,11 @@ import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.FlushCache.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,7 +33,6 @@ import com.google.inject.Singleton;
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton
 public class FlushCache implements RestModifyView<CacheResource, Input> {
-  public static class Input {}
 
   public static final String WEB_SESSIONS = "web_sessions";
 

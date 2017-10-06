@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -31,10 +32,8 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MarkAsReviewed
-    implements RestModifyView<ChangeResource, MarkAsReviewed.Input>, UiAction<ChangeResource> {
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(MarkAsReviewed.class);
-
-  public static class Input {}
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;

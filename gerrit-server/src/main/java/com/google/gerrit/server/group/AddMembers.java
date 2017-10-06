@@ -204,8 +204,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  static class PutMember implements RestModifyView<GroupResource, PutMember.Input> {
-    static class Input {}
+  static class PutMember implements RestModifyView<GroupResource, Input> {
 
     private final AddMembers put;
     private final String id;
@@ -216,7 +215,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(GroupResource resource, PutMember.Input input)
+    public AccountInfo apply(GroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
             IOException, ConfigInvalidException {
       AddMembers.Input in = new AddMembers.Input();
@@ -234,7 +233,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateMember implements RestModifyView<MemberResource, PutMember.Input> {
+  static class UpdateMember implements RestModifyView<MemberResource, Input> {
     private final GetMember get;
 
     @Inject
@@ -243,7 +242,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(MemberResource resource, PutMember.Input input) throws OrmException {
+    public AccountInfo apply(MemberResource resource, Input input) throws OrmException {
       // Do nothing, the user is already a member.
       return get.apply(resource);
     }

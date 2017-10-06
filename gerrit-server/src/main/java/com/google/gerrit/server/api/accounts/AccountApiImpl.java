@@ -34,7 +34,9 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.common.SshKeyInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -219,9 +221,9 @@ public class AccountApiImpl implements AccountApi {
   public void setActive(boolean active) throws RestApiException {
     try {
       if (active) {
-        putActive.apply(account, new PutActive.Input());
+        putActive.apply(account, new Input());
       } else {
-        deleteActive.apply(account, new DeleteActive.Input());
+        deleteActive.apply(account, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);
@@ -423,7 +425,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public SshKeyInfo addSshKey(String key) throws RestApiException {
-    AddSshKey.Input in = new AddSshKey.Input();
+    SshKeyInput in = new SshKeyInput();
     in.raw = RawInputUtil.create(key);
     try {
       return addSshKey.apply(account, in).value();
@@ -490,7 +492,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(account, new Index.Input());
+      index.apply(account, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index account", e);
     }

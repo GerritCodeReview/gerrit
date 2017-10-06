@@ -15,6 +15,7 @@
 package com.google.gerrit.server.api.plugins;
 
 import com.google.gerrit.extensions.api.plugins.PluginApi;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.plugins.DisablePlugin;
@@ -57,16 +58,16 @@ public class PluginApiImpl implements PluginApi {
 
   @Override
   public void enable() throws RestApiException {
-    enable.apply(resource, new EnablePlugin.Input());
+    enable.apply(resource, new Input());
   }
 
   @Override
   public void disable() throws RestApiException {
-    disable.apply(resource, new DisablePlugin.Input());
+    disable.apply(resource, new Input());
   }
 
   @Override
   public void reload() throws RestApiException {
-    reload.apply(resource, new ReloadPlugin.Input());
+    reload.apply(resource, new Input());
   }
 }

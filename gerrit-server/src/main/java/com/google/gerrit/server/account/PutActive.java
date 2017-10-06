@@ -16,10 +16,10 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.PutActive.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,7 +29,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class PutActive implements RestModifyView<AccountResource, Input> {
-  public static class Input {}
 
   private final SetInactiveFlag setInactiveFlag;
 

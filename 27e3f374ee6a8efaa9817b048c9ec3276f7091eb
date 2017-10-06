@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "317c6e21_f80ce7b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryChanges.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-06T14:20:15Z",
+      "side": 1,
+      "message": "The QueryRequiresAuthException says the message may be visible to end users, so I would have expected this exception message to be e.message().\n\nAlso this exception cause should be e.",
+      "revId": "27e3f374ee6a8efaa9817b048c9ec3276f7091eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

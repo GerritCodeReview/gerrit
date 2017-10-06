@@ -486,6 +486,22 @@ limitations under the License.
         assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
       });
 
+      test('_handleQueryRoute', () => {
+        const data = {params: ['project:foo/bar/baz']};
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: undefined,
+        });
+
+        data.params.push(',123', '123');
+        assertDataToParams(data, '_handleQueryRoute', {
+          view: Gerrit.Nav.View.SEARCH,
+          query: 'project:foo/bar/baz',
+          offset: '123',
+        });
+      });
+
       suite('_handleRegisterRoute', () => {
         test('happy path', () => {
           const ctx = {params: ['/foo/bar']};

@@ -241,24 +241,24 @@ limitations under the License.
           view: Gerrit.Nav.View.CHANGE,
           changeNum: '1234',
           project: 'test',
-          querystring: 'revert&foo=bar'
+          querystring: 'revert&foo=bar',
         };
 
         assert.equal(element._generateUrl(params), '/c/test/+/1234');
         assert.equal(element._generateUrl(paramsWithQuery),
-                     '/c/test/+/1234?revert&foo=bar');
+            '/c/test/+/1234?revert&foo=bar');
 
         params.patchNum = 10;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
         paramsWithQuery.patchNum = 10;
         assert.equal(element._generateUrl(paramsWithQuery),
-                     '/c/test/+/1234/10?revert&foo=bar');
+            '/c/test/+/1234/10?revert&foo=bar');
 
         params.basePatchNum = 5;
         assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
         paramsWithQuery.basePatchNum = 5;
         assert.equal(element._generateUrl(paramsWithQuery),
-                     '/c/test/+/1234/5..10?revert&foo=bar');
+            '/c/test/+/1234/5..10?revert&foo=bar');
       });
 
       test('diff', () => {

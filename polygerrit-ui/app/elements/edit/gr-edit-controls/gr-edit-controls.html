@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -57,6 +58,15 @@ limitations under the License.
           padding: 0 .15em;
         }
       }
+      input {
+        border: 1px solid #d1d2d3;
+        border-radius: 2px;
+        font-size: 1em;
+        height: 2em;
+        margin: .5em 0;
+        padding: 0 .15em;
+        width: 100%;
+      }
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
       <gr-button
@@ -75,7 +85,6 @@ limitations under the License.
         <div class="header">Edit a file</div>
         <div class="main">
           <gr-autocomplete
-              class="input"
               placeholder="Enter an existing or new full file path."
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
@@ -91,10 +100,29 @@ limitations under the License.
         <div class="header">Delete a file</div>
         <div class="main">
           <gr-autocomplete
-              class="input"
               placeholder="Enter an existing full file path."
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
+        </div>
+      </gr-confirm-dialog>
+      <gr-confirm-dialog
+          id="renameDialog"
+          class="invisible dialog"
+          disabled$="[[!_computeRenameDisabled(_path, _newPath)]]"
+          confirm-label="Rename"
+          on-confirm="_handleRenameConfirm"
+          on-cancel="_handleDialogCancel">
+        <div class="header">Rename a file</div>
+        <div class="main">
+          <gr-autocomplete
+              placeholder="Enter an existing full file path."
+              query="[[_query]]"
+              text="{{_path}}"></gr-autocomplete>
+          <input
+              class="newPathInput"
+              is="iron-input"
+              bind-value="{{_newPath}}"
+              placeholder="Enter the new path."/>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

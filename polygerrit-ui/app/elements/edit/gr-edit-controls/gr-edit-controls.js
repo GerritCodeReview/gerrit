@@ -17,8 +17,8 @@
   const Actions = {
     EDIT: {label: 'Edit', key: 'edit'},
     DELETE: {label: 'Delete', key: 'delete'},
-    /* TODO(kaspern): Implement these actions.
     RENAME: {label: 'Rename', key: 'rename'},
+    /* TODO(kaspern): Implement these actions.
     REVERT: {label: 'Revert', key: 'revert'},
     CHECKOUT: {label: 'Check out', key: 'checkout'},
     */
@@ -34,6 +34,10 @@
         value() { return Object.values(Actions); },
       },
       _path: {
+        type: String,
+        value: '',
+      },
+      _newPath: {
         type: String,
         value: '',
       },
@@ -60,6 +64,9 @@
         case Actions.DELETE.key:
           this.openDeleteDialog();
           return;
+        case Actions.RENAME.key:
+          this.openRenameDialog();
+          return;
       }
     },
 
@@ -73,6 +80,11 @@
       return this._showDialog(this.$.deleteDialog);
     },
 
+    openRenameDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.renameDialog);
+    },
+
     /**
      * Given a path string, checks that it is a valid file path.
      * @param {string} path
@@ -81,6 +93,10 @@
     _isValidPath(path) {
       // Double negation needed for strict boolean return type.
       return !!path.length && !path.endsWith('/');
+    },
+
+    _computeRenameDisabled(path, newPath) {
+      return this._isValidPath(path) && this._isValidPath(newPath);
     },
 
     /**
@@ -98,14 +114,20 @@
     _showDialog(dialog) {
       return this.$.overlay.open().then(() => {
         dialog.classList.toggle('invisible', false);
-        dialog.querySelector('.input').focus();
+        dialog.querySelector('gr-autocomplete').focus();
         this.async(() => { this.$.overlay.center(); }, 1);
       });
     },
 
     _closeDialog(dialog) {
+      // Dialog may have autocompletes and plain inputs -- as these have
+      // different properties representing their bound text, it is easier to
+      // just make two separate queries.
       dialog.querySelectorAll('gr-autocomplete')
           .forEach(input => { input.text = ''; });
+      dialog.querySelectorAll('input')
+          .forEach(input => { input.bindValue = ''; });
+
       dialog.classList.toggle('invisible', true);
       return this.$.overlay.close();
     },
@@ -123,6 +145,15 @@
     _handleDeleteConfirm(e) {
       this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
           .then(res => {
+            if (!res.ok) { return; }
+            this._closeDialog(this._getDialogFromEvent(e));
+            Gerrit.Nav.navigateToChange(this.change);
+          });
+    },
+
+    _handleRenameConfirm(e) {
+      return this.$.restAPI.renameFileInChangeEdit(this.change._number,
+          this._path, this._newPath).then(res => {
             if (!res.ok) { return; }
             this._closeDialog(this._getDialogFromEvent(e));
             Gerrit.Nav.navigateToChange(this.change);

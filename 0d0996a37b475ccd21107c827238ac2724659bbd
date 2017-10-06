@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507277891 +0200\nnonce ANEgCxfm/O3ayaHyJtvBfYji68GhJk0gpiQefAJE1oOgugMPy3G/geSPE5OfaTMUYevqshMWKWga\n\n0000000000000000000000000000000000000000 0d0996a37b475ccd21107c827238ac2724659bbd refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ1zxEAAoJEFG1/Zeg0O9RsigIAJQ89ylqgfEoTxj/qYeyDU/E\nIbjF+tH3tloULLTGWFhwJjqdMCSdeNm4siztj/n4UJPhCSkqBvCuxxZqYixOc93G\nUQpcCJUH7U4lL3XbANmA2ERW4YpQUnxBjyUgHONkxVKjsr7KBJnxhHht6Y2bdBGu\nIm+el8xlDIpHb/0IFxiFhz9jjybH9WklUUtPqUZ40eqfyv0JlalBu7NDi2lTCVmU\nAydGIKVpx7fHC/k5pqA9FzvcAaRQDZSKueeFVH5d3Upyhmu8QtvncucTbhf4Uz2K\n7Q+7LGRZ+jJFQxfFMAOMWtvQU8shRLJ5/mVbNvVBm5CtBOwq6qEwps72GhYHMI4\u003d\n\u003dkGwT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "81b01532_c0a99491",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-06T10:40:22Z",
+      "side": 1,
+      "message": "Why do we expect that a change is reindexed in this case?\n\nShould we also test for reindex when setting the ignore and mute stars?",
+      "revId": "0d0996a37b475ccd21107c827238ac2724659bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
@@ -27,6 +28,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -54,19 +58,53 @@ public class Schema_161 extends SchemaVersion {
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      bru.setAllowNonFastForwards(true);
+
       for (Ref ref : git.getRefDatabase().getRefs(RefNames.REFS_STARRED_CHANGES).values()) {
         StarRef starRef = StarredChangesUtil.readLabels(git, ref.getName());
-        if (starRef.labels().contains(MUTE_LABEL)) {
-          ObjectId id =
-              StarredChangesUtil.writeLabels(
-                  git,
-                  starRef
-                      .labels()
-                      .stream()
-                      .map(l -> l.equals(MUTE_LABEL) ? StarredChangesUtil.REVIEWED_LABEL : l)
-                      .collect(toList()));
-          bru.addCommand(new ReceiveCommand(ObjectId.zeroId(), id, ref.getName()));
+
+        Set<Integer> mutedPatchSets =
+            StarredChangesUtil.getStarredPatchSets(starRef.labels(), MUTE_LABEL);
+        if (mutedPatchSets.isEmpty()) {
+          continue;
         }
+
+        Set<Integer> reviewedPatchSets =
+            StarredChangesUtil.getStarredPatchSets(
+                starRef.labels(), StarredChangesUtil.REVIEWED_LABEL);
+        Set<Integer> unreviewedPatchSets =
+            StarredChangesUtil.getStarredPatchSets(
+                starRef.labels(), StarredChangesUtil.UNREVIEWED_LABEL);
+
+        List<String> newLabels =
+            starRef
+                .labels()
+                .stream()
+                .map(
+                    l -> {
+                      if (l.startsWith(MUTE_LABEL)) {
+                        Integer mutedPatchSet = Ints.tryParse(l.substring(MUTE_LABEL.length() + 1));
+                        if (mutedPatchSet == null) {
+                          // unexpected format of mute label, must be a label that was manually
+                          // set, just leave it alone
+                          return l;
+                        }
+                        if (!reviewedPatchSets.contains(mutedPatchSet)
+                            && !unreviewedPatchSets.contains(mutedPatchSet)) {
+                          // convert mute label to reviewed label
+                          return StarredChangesUtil.REVIEWED_LABEL + "/" + mutedPatchSet;
+                        }
+                        // else patch set is muted but has either reviewed or unreviewed label
+                        // -> just drop the mute label
+                        return null;
+                      }
+                      return l;
+                    })
+                .filter(Objects::nonNull)
+                .collect(toList());
+
+        ObjectId id = StarredChangesUtil.writeLabels(git, newLabels);
+        bru.addCommand(new ReceiveCommand(ref.getTarget().getObjectId(), id, ref.getName()));
       }
       bru.execute(rw, new TextProgressMonitor());
     } catch (IOException | IllegalLabelException ex) {

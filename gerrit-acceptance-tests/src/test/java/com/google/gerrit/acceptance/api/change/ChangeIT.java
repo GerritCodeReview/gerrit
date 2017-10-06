@@ -41,6 +41,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
+import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -57,6 +58,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -105,6 +107,7 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -170,6 +173,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+
+  private ChangeIndexedCounter changeIndexedCounter;
+  private RegistrationHandle changeIndexedCounterHandle;
+
   @Before
   public void setTimeForTesting() {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
@@ -179,6 +187,19 @@ public class ChangeIT extends AbstractDaemonTest {
   public void resetTime() {
     TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
+  }
+
+  @Before
+  public void addChangeIndexedCounter() {
+    changeIndexedCounter = new ChangeIndexedCounter();
+    changeIndexedCounterHandle = changeIndexedListeners.add(changeIndexedCounter);
+  }
+
+  @After
+  public void removeChangeIndexedCounter() {
+    if (changeIndexedCounterHandle != null) {
+      changeIndexedCounterHandle.remove();
+    }
   }
 
   @Test
@@ -3299,6 +3320,25 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void starUnstar() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    changeIndexedCounter.clear();
+
+    gApi.accounts().self().starChange(triplet);
+    ChangeInfo change = info(triplet);
+    assertThat(change.starred).isTrue();
+    assertThat(change.stars).contains(DEFAULT_LABEL);
+    changeIndexedCounter.assertReindexOf(change);
+
+    gApi.accounts().self().unstarChange(triplet);
+    change = info(triplet);
+    assertThat(change.starred).isNull();
+    assertThat(change.stars).isNull();
+    changeIndexedCounter.assertReindexOf(change);
+  }
+
+  @Test
   public void ignore() throws Exception {
     TestAccount user2 = accountCreator.user2();
 
@@ -3479,5 +3519,37 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("invalid labels: " + invalidLabel);
     gApi.accounts().self().setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel)));
+  }
+
+  private static class ChangeIndexedCounter implements ChangeIndexedListener {
+    private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
+
+    @Override
+    public void onChangeIndexed(int id) {
+      countsByChange.incrementAndGet(id);
+    }
+
+    @Override
+    public void onChangeDeleted(int id) {
+      countsByChange.incrementAndGet(id);
+    }
+
+    void clear() {
+      countsByChange.clear();
+    }
+
+    long getCount(ChangeInfo info) {
+      return countsByChange.get(info._number);
+    }
+
+    void assertReindexOf(ChangeInfo info) {
+      assertReindexOf(info, 1);
+    }
+
+    void assertReindexOf(ChangeInfo info, int expectedCount) {
+      assertThat(getCount(info)).isEqualTo(expectedCount);
+      assertThat(countsByChange).hasSize(1);
+      clear();
+    }
   }
 }

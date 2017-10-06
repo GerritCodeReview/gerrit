@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -163,6 +164,7 @@ public class StarredChangesUtil {
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
   private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsers;
   private final Provider<ReviewDb> dbProvider;
   private final PersonIdent serverIdent;
@@ -172,12 +174,14 @@ public class StarredChangesUtil {
   @Inject
   StarredChangesUtil(
       GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
       AllUsersName allUsers,
       Provider<ReviewDb> dbProvider,
       @GerritPersonIdent PersonIdent serverIdent,
       ChangeIndexer indexer,
       Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
+    this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
     this.dbProvider = dbProvider;
     this.serverIdent = serverIdent;
@@ -403,24 +407,23 @@ public class StarredChangesUtil {
       throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
 
-    Set<Integer> reviewedPatchSets =
-        labels
-            .stream()
-            .filter(l -> l.startsWith(REVIEWED_LABEL))
-            .map(l -> Integer.valueOf(l.substring(REVIEWED_LABEL.length() + 1)))
-            .collect(toSet());
-    Set<Integer> unreviewedPatchSets =
-        labels
-            .stream()
-            .filter(l -> l.startsWith(UNREVIEWED_LABEL))
-            .map(l -> Integer.valueOf(l.substring(UNREVIEWED_LABEL.length() + 1)))
-            .collect(toSet());
+    Set<Integer> reviewedPatchSets = getStarredPatchSets(labels, REVIEWED_LABEL);
+    Set<Integer> unreviewedPatchSets = getStarredPatchSets(labels, UNREVIEWED_LABEL);
     Optional<Integer> ps =
         Sets.intersection(reviewedPatchSets, unreviewedPatchSets).stream().findFirst();
     if (ps.isPresent()) {
       throw new MutuallyExclusiveLabelsException(
           getReviewedLabel(ps.get()), getUnreviewedLabel(ps.get()));
     }
+  }
+
+  public static Set<Integer> getStarredPatchSets(Set<String> labels, String label) {
+    return labels
+        .stream()
+        .filter(l -> l.startsWith(label))
+        .filter(l -> Ints.tryParse(l.substring(label.length() + 1)) != null)
+        .map(l -> Integer.valueOf(l.substring(label.length() + 1)))
+        .collect(toSet());
   }
 
   private static void validateLabels(Collection<String> labels) throws InvalidLabelsException {
@@ -455,6 +458,7 @@ public class StarredChangesUtil {
         case FORCED:
         case NO_CHANGE:
         case FAST_FORWARD:
+          gitRefUpdated.fire(allUsers, u, null);
           return;
         case IO_FAILURE:
         case LOCK_FAILURE:
@@ -481,6 +485,7 @@ public class StarredChangesUtil {
     RefUpdate.Result result = u.delete();
     switch (result) {
       case FORCED:
+        gitRefUpdated.fire(allUsers, u, null);
         return;
       case NEW:
       case NO_CHANGE:

@@ -1,7 +1,10 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-QUERY_PARSE_EXCEPTION_SRCS = ["src/main/java/com/google/gerrit/index/query/QueryParseException.java"]
+QUERY_PARSE_EXCEPTION_SRCS = [
+    "src/main/java/com/google/gerrit/index/query/QueryParseException.java",
+    "src/main/java/com/google/gerrit/index/query/QueryRequiresAuthException.java",
+]
 
 java_library(
     name = "query_exception",

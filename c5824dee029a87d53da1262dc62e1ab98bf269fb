@@ -70,6 +70,30 @@
       "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbcc29f_ed237bdd",
+        "filename": "version.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-06T09:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6b0f3a7_fe88d00b",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "c5824dee029a87d53da1262dc62e1ab98bf269fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

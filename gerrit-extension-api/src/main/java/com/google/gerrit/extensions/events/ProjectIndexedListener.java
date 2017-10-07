@@ -22,7 +22,7 @@ public interface ProjectIndexedListener {
   /**
    * Invoked when a project is indexed
    *
-   * @param name of the project
+   * @param project name of the project
    */
   void onProjectIndexed(String project);
 }

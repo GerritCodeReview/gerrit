@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.PrintWriter;
@@ -58,14 +57,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
   public SiteIndexer.Result indexAll(final ProjectIndex index) {
     ProgressMonitor progress = new TextProgressMonitor(new PrintWriter(progressOut));
     progress.start(2);
-    Stopwatch sw = Stopwatch.createStarted();
-    List<Project.NameKey> names;
-    try {
-      names = collectProjects(progress);
-    } catch (OrmException e) {
-      log.error("Error collecting projects", e);
-      return new SiteIndexer.Result(sw, false, 0, 0);
-    }
+    List<Project.NameKey> names = collectProjects(progress);
     return reindexProjects(index, names, progress);
   }
 
@@ -108,7 +100,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
     return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<Project.NameKey> collectProjects(ProgressMonitor progress) throws OrmException {
+  private List<Project.NameKey> collectProjects(ProgressMonitor progress) {
     progress.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
     List<Project.NameKey> names = new ArrayList<>();
     for (Project.NameKey nameKey : projectCache.all()) {

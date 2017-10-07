@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa48c0a0_0e96b6d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-07T06:38:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "315103d0_dfd15525",
+      "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1464d96_e2d85132",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c75c96_328549bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-07T06:38:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabd694a_3010958b",
+      "revId": "b6f5830d59e6f5f1024fc99a376530e9563cecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

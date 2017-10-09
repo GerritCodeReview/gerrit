@@ -22,11 +22,10 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,18 +36,12 @@ public class Check
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
-  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
-  Check(
-      PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
-      ChangeJson.Factory json,
-      ProjectControl.GenericFactory projectControlFactory) {
+  Check(PermissionBackend permissionBackend, Provider<CurrentUser> user, ChangeJson.Factory json) {
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.jsonFactory = json;
-    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
@@ -60,9 +53,9 @@ public class Check
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
       throws RestApiException, OrmException, PermissionBackendException, NoSuchProjectException,
           IOException {
-    if (!rsrc.isUserOwner()
-        && !projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner()) {
-      permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
+    PermissionBackend.WithUser perm = permissionBackend.user(user);
+    if (!rsrc.isUserOwner()) {
+      perm.project(rsrc.getProject()).check(ProjectPermission.READ_ACCESS);
     }
     return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));
   }

@@ -204,7 +204,7 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInput input = createTestConfigInput();
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("restricted to project owner");
+    exception.expectMessage("write access not permitted");
     gApi.projects().name(project.get()).config(input);
   }
 

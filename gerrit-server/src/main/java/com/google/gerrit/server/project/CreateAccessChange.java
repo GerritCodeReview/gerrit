@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -89,24 +90,22 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       throws PermissionBackendException, PermissionDeniedException, IOException,
           ConfigInvalidException, OrmException, InvalidNameException, UpdateException,
           RestApiException {
-    MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
-    List<AccessSection> removals = setAccess.getAccessSections(input.remove);
-    List<AccessSection> additions = setAccess.getAccessSections(input.add);
-
-    PermissionBackend.ForRef metaRef =
-        permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey()).ref(RefNames.REFS_CONFIG);
-    try {
-      metaRef.check(RefPermission.READ);
-    } catch (AuthException denied) {
+    PermissionBackend.ForProject forProject =
+        permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
+    if (!check(forProject, ProjectPermission.READ_ACCESS)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
-    if (!rsrc.getControl().isOwner()) {
+    if (!check(forProject, ProjectPermission.WRITE_ACCESS)) {
       try {
-        metaRef.check(RefPermission.CREATE_CHANGE);
+        forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
       } catch (AuthException denied) {
         throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
       }
     }
+
+    MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
+    List<AccessSection> removals = setAccess.getAccessSections(input.remove);
+    List<AccessSection> additions = setAccess.getAccessSections(input.add);
 
     Project.NameKey newParentProjectName =
         input.parent == null ? null : new Project.NameKey(input.parent);
@@ -158,5 +157,15 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
             ApprovalsUtil.renderMessageWithApprovals(1, ImmutableMap.of(), ImmutableMap.of()))
         .setValidate(false)
         .setUpdateRef(false);
+  }
+
+  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
+      throws PermissionBackendException {
+    try {
+      perm.check(p);
+      return true;
+    } catch (AuthException denied) {
+      return false;
+    }
   }
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.PutConfig;
@@ -160,7 +161,7 @@ final class SetProjectCommand extends SshCommand {
 
     try {
       putConfig.apply(new ProjectResource(projectControl), configInput);
-    } catch (RestApiException e) {
+    } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }
   }

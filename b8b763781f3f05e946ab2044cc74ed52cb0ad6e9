@@ -71,6 +71,30 @@
       "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f071cf_1118ef5f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T13:30:07Z",
+      "side": 1,
+      "message": "Let\u0027s fix the unnecessary usages of optional injection in master, and leave this as-is for consistency.",
+      "parentUuid": "13274fd0_3df7687f",
+      "range": {
+        "startLine": 157,
+        "startChar": 80,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

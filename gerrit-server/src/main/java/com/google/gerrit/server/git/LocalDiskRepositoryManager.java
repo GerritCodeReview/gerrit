@@ -158,7 +158,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     File dir = FileKey.resolve(path.resolve(name.get()).toFile(), FS.DETECTED);
-    FileKey loc;
     if (dir != null) {
       // Already exists on disk, use the repository we found.
       //
@@ -168,14 +167,14 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         throw new RepositoryCaseMismatchException(name);
       }
 
-      loc = FileKey.exact(dir, FS.DETECTED);
-    } else {
-      // It doesn't exist under any of the standard permutations
-      // of the repository name, so prefer the standard bare name.
-      //
-      String n = name.get() + Constants.DOT_GIT_EXT;
-      loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
+      throw new IllegalStateException("Repository already exists: " + name);
     }
+
+    // It doesn't exist under any of the standard permutations
+    // of the repository name, so prefer the standard bare name.
+    //
+    String n = name.get() + Constants.DOT_GIT_EXT;
+    FileKey loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
 
     try {
       Repository db = RepositoryCache.open(loc, false);

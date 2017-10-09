@@ -76,7 +76,17 @@ public enum ProjectPermission {
   RUN_RECEIVE_PACK,
 
   /** Can run upload pack. */
-  RUN_UPLOAD_PACK;
+  RUN_UPLOAD_PACK,
+
+  /** Allow read access to refs/meta/config. */
+  READ_ACCESS,
+
+  /** Allow write access to in refs/meta/config. */
+  WRITE_ACCESS,
+
+  BAN_COMMIT,
+  READ_REF_LOG,
+  SET_DEFAULT_DASHBOARD;
 
   private final String name;
 

@@ -28,6 +28,9 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,28 +56,34 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
   private final DynamicSet<HeadUpdatedListener> headUpdatedListeners;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   SetHead(
       GitRepositoryManager repoManager,
       Provider<IdentifiedUser> identifiedUser,
-      DynamicSet<HeadUpdatedListener> headUpdatedListeners) {
+      DynamicSet<HeadUpdatedListener> headUpdatedListeners,
+      PermissionBackend permissionBackend) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
     this.headUpdatedListeners = headUpdatedListeners;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
   public String apply(ProjectResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, BadRequestException,
-          UnprocessableEntityException, IOException {
-    if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("restricted to project owner");
-    }
+          UnprocessableEntityException, IOException, PermissionBackendException {
     if (input == null || Strings.isNullOrEmpty(input.ref)) {
       throw new BadRequestException("ref required");
     }
     String ref = RefNames.fullName(input.ref);
+
+    permissionBackend
+        .user(rsrc.getUser())
+        .project(rsrc.getNameKey())
+        .ref(ref)
+        .check(RefPermission.SET_HEAD);
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Map<String, Ref> cur = repo.getRefDatabase().exactRef(Constants.HEAD, ref);

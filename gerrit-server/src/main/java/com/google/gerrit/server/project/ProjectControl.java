@@ -201,7 +201,7 @@ public class ProjectControl {
   }
 
   /** Is this user a project owner? */
-  public boolean isOwner() {
+  boolean isOwner() {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER)) || isAdmin();
   }
 
@@ -474,6 +474,13 @@ public class ProjectControl {
           return canRunReceivePack();
         case RUN_UPLOAD_PACK:
           return canRunUploadPack();
+
+        case BAN_COMMIT:
+        case READ_REF_LOG:
+        case SET_DEFAULT_DASHBOARD:
+        case READ_ACCESS:
+        case WRITE_ACCESS:
+          return isOwner();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

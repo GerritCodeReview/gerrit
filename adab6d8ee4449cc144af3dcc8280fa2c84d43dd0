@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a59b94eb_49136bbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T14:20:40Z",
+      "side": 0,
+      "message": "My first thought on looking at this is: we are removing a permission check and not replacing it with anything else, how can this be safe?\n\nIs the idea that this was just an optimization to fail fast, and any real permission issue will fail later? If so, that is probably ok, but please explain a little more in the commit message.",
+      "revId": "adab6d8ee4449cc144af3dcc8280fa2c84d43dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

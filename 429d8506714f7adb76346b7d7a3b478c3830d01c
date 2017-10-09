@@ -16,6 +16,24 @@
       "revId": "429d8506714f7adb76346b7d7a3b478c3830d01c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65922893_9df4ac6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-09T14:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74a6ba05_11ebbaa4",
+      "revId": "429d8506714f7adb76346b7d7a3b478c3830d01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

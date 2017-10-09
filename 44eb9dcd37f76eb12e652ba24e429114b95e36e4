@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5806b85c_37a68b20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T14:36:52Z",
+      "side": 1,
+      "message": "I had to reread this sentence and the enum javadoc several times to realize this is supposed to parse as \"read/write the access section of the config\" and not \"allow read/write access on the ref\". Can we come up with less ambiguous names for the enum?",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "44eb9dcd37f76eb12e652ba24e429114b95e36e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e82311c6_e8a2117b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T14:36:52Z",
+      "side": 1,
+      "message": "Nit: isEditVisible (which confused me when I was trying to search for this in the code)",
+      "range": {
+        "startLine": 19,
+        "startChar": 32,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "44eb9dcd37f76eb12e652ba24e429114b95e36e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734e52ab_8135c671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T14:36:52Z",
+      "side": 1,
+      "message": "This dates to https://gerrit-review.googlesource.com/c/gerrit/+/104535 and smells like an implementation detail of the default permission backend. Do you think a permission backend would ever want to implement these separately?\n\nI know we had also discussed the possibility of moving VisibleRefFilter to be an implementation detail of the DefaultPermissionBackend. If we do that, then my concern goes away.",
+      "revId": "44eb9dcd37f76eb12e652ba24e429114b95e36e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80777b0e_63bafc66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ProjectWatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T14:36:52Z",
+      "side": 1,
+      "message": "Optional: IMO this would make more sense as a static method; there is nothing privileged about the instance on which this method is called.",
+      "revId": "44eb9dcd37f76eb12e652ba24e429114b95e36e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

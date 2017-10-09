@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f17ddd66_b4366acf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T18:03:51Z",
+      "side": 1,
+      "message": "I would set this to null and then lazily initialize it inside the \"if (want)\" block below. In a non-default PermissionBackend this may incur an RPC, so it\u0027s worth the effort to avoid it if we don\u0027t need it.",
+      "revId": "ec3458105196a04ccd96def75994c37b5b5c505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2dbb817_c8663853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T18:03:51Z",
+      "side": 1,
+      "message": "I\u0027m a little bit concerned about the fact that we\u0027re calling this in a relatively tight loop when processing search results. But probably that is not a regression in this change so I think it\u0027s ok for now.",
+      "revId": "ec3458105196a04ccd96def75994c37b5b5c505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d5534b7_39bae8ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-09T18:03:51Z",
+      "side": 1,
+      "message": "This comment is no longer accurate.",
+      "revId": "ec3458105196a04ccd96def75994c37b5b5c505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

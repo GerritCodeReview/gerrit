@@ -561,6 +561,8 @@ public class RefControl {
           return canUpdate();
         case FORCE_UPDATE:
           return canForceUpdate();
+        case SET_HEAD:
+          return projectControl.isOwner();
 
         case FORGE_AUTHOR:
           return canForgeAuthor();

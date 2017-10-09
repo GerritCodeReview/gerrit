@@ -94,6 +94,7 @@ public class RemoveReviewerControl {
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
+    // TODO(hiesel): Remove all Control usage
     ChangeControl changeControl =
         changeControlFactory.controlFor(dbProvider.get(), change, currentUser);
     if (changeControl.getRefControl().isOwner() // branch owner

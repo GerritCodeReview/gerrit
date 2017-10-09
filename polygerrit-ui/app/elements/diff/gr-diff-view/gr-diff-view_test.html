@@ -100,23 +100,27 @@ limitations under the License.
           '10', PARENT), 'Should navigate to /c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       assert.equal(element.changeViewState.selectedFileIndex, 2);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWith(element._change, 'glados.txt',
           '10', PARENT), 'Should navigate to /c/42/10/glados.txt');
       element._path = 'glados.txt';
       assert.equal(element.changeViewState.selectedFileIndex, 1);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWith(element._change, 'chell.go', '10',
           PARENT), 'Should navigate to /c/42/10/chell.go');
       element._path = 'chell.go';
       assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(changeNavStub.lastCall.calledWith(element._change),
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
 
       const showPrefsStub =
           sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
@@ -190,24 +194,28 @@ limitations under the License.
           '5'), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'wheatley.md', '10', '5'),
           'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'glados.txt', '10', '5'),
           'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
           '10', '5'),
           'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
           '5'),
           'Should navigate to /c/42/5..10');

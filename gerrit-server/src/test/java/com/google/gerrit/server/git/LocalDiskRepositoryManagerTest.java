@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.HostPlatform;
@@ -26,6 +27,12 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.easymock.EasyMockSupport;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -174,6 +181,50 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
     repoManager.createRepository(new Project.NameKey("a"));
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
     newRepoManager.createRepository(new Project.NameKey("a"));
+  }
+
+  @Test
+  public void testConcurrentProjectCreation() throws Exception {
+    Project.NameKey name = new Project.NameKey("a");
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try {
+      CreateRepo create = new CreateRepo(repoManager, name, new CyclicBarrier(2));
+      Future<ResultType> f1 = executor.submit(create);
+      Future<ResultType> f2 = executor.submit(create);
+      assertThat(ImmutableList.of(f1.get(), f2.get()))
+          .containsAllOf(ResultType.OK, ResultType.EXPECTED_EXCEPTION);
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+  }
+
+  private enum ResultType {
+    OK,
+    EXPECTED_EXCEPTION;
+  }
+
+  private static class CreateRepo implements Callable<ResultType> {
+    private final CyclicBarrier sync;
+    private final Project.NameKey name;
+    private final LocalDiskRepositoryManager repoManager;
+
+    CreateRepo(LocalDiskRepositoryManager repoManager, Project.NameKey name, CyclicBarrier sync) {
+      this.repoManager = repoManager;
+      this.name = name;
+      this.sync = sync;
+    }
+
+    @Override
+    public ResultType call() throws Exception {
+      sync.await();
+      try {
+        repoManager.createRepository(name);
+        return ResultType.OK;
+      } catch (IllegalStateException e) {
+        return ResultType.EXPECTED_EXCEPTION;
+      }
+    }
   }
 
   @Test

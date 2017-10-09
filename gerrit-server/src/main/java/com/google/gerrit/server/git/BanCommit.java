@@ -18,10 +18,14 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,6 +74,7 @@ public class BanCommit {
   private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
   private final TimeZone tz;
+  private final PermissionBackend permissionBackend;
   private NotesBranchUtil.Factory notesBranchUtilFactory;
 
   @Inject
@@ -77,17 +82,25 @@ public class BanCommit {
       Provider<IdentifiedUser> currentUser,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent gerritIdent,
-      NotesBranchUtil.Factory notesBranchUtilFactory) {
+      NotesBranchUtil.Factory notesBranchUtilFactory,
+      PermissionBackend permissionBackend) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
+    this.permissionBackend = permissionBackend;
     this.tz = gerritIdent.getTimeZone();
   }
 
   public BanCommitResult ban(
       ProjectControl projectControl, List<ObjectId> commitsToBan, String reason)
-      throws PermissionDeniedException, LockFailureException, IOException {
-    if (!projectControl.isOwner()) {
+      throws PermissionDeniedException, LockFailureException, IOException,
+          PermissionBackendException {
+    try {
+      permissionBackend
+          .user(projectControl.getUser())
+          .project(projectControl.getProject().getNameKey())
+          .check(ProjectPermission.BAN_COMMIT);
+    } catch (AuthException e) {
       throw new PermissionDeniedException("Not project owner: not permitted to ban commits");
     }
 

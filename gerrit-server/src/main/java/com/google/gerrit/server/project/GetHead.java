@@ -72,9 +72,6 @@ public class GetHead implements RestReadView<ProjectResource> {
           }
           throw new AuthException("not allowed to see HEAD");
         } catch (MissingObjectException | IncorrectObjectTypeException e) {
-          if (rsrc.getControl().isOwner()) {
-            return head.getObjectId().name();
-          }
           throw new AuthException("not allowed to see HEAD");
         }
       }

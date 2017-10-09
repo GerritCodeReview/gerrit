@@ -378,7 +378,11 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ConfigInfo config(ConfigInput in) throws RestApiException {
-    return putConfig.apply(checkExists(), in);
+    try {
+      return putConfig.apply(checkExists(), in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list tags", e);
+    }
   }
 
   @Override

@@ -669,6 +669,11 @@ class ReceiveCommits {
       }
       addMessage("");
     }
+
+    // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
+    if (magicBranch != null && magicBranch.publish) {
+      addMessage("Pushing to refs/publish/* is deprecated, use refs/for/* instead.");
+    }
   }
 
   private void insertChangesAndPatchSets() {
@@ -1165,6 +1170,8 @@ class ReceiveCommits {
     )
     boolean draft;
 
+    boolean publish;
+
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1289,6 +1296,7 @@ class ReceiveCommits {
         NotesMigration notesMigration) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+      this.publish = cmd.getRefName().startsWith(MagicBranch.NEW_PUBLISH_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();

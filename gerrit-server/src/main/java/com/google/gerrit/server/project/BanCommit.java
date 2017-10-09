@@ -15,11 +15,10 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.BanCommit.Input;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -61,7 +60,7 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
   @Override
   protected BanResultInfo applyImpl(
       BatchUpdate.Factory updateFactory, ProjectResource rsrc, Input input)
-      throws RestApiException, UpdateException, IOException {
+      throws RestApiException, UpdateException, IOException, PermissionBackendException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {
       List<ObjectId> commitsToBan = new ArrayList<>(input.commits.size());
@@ -73,14 +72,10 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
         }
       }
 
-      try {
-        BanCommitResult result = banCommit.ban(rsrc.getControl(), commitsToBan, input.reason);
-        r.newlyBanned = transformCommits(result.getNewlyBannedCommits());
-        r.alreadyBanned = transformCommits(result.getAlreadyBannedCommits());
-        r.ignored = transformCommits(result.getIgnoredObjectIds());
-      } catch (PermissionDeniedException e) {
-        throw new AuthException(e.getMessage());
-      }
+      BanCommitResult result = banCommit.ban(rsrc.getControl(), commitsToBan, input.reason);
+      r.newlyBanned = transformCommits(result.getNewlyBannedCommits());
+      r.alreadyBanned = transformCommits(result.getAlreadyBannedCommits());
+      r.ignored = transformCommits(result.getIgnoredObjectIds());
     }
     return r;
   }

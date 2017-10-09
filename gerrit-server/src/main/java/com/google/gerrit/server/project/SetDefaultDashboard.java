@@ -18,7 +18,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.common.SetDashboardInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -29,7 +28,9 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -42,6 +43,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
   private final MetaDataUpdate.Server updateFactory;
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> get;
+  private final PermissionBackend permissionBackend;
 
   @Option(name = "--inherited", usage = "set dashboard inherited by children")
   private boolean inherited;
@@ -51,11 +53,13 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
       DashboardsCollection dashboards,
-      Provider<GetDashboard> get) {
+      Provider<GetDashboard> get,
+      PermissionBackend permissionBackend) {
     this.cache = cache;
     this.updateFactory = updateFactory;
     this.dashboards = dashboards;
     this.get = get;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -67,9 +71,10 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     input.id = Strings.emptyToNull(input.id);
 
     ProjectControl ctl = resource.getControl();
-    if (!ctl.isOwner()) {
-      throw new AuthException("not project owner");
-    }
+    permissionBackend
+        .user(ctl.getUser())
+        .project(ctl.getProject().getNameKey())
+        .check(ProjectPermission.WRITE_CONFIG);
 
     DashboardResource target = null;
     if (input.id != null) {

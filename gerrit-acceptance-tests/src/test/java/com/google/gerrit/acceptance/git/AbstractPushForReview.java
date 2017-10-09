@@ -1852,6 +1852,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .isEqualTo(Iterables.getLast(commits).name());
   }
 
+  @Test
+  public void pushToPublishMagicBranchIsAllowed() throws Exception {
+    // Push to "refs/publish/*" will be a synonym of "refs/for/*".
+    createChange("refs/publish/master");
+    PushOneCommit.Result result = pushTo("refs/publish/master");
+    result.assertOkStatus();
+    assertThat(result.getMessage())
+        .endsWith("Pushing to refs/publish/* will be deprecated, use refs/for/* instead.\n");
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

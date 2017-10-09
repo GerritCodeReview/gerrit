@@ -69,6 +69,30 @@
       "revId": "72caf8f0f7adc7edf154ce77dfd4eec3f836a197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d775ee15_74686aae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-09T18:25:48Z",
+      "side": 1,
+      "message": "For at least the parts touched by this change I think this is correct because submitRuleEvaluatorFactory.create(this) would call ChangeData#changeControl() which used the change owner as user instead of the current user.",
+      "parentUuid": "67d9dfb0_f9b168bc",
+      "range": {
+        "startLine": 976,
+        "startChar": 41,
+        "endLine": 976,
+        "endChar": 60
+      },
+      "revId": "72caf8f0f7adc7edf154ce77dfd4eec3f836a197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

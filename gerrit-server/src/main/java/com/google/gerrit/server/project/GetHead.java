@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -72,10 +73,14 @@ public class GetHead implements RestReadView<ProjectResource> {
           }
           throw new AuthException("not allowed to see HEAD");
         } catch (MissingObjectException | IncorrectObjectTypeException e) {
-          if (rsrc.getControl().isOwner()) {
-            return head.getObjectId().name();
+          try {
+            permissionBackend
+                .user(rsrc.getUser())
+                .project(rsrc.getNameKey())
+                .check(ProjectPermission.WRITE_CONFIG);
+          } catch (AuthException ae) {
+            throw new AuthException("not allowed to see HEAD");
           }
-          throw new AuthException("not allowed to see HEAD");
         }
       }
       throw new ResourceNotFoundException(Constants.HEAD);

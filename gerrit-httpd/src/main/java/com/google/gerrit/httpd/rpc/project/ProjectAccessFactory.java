@@ -133,11 +133,17 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
     boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
+    boolean canWriteProjectConfig = true;
+    try {
+      perm.check(ProjectPermission.WRITE_CONFIG);
+    } catch (AuthException e) {
+      canWriteProjectConfig = false;
+    }
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
-        if (pc.isOwner()) {
+        if (canWriteProjectConfig) {
           local.add(section);
           ownerOf.add(name);
 
@@ -218,9 +224,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
     detail.setCanUpload(
-        pc.isOwner()
+        canWriteProjectConfig
             || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
-    detail.setConfigVisible(pc.isOwner() || checkReadConfig);
+    detail.setConfigVisible(canWriteProjectConfig || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(pc.getProjectState().getLabelTypes());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));

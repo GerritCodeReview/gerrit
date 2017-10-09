@@ -49,6 +49,7 @@ import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -93,6 +94,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupBackend groupBackend;
   private final GroupJson groupJson;
+  private Boolean canWriteConfig;
 
   @Inject
   public GetAccess(
@@ -166,16 +168,17 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
-    boolean checkReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
+    boolean canReadConfig = check(perm, ProjectPermission.READ_CONFIG);
+    boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
 
     for (AccessSection section : config.getAccessSections()) {
       String name = section.getName();
       if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
-        if (pc.isOwner()) {
+        if (canWriteConfig) {
           info.local.put(name, createAccessSection(visibleGroups, section));
           info.ownerOf.add(name);
 
-        } else if (checkReadConfig) {
+        } else if (canReadConfig) {
           info.local.put(section.getName(), createAccessSection(visibleGroups, section));
         }
 
@@ -184,7 +187,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
           info.local.put(name, createAccessSection(visibleGroups, section));
           info.ownerOf.add(name);
 
-        } else if (checkReadConfig) {
+        } else if (canReadConfig) {
           info.local.put(name, createAccessSection(visibleGroups, section));
 
         } else if (check(perm, name, READ)) {
@@ -242,13 +245,13 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
     }
 
-    info.isOwner = toBoolean(pc.isOwner());
+    info.isOwner = toBoolean(canWriteConfig);
     info.canUpload =
         toBoolean(
-            pc.isOwner()
-                || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
+            canWriteConfig
+                || (canReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
     info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
-    info.configVisible = checkReadConfig || pc.isOwner();
+    info.configVisible = canReadConfig || canWriteConfig;
 
     info.groups =
         visibleGroups
@@ -285,6 +288,16 @@ public class GetAccess implements RestReadView<ProjectResource> {
       throws PermissionBackendException {
     try {
       ctx.ref(ref).check(perm);
+      return true;
+    } catch (AuthException denied) {
+      return false;
+    }
+  }
+
+  private static boolean check(PermissionBackend.ForProject ctx, ProjectPermission perm)
+      throws PermissionBackendException {
+    try {
+      ctx.check(perm);
       return true;
     } catch (AuthException denied) {
       return false;

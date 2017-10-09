@@ -396,8 +396,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               if (!type.matches(git)) {
                 continue;
               }
-
-              List<Ref> refs = getBranchRefs(projectName, pctl);
+              boolean canReadAllRefs;
+              try {
+                permissionBackend
+                    .user(pctl.getUser())
+                    .project(pctl.getProject().getNameKey())
+                    .check(ProjectPermission.READ);
+                canReadAllRefs = true;
+              } catch (AuthException ae) {
+                canReadAllRefs = false;
+              }
+              List<Ref> refs = getBranchRefs(projectName, canReadAllRefs);
               if (!hasValidRef(refs)) {
                 continue;
               }
@@ -592,13 +601,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     stdout.flush();
   }
 
-  private List<Ref> getBranchRefs(Project.NameKey projectName, ProjectControl projectControl) {
+  private List<Ref> getBranchRefs(Project.NameKey projectName, boolean canReadAllRefs) {
     Ref[] result = new Ref[showBranch.size()];
     try (Repository git = repoManager.openRepository(projectName)) {
       PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (all && projectControl.isOwner()) {
+        if (all && canReadAllRefs) {
           result[i] = ref;
         } else if (ref != null && ref.getObjectId() != null) {
           try {

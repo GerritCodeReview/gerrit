@@ -26,6 +26,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -36,25 +39,32 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  PutDescription(ProjectCache cache, MetaDataUpdate.Server updateFactory) {
+  PutDescription(
+      ProjectCache cache,
+      MetaDataUpdate.Server updateFactory,
+      PermissionBackend permissionBackend) {
     this.cache = cache;
     this.updateFactory = updateFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
   public Response<String> apply(ProjectResource resource, DescriptionInput input)
-      throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException {
+      throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException,
+          PermissionBackendException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }
 
     ProjectControl ctl = resource.getControl();
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
-    if (!ctl.isOwner()) {
-      throw new AuthException("not project owner");
-    }
+    permissionBackend
+        .user(user)
+        .project(resource.getNameKey())
+        .check(ProjectPermission.WRITE_CONFIG);
 
     try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);

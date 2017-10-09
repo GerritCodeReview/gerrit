@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.BanCommit.Input;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -61,7 +62,7 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
   @Override
   protected BanResultInfo applyImpl(
       BatchUpdate.Factory updateFactory, ProjectResource rsrc, Input input)
-      throws RestApiException, UpdateException, IOException {
+      throws RestApiException, UpdateException, IOException, PermissionBackendException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {
       List<ObjectId> commitsToBan = new ArrayList<>(input.commits.size());

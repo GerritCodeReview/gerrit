@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,6 +23,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -40,6 +42,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   private static final Logger log = LoggerFactory.getLogger(GetReflog.class);
 
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
 
   @Option(
     name = "--limit",
@@ -83,15 +86,18 @@ public class GetReflog implements RestReadView<BranchResource> {
   private Timestamp to;
 
   @Inject
-  public GetReflog(GitRepositoryManager repoManager) {
+  public GetReflog(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public List<ReflogEntryInfo> apply(BranchResource rsrc) throws RestApiException, IOException {
-    if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("not project owner");
-    }
+  public List<ReflogEntryInfo> apply(BranchResource rsrc)
+      throws RestApiException, IOException, PermissionBackendException {
+    permissionBackend
+        .user(rsrc.getUser())
+        .project(rsrc.getNameKey())
+        .check(ProjectPermission.READ_REF_LOG);
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ReflogReader r;

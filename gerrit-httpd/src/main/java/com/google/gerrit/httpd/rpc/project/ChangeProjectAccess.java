@@ -80,13 +80,13 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         allProjects,
         setParent,
         user.get(),
-        permissionBackend,
         projectName,
         base,
         sectionList,
         parentProjectName,
         message,
         contributorAgreements,
+        permissionBackend,
         true);
     this.projectAccessFactory = projectAccessFactory;
     this.projectCache = projectCache;

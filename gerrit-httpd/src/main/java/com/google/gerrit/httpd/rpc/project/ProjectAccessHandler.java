@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 
 import com.google.common.base.MoreObjects;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -62,7 +64,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
   private final ContributorAgreementsChecker contributorAgreements;
-  private final CurrentUser user;
   private final PermissionBackend permissionBackend;
 
   protected final Project.NameKey projectName;
@@ -71,6 +72,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   private final Project.NameKey parentProjectName;
   protected String message;
   private boolean checkIfOwner;
+  private CurrentUser user;
+  private Boolean canWriteConfig;
 
   protected ProjectAccessHandler(
       ProjectControl.Factory projectControlFactory,
@@ -79,13 +82,13 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
       CurrentUser user,
-      PermissionBackend permissionBackend,
       Project.NameKey projectName,
       ObjectId base,
       List<AccessSection> sectionList,
       Project.NameKey parentProjectName,
       String message,
       ContributorAgreementsChecker contributorAgreements,
+      PermissionBackend permissionBackend,
       boolean checkIfOwner) {
     this.projectControlFactory = projectControlFactory;
     this.groupBackend = groupBackend;
@@ -93,7 +96,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.allProjects = allProjects;
     this.setParent = setParent;
     this.user = user;
-    this.permissionBackend = permissionBackend;
 
     this.projectName = projectName;
     this.base = base;
@@ -101,6 +103,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.parentProjectName = parentProjectName;
     this.message = message;
     this.contributorAgreements = contributorAgreements;
+    this.permissionBackend = permissionBackend;
     this.checkIfOwner = checkIfOwner;
   }
 
@@ -110,6 +113,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           NoSuchGroupException, OrmException, UpdateParentFailedException,
           PermissionDeniedException, PermissionBackendException {
     final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
+    this.user = projectControl.getUser();
 
     try {
       contributorAgreements.check(projectName, projectControl.getUser());
@@ -126,7 +130,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         String name = section.getName();
 
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
-          if (checkIfOwner && !projectControl.isOwner()) {
+          if (checkIfOwner && !canWriteConfig()) {
             continue;
           }
           replace(config, toDelete, section);
@@ -144,7 +148,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
       for (String name : toDelete) {
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
-          if (!checkIfOwner || projectControl.isOwner()) {
+          if (!checkIfOwner || canWriteConfig()) {
             config.remove(config.getAccessSection(name));
           }
 
@@ -228,5 +232,21 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       }
       ref.setUUID(group.getUUID());
     }
+  }
+
+  /** Provide a local cache for {@code ProjectPermission.WRITE_CONFIG} capability. */
+  private boolean canWriteConfig() throws PermissionBackendException {
+    checkNotNull(user);
+
+    if (canWriteConfig != null) {
+      return canWriteConfig;
+    }
+    try {
+      permissionBackend.user(user).project(projectName).check(ProjectPermission.WRITE_CONFIG);
+      canWriteConfig = true;
+    } catch (AuthException e) {
+      canWriteConfig = false;
+    }
+    return canWriteConfig;
   }
 }

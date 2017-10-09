@@ -128,6 +128,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -870,7 +871,9 @@ class ReceiveCommits {
 
       if (isConfig(cmd)) {
         logDebug("Processing {} command", cmd.getRefName());
-        if (!projectControl.isOwner()) {
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+        } catch (AuthException e) {
           reject(cmd, "not project owner");
           continue;
         }

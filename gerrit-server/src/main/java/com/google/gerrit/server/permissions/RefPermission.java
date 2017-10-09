@@ -24,6 +24,7 @@ public enum RefPermission {
   DELETE(Permission.DELETE),
   UPDATE(Permission.PUSH),
   FORCE_UPDATE,
+  SET_HEAD,
 
   FORGE_AUTHOR(Permission.FORGE_AUTHOR),
   FORGE_COMMITTER(Permission.FORGE_COMMITTER),

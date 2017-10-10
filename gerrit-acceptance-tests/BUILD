@@ -33,7 +33,6 @@ java_library(
         "//lib:gwtorm",
         "//lib:h2",
         "//lib:jimfs",
-        "//lib:jsch",
         "//lib:servlet-api-3_1-without-neverlink",
         "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcprov",

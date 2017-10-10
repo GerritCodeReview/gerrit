@@ -43,7 +43,6 @@ EXPORTS = [
     "//lib:gson",
     "//lib:gwtorm",
     "//lib:icu4j",
-    "//lib:jsch",
     "//lib:mime-util",
     "//lib:protobuf",
     "//lib:servlet-api-3_1-without-neverlink",

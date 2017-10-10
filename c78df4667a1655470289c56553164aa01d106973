@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5370c622_370c0d58",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-10T17:57:45Z",
+      "side": 1,
+      "message": "Please check app/samples folder for the location.\nAlso, please convert this to an .html plugin.",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb48a4f_9997d23f",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-10T17:57:45Z",
+      "side": 1,
+      "message": "(would love to hear from Wyatt on this too)\nI think the overall direction is right, but ideally this code should be a part of API (GrLayerApi in this case).\n\nThe main problem is that there are number of assumptions in this code that might change over time and it\u0027ll be hard to support, e.g. \u0027data-side\u0027\u003d\u003d\u003d\u0027right\u0027, css classes like \u0027gr-diff\u0027 and \u0027style-scope\u0027.\n\nHigh level API should be as specific and direct as possible - I\u0027m not exactly sure what is the final goal, so can\u0027t be specific.\n\nLet\u0027s schedule a meeting or use a doc to figure out smaller API surface that makes sense.",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

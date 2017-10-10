@@ -1097,6 +1097,20 @@ bower_archive(
 )
 
 bower_archive(
+    name = "iron-icon",
+    package = "polymerelements/iron-icon",
+    sha1 = "7da49a0d33cd56017740e0dbcf41d2b71532023f",
+    version = "2.0.0",
+)
+
+bower_archive(
+    name = "iron-iconset-svg",
+    package = "polymerelements/iron-iconset-svg",
+    sha1 = "4d0c406239cad2ff2975c6dd95fa189de0fe6b50",
+    version = "2.1.0",
+)
+
+bower_archive(
     name = "moment",
     package = "moment/moment",
     sha1 = "fc8ce2c799bab21f6ced7aff928244f4ca8880aa",

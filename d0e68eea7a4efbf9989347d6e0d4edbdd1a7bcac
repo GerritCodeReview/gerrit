@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b841de4_7fe86766",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-10T15:21:12Z",
+      "side": 1,
+      "message": "This has to be DynamicItem\u003cProjectNameLockManager\u003e so that plugins can provide own implementation",
+      "revId": "d0e68eea7a4efbf9989347d6e0d4edbdd1a7bcac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

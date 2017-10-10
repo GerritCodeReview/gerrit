@@ -23,6 +23,7 @@
     COMMENT: 'comment',
     REVERT: 'revert',
     POST_REVERT: 'postrevert',
+    ANNOTATE_DIFF: 'annotatediff',
   };
 
   const Element = {
@@ -176,6 +177,23 @@
         }
       }
       return revertMsg;
+    },
+
+    getDiffLayers(path, changeNum, patchNum) {
+      const layers = [];
+      for (const annotationApi of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+        try {
+          console.log('in get diff layers in gr-js-api-interface');
+          console.log(path);
+          console.log(changeNum);
+          console.log(patchNum);
+          const layer = annotationApi.getLayer(path, changeNum, patchNum);
+          layers.push(layer);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      return layers;
     },
 
     getLabelValuesPostRevert(change) {

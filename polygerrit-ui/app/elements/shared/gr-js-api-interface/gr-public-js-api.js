@@ -95,7 +95,8 @@
     } else if (!pathname.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
-      return;
+      // TODO(rmistry): For testing.
+      // return;
     }
     this._name = pathname.split('/')[2];
 
@@ -173,6 +174,13 @@
 
   Plugin.prototype.delete = function(url, opt_callback) {
     return Gerrit.delete(this.url(url), opt_callback);
+  };
+
+  // rmistry
+  Plugin.prototype.annotationApi = function() {
+    // TODO(rmistry): Add something form the _sharedAPIElement below?
+    console.log("About to call GrAnnotationActionsInterface from gr-js-api-interface");
+    return new GrAnnotationActionsInterface(this);
   };
 
   Plugin.prototype.changeActions = function() {

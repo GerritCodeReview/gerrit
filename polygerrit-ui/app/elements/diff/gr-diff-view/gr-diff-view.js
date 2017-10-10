@@ -540,6 +540,7 @@
 
       promises.push(this._getChangeEdit(this._changeNum));
 
+      this._loading = true;
       Promise.all(promises).then(r => {
         const edit = r[4];
         if (edit) {

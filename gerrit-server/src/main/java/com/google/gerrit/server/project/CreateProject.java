@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -65,6 +66,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -103,6 +105,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
+  private final DynamicItem<ProjectNameLockManager> lockManager;
   private final String name;
 
   @Inject
@@ -123,6 +126,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
+      DynamicItem<ProjectNameLockManager> lockManager,
       @Assisted String name) {
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
@@ -140,6 +144,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.identifiedUser = identifiedUser;
     this.putConfig = putConfig;
     this.allProjects = allProjects;
+    this.lockManager = lockManager;
     this.name = name;
   }
 
@@ -192,22 +197,27 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException(e.getMessage());
     }
 
-    for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
-      try {
-        l.validateNewProject(args);
-      } catch (ValidationException e) {
-        throw new ResourceConflictException(e.getMessage(), e);
+    Lock nameLock = lockManager.get().getLock(args.getProject());
+    nameLock.lock();
+    try {
+      for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
+        try {
+          l.validateNewProject(args);
+        } catch (ValidationException e) {
+          throw new ResourceConflictException(e.getMessage(), e);
+        }
       }
-    }
 
-    ProjectState projectState = createProject(args);
-    if (input.pluginConfigValues != null) {
-      ConfigInput in = new ConfigInput();
-      in.pluginConfigValues = input.pluginConfigValues;
-      putConfig.get().apply(projectState, in);
+      ProjectState projectState = createProject(args);
+      if (input.pluginConfigValues != null) {
+        ConfigInput in = new ConfigInput();
+        in.pluginConfigValues = input.pluginConfigValues;
+        putConfig.get().apply(projectState, in);
+      }
+      return Response.created(json.format(projectState));
+    } finally {
+      nameLock.unlock();
     }
-
-    return Response.created(json.format(projectState));
   }
 
   private ProjectState createProject(CreateProjectArgs args)

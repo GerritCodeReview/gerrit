@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -126,6 +127,11 @@ public class ChangesCollection
   }
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
-    return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
+    try {
+      permissionBackend.user(user).change(notes).database(db).check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 }

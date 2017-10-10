@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -103,7 +101,6 @@ public class MergeSuperSet {
   private final Config cfg;
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -114,14 +111,12 @@ public class MergeSuperSet {
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
-      PermissionBackend permissionBackend,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      PermissionBackend permissionBackend) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.permissionBackend = permissionBackend;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     queryCache = new HashMap<>();
     heads = new HashMap<>();
   }
@@ -152,21 +147,8 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps) throws OrmException {
-    // Submit type prolog rules mean that the submit type can depend on the
-    // submitting user and the content of the change.
-    //
-    // If the current user can see the change, run that evaluation to get a
-    // preview of what would happen on submit.  If the current user can't see
-    // the change, instead of guessing who would do the submitting, rely on the
-    // project configuration and ignore the prolog rule.  If the prolog rule
-    // doesn't match that, we may pick the wrong submit type and produce a
-    // misleading (but still nonzero) count of the non visible changes that
-    // would be submitted together with the visible ones.
-    SubmitTypeRecord str =
-        ps == cd.currentPatchSet()
-            ? cd.submitTypeRecord()
-            : submitRuleEvaluatorFactory.create(user, cd).setPatchSet(ps).getSubmitType();
+  private SubmitType submitType(ChangeData cd) throws OrmException {
+    SubmitTypeRecord str = cd.submitTypeRecord();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }
@@ -230,11 +212,7 @@ public class MergeSuperSet {
           visible = false;
         }
 
-        // Pick a revision to use for traversal.  If any of the patch sets
-        // is visible, we use the most recent one.  Otherwise, use the current
-        // patch set.
-        PatchSet ps = cd.currentPatchSet();
-        if (submitType(user, cd, ps) == SubmitType.CHERRY_PICK) {
+        if (submitType(cd) == SubmitType.CHERRY_PICK) {
           if (visible) {
             visibleChanges.add(cd);
           } else {
@@ -245,7 +223,7 @@ public class MergeSuperSet {
         }
 
         // Get the underlying git commit object
-        String objIdStr = ps.getRevision().get();
+        String objIdStr = cd.currentPatchSet().getRevision().get();
         RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
 
         // Always include the input, even if merged. This allows

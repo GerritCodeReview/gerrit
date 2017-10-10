@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507204440 +0200\nnonce ANEgCxc8oGV83h0BqYKnnF2mvKOn8dRXleLElUPE/bSnNk95spnTigYRAtKrxj/C2Vxi8PWRYasl\n\n0000000000000000000000000000000000000000 b70b92ca57b1bfc2e7361e973c7ff5d041293ff8 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ1h1YAAoJEFG1/Zeg0O9RJk0IAJ4qqpbiytvtsANLW8uCH6KF\nZRHmLeeVbp79AxpNLpl3RtPafnLWGhI61vlE4tlSDxt5zlgXLBWPCl987usIIGai\noj19bziAocUV5s7aqM7KzSUh8Bx45TwiLW9d5MlvtBYtjr68SwMQbbQms9pbWbfU\nmn2mreUVSg9LlMNwXFdmVeDMpl1Gh8hgwsclP4/HQ3mNSjobQ37ETdd+8VoJRrIO\nEcqVRqau0k/KtYh4TQZTfizHlngZ0PDfHGOPFtUX1/g+Kni2IqvpL4MYKP4wvhh7\nc7EBfD4zPP/8BYNf9CbpIj2tPGCol4aoWwsrycnC94CqZd3FVm3+BPSQiIAzaes\u003d\n\u003dmdHr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbfed4c1_371f49ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-10T13:53:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether executing the check here is the correct place. It helps for the immediate issue with the Gerrit slaves but it probably might delegate more often to ReviewDb than it should for other queries on Gerrit masters. We can keep the code like that for 2.15 but I\u0027ll look further into it for the master branch.",
+      "range": {
+        "startLine": 164,
+        "startChar": 27,
+        "endLine": 164,
+        "endChar": 73
+      },
+      "revId": "b70b92ca57b1bfc2e7361e973c7ff5d041293ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

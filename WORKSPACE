@@ -211,9 +211,9 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
+    name = "sshj",
+    artifact = "com.hierynomus:sshj:0.22.0",
+    sha1 = "6a976c1f16b316e5cb417fa061354a759116d789",
 )
 
 maven_jar(

@@ -95,10 +95,10 @@ java_library(
 )
 
 java_library(
-    name = "jsch",
-    data = ["//lib:LICENSE-jsch"],
+    name = "sshj",
+    data = ["//lib:LICENSE-sshj"],
     visibility = ["//visibility:public"],
-    exports = ["@jsch//jar"],
+    exports = ["@sshj//jar"],
 )
 
 java_library(

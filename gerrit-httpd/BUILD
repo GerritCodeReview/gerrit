@@ -36,7 +36,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
-        "//lib:jsch",
+        "//lib:sshj",
         "//lib:mime-util",
         "//lib:servlet-api-3_1",
         "//lib:soy",

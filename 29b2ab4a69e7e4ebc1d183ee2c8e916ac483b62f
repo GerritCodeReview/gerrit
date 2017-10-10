@@ -22,6 +22,30 @@
       "revId": "29b2ab4a69e7e4ebc1d183ee2c8e916ac483b62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c74307e_cf39e582",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T17:43:14Z",
+      "side": 1,
+      "message": "I think the idea is when switching diffs (e.g. via [ or ]) the same diff view is reused with different params, so the properties are not reinitialized.",
+      "parentUuid": "c29a7ff7_23d18398",
+      "range": {
+        "startLine": 543,
+        "startChar": 6,
+        "endLine": 543,
+        "endChar": 27
+      },
+      "revId": "29b2ab4a69e7e4ebc1d183ee2c8e916ac483b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

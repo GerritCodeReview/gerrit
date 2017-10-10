@@ -621,6 +621,33 @@ limitations under the License.
       });
     });
 
+    suite('layers from plugins', () => {
+      let element;
+      let initialLayersCount;
+
+      setup(() => {
+        element = fixture('basic');
+        element._showTrailingWhitespace = true;
+        initialLayersCount = element._layers.length;
+      });
+
+      test('no plugin layers', () => {
+        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
+                                       .returns([]);
+        element.attached();
+        assert.isTrue(getDiffLayersStub.called);
+        assert.equal(element._layers.length, initialLayersCount);
+      });
+
+      test('with plugin layers', () => {
+        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
+                                       .returns([{}, {}]);
+        element.attached();
+        assert.isTrue(getDiffLayersStub.called);
+        assert.equal(element._layers.length, initialLayersCount+2);
+      });
+    });
+
     suite('trailing whitespace', () => {
       let element;
       let layer;

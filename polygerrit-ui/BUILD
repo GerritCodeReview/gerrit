@@ -15,6 +15,8 @@ bower_component_bundle(
         "//lib/js:iron-a11y-keys-behavior",
         "//lib/js:iron-autogrow-textarea",
         "//lib/js:iron-dropdown",
+        "//lib/js:iron-icon",
+        "//lib/js:iron-iconset-svg",
         "//lib/js:iron-input",
         "//lib/js:iron-overlay-behavior",
         "//lib/js:iron-selector",

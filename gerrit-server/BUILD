@@ -68,7 +68,7 @@ java_library(
         "//lib:guava-retrying",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
-        "//lib:jsch",
+        "//lib:sshj",
         "//lib:juniversalchardet",
         "//lib:mime-util",
         "//lib:pegdown",

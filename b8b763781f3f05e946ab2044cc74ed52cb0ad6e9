@@ -142,6 +142,30 @@
       "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3016dd5_37a9e978",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-10T14:39:38Z",
+      "side": 1,
+      "message": "I don\u0027t think that injecting GroupIndexCollection into GroupsOnInit would work, but we could give it a try.",
+      "parentUuid": "e7572b82_b91c616a",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 51
+      },
+      "revId": "b8b763781f3f05e946ab2044cc74ed52cb0ad6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -90,12 +90,12 @@ public class InitAdminUser implements InitStep {
     this.dbFactory = dbFactory;
   }
 
-  @Inject(optional = true)
+  @Inject()
   void set(AccountIndexCollection accountIndexCollection) {
     this.accountIndexCollection = accountIndexCollection;
   }
 
-  @Inject(optional = true)
+  @Inject()
   void set(GroupIndexCollection groupIndexCollection) {
     this.groupIndexCollection = groupIndexCollection;
   }

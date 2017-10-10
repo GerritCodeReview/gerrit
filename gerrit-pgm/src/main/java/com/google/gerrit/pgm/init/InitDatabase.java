@@ -83,9 +83,7 @@ class InitDatabase implements InitStep {
     DatabaseConfigInitializer dci =
         i.getInstance(Key.get(DatabaseConfigInitializer.class, Names.named(dbType.toLowerCase())));
 
-    if (dci instanceof MySqlInitializer) {
-      libraries.mysqlDriver.downloadRequired();
-    } else if (dci instanceof MariaDbInitializer) {
+    if (dci instanceof MariaDbInitializer) {
       libraries.mariadbDriver.downloadRequired();
     } else if (dci instanceof OracleInitializer) {
       libraries.oracleDriver.downloadRequired();

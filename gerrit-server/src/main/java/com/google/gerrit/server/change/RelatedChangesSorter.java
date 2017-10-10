@@ -34,7 +34,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -74,7 +73,7 @@ class RelatedChangesSorter {
   }
 
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs, CurrentUser user)
-      throws OrmException, IOException, NoSuchProjectException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);

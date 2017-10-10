@@ -50,8 +50,7 @@ public class RemoveReviewerControl {
   /** @throws AuthException if this user is not allowed to remove this approval. */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException, NoSuchProjectException, OrmException,
-          IOException {
+      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
     if (canRemoveReviewerWithoutPermissionCheck(
         notes.getChange(), currentUser, approval.getAccountId(), approval.getValue())) {
       return;
@@ -80,7 +79,7 @@ public class RemoveReviewerControl {
 
   private boolean canRemoveReviewerWithoutPermissionCheck(
       Change change, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws NoSuchProjectException, OrmException, IOException {
+      throws NoSuchProjectException, IOException {
     if (!change.getStatus().isOpen()) {
       return false;
     }

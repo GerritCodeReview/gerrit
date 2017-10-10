@@ -152,8 +152,7 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps)
-      throws OrmException, IOException {
+  private SubmitType submitType(CurrentUser user, ChangeData cd, PatchSet ps) throws OrmException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
     //

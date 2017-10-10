@@ -1298,8 +1298,7 @@ public class ChangeJson {
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo,
       boolean isWorldReadable)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
-          PermissionBackendException {
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -1397,8 +1396,7 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in, boolean isWorldReadable)
-      throws OrmException, PermissionBackendException {
+  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in, boolean isWorldReadable) {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -1462,8 +1460,9 @@ public class ChangeJson {
   }
 
   /**
-   * @return {@link PermissionBackend.ForChange} constructed from either an index-backed or a
-   *     database-backed {@link ChangeData} depending on {@code lazyload}.
+   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
+   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
+   *     lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
       throws OrmException {

@@ -612,8 +612,7 @@
     },
 
     _handleRKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+      if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
         return;
       }
 

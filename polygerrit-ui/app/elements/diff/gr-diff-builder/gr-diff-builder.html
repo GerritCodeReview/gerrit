@@ -89,6 +89,9 @@ limitations under the License.
 
         properties: {
           diff: Object,
+          diffPath: String,
+          changeNum: String,
+          patchNum: String,
           viewMode: String,
           comments: Object,
           isImageDiff: Boolean,
@@ -119,9 +122,18 @@ limitations under the License.
             this.$.rangeLayer,
           ];
 
+          // rmistry this should be moved to the plugin part
+          this.addLayer(this._createCoverageLayer())
+
           this.async(() => {
             this._preRenderThread();
           });
+        },
+
+        // rmistry
+        addLayer(func) {
+          console.log("Adding a layer!");
+          this._layers.push(func);
         },
 
         render(comments, prefs) {
@@ -367,6 +379,43 @@ limitations under the License.
                     line.text.substr(0, match.index));
                 const length = GrAnnotation.getStringLength(match[0]);
                 GrAnnotation.annotateElement(el, index, length,
+                    'style-scope gr-diff trailing-whitespace');
+              }
+            },
+          };
+        },
+
+        // rmistry
+        // Lookup the trailing-whitespace CSS stuff below!
+        // How do I access the changeNum, path and patchNum.
+        // pass it in?
+        _createCoverageLayer() {
+          console.log("I am in coverage layer!");
+          console.log(this.content);
+          console.log(this.diff);
+          console.log(this.diffElement);
+          console.log(this.diffPath);
+          console.log(this.changeNum);
+          console.log(this.patchNum);
+          const show = function() {
+            // return this._showTrailingWhitespace;
+            return true;
+          }.bind(this);
+
+          return {
+            annotate(el, line) {
+              if (!show()) { return; }
+
+              // console.log('------------lines---------')
+              // console.log(line)
+              // console.log(line.text)
+              // console.log(line.afterNumber)
+              // console.log(GrAnnotation.getStringLength(line.text))
+              // console.log('--------------------------')
+              if (line.type === GrDiffLine.Type.ADD || (
+                  line.type === GrDiffLine.Type.BOTH &&
+                  el.getAttribute('data-side') === 'right')) {
+                GrAnnotation.annotateElement(el, 0, GrAnnotation.getStringLength(line.text),
                     'style-scope gr-diff trailing-whitespace');
               }
             },

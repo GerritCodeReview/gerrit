@@ -69,9 +69,7 @@ public abstract class JdbcAccountPatchReviewStore
         impl = H2AccountPatchReviewStore.class;
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;
-      } else if (url.contains(MYSQL)) {
-        impl = MysqlAccountPatchReviewStore.class;
-      } else if (url.contains(MARIADB)) {
+      } else if (url.contains(MARIADB) || url.contains(MYSQL)) {
         impl = MariaDBAccountPatchReviewStore.class;
       } else {
         throw new IllegalArgumentException(
@@ -93,10 +91,7 @@ public abstract class JdbcAccountPatchReviewStore
     if (url.contains(POSTGRESQL)) {
       return new PostgresqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
-    if (url.contains(MYSQL)) {
-      return new MysqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
-    }
-    if (url.contains(MARIADB)) {
+    if (url.contains(MARIADB) || url.contains(MYSQL)) {
       return new MariaDBAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     throw new IllegalArgumentException(

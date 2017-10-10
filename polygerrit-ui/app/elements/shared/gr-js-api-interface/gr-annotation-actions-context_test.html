@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-annotation-actions-context</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../diff/gr-diff-highlight/gr-annotation.js"></script>
+
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-js-api-interface.html"/>
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-annotation-actions-context tests', () => {
+    let instance;
+    let sandbox;
+    let el;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      const str = 'lorem ipsum blah blah';
+      const line = {text: str};
+      el = document.createElement('div');
+      el.textContent = str;
+      el.setAttribute('data-side', 'right');
+      instance = new GrAnnotationActionsContext(
+          el, line, 'dummy/path', '123', '1');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('test annotateRange', () => {
+      annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      const start = 0;
+      const end = 100;
+      const cssClass = Gerrit.css('background-color: #000000');
+
+      // Assert annotateElement is not called when side is different.
+      instance.annotateRange(start, end, cssClass, 'left');
+      assert.equal(annotateElementSpy.callCount, 0);
+
+      // Assert annotateElement is called once when side is the same.
+      instance.annotateRange(start, end, cssClass, 'right');
+      assert.equal(annotateElementSpy.callCount, 1);
+      const args = annotateElementSpy.getCalls()[0].args;
+      assert.equal(args[0], el);
+      assert.equal(args[1], start);
+      assert.equal(args[2], end);
+      assert.equal(args[3], cssClass);
+    });
+  });
+</script>

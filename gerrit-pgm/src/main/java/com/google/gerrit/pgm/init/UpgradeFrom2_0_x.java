@@ -232,7 +232,7 @@ class UpgradeFrom2_0_x implements InitStep {
       }
 
       final InetSocketAddress addr = SocketUtil.parse(url.substring(0, sl), 0);
-      database.set("type", "mysql");
+      database.set("type", "mariadb");
       sethost(database, addr);
       database.set("database", url.substring(sl + 1));
       setuser(database, username, password);

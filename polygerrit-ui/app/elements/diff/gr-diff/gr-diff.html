@@ -256,25 +256,27 @@ limitations under the License.
     <div class$="[[_computeContainerClass(_loggedIn, viewMode, displayLine)]]"
         on-tap="_handleTap">
       <gr-diff-selection diff="[[_diff]]">
-        <gr-diff-highlight
-            id="highlights"
-            logged-in="[[_loggedIn]]"
-            comments="{{comments}}">
+      <gr-diff-highlight
+          id="highlights"
+          logged-in="[[_loggedIn]]"
+          comments="{{comments}}">
           <gr-diff-builder
               id="diffBuilder"
               comments="[[comments]]"
               project-name="[[projectName]]"
               diff="[[_diff]]"
               diff-path="[[path]]"
+              change-num="[[changeNum]]"
+              patch-num="[[patchRange.patchNum]]"
               view-mode="[[viewMode]]"
               line-wrapping="[[lineWrapping]]"
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"
               revision-image="[[_revisionImage]]">
-            <table
-                id="diffTable"
-                class$="[[_diffTableClass]]"
-                role="presentation"></table>
+              <table
+                  id="diffTable"
+                  class$="[[_diffTableClass]]"
+                  role="presentation"></table>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>

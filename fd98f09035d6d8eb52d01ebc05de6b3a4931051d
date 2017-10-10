@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "94b82253_610889d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-10T12:14:48Z",
+      "side": 1,
+      "message": "For a short summary:\n\nThe implementation in ReviewDb is:\n\n* \"value\" keeps the value for a label (it could be squashed) which is used by the change.\n* \"originalValue\" keeps the latest vote from the reviewer.\n\nThe implementation in NoteDb is:\n\n* \"Label: Foo\u003d2\" keeps the value from the reviewer.\n* \"Squash-Label: Foo\u003d1\" keeps the value after a squash.\n\nWhen parsing NoteDB, we read the latest \"Label: ***\" and \"Squash-Label: ***\" for a change. \n\n* For moving a change, we squash the last value of \"Label: ***\" and record a \"Squash-Label:\" in NoteDb if a squash happens.\n* For normal use of votes, we use the latest value from \"Label: ***\" \u0026 \"Squash-Label: ***\".",
+      "parentUuid": "ed7f77ab_dbf442ce",
+      "range": {
+        "startLine": 847,
+        "startChar": 4,
+        "endLine": 853,
+        "endChar": 36
+      },
+      "revId": "fd98f09035d6d8eb52d01ebc05de6b3a4931051d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dca9db54_fa7abdb7",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 2

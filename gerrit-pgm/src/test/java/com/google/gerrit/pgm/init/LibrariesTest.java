@@ -46,7 +46,7 @@ public class LibrariesTest {
             Collections.<String>emptyList(),
             false);
 
-    assertNotNull(lib.mysqlDriver);
+    assertNotNull(lib.mariadbDriver);
 
     verify(ui);
   }

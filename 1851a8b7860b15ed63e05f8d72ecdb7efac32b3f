@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40e05243_bcfded82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetHead.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 0,
+      "message": "I guess I can see why you removed this (HEAD is not a \"config\"), but this is a behavior change. IncorrectObjectTypeException here means HEAD is a non-symbolic ref that points to a valid non-commit object; if you remove this case, then *nobody* can read it via this endpoint.\n\nI believe the reason it is this way is that Gerrit doesn\u0027t support permissions on HEAD itself, so checking for a project owner is the next best thing.\n\nI would be ok with any of the following:\n\n* Check SET_HEAD\n* Check WRITE_CONFIG (i.e. preserve old behavior)\n* Add a new permission READ_HEAD (although this feels like overkill)",
+      "revId": "1851a8b7860b15ed63e05f8d72ecdb7efac32b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

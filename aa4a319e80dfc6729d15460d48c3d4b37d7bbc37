@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b5b7aac_b7893d5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "This seems unnecessary, why can\u0027t we just throw the AuthException?\n\nMaybe we should actually just kill PermissionDeniedException, but that would belong in a separate cleanup I suppose.",
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a679a6_cf84bb7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "Elsewhere you changed error message text to reflect the new implementation. Would that make sense here too?\n\nThe argument against changing this is that the error message is supposed to sound actionable, which in the case of DefaultPermissionBackend means granting Owner.",
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f2d6140_47deea79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "\"to\"?",
+      "range": {
+        "startLine": 84,
+        "startChar": 25,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5b20db0_eb63dfeb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "Javadoc?",
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ba81c7_b67a4acb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "Why does this need to be a separate permission from WRITE_CONFIG?\n\nPut another way: the default dashboard is one of many project settings that project owners can change; is the plan to have separate permissions for SET_SUBMIT_TYPE, SET_REQUIRE_CHANGE_ID, etc.? If not, then why is the default dashboard special?",
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a7988a_05580120",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T13:12:08Z",
+      "side": 1,
+      "message": "Optional: I would probably choose \"REFLOG\" for consistency with \"git reflog\" (not \"git ref-log\") and the Gerrit APIs.\n\nOTOH, within the JGit code, refLog is more frequent.",
+      "range": {
+        "startLine": 479,
+        "startChar": 13,
+        "endLine": 479,
+        "endChar": 25
+      },
+      "revId": "aa4a319e80dfc6729d15460d48c3d4b37d7bbc37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

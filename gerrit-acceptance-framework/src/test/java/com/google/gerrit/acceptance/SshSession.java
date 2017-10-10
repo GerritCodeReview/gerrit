@@ -36,12 +36,12 @@ public class SshSession {
     this.account = account;
   }
 
-  public void open() throws JSchException {
+  public void open() {
     getSession();
   }
 
   @SuppressWarnings("resource")
-  public String exec(String command, InputStream opt) throws JSchException, IOException {
+  public String exec(String command, InputStream opt) throws IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
@@ -69,7 +69,7 @@ public class SshSession {
     return in;
   }
 
-  public String exec(String command) throws JSchException, IOException {
+  public String exec(String command) throws IOException {
     return exec(command, null);
   }
 
@@ -88,14 +88,18 @@ public class SshSession {
     }
   }
 
-  private Session getSession() throws JSchException {
+  private Session getSession() {
     if (session == null) {
-      JSch jsch = new JSch();
-      jsch.addIdentity("KeyPair", account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      SSHClient sshClient = new SSHClient();
+      sshClient.getTransport().addHostKeyVerifier(new PromiscuousVerifier());
       session =
-          jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
+          sshClient.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
-      session.connect();
+      session.connect(addr.getAddress().getHostAddress(), addr.getPort());
+      KeyProvider keys = sshClient.loadKeys(account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      sshClient.authPublickey(account.username, keys);
+      Session session = sshClient.startSession();
+      session.allocateDefaultPTY();
     }
     return session;
   }

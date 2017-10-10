@@ -358,8 +358,8 @@ public class MergeSuperSet {
     do {
       oldSeen = seen;
 
-      changes = completeChangeSetWithoutTopic(db, changes, user);
       changes = topicClosure(db, changes, user, topicsSeen, visibleTopicsSeen);
+      changes = completeChangeSetWithoutTopic(db, changes, user);
 
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);

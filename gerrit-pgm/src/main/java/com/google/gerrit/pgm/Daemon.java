@@ -84,6 +84,7 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
+import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -472,6 +473,7 @@ public class Daemon extends SiteProgram {
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
+    modules.add(DefaultProjectNameLockManager.module());
     return cfgInjector.createChildInjector(modules);
   }
 

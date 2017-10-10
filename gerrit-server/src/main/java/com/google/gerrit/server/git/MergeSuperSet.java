@@ -230,9 +230,6 @@ public class MergeSuperSet {
           visible = false;
         }
 
-        // Pick a revision to use for traversal.  If any of the patch sets
-        // is visible, we use the most recent one.  Otherwise, use the current
-        // patch set.
         PatchSet ps = cd.currentPatchSet();
         if (submitType(user, cd, ps) == SubmitType.CHERRY_PICK) {
           if (visible) {

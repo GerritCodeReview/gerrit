@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "8c984b59_e8bdab98",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-10T14:58:42Z",
+      "side": 1,
+      "message": "Injection into InitAdminUser happens twice:\n\n1. when the class is instantiated:\n   This is before the the Gerrit site is created and hence a database is not yet configured.\n2. before the postRun() method is invoked:\n   The site is already created now, hence we can read the database config from gerrit.config and do the injection now.",
+      "parentUuid": "303cb1d2_bd51fdba",
+      "range": {
+        "startLine": 88,
+        "startChar": 9,
+        "endLine": 88,
+        "endChar": 26
+      },
+      "revId": "6bf220c55ef9b85aae6b4f45c30c08fd4c233460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd430ef9_a6411104",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
         "patchSetId": 1

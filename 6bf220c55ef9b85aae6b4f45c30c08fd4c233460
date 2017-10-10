@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "eaec254a_04b727f5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-10T14:32:27Z",
+      "side": 1,
+      "message": "No, if this is removed the init fails with:\n\n$ java -jar ~/git/gerrit/bazel-bin/gerrit.war init -d ~/site --batch --dev\nfatal: InitInjector failed\nfatal: Unable to create injector, see the following errors:\nfatal: \nfatal: 1) No implementation for com.google.gwtorm.server.SchemaFactory\u003ccom.google.gerrit.reviewdb.server.ReviewDb\u003e was bound.\nfatal:   while locating com.google.gwtorm.server.SchemaFactory\u003ccom.google.gerrit.reviewdb.server.ReviewDb\u003e\nfatal:     for the 1st parameter of com.google.gerrit.pgm.init.InitAdminUser.set(InitAdminUser.java:90)\nfatal:   at com.google.gerrit.pgm.init.InitAdminUser.set(InitAdminUser.java:90)\nfatal:   at com.google.gerrit.pgm.init.InitModule.step(InitModule.java:70)\nfatal: \nfatal: 1 error",
+      "parentUuid": "074f46a6_a90842f4",
+      "range": {
+        "startLine": 88,
+        "startChar": 9,
+        "endLine": 88,
+        "endChar": 26
+      },
+      "revId": "6bf220c55ef9b85aae6b4f45c30c08fd4c233460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd430ef9_a6411104",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "6bf220c55ef9b85aae6b4f45c30c08fd4c233460",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "217e38e1_9b2d2324",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-10T14:32:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd430ef9_a6411104",
+      "range": {
+        "startLine": 93,
+        "startChar": 9,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "6bf220c55ef9b85aae6b4f45c30c08fd4c233460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

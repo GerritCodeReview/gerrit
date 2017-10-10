@@ -16,6 +16,24 @@
       "revId": "adab6d8ee4449cc144af3dcc8280fa2c84d43dd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde6e92d_580485ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-10T12:48:54Z",
+      "side": 0,
+      "message": "IMHO this *can* only be a shortcut, otherwise we would be in trouble already. What does it say if I want to push to ref X and we check if I can push to any ref in the repo (that is eventually !\u003d X)?\n\nAm I missing something obvious?",
+      "parentUuid": "a59b94eb_49136bbc",
+      "revId": "adab6d8ee4449cc144af3dcc8280fa2c84d43dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

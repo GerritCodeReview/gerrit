@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c29a7ff7_23d18398",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-10T17:41:18Z",
+      "side": 1,
+      "message": "I\u0027m curious why _loading isn\u0027t already true, since its default property value is set to true?",
+      "range": {
+        "startLine": 543,
+        "startChar": 6,
+        "endLine": 543,
+        "endChar": 27
+      },
+      "revId": "29b2ab4a69e7e4ebc1d183ee2c8e916ac483b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

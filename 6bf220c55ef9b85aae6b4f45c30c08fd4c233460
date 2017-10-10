@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "303cb1d2_bd51fdba",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-10T14:53:20Z",
+      "side": 1,
+      "message": "Strange. How is this field different from the index collections? I mean, we also access it in postRun() and would get an NPE if it wasn\u0027t present.",
+      "parentUuid": "eaec254a_04b727f5",
+      "range": {
+        "startLine": 88,
+        "startChar": 9,
+        "endLine": 88,
+        "endChar": 26
+      },
+      "revId": "6bf220c55ef9b85aae6b4f45c30c08fd4c233460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd430ef9_a6411104",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
         "patchSetId": 1

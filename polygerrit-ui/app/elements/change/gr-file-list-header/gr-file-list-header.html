@@ -46,12 +46,11 @@ limitations under the License.
         border-top: 1px solid #ddd;
         display: flex;
         min-height: 3.2em;
-        padding: .5em calc(var(--default-horizontal-margin) / 2);
+        padding: .5em var(--default-horizontal-margin);
       }
       .patchInfo-header-wrapper {
         align-items: center;
         display: flex;
-        margin: 0 .25em;
         width: 100%;
       }
       .patchInfo-left {
@@ -141,7 +140,7 @@ limitations under the License.
     <div class$="patchInfo-header [[_computeEditLoadedClass(editLoaded)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]">
       <div class="patchInfo-header-wrapper">
         <div class="patchInfo-left">
-          <span class="label">Files</span>
+          <h3 class="label">Files</h3>
           <gr-patch-range-select
               id="rangeSelect"
               comments="[[comments]]"
@@ -190,7 +189,6 @@ limitations under the License.
       </div>
     </div>
     <div class="fileList-header">
-      <div>Files</div>
       <div class="rightControls">
         <template is="dom-if"
             if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">

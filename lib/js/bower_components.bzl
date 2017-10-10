@@ -99,6 +99,25 @@ def define_bower_components():
     deps = [ ":polymer" ],
   )
   bower_component(
+    name = "iron-icon",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-flex-layout",
+      ":iron-meta",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "iron-iconset-svg",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
+    deps = [
+      ":iron-meta",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "iron-input",
     license = "//lib:LICENSE-polymer",
     deps = [

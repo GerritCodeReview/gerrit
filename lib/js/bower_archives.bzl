@@ -120,8 +120,8 @@ def load_bower_archives():
   bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",
-    version = "2.13.0",
-    sha1 = "ea4325b243d5a0b55bfd764e1575d51e2a191c16")
+    version = "2.14.0",
+    sha1 = "78f0dc184efe47012a2b1b9a16a4289acf8300dc")
   bower_archive(
     name = "sinonjs",
     package = "sinonjs",

@@ -44,6 +44,8 @@ package_licenses = {
   "iron-fit-behavior": "polymer",
   "iron-flex-layout": "polymer",
   "iron-form-element-behavior": "polymer",
+  "iron-icon": "polymer",
+  "iron-iconset-svg": "polymer",
   "iron-input": "polymer",
   "iron-menu-behavior": "polymer",
   "iron-meta": "polymer",

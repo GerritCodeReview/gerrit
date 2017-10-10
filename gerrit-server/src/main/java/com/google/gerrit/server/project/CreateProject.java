@@ -65,6 +65,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -103,6 +104,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
+  private final ProjectNameLockManager lockManager;
   private final String name;
 
   @Inject
@@ -123,6 +125,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
+      ProjectNameLockManager lockManager,
       @Assisted String name) {
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
@@ -140,6 +143,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.identifiedUser = identifiedUser;
     this.putConfig = putConfig;
     this.allProjects = allProjects;
+    this.lockManager = lockManager;
     this.name = name;
   }
 
@@ -192,22 +196,27 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException(e.getMessage());
     }
 
-    for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
-      try {
-        l.validateNewProject(args);
-      } catch (ValidationException e) {
-        throw new ResourceConflictException(e.getMessage(), e);
+    Lock nameLock = lockManager.getLock(args.getProject());
+    nameLock.lock();
+    try {
+      for (ProjectCreationValidationListener l : projectCreationValidationListeners) {
+        try {
+          l.validateNewProject(args);
+        } catch (ValidationException e) {
+          throw new ResourceConflictException(e.getMessage(), e);
+        }
       }
-    }
 
-    ProjectState projectState = createProject(args);
-    if (input.pluginConfigValues != null) {
-      ConfigInput in = new ConfigInput();
-      in.pluginConfigValues = input.pluginConfigValues;
-      putConfig.get().apply(projectState, in);
+      ProjectState projectState = createProject(args);
+      if (input.pluginConfigValues != null) {
+        ConfigInput in = new ConfigInput();
+        in.pluginConfigValues = input.pluginConfigValues;
+        putConfig.get().apply(projectState, in);
+      }
+      return Response.created(json.format(projectState));
+    } finally {
+      nameLock.unlock();
     }
-
-    return Response.created(json.format(projectState));
   }
 
   private ProjectState createProject(CreateProjectArgs args)

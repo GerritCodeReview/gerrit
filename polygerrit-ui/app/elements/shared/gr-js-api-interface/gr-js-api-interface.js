@@ -23,6 +23,7 @@
     COMMENT: 'comment',
     REVERT: 'revert',
     POST_REVERT: 'postrevert',
+    ANNOTATE_DIFF: 'annotatediff',
   };
 
   const Element = {
@@ -176,6 +177,20 @@
         }
       }
       return revertMsg;
+    },
+
+    getDiffLayers(path, changeNum, patchNum) {
+      const layers = [];
+      for (const annotationApi of this._getEventCallbacks(
+               EventType.ANNOTATE_DIFF)) {
+        try {
+          const layer = annotationApi.getLayer(path, changeNum, patchNum);
+          layers.push(layer);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      return layers;
     },
 
     getLabelValuesPostRevert(change) {

@@ -36,6 +36,7 @@ limitations under the License.
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
     <gr-reporting id="reporting"></gr-reporting>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
@@ -89,6 +90,9 @@ limitations under the License.
 
         properties: {
           diff: Object,
+          diffPath: String,
+          changeNum: String,
+          patchNum: String,
           viewMode: String,
           comments: Object,
           isImageDiff: Boolean,
@@ -111,13 +115,21 @@ limitations under the License.
 
         attached() {
           // Setup annotation layers.
-          this._layers = [
+          const layers = [
             this._createTrailingWhitespaceLayer(),
             this.$.syntaxLayer,
             this._createIntralineLayer(),
             this._createTabIndicatorLayer(),
             this.$.rangeLayer,
           ];
+
+          // Get layers from plugins (if any).
+          for (const pluginLayer of this.$.jsAPI.getDiffLayers(
+               this.diffPath, this.changeNum, this.patchNum)) {
+            layers.push(pluginLayer);
+          }
+
+          this._layers = layers;
 
           this.async(() => {
             this._preRenderThread();

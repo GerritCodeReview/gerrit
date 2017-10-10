@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cbdee82_a86a0a92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-10T07:19:35Z",
+      "side": 1,
+      "message": "I am on the fence here if these should be called READ_CONFIG, but READ_ACCESS is inline with RefPermission.",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 13
+      },
+      "revId": "b12de025d87652e8bb8a35987f94d1adbd1ae1ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

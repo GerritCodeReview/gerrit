@@ -57,6 +57,16 @@ using PostgreSQL.
 
 Requirements: MySQL version 5.5 or later.
 
+Refer to MariaDB section below on how to create MySQL database.
+
+Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
+information regarding using MySQL.
+
+[[createdb_mariadb]]
+=== MariaDB
+
+Requirements: MariaDB version 5.5 or later.
+
 This option is also more complicated than the H2 option. Just as with
 PostgreSQL it's also recommended for larger installations.
 
@@ -72,16 +82,6 @@ rights on it:
   GRANT ALL ON reviewdb.* TO 'gerrit'@'localhost';
   FLUSH PRIVILEGES;
 ----
-
-Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
-information regarding using MySQL.
-
-[[createdb_mariadb]]
-=== MariaDB
-
-Requirements: MariaDB version 5.5 or later.
-
-Refer to MySQL section above how to create MariaDB database.
 
 Visit MariaDB's link:https://mariadb.com/kb/en/mariadb/[documentation] for further
 information regarding using MariaDB.

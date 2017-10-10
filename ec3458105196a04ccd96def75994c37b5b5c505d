@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "56882d1f_5f36d181",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-10T11:33:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "78cef6e7_d948655a",
+      "revId": "ec3458105196a04ccd96def75994c37b5b5c505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2dbb817_c8663853",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3

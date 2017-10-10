@@ -43,6 +43,12 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Constants;
@@ -82,6 +88,30 @@ public class CreateProjectIT extends AbstractDaemonTest {
         .putWithHeader(
             "/projects/" + allProjects.get(), new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
         .assertPreconditionFailed();
+  }
+
+  @Test
+  public void createSameProjectFromTwoConcurrentRequests() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try {
+      for (int i = 0; i < 10; i++) {
+        String newProjectName = name("foo" + i);
+        CyclicBarrier sync = new CyclicBarrier(2);
+        Callable<RestResponse> createProjectFoo =
+            () -> {
+              sync.await();
+              return adminRestSession.put("/projects/" + newProjectName);
+            };
+
+        Future<RestResponse> r1 = executor.submit(createProjectFoo);
+        Future<RestResponse> r2 = executor.submit(createProjectFoo);
+        assertThat(ImmutableList.of(r1.get().getStatusCode(), r2.get().getStatusCode()))
+            .containsAllOf(HttpStatus.SC_CREATED, HttpStatus.SC_CONFLICT);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
   }
 
   @Test

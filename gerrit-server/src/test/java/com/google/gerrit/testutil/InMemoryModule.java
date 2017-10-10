@@ -68,6 +68,7 @@ import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
+import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.NotesMigrationSchemaFactory;
@@ -249,6 +250,7 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new PluginRestApiModule());
+    install(new DefaultProjectNameLockManager.Module());
   }
 
   @Provides

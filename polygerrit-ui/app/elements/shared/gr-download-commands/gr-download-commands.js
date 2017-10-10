@@ -51,6 +51,7 @@
     _loggedInChanged(loggedIn) {
       if (!loggedIn) { return; }
       return this.$.restAPI.getPreferences().then(prefs => {
+        console.log(prefs.download_scheme);
         if (prefs.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
@@ -64,8 +65,9 @@
 
     _handleSchemeTap(e) {
       e.preventDefault();
-      const el = Polymer.dom(e).rootTarget;
+      const el = e.currentTarget;
       this.selectedScheme = el.getAttribute('data-scheme');
+      console.log( this.selectedScheme);
       if (this._loggedIn) {
         this.$.restAPI.savePreferences({download_scheme: this.selectedScheme});
       }

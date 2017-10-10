@@ -21,7 +21,7 @@ PROVIDED = [
     "//gerrit-server:receive",
     "//gerrit-server:server",
     "//lib:gson",
-    "//lib:jsch",
+    "//lib:sshj",
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/mina:sshd",
     "//lib:servlet-api-3_1",

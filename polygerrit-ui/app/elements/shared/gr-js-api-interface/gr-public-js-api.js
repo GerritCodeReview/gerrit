@@ -73,7 +73,8 @@
     } else if (!pathname.startsWith('/plugins')) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
-      return;
+      // TODO(rmistry): For testing.
+      // return;
     }
     this._name = pathname.split('/')[2];
 

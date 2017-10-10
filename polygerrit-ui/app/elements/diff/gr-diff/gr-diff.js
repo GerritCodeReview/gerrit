@@ -52,6 +52,7 @@
         type: Boolean,
         value: false,
       },
+      /** @type {?} */
       patchRange: Object,
       path: String,
       prefs: {

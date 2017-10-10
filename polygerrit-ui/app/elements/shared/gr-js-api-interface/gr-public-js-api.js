@@ -175,6 +175,10 @@
     return Gerrit.delete(this.url(url), opt_callback);
   };
 
+  Plugin.prototype.annotationApi = function() {
+    return new GrAnnotationActionsInterface(this);
+  };
+
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
       Plugin._sharedAPIElement.getElement(

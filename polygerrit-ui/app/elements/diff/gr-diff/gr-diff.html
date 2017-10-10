@@ -260,22 +260,27 @@ limitations under the License.
             id="highlights"
             logged-in="[[_loggedIn]]"
             comments="{{comments}}">
-          <gr-diff-builder
-              id="diffBuilder"
-              comments="[[comments]]"
-              project-name="[[projectName]]"
-              diff="[[_diff]]"
-              diff-path="[[path]]"
-              view-mode="[[viewMode]]"
-              line-wrapping="[[lineWrapping]]"
-              is-image-diff="[[isImageDiff]]"
-              base-image="[[_baseImage]]"
-              revision-image="[[_revisionImage]]">
-            <table
-                id="diffTable"
-                class$="[[_diffTableClass]]"
-                role="presentation"></table>
-          </gr-diff-builder>
+          <gr-endpoint-decorator name="layer-helper">
+            <gr-endpoint-param name="changeNum" value="[[changeNum]]"></gr-endpoint-param>
+            <gr-endpoint-param name="patchNum" value="[[patchRange.patchNum]]"></gr-endpoint-param>
+            <gr-endpoint-param name="path" value="[[path]]"></gr-endpoint-param>
+            <gr-diff-builder
+                id="diffBuilder"
+                comments="[[comments]]"
+                project-name="[[projectName]]"
+                diff="[[_diff]]"
+                diff-path="[[path]]"
+                view-mode="[[viewMode]]"
+                line-wrapping="[[lineWrapping]]"
+                is-image-diff="[[isImageDiff]]"
+                base-image="[[_baseImage]]"
+                revision-image="[[_revisionImage]]">
+                <table
+                    id="diffTable"
+                    class$="[[_diffTableClass]]"
+                    role="presentation"></table>
+            </gr-diff-builder>
+          </gr-endpoint-decorator>
         </gr-diff-highlight>
       </gr-diff-selection>
     </div>

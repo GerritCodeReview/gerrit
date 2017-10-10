@@ -89,6 +89,7 @@ limitations under the License.
 
         properties: {
           diff: Object,
+          diffPath: String,
           viewMode: String,
           comments: Object,
           isImageDiff: Boolean,
@@ -122,6 +123,10 @@ limitations under the License.
           this.async(() => {
             this._preRenderThread();
           });
+        },
+
+        addLayer(func) {
+          this._layers.push(func());
         },
 
         render(comments, prefs) {

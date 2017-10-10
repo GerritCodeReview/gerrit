@@ -64,7 +64,7 @@
 
     _handleSchemeTap(e) {
       e.preventDefault();
-      const el = Polymer.dom(e).rootTarget;
+      const el = e.currentTarget;
       this.selectedScheme = el.getAttribute('data-scheme');
       if (this._loggedIn) {
         this.$.restAPI.savePreferences({download_scheme: this.selectedScheme});

@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "70e0c910_105cc0c2",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T22:40:52Z",
+      "side": 1,
+      "message": "From a plugin API design standpoint, this feels a little redundant:\n\n.addSyntaxLayer\n ↳ .addLayer\n\nMaybe they can be combined or perhaps renamed.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9bb48a4f_9997d23f",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -30,6 +53,86 @@
       "writtenOn": "2017-10-10T17:57:45Z",
       "side": 1,
       "message": "(would love to hear from Wyatt on this too)\nI think the overall direction is right, but ideally this code should be a part of API (GrLayerApi in this case).\n\nThe main problem is that there are number of assumptions in this code that might change over time and it\u0027ll be hard to support, e.g. \u0027data-side\u0027\u003d\u003d\u003d\u0027right\u0027, css classes like \u0027gr-diff\u0027 and \u0027style-scope\u0027.\n\nHigh level API should be as specific and direct as possible - I\u0027m not exactly sure what is the final goal, so can\u0027t be specific.\n\nLet\u0027s schedule a meeting or use a doc to figure out smaller API surface that makes sense.",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de573895_12ddf46f",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T22:40:52Z",
+      "side": 1,
+      "message": "Aside: because we\u0027d be loading the coverage information from an external endpoint, we\u0027ll also want to tell the diff that the layer has asynchronously loaded new information to display.\n\nCurrently, the only layer that we have that takes advantage of this system is the syntax layer. It allows the diff to register listeners [1] and when new syntax highlighting info is known, it notifies those listeners with a line-range [2] so that they\u0027re re-rendered.\n\nThis listener system is designed so we might load syntax highlighting via XHR just like coverage.\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js#122\n* [2] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js#434",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "854b37aa_3c5ffad1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T22:40:52Z",
+      "side": 1,
+      "message": "I wonder if there\u0027s a way to pass this additional info into the layer directly (maybe as part of the plugin LayerAPI?), as opposed than adding them to the diff-builder\u0027s interface.",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd354c9c_5565944d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T22:40:52Z",
+      "side": 1,
+      "message": "Because it\u0027s important for all the layers to be set-up before the diff starts to render, it the .addLayer method here might be a little misleading, since it won\u0027t work if you call it too late.\n\nWhat I\u0027d envision is here is, instead of the `addLayer` method added below, we could have additional setup that asks the plugin API for any additional layers that have been defined.\n\n  const layers \u003d [\n    // .. the layer list above in ll.117-122 ..\n  ];\n\n  for (const layer of this.$.pluginApi.getPluginLayers()) {\n    layers.push(layer);\n  }\n\n  this._layers \u003d layers;\n\nThoughts?",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b9ca071_76e858a9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-layer-api/gr-layer-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-10T22:40:52Z",
+      "side": 1,
+      "message": "Wording nitpick: the \"syntax layer\" as it\u0027s termed in existing code is a shortening of \"syntax highlighting layer\".\n\nInsofar as this new API is for defining layers that are no so related to the code syntax itself, I think \"addLayer\" or \"addAnnotationLayer\" might be clearer names.",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 37
+      },
       "revId": "c78df4667a1655470289c56553164aa01d106973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

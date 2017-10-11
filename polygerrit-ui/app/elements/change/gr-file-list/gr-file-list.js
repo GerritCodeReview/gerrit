@@ -61,6 +61,14 @@
         type: Boolean,
         observer: '_editLoadedChanged',
       },
+      allPathsExpanded: {
+        type: Boolean,
+        notify: true,
+      },
+      pathsExpanded: {
+        type: Number,
+        notify: true,
+      },
       _files: {
         type: Array,
         observer: '_filesChanged',
@@ -125,7 +133,7 @@
     ],
 
     observers: [
-      '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_expandedPathsChanged(_expandedFilePaths.*)',
       '_setReviewedFiles(_shownFiles, _files, _reviewed.*, _loggedIn)',
     ],
 
@@ -827,15 +835,29 @@
      * @param {!Array} record The splice record in the expanded paths list.
      */
     _expandedPathsChanged(record) {
-      if (!record) { return; }
+      if (!record) {
+        this.pathsExpanded = 0;
+        this.allPathsExpanded = false;
+        return;
+      }
+      // this.pathsExpanded = record.indexSplices
+      //     .map(splice => {
+      //       return splice.object;
+      //     })
+      // .reduce((sum, value) => sum + value.length, 0);
+
+      // this.allPathsExpanded = this.pathsExpanded == this._files.length;
 
       // Find the paths introduced by the new index splices:
-      const newPaths = record.indexSplices
-          .map(splice => {
-            return splice.object.slice(splice.index,
-                splice.index + splice.addedCount);
-          })
-          .reduce((acc, paths) => { return acc.concat(paths); }, []);
+      let newPaths = [];
+      if (record.indexSplices) {
+        newPaths = record.indexSplices
+        .map(splice => {
+          return splice.object.slice(splice.index,
+              splice.index + splice.addedCount);
+        })
+        .reduce((acc, paths) => { return acc.concat(paths); }, []);
+      }
 
       const timerName = 'Expand ' + newPaths.length + ' diffs';
       this.$.reporting.time(timerName);

@@ -146,6 +146,14 @@
       // new patches. This is just the initial setting from the change view vs.
       // an update coming from the two way data binding.
       _patchNum: String,
+      _allPathsExpanded: {
+        type: Boolean,
+        value: false,
+      },
+      _pathsExpanded: {
+        type: Number,
+        value: 0,
+      },
       _basePatchNum: String,
       _relatedChangesLoading: {
         type: Boolean,
@@ -492,6 +500,9 @@
         this._initialLoadComplete = false;
         return;
       }
+
+      this._allPathsExpanded = false;
+      this._pathsExpanded = 0;
 
       const patchChanged = this._patchRange &&
           (value.patchNum !== undefined && value.basePatchNum !== undefined) &&

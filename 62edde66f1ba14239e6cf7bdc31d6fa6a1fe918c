@@ -23,6 +23,30 @@
       "revId": "62edde66f1ba14239e6cf7bdc31d6fa6a1fe918c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7000750a_0e559297",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalMergeSuperSetComputation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853e761a_5c6c7b99",
+      "range": {
+        "startLine": 61,
+        "startChar": 43,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "62edde66f1ba14239e6cf7bdc31d6fa6a1fe918c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

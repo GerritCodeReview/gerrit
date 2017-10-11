@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "8288f4a2_a6e175ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90a25b6_152f5318",
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1fbaffe_144251c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
         "patchSetId": 2
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "e90cf2bb_f9b452d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1fbaffe_144251c3",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed261d38_6d5035a6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
         "patchSetId": 2
@@ -63,6 +105,30 @@
       "revId": "0096b957518add67da9235a66342f0d79f62eba9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3877b2b4_87060bc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed261d38_6d5035a6",
+      "range": {
+        "startLine": 45,
+        "startChar": 77,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

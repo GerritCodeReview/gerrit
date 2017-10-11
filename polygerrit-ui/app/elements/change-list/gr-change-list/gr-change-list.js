@@ -103,10 +103,28 @@
       'j': '_handleJKey',
       'k': '_handleKKey',
       'n ]': '_handleNKey',
-      'o enter': '_handleEnterKey',
+      'o': '_handleOKey',
       'p [': '_handlePKey',
       'shift+r': '_handleRKey',
       's': '_handleSKey',
+    },
+
+    listeners: {
+      keydown: '_scopedKeydownHandler',
+    },
+
+    /**
+     * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
+     * events must be scoped to a component level (e.g. `enter`) in order to not
+     * override native browser functionality.
+     *
+     * Context: Issue 7294
+     */
+    _scopedKeydownHandler(e) {
+      if (e.keyCode === 13) {
+        // Enter.
+        this._handleOKey(e);
+      }
     },
 
     attached() {
@@ -231,7 +249,7 @@
       this.selectedIndex -= 1;
     },
 
-    _handleEnterKey(e) {
+    _handleOKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "500e17e7_d47fe9ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-11T05:11:27Z",
+      "side": 1,
+      "message": "We don\u0027t know if it\u0027s really a bug in the connector, or just that we\u0027re not configuring it properly.  It would be better to just remove this sentence.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "54a2888368ef01e5de4e023d9d4ec24f42e405b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

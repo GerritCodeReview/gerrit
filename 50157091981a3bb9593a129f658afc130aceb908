@@ -70,6 +70,30 @@
       "revId": "50157091981a3bb9593a129f658afc130aceb908",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c454735_247c56a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:08:44Z",
+      "side": 1,
+      "message": "Maybe I am completely misunderstanding your question but how should one construct a ProjectResource (this class) whose only constructor takes a single argument that is a ProjectResource (this class) itself?",
+      "parentUuid": "ea2a6cc5_203508c1",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "50157091981a3bb9593a129f658afc130aceb908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

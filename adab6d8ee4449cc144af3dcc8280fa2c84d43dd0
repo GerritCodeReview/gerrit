@@ -46,6 +46,30 @@
       "revId": "adab6d8ee4449cc144af3dcc8280fa2c84d43dd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c417f09c_14cf1d65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/NotificationEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-11T03:14:07Z",
+      "side": 0,
+      "message": "Done. I\u0027ve also added some other commits to add test coverage for this.",
+      "parentUuid": "fca98ce0_63db4754",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 61
+      },
+      "revId": "adab6d8ee4449cc144af3dcc8280fa2c84d43dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

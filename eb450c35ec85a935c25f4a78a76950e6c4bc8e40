@@ -22,6 +22,30 @@
       "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "128dddc5_c4288c0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T18:34:02Z",
+      "side": 1,
+      "message": "I don\u0027t think so, see:\nhttps://github.com/PolymerElements/iron-icons/blob/master/iron-icons.html",
+      "parentUuid": "641d932b_dbc50d49",
+      "range": {
+        "startLine": 22,
+        "startChar": 707,
+        "endLine": 22,
+        "endChar": 711
+      },
+      "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

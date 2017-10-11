@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eaa2a33_a411ea27",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-11T22:59:05Z",
+      "side": 1,
+      "message": "Can the autocomplete get an id, so that we can just write ..\n\n this.$.input.text \u003d \u0027\u0027;\n\n.. ? Why does it search for potentially many autocompletes? It looks like the tests assume there will only be one.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87d81963_1eea1c29",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-11T22:59:05Z",
+      "side": 1,
+      "message": "What\u0027s the reason for this guard? Shouldn\u0027t it reset the cursor stops to an empty list if there are no suggestions?",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c644864a_b95d8f27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-11T22:59:05Z",
+      "side": 1,
+      "message": "Nit: please add the return type, which I suspect would be\n\n {!Promise\u003cObject\u003e}",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41b26ec1_f925a622",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-11T22:59:05Z",
+      "side": 1,
+      "message": "Optional: keep the promise structure in the test:\n\nconst fetchStub \u003d sandbox.stub(element, \u0027_getChangeURLAndFetch\u0027)\n    .returns(Promise.resolve());\nreturn element.queryChangeFiles(\u002742\u0027, \u0027edit\u0027, \u0027test/path.js\u0027).then(() \u003d\u003e {\n  assert.deepEqual(fetchStub.lastCall.args,\n      [\u002742\u0027, \u0027/files?q\u003dtest%2Fpath.js\u0027, \u0027edit\u0027]);\n});",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 708,
+        "endChar": 53
+      },
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

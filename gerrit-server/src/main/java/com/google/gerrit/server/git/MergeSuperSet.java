@@ -204,13 +204,7 @@ public class MergeSuperSet {
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        boolean visible = changes.ids().contains(cd.getId());
-        if (visible && !canRead(db, user, cd)) {
-          // We thought the change was visible, but it isn't.
-          // This can happen if the ACL changes during the
-          // completeChangeSet computation, for example.
-          visible = false;
-        }
+        boolean visible = isVisible(db, changes, cd, user);
 
         if (submitType(cd) == SubmitType.CHERRY_PICK) {
           if (visible) {
@@ -389,6 +383,18 @@ public class MergeSuperSet {
   private void logErrorAndThrow(String msg) throws OrmException {
     logError(msg);
     throw new OrmException(msg);
+  }
+
+  private boolean isVisible(ReviewDb db, ChangeSet changes, ChangeData cd, CurrentUser user)
+      throws PermissionBackendException {
+    boolean visible = changes.ids().contains(cd.getId());
+    if (visible && !canRead(db, user, cd)) {
+      // We thought the change was visible, but it isn't.
+      // This can happen if the ACL changes during the
+      // completeChangeSet computation, for example.
+      visible = false;
+    }
+    return visible;
   }
 
   private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)

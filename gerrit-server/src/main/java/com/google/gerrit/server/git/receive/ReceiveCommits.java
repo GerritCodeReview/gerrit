@@ -134,7 +134,6 @@ import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -229,7 +228,8 @@ class ReceiveCommits {
 
   interface Factory {
     ReceiveCommits create(
-        ProjectControl projectControl,
+        ProjectState projectState,
+        IdentifiedUser user,
         ReceivePack receivePack,
         AllRefsWatcher allRefsWatcher,
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
@@ -301,7 +301,6 @@ class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<ReceivePackInitializer> initializers;
-  private final IdentifiedUser user;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final NotesMigration notesMigration;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -326,7 +325,8 @@ class ReceiveCommits {
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
   private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
-  private final ProjectControl projectControl;
+  private final ProjectState projectState;
+  private final IdentifiedUser user;
   private final ReceivePack rp;
 
   // Immutable fields derived from constructor arguments.
@@ -407,7 +407,8 @@ class ReceiveCommits {
       TagCache tagCache,
       CreateRefControl createRefControl,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
-      @Assisted ProjectControl projectControl,
+      @Assisted ProjectState projectState,
+      @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
@@ -420,7 +421,6 @@ class ReceiveCommits {
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeFormatter = changeFormatterProvider.get();
-    this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
@@ -451,13 +451,14 @@ class ReceiveCommits {
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
     this.extraReviewers = ImmutableSetMultimap.copyOf(extraReviewers);
-    this.projectControl = projectControl;
+    this.projectState = projectState;
+    this.user = user;
     this.rp = rp;
 
     // Immutable fields derived from constructor arguments.
     repo = rp.getRepository();
-    project = projectControl.getProject();
-    labelTypes = projectControl.getProjectState().getLabelTypes();
+    project = projectState.getProject();
+    labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
@@ -475,8 +476,7 @@ class ReceiveCommits {
     newChanges = Collections.emptyList();
 
     // Other settings populated during processing.
-    newChangeForAllNotInTarget =
-        projectControl.getProjectState().isCreateNewChangeForAllNotInTarget();
+    newChangeForAllNotInTarget = projectState.isCreateNewChangeForAllNotInTarget();
 
     // Handles for outputting back over the wire to the end user.
     messageSender = new ReceivePackMessageSender();
@@ -484,7 +484,7 @@ class ReceiveCommits {
 
   void init() {
     for (ReceivePackInitializer i : initializers) {
-      i.init(projectControl.getProject().getNameKey(), rp);
+      i.init(projectState.getNameKey(), rp);
     }
   }
 
@@ -819,8 +819,7 @@ class ReceiveCommits {
         continue;
       }
 
-      if (projectControl.getProjectState().isAllUsers()
-          && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+      if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
         String newName = RefNames.refsUsers(user.getAccountId());
         logDebug("Swapping out command for {} to {}", RefNames.REFS_USERS_SELF, newName);
         final ReceiveCommand orgCmd = cmd;
@@ -933,16 +932,14 @@ class ReceiveCommits {
                 ProjectConfigEntry configEntry = e.getProvider().get();
                 String value = pluginCfg.getString(e.getExportName());
                 String oldValue =
-                    projectControl
-                        .getProjectState()
+                    projectState
                         .getConfig()
                         .getPluginConfig(e.getPluginName())
                         .getString(e.getExportName());
                 if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
                   oldValue =
                       Arrays.stream(
-                              projectControl
-                                  .getProjectState()
+                              projectState
                                   .getConfig()
                                   .getPluginConfig(e.getPluginName())
                                   .getStringList(e.getExportName()))
@@ -950,7 +947,7 @@ class ReceiveCommits {
                 }
 
                 if ((value == null ? oldValue != null : !value.equals(oldValue))
-                    && !configEntry.isEditable(projectControl.getProjectState())) {
+                    && !configEntry.isEditable(projectState)) {
                   reject(
                       cmd,
                       String.format(
@@ -1457,7 +1454,7 @@ class ReceiveCommits {
       reject(cmd, "see help");
       return;
     }
-    if (projectControl.getProjectState().isAllUsers() && RefNames.REFS_USERS_SELF.equals(ref)) {
+    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(ref)) {
       logDebug("Handling {}", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
@@ -1476,7 +1473,7 @@ class ReceiveCommits {
 
     magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
     magicBranch.perm = permissions.ref(ref);
-    if (!projectControl.getProject().getState().permitsWrite()) {
+    if (!projectState.getProject().getState().permitsWrite()) {
       reject(cmd, "project state does not permit write");
       return;
     }
@@ -2498,7 +2495,8 @@ class ReceiveCommits {
       replaceOp =
           replaceOpFactory
               .create(
-                  projectControl,
+                  projectState,
+                  user,
                   notes.getChange().getDest(),
                   checkMergedInto,
                   priorPatchSet,
@@ -2800,8 +2798,7 @@ class ReceiveCommits {
     // TODO(dborowitz): Combine this BatchUpdate with the main one in
     // insertChangesAndPatchSets.
     try (BatchUpdate bu =
-            batchUpdateFactory.create(
-                db, projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
+            batchUpdateFactory.create(db, projectState.getNameKey(), user, TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {

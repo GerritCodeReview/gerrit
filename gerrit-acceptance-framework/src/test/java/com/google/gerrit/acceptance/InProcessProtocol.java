@@ -39,9 +39,7 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -286,7 +284,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Receive implements ReceivePackFactory<Context> {
     private final Provider<CurrentUser> userProvider;
-    private final ProjectControl.GenericFactory projectControlFactory;
+    private final ProjectCache projectCache;
     private final AsyncReceiveCommits.Factory factory;
     private final TransferConfig config;
     private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
@@ -297,7 +295,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     @Inject
     Receive(
         Provider<CurrentUser> userProvider,
-        ProjectControl.GenericFactory projectControlFactory,
+        ProjectCache projectCache,
         AsyncReceiveCommits.Factory factory,
         TransferConfig config,
         DynamicSet<ReceivePackInitializer> receivePackInitializers,
@@ -305,7 +303,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         ThreadLocalRequestContext threadContext,
         PermissionBackend permissionBackend) {
       this.userProvider = userProvider;
-      this.projectControlFactory = projectControlFactory;
+      this.projectCache = projectCache;
       this.factory = factory;
       this.config = config;
       this.receivePackInitializers = receivePackInitializers;
@@ -333,8 +331,14 @@ class InProcessProtocol extends TestProtocol<Context> {
         throw new RuntimeException(e);
       }
       try {
-        ProjectControl ctl = projectControlFactory.controlFor(req.project, userProvider.get());
-        AsyncReceiveCommits arc = factory.create(ctl, db, null, ImmutableSetMultimap.of());
+        IdentifiedUser identifiedUser = userProvider.get().asIdentifiedUser();
+        ProjectState projectState = projectCache.checkedGet(req.project);
+        if (projectState == null) {
+          throw new RuntimeException(String.format("project %s not found", req.project));
+        }
+
+        AsyncReceiveCommits arc =
+            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
         ReceivePack rp = arc.getReceivePack();
 
         Capable r = arc.canUpload();
@@ -342,17 +346,17 @@ class InProcessProtocol extends TestProtocol<Context> {
           throw new ServiceNotAuthorizedException();
         }
 
-        rp.setRefLogIdent(ctl.getUser().asIdentifiedUser().newRefLogIdent());
+        rp.setRefLogIdent(identifiedUser.newRefLogIdent());
         rp.setTimeout(config.getTimeout());
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
 
         for (ReceivePackInitializer initializer : receivePackInitializers) {
-          initializer.init(ctl.getProject().getNameKey(), rp);
+          initializer.init(projectState.getNameKey(), rp);
         }
 
         rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;
-      } catch (NoSuchProjectException | IOException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }

@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -73,7 +74,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   public interface Factory {
     AsyncReceiveCommits create(
-        ProjectControl projectControl,
+        ProjectState projectState,
+        IdentifiedUser user,
         Repository repository,
         @Nullable MessageSender messageSender,
         SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers);
@@ -106,7 +108,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
-      rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
+      rc = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
       rc.init();
       rc.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
@@ -170,8 +172,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final RequestScopePropagator scopePropagator;
   private final ReceiveConfig receiveConfig;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final long timeoutMillis;
-  private final ProjectControl projectControl;
+  private final ProjectState projectState;
+  private final IdentifiedUser user;
   private final Repository repo;
   private final MessageSender messageSender;
   private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
@@ -189,8 +193,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       TransferConfig transferConfig,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
+      ProjectControl.GenericFactory projectControlFactory,
       @Named(TIMEOUT_NAME) long timeoutMillis,
-      @Assisted ProjectControl projectControl,
+      @Assisted ProjectState projectState,
+      @Assisted IdentifiedUser user,
       @Assisted Repository repo,
       @Assisted @Nullable MessageSender messageSender,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
@@ -200,23 +206,23 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
     this.contributorAgreements = contributorAgreements;
+    this.projectControlFactory = projectControlFactory;
     this.timeoutMillis = timeoutMillis;
-    this.projectControl = projectControl;
+    this.projectState = projectState;
+    this.user = user;
     this.repo = repo;
     this.messageSender = messageSender;
     this.extraReviewers = extraReviewers;
 
-    IdentifiedUser user = projectControl.getUser().asIdentifiedUser();
-    ProjectState state = projectControl.getProjectState();
-    Project.NameKey projectName = projectControl.getProject().getNameKey();
+    Project.NameKey projectName = projectState.getNameKey();
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setRefLogIdent(user.newRefLogIdent());
     rp.setTimeout(transferConfig.getTimeout());
-    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(state));
-    rp.setCheckReceivedObjects(state.getConfig().getCheckReceivedObjects());
+    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectState));
+    rp.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
     rp.setRefFilter(new ReceiveRefFilter());
     rp.setAllowPushOptions(true);
     rp.setPreReceiveHook(this);
@@ -233,7 +239,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(4);
     allRefsWatcher = new AllRefsWatcher();
     advHooks.add(allRefsWatcher);
-    advHooks.add(refFilterFactory.create(state, repo).setShowMetadata(false));
+    advHooks.add(refFilterFactory.create(projectState, repo).setShowMetadata(false));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
@@ -241,20 +247,27 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() throws IOException {
+    // TODO(hiesel): Remove dependency on ProjectControl
+    ProjectControl projectControl;
+    try {
+      projectControl = projectControlFactory.controlFor(projectState.getNameKey(), user);
+    } catch (NoSuchProjectException e) {
+      throw new IOException(e);
+    }
+
     Capable result = projectControl.canPushToAtLeastOneRef();
     if (result != Capable.OK) {
       return result;
     }
 
     try {
-      contributorAgreements.check(
-          projectControl.getProject().getNameKey(), projectControl.getUser());
+      contributorAgreements.check(projectState.getNameKey(), user);
     } catch (AuthException e) {
       return new Capable(e.getMessage());
     }
 
     if (receiveConfig.checkMagicRefs) {
-      return MagicBranch.checkMagicBranchRefs(repo, projectControl.getProject());
+      return MagicBranch.checkMagicBranchRefs(repo, projectState.getProject());
     }
     return Capable.OK;
   }
@@ -269,7 +282,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       log.warn(
           String.format(
               "Error in ReceiveCommits while processing changes for project %s",
-              projectControl.getProject().getName()),
+              projectState.getName()),
           e);
       rp.sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this

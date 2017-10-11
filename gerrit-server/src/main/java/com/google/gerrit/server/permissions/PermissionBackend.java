@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.DefaultPermissionBackend;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.ImplementedBy;
@@ -38,7 +39,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -242,7 +242,7 @@ public abstract class PermissionBackend {
         } catch (AuthException e) {
           // Do not include this project in allowed.
         } catch (PermissionBackendException e) {
-          if (e.getCause() instanceof RepositoryNotFoundException) {
+          if (e.getCause() instanceof NoSuchProjectException) {
             logger.warn("Could not find repository of the project {} : ", project.get(), e);
             // Do not include this project because doesn't exist
           } else {

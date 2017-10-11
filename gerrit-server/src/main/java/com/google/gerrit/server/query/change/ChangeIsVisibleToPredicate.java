@@ -23,10 +23,15 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
+  private static final Logger logger = LoggerFactory.getLogger(ChangeIsVisibleToPredicate.class);
+
   protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
@@ -64,6 +69,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
               .database(db)
               .test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
+      if (e.getCause() instanceof NoSuchProjectException) {
+        logger.info("No such project: {}", cd.project());
+        return false;
+      }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);
     }
     if (visible) {

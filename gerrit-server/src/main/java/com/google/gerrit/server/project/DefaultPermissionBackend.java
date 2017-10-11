@@ -75,7 +75,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         if (state != null) {
           return state.controlFor(user).asForProject().database(db);
         }
-        return FailedPermissionBackend.project("project '" + project.get() + "' not found");
+        return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
       } catch (IOException e) {
         return FailedPermissionBackend.project("unavailable", e);
       }

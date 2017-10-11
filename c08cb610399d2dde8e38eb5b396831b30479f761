@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "5979910e_9e912457",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-11T23:57:57Z",
+      "side": 1,
+      "message": "No, I mean PS1.\n\nDo you think we could investigate this issue elsewhere? I\u0027m afraid to make this relation chain any longer than it is, because I\u0027d like to avoid rebase hell, and I\u0027ve been blocked on inline edit since the hackathon. I\u0027m fairly certain we can look for the root cause of this issue in a way that doesn\u0027t cripple my development velocity.\n\nUnless you see something else blocking this change, of course 😁",
+      "parentUuid": "587b4a14_c813abe4",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c644864a_b95d8f27",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5

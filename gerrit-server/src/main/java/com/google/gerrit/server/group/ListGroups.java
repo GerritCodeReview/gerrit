@@ -67,7 +67,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   protected final GroupCache groupCache;
 
-  private final List<ProjectControl> projects = new ArrayList<>();
+  private final List<ProjectState> projects = new ArrayList<>();
   private final Set<AccountGroup.UUID> groupsToInspect = new HashSet<>();
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
@@ -95,6 +95,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     usage = "projects for which the groups should be listed"
   )
   public void addProject(ProjectControl project) {
+    addProject(project.getProjectState());
+  }
+
+  public void addProject(ProjectState project) {
     projects.add(project);
   }
 
@@ -241,7 +245,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return user;
   }
 
-  public List<ProjectControl> getProjects() {
+  public List<ProjectState> getProjects() {
     return projects;
   }
 
@@ -298,7 +302,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (!projects.isEmpty()) {
       return projects
           .stream()
-          .map(ProjectControl::getProjectState)
           .map(ProjectState::getAllGroups)
           .flatMap(Collection::stream)
           .map(GroupReference::getUUID)
@@ -318,9 +321,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     List<GroupReference> groupRefs =
         Lists.newArrayList(
             Iterables.limit(
-                groupBackend.suggest(
-                    suggest,
-                    projects.stream().findFirst().map(pc -> pc.getProjectState()).orElse(null)),
+                groupBackend.suggest(suggest, projects.stream().findFirst().orElse(null)),
                 limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());

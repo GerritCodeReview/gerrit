@@ -21,15 +21,14 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,28 +36,22 @@ import java.util.Optional;
 import java.util.Set;
 
 public class GroupMembers {
-  public interface Factory {
-    GroupMembers create(CurrentUser currentUser);
-  }
 
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
   private final AccountCache accountCache;
-  private final ProjectControl.GenericFactory projectControl;
-  private final CurrentUser currentUser;
+  private final ProjectCache projectCache;
 
   @Inject
   GroupMembers(
       GroupCache groupCache,
       GroupControl.Factory groupControlFactory,
       AccountCache accountCache,
-      ProjectControl.GenericFactory projectControl,
-      @Assisted CurrentUser currentUser) {
+      ProjectCache projectCache) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
-    this.projectControl = projectControl;
-    this.currentUser = currentUser;
+    this.projectCache = projectCache;
   }
 
   public Set<Account> listAccounts(AccountGroup.UUID groupUUID, Project.NameKey project)
@@ -88,11 +81,13 @@ public class GroupMembers {
       return Collections.emptySet();
     }
 
-    final Iterable<AccountGroup.UUID> ownerGroups =
-        projectControl.controlFor(project, currentUser).getProjectState().getAllOwners();
+    ProjectState projectState = projectCache.checkedGet(project);
+    if (projectState == null) {
+      throw new NoSuchProjectException(project);
+    }
 
     final HashSet<Account> projectOwners = new HashSet<>();
-    for (AccountGroup.UUID ownerGroup : ownerGroups) {
+    for (AccountGroup.UUID ownerGroup : projectState.getAllOwners()) {
       if (!seen.contains(ownerGroup)) {
         projectOwners.addAll(listAccounts(ownerGroup, project, seen));
       }

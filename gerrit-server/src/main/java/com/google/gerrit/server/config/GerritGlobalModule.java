@@ -91,7 +91,6 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
-import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
@@ -250,7 +249,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
-    factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeUtil.Factory.class);

@@ -91,7 +91,7 @@ public class PostReviewers
   private final PermissionBackend permissionBackend;
 
   private final GroupsCollection groupsCollection;
-  private final GroupMembers.Factory groupMembersFactory;
+  private final GroupMembers groupMembers;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
@@ -111,7 +111,7 @@ public class PostReviewers
       ReviewerResource.Factory reviewerFactory,
       PermissionBackend permissionBackend,
       GroupsCollection groupsCollection,
-      GroupMembers.Factory groupMembersFactory,
+      GroupMembers groupMembers,
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
@@ -130,7 +130,7 @@ public class PostReviewers
     this.reviewerFactory = reviewerFactory;
     this.permissionBackend = permissionBackend;
     this.groupsCollection = groupsCollection;
-    this.groupMembersFactory = groupMembersFactory;
+    this.groupMembers = groupMembers;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
@@ -287,10 +287,7 @@ public class PostReviewers
     Set<Account.Id> reviewers = new HashSet<>();
     Set<Account> members;
     try {
-      members =
-          groupMembersFactory
-              .create(rsrc.getUser())
-              .listAccounts(group.getGroupUUID(), rsrc.getProject());
+      members = groupMembers.listAccounts(group.getGroupUUID(), rsrc.getProject());
     } catch (NoSuchGroupException e) {
       return fail(
           reviewer,

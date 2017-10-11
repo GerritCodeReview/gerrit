@@ -111,7 +111,7 @@ public class ReviewersUtil {
   private final AccountQueryBuilder accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
-  private final GroupMembers.Factory groupMembersFactory;
+  private final GroupMembers groupMembers;
   private final Provider<CurrentUser> currentUser;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
@@ -122,7 +122,7 @@ public class ReviewersUtil {
       AccountQueryBuilder accountQueryBuilder,
       Provider<AccountQueryProcessor> queryProvider,
       GroupBackend groupBackend,
-      GroupMembers.Factory groupMembersFactory,
+      GroupMembers groupMembers,
       Provider<CurrentUser> currentUser,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
@@ -133,7 +133,7 @@ public class ReviewersUtil {
     this.queryProvider = queryProvider;
     this.currentUser = currentUser;
     this.groupBackend = groupBackend;
-    this.groupMembersFactory = groupMembersFactory;
+    this.groupMembers = groupMembers;
     this.reviewerRecommender = reviewerRecommender;
     this.metrics = metrics;
   }
@@ -303,10 +303,7 @@ public class ReviewersUtil {
     }
 
     try {
-      Set<Account> members =
-          groupMembersFactory
-              .create(currentUser.get())
-              .listAccounts(group.getUUID(), project.getNameKey());
+      Set<Account> members = groupMembers.listAccounts(group.getUUID(), project.getNameKey());
 
       if (members.isEmpty()) {
         return result;

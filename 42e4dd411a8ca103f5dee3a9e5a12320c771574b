@@ -17,6 +17,24 @@
       "revId": "42e4dd411a8ca103f5dee3a9e5a12320c771574b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b2b6107_eaa09d62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:29:57Z",
+      "side": 1,
+      "message": "Yeah, let me drop this change. The final version in this series already has only 1 method for this.",
+      "parentUuid": "d9912e9c_89d78bf2",
+      "revId": "42e4dd411a8ca103f5dee3a9e5a12320c771574b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

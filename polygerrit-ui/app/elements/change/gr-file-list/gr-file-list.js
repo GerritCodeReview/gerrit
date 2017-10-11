@@ -717,10 +717,6 @@
       return classes.join(' ');
     },
 
-    _computeExpandInlineClass(userPrefs) {
-      return userPrefs.expand_inline_diffs ? 'expandInline' : '';
-    },
-
     _computePathClass(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
           'path';

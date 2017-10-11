@@ -30,7 +30,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -58,7 +57,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   @Inject
   ChangeProjectAccess(
       ProjectAccessFactory.Factory projectAccessFactory,
-      ProjectControl.Factory projectControlFactory,
       ProjectCache projectCache,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
@@ -74,7 +72,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
     super(
-        projectControlFactory,
         groupBackend,
         metaDataUpdateFactory,
         allProjects,
@@ -95,10 +92,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
 
   @Override
   protected ProjectAccess updateProjectConfig(
-      ProjectControl projectControl,
-      ProjectConfig config,
-      MetaDataUpdate md,
-      boolean parentProjectUpdate)
+      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException,
           PermissionBackendException {
     RevCommit commit = config.commit(md);
@@ -108,7 +102,7 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         RefNames.REFS_CONFIG,
         base,
         commit.getId(),
-        projectControl.getUser().asIdentifiedUser().getAccount());
+        user.asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

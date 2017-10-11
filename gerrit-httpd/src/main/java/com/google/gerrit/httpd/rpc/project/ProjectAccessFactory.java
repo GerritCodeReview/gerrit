@@ -48,7 +48,7 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -70,7 +70,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
@@ -84,7 +83,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
-      ProjectControl.GenericFactory projectControlFactory,
       GroupControl.Factory groupControlFactory,
       MetaDataUpdate.Server metaDataUpdateFactory,
       AllProjectsName allProjectsName,
@@ -94,7 +92,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.user = user;
-    this.projectControlFactory = projectControlFactory;
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjectsName = allProjectsName;
@@ -107,7 +104,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   public ProjectAccess call()
       throws NoSuchProjectException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    ProjectControl pc = checkProjectControl();
+    ProjectState projectState = checkProjectState();
 
     // Load the current configuration from the repository, ensuring its the most
     // recent version available. If it differs from what was in the project
@@ -120,11 +117,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = checkProjectControl();
+        projectState = checkProjectState();
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
+          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = checkProjectControl();
+        projectState = checkProjectState();
       }
     }
 
@@ -228,7 +225,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
             || (checkReadConfig && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)));
     detail.setConfigVisible(canWriteProjectConfig || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
-    detail.setLabelTypes(pc.getProjectState().getLabelTypes());
+    detail.setLabelTypes(projectState.getLabelTypes());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
     return detail;
   }
@@ -258,15 +255,15 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     return Maps.filterEntries(infos, in -> in.getValue() != null);
   }
 
-  private ProjectControl checkProjectControl()
+  private ProjectState checkProjectState()
       throws NoSuchProjectException, IOException, PermissionBackendException {
-    ProjectControl pc = projectControlFactory.controlFor(projectName, user.get());
+    ProjectState state = projectCache.checkedGet(projectName);
     try {
       permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }
-    return pc;
+    return state;
   }
 
   private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)

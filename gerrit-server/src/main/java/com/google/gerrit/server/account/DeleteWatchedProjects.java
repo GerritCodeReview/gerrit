@@ -67,6 +67,10 @@ public class DeleteWatchedProjects
       return Response.none();
     }
 
+    if (w.project == null || w.filter == null) {
+      return Response.none();
+    }
+
     Account.Id accountId = rsrc.getUser().getAccountId();
     watchConfig.deleteProjectWatches(
         accountId,

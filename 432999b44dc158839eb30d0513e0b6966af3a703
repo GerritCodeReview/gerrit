@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da44efde_f2a4ce1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T21:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3844ff5d_6434c069",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "432999b44dc158839eb30d0513e0b6966af3a703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d8b0b8_be9d53b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -62,6 +86,24 @@
       "revId": "432999b44dc158839eb30d0513e0b6966af3a703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146ca8cd_d69c3e7b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T21:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73cd2fb3_04de091c",
+      "revId": "432999b44dc158839eb30d0513e0b6966af3a703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

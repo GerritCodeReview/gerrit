@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b95662fb_0a3836d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-11T18:19:17Z",
+      "side": 1,
+      "message": "Please clean up the grammar in this commit message.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 31
+      },
+      "revId": "f98810832824515dccfc844c28d43a580f07598e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8364b59_ef890da5",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.js",
         "patchSetId": 3
@@ -34,6 +57,24 @@
       "revId": "f98810832824515dccfc844c28d43a580f07598e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d44d473b_90367510",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-11T18:19:17Z",
+      "side": 1,
+      "message": "Thank you for reverting.\n\nAs you can see in the file, we treat the value as an array (using fns like \u0027push\u0027 and \u0027splice\u0027, and using it as an items array in a dom-repeat), and we should declare the _keys array properly.",
+      "parentUuid": "3f2e2817_820a2ed3",
+      "revId": "f98810832824515dccfc844c28d43a580f07598e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

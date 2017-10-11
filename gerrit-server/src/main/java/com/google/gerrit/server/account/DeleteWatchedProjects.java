@@ -63,7 +63,7 @@ public class DeleteWatchedProjects
     if (self.get() != rsrc.getUser()) {
       permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
-    if (input == null) {
+    if (input == null || input.project == null || input.filter == null) {
       return Response.none();
     }
 

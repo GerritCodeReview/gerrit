@@ -74,9 +74,9 @@ import org.slf4j.LoggerFactory;
 public class MergeSuperSet {
   private static final Logger log = LoggerFactory.getLogger(MergeSuperSet.class);
 
-  public static void reloadChanges(ChangeSet cs) throws OrmException {
+  public static void reloadChanges(ChangeSet changeSet) throws OrmException {
     // Clear exactly the fields requested by query() below.
-    for (ChangeData cd : cs.changes()) {
+    for (ChangeData cd : changeSet.changes()) {
       cd.reloadChange();
       cd.setPatchSets(null);
       cd.setMergeable(null);
@@ -132,13 +132,13 @@ public class MergeSuperSet {
       throws IOException, OrmException, PermissionBackendException {
     try {
       ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
-      ChangeSet cs =
+      ChangeSet changeSet =
           new ChangeSet(
               cd, permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ));
       if (Submit.wholeTopicEnabled(cfg)) {
-        return completeChangeSetIncludingTopics(db, cs, user);
+        return completeChangeSetIncludingTopics(db, changeSet, user);
       }
-      return completeChangeSetWithoutTopic(db, cs, user);
+      return completeChangeSetWithoutTopic(db, changeSet, user);
     } finally {
       if (closeOrm && orm != null) {
         orm.close();
@@ -190,7 +190,8 @@ public class MergeSuperSet {
     return destHashes;
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes, CurrentUser user)
+  private ChangeSet completeChangeSetWithoutTopic(
+      ReviewDb db, ChangeSet changeSet, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
@@ -198,13 +199,13 @@ public class MergeSuperSet {
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
     ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
-        byBranch(Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
+        byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges()));
     for (Branch.NameKey b : bc.keySet()) {
       OpenRepo or = getRepo(b.getParentKey());
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        boolean visible = changes.ids().contains(cd.getId());
+        boolean visible = changeSet.ids().contains(cd.getId());
         if (visible && !canRead(db, user, cd)) {
           // We thought the change was visible, but it isn't.
           // This can happen if the ACL changes during the
@@ -296,7 +297,7 @@ public class MergeSuperSet {
   }
 
   /**
-   * Completes {@code cs} with any additional changes from its topics
+   * Completes {@code changeSet} with any additional changes from its topics
    *
    * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
    * #completeChangeSetWithoutTopic}, to discover what additional changes should be submitted with a
@@ -309,7 +310,7 @@ public class MergeSuperSet {
    */
   private ChangeSet topicClosure(
       ReviewDb db,
-      ChangeSet cs,
+      ChangeSet changeSet,
       CurrentUser user,
       Set<String> topicsSeen,
       Set<String> visibleTopicsSeen)
@@ -317,7 +318,7 @@ public class MergeSuperSet {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
-    for (ChangeData cd : cs.changes()) {
+    for (ChangeData cd : changeSet.changes()) {
       visibleChanges.add(cd);
       String topic = cd.change().getTopic();
       if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
@@ -333,7 +334,7 @@ public class MergeSuperSet {
       topicsSeen.add(topic);
       visibleTopicsSeen.add(topic);
     }
-    for (ChangeData cd : cs.nonVisibleChanges()) {
+    for (ChangeData cd : changeSet.nonVisibleChanges()) {
       nonVisibleChanges.add(cd);
       String topic = cd.change().getTopic();
       if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
@@ -348,7 +349,7 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes, CurrentUser user)
+      ReviewDb db, ChangeSet changeSet, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
@@ -358,12 +359,12 @@ public class MergeSuperSet {
     do {
       oldSeen = seen;
 
-      changes = completeChangeSetWithoutTopic(db, changes, user);
-      changes = topicClosure(db, changes, user, topicsSeen, visibleTopicsSeen);
+      changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+      changeSet = completeChangeSetWithoutTopic(db, changeSet, user);
 
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
-    return changes;
+    return changeSet;
   }
 
   private InternalChangeQuery query() {

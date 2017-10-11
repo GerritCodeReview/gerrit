@@ -46,6 +46,53 @@
       "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ec09db3_b587bab8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-11T18:38:19Z",
+      "side": 1,
+      "message": "Sorry your correct, i found a mistake, see below.",
+      "parentUuid": "128dddc5_c4288c0b",
+      "range": {
+        "startLine": 22,
+        "startChar": 707,
+        "endLine": 22,
+        "endChar": 711
+      },
+      "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2a7edeb_3e46bea7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-11T18:38:19Z",
+      "side": 1,
+      "message": "Needs a / ie \"/\u003e that\u0027s why i thought it was broken, it was missing a slash.\n\nSame for below.",
+      "range": {
+        "startLine": 23,
+        "startChar": 976,
+        "endLine": 23,
+        "endChar": 977
+      },
+      "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

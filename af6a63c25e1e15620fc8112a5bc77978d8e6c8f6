@@ -46,6 +46,52 @@
       "revId": "af6a63c25e1e15620fc8112a5bc77978d8e6c8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a4b645f_3ab60576",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-11T12:49:29Z",
+      "side": 1,
+      "message": "info(\"No such project: {}\", cd.project())",
+      "range": {
+        "startLine": 72,
+        "startChar": 20,
+        "endLine": 72,
+        "endChar": 33
+      },
+      "revId": "af6a63c25e1e15620fc8112a5bc77978d8e6c8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7f4b771_d7821263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-11T12:49:29Z",
+      "side": 1,
+      "message": "This comment is not applicable, at least to the current implementation. The permission backend is looking in the project cache, which doesn\u0027t use the index (and I don\u0027t think it will in the future).",
+      "range": {
+        "startLine": 72,
+        "startChar": 56,
+        "endLine": 72,
+        "endChar": 81
+      },
+      "revId": "af6a63c25e1e15620fc8112a5bc77978d8e6c8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

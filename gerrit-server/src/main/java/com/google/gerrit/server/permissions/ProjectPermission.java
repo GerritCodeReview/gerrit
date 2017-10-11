@@ -76,7 +76,19 @@ public enum ProjectPermission {
   RUN_RECEIVE_PACK,
 
   /** Can run upload pack. */
-  RUN_UPLOAD_PACK;
+  RUN_UPLOAD_PACK,
+
+  /** Allow read access to refs/meta/config. */
+  READ_CONFIG,
+
+  /** Allow write access to refs/meta/config. */
+  WRITE_CONFIG,
+
+  /** Allow banning commits from Gerrit preventing pushes of these commits. */
+  BAN_COMMIT,
+
+  /** Allow accessing the project's reflog. */
+  READ_REFLOG;
 
   private final String name;
 

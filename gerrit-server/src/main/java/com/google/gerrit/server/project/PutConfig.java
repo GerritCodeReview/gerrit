@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -40,6 +39,9 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -68,6 +70,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   PutConfig(
@@ -81,7 +84,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       AllProjectsName allProjects,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> user) {
+      Provider<CurrentUser> user,
+      PermissionBackend permissionBackend) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -93,13 +97,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.uiActions = uiActions;
     this.views = views;
     this.user = user;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input) throws RestApiException {
-    if (!rsrc.getControl().isOwner()) {
-      throw new AuthException("restricted to project owner");
-    }
+  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
+      throws RestApiException, PermissionBackendException {
+    permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.WRITE_CONFIG);
     return apply(rsrc.getProjectState(), input);
   }
 

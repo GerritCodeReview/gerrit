@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
@@ -110,13 +111,13 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         allProjects,
         setParent,
         user.get(),
-        permissionBackend,
         projectName,
         base,
         sectionList,
         parentProjectName,
         message,
         contributorAgreements,
+        permissionBackend,
         false);
     this.db = db;
     this.permissionBackend = permissionBackend;
@@ -138,22 +139,17 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       MetaDataUpdate md,
       boolean parentProjectUpdate)
       throws IOException, OrmException, PermissionDeniedException, PermissionBackendException {
-    PermissionBackend.ForRef metaRef =
+    PermissionBackend.ForProject perm =
         permissionBackend
             .user(projectControl.getUser())
-            .project(projectControl.getProject().getNameKey())
-            .ref(RefNames.REFS_CONFIG);
-    try {
-      metaRef.check(RefPermission.READ);
-    } catch (AuthException denied) {
+            .project(projectControl.getProject().getNameKey());
+    if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
-    if (!projectControl.isOwner()) {
-      try {
-        metaRef.check(RefPermission.CREATE_CHANGE);
-      } catch (AuthException denied) {
-        throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
-      }
+
+    if (!check(perm, ProjectPermission.WRITE_CONFIG)
+        && !check(perm.ref(RefNames.REFS_CONFIG), RefPermission.CREATE_CHANGE)) {
+      throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
     }
 
     md.setInsertChangeId(true);
@@ -225,6 +221,26 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         // ignore
         Throwables.throwIfUnchecked(e);
       }
+    }
+  }
+
+  private boolean check(PermissionBackend.ForRef perm, RefPermission p)
+      throws PermissionBackendException {
+    try {
+      perm.check(p);
+      return true;
+    } catch (AuthException denied) {
+      return false;
+    }
+  }
+
+  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
+      throws PermissionBackendException {
+    try {
+      perm.check(p);
+      return true;
+    } catch (AuthException denied) {
+      return false;
     }
   }
 }

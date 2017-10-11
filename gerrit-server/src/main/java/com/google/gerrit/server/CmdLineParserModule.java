@@ -25,10 +25,10 @@ import com.google.gerrit.server.args4j.AccountIdHandler;
 import com.google.gerrit.server.args4j.ChangeIdHandler;
 import com.google.gerrit.server.args4j.ObjectIdHandler;
 import com.google.gerrit.server.args4j.PatchSetIdHandler;
-import com.google.gerrit.server.args4j.ProjectControlHandler;
+import com.google.gerrit.server.args4j.ProjectHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
 import com.google.gerrit.server.args4j.TimestampHandler;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.gerrit.util.cli.OptionHandlers;
@@ -51,7 +51,7 @@ public class CmdLineParserModule extends FactoryModule {
     registerOptionHandler(Change.Id.class, ChangeIdHandler.class);
     registerOptionHandler(ObjectId.class, ObjectIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
-    registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
+    registerOptionHandler(ProjectState.class, ProjectHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
     registerOptionHandler(Timestamp.class, TimestampHandler.class);
   }

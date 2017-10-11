@@ -146,7 +146,6 @@ final class SetAccountCommand extends SshCommand {
 
   @Inject private DeleteSshKey deleteSshKey;
 
-  private IdentifiedUser user;
   private AccountResource rsrc;
 
   @Override
@@ -182,7 +181,7 @@ final class SetAccountCommand extends SshCommand {
       throws OrmException, IOException, UnloggedFailure, ConfigInvalidException,
           PermissionBackendException {
     user = genericUserFactory.create(id);
-    rsrc = new AccountResource(user);
+    rsrc = new AccountResource(user.asIdentifiedUser());
     try {
       for (String email : addEmails) {
         addEmail(email);
@@ -266,7 +265,7 @@ final class SetAccountCommand extends SshCommand {
           ConfigInvalidException, PermissionBackendException {
     AccountSshKey sshKey =
         new AccountSshKey(new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
-    deleteSshKey.apply(new AccountResource.SshKey(user, sshKey), null);
+    deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }
 
   private void addEmail(String email)
@@ -288,10 +287,10 @@ final class SetAccountCommand extends SshCommand {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
-        deleteEmail.apply(new AccountResource.Email(user, e.email), new Input());
+        deleteEmail.apply(new AccountResource.Email(user.asIdentifiedUser(), e.email), new Input());
       }
     } else {
-      deleteEmail.apply(new AccountResource.Email(user, email), new Input());
+      deleteEmail.apply(new AccountResource.Email(user.asIdentifiedUser(), email), new Input());
     }
   }
 
@@ -300,7 +299,7 @@ final class SetAccountCommand extends SshCommand {
           ConfigInvalidException {
     for (EmailInfo e : getEmails.apply(rsrc)) {
       if (e.email.equals(email)) {
-        putPreferred.apply(new AccountResource.Email(user, email), null);
+        putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);
         return;
       }
     }

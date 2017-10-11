@@ -20,7 +20,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -55,15 +54,13 @@ public class LfsPluginAuthCommand extends SshCommand {
   }
 
   private final DynamicItem<LfsSshPluginAuth> auth;
-  private final Provider<CurrentUser> user;
 
   @Argument(index = 0, multiValued = true, metaVar = "PARAMS")
   private List<String> args = new ArrayList<>();
 
   @Inject
-  LfsPluginAuthCommand(DynamicItem<LfsSshPluginAuth> auth, Provider<CurrentUser> user) {
+  LfsPluginAuthCommand(DynamicItem<LfsSshPluginAuth> auth) {
     this.auth = auth;
-    this.user = user;
   }
 
   @Override
@@ -74,6 +71,6 @@ public class LfsPluginAuthCommand extends SshCommand {
       throw new UnloggedFailure(1, CONFIGURATION_ERROR);
     }
 
-    stdout.print(pluginAuth.authenticate(user.get(), args));
+    stdout.print(pluginAuth.authenticate(user, args));
   }
 }

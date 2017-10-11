@@ -24,7 +24,7 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
@@ -57,15 +57,15 @@ public class PatchSetParser {
     this.changeFinder = changeFinder;
   }
 
-  public PatchSet parsePatchSet(String token, ProjectControl projectControl, String branch)
+  public PatchSet parsePatchSet(String token, ProjectState projectState, String branch)
       throws UnloggedFailure, OrmException {
     // By commit?
     //
     if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
       InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
-      if (projectControl != null) {
-        Project.NameKey p = projectControl.getProject().getNameKey();
+      if (projectState != null) {
+        Project.NameKey p = projectState.getNameKey();
         if (branch != null) {
           cds = query.byBranchCommit(p.get(), branch, token);
         } else {
@@ -77,7 +77,7 @@ public class PatchSetParser {
       List<PatchSet> matches = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
         Change c = cd.change();
-        if (!(inProject(c, projectControl) && inBranch(c, branch))) {
+        if (!(inProject(c, projectState) && inBranch(c, branch))) {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
@@ -106,19 +106,15 @@ public class PatchSetParser {
       } catch (IllegalArgumentException e) {
         throw error("\"" + token + "\" is not a valid patch set");
       }
-      ChangeNotes notes = getNotes(projectControl, patchSetId.getParentKey());
+      ChangeNotes notes = getNotes(projectState, patchSetId.getParentKey());
       PatchSet patchSet = psUtil.get(db.get(), notes, patchSetId);
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
       }
-      if (projectControl != null || branch != null) {
+      if (projectState != null || branch != null) {
         Change change = notes.getChange();
-        if (!inProject(change, projectControl)) {
-          throw error(
-              "change "
-                  + change.getId()
-                  + " not in project "
-                  + projectControl.getProject().getName());
+        if (!inProject(change, projectState)) {
+          throw error("change " + change.getId() + " not in project " + projectState.getName());
         }
         if (!inBranch(change, branch)) {
           throw error("change " + change.getId() + " not in branch " + branch);
@@ -130,10 +126,10 @@ public class PatchSetParser {
     throw error("\"" + token + "\" is not a valid patch set");
   }
 
-  private ChangeNotes getNotes(@Nullable ProjectControl projectControl, Change.Id changeId)
+  private ChangeNotes getNotes(@Nullable ProjectState projectState, Change.Id changeId)
       throws OrmException, UnloggedFailure {
-    if (projectControl != null) {
-      return notesFactory.create(db.get(), projectControl.getProject().getNameKey(), changeId);
+    if (projectState != null) {
+      return notesFactory.create(db.get(), projectState.getNameKey(), changeId);
     }
     try {
       ChangeNotes notes = changeFinder.findOne(changeId);
@@ -143,12 +139,12 @@ public class PatchSetParser {
     }
   }
 
-  private static boolean inProject(Change change, ProjectControl projectControl) {
-    if (projectControl == null) {
+  private static boolean inProject(Change change, ProjectState projectState) {
+    if (projectState == null) {
       // No --project option, so they want every project.
       return true;
     }
-    return projectControl.getProject().getNameKey().equals(change.getProject());
+    return projectState.getNameKey().equals(change.getProject());
   }
 
   private static boolean inBranch(Change change, String branch) {

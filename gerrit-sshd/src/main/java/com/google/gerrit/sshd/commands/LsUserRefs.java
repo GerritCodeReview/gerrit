@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -59,7 +59,7 @@ public class LsUserRefs extends SshCommand {
     required = true,
     usage = "project for which the refs should be listed"
   )
-  private ProjectControl projectControl;
+  private ProjectState projectState;
 
   @Option(
     name = "--user",
@@ -87,13 +87,13 @@ public class LsUserRefs extends SshCommand {
       return;
     }
 
-    Project.NameKey projectName = projectControl.getProject().getNameKey();
+    Project.NameKey projectName = projectState.getNameKey();
     try (Repository repo = repoManager.openRepository(projectName);
         ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
       try {
         Map<String, Ref> refsMap =
             refFilterFactory
-                .create(projectControl.getProjectState(), repo)
+                .create(projectState, repo)
                 .filter(repo.getRefDatabase().getRefs(ALL), false);
 
         for (String ref : refsMap.keySet()) {

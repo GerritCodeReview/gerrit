@@ -31,9 +31,7 @@ public class MailSenderIT extends AbstractMailIT {
     // Check that the custom address was added as Reply-To
     assertThat(sender.getMessages()).hasSize(1);
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
-    assertThat(headers.get("Reply-To")).isInstanceOf(EmailHeader.String.class);
-    assertThat(((EmailHeader.String) headers.get("Reply-To")).getString())
-        .isEqualTo("custom@gerritcodereview.com");
+    assertThat(headerString(headers, "Reply-To")).isEqualTo("custom@gerritcodereview.com");
   }
 
   @Test
@@ -42,7 +40,12 @@ public class MailSenderIT extends AbstractMailIT {
     // Check that the user's email was added as Reply-To
     assertThat(sender.getMessages()).hasSize(1);
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
-    assertThat(headers.get("Reply-To")).isInstanceOf(EmailHeader.String.class);
-    assertThat(((EmailHeader.String) headers.get("Reply-To")).getString()).contains(user.email);
+    assertThat(headerString(headers, "Reply-To")).contains(user.email);
+  }
+
+  private String headerString(Map<String, EmailHeader> headers, String name) {
+    EmailHeader header = headers.get(name);
+    assertThat(header).isInstanceOf(EmailHeader.String.class);
+    return ((EmailHeader.String) header).getString();
   }
 }

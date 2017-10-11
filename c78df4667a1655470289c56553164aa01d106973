@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "863632fd_61896a58",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "Yes it is a good idea to save this (or something like it) in the samples folder.\nI will do that once everything is decided on. Leaving this unresolved.",
+      "parentUuid": "5370c622_370c0d58",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70e0c910_105cc0c2",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "8ae59278_7fbea750",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70e0c910_105cc0c2",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bb48a4f_9997d23f",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "2ef9189c_b9c7d20d",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "I moved some parts of this to GrLayerApi and made the plugin return a function that acts on (el, line).\n\nThe plugin still needs knowledge of things like data-side \u003d\u003d \u0027right\u0027 and I\u0027m not sure how to get around that. The other JS plugins commitqueue.js and skiastatus.js do make assumptions about certain structures as well, so some of that might be unavoidable. But minimizing that as much as we can would be great.",
+      "parentUuid": "9bb48a4f_9997d23f",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de573895_12ddf46f",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2017-10-10T22:40:52Z",
       "side": 1,
       "message": "Aside: because we\u0027d be loading the coverage information from an external endpoint, we\u0027ll also want to tell the diff that the layer has asynchronously loaded new information to display.\n\nCurrently, the only layer that we have that takes advantage of this system is the syntax layer. It allows the diff to register listeners [1] and when new syntax highlighting info is known, it notifies those listeners with a line-range [2] so that they\u0027re re-rendered.\n\nThis listener system is designed so we might load syntax highlighting via XHR just like coverage.\n\n* [1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js#122\n* [2] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js#434",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7174b2a_d914a217",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "I will have to look at this more closely, have not had a chance to yet.\n\nThe implementation in this CL seems to block loading the diff till all coverage data is available (tested by putting in sleeps). Which might not be too bad because eventually the plugin will have some checkbox to display/hide coverage data, so there will be a way to disable displaying coverage if there is a problem.",
+      "parentUuid": "de573895_12ddf46f",
       "revId": "c78df4667a1655470289c56553164aa01d106973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "35080dd4_e63b373f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "I moved these to be gr-endpoint-param\u0027s.",
+      "parentUuid": "854b37aa_3c5ffad1",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd354c9c_5565944d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 6
@@ -110,6 +212,24 @@
       "writtenOn": "2017-10-10T22:40:52Z",
       "side": 1,
       "message": "Because it\u0027s important for all the layers to be set-up before the diff starts to render, it the .addLayer method here might be a little misleading, since it won\u0027t work if you call it too late.\n\nWhat I\u0027d envision is here is, instead of the `addLayer` method added below, we could have additional setup that asks the plugin API for any additional layers that have been defined.\n\n  const layers \u003d [\n    // .. the layer list above in ll.117-122 ..\n  ];\n\n  for (const layer of this.$.pluginApi.getPluginLayers()) {\n    layers.push(layer);\n  }\n\n  this._layers \u003d layers;\n\nThoughts?",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92efa0b1_422803fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "I think that would work but we would have to remove usage of gr-endpoint-decorator and gr-endpoint-param from gr-diff.html in this CL.\nBecause, IIUC, they end up automatically triggering GrLayerApi with the wrapped element and GrLayerApi has to then call into the wrapped element which in this case is gr-diff-builder.",
+      "parentUuid": "cd354c9c_5565944d",
       "revId": "c78df4667a1655470289c56553164aa01d106973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -136,6 +256,30 @@
       "revId": "c78df4667a1655470289c56553164aa01d106973",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "991c936f_6f614184",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-layer-api/gr-layer-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-11T19:51:30Z",
+      "side": 1,
+      "message": "Agreed. Changed to addLayer.",
+      "parentUuid": "0b9ca071_76e858a9",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

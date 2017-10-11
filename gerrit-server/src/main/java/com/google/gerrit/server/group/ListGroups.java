@@ -41,7 +41,6 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -94,10 +93,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     aliases = {"-p"},
     usage = "projects for which the groups should be listed"
   )
-  public void addProject(ProjectControl project) {
-    addProject(project.getProjectState());
-  }
-
   public void addProject(ProjectState project) {
     projects.add(project);
   }

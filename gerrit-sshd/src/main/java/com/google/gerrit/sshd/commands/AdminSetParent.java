@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -24,7 +26,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -57,21 +58,21 @@ final class AdminSetParent extends SshCommand {
     metaVar = "NAME",
     usage = "new parent project"
   )
-  private ProjectControl newParent;
+  private ProjectState newParent;
 
   @Option(
     name = "--children-of",
     metaVar = "NAME",
     usage = "parent project for which the child projects should be reparented"
   )
-  private ProjectControl oldParent;
+  private ProjectState oldParent;
 
   @Option(
     name = "--exclude",
     metaVar = "NAME",
     usage = "child project of old parent project which should not be reparented"
   )
-  private List<ProjectControl> excludedChildren = new ArrayList<>();
+  private List<ProjectState> excludedChildren = new ArrayList<>();
 
   @Argument(
     index = 0,
@@ -80,7 +81,7 @@ final class AdminSetParent extends SshCommand {
     metaVar = "NAME",
     usage = "projects to modify"
   )
-  private List<ProjectControl> children = new ArrayList<>();
+  private List<ProjectState> children = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;
 
@@ -125,10 +126,8 @@ final class AdminSetParent extends SshCommand {
       }
     }
 
-    final List<Project.NameKey> childProjects = new ArrayList<>();
-    for (ProjectControl pc : children) {
-      childProjects.add(pc.getProject().getNameKey());
-    }
+    final List<Project.NameKey> childProjects =
+        children.stream().map(ProjectState::getNameKey).collect(toList());
     if (oldParent != null) {
       try {
         childProjects.addAll(getChildrenForReparenting(oldParent));
@@ -196,19 +195,18 @@ final class AdminSetParent extends SshCommand {
    * list of child projects does not contain projects that were specified to be excluded from
    * reparenting.
    */
-  private List<Project.NameKey> getChildrenForReparenting(ProjectControl parent)
+  private List<Project.NameKey> getChildrenForReparenting(ProjectState parent)
       throws PermissionBackendException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
-    for (ProjectControl excludedChild : excludedChildren) {
+    for (ProjectState excludedChild : excludedChildren) {
       excluded.add(excludedChild.getProject().getNameKey());
     }
     final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (ProjectInfo child :
-        listChildProjects.apply(new ProjectResource(parent.getProjectState(), parent.getUser()))) {
+    for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent, user))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {

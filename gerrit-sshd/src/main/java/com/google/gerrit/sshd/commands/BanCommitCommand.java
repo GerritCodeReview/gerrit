@@ -18,13 +18,15 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,7 +53,7 @@ public class BanCommitCommand extends SshCommand {
     metaVar = "PROJECT",
     usage = "name of the project for which the commit should be banned"
   )
-  private ProjectControl projectControl;
+  private ProjectState projectState;
 
   @Argument(
     index = 1,
@@ -63,6 +65,7 @@ public class BanCommitCommand extends SshCommand {
   private List<ObjectId> commitsToBan = new ArrayList<>();
 
   @Inject private BanCommit banCommit;
+  @Inject private Provider<CurrentUser> user;
 
   @Override
   protected void run() throws Failure {
@@ -71,10 +74,7 @@ public class BanCommitCommand extends SshCommand {
           BanCommit.Input.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
-      BanResultInfo r =
-          banCommit.apply(
-              new ProjectResource(projectControl.getProjectState(), projectControl.getUser()),
-              input);
+      BanResultInfo r = banCommit.apply(new ProjectResource(projectState, user.get()), input);
       printCommits(r.newlyBanned, "The following commits were banned");
       printCommits(r.alreadyBanned, "The following commits were already banned");
       printCommits(r.ignored, "The following ids do not represent commits and were ignored");

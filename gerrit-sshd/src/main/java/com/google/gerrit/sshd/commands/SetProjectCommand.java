@@ -17,12 +17,11 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -33,7 +32,7 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "set-project", description = "Change a project's settings")
 final class SetProjectCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "NAME", usage = "name of the project")
-  private ProjectControl projectControl;
+  private ProjectState projectState;
 
   @Option(
     name = "--description",
@@ -149,20 +148,18 @@ final class SetProjectCommand extends SshCommand {
     configInput.useContentMerge = contentMerge;
     configInput.useContributorAgreements = contributorAgreements;
     configInput.useSignedOffBy = signedOffBy;
-    configInput.state = state;
+    configInput.state = state.getProject().getState();
     configInput.maxObjectSizeLimit = maxObjectSizeLimit;
     // Description is different to other parameters, null won't result in
     // keeping the existing description, it would delete it.
     if (Strings.emptyToNull(projectDescription) != null) {
       configInput.description = projectDescription;
     } else {
-      configInput.description = projectControl.getProject().getDescription();
+      configInput.description = projectState.getProject().getDescription();
     }
 
     try {
-      putConfig.apply(
-          new ProjectResource(projectControl.getProjectState(), projectControl.getUser()),
-          configInput);
+      putConfig.apply(new ProjectResource(projectState, user), configInput);
     } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }

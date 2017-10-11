@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -28,7 +28,7 @@ import org.kohsuke.args4j.Argument;
 public final class CreateBranchCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "PROJECT", usage = "name of the project")
-  private ProjectControl project;
+  private ProjectState project;
 
   @Argument(index = 1, required = true, metaVar = "NAME", usage = "name of branch to be created")
   private String name;
@@ -48,7 +48,7 @@ public final class CreateBranchCommand extends SshCommand {
     try {
       BranchInput in = new BranchInput();
       in.revision = revision;
-      gApi.projects().name(project.getProject().getNameKey().get()).branch(name).create(in);
+      gApi.projects().name(project.getName()).branch(name).create(in);
     } catch (RestApiException e) {
       throw die(e);
     }

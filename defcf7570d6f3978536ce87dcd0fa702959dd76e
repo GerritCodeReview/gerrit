@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "9e174aec_b433caf6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T18:57:37Z",
+      "side": 1,
+      "message": "this is referring to a td, not a gr-button. not necessary.",
+      "parentUuid": "c9988ed0_17a00ca1",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "defcf7570d6f3978536ce87dcd0fa702959dd76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29423e1f_a5d676a4",
         "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "acde10fd_2ec1b929",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T18:57:37Z",
+      "side": 1,
+      "message": "this is referring to a td, not a gr-button. not necessary.",
+      "parentUuid": "29423e1f_a5d676a4",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 16
+      },
+      "revId": "defcf7570d6f3978536ce87dcd0fa702959dd76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87d15ff3_aff5933b",
         "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2017-10-11T18:53:43Z",
       "side": 1,
       "message": "Needs updating too.\n\ne.currentTarget.value;",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "defcf7570d6f3978536ce87dcd0fa702959dd76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "331a7c3c_a55d13d1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-11T18:57:37Z",
+      "side": 1,
+      "message": "This is referring to an input not a gr-button, not necessary.",
+      "parentUuid": "87d15ff3_aff5933b",
       "range": {
         "startLine": 79,
         "startChar": 24,

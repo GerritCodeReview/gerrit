@@ -43,7 +43,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gwtorm.server.OrmException;
@@ -58,25 +57,25 @@ import org.eclipse.jgit.lib.ObjectId;
 
 public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
-  private final ProjectControl.Factory projectControlFactory;
   protected final GroupBackend groupBackend;
+  protected final Project.NameKey projectName;
+  protected final ObjectId base;
+  protected final CurrentUser user;
+
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
   private final ContributorAgreementsChecker contributorAgreements;
   private final PermissionBackend permissionBackend;
-
-  protected final Project.NameKey projectName;
-  protected final ObjectId base;
-  private List<AccessSection> sectionList;
   private final Project.NameKey parentProjectName;
+
   protected String message;
+
+  private List<AccessSection> sectionList;
   private boolean checkIfOwner;
-  private CurrentUser user;
   private Boolean canWriteConfig;
 
   protected ProjectAccessHandler(
-      ProjectControl.Factory projectControlFactory,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
@@ -90,7 +89,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       ContributorAgreementsChecker contributorAgreements,
       PermissionBackend permissionBackend,
       boolean checkIfOwner) {
-    this.projectControlFactory = projectControlFactory;
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjects = allProjects;
@@ -112,11 +110,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       throws NoSuchProjectException, IOException, ConfigInvalidException, InvalidNameException,
           NoSuchGroupException, OrmException, UpdateParentFailedException,
           PermissionDeniedException, PermissionBackendException {
-    final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
-    this.user = projectControl.getUser();
-
     try {
-      contributorAgreements.check(projectName, projectControl.getUser());
+      contributorAgreements.check(projectName, user);
     } catch (AuthException e) {
       throw new PermissionDeniedException(e.getMessage());
     }
@@ -165,8 +160,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           setParent
               .get()
               .validateParentUpdate(
-                  projectControl.getProject().getNameKey(),
-                  projectControl.getUser().asIdentifiedUser(),
+                  projectName,
+                  user.asIdentifiedUser(),
                   MoreObjects.firstNonNull(parentProjectName, allProjects).get(),
                   checkIfOwner);
         } catch (AuthException e) {
@@ -190,17 +185,14 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(projectControl, config, md, parentProjectUpdate);
+      return updateProjectConfig(config, md, parentProjectUpdate);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
     }
   }
 
   protected abstract T updateProjectConfig(
-      ProjectControl projectControl,
-      ProjectConfig config,
-      MetaDataUpdate md,
-      boolean parentProjectUpdate)
+      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException,
           PermissionDeniedException, PermissionBackendException;
 

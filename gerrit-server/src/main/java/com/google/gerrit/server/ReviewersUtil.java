@@ -112,7 +112,6 @@ public class ReviewersUtil {
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;
-  private final Provider<CurrentUser> currentUser;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
 
@@ -123,7 +122,6 @@ public class ReviewersUtil {
       Provider<AccountQueryProcessor> queryProvider,
       GroupBackend groupBackend,
       GroupMembers groupMembers,
-      Provider<CurrentUser> currentUser,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
@@ -131,7 +129,6 @@ public class ReviewersUtil {
     this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountQueryBuilder = accountQueryBuilder;
     this.queryProvider = queryProvider;
-    this.currentUser = currentUser;
     this.groupBackend = groupBackend;
     this.groupMembers = groupMembers;
     this.reviewerRecommender = reviewerRecommender;
@@ -327,9 +324,7 @@ public class ReviewersUtil {
           return result;
         }
       }
-    } catch (NoSuchGroupException e) {
-      return result;
-    } catch (NoSuchProjectException e) {
+    } catch (NoSuchGroupException | NoSuchProjectException e) {
       return result;
     }
 

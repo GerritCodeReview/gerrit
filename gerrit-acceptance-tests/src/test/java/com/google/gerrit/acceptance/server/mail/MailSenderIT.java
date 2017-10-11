@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.server.mail.send.EmailHeader;
+import java.net.URI;
 import java.util.Map;
 import org.junit.Test;
 
@@ -41,6 +42,24 @@ public class MailSenderIT extends AbstractMailIT {
     assertThat(sender.getMessages()).hasSize(1);
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
     assertThat(headerString(headers, "Reply-To")).contains(user.email);
+  }
+
+  @Test
+  public void outgoingMailHasListHeaders() throws Exception {
+    String changeId = createChangeWithReview(user);
+    // Check that the mail has the expected headers
+    assertThat(sender.getMessages()).hasSize(1);
+    Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
+    String hostname = URI.create(canonicalWebUrl.get()).getHost();
+    String listId = String.format("<gerrit-%s.%s>", project.get(), hostname);
+    String unsubscribeLink = String.format("<%ssettings>", canonicalWebUrl.get());
+    String threadId =
+        String.format(
+            "<gerrit.%s.%s@%s>",
+            gApi.changes().id(changeId).get().created.getTime(), changeId, hostname);
+    assertThat(headerString(headers, "List-Id")).isEqualTo(listId);
+    assertThat(headerString(headers, "List-Unsubscribe")).isEqualTo(unsubscribeLink);
+    assertThat(headerString(headers, "In-Reply-To")).isEqualTo(threadId);
   }
 
   private String headerString(Map<String, EmailHeader> headers, String name) {

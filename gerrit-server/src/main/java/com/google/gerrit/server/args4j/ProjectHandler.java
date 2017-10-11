@@ -22,7 +22,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -36,23 +37,23 @@ import org.kohsuke.args4j.spi.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProjectControlHandler extends OptionHandler<ProjectControl> {
-  private static final Logger log = LoggerFactory.getLogger(ProjectControlHandler.class);
+public class ProjectHandler extends OptionHandler<ProjectState> {
+  private static final Logger log = LoggerFactory.getLogger(ProjectHandler.class);
 
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
 
   @Inject
-  public ProjectControlHandler(
-      ProjectControl.GenericFactory projectControlFactory,
+  public ProjectHandler(
+      ProjectCache projectCache,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
-      @Assisted final Setter<ProjectControl> setter) {
+      @Assisted final Setter<ProjectState> setter) {
     super(parser, option, setter);
-    this.projectControlFactory = projectControlFactory;
+    this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.user = user;
   }
@@ -77,20 +78,21 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
     Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
 
-    ProjectControl control;
+    ProjectState state;
     try {
-      control = projectControlFactory.controlFor(nameKey, user.get());
+      state = projectCache.checkedGet(nameKey);
+      if (state == null) {
+        throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
+      }
       permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
-    } catch (NoSuchProjectException e) {
-      throw new CmdLineException(owner, e.getMessage());
     } catch (PermissionBackendException | IOException e) {
       log.warn("Cannot load project " + nameWithoutSuffix, e);
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     }
 
-    setter.addValue(control);
+    setter.addValue(state);
     return 1;
   }
 

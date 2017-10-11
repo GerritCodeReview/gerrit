@@ -34,7 +34,6 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -81,7 +80,7 @@ public class ReviewCommand extends SshCommand {
   )
   void addPatchSetId(String token) {
     try {
-      PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
+      PatchSet ps = psParser.parsePatchSet(token, projectState, branch);
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -95,7 +94,7 @@ public class ReviewCommand extends SshCommand {
     aliases = "-p",
     usage = "project containing the specified patch set(s)"
   )
-  private ProjectControl projectControl;
+  private ProjectState projectState;
 
   @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patch set(s)")
   private String branch;

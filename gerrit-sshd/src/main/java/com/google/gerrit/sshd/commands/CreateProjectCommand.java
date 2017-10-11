@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -68,7 +68,7 @@ final class CreateProjectCommand extends SshCommand {
     metaVar = "NAME",
     usage = "parent project"
   )
-  private ProjectControl newParent;
+  private ProjectState newParent;
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
@@ -188,7 +188,7 @@ final class CreateProjectCommand extends SshCommand {
           input.owners = Lists.transform(ownerIds, AccountGroup.UUID::get);
         }
         if (newParent != null) {
-          input.parent = newParent.getProject().getName();
+          input.parent = newParent.getName();
         }
         input.permissionsOnly = permissionsOnly;
         input.description = projectDescription;

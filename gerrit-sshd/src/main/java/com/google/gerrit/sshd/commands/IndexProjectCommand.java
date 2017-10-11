@@ -18,8 +18,8 @@ import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.server.project.Index;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -40,7 +40,7 @@ final class IndexProjectCommand extends SshCommand {
     metaVar = "PROJECT",
     usage = "projects for which the changes should be indexed"
   )
-  private List<ProjectControl> projects = new ArrayList<>();
+  private List<ProjectState> projects = new ArrayList<>();
 
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
@@ -50,15 +50,12 @@ final class IndexProjectCommand extends SshCommand {
     projects.stream().forEach(this::index);
   }
 
-  private void index(ProjectControl projectControl) {
+  private void index(ProjectState projectState) {
     try {
-      index.apply(
-          new ProjectResource(projectControl.getProjectState(), projectControl.getUser()), null);
+      index.apply(new ProjectResource(projectState, user), null);
     } catch (Exception e) {
       writeError(
-          "error",
-          String.format(
-              "Unable to index %s: %s", projectControl.getProject().getName(), e.getMessage()));
+          "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));
     }
   }
 }

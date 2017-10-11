@@ -34,8 +34,8 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,7 +80,7 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 public class GitOverHttpServlet extends GitServlet {
   private static final long serialVersionUID = 1L;
 
-  private static final String ATT_CONTROL = ProjectControl.class.getName();
+  private static final String ATT_STATE = ProjectState.class.getName();
   private static final String ATT_ARC = AsyncReceiveCommits.class.getName();
   private static final String ID_CACHE = "adv_bases";
 
@@ -145,18 +145,18 @@ public class GitOverHttpServlet extends GitServlet {
     private final GitRepositoryManager manager;
     private final PermissionBackend permissionBackend;
     private final Provider<CurrentUser> userProvider;
-    private final ProjectControl.GenericFactory projectControlFactory;
+    private final ProjectCache projectCache;
 
     @Inject
     Resolver(
         GitRepositoryManager manager,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider,
-        ProjectControl.GenericFactory projectControlFactory) {
+        ProjectCache projectCache) {
       this.manager = manager;
       this.permissionBackend = permissionBackend;
       this.userProvider = userProvider;
-      this.projectControlFactory = projectControlFactory;
+      this.projectCache = projectCache;
     }
 
     @Override
@@ -182,13 +182,11 @@ public class GitOverHttpServlet extends GitServlet {
 
       try {
         Project.NameKey nameKey = new Project.NameKey(projectName);
-        ProjectControl pc;
-        try {
-          pc = projectControlFactory.controlFor(nameKey, user);
-        } catch (NoSuchProjectException err) {
-          throw new RepositoryNotFoundException(projectName);
+        ProjectState state = projectCache.checkedGet(nameKey);
+        if (state == null) {
+          throw new RepositoryNotFoundException(nameKey.get());
         }
-        req.setAttribute(ATT_CONTROL, pc);
+        req.setAttribute(ATT_STATE, state);
 
         try {
           permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
@@ -231,9 +229,9 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
-      ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
+      ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
       for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(pc.getProject().getNameKey(), up);
+        initializer.init(state.getNameKey(), up);
       }
       return up;
     }
@@ -243,15 +241,18 @@ public class GitOverHttpServlet extends GitServlet {
     private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
     UploadFilter(
         VisibleRefFilter.Factory refFilterFactory,
         UploadValidators.Factory uploadValidatorsFactory,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> userProvider) {
       this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
+      this.userProvider = userProvider;
     }
 
     @Override
@@ -259,13 +260,13 @@ public class GitOverHttpServlet extends GitServlet {
         throws IOException, ServletException {
       // The Resolver above already checked READ access for us.
       Repository repo = ServletUtils.getRepository(request);
-      ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
+      ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
       try {
         permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
+            .user(userProvider)
+            .project(state.getNameKey())
             .check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
@@ -280,10 +281,10 @@ public class GitOverHttpServlet extends GitServlet {
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
-          uploadValidatorsFactory.create(pc.getProject(), repo, request.getRemoteHost());
+          uploadValidatorsFactory.create(state.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(refFilterFactory.create(pc.getProjectState(), repo));
+      up.setAdvertiseRefsHook(refFilterFactory.create(state, repo));
 
       next.doFilter(request, response);
     }
@@ -297,29 +298,27 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory, Provider<CurrentUser> userProvider) {
       this.factory = factory;
+      this.userProvider = userProvider;
     }
 
     @Override
     public ReceivePack create(HttpServletRequest req, Repository db)
         throws ServiceNotAuthorizedException {
-      final ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
+      final ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
 
-      if (!(pc.getUser().isIdentifiedUser())) {
+      if (!(userProvider.get().isIdentifiedUser())) {
         // Anonymous users are not permitted to push.
         throw new ServiceNotAuthorizedException();
       }
 
       AsyncReceiveCommits arc =
           factory.create(
-              pc.getProjectState(),
-              pc.getUser().asIdentifiedUser(),
-              db,
-              null,
-              ImmutableSetMultimap.of());
+              state, userProvider.get().asIdentifiedUser(), db, null, ImmutableSetMultimap.of());
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;
@@ -337,13 +336,16 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFilter implements Filter {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
     private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
     ReceiveFilter(
         @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> userProvider) {
       this.cache = cache;
       this.permissionBackend = permissionBackend;
+      this.userProvider = userProvider;
     }
 
     @Override
@@ -354,13 +356,12 @@ public class GitOverHttpServlet extends GitServlet {
       AsyncReceiveCommits arc = (AsyncReceiveCommits) request.getAttribute(ATT_ARC);
       ReceivePack rp = arc.getReceivePack();
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
-      ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
-      Project.NameKey projectName = pc.getProject().getNameKey();
+      ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
 
       try {
         permissionBackend
-            .user(pc.getUser())
-            .project(pc.getProject().getNameKey())
+            .user(userProvider)
+            .project(state.getNameKey())
             .check(ProjectPermission.RUN_RECEIVE_PACK);
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
@@ -388,13 +389,13 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      if (!(pc.getUser().isIdentifiedUser())) {
+      if (!(userProvider.get().isIdentifiedUser())) {
         chain.doFilter(request, response);
         return;
       }
 
       AdvertisedObjectsCacheKey cacheKey =
-          AdvertisedObjectsCacheKey.create(pc.getUser().getAccountId(), projectName);
+          AdvertisedObjectsCacheKey.create(userProvider.get().getAccountId(), state.getNameKey());
 
       if (isGet) {
         cache.invalidate(cacheKey);

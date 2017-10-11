@@ -79,6 +79,8 @@ public abstract class BaseCommand implements Command {
 
   private ExitCallback exit;
 
+  @Inject protected CurrentUser user;
+
   @Inject private SshScope sshScope;
 
   @Inject private CmdLineParser.Factory cmdLineParserFactory;
@@ -88,7 +90,6 @@ public abstract class BaseCommand implements Command {
   @Inject @CommandExecutor private ScheduledThreadPoolExecutor executor;
 
   @Inject private PermissionBackend permissionBackend;
-  @Inject private CurrentUser user;
 
   @Inject private SshScope.Context context;
 

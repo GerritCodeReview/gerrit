@@ -250,7 +250,7 @@ public class UploadArchive extends AbstractGitCommand {
       // Check reachability of the specific revision.
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(revId);
-        return commits.canRead(state, repo, commit);
+        return commits.canRead(projectState, repo, commit);
       }
     }
   }

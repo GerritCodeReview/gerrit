@@ -24,7 +24,7 @@ import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -46,7 +46,7 @@ public class SetReviewersCommand extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(SetReviewersCommand.class);
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
-  private ProjectControl projectControl;
+  private ProjectState projectState;
 
   @Option(
     name = "--add",
@@ -75,7 +75,7 @@ public class SetReviewersCommand extends SshCommand {
   )
   void addChange(String token) {
     try {
-      changeArgumentParser.addChange(token, changes, projectControl);
+      changeArgumentParser.addChange(token, changes, projectState);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {

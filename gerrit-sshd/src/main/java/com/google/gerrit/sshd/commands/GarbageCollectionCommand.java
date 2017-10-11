@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GarbageCollectionResult;
@@ -24,7 +25,7 @@ import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -54,7 +55,7 @@ public class GarbageCollectionCommand extends SshCommand {
     metaVar = "NAME",
     usage = "projects for which the Git garbage collection should be run"
   )
-  private List<ProjectControl> projects = new ArrayList<>();
+  private List<ProjectState> projects = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;
 
@@ -80,10 +81,7 @@ public class GarbageCollectionCommand extends SshCommand {
     if (all) {
       projectNames = Lists.newArrayList(projectCache.all());
     } else {
-      projectNames = Lists.newArrayListWithCapacity(projects.size());
-      for (ProjectControl pc : projects) {
-        projectNames.add(pc.getProject().getNameKey());
-      }
+      projectNames = projects.stream().map(ProjectState::getNameKey).collect(toList());
     }
 
     GarbageCollectionResult result =

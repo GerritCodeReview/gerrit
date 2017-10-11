@@ -51,8 +51,8 @@ final class Upload extends AbstractGitCommand {
   protected void runImpl() throws IOException, Failure {
     try {
       permissionBackend
-          .user(projectControl.getUser())
-          .project(projectControl.getProject().getNameKey())
+          .user(user)
+          .project(projectState.getNameKey())
           .check(ProjectPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {
       throw new Failure(1, "fatal: upload-pack not permitted on this server");
@@ -61,7 +61,7 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setAdvertiseRefsHook(refFilterFactory.create(projectControl.getProjectState(), repo));
+    up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
@@ -71,7 +71,7 @@ final class Upload extends AbstractGitCommand {
         uploadValidatorsFactory.create(project, repo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     for (UploadPackInitializer initializer : uploadPackInitializers) {
-      initializer.init(projectControl.getProject().getNameKey(), up);
+      initializer.init(projectState.getNameKey(), up);
     }
     try {
       up.upload(in, out, err);

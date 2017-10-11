@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507728281 +0200\nnonce ANEgCxe80BrTFgHwQf+/NmuSeqdH8+Wjm0uQ2e1CORCw3N+FvZwj3hmKgT0SK4Pkzv/Lf0e3tXWK\n\n0000000000000000000000000000000000000000 bc4a611a1f64e69387f6833ca425bdb3e9e531f7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ3huZAAoJEFG1/Zeg0O9Rf3UH/0oE+gXeooiwF2nVUzR+Aa8m\nNGztBSoDeFpzRO8xUjgr6vkZB9CfPhB/38783jTecgeynuAhE0kXP5MuMMneiXo7\n6eMKZRYVqVY04OEK1WjVS5s97tzOmAU+NBOhJurVfIWRPTWVP1TJm3iZL9qUkd3o\nraoYo6Qj2ueoh8I/2kVjRr1lhB4iNa9RCC+y0eKWgfy5s3WWrwYycFA7FmF0tSW2\nw1UXHa0vwIL0qTe8LNNBrC9/JT8VD3VEOGMWOEQlCbg7f7wY9frNRFP6feIpEGDh\nLUHPmnmej+f2p3Rt06c5WSi2V6p+PUUSrJY7Ux3rWn98yDhWMG/8jvqgs9T4NuQ\u003d\n\u003d+FY5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c744f30_dd28e9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:30:02Z",
+      "side": 1,
+      "message": "Are you sure you want an extension point? I was thinking about an interface + MergeSuperSet as the default implementation would be easier.",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "375c96f2ffdfedfd00de05b0c41980392827f197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

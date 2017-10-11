@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa3a9c5_da1bd254",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-11T10:12:31Z",
+      "side": 1,
+      "message": "Would it be possible to remove this and migrate all the callers to pass in a ProjectResource?  I.e. use the constructor below instead?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "50157091981a3bb9593a129f658afc130aceb908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

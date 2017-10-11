@@ -46,6 +46,30 @@
       "revId": "7d4b784f844a28b8a2f2c6fa2c21c0ae8d1f0fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e73b040_91bce261",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-11T23:50:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc3b269e_54fd7325",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 71
+      },
+      "revId": "7d4b784f844a28b8a2f2c6fa2c21c0ae8d1f0fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

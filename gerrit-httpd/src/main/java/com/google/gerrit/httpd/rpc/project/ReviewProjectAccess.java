@@ -47,7 +47,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -84,7 +83,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   @Inject
   ReviewProjectAccess(
-      final ProjectControl.Factory projectControlFactory,
       PermissionBackend permissionBackend,
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
@@ -105,7 +103,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
     super(
-        projectControlFactory,
         groupBackend,
         metaDataUpdateFactory,
         allProjects,
@@ -134,15 +131,9 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   @SuppressWarnings("deprecation")
   @Override
   protected Change.Id updateProjectConfig(
-      ProjectControl projectControl,
-      ProjectConfig config,
-      MetaDataUpdate md,
-      boolean parentProjectUpdate)
+      ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException, PermissionDeniedException, PermissionBackendException {
-    PermissionBackend.ForProject perm =
-        permissionBackend
-            .user(projectControl.getUser())
-            .project(projectControl.getProject().getNameKey());
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
     }
@@ -166,7 +157,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         RevWalk rw = new RevWalk(objReader);
         BatchUpdate bu =
             updateFactory.create(
-                db, config.getProject().getNameKey(), projectControl.getUser(), TimeUtil.nowTs())) {
+                db, config.getProject().getNameKey(), user, TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
           changeInserterFactory

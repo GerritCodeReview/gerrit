@@ -36,6 +36,10 @@
       },
     },
 
+    attached() {
+      this.loadData();
+    },
+
     loadData() {
       return this.$.restAPI.getAccountSSHKeys().then(keys => {
         this._keys = keys;

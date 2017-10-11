@@ -160,7 +160,9 @@ final class SetProjectCommand extends SshCommand {
     }
 
     try {
-      putConfig.apply(new ProjectResource(projectControl), configInput);
+      putConfig.apply(
+          new ProjectResource(projectControl.getProjectState(), projectControl.getUser()),
+          configInput);
     } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }

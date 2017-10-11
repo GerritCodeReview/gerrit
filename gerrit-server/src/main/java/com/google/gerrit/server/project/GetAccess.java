@@ -18,6 +18,7 @@ import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE
 import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
+import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -91,7 +92,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final ProjectJson projectJson;
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupBackend groupBackend;
   private final GroupJson groupJson;
 
@@ -104,7 +104,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
-      ProjectControl.GenericFactory projectControlFactory,
       GroupBackend groupBackend,
       GroupJson groupJson) {
     this.user = self;
@@ -113,7 +112,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.allProjectsName = allProjectsName;
     this.projectJson = projectJson;
     this.projectCache = projectCache;
-    this.projectControlFactory = projectControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
     this.groupJson = groupJson;
@@ -122,11 +120,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
   public ProjectAccessInfo apply(Project.NameKey nameKey)
       throws ResourceNotFoundException, ResourceConflictException, IOException,
           PermissionBackendException, OrmException {
-    try {
-      return apply(new ProjectResource(projectControlFactory.controlFor(nameKey, user.get())));
-    } catch (NoSuchProjectException e) {
+    ProjectState state = projectCache.checkedGet(nameKey);
+    if (state == null) {
       throw new ResourceNotFoundException(nameKey.get());
     }
+    return apply(new ProjectResource(state, user.get()));
   }
 
   @Override
@@ -139,7 +137,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectControl pc = createProjectControl(projectName);
+    ProjectState projectState = projectCache.checkedGet(projectName);
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
 
     ProjectConfig config;
@@ -150,12 +148,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = createProjectControl(projectName);
+        projectState = projectCache.checkedGet(projectName);
         perm = permissionBackend.user(user).project(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
+          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = createProjectControl(projectName);
+        projectState = projectCache.checkedGet(projectName);
         perm = permissionBackend.user(user).project(projectName);
       }
     } catch (ConfigInvalidException e) {
@@ -182,7 +180,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         }
 
       } else if (RefConfigSection.isValid(name)) {
-        if (pc.controlForRef(name).isOwner()) {
+        if (check(perm, name, WRITE_CONFIG)) {
           info.local.put(name, createAccessSection(visibleGroups, section));
           info.ownerOf.add(name);
 
@@ -234,7 +232,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.revision = config.getRevision().name();
     }
 
-    ProjectState parent = Iterables.getFirst(pc.getProjectState().parents(), null);
+    ProjectState parent = Iterables.getFirst(projectState.parents(), null);
     if (parent != null) {
       info.inheritsFrom = projectJson.format(parent.getProject());
     }
@@ -326,15 +324,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
       accessSectionInfo.permissions.put(p.getName(), pInfo);
     }
     return accessSectionInfo;
-  }
-
-  private ProjectControl createProjectControl(Project.NameKey projectName)
-      throws IOException, ResourceNotFoundException {
-    try {
-      return projectControlFactory.controlFor(projectName, user.get());
-    } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(projectName.get());
-    }
   }
 
   private static Boolean toBoolean(boolean value) {

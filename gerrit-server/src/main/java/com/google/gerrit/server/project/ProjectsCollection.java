@@ -47,7 +47,7 @@ public class ProjectsCollection
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final Provider<QueryProjects> queryProjects;
-  private final ProjectControl.GenericFactory controlFactory;
+  private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final CreateProject.Factory createProjectFactory;
@@ -59,14 +59,14 @@ public class ProjectsCollection
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       Provider<QueryProjects> queryProjects,
-      ProjectControl.GenericFactory controlFactory,
+      ProjectCache projectCache,
       PermissionBackend permissionBackend,
       CreateProject.Factory factory,
       Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
     this.queryProjects = queryProjects;
-    this.controlFactory = controlFactory;
+    this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.createProjectFactory = factory;
@@ -139,10 +139,8 @@ public class ProjectsCollection
     }
 
     Project.NameKey nameKey = new Project.NameKey(id);
-    ProjectControl ctl;
-    try {
-      ctl = controlFactory.controlFor(nameKey, user.get());
-    } catch (NoSuchProjectException e) {
+    ProjectState state = projectCache.checkedGet(nameKey);
+    if (state == null) {
       return null;
     }
 
@@ -153,7 +151,7 @@ public class ProjectsCollection
         return null; // Pretend like not found on access denied.
       }
     }
-    return new ProjectResource(ctl);
+    return new ProjectResource(state, user.get());
   }
 
   @Override

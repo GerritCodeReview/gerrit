@@ -106,9 +106,8 @@ public class DashboardsCollection
   public DashboardResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    ProjectControl myCtl = parent.getControl();
     if (isDefaultDashboard(id)) {
-      return DashboardResource.projectDefault(myCtl);
+      return DashboardResource.projectDefault(parent.getProjectState(), parent.getUser());
     }
 
     DashboardInfo info;
@@ -118,10 +117,9 @@ public class DashboardsCollection
       throw new ResourceNotFoundException(id);
     }
 
-    CurrentUser user = myCtl.getUser();
-    for (ProjectState ps : myCtl.getProjectState().tree()) {
+    for (ProjectState ps : parent.getProjectState().tree()) {
       try {
-        return parse(ps.controlFor(user), info, myCtl);
+        return parse(ps, parent.getProjectState(), parent.getUser(), info);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
@@ -138,16 +136,13 @@ public class DashboardsCollection
     return ref;
   }
 
-  private DashboardResource parse(ProjectControl ctl, DashboardInfo info, ProjectControl myCtl)
+  private DashboardResource parse(
+      ProjectState parent, ProjectState current, CurrentUser user, DashboardInfo info)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException {
     String ref = normalizeDashboardRef(info.ref);
     try {
-      permissionBackend
-          .user(ctl.getUser())
-          .project(ctl.getProject().getNameKey())
-          .ref(ref)
-          .check(RefPermission.READ);
+      permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
       throw new ResourceNotFoundException(info.id);
@@ -156,13 +151,13 @@ public class DashboardsCollection
       throw new ResourceNotFoundException(info.id);
     }
 
-    try (Repository git = gitManager.openRepository(ctl.getProject().getNameKey())) {
+    try (Repository git = gitManager.openRepository(parent.getNameKey())) {
       ObjectId objId = git.resolve(ref + ":" + info.path);
       if (objId == null) {
         throw new ResourceNotFoundException(info.id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(myCtl, ref, info.path, cfg, false);
+      return new DashboardResource(current, user, ref, info.path, cfg, false);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(info.id);
     }

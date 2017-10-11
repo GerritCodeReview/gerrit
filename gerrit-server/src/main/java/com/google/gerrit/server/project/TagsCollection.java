@@ -48,9 +48,9 @@ public class TagsCollection
   }
 
   @Override
-  public TagResource parse(ProjectResource resource, IdString id)
+  public TagResource parse(ProjectResource rsrc, IdString id)
       throws ResourceNotFoundException, IOException {
-    return new TagResource(resource.getControl(), list.get().get(resource, id));
+    return new TagResource(rsrc.getProjectState(), rsrc.getUser(), list.get().get(rsrc, id));
   }
 
   @Override

@@ -34,6 +34,7 @@ import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.group.QueryGroups;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -119,7 +120,8 @@ class GroupsImpl implements Groups {
 
     for (String project : req.getProjects()) {
       try {
-        list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
+        ProjectResource rsrc = projects.parse(tlr, IdString.fromDecoded(project));
+        list.addProject(rsrc.getProjectState());
       } catch (Exception e) {
         throw asRestApiException("Error looking up project " + project, e);
       }

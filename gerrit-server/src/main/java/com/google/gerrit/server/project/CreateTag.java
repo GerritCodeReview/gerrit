@@ -66,6 +66,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private String ref;
 
   @Inject
@@ -76,6 +77,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
       WebLinks webLinks,
+      ProjectControl.GenericFactory projectControlFactory,
       @Assisted String ref) {
     this.permissionBackend = permissionBackend;
     this.identifiedUser = identifiedUser;
@@ -83,12 +85,13 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
+    this.projectControlFactory = projectControlFactory;
     this.ref = ref;
   }
 
   @Override
   public TagInfo apply(ProjectResource resource, TagInput input)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException, NoSuchProjectException {
     if (input == null) {
       input = new TagInput();
     }
@@ -101,7 +104,11 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
 
     ref = RefUtil.normalizeTagRef(ref);
 
-    RefControl refControl = resource.getControl().controlForRef(ref);
+    // TODO(hiesel): Remove dependency on RefControl
+    RefControl refControl =
+        projectControlFactory
+            .controlFor(resource.getNameKey(), resource.getUser())
+            .controlForRef(ref);
     PermissionBackend.ForRef perm =
         permissionBackend.user(identifiedUser).project(resource.getNameKey()).ref(ref);
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Config;
 
@@ -23,31 +24,38 @@ public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
-  public static DashboardResource projectDefault(ProjectControl ctl) {
-    return new DashboardResource(ctl, null, null, null, true);
+  public static DashboardResource projectDefault(ProjectState projectState, CurrentUser user) {
+    return new DashboardResource(projectState, user, null, null, null, true);
   }
 
-  private final ProjectControl control;
+  private final ProjectState projectState;
+  private final CurrentUser user;
   private final String refName;
   private final String pathName;
   private final Config config;
   private final boolean projectDefault;
 
   public DashboardResource(
-      ProjectControl control,
+      ProjectState projectState,
+      CurrentUser user,
       String refName,
       String pathName,
       Config config,
       boolean projectDefault) {
-    this.control = control;
+    this.projectState = projectState;
+    this.user = user;
     this.refName = refName;
     this.pathName = pathName;
     this.config = config;
     this.projectDefault = projectDefault;
   }
 
-  public ProjectControl getControl() {
-    return control;
+  public ProjectState getProjectState() {
+    return projectState;
+  }
+
+  public CurrentUser getUser() {
+    return user;
   }
 
   public String getRefName() {

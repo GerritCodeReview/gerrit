@@ -52,7 +52,8 @@ final class IndexProjectCommand extends SshCommand {
 
   private void index(ProjectControl projectControl) {
     try {
-      index.apply(new ProjectResource(projectControl), null);
+      index.apply(
+          new ProjectResource(projectControl.getProjectState(), projectControl.getUser()), null);
     } catch (Exception e) {
       writeError(
           "error",

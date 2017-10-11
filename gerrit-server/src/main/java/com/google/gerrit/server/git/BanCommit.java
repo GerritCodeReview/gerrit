@@ -20,12 +20,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -91,17 +91,13 @@ public class BanCommit {
   }
 
   public BanCommitResult ban(
-      ProjectControl projectControl, List<ObjectId> commitsToBan, String reason)
+      Project.NameKey project, CurrentUser user, List<ObjectId> commitsToBan, String reason)
       throws AuthException, LockFailureException, IOException, PermissionBackendException {
-    permissionBackend
-        .user(projectControl.getUser())
-        .project(projectControl.getProject().getNameKey())
-        .check(ProjectPermission.BAN_COMMIT);
+    permissionBackend.user(user).project(project).check(ProjectPermission.BAN_COMMIT);
 
     final BanCommitResult result = new BanCommitResult();
     NoteMap banCommitNotes = NoteMap.newEmptyMap();
     // Add a note for each banned commit to notes.
-    final Project.NameKey project = projectControl.getProject().getNameKey();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {

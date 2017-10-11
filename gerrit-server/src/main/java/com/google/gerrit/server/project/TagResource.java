@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 
 public class TagResource extends RefResource {
@@ -24,8 +25,8 @@ public class TagResource extends RefResource {
 
   private final TagInfo tagInfo;
 
-  public TagResource(ProjectControl control, TagInfo tagInfo) {
-    super(control);
+  public TagResource(ProjectState projectState, CurrentUser user, TagInfo tagInfo) {
+    super(projectState, user);
     this.tagInfo = tagInfo;
   }
 

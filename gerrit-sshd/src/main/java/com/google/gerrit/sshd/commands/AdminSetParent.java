@@ -207,7 +207,8 @@ final class AdminSetParent extends SshCommand {
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent))) {
+    for (ProjectInfo child :
+        listChildProjects.apply(new ProjectResource(parent.getProjectState(), parent.getUser()))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {

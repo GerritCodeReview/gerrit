@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -39,15 +40,15 @@ import java.util.TreeMap;
 public class ConfigInfoImpl extends ConfigInfo {
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
-      ProjectControl control,
+      ProjectState projectState,
+      CurrentUser user,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
-    ProjectState projectState = control.getProjectState();
-    Project p = control.getProject();
+    Project p = projectState.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
     InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
@@ -130,11 +131,10 @@ public class ConfigInfoImpl extends ConfigInfo {
       this.commentlinks.put(cl.name, cl);
     }
 
-    pluginConfig =
-        getPluginConfig(control.getProjectState(), pluginConfigEntries, cfgFactory, allProjects);
+    pluginConfig = getPluginConfig(projectState, pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
-    for (UiAction.Description d : uiActions.from(views, new ProjectResource(control))) {
+    for (UiAction.Description d : uiActions.from(views, new ProjectResource(projectState, user))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();

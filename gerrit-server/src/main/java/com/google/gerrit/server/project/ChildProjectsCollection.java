@@ -53,7 +53,7 @@ public class ChildProjectsCollection
   public ChildProjectResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
-    for (ProjectState pp : p.getControl().getProjectState().parents()) {
+    for (ProjectState pp : p.getProjectState().parents()) {
       if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
         return new ChildProjectResource(parent, p.getProjectState());
       }

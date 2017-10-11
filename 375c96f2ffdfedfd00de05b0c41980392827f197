@@ -23,6 +23,30 @@
       "revId": "375c96f2ffdfedfd00de05b0c41980392827f197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "854d0a29_d2fd2149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-11T13:43:41Z",
+      "side": 1,
+      "message": "But: extension point \u003d\u003d interface",
+      "parentUuid": "7c744f30_dd28e9c7",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "375c96f2ffdfedfd00de05b0c41980392827f197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

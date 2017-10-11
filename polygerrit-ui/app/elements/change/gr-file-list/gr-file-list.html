@@ -151,9 +151,6 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      .expandInline {
-        padding-right: .25em;
-      }
       .reviewed {
         margin-left: 2em;
         width: 15em;
@@ -320,7 +317,7 @@ limitations under the License.
       </template>
     </div>
     <div
-        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        class="row totalChanges"
         hidden$="[[_hideChangeTotals]]">
       <div class="total-stats">
         <span
@@ -340,7 +337,7 @@ limitations under the License.
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
     </div>
     <div
-        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        class="row totalChanges"
         hidden$="[[_hideBinaryChangeTotals]]">
       <div class="total-stats">
         <span class="added" aria-label="Total lines added">

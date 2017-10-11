@@ -17,27 +17,18 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -45,21 +36,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Calculates the minimal superset of changes required to be merged.
@@ -72,10 +52,9 @@ import org.slf4j.LoggerFactory;
  * included.
  */
 public class MergeSuperSet {
-  private static final Logger log = LoggerFactory.getLogger(MergeSuperSet.class);
 
   public static void reloadChanges(ChangeSet changeSet) throws OrmException {
-    // Clear exactly the fields requested by query() below.
+    // Clear exactly the fields requested by query(InternalChangeQuery) below.
     for (ChangeData cd : changeSet.changes()) {
       cd.reloadChange();
       cd.setPatchSets(null);
@@ -83,24 +62,26 @@ public class MergeSuperSet {
     }
   }
 
-  @AutoValue
-  abstract static class QueryKey {
-    private static QueryKey create(Branch.NameKey branch, Iterable<String> hashes) {
-      return new AutoValue_MergeSuperSet_QueryKey(branch, ImmutableSet.copyOf(hashes));
-    }
-
-    abstract Branch.NameKey branch();
-
-    abstract ImmutableSet<String> hashes();
+  public static InternalChangeQuery query(InternalChangeQuery q) {
+    // Request fields required for completing the ChangeSet and converting to
+    // ChangeInfo without having to touch the database or opening the repository
+    // more than necessary. This provides reasonable performance when loading
+    // the change screen; callers that care about reading the latest value of
+    // these fields should clear them explicitly using reloadChanges().
+    Set<String> fields =
+        ImmutableSet.of(
+            ChangeField.CHANGE.getName(),
+            ChangeField.PATCH_SET.getName(),
+            ChangeField.MERGEABLE.getName());
+    return q.setRequestedFields(fields);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
+  private final DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation;
   private final PermissionBackend permissionBackend;
   private final Config cfg;
-  private final Map<QueryKey, List<ChangeData>> queryCache;
-  private final Map<Branch.NameKey, Optional<RevCommit>> heads;
 
   private MergeOpRepoManager orm;
   private boolean closeOrm;
@@ -111,14 +92,14 @@ public class MergeSuperSet {
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
+      DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation,
       PermissionBackend permissionBackend) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
+    this.mergeSuperSetComputation = mergeSuperSetComputation;
     this.permissionBackend = permissionBackend;
-    queryCache = new HashMap<>();
-    heads = new HashMap<>();
   }
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
@@ -131,6 +112,11 @@ public class MergeSuperSet {
   public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
       throws IOException, OrmException, PermissionBackendException {
     try {
+      if (orm == null) {
+        orm = repoManagerProvider.get();
+        closeOrm = true;
+      }
+
       ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
       ChangeSet changeSet =
           new ChangeSet(
@@ -138,7 +124,7 @@ public class MergeSuperSet {
       if (Submit.wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, changeSet, user);
       }
-      return completeChangeSetWithoutTopic(db, changeSet, user);
+      return mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
     } finally {
       if (closeOrm && orm != null) {
         orm.close();
@@ -147,161 +133,13 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(ChangeData cd) throws OrmException {
-    SubmitTypeRecord str = cd.submitTypeRecord();
-    if (!str.isOk()) {
-      logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
-    }
-    return str.type;
-  }
-
-  private static ImmutableListMultimap<Branch.NameKey, ChangeData> byBranch(
-      Iterable<ChangeData> changes) throws OrmException {
-    ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
-        ImmutableListMultimap.builder();
-    for (ChangeData cd : changes) {
-      builder.put(cd.change().getDest(), cd);
-    }
-    return builder.build();
-  }
-
-  private Set<String> walkChangesByHashes(
-      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
-      throws IOException {
-    Set<String> destHashes = new HashSet<>();
-    or.rw.reset();
-    markHeadUninteresting(or, b);
-    for (RevCommit c : sourceCommits) {
-      String name = c.name();
-      if (ignoreHashes.contains(name)) {
-        continue;
-      }
-      destHashes.add(name);
-      or.rw.markStart(c);
-    }
-    for (RevCommit c : or.rw) {
-      String name = c.name();
-      if (ignoreHashes.contains(name)) {
-        continue;
-      }
-      destHashes.add(name);
-    }
-
-    return destHashes;
-  }
-
-  private ChangeSet completeChangeSetWithoutTopic(
-      ReviewDb db, ChangeSet changeSet, CurrentUser user)
-      throws IOException, OrmException, PermissionBackendException {
-    Collection<ChangeData> visibleChanges = new ArrayList<>();
-    Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
-
-    // For each target branch we run a separate rev walk to find open changes
-    // reachable from changes already in the merge super set.
-    ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
-        byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges()));
-    for (Branch.NameKey b : bc.keySet()) {
-      OpenRepo or = getRepo(b.getParentKey());
-      List<RevCommit> visibleCommits = new ArrayList<>();
-      List<RevCommit> nonVisibleCommits = new ArrayList<>();
-      for (ChangeData cd : bc.get(b)) {
-        boolean visible = changeSet.ids().contains(cd.getId());
-        if (visible && !canRead(db, user, cd)) {
-          // We thought the change was visible, but it isn't.
-          // This can happen if the ACL changes during the
-          // completeChangeSet computation, for example.
-          visible = false;
-        }
-
-        if (submitType(cd) == SubmitType.CHERRY_PICK) {
-          if (visible) {
-            visibleChanges.add(cd);
-          } else {
-            nonVisibleChanges.add(cd);
-          }
-
-          continue;
-        }
-
-        // Get the underlying git commit object
-        String objIdStr = cd.currentPatchSet().getRevision().get();
-        RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
-
-        // Always include the input, even if merged. This allows
-        // SubmitStrategyOp to correct the situation later, assuming it gets
-        // returned by byCommitsOnBranchNotMerged below.
-        if (visible) {
-          visibleCommits.add(commit);
-        } else {
-          nonVisibleCommits.add(commit);
-        }
-      }
-
-      Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
-      Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes));
-
-      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
-      Iterables.addAll(nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes));
-    }
-
-    return new ChangeSet(visibleChanges, nonVisibleChanges);
-  }
-
-  private OpenRepo getRepo(Project.NameKey project) throws IOException {
-    if (orm == null) {
-      orm = repoManagerProvider.get();
-      closeOrm = true;
-    }
-    try {
-      OpenRepo or = orm.getRepo(project);
-      checkState(or.rw.hasRevSort(RevSort.TOPO));
-      return or;
-    } catch (NoSuchProjectException e) {
-      throw new IOException(e);
-    }
-  }
-
-  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
-    Optional<RevCommit> head = heads.get(b);
-    if (head == null) {
-      Ref ref = or.repo.getRefDatabase().exactRef(b.get());
-      head = ref != null ? Optional.of(or.rw.parseCommit(ref.getObjectId())) : Optional.empty();
-      heads.put(b, head);
-    }
-    if (head.isPresent()) {
-      or.rw.markUninteresting(head.get());
-    }
-  }
-
-  private List<ChangeData> byCommitsOnBranchNotMerged(
-      OpenRepo or, ReviewDb db, Branch.NameKey branch, Set<String> hashes)
-      throws OrmException, IOException {
-    if (hashes.isEmpty()) {
-      return ImmutableList.of();
-    }
-    QueryKey k = QueryKey.create(branch, hashes);
-    List<ChangeData> cached = queryCache.get(k);
-    if (cached != null) {
-      return cached;
-    }
-
-    List<ChangeData> result = new ArrayList<>();
-    Iterable<ChangeData> destChanges =
-        query().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
-    for (ChangeData chd : destChanges) {
-      result.add(chd);
-    }
-    queryCache.put(k, result);
-    return result;
-  }
-
   /**
    * Completes {@code changeSet} with any additional changes from its topics
    *
    * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
-   * #completeChangeSetWithoutTopic}, to discover what additional changes should be submitted with a
-   * change until the set stops growing.
+   * MergeSuperSetComputation#completeWithoutTopic(ReviewDb, MergeOpRepoManager, ChangeSet,
+   * CurrentUser)}, to discover what additional changes should be submitted with a change until the
+   * set stops growing.
    *
    * <p>{@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics already explored to
    * avoid wasted work.
@@ -324,7 +162,7 @@ public class MergeSuperSet {
       if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
         continue;
       }
-      for (ChangeData topicCd : query().byTopicOpen(topic)) {
+      for (ChangeData topicCd : byTopicOpen(topic)) {
         if (canRead(db, user, topicCd)) {
           visibleChanges.add(topicCd);
         } else {
@@ -340,7 +178,7 @@ public class MergeSuperSet {
       if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
         continue;
       }
-      for (ChangeData topicCd : query().byTopicOpen(topic)) {
+      for (ChangeData topicCd : byTopicOpen(topic)) {
         nonVisibleChanges.add(topicCd);
       }
       topicsSeen.add(topic);
@@ -360,38 +198,16 @@ public class MergeSuperSet {
       oldSeen = seen;
 
       changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
-      changeSet = completeChangeSetWithoutTopic(db, changeSet, user);
+      changeSet = mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
 
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
     return changeSet;
   }
 
-  private InternalChangeQuery query() {
-    // Request fields required for completing the ChangeSet and converting to
-    // ChangeInfo without having to touch the database or opening the repository
-    // more than necessary. This provides reasonable performance when loading
-    // the change screen; callers that care about reading the latest value of
-    // these fields should clear them explicitly using reloadChanges().
-    Set<String> fields =
-        ImmutableSet.of(
-            ChangeField.CHANGE.getName(),
-            ChangeField.PATCH_SET.getName(),
-            ChangeField.MERGEABLE.getName());
-    return queryProvider.get().setRequestedFields(fields);
+  private List<ChangeData> byTopicOpen(String topic) throws OrmException {
+    return query(queryProvider.get()).byTopicOpen(topic);
   }
-
-  private void logError(String msg) {
-    if (log.isErrorEnabled()) {
-      log.error(msg);
-    }
-  }
-
-  private void logErrorAndThrow(String msg) throws OrmException {
-    logError(msg);
-    throw new OrmException(msg);
-  }
-
 
   private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
       throws PermissionBackendException {

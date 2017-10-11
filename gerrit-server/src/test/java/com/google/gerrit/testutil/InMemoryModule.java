@@ -47,6 +47,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
@@ -202,7 +203,7 @@ public class InMemoryModule extends FactoryModule {
             return CanonicalWebUrlProvider.class;
           }
         });
-    //Replacement of DiffExecutorModule to not use thread pool in the tests
+    // Replacement of DiffExecutorModule to not use thread pool in the tests
     install(
         new AbstractModule() {
           @Override
@@ -220,6 +221,7 @@ public class InMemoryModule extends FactoryModule {
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
     install(new InMemoryAccountPatchReviewStore.Module());
+    install(new LocalMergeSuperSetComputation.Module());
 
     bind(AllAccountsIndexer.class).toProvider(Providers.of(null));
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));

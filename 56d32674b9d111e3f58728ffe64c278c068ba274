@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "020d40f7_1184b311",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-11T19:07:54Z",
+      "side": 1,
+      "message": "polymer",
+      "range": {
+        "startLine": 103,
+        "startChar": 29,
+        "endLine": 103,
+        "endChar": 46
+      },
+      "revId": "56d32674b9d111e3f58728ffe64c278c068ba274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fcd1717_5c57f77f",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-11T19:07:54Z",
+      "side": 1,
+      "message": "polymer",
+      "range": {
+        "startLine": 113,
+        "startChar": 29,
+        "endLine": 113,
+        "endChar": 46
+      },
+      "revId": "56d32674b9d111e3f58728ffe64c278c068ba274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -134,7 +134,7 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            toGerrit(req.getRequestURI(), req, rsp);
+            toGerrit(req.getRequestURI().substring(req.getContextPath().length()), req, rsp);
           }
         });
   }

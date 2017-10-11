@@ -666,7 +666,7 @@
 
     _handleActionTap(e) {
       e.preventDefault();
-      const el = e.currentTarget;
+      const el = Polymer.dom(e).localTarget;
       const key = el.getAttribute('data-action-key');
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
         this.fire(`${key}-tap`, {node: el});

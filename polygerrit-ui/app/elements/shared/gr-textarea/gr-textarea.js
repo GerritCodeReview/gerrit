@@ -220,7 +220,7 @@
 
       // If cursor is not in textarea (just opened with colon as last char),
       // Don't do anything.
-      if (!e.currentTarget.focused) { return; }
+      if (!Polymer.dom(e).localTarget.focused) { return; }
       const newChar = e.detail.value[this.$.textarea.selectionStart - 1];
 
       // When a colon is detected, set a colon index, but don't do anything else

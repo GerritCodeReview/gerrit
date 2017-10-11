@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2afc6506_e0606ac5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-11T10:07:06Z",
+      "side": 1,
+      "message": "What does this return if there is no context?",
+      "range": {
+        "startLine": 140,
+        "startChar": 51,
+        "endLine": 140,
+        "endChar": 71
+      },
+      "revId": "d57189eb4f0dd99f4fd8c54006716e865b8722df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

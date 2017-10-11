@@ -22,6 +22,30 @@
       "revId": "d57189eb4f0dd99f4fd8c54006716e865b8722df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5ec5f4_acfc3a82",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-10-11T10:10:14Z",
+      "side": 1,
+      "message": "Then req.getContextPath() returns empty String.",
+      "parentUuid": "2afc6506_e0606ac5",
+      "range": {
+        "startLine": 140,
+        "startChar": 51,
+        "endLine": 140,
+        "endChar": 71
+      },
+      "revId": "d57189eb4f0dd99f4fd8c54006716e865b8722df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

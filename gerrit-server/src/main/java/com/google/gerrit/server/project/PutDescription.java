@@ -59,8 +59,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       input = new DescriptionInput(); // Delete would set description to null.
     }
 
-    ProjectControl ctl = resource.getControl();
-    IdentifiedUser user = ctl.getUser().asIdentifiedUser();
+    IdentifiedUser user = resource.getUser().asIdentifiedUser();
     permissionBackend
         .user(user)
         .project(resource.getNameKey())
@@ -80,7 +79,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(ctl.getProject());
+      cache.evict(resource.getProjectState().getProject());
       md.getRepository().setGitwebDescription(project.getDescription());
 
       return Strings.isNullOrEmpty(project.getDescription())

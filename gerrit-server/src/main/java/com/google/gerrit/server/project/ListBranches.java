@@ -179,7 +179,6 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
     }
 
-    ProjectControl pctl = rsrc.getControl();
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(rsrc.getNameKey());
     List<BranchInfo> branches = new ArrayList<>(refs.size());
     for (Ref ref : refs) {
@@ -207,7 +206,9 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
 
       if (perm.ref(ref.getName()).test(RefPermission.READ)) {
-        branches.add(createBranchInfo(perm.ref(ref.getName()), ref, pctl, targets));
+        branches.add(
+            createBranchInfo(
+                perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets));
       }
     }
     Collections.sort(branches, new BranchComparator());
@@ -234,14 +235,18 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   private BranchInfo createBranchInfo(
-      PermissionBackend.ForRef perm, Ref ref, ProjectControl pctl, Set<String> targets) {
+      PermissionBackend.ForRef perm,
+      Ref ref,
+      ProjectState projectState,
+      CurrentUser user,
+      Set<String> targets) {
     BranchInfo info = new BranchInfo();
     info.ref = ref.getName();
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
     info.canDelete =
         !targets.contains(ref.getName()) && perm.testOrFalse(RefPermission.DELETE) ? true : null;
 
-    BranchResource rsrc = new BranchResource(pctl, ref);
+    BranchResource rsrc = new BranchResource(projectState, user, ref);
     for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
@@ -249,7 +254,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    List<WebLinkInfo> links = webLinks.getBranchLinks(pctl.getProject().getName(), ref.getName());
+    List<WebLinkInfo> links = webLinks.getBranchLinks(projectState.getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
   }

@@ -196,7 +196,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfoImpl(
           serverEnableSignedPush,
-          state.controlFor(user.get()),
+          state,
+          user.get(),
           config,
           pluginConfigEntries,
           cfgFactory,

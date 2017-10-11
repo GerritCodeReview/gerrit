@@ -85,7 +85,7 @@ public class BranchesCollection
           .project(project)
           .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
           .check(RefPermission.READ);
-      return new BranchResource(parent.getControl(), ref);
+      return new BranchResource(parent.getProjectState(), parent.getUser(), ref);
     } catch (AuthException notAllowed) {
       throw new ResourceNotFoundException(id);
     } catch (RepositoryNotFoundException noRepo) {

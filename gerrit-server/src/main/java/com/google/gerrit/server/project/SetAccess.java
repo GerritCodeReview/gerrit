@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -93,9 +94,12 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
             permissionBackend.user(identifiedUser).check(GlobalPermission.ADMINISTRATE_SERVER);
             checkedAdmin = true;
           }
-        } else if (!rsrc.getControl().controlForRef(section.getName()).isOwner()) {
-          throw new AuthException(
-              "You are not allowed to edit permissions for ref: " + section.getName());
+        } else {
+          permissionBackend
+              .user(identifiedUser)
+              .project(rsrc.getNameKey())
+              .ref(section.getName())
+              .check(RefPermission.WRITE_CONFIG);
         }
       }
 

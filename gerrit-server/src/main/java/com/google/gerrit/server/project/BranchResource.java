@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Ref;
 
@@ -26,8 +27,8 @@ public class BranchResource extends RefResource {
   private final String refName;
   private final String revision;
 
-  public BranchResource(ProjectControl control, Ref ref) {
-    super(control);
+  public BranchResource(ProjectState projectState, CurrentUser user, Ref ref) {
+    super(projectState, user);
     this.refName = ref.getName();
     this.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
   }

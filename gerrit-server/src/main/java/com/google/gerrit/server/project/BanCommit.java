@@ -72,7 +72,8 @@ public class BanCommit extends RetryingRestModifyView<ProjectResource, Input, Ba
         }
       }
 
-      BanCommitResult result = banCommit.ban(rsrc.getControl(), commitsToBan, input.reason);
+      BanCommitResult result =
+          banCommit.ban(rsrc.getNameKey(), rsrc.getUser(), commitsToBan, input.reason);
       r.newlyBanned = transformCommits(result.getNewlyBannedCommits());
       r.alreadyBanned = transformCommits(result.getAlreadyBannedCommits());
       r.ignored = transformCommits(result.getIgnoredObjectIds());

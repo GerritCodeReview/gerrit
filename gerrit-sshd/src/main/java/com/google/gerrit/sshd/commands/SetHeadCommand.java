@@ -46,7 +46,7 @@ public class SetHeadCommand extends SshCommand {
     Input input = new SetHead.Input();
     input.ref = newHead;
     try {
-      setHead.apply(new ProjectResource(project), input);
+      setHead.apply(new ProjectResource(project.getProjectState(), project.getUser()), input);
     } catch (UnprocessableEntityException e) {
       throw die(e);
     }

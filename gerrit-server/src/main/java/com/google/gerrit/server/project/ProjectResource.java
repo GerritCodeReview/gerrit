@@ -24,33 +24,32 @@ public class ProjectResource implements RestResource {
   public static final TypeLiteral<RestView<ProjectResource>> PROJECT_KIND =
       new TypeLiteral<RestView<ProjectResource>>() {};
 
-  private final ProjectControl control;
+  private final ProjectState projectState;
+  private final CurrentUser user;
 
-  public ProjectResource(ProjectControl control) {
-    this.control = control;
+  public ProjectResource(ProjectState projectState, CurrentUser user) {
+    this.projectState = projectState;
+    this.user = user;
   }
 
   ProjectResource(ProjectResource rsrc) {
-    this.control = rsrc.getControl();
+    this.projectState = rsrc.getProjectState();
+    this.user = rsrc.getUser();
   }
 
   public String getName() {
-    return control.getProject().getName();
+    return projectState.getName();
   }
 
   public Project.NameKey getNameKey() {
-    return control.getProject().getNameKey();
+    return projectState.getNameKey();
   }
 
   public ProjectState getProjectState() {
-    return control.getProjectState();
+    return projectState;
   }
 
   public CurrentUser getUser() {
-    return getControl().getUser();
-  }
-
-  public ProjectControl getControl() {
-    return control;
+    return user;
   }
 }

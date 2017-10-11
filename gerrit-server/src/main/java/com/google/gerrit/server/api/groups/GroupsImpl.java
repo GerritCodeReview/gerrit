@@ -34,6 +34,8 @@ import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.group.QueryGroups;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,6 +54,7 @@ class GroupsImpl implements Groups {
   private final PermissionBackend permissionBackend;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
   GroupsImpl(
@@ -63,7 +66,8 @@ class GroupsImpl implements Groups {
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       CreateGroup.Factory createGroup,
-      GroupApiImpl.Factory api) {
+      GroupApiImpl.Factory api,
+      ProjectControl.GenericFactory projectControlFactory) {
     this.accounts = accounts;
     this.groups = groups;
     this.projects = projects;
@@ -73,6 +77,7 @@ class GroupsImpl implements Groups {
     this.permissionBackend = permissionBackend;
     this.createGroup = createGroup;
     this.api = api;
+    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
@@ -119,7 +124,8 @@ class GroupsImpl implements Groups {
 
     for (String project : req.getProjects()) {
       try {
-        list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
+        ProjectResource rsrc = projects.parse(tlr, IdString.fromDecoded(project));
+        list.addProject(projectControlFactory.controlFor(rsrc.getNameKey(), rsrc.getUser()));
       } catch (Exception e) {
         throw asRestApiException("Error looking up project " + project, e);
       }

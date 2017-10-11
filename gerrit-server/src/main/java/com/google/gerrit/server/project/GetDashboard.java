@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -52,64 +53,63 @@ public class GetDashboard implements RestReadView<DashboardResource> {
   }
 
   @Override
-  public DashboardInfo apply(DashboardResource resource)
+  public DashboardInfo apply(DashboardResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
-    if (inherited && !resource.isProjectDefault()) {
+    if (inherited && !rsrc.isProjectDefault()) {
       throw new BadRequestException("inherited flag can only be used with default");
     }
 
-    String project = resource.getControl().getProject().getName();
-    if (resource.isProjectDefault()) {
+    if (rsrc.isProjectDefault()) {
       // The default is not resolved to a definition yet.
       try {
-        resource = defaultOf(resource.getControl());
+        rsrc = defaultOf(rsrc.getProjectState(), rsrc.getUser());
       } catch (ConfigInvalidException e) {
         throw new ResourceConflictException(e.getMessage());
       }
     }
 
     return DashboardsCollection.parse(
-        resource.getControl().getProject(),
-        resource.getRefName().substring(REFS_DASHBOARDS.length()),
-        resource.getPathName(),
-        resource.getConfig(),
-        project,
+        rsrc.getProjectState().getProject(),
+        rsrc.getRefName().substring(REFS_DASHBOARDS.length()),
+        rsrc.getPathName(),
+        rsrc.getConfig(),
+        rsrc.getProjectState().getName(),
         true);
   }
 
-  private DashboardResource defaultOf(ProjectControl ctl)
+  private DashboardResource defaultOf(ProjectState projectState, CurrentUser user)
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    String id = ctl.getProject().getLocalDefaultDashboard();
+    String id = projectState.getProject().getLocalDefaultDashboard();
     if (Strings.isNullOrEmpty(id)) {
-      id = ctl.getProject().getDefaultDashboard();
+      id = projectState.getProject().getDefaultDashboard();
     }
     if (isDefaultDashboard(id)) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
-      return parse(ctl, id);
+      return parse(projectState, user, id);
     } else if (!inherited) {
       throw new ResourceNotFoundException();
     }
 
-    for (ProjectState ps : ctl.getProjectState().tree()) {
+    for (ProjectState ps : projectState.tree()) {
       id = ps.getProject().getDefaultDashboard();
       if (isDefaultDashboard(id)) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
-        ctl = ps.controlFor(ctl.getUser());
-        return parse(ctl, id);
+        return parse(projectState, user, id);
       }
     }
     throw new ResourceNotFoundException();
   }
 
-  private DashboardResource parse(ProjectControl ctl, String id)
+  private DashboardResource parse(ProjectState projectState, CurrentUser user, String id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));
-    return dashboards.parse(new ProjectResource(ctl), IdString.fromUrl(ref + ':' + path));
+    return dashboards.parse(
+        new ProjectResource(projectState, user), IdString.fromUrl(ref + ':' + path));
   }
 }

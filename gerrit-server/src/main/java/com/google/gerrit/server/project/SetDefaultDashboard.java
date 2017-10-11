@@ -63,23 +63,25 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
   }
 
   @Override
-  public Response<DashboardInfo> apply(DashboardResource resource, SetDashboardInput input)
+  public Response<DashboardInfo> apply(DashboardResource rsrc, SetDashboardInput input)
       throws RestApiException, IOException, PermissionBackendException {
     if (input == null) {
       input = new SetDashboardInput(); // Delete would set input to null.
     }
     input.id = Strings.emptyToNull(input.id);
 
-    ProjectControl ctl = resource.getControl();
     permissionBackend
-        .user(ctl.getUser())
-        .project(ctl.getProject().getNameKey())
+        .user(rsrc.getUser())
+        .project(rsrc.getProjectState().getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 
     DashboardResource target = null;
     if (input.id != null) {
       try {
-        target = dashboards.parse(new ProjectResource(ctl), IdString.fromUrl(input.id));
+        target =
+            dashboards.parse(
+                new ProjectResource(rsrc.getProjectState(), rsrc.getUser()),
+                IdString.fromUrl(input.id));
       } catch (ResourceNotFoundException e) {
         throw new BadRequestException("dashboard " + input.id + " not found");
       } catch (ConfigInvalidException e) {
@@ -87,7 +89,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       }
     }
 
-    try (MetaDataUpdate md = updateFactory.create(ctl.getProject().getNameKey())) {
+    try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectState().getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
       if (inherited) {
@@ -105,10 +107,10 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      md.setAuthor(ctl.getUser().asIdentifiedUser());
+      md.setAuthor(rsrc.getUser().asIdentifiedUser());
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(ctl.getProject());
+      cache.evict(rsrc.getProjectState().getProject());
 
       if (target != null) {
         DashboardInfo info = get.get().apply(target);
@@ -117,7 +119,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       }
       return Response.none();
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(ctl.getProject().getName());
+      throw new ResourceNotFoundException(rsrc.getProjectState().getProject().getName());
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));
@@ -140,7 +142,8 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
         throws RestApiException, IOException, PermissionBackendException {
       SetDefaultDashboard set = setDefault.get();
       set.inherited = inherited;
-      return set.apply(DashboardResource.projectDefault(resource.getControl()), input);
+      return set.apply(
+          DashboardResource.projectDefault(resource.getProjectState(), resource.getUser()), input);
     }
   }
 }

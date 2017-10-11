@@ -71,7 +71,10 @@ public class BanCommitCommand extends SshCommand {
           BanCommit.Input.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
-      BanResultInfo r = banCommit.apply(new ProjectResource(projectControl), input);
+      BanResultInfo r =
+          banCommit.apply(
+              new ProjectResource(projectControl.getProjectState(), projectControl.getUser()),
+              input);
       printCommits(r.newlyBanned, "The following commits were banned");
       printCommits(r.alreadyBanned, "The following commits were already banned");
       printCommits(r.ignored, "The following ids do not represent commits and were ignored");

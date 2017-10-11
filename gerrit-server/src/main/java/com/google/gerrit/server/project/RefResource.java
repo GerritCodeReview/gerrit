@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.server.CurrentUser;
+
 public abstract class RefResource extends ProjectResource {
 
-  public RefResource(ProjectControl control) {
-    super(control);
+  public RefResource(ProjectState projectState, CurrentUser user) {
+    super(projectState, user);
   }
 
   /** @return the ref's name */

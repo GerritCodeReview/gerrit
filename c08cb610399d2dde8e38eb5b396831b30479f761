@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "587b4a14_c813abe4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-11T23:51:36Z",
+      "side": 1,
+      "message": "Do you mean PS3?\n\nThere have been some issues in the past where unexpected initialization order is caused by resetting cursor stops, so I\u0027m curious if we can uncover the cause here.",
+      "parentUuid": "8bc3b7d9_673f72c5",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c644864a_b95d8f27",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5

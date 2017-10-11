@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507728745 +0200\nnonce ANEgCxeKvJh8ct5uQXOsREo8WQ/65C4z4P8TJCLVaBs+gGopPJQW29hrCno2+3aAVQccMnImM9w1\n\n0000000000000000000000000000000000000000 0096b957518add67da9235a66342f0d79f62eba9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ3h1pAAoJEFG1/Zeg0O9RuSsIAMNATX7tE5saH37JquBMaBe2\nLDk2MuDpqXM5LH7jFK0PiiuSBbHDrOuUQVJ2u9xEwDxZcSCwXOIpxL0OP/CvwE0R\nPwxllL2xR74BC4A8Fsp/Hwy4C8isGY8DrwzJa1mye6BPxGv240RWsGCoXj39dSA9\nNlbr0sKksQecoROBaQWvJhKtxwiTbEbjxHk3Nl/buvrjXE3aJj2CO0Ht99Ludksw\nzyMND4UKx9vIEifcsv7bzw+G2u88clEy7enBQ3QbE3KnkyJrzUlrCYPL3d4yn8yJ\nk4MSH75qmJYoYb5uqpo0IWlFfBpYQmJF2pCDaZL6EC2BA8Ws4RRHQkHe70LDx+Q\u003d\n\u003dApVw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90a25b6_152f5318",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:47:28Z",
+      "side": 1,
+      "message": "@ExtensionPoint",
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1fbaffe_144251c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:47:28Z",
+      "side": 1,
+      "message": "{@link ReviewDb} (here and below where links can be used)",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed261d38_6d5035a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSetComputation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:47:28Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 45,
+        "startChar": 77,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "0096b957518add67da9235a66342f0d79f62eba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

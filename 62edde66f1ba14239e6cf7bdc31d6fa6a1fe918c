@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507728940 +0200\nnonce ANEgCxcLYjZdsspCCBSRLbE5ahsNT5Dykkc69FBiFVFL2crvH/z4avLccEF9jEDja3vANMt7h5uc\n\n0000000000000000000000000000000000000000 62edde66f1ba14239e6cf7bdc31d6fa6a1fe918c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ3h4sAAoJEFG1/Zeg0O9RqX0H/2jplMts6aeNy5sHuJTlYMRM\nBsRzCjbUxchDpzbfe6YkngLmUGZLp3vKcucg3oD6cx5SQ03RzX3h3XTCn+xi8BHB\nF+xIQFQy8ed2Byuxtk6plY1JEzxdKgmqqBY83lfDQkK9aLrM3oN6fzuVagS35mlm\nw3AelnKkSP6ynEQ9EyguYtYIR3eBfNkuhpq6k2dUMSj5JpjgOWhJIZS0c5AdENgg\nBL/uAwiYvqswbYoiH0daW0QV/q8Wy8FH3Mm8fvEhNOEyP4XuHWkDHMCBe6ghkEaz\nxg/zw2xgjSfHFg0rD+xUR9cwWbZRYjpiBy1J5lWh1yx+e8HZ2bDCUcoGvtx3HP0\u003d\n\u003dlcMR\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "853e761a_5c6c7b99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalMergeSuperSetComputation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-10-11T13:47:28Z",
+      "side": 1,
+      "message": "nit: Missing punctuation",
+      "range": {
+        "startLine": 61,
+        "startChar": 43,
+        "endLine": 61,
+        "endChar": 44
+      },
+      "revId": "62edde66f1ba14239e6cf7bdc31d6fa6a1fe918c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "641d932b_dbc50d49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-11T18:07:40Z",
+      "side": 1,
+      "message": "Needs also \u003c/path\u003e\n\nie \u003c/path\u003e\u003c/g\u003e same for below. (Unless i am wrong (sorry)). just going by the colour red it is showing below.",
+      "range": {
+        "startLine": 22,
+        "startChar": 707,
+        "endLine": 22,
+        "endChar": 711
+      },
+      "revId": "eb450c35ec85a935c25f4a78a76950e6c4bc8e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

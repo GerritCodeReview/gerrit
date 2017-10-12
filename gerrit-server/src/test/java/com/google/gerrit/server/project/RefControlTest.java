@@ -35,7 +35,6 @@ import static com.google.gerrit.testutil.InMemoryRepositoryManager.newRepository
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -133,7 +132,7 @@ public class RefControlTest {
   }
 
   private void assertCanUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("can upload").isEqualTo(Capable.OK);
+    assertThat(u.canPushToAtLeastOneRef()).named("can upload").isTrue();
   }
 
   private void assertCreateChange(String ref, ProjectControl u) {
@@ -142,7 +141,7 @@ public class RefControlTest {
   }
 
   private void assertCannotUpload(ProjectControl u) {
-    assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isNotEqualTo(Capable.OK);
+    assertThat(u.canPushToAtLeastOneRef()).named("cannot upload").isFalse();
   }
 
   private void assertCannotCreateChange(String ref, ProjectControl u) {

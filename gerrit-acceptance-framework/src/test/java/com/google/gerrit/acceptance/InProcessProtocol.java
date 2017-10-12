@@ -356,7 +356,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
         rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;
-      } catch (IOException e) {
+      } catch (IOException | PermissionBackendException e) {
         throw new RuntimeException(e);
       }
     }

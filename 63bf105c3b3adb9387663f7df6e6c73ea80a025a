@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee9782b_a29a0e0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-12T00:32:20Z",
+      "side": 0,
+      "message": "It seems like this was probably added for a particular reason. Is there something that this change will break?",
+      "range": {
+        "startLine": 616,
+        "startChar": 37,
+        "endLine": 616,
+        "endChar": 75
+      },
+      "revId": "63bf105c3b3adb9387663f7df6e6c73ea80a025a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

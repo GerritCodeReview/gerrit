@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "36584b82_22fc6101",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-12T07:37:04Z",
+      "side": 1,
+      "message": "Should this be Provider\u003cCurrentUser\u003e\n?",
+      "range": {
+        "startLine": 82,
+        "startChar": 20,
+        "endLine": 82,
+        "endChar": 31
+      },
+      "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a203e286_8e51b9fa",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
         "patchSetId": 1
@@ -71,6 +94,24 @@
       "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15f76c37_a5c017c5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-12T07:37:04Z",
+      "side": 1,
+      "message": "In BaseCommand it\u0027s not a Provider.",
+      "parentUuid": "b12b406c_288a222e",
+      "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

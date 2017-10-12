@@ -29,10 +29,20 @@ public interface GroupIncludeCache {
    */
   Collection<AccountGroup.UUID> getGroupsWithMember(Account.Id memberId);
 
-  /** @return groups directly a member of the passed group. */
+  /**
+   * Returns the subgroups of a group.
+   *
+   * @param group the UUID of the group
+   * @return the UUIDs of all direct subgroups
+   */
   Collection<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
 
-  /** @return any groups the passed group belongs to. */
+  /**
+   * Returns the parent groups of a subgroup.
+   *
+   * @param groupId the UUID of the subgroup
+   * @return the UUIDs of all direct parent groups
+   */
   Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
   /** @return set of any UUIDs that are not internal groups. */

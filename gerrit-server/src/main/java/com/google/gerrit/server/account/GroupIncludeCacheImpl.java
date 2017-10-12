@@ -52,8 +52,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final Logger log = LoggerFactory.getLogger(GroupIncludeCacheImpl.class);
-  private static final String PARENT_GROUPS_NAME = "groups_byinclude";
-  private static final String SUBGROUPS_NAME = "groups_members";
+  private static final String PARENT_GROUPS_NAME = "groups_bysubgroup";
+  private static final String SUBGROUPS_NAME = "groups_subgroups";
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
 

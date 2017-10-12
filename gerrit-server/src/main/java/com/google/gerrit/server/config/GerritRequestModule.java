@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -32,6 +31,5 @@ public class GerritRequestModule extends FactoryModule {
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
 
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
-    bind(ProjectControl.Factory.class).in(SINGLETON);
   }
 }

@@ -88,7 +88,10 @@ public enum ProjectPermission {
   BAN_COMMIT,
 
   /** Allow accessing the project's reflog. */
-  READ_REFLOG;
+  READ_REFLOG,
+
+  /** Can push to at least one reference within the repository. */
+  PUSH_AT_LEAST_ONE_REF;
 
   private final String name;
 

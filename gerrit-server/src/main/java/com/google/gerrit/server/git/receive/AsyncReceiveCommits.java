@@ -33,8 +33,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -167,12 +165,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private final ReceiveCommits.Factory factory;
+  private final PermissionBackend.ForProject perm;
   private final ReceivePack rp;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
   private final ReceiveConfig receiveConfig;
   private final ContributorAgreementsChecker contributorAgreements;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final long timeoutMillis;
   private final ProjectState projectState;
   private final IdentifiedUser user;
@@ -193,7 +191,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       TransferConfig transferConfig,
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectControl.GenericFactory projectControlFactory,
       @Named(TIMEOUT_NAME) long timeoutMillis,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -206,7 +203,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
     this.contributorAgreements = contributorAgreements;
-    this.projectControlFactory = projectControlFactory;
     this.timeoutMillis = timeoutMillis;
     this.projectState = projectState;
     this.user = user;
@@ -230,8 +226,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
+    this.perm = permissionBackend.user(user).project(projectName);
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
+      this.perm.check(ProjectPermission.READ);
     } catch (AuthException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }
@@ -246,21 +243,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   /** Determine if the user can upload commits. */
-  public Capable canUpload() throws IOException {
-    // TODO(hiesel): Remove dependency on ProjectControl
-    ProjectControl projectControl;
+  public Capable canUpload() throws IOException, PermissionBackendException {
     try {
-      projectControl = projectControlFactory.controlFor(projectState.getNameKey(), user);
-    } catch (NoSuchProjectException e) {
-      throw new IOException(e);
-    }
-
-    Capable result = projectControl.canPushToAtLeastOneRef();
-    if (result != Capable.OK) {
-      return result;
-    }
-
-    try {
+      perm.check(ProjectPermission.PUSH_AT_LEAST_ONE_REF);
       contributorAgreements.check(projectState.getNameKey(), user);
     } catch (AuthException e) {
       return new Capable(e.getMessage());

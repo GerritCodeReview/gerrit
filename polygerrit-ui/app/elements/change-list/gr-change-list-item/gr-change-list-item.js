@@ -29,11 +29,8 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showNumber: Boolean,
+      loggedIn: Boolean,
     },
 
     behaviors: [
@@ -115,5 +112,10 @@
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
     },
+
+    _computeHideStar(loggedIn, visibleChangeTableColumns) {
+      return !loggedIn ||
+        this.isColumnHidden('Star', visibleChangeTableColumns) ? true : false;
+    }
   });
 })();

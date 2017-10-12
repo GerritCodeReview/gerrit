@@ -476,7 +476,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           new ChangeIdPredicate(parseChangeId(triplet.get().id().get())));
     }
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(Change.Id.parse(query));
+      Integer id = Ints.tryParse(query);
+      if (id != null) {
+        return new LegacyChangeIdPredicate(new Change.Id(id));
+      }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
     }

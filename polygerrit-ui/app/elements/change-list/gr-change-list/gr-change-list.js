@@ -137,8 +137,10 @@
 
     _loadPreferences() {
       return this._getLoggedIn().then(loggedIn => {
-        this.changeTableColumns = this.columnNames;
-
+        this.changeTableColumns =
+            this.columnNames.filter(star => {
+              return star !== 'Star';
+            });
         if (!loggedIn) {
           this.showNumber = false;
           this.visibleChangeTableColumns = this.columnNames;
@@ -311,6 +313,14 @@
 
     _getListItems() {
       return Polymer.dom(this.root).querySelectorAll('gr-change-list-item');
+    },
+
+    _computeHiddingStar(star, visable) {
+      if (!star || this.isColumnHidden('Star', visable)) {
+        return true;
+      }
+
+      return false;
     },
   });
 })();

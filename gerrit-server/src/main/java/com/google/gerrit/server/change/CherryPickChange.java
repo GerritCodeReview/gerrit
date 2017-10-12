@@ -49,7 +49,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -92,7 +92,7 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final ProjectControl.GenericFactory projectControlFactory;
+  private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final NotifyUtil notifyUtil;
@@ -109,7 +109,7 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory changeNotesFactory,
-      ProjectControl.GenericFactory projectControlFactory,
+      ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil changeMessagesUtil,
       NotifyUtil notifyUtil) {
@@ -123,7 +123,7 @@ public class CherryPickChange {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeNotesFactory = changeNotesFactory;
-    this.projectControlFactory = projectControlFactory;
+    this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
     this.notifyUtil = notifyUtil;
@@ -197,10 +197,11 @@ public class CherryPickChange {
       String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
-      ProjectControl projectControl =
-          projectControlFactory.controlFor(dest.getParentKey(), identifiedUser);
+      ProjectState projectState = projectCache.checkedGet(dest.getParentKey());
+      if (projectState == null) {
+        throw new NoSuchProjectException(dest.getParentKey());
+      }
       try {
-        ProjectState projectState = projectControl.getProjectState();
         cherryPickCommit =
             mergeUtilFactory
                 .create(projectState)

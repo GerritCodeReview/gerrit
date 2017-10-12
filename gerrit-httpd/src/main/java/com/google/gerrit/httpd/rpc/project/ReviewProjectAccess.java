@@ -156,8 +156,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         ObjectReader objReader = objInserter.newReader();
         RevWalk rw = new RevWalk(objReader);
         BatchUpdate bu =
-            updateFactory.create(
-                db, config.getProject().getNameKey(), user, TimeUtil.nowTs())) {
+            updateFactory.create(db, config.getProject().getNameKey(), user, TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
           changeInserterFactory

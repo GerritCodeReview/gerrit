@@ -355,17 +355,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        final ProjectControl pctl = e.controlFor(currentUser);
         if (groupUuid != null
-            && !pctl.getProjectState()
-                .getLocalGroups()
+            && !e.getLocalGroups()
                 .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
           continue;
         }
 
         ProjectInfo info = new ProjectInfo();
         if (showTree && !format.isJson()) {
-          treeMap.put(projectName, projectNodeFactory.create(pctl.getProject(), true));
+          treeMap.put(projectName, projectNodeFactory.create(e.getProject(), true));
           continue;
         }
 
@@ -399,8 +397,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               boolean canReadAllRefs;
               try {
                 permissionBackend
-                    .user(pctl.getUser())
-                    .project(pctl.getProject().getNameKey())
+                    .user(currentUser)
+                    .project(e.getNameKey())
                     .check(ProjectPermission.READ);
                 canReadAllRefs = true;
               } catch (AuthException ae) {

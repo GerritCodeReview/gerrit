@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -39,7 +40,8 @@ limitations under the License.
     <table id="changeList">
       <tr class="topHeader">
         <th class="leftPadding"></th>
-        <th class="star" hidden$="[[!showStar]]" hidden></th>
+        <th class="star"
+            hidden$="[[_computeHideStar(loggedIn, visibleChangeTableColumns)]]"></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]]"
@@ -58,7 +60,8 @@ limitations under the License.
         <template is="dom-if" if="[[changeSection.name]]">
           <tr class="groupHeader">
             <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden></td>
+            <td class="star"
+                hidden$="[[_computeHideStar(loggedIn, visibleChangeTableColumns)]]"></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]">
@@ -70,7 +73,8 @@ limitations under the License.
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
             <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden></td>
+            <td class="star"
+                hidden$="[[_computeHideStar(loggedIn, visibleChangeTableColumns)]]"></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
@@ -90,9 +94,9 @@ limitations under the License.
               change="[[change]]"
               visible-change-table-columns="[[visibleChangeTableColumns]]"
               show-number="[[showNumber]]"
-              show-star="[[showStar]]"
               tabindex="0"
-              label-names="[[labelNames]]"></gr-change-list-item>
+              label-names="[[labelNames]]"
+              logged-in="[[loggedIn]]"></gr-change-list-item>
         </template>
       </template>
     </table>
@@ -101,6 +105,7 @@ limitations under the License.
         index="{{selectedIndex}}"
         scroll-behavior="keep-visible"
         focus-on-move></gr-cursor-manager>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-list.js"></script>
 </dom-module>

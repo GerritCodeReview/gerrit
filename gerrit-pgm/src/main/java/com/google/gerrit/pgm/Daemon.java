@@ -66,6 +66,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
+import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
@@ -472,6 +473,7 @@ public class Daemon extends SiteProgram {
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
+    modules.add(new LocalMergeSuperSetComputation.Module());
     return cfgInjector.createChildInjector(modules);
   }
 

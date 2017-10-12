@@ -113,6 +113,7 @@ import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitModules;
+import com.google.gerrit.server.git.MergeSuperSetComputation;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -375,6 +376,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
+    DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

@@ -81,10 +81,6 @@
         notify: true,
       },
       showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showReviewedState: {
         type: Boolean,
         value: false,
@@ -96,6 +92,10 @@
       changeTableColumns: Array,
       visibleChangeTableColumns: Array,
       preferences: Object,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -147,7 +147,13 @@
     },
 
     _computePreferences(account, preferences) {
-      this.changeTableColumns = this.columnNames;
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+      });
+
+      this.changeTableColumns = this.columnNames.filter(column => {
+        return column !== 'Star';
+      });
 
       if (account) {
         this.showNumber = !!(preferences &&
@@ -337,6 +343,11 @@
         return changeEls[index].change;
       }
       return null;
+    },
+
+    _computeHideStar(loggedIn, visibleChangeTableColumns) {
+      return !loggedIn ||
+          this.isColumnHidden('Star', visibleChangeTableColumns) ? true : false;
     },
 
     _getListItems() {

@@ -64,8 +64,7 @@ limitations under the License.
           class$="[[_computeUserHeaderClass(_userId)]]"></gr-user-header>
       <gr-change-list
           changes="{{_changes}}"
-          selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[loggedIn]]"></gr-change-list>
+          selected-index="{{viewState.selectedChangeIndex}}"></gr-change-list>
       <nav>
         <a id="prevArrow"
             href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "566b387e_20643f96",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-12T07:41:25Z",
+      "side": 1,
+      "message": "The field ReviewProjectAccess.user is hiding a field from type ProjectAccessHandler\u003cChange.Id\u003e",
+      "revId": "e2f96a68e1fc3982f5d85ebe023315de6bd49c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

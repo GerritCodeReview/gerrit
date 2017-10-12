@@ -75,10 +75,6 @@
         notify: true,
       },
       showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showReviewedState: {
         type: Boolean,
         value: false,
@@ -137,8 +133,10 @@
 
     _loadPreferences() {
       return this._getLoggedIn().then(loggedIn => {
-        this.changeTableColumns = this.columnNames;
-
+        this.changeTableColumns =
+            this.columnNames.filter(star => {
+              return star !== 'Star';
+            });
         if (!loggedIn) {
           this.showNumber = false;
           this.visibleChangeTableColumns = this.columnNames;

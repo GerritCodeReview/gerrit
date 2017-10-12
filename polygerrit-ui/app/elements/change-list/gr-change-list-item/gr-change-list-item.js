@@ -29,10 +29,6 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showNumber: Boolean,
     },
 

@@ -34,6 +34,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -72,6 +73,7 @@ public class DeleteWatchedProjects
         accountId,
         input
             .stream()
+            .filter(Objects::nonNull)
             .map(w -> ProjectWatchKey.create(new Project.NameKey(w.project), w.filter))
             .collect(toList()));
     accountCache.evict(accountId);

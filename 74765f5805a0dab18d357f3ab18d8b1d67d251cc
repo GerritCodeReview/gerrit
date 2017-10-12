@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507812751 +0200\nnonce ANEgCxfekmpTyaCzqQpJLVe4l/lhjyAYb3yhnscBeUENPRVVXKNjNehfCxvhdUtNSJOEmyL7qwY5\n\n0000000000000000000000000000000000000000 74765f5805a0dab18d357f3ab18d8b1d67d251cc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ32WPAAoJEFG1/Zeg0O9R70UH/AhuThL0T9OFHfTvuXEhiJwf\nB6ebVSWyPxZDF4oRyEHGA9Ew9LZwH0cShELuBbktxKx8CI+DJqhNYvUyVcgyk/iu\nc6pRoOuMcG1G8xraYhCtbeKO2gyc1W75uTXhwaxEdBkZQMOdfZUol7r62E+WBuKM\n49TGr/wNGt+GLxxdMEi5QlzUibsI8hAjRSUivG2N/5o/XgO9bofTIqFBfBJr3rDa\nP7hdIhl1Fjw4ogKSTNjB4grACzhmuGVGKuUSp5xQmJe9NPU5LNtvE1gZbefCXd29\nhZDR/K1sTdnWerqfkiRJD8TfmSshTi6ko0KxvGZQmhmZwWvsiKYop3/9muMrCo4\u003d\n\u003dP/4o\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc76196e_6ff3007e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-12T14:05:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is true in general. googlesource.com just sucks.\n\nIMHO if we want this it should be a local patch until we finish migrating to reftable.",
+      "range": {
+        "startLine": 186,
+        "startChar": 11,
+        "endLine": 186,
+        "endChar": 84
+      },
+      "revId": "74765f5805a0dab18d357f3ab18d8b1d67d251cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -139,7 +139,7 @@
           for (const query in LookupQueryPatterns) {
             if (LookupQueryPatterns.hasOwnProperty(query) &&
                 this._query.match(LookupQueryPatterns[query])) {
-              page.show('/c/' + changes[0]._number);
+              this._replaceCurrentLocation('/c/' + changes[0]._number);
               return;
             }
           }
@@ -147,6 +147,10 @@
         this._changes = changes;
         this._loading = false;
       });
+    },
+
+    _replaceCurrentLocation(url) {
+      window.location.replace(url);
     },
 
     _getChanges() {

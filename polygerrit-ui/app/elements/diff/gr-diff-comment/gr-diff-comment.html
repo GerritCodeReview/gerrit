@@ -93,7 +93,11 @@ limitations under the License.
         padding-top: 0;
       }
       .action {
-        margin-left: .5em;
+        margin-left: 1em;
+        --gr-button: {
+          color: #212121;
+        }
+        --gr-button-hover-color: rgba(33, 33, 33, .75);
       }
       .rightActions {
         display: flex;
@@ -282,18 +286,20 @@ limitations under the License.
           Unresolved
         </div>
         <div class="rightActions">
-          <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
-              Edit</gr-button>
-          <gr-button class="action save hideOnPublished" on-tap="_handleSave"
-              disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
-          <gr-button class="action cancel hideOnPublished"
+          <gr-button link class="action edit hideOnPublished"
+              on-tap="_handleEdit">Edit</gr-button>
+          <gr-button link class="action save hideOnPublished"
+              on-tap="_handleSave"
+              disabled$="[[_computeSaveDisabled(_messageText)]]">Save
+          </gr-button>
+          <gr-button link class="action cancel hideOnPublished"
               on-tap="_handleCancel" hidden>Cancel</gr-button>
-          <gr-button class="action discard hideOnPublished"
+          <gr-button link class="action discard hideOnPublished"
               on-tap="_handleDiscard">Discard</gr-button>
         </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-        <gr-button class="action fix"
+        <gr-button link class="action fix"
             on-tap="_handleFix"
             disabled="[[robotButtonDisabled]]">
           Please Fix

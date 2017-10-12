@@ -111,6 +111,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return this;
   }
 
+  public boolean getShowMetadata() {
+    return showMetadata;
+  }
+
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
@@ -239,7 +243,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
   }
 
-  private Map<String, Ref> filter(Map<String, Ref> refs) {
+  Map<String, Ref> filter(Map<String, Ref> refs) {
     return filter(refs, false);
   }
 

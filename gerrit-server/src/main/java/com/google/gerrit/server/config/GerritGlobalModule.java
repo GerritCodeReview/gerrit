@@ -116,6 +116,7 @@ import com.google.gerrit.server.git.GitModules;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
+import com.google.gerrit.server.git.OmitGerritRefsHook;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -260,6 +261,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(SetAssigneeSender.Factory.class);
     factory(VisibleRefFilter.Factory.class);
+    factory(OmitGerritRefsHook.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);

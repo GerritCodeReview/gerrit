@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
+import com.google.gerrit.server.git.OmitGerritRefsHook;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
@@ -62,6 +64,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostReceiveHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
@@ -208,6 +211,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Upload implements UploadPackFactory<Context> {
     private final Provider<CurrentUser> userProvider;
+    private final OmitGerritRefsHook.Factory omitGerritRefsHookFactory;
     private final VisibleRefFilter.Factory refFilterFactory;
     private final TransferConfig transferConfig;
     private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
@@ -220,6 +224,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     @Inject
     Upload(
         Provider<CurrentUser> userProvider,
+        OmitGerritRefsHook.Factory omitGerritRefsHookFactory,
         VisibleRefFilter.Factory refFilterFactory,
         TransferConfig transferConfig,
         DynamicSet<UploadPackInitializer> uploadPackInitializers,
@@ -229,6 +234,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         ProjectCache projectCache,
         PermissionBackend permissionBackend) {
       this.userProvider = userProvider;
+      this.omitGerritRefsHookFactory = omitGerritRefsHookFactory;
       this.refFilterFactory = refFilterFactory;
       this.transferConfig = transferConfig;
       this.uploadPackInitializers = uploadPackInitializers;
@@ -271,7 +277,11 @@ class InProcessProtocol extends TestProtocol<Context> {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
-      up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
+      VisibleRefFilter visibleRefFilter = refFilterFactory.create(projectState, repo);
+      OmitGerritRefsHook omitGerritRefsHook = omitGerritRefsHookFactory.create(visibleRefFilter);
+      up.setAdvertiseRefsHook(
+          AdvertiseRefsHookChain.newChain(ImmutableList.of(omitGerritRefsHook, visibleRefFilter)));
+      up.setRequestValidator(omitGerritRefsHook);
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
       hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));

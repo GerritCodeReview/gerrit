@@ -18,8 +18,10 @@ import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.UploadPack;
 
 /** Static utilities for writing git protocol hooks. */
 public class HookUtil {
@@ -37,8 +39,33 @@ public class HookUtil {
     if (refs != null) {
       return refs;
     }
+    refs = scanRefs(rp.getRepository());
+    rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
+    return refs;
+  }
+
+  /**
+   * Scan and advertise all refs in the repo if refs have not already been advertised; otherwise,
+   * just return the advertised map.
+   *
+   * @param up upload-pack handler.
+   * @return map of refs that were advertised.
+   * @throws ServiceMayNotContinueException if a problem occurred.
+   */
+  public static Map<String, Ref> ensureAllRefsAdvertised(UploadPack up)
+      throws ServiceMayNotContinueException {
+    Map<String, Ref> refs = up.getAdvertisedRefs();
+    if (refs != null) {
+      return refs;
+    }
+    refs = scanRefs(up.getRepository());
+    up.setAdvertisedRefs(refs);
+    return refs;
+  }
+
+  private static Map<String, Ref> scanRefs(Repository repo) throws ServiceMayNotContinueException {
     try {
-      refs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
+      return repo.getRefDatabase().getRefs(RefDatabase.ALL);
     } catch (ServiceMayNotContinueException e) {
       throw e;
     } catch (IOException e) {
@@ -46,8 +73,6 @@ public class HookUtil {
       ex.initCause(e);
       throw ex;
     }
-    rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
-    return refs;
   }
 
   private HookUtil() {}

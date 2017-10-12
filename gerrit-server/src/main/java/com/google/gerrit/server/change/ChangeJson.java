@@ -108,9 +108,11 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.RefAdvertisementStrategy;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.mail.Address;
@@ -147,6 +149,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -230,6 +233,7 @@ public class ChangeJson {
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
+  private final RefAdvertisementStrategy refAdvertisementStrategy;
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -237,6 +241,7 @@ public class ChangeJson {
 
   @Inject
   ChangeJson(
+      @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       AnonymousUser au,
@@ -289,6 +294,7 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.options = Sets.immutableEnumSet(options);
     this.trackingFooters = trackingFooters;
+    this.refAdvertisementStrategy = RefAdvertisementStrategy.get(cfg);
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -1411,7 +1417,8 @@ public class ChangeJson {
 
       String projectName = cd.project().get();
       String url = scheme.getUrl(projectName);
-      String refName = in.getRefName();
+      String refName =
+          refAdvertisementStrategy.omitChangeRefs() ? in.getRevision().get() : in.getRefName();
       FetchInfo fetchInfo = new FetchInfo(url, refName);
       r.put(schemeName, fetchInfo);
 

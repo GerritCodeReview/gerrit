@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.OmitGerritRefsHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -62,6 +64,7 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
@@ -238,6 +241,7 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class UploadFilter implements Filter {
+    private final OmitGerritRefsHook.Factory omitGerritRefsHookFactory;
     private final VisibleRefFilter.Factory refFilterFactory;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
@@ -245,10 +249,12 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Inject
     UploadFilter(
+        OmitGerritRefsHook.Factory omitGerritRefsHookFactory,
         VisibleRefFilter.Factory refFilterFactory,
         UploadValidators.Factory uploadValidatorsFactory,
         PermissionBackend permissionBackend,
         Provider<CurrentUser> userProvider) {
+      this.omitGerritRefsHookFactory = omitGerritRefsHookFactory;
       this.refFilterFactory = refFilterFactory;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
@@ -284,7 +290,11 @@ public class GitOverHttpServlet extends GitServlet {
           uploadValidatorsFactory.create(state.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-      up.setAdvertiseRefsHook(refFilterFactory.create(state, repo));
+      VisibleRefFilter visibleRefFilter = refFilterFactory.create(state, repo);
+      OmitGerritRefsHook omitGerritRefsHook = omitGerritRefsHookFactory.create(visibleRefFilter);
+      up.setAdvertiseRefsHook(
+          AdvertiseRefsHookChain.newChain(ImmutableList.of(omitGerritRefsHook, visibleRefFilter)));
+      up.setRequestValidator(omitGerritRefsHook);
 
       next.doFilter(request, response);
     }

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.git.OmitGerritRefsHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -30,6 +32,7 @@ import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
@@ -39,6 +42,7 @@ import org.eclipse.jgit.transport.UploadPack;
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
   @Inject private TransferConfig config;
+  @Inject private OmitGerritRefsHook.Factory omitGerritRefsHookFactory;
   @Inject private VisibleRefFilter.Factory refFilterFactory;
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;
@@ -61,7 +65,11 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
+    VisibleRefFilter visibleRefFilter = refFilterFactory.create(projectState, repo);
+    OmitGerritRefsHook omitGerritRefsHook = omitGerritRefsHookFactory.create(visibleRefFilter);
+    up.setAdvertiseRefsHook(
+        AdvertiseRefsHookChain.newChain(ImmutableList.of(omitGerritRefsHook, visibleRefFilter)));
+    up.setRequestValidator(omitGerritRefsHook);
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));

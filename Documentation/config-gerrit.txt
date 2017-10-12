@@ -1906,6 +1906,11 @@ Example git configuration on a project:
   allowTipSha1InWant = true
 ----
 +
+Ignored if
+link:#upload.refAdvertisementStrategy[`upload.refAdvertisementStrategy`] is not
+`ALL`, in which case the server always advertises the `allow-tip-sha1-in-want`
+capability.
++
 By default `false`.
 
 [[download.archive]]download.archive::
@@ -4553,6 +4558,40 @@ One or more groups can be set.
 +
 If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
+
+[[upload.refAdvertisementStrategy]]upload.refAdvertisementStrategy::
++
+Strategy for advertising refs during `upload-pack`. Advertising one ref per
+patch set, plus various other Gerrit-specific metadata refs, can be a waste of
+server resources, as well as increasing network usage and observed user latency
+of even small `git fetch` operations.
++
+If `ALL`, all refs that a user has permission to see are advertised.
++
+If `HIDE_GERRIT`, patch set refs and other "unimportant" metadata refs are
+hidden. The set of refs deemed unimportant by the server is subject to change
+from version to version. Currently, the excluded refs are:
++
+* `refs/cache-automerge/*`
+* `refs/changes/*`
+* `refs/draft-comments/*`
+* `refs/sequences/*`
+* `refs/starred-changes/*`
+* `refs/users/*`
++
+If change refs are hidden from advertisement, clients cannot fetch individual
+patch set refs by running `git fetch origin refs/changes/<CD>/<ABCD>/<N>`,
+but they can still fetch by SHA-1 (requires Git 1.8.3 or higher). The
+recommended way to fetch individual patch set refs is to copy/paste a
+download command from the UI, or look up a download command using the
+link:rest-api-changes.html#download-commands[REST API option]. Clients can also
+use the REST API to get a link:rest-api-changes.html#change-info[`ChangeInfo`]
+containing the revision.
++
+Setting any strategy other than `ALL` causes the server to advertise the
+`allow-tip-sha1-in-want` capability.
++
+Defaults to `ALL`.
 
 [[accountDeactivation]]
 === Section accountDeactivation

@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "ab516681_a0a5c72f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T00:06:44Z",
+      "side": 1,
+      "message": "On PS1, the test failure from the CI is related to the type annotations. Do you mean that a different test failed?\n\nI do want to be careful to understand the error because this guard doesn\u0027t make sense to me on it\u0027s own.\n\nI\u0027m running the PS1 tests to check it out.",
+      "parentUuid": "5979910e_9e912457",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c644864a_b95d8f27",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5

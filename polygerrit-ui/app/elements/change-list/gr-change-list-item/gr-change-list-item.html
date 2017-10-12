@@ -125,7 +125,8 @@ limitations under the License.
     </style>
     <style include="gr-change-list-styles"></style>
     <td class="cell leftPadding"></td>
-    <td class="cell star" hidden$="[[!showStar]]" hidden>
+    <td class="cell star"
+        hidden$="[[_computeHideStar(loggedIn, visibleChangeTableColumns)]]">
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>

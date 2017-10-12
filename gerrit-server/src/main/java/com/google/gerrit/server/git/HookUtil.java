@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.receive;
+package com.google.gerrit.server.git;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,8 +21,8 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
-/** Static utilities for writing {@link ReceiveCommits}-related hooks. */
-class HookUtil {
+/** Static utilities for writing git protocol hooks. */
+public class HookUtil {
   /**
    * Scan and advertise all refs in the repo if refs have not already been advertised; otherwise,
    * just return the advertised map.
@@ -31,7 +31,7 @@ class HookUtil {
    * @return map of refs that were advertised.
    * @throws ServiceMayNotContinueException if a problem occurred.
    */
-  static Map<String, Ref> ensureAllRefsAdvertised(BaseReceivePack rp)
+  public static Map<String, Ref> ensureAllRefsAdvertised(BaseReceivePack rp)
       throws ServiceMayNotContinueException {
     Map<String, Ref> refs = rp.getAdvertisedRefs();
     if (refs != null) {

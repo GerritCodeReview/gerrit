@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f25dc532_b32efa48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-12T07:48:15Z",
+      "side": 1,
+      "message": "Also have a look on line 23. It’s doing /\u003e too :).",
+      "parentUuid": "c613747a_ca2f9492",
+      "range": {
+        "startLine": 25,
+        "startChar": 974,
+        "endLine": 25,
+        "endChar": 979
+      },
+      "revId": "1705588d7047c7b01b3ea0de6062b3e9c0f73fc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "521e10a2_cbd8c4c6",
         "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.html",
         "patchSetId": 2

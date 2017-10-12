@@ -68,6 +68,7 @@
         value: 1,
       },
 
+      allowNonSuggestedValues: Boolean,
       borderless: Boolean,
       disabled: Boolean,
 
@@ -138,21 +139,11 @@
 
       /** The DOM element of the selected suggestion. */
       _selected: Object,
-
-      _textChangedSinceCommit: {
-        type: Boolean,
-        value: false,
-      },
     },
 
     observers: [
-      '_textChanged(text)',
       '_maybeOpenDropdown(_suggestions, _focused)',
     ],
-
-    _textChanged() {
-      this._textChangedSinceCommit = true;
-    },
 
     attached() {
       this.listen(document.body, 'tap', '_handleBodyTap');
@@ -298,8 +289,9 @@
      * @param {boolean=} opt_tabComplete
      */
     _handleInputCommit(opt_tabComplete) {
-      // Nothing to do if new input hasn't been entered.
-      if (!this._textChangedSinceCommit) { return; }
+      // Nothing to do if the dropdown is not open.
+      if (!this.allowNonSuggestedValues
+          && this.$.suggestions.isHidden) { return; }
 
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);

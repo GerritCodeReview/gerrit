@@ -701,6 +701,15 @@ limitations under the License.
       assert.equal(sendStub.lastCall.args[1], '/projects/x%2Fy');
     });
 
+    test('queryChangeFiles', () => {
+      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+          .returns(Promise.resolve());
+      return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
+        assert.deepEqual(fetchStub.lastCall.args,
+            ['42', '/files?q=test%2Fpath.js', 'edit']);
+      });
+    });
+
     test('getProjects', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getProjects('test', 25);

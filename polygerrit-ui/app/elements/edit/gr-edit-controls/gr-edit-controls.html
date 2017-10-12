@@ -16,13 +16,14 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -41,20 +42,20 @@ limitations under the License.
         margin-left: 1em;
         text-decoration: none;
       }
-      paper-input {
-        --paper-input-container: {
-          padding: 0;
-          min-width: 15em;
-        }
-        --paper-input-container-input: {
-          font-size: 1em;
-        }
-      }
       gr-confirm-dialog {
         width: 50em;
       }
       gr-confirm-dialog .main {
         width: 100%;
+      }
+      gr-autocomplete {
+        --gr-autocomplete: {
+          border: 1px solid #d1d2d3;
+          border-radius: 2px;
+          font-size: 1em;
+          height: 2em;
+          padding: 0 .15em;
+        }
       }
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
@@ -74,13 +75,15 @@ limitations under the License.
         <div class="header">Edit a file</div>
         <div class="main">
           <!-- TODO(kaspern): Make this an autocomplete. -->
-          <paper-input
+          <gr-autocomplete
               class="input"
-              label="Enter an existing or new full file path."
-              value="{{_path}}"></paper-input>
+              placeholder="Enter an existing or new full file path."
+              query="[[_query]]"
+              text="{{_path}}"></gr-autocomplete>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-edit-controls.js"></script>
 </dom-module>

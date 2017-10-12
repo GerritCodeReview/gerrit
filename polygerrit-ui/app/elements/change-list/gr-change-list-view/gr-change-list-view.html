@@ -84,9 +84,9 @@ limitations under the License.
       <gr-change-list
           account="[[account]]"
           changes="{{_changes}}"
+          logged-in="[[_loggedIn]]"
           preferences="[[preferences]]"
           selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[_loggedIn]]"
           on-toggle-star="_handleToggleStar"
           on-toggle-reviewed="_handleToggleReviewed"></gr-change-list>
       <nav class$="[[_computeNavClass(_loading)]]">

@@ -844,18 +844,18 @@ including the group owner, name, and description.
 External group membership obtained from LDAP is cached under
 `"ldap_groups"`.
 
-cache `"groups_byinclude"`::
-+
-Caches group inclusions in other groups.  If direct updates are made
-to the `account_group_includes` table, this cache should be flushed.
-
 cache `"groups_bymember"`::
 +
 Caches the groups which contain a specific member (account). If direct
 updates are made to the `account_group_members` table, this cache should
 be flushed.
 
-cache `"groups_members"`::
+cache `"groups_bysubgroups"`::
++
+Caches the parent groups of a subgroup.  If direct updates are made
+to the `account_group_includes` table, this cache should be flushed.
+
+cache `"groups_subgroups"`::
 +
 Caches subgroups.  If direct updates are made to the
 `account_group_includes` table, this cache should be flushed.

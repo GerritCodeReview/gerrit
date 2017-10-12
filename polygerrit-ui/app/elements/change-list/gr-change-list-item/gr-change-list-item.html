@@ -109,7 +109,8 @@ limitations under the License.
     <td class="cell keyboard">
       <span class="positionIndicator">&#x25b6;</span>
     </td>
-    <td class="cell star" hidden$="[[!showStar]]" hidden>
+    <td class="cell star"
+        hidden$="[[_computeHideStar(loggedIn, visibleChangeTableColumns)]]">
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>

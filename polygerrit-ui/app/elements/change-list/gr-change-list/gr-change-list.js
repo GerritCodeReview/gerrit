@@ -75,10 +75,6 @@
         notify: true,
       },
       showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showReviewedState: {
         type: Boolean,
         value: false,
@@ -89,6 +85,10 @@
       },
       changeTableColumns: Array,
       visibleChangeTableColumns: Array,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -137,7 +137,11 @@
 
     _loadPreferences() {
       return this._getLoggedIn().then(loggedIn => {
-        this.changeTableColumns = this.columnNames;
+        this._loggedIn = loggedIn;
+
+        this.changeTableColumns = this.columnNames.filter(column => {
+          return column !== 'Star';
+        });
 
         if (!loggedIn) {
           this.showNumber = false;
@@ -312,6 +316,11 @@
         return changeEls[index].change;
       }
       return null;
+    },
+
+    _computeHideStar(loggedIn, visibleChangeTableColumns) {
+      return !loggedIn ||
+          this.isColumnHidden('Star', visibleChangeTableColumns) ? true : false;
     },
 
     _getListItems() {

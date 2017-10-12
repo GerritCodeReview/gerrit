@@ -456,11 +456,13 @@ limitations under the License.
         patchNum: '3',
       };
 
-      assert.equal(element._basePatchNum, element._patchRange.basePatchNum);
-      assert.equal(element._patchNum, element._patchRange.patchNum);
+      const detail = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
 
-      element._patchNum = '1';
-
+      element.$.rangeSelect.dispatchEvent(
+          new CustomEvent('patch-range-change', {detail, bubbles: false}));
 
       assert(navigateStub.lastCall.calledWithExactly(element._change,
           element._path, '1', 'PARENT'));

@@ -79,7 +79,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(object, p.getValue(), p.getAccountId(), labelType)) {
+        if (match(object, p.getValue(), p.getAccountId())) {
           return true;
         }
       }
@@ -105,7 +105,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  protected boolean match(ChangeData cd, short value, Account.Id approver, LabelType type) {
+  protected boolean match(ChangeData cd, short value, Account.Id approver) {
     if (value != expVal) {
       return false;
     }
@@ -119,11 +119,11 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    // Double check the value is still permitted for the user.
+    // Check the user has 'READ' permission.
     try {
       PermissionBackend.ForChange perm =
           permissionBackend.user(reviewer).database(dbProvider).change(cd);
-      return perm.test(ChangePermission.READ) && expVal == perm.squashByTest(type, value);
+      return perm.test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       return false;
     }

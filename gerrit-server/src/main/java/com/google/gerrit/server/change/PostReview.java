@@ -233,7 +233,7 @@ public class PostReview
       input.drafts = DraftHandling.DELETE;
     }
     if (input.labels != null) {
-      checkLabels(revision, labelTypes, input.strictLabels, input.labels);
+      checkLabels(revision, labelTypes, input.labels);
     }
     if (input.comments != null) {
       cleanUpComments(input.comments);
@@ -443,12 +443,9 @@ public class PostReview
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
       LabelType type = labelTypes.byLabel(ent.getKey());
-      if (type == null && in.strictLabels) {
+      if (type == null) {
         throw new BadRequestException(
             String.format("label \"%s\" is not a configured label", ent.getKey()));
-      } else if (type == null) {
-        itr.remove();
-        continue;
       }
 
       if (!caller.isInternalUser()) {
@@ -479,8 +476,7 @@ public class PostReview
         changeResourceFactory.create(rev.getNotes(), reviewer), rev.getPatchSet());
   }
 
-  private void checkLabels(
-      RevisionResource rsrc, LabelTypes labelTypes, boolean strict, Map<String, Short> labels)
+  private void checkLabels(RevisionResource rsrc, LabelTypes labelTypes, Map<String, Short> labels)
       throws BadRequestException, AuthException, PermissionBackendException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
@@ -488,12 +484,8 @@ public class PostReview
       Map.Entry<String, Short> ent = itr.next();
       LabelType lt = labelTypes.byLabel(ent.getKey());
       if (lt == null) {
-        if (strict) {
-          throw new BadRequestException(
-              String.format("label \"%s\" is not a configured label", ent.getKey()));
-        }
-        itr.remove();
-        continue;
+        throw new BadRequestException(
+            String.format("label \"%s\" is not a configured label", ent.getKey()));
       }
 
       if (ent.getValue() == null || ent.getValue() == 0) {
@@ -503,23 +495,16 @@ public class PostReview
       }
 
       if (lt.getValue(ent.getValue()) == null) {
-        if (strict) {
-          throw new BadRequestException(
-              String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
-        }
-        itr.remove();
-        continue;
+        throw new BadRequestException(
+            String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
       }
 
       short val = ent.getValue();
       try {
         perm.check(new LabelPermission.WithValue(lt, val));
       } catch (AuthException e) {
-        if (strict) {
-          throw new AuthException(
-              String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
-        }
-        ent.setValue(perm.squashThenCheck(lt, val));
+        throw new AuthException(
+            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
       }
     }
   }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9da2d52c_3be04d51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T21:45:58Z",
+      "side": 1,
+      "message": "Optional: you can just refer to the change with a partial change ID to avoid breaking up the paragraph.\n\n  I9e77e94461c99",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "a3e01f1edfdf5e55164c1569505d6662b6284633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75af1437_8834264f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T21:45:58Z",
+      "side": 1,
+      "message": "Nit:\n\n s/teh/the/",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 16,
+        "endChar": 66
+      },
+      "revId": "a3e01f1edfdf5e55164c1569505d6662b6284633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333cd6fc_b5eb91fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T21:45:58Z",
+      "side": 1,
+      "message": "Maybe ..\n\n s/attempts to address/addresses/\n\nThis doesn\u0027t sound very confident...",
+      "range": {
+        "startLine": 19,
+        "startChar": 20,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "a3e01f1edfdf5e55164c1569505d6662b6284633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

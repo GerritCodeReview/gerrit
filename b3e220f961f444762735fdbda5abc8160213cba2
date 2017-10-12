@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3386ab7_61440cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-12T07:15:29Z",
+      "side": 1,
+      "message": "How does this work if this parameter is missing in the constructor?\nLooks like this is not needed and can be removed?",
+      "range": {
+        "startLine": 89,
+        "startChar": 7,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "b3e220f961f444762735fdbda5abc8160213cba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

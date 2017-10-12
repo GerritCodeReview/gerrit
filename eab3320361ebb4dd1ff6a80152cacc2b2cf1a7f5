@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06082977_02e97b5c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-12T13:46:58Z",
+      "side": 1,
+      "message": "This is probably not accurate anymore but I didn\u0027t want to introduce an unrelated modification.",
+      "range": {
+        "startLine": 767,
+        "startChar": 60,
+        "endLine": 768,
+        "endChar": 59
+      },
+      "revId": "eab3320361ebb4dd1ff6a80152cacc2b2cf1a7f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

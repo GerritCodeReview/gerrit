@@ -84,6 +84,7 @@ limitations under the License.
       <gr-change-list
           account="[[account]]"
           changes="{{_changes}}"
+<<<<<<< HEAD
           preferences="[[preferences]]"
           selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[_loggedIn]]"
@@ -101,6 +102,17 @@ limitations under the License.
               class$="[[_computeNextArrowClass(_changes)]]">
             <iron-icon icon="gr-icons:chevron-right"></iron-icon>
           </a>
+=======
+          selected-index="{{viewState.selectedChangeIndex}}"></gr-change-list>
+      <nav>
+        <a id="prevArrow"
+            href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
+            hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
+        <a id="nextArrow"
+            href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
+            hidden$="[[_hideNextArrow(_loading)]]" hidden>
+          Next &rarr;</a>
+>>>>>>> 32393acafb... PolyGerrit: Add support for showing or hiding the star from the change list
       </nav>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

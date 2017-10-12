@@ -24,8 +24,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -36,7 +34,6 @@ import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class QueryGroups implements RestReadView<TopLevelResource> {
-  private final GroupIndexCollection indexes;
   private final GroupQueryBuilder queryBuilder;
   private final GroupQueryProcessor queryProcessor;
   private final GroupJson json;
@@ -90,11 +87,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
 
   @Inject
   protected QueryGroups(
-      GroupIndexCollection indexes,
-      GroupQueryBuilder queryBuilder,
-      GroupQueryProcessor queryProcessor,
-      GroupJson json) {
-    this.indexes = indexes;
+      GroupQueryBuilder queryBuilder, GroupQueryProcessor queryProcessor, GroupJson json) {
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.json = json;
@@ -109,11 +102,6 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
 
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
-    }
-
-    GroupIndex searchIndex = indexes.getSearchIndex();
-    if (searchIndex == null) {
-      throw new MethodNotAllowedException("no group index");
     }
 
     if (start != 0) {

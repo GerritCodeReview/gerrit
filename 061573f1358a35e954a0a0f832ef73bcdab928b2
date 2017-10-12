@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e90e3999_ea3beca0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-12T14:23:53Z",
+      "side": 1,
+      "message": "I think this check is not appropriate for displaying the tag creation widget.\n\nThis is only true if user can create any ref. Here, we should only care if user can create a refeference under refs/tags or if user have the createAnnotatedTag permission.\n\nA user reported this inconsistency. i.e. he can create an annotated tag by pushing it but he cannot create it in the UI except if he is granted the create references on refs/*.",
+      "range": {
+        "startLine": 90,
+        "startChar": 32,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "061573f1358a35e954a0a0f832ef73bcdab928b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "55ccf321_f8fbef94",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
         "patchSetId": 60

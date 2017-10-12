@@ -62,6 +62,7 @@ Intended for interactive use only.
     changes                       |                     |  27.1ms |  0%     |
     groups                        |  5646               |  11.8ms | 97%     |
     groups_byinclude              |   230               |   2.4ms | 62%     |
+    groups_bymember               |                     |         |         |
     groups_byname                 |                     |         |         |
     groups_byuuid                 |  5612               |  29.2ms | 99%     |
     groups_external               |     1               |   1.5s  | 98%     |

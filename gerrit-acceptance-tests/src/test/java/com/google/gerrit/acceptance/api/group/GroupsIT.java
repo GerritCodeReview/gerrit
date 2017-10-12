@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.GroupsUpdate;
 import com.google.gerrit.server.group.InternalGroup;
@@ -56,6 +57,7 @@ import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,7 @@ import org.junit.Test;
 public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
+  @Inject private GroupIncludeCache groupIncludeCache;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -92,6 +95,26 @@ public class GroupsIT extends AbstractDaemonTest {
 
     gApi.groups().id(g).removeMembers("user");
     assertNoMembers(g);
+  }
+
+  @Test
+  public void cachedGroupsForMemberAreUpdatedOnMemberAdditionAndRemoval() throws Exception {
+    // Fill the cache for the observed account.
+    groupIncludeCache.getGroupsWithMember(user.getId());
+    String groupName = createGroup("users");
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID(gApi.groups().id(groupName).get().id);
+
+    gApi.groups().id(groupName).addMembers(user.fullName);
+
+    Collection<AccountGroup.UUID> groupsWithMemberAfterAddition =
+        groupIncludeCache.getGroupsWithMember(user.getId());
+    assertThat(groupsWithMemberAfterAddition).contains(groupUuid);
+
+    gApi.groups().id(groupName).removeMembers(user.fullName);
+
+    Collection<AccountGroup.UUID> groupsWithMemberAfterRemoval =
+        groupIncludeCache.getGroupsWithMember(user.getId());
+    assertThat(groupsWithMemberAfterRemoval).doesNotContain(groupUuid);
   }
 
   @Test

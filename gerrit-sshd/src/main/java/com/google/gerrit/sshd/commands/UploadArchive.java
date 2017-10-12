@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -122,7 +121,6 @@ public class UploadArchive extends AbstractGitCommand {
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private CommitsCollection commits;
-  @Inject private IdentifiedUser user;
   @Inject private AllowedFormats allowedFormats;
   private Options options = new Options();
 
@@ -250,7 +248,7 @@ public class UploadArchive extends AbstractGitCommand {
       // Check reachability of the specific revision.
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(revId);
-        return commits.canRead(state, repo, commit);
+        return commits.canRead(projectState, repo, commit);
       }
     }
   }

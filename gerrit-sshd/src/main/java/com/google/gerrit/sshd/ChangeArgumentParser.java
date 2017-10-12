@@ -28,7 +28,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -67,15 +67,15 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(
-      String id, Map<Change.Id, ChangeResource> changes, ProjectControl projectControl)
+      String id, Map<Change.Id, ChangeResource> changes, ProjectState projectState)
       throws UnloggedFailure, OrmException, PermissionBackendException {
-    addChange(id, changes, projectControl, true);
+    addChange(id, changes, projectState, true);
   }
 
   public void addChange(
       String id,
       Map<Change.Id, ChangeResource> changes,
-      ProjectControl projectControl,
+      ProjectState projectState,
       boolean useIndex)
       throws UnloggedFailure, OrmException, PermissionBackendException {
     List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
@@ -89,7 +89,7 @@ public class ChangeArgumentParser {
     }
     for (ChangeNotes notes : matched) {
       if (!changes.containsKey(notes.getChangeId())
-          && inProject(projectControl, notes.getProjectName())
+          && inProject(projectState, notes.getProjectName())
           && (canMaintainServer
               || permissionBackend
                   .user(currentUser)
@@ -127,9 +127,9 @@ public class ChangeArgumentParser {
     }
   }
 
-  private boolean inProject(ProjectControl projectControl, Project.NameKey project) {
-    if (projectControl != null) {
-      return projectControl.getProject().getNameKey().equals(project);
+  private boolean inProject(ProjectState projectState, Project.NameKey project) {
+    if (projectState != null) {
+      return projectState.getNameKey().equals(project);
     }
 
     // No --project option, so they want every project.

@@ -15,8 +15,8 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SetHead;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -29,7 +29,7 @@ import org.kohsuke.args4j.Option;
 public class SetHeadCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "NAME", usage = "name of the project")
-  private ProjectControl project;
+  private ProjectState project;
 
   @Option(name = "--new-head", required = true, metaVar = "REF", usage = "new HEAD reference")
   private String newHead;
@@ -46,7 +46,7 @@ public class SetHeadCommand extends SshCommand {
     Input input = new SetHead.Input();
     input.ref = newHead;
     try {
-      setHead.apply(new ProjectResource(project.getProjectState(), project.getUser()), input);
+      setHead.apply(new ProjectResource(project, user), input);
     } catch (UnprocessableEntityException e) {
       throw die(e);
     }

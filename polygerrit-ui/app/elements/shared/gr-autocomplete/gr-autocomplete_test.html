@@ -303,28 +303,16 @@ limitations under the License.
       assert.isTrue(openStub.calledOnce);
     });
 
-    test('changing input sets _textChangedSinceCommit', () => {
-      element._textChangedSinceCommit = false;
-      element.text = 'foo bar baz';
-      assert.isTrue(element._textChangedSinceCommit);
-    });
-
-    test('_handleInputCommit with no change does nothing', () => {
+    test('_handleInputCommit with autocomplete hidden does nothing', () => {
       const commitStub = sandbox.stub(element, '_commit');
-      element._textChangedSinceCommit = false;
+      element.$.suggestions.isHidden = true;
       element._handleInputCommit();
       assert.isFalse(commitStub.called);
     });
 
-    test('_textChangedSinceCommit reset after commit', () => {
-      element._textChangedSinceCommit = true;
-      element._commit();
-      assert.isFalse(element._textChangedSinceCommit);
-    });
-
     test('_handleInputCommit with change to text', () => {
       const commitStub = sandbox.stub(element, '_commit');
-      element._textChangedSinceCommit = true;
+      element.$.suggestions.isHidden = false;
       element._handleInputCommit();
       assert.isTrue(commitStub.calledOnce);
     });

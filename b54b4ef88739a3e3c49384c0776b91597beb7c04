@@ -39,6 +39,30 @@
       "revId": "b54b4ef88739a3e3c49384c0776b91597beb7c04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33848c1a_173709c8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T21:34:32Z",
+      "side": 1,
+      "message": "This component just hasn\u0027t been updated to use the abstracted routing (which takes care of the basuUrl stuff automatically).\n\nInstead of generating the URL This should be something like:\n\n this._replaceCurrentLocation(Gerrit.Nav.getUrlForChange(changes[0]));\n\nThat way there is no need to involve the BaseUrlBehavior.",
+      "parentUuid": "e2aaf881_ca133e9a",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 71
+      },
+      "revId": "b54b4ef88739a3e3c49384c0776b91597beb7c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

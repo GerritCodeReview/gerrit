@@ -358,11 +358,13 @@ public class GitOverHttpServlet extends GitServlet {
       rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
 
+      Capable s;
       try {
         permissionBackend
             .user(userProvider)
             .project(state.getNameKey())
             .check(ProjectPermission.RUN_RECEIVE_PACK);
+        s = arc.canUpload();
       } catch (AuthException e) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
@@ -374,7 +376,6 @@ public class GitOverHttpServlet extends GitServlet {
         throw new RuntimeException(e);
       }
 
-      Capable s = arc.canUpload();
       if (s != Capable.OK) {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,

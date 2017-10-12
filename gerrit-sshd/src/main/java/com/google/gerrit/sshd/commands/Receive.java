@@ -95,9 +95,13 @@ final class Receive extends AbstractGitCommand {
 
     AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null, reviewers);
 
-    Capable r = arc.canUpload();
-    if (r != Capable.OK) {
-      throw die(r.getMessage());
+    try {
+      Capable r = arc.canUpload();
+      if (r != Capable.OK) {
+        throw die(r.getMessage());
+      }
+    } catch (PermissionBackendException e) {
+      throw new UnloggedFailure(e.getMessage());
     }
 
     ReceivePack rp = arc.getReceivePack();

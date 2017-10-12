@@ -115,5 +115,13 @@
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
     },
+
+    _computeHiddingStar(star, visable) {
+      if (!star || this.isColumnHidden('Star', visable)) {
+        return true;
+      }
+
+      return false;
+    },
   });
 })();

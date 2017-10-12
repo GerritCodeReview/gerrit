@@ -40,6 +40,8 @@ limitations under the License.
       <tr class="topHeader">
         <th class="leftPadding"></th>
         <th class="star" hidden$="[[!showStar]]" hidden></th>
+        <th class="star"
+            hidden$="[[_computeHideStar(_loggedIn, visibleChangeTableColumns)]]"></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]]"
@@ -90,9 +92,9 @@ limitations under the License.
               change="[[change]]"
               visible-change-table-columns="[[visibleChangeTableColumns]]"
               show-number="[[showNumber]]"
-              show-star="[[showStar]]"
               tabindex="0"
-              label-names="[[labelNames]]"></gr-change-list-item>
+              label-names="[[labelNames]]">
+              logged-in="[[_loggedIn]]"></gr-change-list-item>
         </template>
       </template>
     </table>

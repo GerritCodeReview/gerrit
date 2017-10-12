@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a203e286_8e51b9fa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-12T07:28:15Z",
+      "side": 1,
+      "message": "Unneeded since it\u0027s already inherited from BaseCommand?",
+      "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12b406c_288a222e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-12T07:28:15Z",
+      "side": 1,
+      "message": "Unneeded since it\u0027s inherited from BaseCommand?",
+      "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aaff522_de22fbfd",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-12T07:28:15Z",
+      "side": 1,
+      "message": "Unneeded since it\u0027s inherited from BaseCommand?",
+      "revId": "1a4cabe6fb9d79087ec9b7d9277024f7f3074051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

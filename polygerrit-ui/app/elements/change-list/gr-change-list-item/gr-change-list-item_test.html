@@ -115,7 +115,10 @@ limitations under the License.
     });
 
     test('no hidden columns', () => {
+      element.showStar = true;
+
       element.visibleChangeTableColumns = [
+        'Star',
         'Subject',
         'Status',
         'Owner',
@@ -135,7 +138,9 @@ limitations under the License.
     });
 
     test('no hidden columns', () => {
+      element.showStar = true;
       element.visibleChangeTableColumns = [
+        'Star',
         'Subject',
         'Status',
         'Owner',
@@ -155,7 +160,9 @@ limitations under the License.
     });
 
     test('project column hidden', () => {
+      element.showStar = true;
       element.visibleChangeTableColumns = [
+        'Star',
         'Subject',
         'Status',
         'Owner',

@@ -115,5 +115,9 @@
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
     },
+
+    _computeHideStar(star, visible) {
+      return !star || this.isColumnHidden('Star', visible) ? true : false;
+    },
   });
 })();

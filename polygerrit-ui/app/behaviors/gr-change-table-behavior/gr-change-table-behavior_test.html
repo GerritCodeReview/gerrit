@@ -58,6 +58,7 @@ limitations under the License.
 
     test('getComplementColumns', () => {
       let columns = [
+        'Star',
         'Subject',
         'Status',
         'Owner',
@@ -70,6 +71,7 @@ limitations under the License.
       assert.deepEqual(element.getComplementColumns(columns), []);
 
       columns = [
+        'Star',
         'Subject',
         'Status',
         'Assignee',
@@ -84,6 +86,7 @@ limitations under the License.
     test('isColumnHidden', () => {
       const columnToCheck = 'Project';
       let columnsToDisplay = [
+        'Star',
         'Subject',
         'Status',
         'Owner',
@@ -96,6 +99,7 @@ limitations under the License.
       assert.isFalse(element.isColumnHidden(columnToCheck, columnsToDisplay));
 
       columnsToDisplay = [
+        'Star',
         'Subject',
         'Status',
         'Owner',

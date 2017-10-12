@@ -313,7 +313,13 @@ public class GitOverHttpServlet extends GitServlet {
         throw new ServiceNotAuthorizedException();
       }
 
-      AsyncReceiveCommits arc = factory.create(pc, db, null, ImmutableSetMultimap.of());
+      AsyncReceiveCommits arc =
+          factory.create(
+              pc.getProjectState(),
+              pc.getUser().asIdentifiedUser(),
+              db,
+              null,
+              ImmutableSetMultimap.of());
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;

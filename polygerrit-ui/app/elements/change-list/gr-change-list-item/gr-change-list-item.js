@@ -48,15 +48,12 @@
         type: Array,
         computed: 'changeStatuses(change)',
       },
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showNumber: Boolean,
       _changeSize: {
         type: String,
         computed: '_computeChangeSize(change)',
       },
+      loggedIn: Boolean,
     },
 
     behaviors: [
@@ -205,6 +202,11 @@
         bubbles: true,
         detail: {change: this.change, reviewed: newVal},
       }));
+    },
+
+    _computeHideStar(loggedIn, visibleChangeTableColumns) {
+      return !loggedIn ||
+          this.isColumnHidden('Star', visibleChangeTableColumns) ? true : false;
     },
   });
 })();

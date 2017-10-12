@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6d7a029f_c1bb37a6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-12T00:48:42Z",
+      "side": 1,
+      "message": "Nit: this comment should be removed",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 60
+      },
+      "revId": "2c934ce35b1605fb4ce79bea4984efd603c7f26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e954299f_c23e4de1",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
         "patchSetId": 1
@@ -46,6 +69,29 @@
       "revId": "2c934ce35b1605fb4ce79bea4984efd603c7f26d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46392f07_471824e3",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-12T00:48:42Z",
+      "side": 1,
+      "message": "nit: !Event",
+      "range": {
+        "startLine": 88,
+        "startChar": 15,
+        "endLine": 88,
+        "endChar": 20
+      },
+      "revId": "2c934ce35b1605fb4ce79bea4984efd603c7f26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

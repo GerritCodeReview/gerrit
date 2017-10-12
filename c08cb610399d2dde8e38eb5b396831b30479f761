@@ -140,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "25fca7d3_3e79ce26",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-12T00:13:19Z",
+      "side": 1,
+      "message": "Sorry, I mean the delta between PS1 and PS2 is the consequential one.",
+      "parentUuid": "ab516681_a0a5c72f",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c644864a_b95d8f27",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5

@@ -67,17 +67,32 @@ limitations under the License.
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-dialog
           id="editDialog"
-          class="invisible"
+          class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
           confirm-label="Edit"
           on-confirm="_handleEditConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header">Edit a file</div>
         <div class="main">
-          <!-- TODO(kaspern): Make this an autocomplete. -->
           <gr-autocomplete
               class="input"
               placeholder="Enter an existing or new full file path."
+              query="[[_query]]"
+              text="{{_path}}"></gr-autocomplete>
+        </div>
+      </gr-confirm-dialog>
+      <gr-confirm-dialog
+          id="deleteDialog"
+          class="invisible dialog"
+          disabled$="[[!_isValidPath(_path)]]"
+          confirm-label="Delete"
+          on-confirm="_handleDeleteConfirm"
+          on-cancel="_handleDialogCancel">
+        <div class="header">Delete a file</div>
+        <div class="main">
+          <gr-autocomplete
+              class="input"
+              placeholder="Enter an existing full file path."
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
         </div>

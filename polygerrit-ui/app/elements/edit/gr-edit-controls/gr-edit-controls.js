@@ -16,8 +16,8 @@
 
   const Actions = {
     EDIT: {label: 'Edit', key: 'edit'},
-    /* TODO(kaspern): Implement these actions.
     DELETE: {label: 'Delete', key: 'delete'},
+    /* TODO(kaspern): Implement these actions.
     RENAME: {label: 'Rename', key: 'rename'},
     REVERT: {label: 'Revert', key: 'revert'},
     CHECKOUT: {label: 'Check out', key: 'checkout'},
@@ -57,6 +57,9 @@
         case Actions.EDIT.key:
           this.openEditDialog();
           return;
+        case Actions.DELETE.key:
+          this.openDeleteDialog();
+          return;
       }
     },
 
@@ -65,13 +68,31 @@
       return this._showDialog(this.$.editDialog);
     },
 
+    openDeleteDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.deleteDialog);
+    },
+
     /**
      * Given a path string, checks that it is a valid file path.
      * @param {string} path
      * @return {boolean}
      */
     _isValidPath(path) {
-      return path.length && !path.endsWith('/');
+      // Double negation needed for strict boolean return type.
+      return !!path.length && !path.endsWith('/');
+    },
+
+    /**
+     * Given a dom event, gets the dialog that lies along this event path.
+     * @param {!Event} e
+     * @return {!Element}
+     */
+    _getDialogFromEvent(e) {
+      return Polymer.dom(e).path.find(element => {
+        if (!element.classList) { return false; }
+        return element.classList.contains('dialog');
+      });
     },
 
     _showDialog(dialog) {
@@ -90,13 +111,22 @@
     },
 
     _handleDialogCancel(e) {
-      this._closeDialog(Polymer.dom(e).localTarget);
+      this._closeDialog(this._getDialogFromEvent(e));
     },
 
     _handleEditConfirm(e) {
       const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path);
       Gerrit.Nav.navigateToRelativeUrl(url);
-      this._closeDialog(Polymer.dom(e).localTarget);
+      this._closeDialog(this._getDialogFromEvent(e));
+    },
+
+    _handleDeleteConfirm(e) {
+      this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
+          .then(res => {
+            if (!res.ok) { return; }
+            this._closeDialog(this._getDialogFromEvent(e));
+            Gerrit.Nav.navigateToChange(this.change);
+          });
     },
 
     _queryFiles(input) {

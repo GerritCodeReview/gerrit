@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -55,6 +56,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -178,6 +180,15 @@ public abstract class ChangeEmail extends NotificationEmail {
     authors = getAuthors();
 
     try {
+      if (!changeData.hasStarsLoaded()) {
+        // Loading stars lazily requires scanning the refs/starred-changes refs.
+        // But stars are also stored in the index and can be deserialized from it.
+        // Since looking up a change from the index is faster than scanning the refs do that.
+        List<ChangeData> changes = args.queryProvider.get().byLegacyChangeId(changeData.getId());
+        if (changes.size() == 1) {
+          changeData.setStars(Iterables.getOnlyElement(changes).stars());
+        }
+      }
       stars = changeData.stars();
     } catch (OrmException e) {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);

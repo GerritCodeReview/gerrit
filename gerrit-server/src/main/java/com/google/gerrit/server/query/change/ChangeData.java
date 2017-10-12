@@ -1120,6 +1120,10 @@ public class ChangeData {
     this.hashtags = hashtags;
   }
 
+  public boolean hasStarsLoaded() {
+    return stars != null;
+  }
+
   public ImmutableListMultimap<Account.Id, String> stars() throws OrmException {
     if (stars == null) {
       if (!lazyLoad) {

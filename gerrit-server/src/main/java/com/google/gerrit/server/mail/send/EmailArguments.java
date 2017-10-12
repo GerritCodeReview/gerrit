@@ -40,6 +40,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
@@ -73,6 +74,7 @@ public class EmailArguments {
   final SitePaths site;
 
   final ChangeQueryBuilder queryBuilder;
+  final Provider<InternalChangeQuery> queryProvider;
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final RuntimeInstance velocityRuntime;
@@ -104,6 +106,7 @@ public class EmailArguments {
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder queryBuilder,
+      Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RuntimeInstance velocityRuntime,
@@ -134,6 +137,7 @@ public class EmailArguments {
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
+    this.queryProvider = queryProvider;
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.velocityRuntime = velocityRuntime;

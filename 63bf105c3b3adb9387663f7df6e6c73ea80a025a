@@ -22,6 +22,30 @@
       "revId": "63bf105c3b3adb9387663f7df6e6c73ea80a025a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc6d8b6a_15f9aead",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-12T00:34:59Z",
+      "side": 0,
+      "message": "No. I\u0027m fairly certain it\u0027s the remnant of copy/pasting the function above it.\n\nFor the `p` key, we need to handle the shift case separately, as shift+p does something -- for the `r` key, we need to return if any modifiers are pressed.",
+      "parentUuid": "5ee9782b_a29a0e0a",
+      "range": {
+        "startLine": 616,
+        "startChar": 37,
+        "endLine": 616,
+        "endChar": 75
+      },
+      "revId": "63bf105c3b3adb9387663f7df6e6c73ea80a025a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

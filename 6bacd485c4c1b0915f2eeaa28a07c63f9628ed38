@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92fefd0a_d9641212",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ReviewProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-12T08:29:59Z",
+      "side": 1,
+      "message": "This looks like unrelated effect of applying gjf to this class?",
+      "revId": "6bacd485c4c1b0915f2eeaa28a07c63f9628ed38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -85,13 +85,13 @@ To do this run the `./tools/version.py` script and provide the new
 version as parameter, e.g.:
 
 ----
-  ./tools/version.py 2.5
+  version=2.15
+  ./tools/version.py $version
 ----
 
 Commit the changes and create a signed release tag on the new commit:
 
 ----
-  version=2.15
   git tag -s -m "v$version" "v$version"
 ----
 

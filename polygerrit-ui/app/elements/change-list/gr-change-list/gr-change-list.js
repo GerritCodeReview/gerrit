@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  const NUMBER_FIXED_COLUMNS = 3;
+  const NUMBER_FIXED_COLUMNS = 2;
 
   Polymer({
     is: 'gr-change-list',
@@ -75,10 +75,6 @@
         notify: true,
       },
       showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
       showReviewedState: {
         type: Boolean,
         value: false,
@@ -89,6 +85,10 @@
       },
       changeTableColumns: Array,
       visibleChangeTableColumns: Array,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -137,11 +137,15 @@
 
     _loadPreferences() {
       return this._getLoggedIn().then(loggedIn => {
-        this.changeTableColumns = this.columnNames;
+        this._loggedIn = loggedIn;
+
+        this.changeTableColumns =this.columnNames;
 
         if (!loggedIn) {
           this.showNumber = false;
-          this.visibleChangeTableColumns = this.columnNames;
+          this.visibleChangeTableColumns = this.columnNames.filter(star => {
+            return star !== 'Star';
+          });
           return;
         }
         return this._getPreferences().then(preferences => {

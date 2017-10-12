@@ -849,6 +849,12 @@ cache `"groups_byinclude"`::
 Caches group inclusions in other groups.  If direct updates are made
 to the `account_group_includes` table, this cache should be flushed.
 
+cache `"groups_bymember"`::
++
+Caches the groups which contain a specific member (account). If direct
+updates are made to the `account_group_members` table, this cache should
+be flushed.
+
 cache `"groups_members"`::
 +
 Caches subgroups.  If direct updates are made to the

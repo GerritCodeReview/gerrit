@@ -14,35 +14,21 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.group.Groups;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.index.group.GroupField;
-import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.query.group.InternalGroupQuery;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Group membership checker for the internal group system.
@@ -57,30 +43,17 @@ public class IncludingGroupMembership implements GroupMembership {
     IncludingGroupMembership create(IdentifiedUser user);
   }
 
-  private static final Logger log = LoggerFactory.getLogger(IncludingGroupMembership.class);
-
-  private final Provider<ReviewDb> db;
   private final GroupCache groupCache;
   private final GroupIncludeCache includeCache;
-  private final Provider<GroupIndex> groupIndexProvider;
-  private final Provider<InternalGroupQuery> groupQueryProvider;
   private final IdentifiedUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
   private Set<AccountGroup.UUID> knownGroups;
 
   @Inject
   IncludingGroupMembership(
-      Provider<ReviewDb> db,
-      GroupCache groupCache,
-      GroupIncludeCache includeCache,
-      GroupIndexCollection groupIndexCollection,
-      Provider<InternalGroupQuery> groupQueryProvider,
-      @Assisted IdentifiedUser user) {
-    this.db = db;
+      GroupCache groupCache, GroupIncludeCache includeCache, @Assisted IdentifiedUser user) {
     this.groupCache = groupCache;
     this.includeCache = includeCache;
-    groupIndexProvider = groupIndexCollection::getSearchIndex;
-    this.groupQueryProvider = groupQueryProvider;
     this.user = user;
     memberOf = new ConcurrentHashMap<>();
   }
@@ -151,15 +124,8 @@ public class IncludingGroupMembership implements GroupMembership {
 
   private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
     GroupMembership membership = user.getEffectiveGroups();
-    Set<AccountGroup.UUID> direct;
-    try {
-      direct = getGroupsWithMember(db.get(), user.getAccountId());
-      direct.forEach(groupUuid -> memberOf.put(groupUuid, true));
-    } catch (OrmException e) {
-      log.warn(
-          String.format("Cannot load groups containing %d as member", user.getAccountId().get()));
-      direct = ImmutableSet.of();
-    }
+    Collection<AccountGroup.UUID> direct = includeCache.getGroupsWithMember(user.getAccountId());
+    direct.forEach(groupUuid -> memberOf.put(groupUuid, true));
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);
 
@@ -180,22 +146,6 @@ public class IncludingGroupMembership implements GroupMembership {
       }
     }
     return ImmutableSet.copyOf(r);
-  }
-
-  private ImmutableSet<AccountGroup.UUID> getGroupsWithMember(ReviewDb db, Account.Id memberId)
-      throws OrmException {
-    Stream<InternalGroup> internalGroupStream;
-    GroupIndex groupIndex = groupIndexProvider.get();
-    if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.MEMBER)) {
-      internalGroupStream = groupQueryProvider.get().byMember(memberId).stream();
-    } else {
-      internalGroupStream =
-          Groups.getGroupsWithMemberFromReviewDb(db, memberId)
-              .map(groupCache::get)
-              .flatMap(Streams::stream);
-    }
-
-    return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableSet());
   }
 
   @Override

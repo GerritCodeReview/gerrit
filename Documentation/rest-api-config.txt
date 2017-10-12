@@ -338,6 +338,11 @@ The entries in the map are sorted by cache name.
       "entries": {},
       "hit_ratio": {}
     },
+    "groups_bymember": {
+      "type": "MEM",
+      "entries": {},
+      "hit_ratio": {}
+    },
     "groups_byname": {
       "type": "MEM",
       "entries": {},
@@ -468,6 +473,7 @@ The cache names are lexicographically sorted.
     "git_tags",
     "groups",
     "groups_byinclude",
+    "groups_bymember",
     "groups_byname",
     "groups_byuuid",
     "groups_external",

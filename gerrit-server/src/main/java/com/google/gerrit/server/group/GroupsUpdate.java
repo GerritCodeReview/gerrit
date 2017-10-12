@@ -280,6 +280,9 @@ public class GroupsUpdate {
     }
     db.accountGroupMembers().insert(newMembers);
     groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
+    for (AccountGroupMember newMember : newMembers) {
+      groupIncludeCache.evictGroupsWithMember(newMember.getAccountId());
+    }
   }
 
   /**
@@ -316,6 +319,9 @@ public class GroupsUpdate {
     }
     db.accountGroupMembers().delete(membersToRemove);
     groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
+    for (AccountGroupMember member : membersToRemove) {
+      groupIncludeCache.evictGroupsWithMember(member.getAccountId());
+    }
   }
 
   /**

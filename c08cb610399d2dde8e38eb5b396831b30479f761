@@ -158,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "4e9da607_fb4fd370",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-12T00:15:41Z",
+      "side": 1,
+      "message": "Interestingly, the previous time I dealt with this exact autocomplete exception was for the issue 6419.",
+      "parentUuid": "25fca7d3_3e79ce26",
+      "revId": "c08cb610399d2dde8e38eb5b396831b30479f761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c644864a_b95d8f27",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5

@@ -80,6 +80,7 @@ public interface Groups {
     private String substring;
     private String suggest;
     private String regex;
+    private String ownedBy;
 
     public List<GroupInfo> get() throws RestApiException {
       Map<String, GroupInfo> map = getAsMap();
@@ -160,6 +161,11 @@ public interface Groups {
       return this;
     }
 
+    public ListRequest withOwnedBy(String ownedBy) {
+      this.ownedBy = ownedBy;
+      return this;
+    }
+
     public EnumSet<ListGroupsOption> getOptions() {
       return options;
     }
@@ -202,6 +208,10 @@ public interface Groups {
 
     public String getSuggest() {
       return suggest;
+    }
+
+    public String getOwnedBy() {
+      return ownedBy;
     }
   }
 

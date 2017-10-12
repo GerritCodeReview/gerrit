@@ -28,6 +28,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -55,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
@@ -76,6 +78,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupJson json;
   private final GroupBackend groupBackend;
   private final Groups groups;
+  private final GroupsCollection groupsCollection;
   private final Provider<ReviewDb> db;
 
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
@@ -87,6 +90,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String matchRegex;
   private String suggest;
+  private String ownedBy;
 
   @Option(
     name = "--project",
@@ -208,6 +212,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
+  @Option(name = "--owned-by", usage = "list groups owned by the given group uuid")
+  public void setOwnedBy(String ownedBy) {
+    this.ownedBy = ownedBy;
+  }
+
   @Inject
   protected ListGroups(
       final GroupCache groupCache,
@@ -216,6 +225,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
       final GetGroups accountGetGroups,
+      final GroupsCollection groupsCollection,
       GroupJson json,
       GroupBackend groupBackend,
       Groups groups,
@@ -229,6 +239,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.json = json;
     this.groupBackend = groupBackend;
     this.groups = groups;
+    this.groupsCollection = groupsCollection;
     this.db = db;
   }
 
@@ -246,7 +257,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
-      throws OrmException, BadRequestException {
+      throws OrmException, RestApiException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
@@ -255,13 +266,17 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return output;
   }
 
-  public List<GroupInfo> get() throws OrmException, BadRequestException {
+  public List<GroupInfo> get() throws OrmException, RestApiException {
     if (!Strings.isNullOrEmpty(suggest)) {
       return suggestGroups();
     }
 
     if (!Strings.isNullOrEmpty(matchSubstring) && !Strings.isNullOrEmpty(matchRegex)) {
       throw new BadRequestException("Specify one of m/r");
+    }
+
+    if (ownedBy != null) {
+      return getGroupsOwnedBy(ownedBy);
     }
 
     if (owned) {
@@ -345,6 +360,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (owned) {
       return true;
     }
+    if (ownedBy != null) {
+      return true;
+    }
     if (start != 0) {
       return true;
     }
@@ -360,14 +378,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return false;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+  private List<GroupInfo> filterGroupsOwnedBy(Predicate<GroupDescription.Internal> filter)
+      throws OrmException {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> foundGroups =
         groups
             .getAll(db.get())
             .map(GroupDescriptions::forAccountGroup)
             .filter(group -> !isNotRelevant(pattern, group))
-            .filter(group -> isOwner(user, group))
+            .filter(filter)
             .sorted(GROUP_COMPARATOR)
             .skip(start);
     if (limit > 0) {
@@ -379,6 +398,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       groupInfos.add(json.addOptions(options).format(group));
     }
     return groupInfos;
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(String id) throws OrmException, RestApiException {
+    String uuid = groupsCollection.parse(id).getGroupUUID().get();
+    return filterGroupsOwnedBy(group -> group.getOwnerGroupUUID().get().equals(uuid));
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+    return filterGroupsOwnedBy(group -> isOwner(user, group));
   }
 
   private boolean isOwner(CurrentUser user, GroupDescription.Internal group) {

@@ -46,6 +46,30 @@
       "revId": "63bf105c3b3adb9387663f7df6e6c73ea80a025a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07824a0f_d919943c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2017-10-12T01:50:01Z",
+      "side": 0,
+      "message": "yes, it was copy \u0026 paste",
+      "parentUuid": "bc6d8b6a_15f9aead",
+      "range": {
+        "startLine": 616,
+        "startChar": 37,
+        "endLine": 616,
+        "endChar": 75
+      },
+      "revId": "63bf105c3b3adb9387663f7df6e6c73ea80a025a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

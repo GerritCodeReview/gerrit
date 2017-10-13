@@ -350,12 +350,12 @@ maven_jar(
     sha1 = "2e35862b0435c1b027a21f3d6eecbe50e6e08d54",
 )
 
-GREENMAIL_VERS = "1.5.3"
+GREENMAIL_VERS = "1.5.5"
 
 maven_jar(
     name = "greenmail",
     artifact = "com.icegreen:greenmail:" + GREENMAIL_VERS,
-    sha1 = "afabf8178312f7f220f74f1558e457bf54fa4253",
+    sha1 = "9ea96384ad2cb8118c22f493b529eb72c212691c",
 )
 
 MAIL_VERS = "1.5.6"

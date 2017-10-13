@@ -49,8 +49,9 @@
      */
     _importHtmlPlugins(plugins) {
       for (const url of plugins) {
+        // onload needs to be a function. When null or undefined were passed
         this.importHref(
-            this._urlFor(url), null, Gerrit._pluginInstalled, true);
+            this._urlFor(url), () => {}, Gerrit._pluginInstalled, true);
       }
     },
 

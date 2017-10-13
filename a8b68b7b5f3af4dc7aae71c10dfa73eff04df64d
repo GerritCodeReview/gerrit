@@ -93,6 +93,30 @@
       "revId": "a8b68b7b5f3af4dc7aae71c10dfa73eff04df64d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2acf88f2_b0458207",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-13T18:03:52Z",
+      "side": 1,
+      "message": "`_computeStrategy` is a really simple lookup function, so I\u0027d imagine whoever implemented this mainly was ensuring that it wasn\u0027t ever deleted or something.",
+      "parentUuid": "bc22f392_1bf67648",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 27
+      },
+      "revId": "a8b68b7b5f3af4dc7aae71c10dfa73eff04df64d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

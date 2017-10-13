@@ -212,11 +212,13 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         return;
       }
 
-      Optional<AccountGroup> conflictingGroup;
+      Optional<InternalGroup> conflictingGroup;
       try (ReviewDb db = schema.open()) {
         conflictingGroup =
             groups
                 .getAll(db)
+                // TODO(aliceks): Filter the groups by name as early as possible and avoid loading
+                // them (if possible with NoteDb).
                 .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
                 .findAny();
 
@@ -225,7 +227,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       }
 
       if (conflictingGroup.isPresent()) {
-        AccountGroup group = conflictingGroup.get();
+        InternalGroup group = conflictingGroup.get();
         String groupName = group.getName();
         AccountGroup.UUID systemGroupUuid = byLowerCaseConfiguredName.get(groupName);
         throw new StartupException(
@@ -234,7 +236,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     }
 
     private static boolean hasConfiguredName(
-        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, AccountGroup group) {
+        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, InternalGroup group) {
       String name = group.getName().toLowerCase(Locale.US);
       return byLowerCaseConfiguredName.keySet().contains(name);
     }

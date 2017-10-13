@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.Groups;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -75,7 +76,9 @@ public class InternalGroupBackend implements GroupBackend {
     try (ReviewDb db = schema.open()) {
       return groups
           .getAll(db)
+          // TODO(aliceks): Filter the groups by name before loading them (if possible with NoteDb).
           .filter(group -> startsWithIgnoreCase(group, name))
+          .map(InternalGroupDescription::new)
           .filter(this::isVisible)
           .map(GroupReference::forGroup)
           .collect(toList());
@@ -84,11 +87,11 @@ public class InternalGroupBackend implements GroupBackend {
     }
   }
 
-  private static boolean startsWithIgnoreCase(AccountGroup group, String name) {
+  private static boolean startsWithIgnoreCase(InternalGroup group, String name) {
     return group.getName().regionMatches(true, 0, name, 0, name.length());
   }
 
-  private boolean isVisible(AccountGroup group) {
+  private boolean isVisible(GroupDescription.Internal group) {
     return groupControlFactory.controlFor(group).isVisible();
   }
 

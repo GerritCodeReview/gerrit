@@ -143,8 +143,8 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void onCreateGroup(AccountGroup group) throws IOException {
-    indexer.get().index(group.getGroupUUID());
+  public void onCreateGroup(AccountGroup.UUID groupUuid) throws IOException {
+    indexer.get().index(groupUuid);
   }
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {

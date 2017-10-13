@@ -3631,6 +3631,19 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.accounts().self().setStars(changeId, new StarsInput(ImmutableSet.of(invalidLabel)));
   }
 
+  @Test
+  public void changeDetailsDoesNotRequireIndex() throws Exception {
+    PushOneCommit.Result change = createChange();
+    int number = gApi.changes().id(change.getChangeId()).get()._number;
+    disableChangeIndex();
+    try {
+      assertThat(gApi.changes().id(project.get(), number).get(ImmutableSet.of()).changeId)
+          .isEqualTo(change.getChangeId());
+    } finally {
+      enableChangeIndex();
+    }
+  }
+
   private static class ChangeIndexedCounter implements ChangeIndexedListener {
     private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
 

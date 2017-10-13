@@ -824,6 +824,22 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void disableChangeIndex() {
+    disableChangeIndexWrites();
+    ChangeIndex searchIndex = changeIndexes.getSearchIndex();
+    if (!(searchIndex instanceof DisabledChangeIndex)) {
+      changeIndexes.setSearchIndex(new DisabledChangeIndex(searchIndex));
+    }
+  }
+
+  protected void enableChangeIndex() {
+    enableChangeIndexWrites();
+    ChangeIndex searchIndex = changeIndexes.getSearchIndex();
+    if (searchIndex instanceof DisabledChangeIndex) {
+      changeIndexes.setSearchIndex(((DisabledChangeIndex) searchIndex).unwrap());
+    }
+  }
+
   protected static Gson newGson() {
     return OutputFormat.JSON_COMPACT.newGson();
   }

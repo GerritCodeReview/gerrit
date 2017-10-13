@@ -35,6 +35,7 @@ link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
 Migration cannot be done while the server is running.
 +
 Also note that the db_name has to be a new db and not reusing gerrit's own review database,
+
 otherwise gerrit's init will remove the table.
 
 ----
@@ -2546,6 +2547,11 @@ By default, 5, suitable for most lower-volume traffic sites.
 Maximum number of threads to permit in the worker thread pool.
 +
 By default 25, suitable for most lower-volume traffic sites.
++
+[NOTE]
+When SSH daemon is enabled, the max number of concurrent Git requests
+over HTTP and SSH together is defined by the <<sshd.threads, sshd.threads>>
+and <<sshd.batchThreads, sshd.batchThreads>>.
 
 [[httpd.maxQueued]]httpd.maxQueued::
 +
@@ -4143,6 +4149,10 @@ If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
 By default, 2x the number of CPUs available to the JVM.
++
+[NOTE]
+When SSH daemon is enabled then this setting also defines the max number of
+concurrent Git requests for interactive users over SSH and HTTP together.
 
 [[sshd.batchThreads]]sshd.batchThreads::
 +
@@ -4161,6 +4171,10 @@ than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +
 By default is 1 on single core node, 2 otherwise.
++
+[NOTE]
+When SSH daemon is enabled then this setting also defines the max number of
+concurrent Git requests for batch users over SSH and HTTP together.
 
 [[sshd.streamThreads]]sshd.streamThreads::
 +

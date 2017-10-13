@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "681752fc_84d7c268",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-13T13:55:49Z",
+      "side": 1,
+      "message": "I think it\u0027s now inconsistent with the rest: admin project settings, documentation, etc. I think David did not want you to change this all now, hence the \"Not related to this change...\" in PS4",
+      "revId": "0244fbb97e43a506a8a7fb72148d282e70f5cada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

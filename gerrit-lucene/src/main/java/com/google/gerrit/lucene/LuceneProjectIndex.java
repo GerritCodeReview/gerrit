@@ -14,13 +14,16 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.gerrit.server.index.project.ProjectField.BRANCH;
 import static com.google.gerrit.server.index.project.ProjectField.NAME;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -36,6 +39,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -195,6 +199,11 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
   private ProjectData toProjectData(Document doc) {
     Project.NameKey nameKey = new Project.NameKey(doc.getField(NAME.getName()).stringValue());
-    return projectCache.get().get(nameKey).toProjectData();
+    ProjectData projectData = projectCache.get().get(nameKey).toProjectData();
+    projectData.setBranches(
+        Arrays.stream(doc.getFields(BRANCH.getName()))
+            .map(f -> new Branch.NameKey(nameKey, f.stringValue()))
+            .collect(toSet()));
+    return projectData;
   }
 }

@@ -23,6 +23,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -47,6 +48,7 @@ import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -201,15 +203,26 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
     }
 
     private ProjectData toProjectData(JsonElement json) {
-      JsonElement source = json.getAsJsonObject().get("_source");
-      if (source == null) {
-        source = json.getAsJsonObject().get("fields");
+      JsonElement sourceElement = json.getAsJsonObject().get("_source");
+      if (sourceElement == null) {
+        sourceElement = json.getAsJsonObject().get("fields");
       }
+      JsonObject source = sourceElement.getAsJsonObject();
 
       Project.NameKey nameKey =
-          new Project.NameKey(
-              source.getAsJsonObject().get(ProjectField.NAME.getName()).getAsString());
-      return projectCache.get().get(nameKey).toProjectData();
+          new Project.NameKey(source.get(ProjectField.NAME.getName()).getAsString());
+      ProjectData projectData = projectCache.get().get(nameKey).toProjectData();
+
+      Set<Branch.NameKey> branches = new HashSet<>();
+      if (source.get(ProjectField.BRANCH.getName()) != null) {
+        JsonArray branchesArray = source.get(ProjectField.BRANCH.getName()).getAsJsonArray();
+        for (int i = 0; i < branchesArray.size(); i++) {
+          branches.add(new Branch.NameKey(nameKey, branchesArray.get(i).getAsString()));
+        }
+      }
+      projectData.setBranches(branches);
+
+      return projectData;
     }
   }
 }

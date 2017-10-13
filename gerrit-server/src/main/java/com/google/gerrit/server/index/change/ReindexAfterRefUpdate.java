@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.project.ProjectIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -59,6 +60,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final ChangeNotes.Factory notesFactory;
   private final AllUsersName allUsersName;
   private final AccountCache accountCache;
+  private final ProjectIndexer projectIndexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
 
@@ -72,6 +74,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       ChangeNotes.Factory notesFactory,
       AllUsersName allUsersName,
       AccountCache accountCache,
+      ProjectIndexer projectIndexer,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
     this.queryProvider = queryProvider;
@@ -80,6 +83,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.notesFactory = notesFactory;
     this.allUsersName = allUsersName;
     this.accountCache = accountCache;
+    this.projectIndexer = projectIndexer;
     this.executor = executor;
     this.enabled = cfg.getBoolean("index", null, "reindexAfterRefUpdate", true);
   }
@@ -94,6 +98,13 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
         } catch (IOException e) {
           log.error(String.format("Reindex account %s failed.", accountId), e);
         }
+      }
+    }
+    if (event.isCreate() || event.isDelete()) {
+      try {
+        projectIndexer.index(new Project.NameKey(event.getProjectName()));
+      } catch (IOException e) {
+        log.error(String.format("Reindex project %s failed.", event.getProjectName()), e);
       }
     }
 

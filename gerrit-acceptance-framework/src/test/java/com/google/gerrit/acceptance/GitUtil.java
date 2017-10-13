@@ -196,7 +196,7 @@ public class GitUtil {
     PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);
     pushCmd.setPushOptions(pushOptions);
-    pushCmd.setRefSpecs(new RefSpec(source + ":" + target));
+    pushCmd.setRefSpecs(new RefSpec((source != null ? source : "") + ":" + target));
     if (pushTags) {
       pushCmd.setPushTags();
     }

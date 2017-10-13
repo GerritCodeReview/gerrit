@@ -91,6 +91,7 @@ public class ProjectState {
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
   private final List<CommentLinkInfo> commentLinks;
+  private final ProjectData.AssistedFactory projectDataFactory;
 
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
@@ -116,17 +117,18 @@ public class ProjectState {
 
   @Inject
   public ProjectState(
-      final SitePaths sitePaths,
-      final ProjectCache projectCache,
-      final AllProjectsName allProjectsName,
-      final AllUsersName allUsersName,
-      final ProjectControl.AssistedFactory projectControlFactory,
-      final PrologEnvironment.Factory envFactory,
-      final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
-      final List<CommentLinkInfo> commentLinks,
-      final CapabilityCollection.Factory limitsFactory,
-      @Assisted final ProjectConfig config) {
+      SitePaths sitePaths,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      AllUsersName allUsersName,
+      ProjectControl.AssistedFactory projectControlFactory,
+      PrologEnvironment.Factory envFactory,
+      GitRepositoryManager gitMgr,
+      RulesCache rulesCache,
+      List<CommentLinkInfo> commentLinks,
+      ProjectData.AssistedFactory projectDataFactory,
+      CapabilityCollection.Factory limitsFactory,
+      @Assisted ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
@@ -137,6 +139,7 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
+    this.projectDataFactory = projectDataFactory;
     this.config = config;
     this.configs = new HashMap<>();
     this.capabilities =
@@ -554,7 +557,8 @@ public class ProjectState {
   }
 
   public ProjectData toProjectData() {
-    return new ProjectData(getProject(), parents().transform(s -> s.getProject().getNameKey()));
+    return projectDataFactory.create(
+        getProject(), parents().transform(s -> s.getProject().getNameKey()));
   }
 
   private String readFile(Path p) throws IOException {

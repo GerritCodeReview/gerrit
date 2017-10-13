@@ -16,14 +16,6 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import java.util.List;
-
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.transport.PostReceiveHook;
-import org.eclipse.jgit.transport.PostUploadHook;
-import org.eclipse.jgit.transport.PreUploadHook;
-
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
@@ -172,6 +164,7 @@ import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
@@ -196,6 +189,12 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.template.soy.tofu.SoyTofu;
+import java.util.List;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.PostUploadHook;
+import org.eclipse.jgit.transport.PreUploadHook;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
@@ -258,6 +257,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PluginUser.Factory.class);
+    factory(ProjectData.AssistedFactory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);

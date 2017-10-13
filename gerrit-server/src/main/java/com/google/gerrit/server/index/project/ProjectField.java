@@ -41,4 +41,9 @@ public class ProjectField {
   public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
       exact("ancestor_name")
           .buildRepeatable(p -> Iterables.transform(p.getAncestors(), n -> n.get()));
+
+  public static final FieldDef<ProjectData, Iterable<String>> BRANCH =
+      prefix("branch")
+          .stored()
+          .buildRepeatable(p -> Iterables.transform(p.getBranches(), n -> n.get()));
 }

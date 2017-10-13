@@ -52,7 +52,8 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
     |Number of files modified, number of insertions and the number of deletions.
 
 .4+|`current_user/1`  |`current_user(user(1000000)).`
-    .4+|Current user as one of the four given possibilities
+    .4+|Current user as one of the four given possibilities. The current user here
+        is the change owner.
 
                       |`current_user(user(anonymous)).`
                       |`current_user(user(peer_daemon)).`

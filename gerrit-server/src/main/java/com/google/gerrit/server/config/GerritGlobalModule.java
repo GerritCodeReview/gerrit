@@ -16,6 +16,14 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import java.util.List;
+
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.PostUploadHook;
+import org.eclipse.jgit.transport.PreUploadHook;
+
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
@@ -50,6 +58,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.PluginEventListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
@@ -187,12 +196,6 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.template.soy.tofu.SoyTofu;
-import java.util.List;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.transport.PostReceiveHook;
-import org.eclipse.jgit.transport.PostUploadHook;
-import org.eclipse.jgit.transport.PreUploadHook;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
@@ -331,6 +334,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AccountIndexedListener.class);
     DynamicSet.setOf(binder(), ChangeIndexedListener.class);
     DynamicSet.setOf(binder(), GroupIndexedListener.class);
+    DynamicSet.setOf(binder(), ProjectIndexedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.setOf(binder(), ProjectDeletedListener.class);
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);

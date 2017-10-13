@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eccd9222_f51a41e2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-13T23:43:23Z",
+      "side": 1,
+      "message": "Nit: should have two more spaces of indentation.",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 36
+      },
+      "revId": "7db7304a5b74b290ab775bce9a6f41c6205dc872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

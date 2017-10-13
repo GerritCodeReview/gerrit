@@ -17,9 +17,8 @@ package com.google.gerrit.truth;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.DefaultSubject;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import java.util.Optional;
 import java.util.function.Function;
@@ -47,10 +46,10 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
   }
 
   private OptionalSubject(
-      FailureStrategy failureStrategy,
+      FailureMetadata failureMetadata,
       Optional<T> optional,
       Function<? super T, ? extends S> valueAssertThatFunction) {
-    super(failureStrategy, optional);
+    super(failureMetadata, optional);
     this.valueAssertThatFunction = valueAssertThatFunction;
   }
 
@@ -82,7 +81,7 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
   }
 
   private static class OptionalSubjectFactory<S extends Subject<S, ? super T>, T>
-      extends SubjectFactory<OptionalSubject<S, T>, Optional<T>> {
+      implements Subject.Factory<OptionalSubject<S, T>, Optional<T>> {
 
     private Function<? super T, ? extends S> valueAssertThatFunction;
 
@@ -91,8 +90,9 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     }
 
     @Override
-    public OptionalSubject<S, T> getSubject(FailureStrategy failureStrategy, Optional<T> optional) {
-      return new OptionalSubject<>(failureStrategy, optional, valueAssertThatFunction);
+    public OptionalSubject<S, T> createSubject(
+        FailureMetadata failureMetadata, Optional<T> optional) {
+      return new OptionalSubject<>(failureMetadata, optional, valueAssertThatFunction);
     }
   }
 }

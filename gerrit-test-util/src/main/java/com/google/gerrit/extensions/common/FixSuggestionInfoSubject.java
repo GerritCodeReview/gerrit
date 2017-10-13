@@ -16,32 +16,21 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.ListSubject;
 
 public class FixSuggestionInfoSubject extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {
 
-  private static final SubjectFactory<FixSuggestionInfoSubject, FixSuggestionInfo>
-      FIX_SUGGESTION_INFO_SUBJECT_FACTORY =
-          new SubjectFactory<FixSuggestionInfoSubject, FixSuggestionInfo>() {
-            @Override
-            public FixSuggestionInfoSubject getSubject(
-                FailureStrategy failureStrategy, FixSuggestionInfo fixSuggestionInfo) {
-              return new FixSuggestionInfoSubject(failureStrategy, fixSuggestionInfo);
-            }
-          };
-
   public static FixSuggestionInfoSubject assertThat(FixSuggestionInfo fixSuggestionInfo) {
-    return assertAbout(FIX_SUGGESTION_INFO_SUBJECT_FACTORY).that(fixSuggestionInfo);
+    return assertAbout(FixSuggestionInfoSubject::new).that(fixSuggestionInfo);
   }
 
   private FixSuggestionInfoSubject(
-      FailureStrategy failureStrategy, FixSuggestionInfo fixSuggestionInfo) {
-    super(failureStrategy, fixSuggestionInfo);
+      FailureMetadata failureMetadata, FixSuggestionInfo fixSuggestionInfo) {
+    super(failureMetadata, fixSuggestionInfo);
   }
 
   public StringSubject fixId() {

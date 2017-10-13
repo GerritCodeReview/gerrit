@@ -16,31 +16,21 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
 import com.google.gerrit.truth.ListSubject;
 
 public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEntry> {
 
-  private static final SubjectFactory<ContentEntrySubject, ContentEntry> DIFF_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<ContentEntrySubject, ContentEntry>() {
-        @Override
-        public ContentEntrySubject getSubject(
-            FailureStrategy failureStrategy, ContentEntry contentEntry) {
-          return new ContentEntrySubject(failureStrategy, contentEntry);
-        }
-      };
-
   public static ContentEntrySubject assertThat(ContentEntry contentEntry) {
-    return assertAbout(DIFF_INFO_SUBJECT_FACTORY).that(contentEntry);
+    return assertAbout(ContentEntrySubject::new).that(contentEntry);
   }
 
-  private ContentEntrySubject(FailureStrategy failureStrategy, ContentEntry contentEntry) {
-    super(failureStrategy, contentEntry);
+  private ContentEntrySubject(FailureMetadata failureMetadata, ContentEntry contentEntry) {
+    super(failureMetadata, contentEntry);
   }
 
   public void isDueToRebase() {

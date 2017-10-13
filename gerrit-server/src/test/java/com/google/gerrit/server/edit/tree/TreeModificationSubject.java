@@ -16,26 +16,15 @@ package com.google.gerrit.server.edit.tree;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.gerrit.truth.ListSubject;
 import java.util.List;
 
 public class TreeModificationSubject extends Subject<TreeModificationSubject, TreeModification> {
 
-  private static final SubjectFactory<TreeModificationSubject, TreeModification>
-      TREE_MODIFICATION_SUBJECT_FACTORY =
-          new SubjectFactory<TreeModificationSubject, TreeModification>() {
-            @Override
-            public TreeModificationSubject getSubject(
-                FailureStrategy failureStrategy, TreeModification treeModification) {
-              return new TreeModificationSubject(failureStrategy, treeModification);
-            }
-          };
-
   public static TreeModificationSubject assertThat(TreeModification treeModification) {
-    return assertAbout(TREE_MODIFICATION_SUBJECT_FACTORY).that(treeModification);
+    return assertAbout(TreeModificationSubject::new).that(treeModification);
   }
 
   public static ListSubject<TreeModificationSubject, TreeModification> assertThatList(
@@ -45,8 +34,8 @@ public class TreeModificationSubject extends Subject<TreeModificationSubject, Tr
   }
 
   private TreeModificationSubject(
-      FailureStrategy failureStrategy, TreeModification treeModification) {
-    super(failureStrategy, treeModification);
+      FailureMetadata failureMetadata, TreeModification treeModification) {
+    super(failureMetadata, treeModification);
   }
 
   public ChangeFileContentModificationSubject asChangeFileContentModification() {

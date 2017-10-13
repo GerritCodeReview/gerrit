@@ -17,10 +17,9 @@ package com.google.gerrit.truth;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import java.util.List;
 import java.util.function.Function;
 
@@ -38,8 +37,8 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
   }
 
   private ListSubject(
-      FailureStrategy failureStrategy, List<E> list, Function<E, S> elementAssertThatFunction) {
-    super(failureStrategy, list);
+      FailureMetadata failureMetadata, List<E> list, Function<E, S> elementAssertThatFunction) {
+    super(failureMetadata, list);
     this.elementAssertThatFunction = elementAssertThatFunction;
   }
 
@@ -71,7 +70,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
   }
 
   private static class ListSubjectFactory<S extends Subject<S, T>, T>
-      extends SubjectFactory<IterableSubject, Iterable<?>> {
+      implements Subject.Factory<IterableSubject, Iterable<?>> {
 
     private Function<T, S> elementAssertThatFunction;
 
@@ -81,10 +80,10 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 
     @SuppressWarnings("unchecked")
     @Override
-    public ListSubject<S, T> getSubject(FailureStrategy failureStrategy, Iterable<?> objects) {
+    public ListSubject<S, T> createSubject(FailureMetadata failureMetadata, Iterable<?> objects) {
       // The constructor of ListSubject only accepts lists.
       // -> Casting is appropriate.
-      return new ListSubject<>(failureStrategy, (List<T>) objects, elementAssertThatFunction);
+      return new ListSubject<>(failureMetadata, (List<T>) objects, elementAssertThatFunction);
     }
   }
 }

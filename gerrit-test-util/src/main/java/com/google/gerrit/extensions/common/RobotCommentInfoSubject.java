@@ -16,23 +16,12 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.gerrit.truth.ListSubject;
 import java.util.List;
 
 public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
-
-  private static final SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>
-      ROBOT_COMMENT_INFO_SUBJECT_FACTORY =
-          new SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>() {
-            @Override
-            public RobotCommentInfoSubject getSubject(
-                FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
-              return new RobotCommentInfoSubject(failureStrategy, robotCommentInfo);
-            }
-          };
 
   public static ListSubject<RobotCommentInfoSubject, RobotCommentInfo> assertThatList(
       List<RobotCommentInfo> robotCommentInfos) {
@@ -41,12 +30,12 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
   }
 
   public static RobotCommentInfoSubject assertThat(RobotCommentInfo robotCommentInfo) {
-    return assertAbout(ROBOT_COMMENT_INFO_SUBJECT_FACTORY).that(robotCommentInfo);
+    return assertAbout(RobotCommentInfoSubject::new).that(robotCommentInfo);
   }
 
   private RobotCommentInfoSubject(
-      FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
-    super(failureStrategy, robotCommentInfo);
+      FailureMetadata failureMetadata, RobotCommentInfo robotCommentInfo) {
+    super(failureMetadata, robotCommentInfo);
   }
 
   public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {

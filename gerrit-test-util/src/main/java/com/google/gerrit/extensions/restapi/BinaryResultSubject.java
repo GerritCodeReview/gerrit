@@ -16,11 +16,10 @@ package com.google.gerrit.extensions.restapi;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.PrimitiveByteArraySubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.OptionalSubject;
 import java.io.ByteArrayOutputStream;
@@ -29,18 +28,8 @@ import java.util.Optional;
 
 public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResult> {
 
-  private static final SubjectFactory<BinaryResultSubject, BinaryResult>
-      BINARY_RESULT_SUBJECT_FACTORY =
-          new SubjectFactory<BinaryResultSubject, BinaryResult>() {
-            @Override
-            public BinaryResultSubject getSubject(
-                FailureStrategy failureStrategy, BinaryResult binaryResult) {
-              return new BinaryResultSubject(failureStrategy, binaryResult);
-            }
-          };
-
   public static BinaryResultSubject assertThat(BinaryResult binaryResult) {
-    return assertAbout(BINARY_RESULT_SUBJECT_FACTORY).that(binaryResult);
+    return assertAbout(BinaryResultSubject::new).that(binaryResult);
   }
 
   public static OptionalSubject<BinaryResultSubject, BinaryResult> assertThat(
@@ -48,8 +37,8 @@ public class BinaryResultSubject extends Subject<BinaryResultSubject, BinaryResu
     return OptionalSubject.assertThat(binaryResultOptional, BinaryResultSubject::assertThat);
   }
 
-  private BinaryResultSubject(FailureStrategy failureStrategy, BinaryResult binaryResult) {
-    super(failureStrategy, binaryResult);
+  private BinaryResultSubject(FailureMetadata failureMetadata, BinaryResult binaryResult) {
+    super(failureMetadata, binaryResult);
   }
 
   public StringSubject asString() throws IOException {

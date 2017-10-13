@@ -17,28 +17,19 @@ package com.google.gerrit.extensions.common;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 
 public class FileInfoSubject extends Subject<FileInfoSubject, FileInfo> {
 
-  private static final SubjectFactory<FileInfoSubject, FileInfo> FILE_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<FileInfoSubject, FileInfo>() {
-        @Override
-        public FileInfoSubject getSubject(FailureStrategy failureStrategy, FileInfo fileInfo) {
-          return new FileInfoSubject(failureStrategy, fileInfo);
-        }
-      };
-
   public static FileInfoSubject assertThat(FileInfo fileInfo) {
-    return assertAbout(FILE_INFO_SUBJECT_FACTORY).that(fileInfo);
+    return assertAbout(FileInfoSubject::new).that(fileInfo);
   }
 
-  private FileInfoSubject(FailureStrategy failureStrategy, FileInfo fileInfo) {
-    super(failureStrategy, fileInfo);
+  private FileInfoSubject(FailureMetadata failureMetadata, FileInfo fileInfo) {
+    super(failureMetadata, fileInfo);
   }
 
   public IntegerSubject linesInserted() {

@@ -17,29 +17,20 @@ package com.google.gerrit.extensions.common;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
 import com.google.gerrit.truth.ListSubject;
 
 public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
 
-  private static final SubjectFactory<DiffInfoSubject, DiffInfo> DIFF_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<DiffInfoSubject, DiffInfo>() {
-        @Override
-        public DiffInfoSubject getSubject(FailureStrategy failureStrategy, DiffInfo diffInfo) {
-          return new DiffInfoSubject(failureStrategy, diffInfo);
-        }
-      };
-
   public static DiffInfoSubject assertThat(DiffInfo diffInfo) {
-    return assertAbout(DIFF_INFO_SUBJECT_FACTORY).that(diffInfo);
+    return assertAbout(DiffInfoSubject::new).that(diffInfo);
   }
 
-  private DiffInfoSubject(FailureStrategy failureStrategy, DiffInfo diffInfo) {
-    super(failureStrategy, diffInfo);
+  private DiffInfoSubject(FailureMetadata failureMetadata, DiffInfo diffInfo) {
+    super(failureMetadata, diffInfo);
   }
 
   public ListSubject<ContentEntrySubject, ContentEntry> content() {

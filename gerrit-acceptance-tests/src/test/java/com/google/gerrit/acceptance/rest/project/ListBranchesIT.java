@@ -14,8 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -27,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
@@ -87,6 +90,41 @@ public class ListBranchesIT extends AbstractDaemonTest {
     setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
     assertRefs(ImmutableList.of(branch("refs/heads/dev", dev, false)), list().get());
+  }
+
+  @Test
+  public void listBranchesNamesOnly() throws Exception {
+    pushTo("refs/heads/master");
+    pushTo("refs/heads/dev");
+
+    List<BranchInfo> branches = list().withNamesOnly().get();
+    assertThat(branches.stream().map(i -> i.ref).collect(toList()))
+        .containsExactly("refs/heads/master", "refs/heads/dev", RefNames.REFS_CONFIG);
+    for (BranchInfo branch : branches) {
+      assertThat(branch.actions).named(branch.ref).isNull();
+      assertThat(branch.canDelete).named(branch.ref).isNull();
+      assertThat(branch.revision).named(branch.ref).isNull();
+      assertThat(branch.webLinks).named(branch.ref).isNull();
+    }
+  }
+
+  @Test
+  public void listBranchesNamesOnlySomeHidden() throws Exception {
+    blockRead("refs/heads/dev");
+    pushTo("refs/heads/master");
+    pushTo("refs/heads/dev");
+    setApiUser(user);
+
+    // refs/meta/config is hidden since user is no project owner
+    List<BranchInfo> branches = list().withNamesOnly().get();
+    assertThat(branches.stream().map(i -> i.ref).collect(toList()))
+        .containsExactly("refs/heads/master");
+    for (BranchInfo branch : branches) {
+      assertThat(branch.actions).named(branch.ref).isNull();
+      assertThat(branch.canDelete).named(branch.ref).isNull();
+      assertThat(branch.revision).named(branch.ref).isNull();
+      assertThat(branch.webLinks).named(branch.ref).isNull();
+    }
   }
 
   @Test

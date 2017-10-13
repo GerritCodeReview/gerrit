@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,6 +29,9 @@ public class ProjectData {
   public interface AssistedFactory {
     ProjectData create(Project project, Iterable<Project.NameKey> ancestors);
   }
+
+  public static final Function<ProjectData, Project.NameKey> PROJECT_NAME_FUNCTION =
+      p -> p.getProject().getNameKey();
 
   private final GitRepositoryManager repoManager;
   private final Project project;

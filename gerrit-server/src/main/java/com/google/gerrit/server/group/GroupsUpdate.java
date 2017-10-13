@@ -121,7 +121,7 @@ public class GroupsUpdate {
       throws OrmException, IOException {
     addNewGroup(db, group);
     addNewGroupMembers(db, group, memberIds);
-    groupCache.onCreateGroup(group);
+    groupCache.onCreateGroup(group.getGroupUUID());
   }
 
   /**

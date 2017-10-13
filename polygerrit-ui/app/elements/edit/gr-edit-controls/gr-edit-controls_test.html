@@ -100,7 +100,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(element.$.editDialog.$$('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, '');
+        assert.equal(element._path, 'src/test.cpp');
       });
     });
   });
@@ -130,6 +130,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(deleteStub.called);
 
         return deleteStub.lastCall.returnValue.then(() => {
+          assert.equal(element._path, '');
           assert.isTrue(navStub.called);
           assert.isTrue(closeDialogSpy.called);
         });
@@ -168,7 +169,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(element.$.deleteDialog.$$('gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, '');
+        assert.equal(element._path, 'src/test.cpp');
       });
     });
   });
@@ -203,6 +204,7 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(renameStub.called);
 
         return renameStub.lastCall.returnValue.then(() => {
+          assert.equal(element._path, '');
           assert.isTrue(navStub.called);
           assert.isTrue(closeDialogSpy.called);
         });
@@ -248,8 +250,68 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(element.$.renameDialog.$$('gr-button'));
         assert.isFalse(navStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element._path, '');
-        assert.equal(element._newPath, '');
+        assert.equal(element._path, 'src/test.cpp');
+        assert.equal(element._newPath, 'src/test.newPath');
+      });
+    });
+  });
+
+  suite('restore button CUJ', () => {
+    let navStub;
+    let restoreStub;
+
+    setup(() => {
+      navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      restoreStub = sandbox.stub(element.$.restAPI, 'restoreFileInChangeEdit');
+    });
+
+    test('restore hidden by default', () => {
+      assert.isTrue(element.$$('#restore').classList.contains('invisible'));
+    });
+
+    test('restore', () => {
+      restoreStub.returns(Promise.resolve({ok: true}));
+      element._path = 'src/test.cpp';
+      MockInteractions.tap(element.$$('#restore'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+
+        assert.isTrue(restoreStub.called);
+        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+        return restoreStub.lastCall.returnValue.then(() => {
+          assert.equal(element._path, '');
+          assert.isTrue(navStub.called);
+          assert.isTrue(closeDialogSpy.called);
+        });
+      });
+    });
+
+    test('restore fails', () => {
+      restoreStub.returns(Promise.resolve({ok: false}));
+      element._path = 'src/test.cpp';
+      MockInteractions.tap(element.$$('#restore'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        MockInteractions.tap(element.$.restoreDialog.$$('gr-button[primary]'));
+        flushAsynchronousOperations();
+
+        assert.isTrue(restoreStub.called);
+        assert.equal(restoreStub.lastCall.args[1], 'src/test.cpp');
+        return restoreStub.lastCall.returnValue.then(() => {
+          assert.isFalse(navStub.called);
+          assert.isFalse(closeDialogSpy.called);
+        });
+      });
+    });
+
+    test('cancel', () => {
+      element._path = 'src/test.cpp';
+      MockInteractions.tap(element.$$('#restore'));
+      return showDialogSpy.lastCall.returnValue.then(() => {
+        MockInteractions.tap(element.$.restoreDialog.$$('gr-button'));
+        assert.isFalse(navStub.called);
+        assert.isTrue(closeDialogSpy.called);
+        assert.equal(element._path, 'src/test.cpp');
       });
     });
   });

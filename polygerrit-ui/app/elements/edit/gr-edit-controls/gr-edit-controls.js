@@ -14,20 +14,30 @@
 (function() {
   'use strict';
 
+  /**
+   * TODO(kaspern): move this dictionary to a shareable constants file.
+   */
   const Actions = {
     EDIT: {label: 'Edit', key: 'edit'},
     DELETE: {label: 'Delete', key: 'delete'},
     RENAME: {label: 'Rename', key: 'rename'},
-    /* TODO(kaspern): Implement these actions.
-    REVERT: {label: 'Revert', key: 'revert'},
-    CHECKOUT: {label: 'Check out', key: 'checkout'},
-    */
+    RESTORE: {label: 'Restore', key: 'restore'},
   };
 
   Polymer({
     is: 'gr-edit-controls',
     properties: {
       change: Object,
+      /**
+       * TODO(kaspern): by default, the RESTORE action should be hidden in the
+       * file-list as it is a per-file action only. Remove this default value
+       * when the Actions dictionary is moved to a shared constants file and
+       * use the hiddenActions property in the parent component.
+       */
+      hiddenActions: {
+        type: Array,
+        value() { return [Actions.RESTORE.key]; },
+      },
 
       _actions: {
         type: Array,
@@ -67,6 +77,9 @@
         case Actions.RENAME.key:
           this.openRenameDialog();
           return;
+        case Actions.RESTORE.key:
+          this.openRestoreDialog();
+          return;
       }
     },
 
@@ -83,6 +96,11 @@
     openRenameDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.renameDialog);
+    },
+
+    openRestoreDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.restoreDialog);
     },
 
     /**
@@ -114,19 +132,22 @@
     _showDialog(dialog) {
       return this.$.overlay.open().then(() => {
         dialog.classList.toggle('invisible', false);
-        dialog.querySelector('gr-autocomplete').focus();
+        const autocomplete = dialog.querySelector('gr-autocomplete');
+        if (autocomplete) { autocomplete.focus(); }
         this.async(() => { this.$.overlay.center(); }, 1);
       });
     },
 
-    _closeDialog(dialog) {
-      // Dialog may have autocompletes and plain inputs -- as these have
-      // different properties representing their bound text, it is easier to
-      // just make two separate queries.
-      dialog.querySelectorAll('gr-autocomplete')
-          .forEach(input => { input.text = ''; });
-      dialog.querySelectorAll('input')
-          .forEach(input => { input.bindValue = ''; });
+    _closeDialog(dialog, clearInputs) {
+      if (clearInputs) {
+        // Dialog may have autocompletes and plain inputs -- as these have
+        // different properties representing their bound text, it is easier to
+        // just make two separate queries.
+        dialog.querySelectorAll('gr-autocomplete')
+            .forEach(input => { input.text = ''; });
+        dialog.querySelectorAll('input')
+            .forEach(input => { input.bindValue = ''; });
+      }
 
       dialog.classList.toggle('invisible', true);
       return this.$.overlay.close();
@@ -139,14 +160,23 @@
     _handleEditConfirm(e) {
       const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path);
       Gerrit.Nav.navigateToRelativeUrl(url);
-      this._closeDialog(this._getDialogFromEvent(e));
+      this._closeDialog(this._getDialogFromEvent(e), true);
     },
 
     _handleDeleteConfirm(e) {
       this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
           .then(res => {
             if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e));
+            this._closeDialog(this._getDialogFromEvent(e), true);
+            Gerrit.Nav.navigateToChange(this.change);
+          });
+    },
+
+    _handleRestoreConfirm(e) {
+      this.$.restAPI.restoreFileInChangeEdit(this.change._number, this._path)
+          .then(res => {
+            if (!res.ok) { return; }
+            this._closeDialog(this._getDialogFromEvent(e), true);
             Gerrit.Nav.navigateToChange(this.change);
           });
     },
@@ -155,7 +185,7 @@
       return this.$.restAPI.renameFileInChangeEdit(this.change._number,
           this._path, this._newPath).then(res => {
             if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e));
+            this._closeDialog(this._getDialogFromEvent(e), true);
             Gerrit.Nav.navigateToChange(this.change);
           });
     },
@@ -165,6 +195,10 @@
           this.EDIT_NAME, input).then(res => res.map(file => {
             return {name: file};
           }));
+    },
+
+    _computeIsInvisible(key, hiddenActions) {
+      return hiddenActions.includes(key) ? 'invisible' : '';
     },
   });
 })();

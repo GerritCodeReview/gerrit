@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
@@ -71,6 +72,7 @@ limitations under the License.
     <template is="dom-repeat" items="[[_actions]]" as="action">
       <gr-button
           id$="[[action.key]]"
+          class$="[[_computeIsInvisible(action.key, hiddenActions)]]"
           link
           on-tap="_handleTap">[[action.label]]</gr-button>
     </template>
@@ -123,6 +125,20 @@ limitations under the License.
               is="iron-input"
               bind-value="{{_newPath}}"
               placeholder="Enter the new path."/>
+        </div>
+      </gr-confirm-dialog>
+      <gr-confirm-dialog
+          id="restoreDialog"
+          class="invisible dialog"
+          confirm-label="Restore"
+          on-confirm="_handleRestoreConfirm"
+          on-cancel="_handleDialogCancel">
+        <div class="header">Restore this file?</div>
+        <div class="main">
+          <input
+            is="iron-input"
+            disabled
+            bind-value="{{_path}}"/>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

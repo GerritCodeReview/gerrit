@@ -1452,6 +1452,38 @@ List all branches that match regex `t.*1`:
   ]
 ----
 
+Names(n)::
+Populates only the 'ref' field in the returned
+link:#branch-info[BranchInfo] entities.
++
+For projects with many branches this much faster than requesting all
+branch data.
++
+.Request
+----
+  GET /projects/myproject/branches?names HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/heads/master",
+    },
+    {
+      "ref": "refs/heads/stable-1.0",
+    },
+    {
+      "ref": "refs/heads/stable-2.0",
+    }
+  ]
+----
+
 [[get-branch]]
 === Get Branch
 --

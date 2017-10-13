@@ -27,15 +27,21 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.project.ProjectField;
+import com.google.gerrit.server.index.project.ProjectIndex;
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.query.project.InternalProjectQuery;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -59,6 +65,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final UiActions uiActions;
   private final WebLinks webLinks;
+  private final ProjectIndexCollection projectIndexes;
+  private final Provider<InternalProjectQuery> projectQuery;
 
   @Option(
     name = "--limit",
@@ -100,10 +108,20 @@ public class ListBranches implements RestReadView<ProjectResource> {
     this.matchRegex = matchRegex;
   }
 
+  @Option(
+    name = "--names-only",
+    metaVar = "OPTION",
+    usage = "whether only branch names should be returned (faster)."
+  )
+  public void setNamesOnly(boolean namesOnly) {
+    this.namesOnly = namesOnly;
+  }
+
   private int limit;
   private int start;
   private String matchSubstring;
   private String matchRegex;
+  private boolean namesOnly;
 
   @Inject
   public ListBranches(
@@ -112,13 +130,17 @@ public class ListBranches implements RestReadView<ProjectResource> {
       Provider<CurrentUser> user,
       DynamicMap<RestView<BranchResource>> branchViews,
       UiActions uiActions,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      ProjectIndexCollection indexes,
+      Provider<InternalProjectQuery> projectQuery) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.branchViews = branchViews;
     this.uiActions = uiActions;
     this.webLinks = webLinks;
+    this.projectIndexes = indexes;
+    this.projectQuery = projectQuery;
   }
 
   public ListBranches request(ListRefsRequest<BranchInfo> request) {
@@ -126,13 +148,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
     this.setStart(request.getStart());
     this.setMatchSubstring(request.getSubstring());
     this.setMatchRegex(request.getRegex());
+    this.setNamesOnly(request.getNamesOnly());
     return this;
   }
 
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException,
-          PermissionBackendException {
+          PermissionBackendException, OrmException {
     return new RefFilter<BranchInfo>(Constants.R_HEADS)
         .subString(matchSubstring)
         .regex(matchRegex)
@@ -155,6 +178,36 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   private List<BranchInfo> allBranches(ProjectResource rsrc)
+      throws OrmException, IOException, PermissionBackendException, ResourceNotFoundException {
+    if (namesOnly) {
+      ProjectIndex searchIndex = projectIndexes.getSearchIndex();
+      if (searchIndex != null && searchIndex.getSchema().hasField(ProjectField.BRANCH)) {
+        return allBranchesFromIndex(rsrc);
+      }
+    }
+    return allBranchesFromGit(rsrc);
+  }
+
+  private List<BranchInfo> allBranchesFromIndex(ProjectResource rsrc)
+      throws OrmException, IOException, ResourceNotFoundException, PermissionBackendException {
+    ProjectData project = projectQuery.get().oneByName(rsrc.getNameKey());
+    if (project == null) {
+      throw new ResourceNotFoundException();
+    }
+
+    PermissionBackend.ForProject perm = permissionBackend.user(user).project(rsrc.getNameKey());
+    List<BranchInfo> branchInfos = new ArrayList<>();
+    for (Branch.NameKey branchName : project.getBranches()) {
+      if (perm.ref(branchName.get()).test(RefPermission.READ)) {
+        BranchInfo info = new BranchInfo();
+        info.ref = branchName.get();
+        branchInfos.add(info);
+      }
+    }
+    return branchInfos;
+  }
+
+  private List<BranchInfo> allBranchesFromGit(ProjectResource rsrc)
       throws IOException, ResourceNotFoundException, PermissionBackendException {
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       return toBranchInfo(rsrc, allRefs(repoManager, rsrc.getNameKey()));
@@ -203,8 +256,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
         BranchInfo b = new BranchInfo();
         b.ref = ref.getName();
-        b.revision = target;
         branches.add(b);
+
+        if (namesOnly) {
+          continue;
+        }
+
+        b.revision = target;
 
         if (!Constants.HEAD.equals(ref.getName())) {
           b.canDelete = perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE) ? true : null;
@@ -249,6 +307,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
       Set<String> targets) {
     BranchInfo info = new BranchInfo();
     info.ref = ref.getName();
+
+    if (namesOnly) {
+      return info;
+    }
+
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
     info.canDelete =
         !targets.contains(ref.getName()) && perm.testOrFalse(RefPermission.DELETE) ? true : null;

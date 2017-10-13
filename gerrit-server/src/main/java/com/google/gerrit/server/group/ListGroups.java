@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -294,6 +293,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> existingGroups =
         getAllExistingGroups()
+            // TODO(aliceks): Filter groups by UUID/name before loading them (if possible with
+            // NoteDb).
             .filter(group -> !isNotRelevant(pattern, group))
             .sorted(GROUP_COMPARATOR)
             .skip(start);
@@ -320,7 +321,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           .flatMap(Streams::stream)
           .map(InternalGroupDescription::new);
     }
-    return groups.getAll(db.get()).map(GroupDescriptions::forAccountGroup);
+    return groups.getAll(db.get()).map(InternalGroupDescription::new);
   }
 
   private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
@@ -381,10 +382,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private List<GroupInfo> filterGroupsOwnedBy(Predicate<GroupDescription.Internal> filter)
       throws OrmException {
     Pattern pattern = getRegexPattern();
-    Stream<GroupDescription.Internal> foundGroups =
+    Stream<? extends GroupDescription.Internal> foundGroups =
         groups
             .getAll(db.get())
-            .map(GroupDescriptions::forAccountGroup)
+            .map(InternalGroupDescription::new)
+            // TODO(aliceks): Filter groups by UUID/name before loading them (if possible with
+            // NoteDb).
             .filter(group -> !isNotRelevant(pattern, group))
             .filter(filter)
             .sorted(GROUP_COMPARATOR)

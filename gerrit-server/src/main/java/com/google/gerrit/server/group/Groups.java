@@ -32,6 +32,8 @@ import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A database accessor for read calls related to groups.
@@ -45,6 +47,7 @@ import java.util.stream.Stream;
  */
 @Singleton
 public class Groups {
+  private static final Logger log = LoggerFactory.getLogger(Groups.class);
 
   /**
    * Returns the {@code AccountGroup} for the specified ID if it exists.
@@ -129,8 +132,23 @@ public class Groups {
     }
   }
 
-  public Stream<AccountGroup> getAll(ReviewDb db) throws OrmException {
-    return Streams.stream(db.accountGroups().all());
+  public Stream<InternalGroup> getAll(ReviewDb db) throws OrmException {
+    return getAllUuids(db)
+        .map(groupUuid -> getGroupIfPossible(db, groupUuid))
+        .flatMap(Streams::stream);
+  }
+
+  public Stream<AccountGroup.UUID> getAllUuids(ReviewDb db) throws OrmException {
+    return Streams.stream(db.accountGroups().all()).map(AccountGroup::getGroupUUID);
+  }
+
+  private Optional<InternalGroup> getGroupIfPossible(ReviewDb db, AccountGroup.UUID groupUuid) {
+    try {
+      return getGroup(db, groupUuid);
+    } catch (OrmException | NoSuchGroupException e) {
+      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+    }
+    return Optional.empty();
   }
 
   /**

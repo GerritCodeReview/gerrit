@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -87,10 +86,6 @@ public class GroupControl {
         throw new NoSuchGroupException(groupId);
       }
       return controlFor(group);
-    }
-
-    public GroupControl controlFor(AccountGroup group) {
-      return controlFor(GroupDescriptions.forAccountGroup(group));
     }
 
     public GroupControl controlFor(GroupDescription.Basic group) {

@@ -49,7 +49,7 @@ public interface GroupCache {
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
 
   /** Notify the cache that a new group was constructed. */
-  void onCreateGroup(AccountGroup group) throws IOException;
+  void onCreateGroup(AccountGroup.UUID groupUuid) throws IOException;
 
   void evict(AccountGroup.UUID groupUuid, AccountGroup.Id groupId, AccountGroup.NameKey groupName)
       throws IOException;

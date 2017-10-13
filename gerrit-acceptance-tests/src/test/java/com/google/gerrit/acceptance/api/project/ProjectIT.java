@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
@@ -28,15 +29,38 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.events.ProjectIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
+  @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
+
+  private ProjectIndexedCounter projectIndexedCounter;
+  private RegistrationHandle projectIndexedCounterHandle;
+
+  @Before
+  public void addProjectIndexedCounter() {
+    projectIndexedCounter = new ProjectIndexedCounter();
+    projectIndexedCounterHandle = projectIndexedListeners.add(projectIndexedCounter);
+  }
+
+  @After
+  public void removeProjectIndexedCounter() {
+    if (projectIndexedCounterHandle != null) {
+      projectIndexedCounterHandle.remove();
+    }
+  }
 
   @Test
   public void createProject() throws Exception {
@@ -47,6 +71,7 @@ public class ProjectIT extends AbstractDaemonTest {
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+    projectIndexedCounter.assertReindexOf(name);
   }
 
   @Test
@@ -223,5 +248,32 @@ public class ProjectIT extends AbstractDaemonTest {
     input.submitType = SubmitType.CHERRY_PICK;
     input.state = ProjectState.HIDDEN;
     return input;
+  }
+
+  private static class ProjectIndexedCounter implements ProjectIndexedListener {
+    private final AtomicLongMap<String> countsByProject = AtomicLongMap.create();
+
+    @Override
+    public void onProjectIndexed(String project) {
+      countsByProject.incrementAndGet(project);
+    }
+
+    void clear() {
+      countsByProject.clear();
+    }
+
+    long getCount(String projectName) {
+      return countsByProject.get(projectName);
+    }
+
+    void assertReindexOf(String projectName) {
+      assertReindexOf(projectName, 1);
+    }
+
+    void assertReindexOf(String projectName, int expectedCount) {
+      assertThat(getCount(projectName)).isEqualTo(expectedCount);
+      assertThat(countsByProject).hasSize(1);
+      clear();
+    }
   }
 }

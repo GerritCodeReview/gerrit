@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1507907177 +0200\nnonce ANEgCxeTrOsvpFg8hVsLKFHlNrtypggeIX2r8jSEBDPES6ondZCHTNuW04aNVfqA3GCOSRSBN6nG\n\n0000000000000000000000000000000000000000 5bc83a801a7160ffe1ce8e5e1e2af85aa15cbe81 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ4NZpAAoJEFG1/Zeg0O9RNgoH/jwe/Wwn6eu8ZrtpybnkhYB3\n884DKOIzjrnmr+bQvqXwIuvm84+EvprH2TOQRqX/YJA8tg9tf6pk/BhPwwXSxb1y\n058TJlQ0VziaUy+FvDrD8tlF+2B6Br1XxS9crJ0XBX7pzJ9WTSLgbJhM0rZ3TTFy\nv7qgW2pYG+qSE6OmPYddSGIRTqpgpEcuv9znYi7fXZ9erUBESN/W/FOt3JhVpQph\nLzo11Jk4n9XInlBLezSdpJE9ZMALqFONfcw1BJoc6m7otkiDHVIW0fSzfYQeRMXT\nsdhZk+1sjCUXBqWu3N+QVbPA2eizI57WpJIEREAH3qM3e5YayMmEIGQB9qgiW+s\u003d\n\u003d410c\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "920b6803_501edead",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-13T15:11:29Z",
+      "side": 1,
+      "message": "Unintentional reorder of the imports?",
+      "revId": "654ab1f1148614f07046d11bbc50e77b2289112f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -304,8 +304,8 @@ maven_jar(
 
 maven_jar(
     name = "commons_net",
-    artifact = "commons-net:commons-net:3.5",
-    sha1 = "342fc284019f590e1308056990fdb24a08f06318",
+    artifact = "commons-net:commons-net:3.6",
+    sha1 = "b71de00508dcb078d2b24b5fa7e538636de9b3da",
 )
 
 maven_jar(

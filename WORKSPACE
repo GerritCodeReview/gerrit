@@ -328,8 +328,8 @@ maven_jar(
 
 maven_jar(
     name = "automaton",
-    artifact = "dk.brics.automaton:automaton:1.11-8",
-    sha1 = "6ebfa65eb431ff4b715a23be7a750cbc4cc96d0f",
+    artifact = "dk.brics:automaton:1.12-1",
+    sha1 = "959a0c62f9a5c2309e0ad0b0589c74d69e101241",
 )
 
 maven_jar(

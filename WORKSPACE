@@ -304,8 +304,8 @@ maven_jar(
 
 maven_jar(
     name = "commons_pool",
-    artifact = "commons-pool:commons-pool:1.5.5",
-    sha1 = "7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b",
+    artifact = "commons-pool:commons-pool:1.6",
+    sha1 = "4572d589699f09d866a226a14b7f4323c6d8f040",
 )
 
 maven_jar(

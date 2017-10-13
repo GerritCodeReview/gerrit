@@ -131,7 +131,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
   private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress) throws OrmException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
     try (ReviewDb db = schemaFactory.open()) {
-      return groups.getAll(db).map(AccountGroup::getGroupUUID).collect(toImmutableList());
+      return groups.getAllUuids(db).collect(toImmutableList());
     } finally {
       progress.endTask();
     }

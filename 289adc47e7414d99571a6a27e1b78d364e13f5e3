@@ -23,6 +23,30 @@
       "revId": "289adc47e7414d99571a6a27e1b78d364e13f5e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c43eeba6_d1fe800f",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/RelativeDateFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-13T02:30:32Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/#/c/gerrit/+/133070 RelativeDateFormatter",
+      "parentUuid": "5eb40a92_b39fb867",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 16
+      },
+      "revId": "289adc47e7414d99571a6a27e1b78d364e13f5e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

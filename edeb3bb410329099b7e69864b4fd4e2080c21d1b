@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2aeff7_73fbb3be",
+        "filename": "plugins/replication",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-13T07:50:55Z",
+      "side": 1,
+      "message": "Is this  needed and correct?\n\nIt currently already points to a successor commit of this one.",
+      "revId": "edeb3bb410329099b7e69864b4fd4e2080c21d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

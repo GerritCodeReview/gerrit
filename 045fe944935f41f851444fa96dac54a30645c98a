@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "171b4ac1_51edccc7",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-13T11:41:35Z",
+      "side": 1,
+      "message": "As Subject.Factory is an interface, we can simplify our custom subjects: In this class, FAKE_EMAIL_SENDER_SUBJECT_FACTORY can be replaced by \u0027FakeEmailSenderSubject::new\u0027 and FAKE_EMAIL_SENDER_SUBJECT_FACTORY can be removed completely.\n\nShould I create a follow-up change for those simplifications?",
+      "range": {
+        "startLine": 75,
+        "startChar": 23,
+        "endLine": 75,
+        "endChar": 56
+      },
+      "revId": "045fe944935f41f851444fa96dac54a30645c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

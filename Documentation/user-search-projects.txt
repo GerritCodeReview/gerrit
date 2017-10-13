@@ -10,7 +10,19 @@ returned results.
 [[name]]
 name:'NAME'::
 +
-Matches projects that have the NAME 'NAME'.
+Matches projects that have exactly the name 'NAME'.
+
+[[inname]]
+inname:'NAME'::
++
+Matches projects that a name part that starts with 'NAME' (case
+insensitive).
+
+[[description]]
+description:'DESCRIPTION'::
++
+Matches projects whose description contains 'DESCRIPTION', using a
+full-text search.
 
 == Magical Operators
 

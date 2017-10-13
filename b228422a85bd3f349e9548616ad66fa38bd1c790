@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5e26ede_e35e8720",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2551,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-13T13:51:29Z",
+      "side": 1,
+      "message": "Since SSHD is enabled by default, I\u0027d suggest to rephrase to \"Unless SSH daemon is disabled, [...]\" and add a link to sshd.listenAddress.",
+      "revId": "b228422a85bd3f349e9548616ad66fa38bd1c790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

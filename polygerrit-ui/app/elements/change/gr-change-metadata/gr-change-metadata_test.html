@@ -56,6 +56,8 @@ limitations under the License.
       assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
       assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
           'Cherry Pick');
+      assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
+          'Rebase Always');
     });
 
     test('show strategy for open change', () => {

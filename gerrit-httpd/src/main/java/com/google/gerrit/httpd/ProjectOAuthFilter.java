@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.ProjectBasicAuthFilter.authenticationFailedMsg;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -153,8 +154,7 @@ class ProjectOAuthFilter implements Filter {
     AccountState who = accountCache.getByUsername(authInfo.username);
     if (who == null || !who.getAccount().isActive()) {
       log.warn(
-          "Authentication failed for "
-              + authInfo.username
+          authenticationFailedMsg(authInfo.username, req)
               + ": account inactive or not provisioned in Gerrit");
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
@@ -175,7 +175,7 @@ class ProjectOAuthFilter implements Filter {
       ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
     } catch (AccountException e) {
-      log.warn("Authentication failed for " + authInfo.username, e);
+      log.warn(authenticationFailedMsg(authInfo.username, req), e);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

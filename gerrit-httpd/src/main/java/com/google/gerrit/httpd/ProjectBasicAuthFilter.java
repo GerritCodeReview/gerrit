@@ -146,7 +146,7 @@ class ProjectBasicAuthFilter implements Filter {
     }
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP) {
-      return failAuthentication(rsp, username);
+      return failAuthentication(rsp, username, req);
     }
 
     AuthRequest whoAuth = AuthRequest.forUser(username);
@@ -160,15 +160,15 @@ class ProjectBasicAuthFilter implements Filter {
       if (who.checkPassword(password, who.getUserName())) {
         return succeedAuthentication(who);
       }
-      log.warn("Authentication failed for " + username, e);
+      log.warn(authenticationFailedMsg(username, req), e);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     } catch (AuthenticationFailedException e) {
-      log.warn("Authentication failed for " + username + ": " + e.getMessage());
+      log.warn(authenticationFailedMsg(username, req) + ": " + e.getMessage());
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     } catch (AccountException e) {
-      log.warn("Authentication failed for " + username, e);
+      log.warn(authenticationFailedMsg(username, req), e);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -179,11 +179,18 @@ class ProjectBasicAuthFilter implements Filter {
     return true;
   }
 
-  private boolean failAuthentication(Response rsp, String username) throws IOException {
+  private boolean failAuthentication(Response rsp, String username, HttpServletRequest req)
+      throws IOException {
     log.warn(
-        "Authentication failed for {}: password does not match the one stored in Gerrit", username);
+        authenticationFailedMsg(username, req)
+            + ": password does not match the one stored in Gerrit",
+        username);
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
+  }
+
+  static String authenticationFailedMsg(String username, HttpServletRequest req) {
+    return String.format("Authentication from %s failed for %s", req.getRemoteAddr(), username);
   }
 
   private void setUserIdentified(Account.Id id) {

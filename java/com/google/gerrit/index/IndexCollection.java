@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import java.util.Collection;
@@ -37,8 +38,13 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
   }
 
   public void setSearchIndex(I index) {
+    setSearchIndex(index, true);
+  }
+
+  @VisibleForTesting
+  public void setSearchIndex(I index, boolean closeOld) {
     I old = searchIndex.getAndSet(index);
-    if (old != null && old != index && !writeIndexes.contains(old)) {
+    if (closeOld && old != null && old != index && !writeIndexes.contains(old)) {
       old.close();
     }
   }

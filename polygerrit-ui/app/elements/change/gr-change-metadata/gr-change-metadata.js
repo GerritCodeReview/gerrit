@@ -21,6 +21,7 @@
     MERGE_IF_NECESSARY: 'Merge if Necessary',
     REBASE_IF_NECESSARY: 'Rebase if Necessary',
     MERGE_ALWAYS: 'Always Merge',
+    REBASE_ALWAYS: 'Always Rebase',
     CHERRY_PICK: 'Cherry Pick',
   };
 

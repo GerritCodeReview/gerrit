@@ -107,6 +107,10 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
       throw new BadRequestException("missing query field");
     }
 
+    if (queryProcessor.isDisabled()) {
+      throw new MethodNotAllowedException("query disabled");
+    }
+
     GroupIndex searchIndex = indexes.getSearchIndex();
     if (searchIndex == null) {
       throw new MethodNotAllowedException("no group index");

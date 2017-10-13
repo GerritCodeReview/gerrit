@@ -93,8 +93,7 @@ limitations under the License.
           plugin: {
             js_resource_paths: [],
             html_resource_paths: [
-              new URL('test/plugin.html?' + Math.random(),
-                      window.location.href).toString(),
+              new URL('test/plugin.html', window.location.href).toString(),
             ],
           },
         };

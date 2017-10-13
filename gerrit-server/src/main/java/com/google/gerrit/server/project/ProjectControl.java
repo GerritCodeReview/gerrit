@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -50,7 +49,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -71,10 +69,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
-public class ProjectControl {
+class ProjectControl {
   private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
 
-  public static class GenericFactory {
+  static class GenericFactory {
     private final ProjectCache projectCache;
 
     @Inject
@@ -82,7 +80,7 @@ public class ProjectControl {
       projectCache = pc;
     }
 
-    public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
+    ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
         throws NoSuchProjectException, IOException {
       final ProjectState p = projectCache.checkedGet(nameKey);
       if (p == null) {
@@ -92,20 +90,7 @@ public class ProjectControl {
     }
   }
 
-  public static class Factory {
-    private final Provider<PerRequestProjectControlCache> userCache;
-
-    @Inject
-    Factory(Provider<PerRequestProjectControlCache> uc) {
-      userCache = uc;
-    }
-
-    public ProjectControl controlFor(Project.NameKey nameKey) throws NoSuchProjectException {
-      return userCache.get().get(nameKey);
-    }
-  }
-
-  public interface AssistedFactory {
+  interface AssistedFactory {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
@@ -155,27 +140,27 @@ public class ProjectControl {
     state = ps;
   }
 
-  public ProjectControl forUser(CurrentUser who) {
+  ProjectControl forUser(CurrentUser who) {
     ProjectControl r = state.controlFor(who);
     // Not per-user, and reusing saves lookup time.
     r.allSections = allSections;
     return r;
   }
 
-  public ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
+  ChangeControl controlFor(ReviewDb db, Change change) throws OrmException {
     return changeControlFactory.create(
         controlForRef(change.getDest()), db, change.getProject(), change.getId());
   }
 
-  public ChangeControl controlFor(ChangeNotes notes) {
+  ChangeControl controlFor(ChangeNotes notes) {
     return changeControlFactory.create(controlForRef(notes.getChange().getDest()), notes);
   }
 
-  public RefControl controlForRef(Branch.NameKey ref) {
+  RefControl controlForRef(Branch.NameKey ref) {
     return controlForRef(ref.get());
   }
 
-  public RefControl controlForRef(String refName) {
+  RefControl controlForRef(String refName) {
     if (refControls == null) {
       refControls = new HashMap<>();
     }
@@ -188,15 +173,15 @@ public class ProjectControl {
     return ctl;
   }
 
-  public CurrentUser getUser() {
+  CurrentUser getUser() {
     return user;
   }
 
-  public ProjectState getProjectState() {
+  ProjectState getProjectState() {
     return state;
   }
 
-  public Project getProject() {
+  Project getProject() {
     return state.getProject();
   }
 
@@ -209,13 +194,10 @@ public class ProjectControl {
    * @return {@code Capable.OK} if the user can upload to at least one reference. Does not check
    *     Contributor Agreements.
    */
-  public Capable canPushToAtLeastOneRef() {
-    if (!canPerformOnAnyRef(Permission.PUSH)
-        && !canPerformOnAnyRef(Permission.CREATE_TAG)
-        && !isOwner()) {
-      return new Capable("Upload denied for project '" + state.getName() + "'");
-    }
-    return Capable.OK;
+  boolean canPushToAtLeastOneRef() {
+    return canPerformOnAnyRef(Permission.PUSH)
+        || canPerformOnAnyRef(Permission.CREATE_TAG)
+        || isOwner();
   }
 
   /** Can the user run upload pack? */
@@ -390,7 +372,7 @@ public class ProjectControl {
     }
   }
 
-  public boolean canRead() {
+  boolean canRead() {
     return !isHidden() && allRefsAreVisible(Collections.emptySet());
   }
 
@@ -474,6 +456,9 @@ public class ProjectControl {
           return canRunReceivePack();
         case RUN_UPLOAD_PACK:
           return canRunUploadPack();
+
+        case PUSH_AT_LEAST_ONE_REF:
+          return canPushToAtLeastOneRef();
 
         case BAN_COMMIT:
         case READ_REFLOG:

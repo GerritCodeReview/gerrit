@@ -494,7 +494,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetData.put("refName", patchSet.getRefName());
     soyContext.put("patchSet", patchSetData);
 
-    // TODO(wyatta): patchSetInfo
+    Map<String, Object> patchSetInfoData = new HashMap<>();
+    patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
+    patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
+    soyContext.put("patchSetInfo", patchSetInfoData);
 
     footers.add("Gerrit-MessageType: " + messageClass);
     footers.add("Gerrit-Change-Id: " + change.getKey().get());

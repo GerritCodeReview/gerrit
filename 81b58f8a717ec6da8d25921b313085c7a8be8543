@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cb708d_6b0753f3",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-13T17:17:52Z",
+      "side": 1,
+      "message": "Why does this change remove the success callback, but keep the error callback? Is there some other place where `_pluginInstalled` records the success?",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "81b58f8a717ec6da8d25921b313085c7a8be8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

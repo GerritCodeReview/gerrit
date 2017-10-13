@@ -41,7 +41,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void createProject() throws Exception {
     String name = name("foo");
-    assertThat(name).isEqualTo(gApi.projects().create(name).get().name);
+    assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
 
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
@@ -52,7 +52,7 @@ public class ProjectIT extends AbstractDaemonTest {
   @Test
   public void createProjectWithGitSuffix() throws Exception {
     String name = name("foo");
-    assertThat(name).isEqualTo(gApi.projects().create(name + ".git").get().name);
+    assertThat(gApi.projects().create(name + ".git").get().name).isEqualTo(name);
 
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
@@ -66,7 +66,7 @@ public class ProjectIT extends AbstractDaemonTest {
     ProjectInput input = new ProjectInput();
     input.name = name;
     input.createEmptyCommit = true;
-    assertThat(name).isEqualTo(gApi.projects().create(input).get().name);
+    assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
 
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);

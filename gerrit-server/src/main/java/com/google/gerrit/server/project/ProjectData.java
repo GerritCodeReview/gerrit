@@ -14,14 +14,33 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 public class ProjectData {
+  public interface AssistedFactory {
+    ProjectData create(Project project, Iterable<Project.NameKey> ancestors);
+  }
+
+  private final GitRepositoryManager repoManager;
   private final Project project;
   private final ImmutableList<Project.NameKey> ancestors;
 
-  public ProjectData(Project project, Iterable<Project.NameKey> ancestors) {
+  private ImmutableList<Branch.NameKey> branches;
+
+  @Inject
+  public ProjectData(
+      GitRepositoryManager repoManager,
+      @Assisted Project project,
+      @Assisted Iterable<Project.NameKey> ancestors) {
+    this.repoManager = repoManager;
     this.project = project;
     this.ancestors = ImmutableList.copyOf(ancestors);
   }
@@ -32,5 +51,20 @@ public class ProjectData {
 
   public ImmutableList<Project.NameKey> getAncestors() {
     return ancestors;
+  }
+
+  public Iterable<Branch.NameKey> getBranches() throws IOException {
+    if (branches == null) {
+      branches =
+          ListBranches.allRefs(repoManager, getProject().getNameKey())
+              .stream()
+              .map(r -> new Branch.NameKey(getProject().getNameKey(), r.getName()))
+              .collect(toImmutableList());
+    }
+    return branches;
+  }
+
+  public void setBranches(Iterable<Branch.NameKey> branches) {
+    this.branches = ImmutableList.copyOf(branches);
   }
 }

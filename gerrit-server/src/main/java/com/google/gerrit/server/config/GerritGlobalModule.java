@@ -164,6 +164,7 @@ import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
@@ -256,6 +257,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PluginUser.Factory.class);
+    factory(ProjectData.AssistedFactory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);

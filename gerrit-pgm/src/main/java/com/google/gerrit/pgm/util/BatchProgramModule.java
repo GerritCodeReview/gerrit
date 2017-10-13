@@ -66,6 +66,7 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
@@ -167,6 +168,7 @@ public class BatchProgramModule extends FactoryModule {
     install(TagCache.module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
+    factory(ProjectData.AssistedFactory.class);
     factory(ProjectState.Factory.class);
     factory(SubmitRuleEvaluator.Factory.class);
 

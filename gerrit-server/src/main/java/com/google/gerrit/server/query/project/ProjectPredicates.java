@@ -18,6 +18,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.project.ProjectData;
 import java.util.Locale;
@@ -33,6 +34,10 @@ public class ProjectPredicates {
 
   public static Predicate<ProjectData> description(String description) {
     return new ProjectPredicate(ProjectField.DESCRIPTION, description);
+  }
+
+  public static Predicate<ProjectData> branch(String branchName) {
+    return new ProjectPredicate(ProjectField.BRANCH, RefNames.fullName(branchName));
   }
 
   static class ProjectPredicate extends IndexPredicate<ProjectData> {

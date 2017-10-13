@@ -856,6 +856,7 @@ public class RefControlTest {
             repoManager,
             rulesCache,
             commentLinks,
+            null,
             capabilityCollectionFactory,
             pc));
     return repo;

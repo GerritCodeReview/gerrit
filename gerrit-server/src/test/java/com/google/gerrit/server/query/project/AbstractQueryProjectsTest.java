@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -24,9 +25,12 @@ import com.google.gerrit.extensions.api.projects.Projects.QueryRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -37,6 +41,9 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.index.project.ProjectField;
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
+import com.google.gerrit.server.project.ProjectData;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -94,6 +101,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @Inject protected InternalAccountQuery internalAccountQuery;
 
   @Inject protected AllProjectsName allProjects;
+
+  @Inject protected ProjectIndexCollection indexes;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -210,6 +219,33 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byBranch() throws Exception {
+    if (getSchemaVersion() < 2) {
+      assertMissingField(ProjectField.BRANCH);
+      assertFailingQuery(
+          "branch:master", "'branch' operator is not supported by project index version");
+      return;
+    }
+
+    ProjectInfo project1 = createProjectWithBranches(name("project1"), "master", "stable-1.0");
+    ProjectInfo project2 = createProjectWithBranches(name("project2"), "master", "foo");
+    ProjectInfo project3 = createProjectWithBranches(name("project3"), "stable-2.10");
+
+    assertQuery("branch:master", project1, project2);
+    assertQuery("branch:refs/heads/master", project1, project2);
+
+    assertQuery("branch:foo", project2);
+    assertQuery("branch:refs/heads/foo", project2);
+
+    assertQuery("branch:stable", project1, project3);
+    assertQuery("branch:refs/heads/stable", project1, project3);
+    assertQuery("branch:stable-1.0", project1);
+    assertQuery("branch:refs/heads/stable-1.0", project1);
+
+    assertQuery("branch:" + RefNames.REFS_CONFIG, project1, project2, project3);
+  }
+
+  @Test
   public void byDefaultField() throws Exception {
     ProjectInfo project1 = createProject(name("foo-project"));
     ProjectInfo project2 = createProject(name("project2"));
@@ -291,6 +327,15 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return gApi.projects().create(in).get();
   }
 
+  protected ProjectInfo createProjectWithBranches(String name, String... branches)
+      throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    in.createEmptyCommit = true;
+    in.branches = Arrays.asList(branches);
+    return gApi.projects().create(in).get();
+  }
+
   protected ProjectInfo getProject(Project.NameKey nameKey) throws Exception {
     return gApi.projects().name(nameKey.get()).get();
   }
@@ -368,5 +413,28 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     }
 
     return name + "_" + getSanitizedMethodName();
+  }
+
+  protected void assertMissingField(FieldDef<ProjectData, ?> field) {
+    assertThat(getSchema().hasField(field))
+        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+        .isFalse();
+  }
+
+  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<ProjectData> getSchema() {
+    return indexes.getSearchIndex().getSchema();
   }
 }

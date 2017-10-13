@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
@@ -155,19 +156,25 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   private List<BranchInfo> allBranches(ProjectResource rsrc)
       throws IOException, ResourceNotFoundException, PermissionBackendException {
-    List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
+      return toBranchInfo(rsrc, allRefs(repoManager, rsrc.getNameKey()));
+    } catch (RepositoryNotFoundException noGitRepository) {
+      throw new ResourceNotFoundException();
+    }
+  }
+
+  public static List<Ref> allRefs(GitRepositoryManager repoManager, Project.NameKey projectName)
+      throws IOException {
+    try (Repository db = repoManager.openRepository(projectName)) {
       Collection<Ref> heads = db.getRefDatabase().getRefs(Constants.R_HEADS).values();
-      refs = new ArrayList<>(heads.size() + 3);
+      List<Ref> refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
       refs.addAll(
           db.getRefDatabase()
               .exactRef(Constants.HEAD, RefNames.REFS_CONFIG, RefNames.REFS_USERS_DEFAULT)
               .values());
-    } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
+      return refs;
     }
-    return toBranchInfo(rsrc, refs);
   }
 
   private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs)

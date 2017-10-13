@@ -24,6 +24,13 @@ description:'DESCRIPTION'::
 Matches projects whose description contains 'DESCRIPTION', using a
 full-text search.
 
+[[branch]]
+branches:'NAME'::
++
+Matches projects that have a branch where the name starts with 'NAME'.
++
+The 'refs/heads/' prefix may be omitted.
+
 == Magical Operators
 
 [[is-visible]]

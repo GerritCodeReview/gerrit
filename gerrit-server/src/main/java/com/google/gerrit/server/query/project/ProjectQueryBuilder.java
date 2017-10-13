@@ -17,11 +17,14 @@ package com.google.gerrit.server.query.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.project.ProjectField;
+import com.google.gerrit.server.index.project.ProjectIndexCollection;
 import com.google.gerrit.server.project.ProjectData;
 import com.google.inject.Inject;
 import java.util.List;
@@ -33,9 +36,12 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
   private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ProjectQueryBuilder.class);
 
+  private final Schema<ProjectData> schema;
+
   @Inject
-  ProjectQueryBuilder() {
+  ProjectQueryBuilder(ProjectIndexCollection indexCollection) {
     super(mydef);
+    this.schema = indexCollection.getSearchIndex().getSchema();
   }
 
   @Operator
@@ -58,6 +64,14 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
     }
 
     return ProjectPredicates.description(description);
+  }
+
+  @Operator
+  public Predicate<ProjectData> branch(String branchName) throws QueryParseException {
+    if (schema.hasField(ProjectField.BRANCH)) {
+      return ProjectPredicates.branch(branchName);
+    }
+    throw new QueryParseException("'branch' operator is not supported by project index version");
   }
 
   @Override

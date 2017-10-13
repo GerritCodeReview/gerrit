@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -71,6 +73,30 @@ public class ProjectIT extends AbstractDaemonTest {
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+    projectIndexedCounter.assertReindexOf(name);
+  }
+
+  @Test
+  public void createProjectWithInitialBranches() throws Exception {
+    String name = name("foo");
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.createEmptyCommit = true;
+    input.branches = ImmutableList.of("master", "foo");
+    assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
+    assertThat(
+            gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
+        .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
+
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+    head = getRemoteHead(name, "refs/heads/foo");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", null, head);
+
+    head = getRemoteHead(name, "refs/heads/master");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+
     projectIndexedCounter.assertReindexOf(name);
   }
 

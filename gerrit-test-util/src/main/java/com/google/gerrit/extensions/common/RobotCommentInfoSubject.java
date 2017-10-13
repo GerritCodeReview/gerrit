@@ -16,21 +16,20 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.gerrit.truth.ListSubject;
 import java.util.List;
 
 public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
 
-  private static final SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>
+  private static final Subject.Factory<RobotCommentInfoSubject, RobotCommentInfo>
       ROBOT_COMMENT_INFO_SUBJECT_FACTORY =
-          new SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>() {
+          new Subject.Factory<RobotCommentInfoSubject, RobotCommentInfo>() {
             @Override
-            public RobotCommentInfoSubject getSubject(
-                FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
-              return new RobotCommentInfoSubject(failureStrategy, robotCommentInfo);
+            public RobotCommentInfoSubject createSubject(
+                FailureMetadata failureMetadata, RobotCommentInfo robotCommentInfo) {
+              return new RobotCommentInfoSubject(failureMetadata, robotCommentInfo);
             }
           };
 
@@ -45,8 +44,8 @@ public class RobotCommentInfoSubject extends Subject<RobotCommentInfoSubject, Ro
   }
 
   private RobotCommentInfoSubject(
-      FailureStrategy failureStrategy, RobotCommentInfo robotCommentInfo) {
-    super(failureStrategy, robotCommentInfo);
+      FailureMetadata failureMetadata, RobotCommentInfo robotCommentInfo) {
+    super(failureMetadata, robotCommentInfo);
   }
 
   public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {

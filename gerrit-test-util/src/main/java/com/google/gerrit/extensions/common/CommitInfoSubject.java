@@ -16,21 +16,20 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.ListSubject;
 
 public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
 
-  private static final SubjectFactory<CommitInfoSubject, CommitInfo> COMMIT_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<CommitInfoSubject, CommitInfo>() {
+  private static final Subject.Factory<CommitInfoSubject, CommitInfo> COMMIT_INFO_SUBJECT_FACTORY =
+      new Subject.Factory<CommitInfoSubject, CommitInfo>() {
         @Override
-        public CommitInfoSubject getSubject(
-            FailureStrategy failureStrategy, CommitInfo commitInfo) {
-          return new CommitInfoSubject(failureStrategy, commitInfo);
+        public CommitInfoSubject createSubject(
+            FailureMetadata failureMetadata, CommitInfo commitInfo) {
+          return new CommitInfoSubject(failureMetadata, commitInfo);
         }
       };
 
@@ -38,8 +37,8 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
     return assertAbout(COMMIT_INFO_SUBJECT_FACTORY).that(commitInfo);
   }
 
-  private CommitInfoSubject(FailureStrategy failureStrategy, CommitInfo commitInfo) {
-    super(failureStrategy, commitInfo);
+  private CommitInfoSubject(FailureMetadata failureMetadata, CommitInfo commitInfo) {
+    super(failureMetadata, commitInfo);
   }
 
   public StringSubject commit() {

@@ -16,21 +16,20 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.truth.OptionalSubject;
 import java.util.Optional;
 
 public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
 
-  private static final SubjectFactory<EditInfoSubject, EditInfo> EDIT_INFO_SUBJECT_FACTORY =
-      new SubjectFactory<EditInfoSubject, EditInfo>() {
+  private static final Subject.Factory<EditInfoSubject, EditInfo> EDIT_INFO_SUBJECT_FACTORY =
+      new Subject.Factory<EditInfoSubject, EditInfo>() {
         @Override
-        public EditInfoSubject getSubject(FailureStrategy failureStrategy, EditInfo editInfo) {
-          return new EditInfoSubject(failureStrategy, editInfo);
+        public EditInfoSubject createSubject(FailureMetadata failureMetadata, EditInfo editInfo) {
+          return new EditInfoSubject(failureMetadata, editInfo);
         }
       };
 
@@ -43,8 +42,8 @@ public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
     return OptionalSubject.assertThat(editInfoOptional, EditInfoSubject::assertThat);
   }
 
-  private EditInfoSubject(FailureStrategy failureStrategy, EditInfo editInfo) {
-    super(failureStrategy, editInfo);
+  private EditInfoSubject(FailureMetadata failureMetadata, EditInfo editInfo) {
+    super(failureMetadata, editInfo);
   }
 
   public CommitInfoSubject commit() {

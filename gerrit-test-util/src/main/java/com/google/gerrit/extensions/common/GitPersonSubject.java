@@ -17,19 +17,19 @@ package com.google.gerrit.extensions.common;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import java.sql.Timestamp;
 
 public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
 
-  private static final SubjectFactory<GitPersonSubject, GitPerson> GIT_PERSON_SUBJECT_FACTORY =
-      new SubjectFactory<GitPersonSubject, GitPerson>() {
+  private static final Subject.Factory<GitPersonSubject, GitPerson> GIT_PERSON_SUBJECT_FACTORY =
+      new Subject.Factory<GitPersonSubject, GitPerson>() {
         @Override
-        public GitPersonSubject getSubject(FailureStrategy failureStrategy, GitPerson gitPerson) {
-          return new GitPersonSubject(failureStrategy, gitPerson);
+        public GitPersonSubject createSubject(
+            FailureMetadata failureMetadata, GitPerson gitPerson) {
+          return new GitPersonSubject(failureMetadata, gitPerson);
         }
       };
 
@@ -37,8 +37,8 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     return assertAbout(GIT_PERSON_SUBJECT_FACTORY).that(gitPerson);
   }
 
-  private GitPersonSubject(FailureStrategy failureStrategy, GitPerson gitPerson) {
-    super(failureStrategy, gitPerson);
+  private GitPersonSubject(FailureMetadata failureMetadata, GitPerson gitPerson) {
+    super(failureMetadata, gitPerson);
   }
 
   public ComparableSubject<?, Timestamp> creationDate() {

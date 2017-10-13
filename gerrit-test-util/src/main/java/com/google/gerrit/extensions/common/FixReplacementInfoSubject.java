@@ -16,23 +16,22 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.client.RangeSubject;
 
 public class FixReplacementInfoSubject
     extends Subject<FixReplacementInfoSubject, FixReplacementInfo> {
 
-  private static final SubjectFactory<FixReplacementInfoSubject, FixReplacementInfo>
+  private static final Subject.Factory<FixReplacementInfoSubject, FixReplacementInfo>
       FIX_REPLACEMENT_INFO_SUBJECT_FACTORY =
-          new SubjectFactory<FixReplacementInfoSubject, FixReplacementInfo>() {
+          new Subject.Factory<FixReplacementInfoSubject, FixReplacementInfo>() {
             @Override
-            public FixReplacementInfoSubject getSubject(
-                FailureStrategy failureStrategy, FixReplacementInfo fixReplacementInfo) {
-              return new FixReplacementInfoSubject(failureStrategy, fixReplacementInfo);
+            public FixReplacementInfoSubject createSubject(
+                FailureMetadata failureMetadata, FixReplacementInfo fixReplacementInfo) {
+              return new FixReplacementInfoSubject(failureMetadata, fixReplacementInfo);
             }
           };
 
@@ -41,8 +40,8 @@ public class FixReplacementInfoSubject
   }
 
   private FixReplacementInfoSubject(
-      FailureStrategy failureStrategy, FixReplacementInfo fixReplacementInfo) {
-    super(failureStrategy, fixReplacementInfo);
+      FailureMetadata failureMetadata, FixReplacementInfo fixReplacementInfo) {
+    super(failureMetadata, fixReplacementInfo);
   }
 
   public StringSubject path() {

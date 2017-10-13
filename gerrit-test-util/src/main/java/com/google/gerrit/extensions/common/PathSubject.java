@@ -16,22 +16,21 @@ package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import java.nio.file.Path;
 
 public class PathSubject extends Subject<PathSubject, Path> {
-  private static final SubjectFactory<PathSubject, Path> PATH_SUBJECT_FACTORY =
-      new SubjectFactory<PathSubject, Path>() {
+  private static final Subject.Factory<PathSubject, Path> PATH_SUBJECT_FACTORY =
+      new Subject.Factory<PathSubject, Path>() {
         @Override
-        public PathSubject getSubject(FailureStrategy failureStrategy, Path path) {
-          return new PathSubject(failureStrategy, path);
+        public PathSubject createSubject(FailureMetadata failureMetadata, Path path) {
+          return new PathSubject(failureMetadata, path);
         }
       };
 
-  private PathSubject(FailureStrategy failureStrategy, Path path) {
-    super(failureStrategy, path);
+  private PathSubject(FailureMetadata failureMetadata, Path path) {
+    super(failureMetadata, path);
   }
 
   public static PathSubject assertThat(Path path) {

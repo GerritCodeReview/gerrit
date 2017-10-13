@@ -709,18 +709,18 @@ maven_jar(
     sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
 )
 
-TRUTH_VERS = "0.35"
+TRUTH_VERS = "0.36"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "c08a7fde45e058323bcfa3f510d4fe1e2b028f37",
+    sha1 = "7485219d2c1d341097a19382c02bde07e69ff5d2",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "5457fdf91b1e954b070ad7f2db9bea5505da4bca",
+    sha1 = "dcc60988c8f9a051840766ef192a2ef41e7992f1",
 )
 
 # When bumping the easymock version number, make sure to also move powermock to a compatible version

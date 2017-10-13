@@ -21,9 +21,8 @@ import static com.google.gerrit.extensions.api.changes.RecipientType.TO;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -62,13 +61,13 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     gApi.projects().name(project.get()).config(conf);
   }
 
-  private static final SubjectFactory<FakeEmailSenderSubject, FakeEmailSender>
+  private static final Subject.Factory<FakeEmailSenderSubject, FakeEmailSender>
       FAKE_EMAIL_SENDER_SUBJECT_FACTORY =
-          new SubjectFactory<FakeEmailSenderSubject, FakeEmailSender>() {
+          new Subject.Factory<FakeEmailSenderSubject, FakeEmailSender>() {
             @Override
-            public FakeEmailSenderSubject getSubject(
-                FailureStrategy failureStrategy, FakeEmailSender target) {
-              return new FakeEmailSenderSubject(failureStrategy, target);
+            public FakeEmailSenderSubject createSubject(
+                FailureMetadata failureMetadata, FakeEmailSender target) {
+              return new FakeEmailSenderSubject(failureMetadata, target);
             }
           };
 
@@ -98,8 +97,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
     private Set<String> accountedFor = new HashSet<>();
 
-    FakeEmailSenderSubject(FailureStrategy failureStrategy, FakeEmailSender target) {
-      super(failureStrategy, target);
+    FakeEmailSenderSubject(FailureMetadata failureMetadata, FakeEmailSender target) {
+      super(failureMetadata, target);
     }
 
     public FakeEmailSenderSubject notSent() {

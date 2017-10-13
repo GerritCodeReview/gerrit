@@ -17,10 +17,9 @@ package com.google.gerrit.server.edit.tree;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.io.CharStreams;
-import com.google.common.truth.FailureStrategy;
+import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
@@ -30,15 +29,15 @@ import java.nio.charset.StandardCharsets;
 public class ChangeFileContentModificationSubject
     extends Subject<ChangeFileContentModificationSubject, ChangeFileContentModification> {
 
-  private static final SubjectFactory<
+  private static final Subject.Factory<
           ChangeFileContentModificationSubject, ChangeFileContentModification>
       MODIFICATION_SUBJECT_FACTORY =
-          new SubjectFactory<
+          new Subject.Factory<
               ChangeFileContentModificationSubject, ChangeFileContentModification>() {
             @Override
-            public ChangeFileContentModificationSubject getSubject(
-                FailureStrategy failureStrategy, ChangeFileContentModification modification) {
-              return new ChangeFileContentModificationSubject(failureStrategy, modification);
+            public ChangeFileContentModificationSubject createSubject(
+                FailureMetadata failureMetadata, ChangeFileContentModification modification) {
+              return new ChangeFileContentModificationSubject(failureMetadata, modification);
             }
           };
 
@@ -48,8 +47,8 @@ public class ChangeFileContentModificationSubject
   }
 
   private ChangeFileContentModificationSubject(
-      FailureStrategy failureStrategy, ChangeFileContentModification modification) {
-    super(failureStrategy, modification);
+      FailureMetadata failureMetadata, ChangeFileContentModification modification) {
+    super(failureMetadata, modification);
   }
 
   public StringSubject filePath() {

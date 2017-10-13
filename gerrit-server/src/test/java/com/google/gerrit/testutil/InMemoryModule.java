@@ -58,6 +58,7 @@ import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
@@ -294,6 +295,7 @@ public class InMemoryModule extends FactoryModule {
     putSchemaVersion(singleVersions, AccountSchemaDefinitions.INSTANCE);
     putSchemaVersion(singleVersions, ChangeSchemaDefinitions.INSTANCE);
     putSchemaVersion(singleVersions, GroupSchemaDefinitions.INSTANCE);
+    putSchemaVersion(singleVersions, ProjectSchemaDefinitions.INSTANCE);
     return singleVersions;
   }
 

@@ -55,6 +55,9 @@ using PostgreSQL.
 [[createdb_mysql]]
 === MySQL
 
+We recommend MariaDB connector if you want stability and better utf8mb4 support.
+The connector supports mysql also.
+
 Requirements: MySQL version 5.1 or later.
 
 This option is also more complicated than the H2 option. Just as with

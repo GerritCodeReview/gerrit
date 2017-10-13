@@ -274,8 +274,8 @@ maven_jar(
 
 maven_jar(
     name = "commons_compress",
-    artifact = "org.apache.commons:commons-compress:1.13",
-    sha1 = "15c5e9584200122924e50203ae210b57616b75ee",
+    artifact = "org.apache.commons:commons-compress:1.14",
+    sha1 = "7b18320d668ab080758bf5383d6d8fcf750babce",
 )
 
 maven_jar(

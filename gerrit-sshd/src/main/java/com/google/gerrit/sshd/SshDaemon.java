@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.sshd.common.channel.ChannelOutputStream.WAIT_FOR_SPACE_TIMEOUT;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
@@ -193,6 +194,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     getProperties().put(REKEY_BYTES_LIMIT,
         String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
+
+    long waitTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "waitTimeout", 30, SECONDS);
+    getProperties()
+        .put(WAIT_FOR_SPACE_TIMEOUT, String.valueOf(SECONDS.toMillis(waitTimeoutSeconds)));
 
     final int maxConnectionsPerUser =
         cfg.getInt("sshd", "maxConnectionsPerUser", 64);

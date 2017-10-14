@@ -3732,6 +3732,20 @@ should use common unit suffixes to express their setting:
 +
 By default, 0.
 
+[[sshd.waitTimeout]]sshd.waitTimeout::
++
+Time in seconds after which the server automatically terminates idle connections
+connections (e.g. cloning a very large repo with lots of refs)
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+
++
+By default, 30s.
+
 [[sshd.maxConnectionsPerUser]]sshd.maxConnectionsPerUser::
 +
 Maximum number of concurrent SSH sessions that a user account

@@ -274,13 +274,14 @@ class LibraryDownloader {
     }
   }
 
+  @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
   private void verifyFileChecksum() {
     if (sha1 == null) {
       System.err.println();
       System.err.flush();
       return;
     }
-    Hasher h = Hashing.murmur3_128().newHasher();
+    Hasher h = Hashing.sha1().newHasher();
     try (InputStream in = Files.newInputStream(dst);
         OutputStream out = Funnels.asOutputStream(h)) {
       ByteStreams.copy(in, out);

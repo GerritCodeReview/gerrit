@@ -562,8 +562,8 @@ maven_jar(
 
 maven_jar(
     name = "jsr305",
-    artifact = "com.google.code.findbugs:jsr305:3.0.1",
-    sha1 = "f7be08ec23c21485b9b5a1cf1654c2ec8c58168d",
+    artifact = "com.google.code.findbugs:jsr305:3.0.2",
+    sha1 = "25ea2e8b0c338a877313bd4672d3fe056ea78f0d",
 )
 
 maven_jar(

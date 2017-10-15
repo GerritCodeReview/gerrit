@@ -426,8 +426,8 @@ maven_jar(
 
 maven_jar(
     name = "tukaani_xz",
-    artifact = "org.tukaani:xz:1.4",
-    sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
+    artifact = "org.tukaani:xz:1.6",
+    sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
 # When upgrading Lucene, make sure it's compatible with Elasticsearch

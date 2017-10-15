@@ -379,8 +379,8 @@ maven_jar(
 
 maven_jar(
     name = "jsoup",
-    artifact = "org.jsoup:jsoup:1.9.2",
-    sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
+    artifact = "org.jsoup:jsoup:1.10.3",
+    sha1 = "b842f960942503cf1abbcc8c173a7f2c19d43726",
 )
 
 OW2_VERS = "6.0"

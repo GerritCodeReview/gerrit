@@ -250,6 +250,7 @@ class LibraryDownloader {
     } catch (IOException err) {
       deleteDst();
       System.err.println(" !! FAIL !!");
+      System.err.println(err);
       System.err.flush();
       throw err;
     }

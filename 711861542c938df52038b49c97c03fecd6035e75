@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2d51a337_71124cf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T20:02:45Z",
+      "side": 1,
+      "message": "True. Thanks for pointing this out :-)",
+      "parentUuid": "a2704d83_8075d057",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae49f65_29b517f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -119,6 +137,30 @@
       "side": 1,
       "message": "\u003e You mean also in the stream-events JSON?\n\nSure, it should be any place we use the DynamicSet\u003cDownloadCommand\u003e. I think I haven\u0027t yet scrubbed all of them.\n\n\u003e There may be cases where some Jenkins plugin builds a change ref out of the (numeric) change-id, but this is just guessing.\n\nI know for a fact we have some clients that do this based on just the change + PS number.\n\n\u003e If this assumption is correct, a less disrupting change would be to keep advertising change-refs but only a (small) subset of them: all open changes and closed changes which are younger than some (configurable) age.\n\nInteresting idea. Our large repos have 1% or so of changes open, so this could still be a win. It would mean changing the implementation of SearchingChangeCacheImpl, but that is only used by VisibleRefFilter so it wouldn\u0027t break any other code in Gerrit.\n\nThis still leaves some open issues.\n\n* What do we do with the download commands? Do we still give a ref name, even though it might not be valid? Or do we try to guess whether the ref would be advertised, and give a SHA-1 if not?\n* We still need to implement the subtle want-checking logic from this change, because some refs will still be hidden.",
       "parentUuid": "639a11f4_53302eda",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202d584c_91d14d55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T20:02:45Z",
+      "side": 1,
+      "message": "\u003e This still leaves some open issues.\n\u003e \n\u003e * What do we do with the download commands? Do we still give a ref name, even though it might not be valid? Or do we try to guess whether the ref would be advertised, and give a SHA-1 if not?\n\nI would prefer the latter. The download commands plugin should just apply the same criteria\nas upload-pack: if it is open or closed and younger than some age then provide change ref otherwise SHA-1. Those clients who can only handle change refs are much less likely to\nget disrupted with this approach as, most of the time, they are dealing with open and\nrecently closed changes.\n\n\u003e * We still need to implement the subtle want-checking logic from this change, because some refs will still be hidden.\n\nTrue. This change will not get simpler.",
+      "parentUuid": "8fee2cc1_40f18fdd",
       "range": {
         "startLine": 24,
         "startChar": 24,

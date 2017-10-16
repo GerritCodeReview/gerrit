@@ -217,8 +217,6 @@ public abstract class VersionedMetaData {
 
     RevCommit createRef(String refName) throws IOException;
 
-    void removeRef(String refName) throws IOException;
-
     RevCommit commit() throws IOException;
 
     RevCommit commitAt(ObjectId revision) throws IOException;
@@ -329,47 +327,6 @@ public abstract class VersionedMetaData {
           return revision;
         }
         return updateRef(ObjectId.zeroId(), src, refName);
-      }
-
-      @Override
-      public void removeRef(String refName) throws IOException {
-        RefUpdate ru = db.updateRef(refName);
-        ru.setForceUpdate(true);
-        if (revision != null) {
-          ru.setExpectedOldObjectId(revision);
-        }
-        RefUpdate.Result result = ru.delete();
-        switch (result) {
-          case FORCED:
-            update.fireGitRefUpdatedEvent(ru);
-            return;
-          case LOCK_FAILURE:
-            throw new LockFailureException(
-                "Cannot delete "
-                    + ru.getName()
-                    + " in "
-                    + db.getDirectory()
-                    + ": "
-                    + ru.getResult());
-          case FAST_FORWARD:
-          case IO_FAILURE:
-          case NEW:
-          case NOT_ATTEMPTED:
-          case NO_CHANGE:
-          case REJECTED:
-          case REJECTED_CURRENT_BRANCH:
-          case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
-          default:
-            throw new IOException(
-                "Cannot delete "
-                    + ru.getName()
-                    + " in "
-                    + db.getDirectory()
-                    + ": "
-                    + ru.getResult());
-        }
       }
 
       @Override

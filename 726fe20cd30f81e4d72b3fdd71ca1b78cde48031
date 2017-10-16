@@ -106,6 +106,24 @@
       "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f74744_4739b23d",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-16T23:30:38Z",
+      "side": 1,
+      "message": "Oh, hm. I don\u0027t know that this is much better with no margin now, as the chips touch in a kind of weird way when the list wraps.\n\nWhat do you think?",
+      "parentUuid": "3d2a8632_3400dd5a",
+      "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

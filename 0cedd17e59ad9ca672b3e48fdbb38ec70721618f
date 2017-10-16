@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d0c12c8_fd4bb1ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-16T23:28:25Z",
+      "side": 1,
+      "message": "This is not necessary.  The core event already ensures that null objects are not passed in.\n\nhttps://gerrit.googlesource.com/gerrit/+/stable-2.14/gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java#144",
+      "range": {
+        "startLine": 386,
+        "startChar": 20,
+        "endLine": 387,
+        "endChar": 74
+      },
+      "revId": "0cedd17e59ad9ca672b3e48fdbb38ec70721618f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

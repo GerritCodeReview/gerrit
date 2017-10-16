@@ -29,8 +29,9 @@ import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPOutputStream;
 import org.slf4j.Logger;
@@ -62,8 +63,9 @@ public class LogFileCompressor implements Runnable {
       //compress log once and then schedule compression every day at 11:00pm
       queue.getDefaultQueue().execute(compressor);
       ZoneId zone = ZoneId.systemDefault();
-      LocalDate now = LocalDate.now(zone);
-      long milliSecondsUntil11pm = now.atStartOfDay(zone).plusHours(23).toInstant().toEpochMilli();
+      LocalDateTime now = LocalDateTime.now(zone);
+      long milliSecondsUntil11pm =
+          now.until(now.withHour(23).withMinute(0).withSecond(0).withNano(0), ChronoUnit.MILLIS);
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError =
           queue

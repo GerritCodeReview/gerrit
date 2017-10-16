@@ -52,6 +52,24 @@
       "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3020b11_bd2fa80c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-16T17:26:14Z",
+      "side": 1,
+      "message": "I don\u0027t think so... margin is really a separate thing. We are not using the margin to center the item. We are using the margin to ensure there is whitespace around the account chip. Flex on its own is not going to do that.",
+      "parentUuid": "22121078_3ead0a38",
+      "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -116,12 +116,15 @@ public class GroupsUpdate {
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws IOException if the cache entry of one of the new members couldn't be invalidated, or
    *     the new group couldn't be indexed
+   * @return the created group
    */
-  public void addGroup(ReviewDb db, AccountGroup group, Set<Account.Id> memberIds)
+  public InternalGroup addGroup(ReviewDb db, AccountGroup group, Set<Account.Id> memberIds)
       throws OrmException, IOException {
     addNewGroup(db, group);
     addNewGroupMembers(db, group, memberIds);
     groupCache.onCreateGroup(group.getGroupUUID());
+
+    return InternalGroup.create(group, ImmutableSet.copyOf(memberIds), ImmutableSet.of());
   }
 
   /**

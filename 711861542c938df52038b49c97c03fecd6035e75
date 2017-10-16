@@ -173,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "a9058f32_cbc1569e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-16T20:41:01Z",
+      "side": 1,
+      "message": "For download commands: would it work to do something like\n\n git -c http.extraHeader\u003d\u0027X-Gerrit-Ref: refs/changes/34/1234/1\u0027 fetch origin c98af21c4bc4478bdc36f246099f7c37b13389df\n\n? That way, the server gets a clue about which ref the client is trying to fetch.",
+      "parentUuid": "202d584c_91d14d55",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce443d03_b6bf30d1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

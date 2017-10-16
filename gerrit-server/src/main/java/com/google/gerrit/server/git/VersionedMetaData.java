@@ -335,6 +335,7 @@ public abstract class VersionedMetaData {
         if (revision != null) {
           ru.setExpectedOldObjectId(revision);
         }
+        ru.setNewObjectId(ObjectId.zeroId());
         RefUpdate.Result result = ru.delete();
         switch (result) {
           case FORCED:

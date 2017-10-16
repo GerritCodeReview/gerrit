@@ -425,6 +425,7 @@ public class StarredChangesUtil {
       throws IOException, OrmException {
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
+    u.setNewObjectId(ObjectId.zeroId());
     u.setExpectedOldObjectId(oldObjectId);
     u.setRefLogIdent(serverIdent);
     u.setRefLogMessage("Unstar change", true);

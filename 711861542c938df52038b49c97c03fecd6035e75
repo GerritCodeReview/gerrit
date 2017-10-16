@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb65efd8_10603b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "Unrelated to this change but related to the topic:\n\nWe could completely omit advertising of refs/changes/* on receive-pack and thus\nimprove push-for-review performance for projects with huge number of changes significantly.\nRight? Looks like even lower hanging fruit?",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ae49f65_29b517f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "AFAIK, JGit respects current user\u0027s global Git config.\nThis way one could define uploadpack.hideRefs in the $HOME/.gitconfig, where $HOME is the home folder of the user running\nGerrit process. However, this solution looks messy.\n\nWe could also implement support for a global Git config in the $SITE/etc/gitconfig.\n\nHowever, I believe that the behavior of not advertising Gerrit refs should be part of the Gerrit code and not depend on Gerrit admins to properly configure it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 55,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "639a11f4_53302eda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "You mean also in the stream-events JSON? Hopefully all Jenkins plugins which talk to Gerrit honor that data. There may be cases where some Jenkins plugin builds a change ref out of the (numeric) change-id, but this is just guessing. If this assumption is correct, a less disrupting change would be to keep advertising change-refs but only a (small) subset of them: all open changes and closed changes which are younger than some (configurable) age.",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce443d03_b6bf30d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "sounds like a good way to handle those Jenkins servers not (yet) able to use path-set SHA1",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 65
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7c82205_63f415ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "Why not:\n\n  if (!strategy.omitGerritRefs()) {\n    return;\n  }",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8687f2_3557ad17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "This enum already has omitChangeRefs field which can be used here instead of the switch statement?",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 20
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df89de1b_50ee378b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "add \"strategy\" to the exception text",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60956060_53f22483",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RefAdvertisementStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "omitGerritRefs?",
+      "range": {
+        "startLine": 31,
+        "startChar": 24,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f094ad9a_7f1cf587",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RefAdvertisementStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "this is unused?",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b035f2e_9dcb75f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RefAdvertisementStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-16T12:16:18Z",
+      "side": 1,
+      "message": "Gerrit",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

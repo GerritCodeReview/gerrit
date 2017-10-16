@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -162,7 +161,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       }
     }
 
-    return json.format(GroupDescriptions.forAccountGroup(createGroup(args)));
+    return json.format(new InternalGroupDescription(createGroup(args)));
   }
 
   private AccountGroup.Id owner(GroupInput input) throws UnprocessableEntityException {
@@ -173,7 +172,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     return null;
   }
 
-  private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
+  private InternalGroup createGroup(CreateGroupArgs createGroupArgs)
       throws OrmException, ResourceConflictException, IOException {
 
     String nameLower = createGroupArgs.getGroupName().toLowerCase(Locale.US);
@@ -206,14 +205,12 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       group.setDescription(createGroupArgs.groupDescription);
     }
     try {
-      groupsUpdateProvider
+      return groupsUpdateProvider
           .get()
           .addGroup(db, group, ImmutableSet.copyOf(createGroupArgs.initialMembers));
     } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");
     }
-
-    return group;
   }
 }

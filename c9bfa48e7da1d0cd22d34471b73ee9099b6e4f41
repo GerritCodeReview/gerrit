@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a4c40d_6b4e99c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T20:24:13Z",
+      "side": 1,
+      "message": "that\u0027s deprecated.\n\nhttps://www.w3schools.com/jsref/jsref_escape.asp",
+      "range": {
+        "startLine": 1285,
+        "startChar": 44,
+        "endLine": 1285,
+        "endChar": 50
+      },
+      "revId": "c9bfa48e7da1d0cd22d34471b73ee9099b6e4f41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -106,17 +106,7 @@
     },
 
     _getFileContent(changeNum, path) {
-      return this.$.restAPI.getFileInChangeEdit(changeNum, path).then(res => {
-        if (!res.ok) {
-          if (res.status === 404) {
-            // No edits have been made yet.
-            return this.$.restAPI.getFileInChangeEdit(changeNum, path, true)
-                .then(res => res.text);
-          }
-          return '';
-        }
-        return res.text;
-      });
+      return this.$.restAPI.getFileInChangeEdit(changeNum, path);
     },
 
     _saveEdit() {

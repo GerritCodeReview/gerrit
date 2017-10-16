@@ -221,6 +221,30 @@
     },
     {
       "key": {
+        "uuid": "fdd759b8_4acd8f0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-16T20:45:50Z",
+      "side": 1,
+      "message": "There\u0027s no ssh equivalent, but it\u0027s just an optimization *shrug*.\n\nI like the idea of something like ssh.extraEnvVar. No one had thought of the need for that before.",
+      "parentUuid": "2a13abd8_1d591e52",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce443d03_b6bf30d1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

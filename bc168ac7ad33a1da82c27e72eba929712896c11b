@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "f0e9d23e_f7abf53e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T23:49:29Z",
+      "side": 1,
+      "message": "Yes it is :).\n\nthough i am not sure how to merge this in. I know we can add it to visableChangeTableColumns\n\nbut merging it, doint know how to add it will either be added at the top or added at the bottom.",
+      "parentUuid": "6125196a_2ce435a3",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01191c8a_0d3a930b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 13

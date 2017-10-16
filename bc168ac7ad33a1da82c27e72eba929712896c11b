@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b41d2773_e2c418c7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T23:45:02Z",
+      "side": 1,
+      "message": "I think we should merge number\u0027s into visableChangeTableColumns but but i wonder is that implemented in gerrit\u0027s preference already?",
+      "parentUuid": "77d60d0d_341683e0",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01191c8a_0d3a930b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 13

@@ -17,6 +17,13 @@
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
 
+  const FilesExpandedEnum = {
+    ALL: 'ALL',
+    NONE: 'NONE',
+    SOME: 'SOME',
+  };
+
+
   Polymer({
     is: 'gr-file-list-header',
 
@@ -40,6 +47,7 @@
       },
       patchNum: String,
       basePatchNum: String,
+      filesExpanded: String,
       revisions: Array,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
@@ -52,6 +60,15 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
       },
+      /** @type {?} */
+      _VIEW_MODES: {
+        type: Object,
+        readOnly: true,
+        value: {
+          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+          UNIFIED: 'UNIFIED_DIFF',
+        },
+      },
     },
 
     behaviors: [
@@ -59,11 +76,37 @@
     ],
 
     _expandAllDiffs() {
+      this._expanded = true;
       this.fire('expand-diffs');
     },
 
     _collapseAllDiffs() {
+      this._expanded = false;
       this.fire('collapse-diffs');
+    },
+
+    _computeSelectedClass(diffViewMode, buttonViewMode) {
+      return buttonViewMode === diffViewMode ? 'selected' : '';
+    },
+
+    _computeExpandedClass(filesExpanded) {
+      const classes = [];
+      if (filesExpanded === FilesExpandedEnum.ALL) {
+        classes.push('expanded');
+      }
+      if (filesExpanded === FilesExpandedEnum.SOME ||
+            filesExpanded === FilesExpandedEnum.ALL) {
+        classes.push('openFile');
+      }
+      return classes.join(' ');
+    },
+
+    _handleSideBySideTap() {
+      this.diffViewMode = this._VIEW_MODES.SIDE_BY_SIDE;
+    },
+
+    _handleUnifiedTap() {
+      this.diffViewMode = this._VIEW_MODES.UNIFIED;
     },
 
     _computeDescriptionPlaceholder(readOnly) {

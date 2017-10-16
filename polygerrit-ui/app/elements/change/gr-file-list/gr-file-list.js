@@ -29,6 +29,12 @@
     W: 'Rewritten',
   };
 
+  const FilesExpandedEnum = {
+    ALL: 'ALL',
+    NONE: 'NONE',
+    SOME: 'SOME',
+  };
+
   Polymer({
     is: 'gr-file-list',
 
@@ -60,6 +66,11 @@
       editLoaded: {
         type: Boolean,
         observer: '_editLoadedChanged',
+      },
+      filesExpanded: {
+        type: String,
+        value: FilesExpandedEnum.NONE,
+        notify: true,
       },
       _files: {
         type: Array,
@@ -301,6 +312,8 @@
     collapseAllDiffs() {
       this._showInlineDiffs = false;
       this._expandedFilePaths = [];
+      this.filesExpanded = this._computeExpandedFiles(
+          this._expandedFilePaths.length, this._files.length);
       this.$.diffCursor.handleDiffUpdate();
     },
 
@@ -814,6 +827,15 @@
           detail.path);
     },
 
+    _computeExpandedFiles(expandedCount, totalCount) {
+      if (expandedCount === 0 ) {
+        return FilesExpandedEnum.NONE;
+      } else if (expandedCount === totalCount) {
+        return FilesExpandedEnum.ALL;
+      }
+      return FilesExpandedEnum.SOME;
+    },
+
     /**
      * Handle splices to the list of expanded file paths. If there are any new
      * entries in the expanded list, then render each diff corresponding in
@@ -822,6 +844,13 @@
      * @param {!Array} record The splice record in the expanded paths list.
      */
     _expandedPathsChanged(record) {
+      if (!record) {
+        return;
+      }
+
+      this.filesExpanded = this._computeExpandedFiles(
+          this._expandedFilePaths.length, this._files.length);
+
       if (!record) { return; }
 
       // Find the paths introduced by the new index splices:

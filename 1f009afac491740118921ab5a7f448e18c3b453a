@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff26aab4_18a66498",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-16T23:18:47Z",
+      "side": 1,
+      "message": "If this is defined like a JS file, it will be repeated every time it\u0027s included in an element.\n\nMoving it to an HTML file will allow vulcanize to take advantage of HTML imports and only include it once.",
+      "revId": "1f009afac491740118921ab5a7f448e18c3b453a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

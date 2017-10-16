@@ -16,6 +16,24 @@
       "revId": "6fb04707abb83aa25a13aab8e999296370e12d1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a4c64a_7b660dca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-16T20:07:10Z",
+      "side": 1,
+      "message": "Noted. I think specifying gr-button\u0027s margin left more specifically solves this issue (to .revisionEdit gr-button)",
+      "parentUuid": "c93c67ff_b1fd97d1",
+      "revId": "6fb04707abb83aa25a13aab8e999296370e12d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,6 +23,7 @@ const EXTERN_NAMES = [
   'GrDiffLine',
   'GrDomHooks',
   'GrEtagDecorator',
+  'GrFileListConstants',
   'GrGapiAuth',
   'GrGerritAuth',
   'GrLinkTextParser',

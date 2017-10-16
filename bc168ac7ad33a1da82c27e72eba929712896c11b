@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f43ddd9_949ded39",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T21:18:13Z",
+      "side": 1,
+      "message": "Because the number column was in stars and stars was in numbers.\n\nSee gr-change-list.html line 61",
+      "parentUuid": "e0fff43a_f1249c12",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01191c8a_0d3a930b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-16T21:14:53Z",
       "side": 1,
       "message": "Why do we have this?",
+      "range": {
+        "startLine": 146,
+        "startChar": 10,
+        "endLine": 148,
+        "endChar": 13
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8071462f_8535771f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T21:18:13Z",
+      "side": 1,
+      "message": "To prevent it from being shown when logged in.\n\nIt was easier to do it here then to try and check for logged in. We already check for logged out users see line 143.\n\nSo this works for logged in users.",
+      "parentUuid": "01191c8a_0d3a930b",
       "range": {
         "startLine": 146,
         "startChar": 10,

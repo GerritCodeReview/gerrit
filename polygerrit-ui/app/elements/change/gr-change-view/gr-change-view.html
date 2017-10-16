@@ -436,6 +436,7 @@ limitations under the License.
             diff-view-mode="{{viewState.diffMode}}"
             patch-num="{{_patchRange.patchNum}}"
             base-patch-num="{{_patchRange.basePatchNum}}"
+            files-expanded="[[_filesExpanded]]"
             revisions="[[_sortedRevisions]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
@@ -455,6 +456,7 @@ limitations under the License.
             diff-view-mode="[[viewState.diffMode]]"
             edit-loaded="[[_editLoaded]]"
             num-files-shown="{{_numFilesShown}}"
+            files-expanded="{{_filesExpanded}}"
             file-list-increment="{{_numFilesShown}}"
             on-files-shown-changed="_setShownFiles"></gr-file-list>
       </section>

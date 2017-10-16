@@ -146,6 +146,7 @@
       // new patches. This is just the initial setting from the change view vs.
       // an update coming from the two way data binding.
       _patchNum: String,
+      _filesExpanded: String,
       _basePatchNum: String,
       _relatedChangesLoading: {
         type: Boolean,

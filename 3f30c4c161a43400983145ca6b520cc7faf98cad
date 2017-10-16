@@ -22,6 +22,30 @@
       "revId": "3f30c4c161a43400983145ca6b520cc7faf98cad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ce3cccc_79407933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-16T07:11:17Z",
+      "side": 1,
+      "message": "I think we can\u0027t remove this predicate directly. It may be used by some users somehwhere. :(",
+      "parentUuid": "fe2ef339_28035750",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "3f30c4c161a43400983145ca6b520cc7faf98cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

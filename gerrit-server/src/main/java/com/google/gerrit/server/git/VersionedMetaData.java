@@ -413,7 +413,7 @@ public abstract class VersionedMetaData {
 
         RefUpdate ru = db.updateRef(refName);
         ru.setExpectedOldObjectId(oldId);
-        ru.setNewObjectId(src);
+        ru.setNewObjectId(newId);
         ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
         String message = update.getCommitBuilder().getMessage();
         if (message == null) {

@@ -69,6 +69,10 @@
       this.fire('cancel', null, {bubbles: false});
     },
 
+    resetFocus() {
+      this.$.branchInput.focus();
+    },
+
     _getProjectBranchesSuggestions(input) {
       if (input.startsWith('refs/heads/')) {
         input = input.substring('refs/heads/'.length);

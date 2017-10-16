@@ -16,6 +16,29 @@
       "revId": "1f009afac491740118921ab5a7f448e18c3b453a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c034bb8b_cea6b573",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T23:19:33Z",
+      "side": 1,
+      "message": "I think you need to move this inside the \u003ctemplate\u003e to be able to access it.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "1f009afac491740118921ab5a7f448e18c3b453a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

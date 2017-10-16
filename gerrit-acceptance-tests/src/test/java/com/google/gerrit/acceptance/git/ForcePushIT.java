@@ -20,11 +20,14 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.OK;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.PushResult;
@@ -105,5 +108,27 @@ public class ForcePushIT extends AbstractDaemonTest {
     PushResult result = deleteRef(testRepo, in.ref);
     RemoteRefUpdate refUpdate = result.getRemoteUpdate(in.ref);
     assertThat(refUpdate.getStatus()).isEqualTo(expectedStatus);
+  }
+    
+  public void forcePushAbandonedChange() throws Exception {
+    grant(Permission.PUSH, project, "refs/*", true);
+    PushOneCommit push1 =
+        pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
+    PushOneCommit.Result r = push1.to("refs/for/master");
+    r.assertOkStatus();
+
+    //abandon the change
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
+
+    push1.setForce(true);
+    PushOneCommit.Result r1 = push1.to("refs/heads/master");
+    r1.assertOkStatus();
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes().query(r.getChangeId()).get());
+    assertThat(result.status).isEqualTo(ChangeStatus.MERGED);
   }
 }

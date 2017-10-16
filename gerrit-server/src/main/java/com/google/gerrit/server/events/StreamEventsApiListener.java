@@ -18,6 +18,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.EventDispatcher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -365,6 +366,10 @@ public class StreamEventsApiListener
     }
   }
 
+  private ObjectId getObjectId(@Nullable ObjectId object) {
+    return object == null ? ObjectId.zeroId() : object;
+  }
+
   @Override
   public void onGitReferenceUpdated(final GitReferenceUpdatedListener.Event ev) {
     RefUpdatedEvent event = new RefUpdatedEvent();
@@ -378,8 +383,8 @@ public class StreamEventsApiListener
               @Override
               public RefUpdateAttribute get() {
                 return eventFactory.asRefUpdateAttribute(
-                    ObjectId.fromString(ev.getOldObjectId()),
-                    ObjectId.fromString(ev.getNewObjectId()),
+                    ObjectId.fromString(getObjectId(ev.getOldObjectId())),
+                    ObjectId.fromString(getObjectId(ev.getNewObjectId())),
                     refName);
               }
             });

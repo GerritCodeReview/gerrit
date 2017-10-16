@@ -1280,7 +1280,9 @@
           .then(res => {
             if (!res.ok) { return res; }
             return res.text().then(text => {
-              res.text = atob(text);
+              // atob call decodes b64 -> Unicode, the following two calls
+              // encode into a UTF-8 string.
+              res.text = decodeURIComponent(escape(atob(text)));
               return res;
             });
           });

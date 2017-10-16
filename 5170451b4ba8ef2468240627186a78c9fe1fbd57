@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "688ab8c8_7deef7b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-16T12:18:04Z",
+      "side": 1,
+      "message": "This link will not work as expected if the file gets modified later.\n\nRather than linking to \"master\", it would be better to link to the sha1 of the current head of master.  Then the link will always point to the expected line, even if the file is later modified.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 134
+      },
+      "revId": "5170451b4ba8ef2468240627186a78c9fe1fbd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

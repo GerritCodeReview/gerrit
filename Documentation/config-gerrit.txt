@@ -3721,8 +3721,9 @@ By default, 2 minutes.
 [[sshd.idleTimeout]]sshd.idleTimeout::
 +
 Time in seconds after which the server automatically terminates idle
-connections (or 0 to disable closing of idle connections).  Values
-should use common unit suffixes to express their setting:
+connections (or 0 to disable closing of idle connections) not waiting for
+any server operation to complete.
+Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds
 * m, min, minute, minutes
@@ -3734,8 +3735,9 @@ By default, 0.
 
 [[sshd.waitTimeout]]sshd.waitTimeout::
 +
-Time in seconds after which the server automatically terminates idle connections
-connections (e.g. cloning a very large repo with lots of refs)
+Time in seconds after which the server automatically terminates
+connections waiting for a server operation to complete, like for instance
+cloning a very large repo with lots of refs.
 Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds

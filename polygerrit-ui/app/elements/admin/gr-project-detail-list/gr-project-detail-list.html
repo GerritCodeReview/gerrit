@@ -42,14 +42,14 @@ limitations under the License.
       .revisionEdit {
         display: none;
       }
-      gr-button {
-        margin-left: .3em;
+      .revisionEdit gr-button {
+        margin-left: .6em;
       }
       .editBtn {
         margin-left: 1em;
       }
       .canEdit .revisionEdit{
-        align-items: baseline;
+        align-items: center;
         display: flex;
         line-height: 1em;
       }
@@ -91,6 +91,7 @@ limitations under the License.
                     [[item.revision]]
                   </span>
                   <gr-button
+                      link
                       on-tap="_handleEditRevision"
                       class="editBtn">
                     edit
@@ -100,15 +101,17 @@ limitations under the License.
                       bind-value="{{_revisedRef}}"
                       class="editItem">
                   <gr-button
+                      link
+                      on-tap="_handleCancelRevision"
+                      class="cancelBtn editItem">
+                    Cancel
+                  </gr-button>
+                  <gr-button
+                      link
                       on-tap="_handleSaveRevision"
                       class="saveBtn editItem"
                       disabled="[[!_revisedRef]]">
                     Save
-                  </gr-button>
-                  <gr-button
-                      on-tap="_handleCancelRevision"
-                      class="cancelBtn editItem">
-                    Cancel
                   </gr-button>
                 </span>
               </td>
@@ -125,6 +128,7 @@ limitations under the License.
               </td>
               <td class="delete">
                 <gr-button
+                    link
                     class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
                     on-tap="_handleDeleteItem">
                   Delete

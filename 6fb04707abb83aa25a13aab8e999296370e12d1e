@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c93c67ff_b1fd97d1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-16T17:02:06Z",
+      "side": 1,
+      "message": "Sorry to nit, as this is kind of orthogonal to this change, but when the Delete button is set to a link button it feels like it\u0027s falling off the page.\n\nA good fix may be to add some left margin to the whole view, or at least to the delete th/td: \n\n  margin-right: calc(var(--default-horizontal-margin) / 2);",
+      "revId": "6fb04707abb83aa25a13aab8e999296370e12d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

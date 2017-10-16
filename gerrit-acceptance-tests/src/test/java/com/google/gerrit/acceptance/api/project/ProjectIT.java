@@ -15,13 +15,14 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -40,6 +41,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -154,9 +157,34 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranch() throws Exception {
-    allow("refs/*", Permission.READ, ANONYMOUS_USERS);
+  public void createAndDeleteBranch() throws Exception {
+    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+
     gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+    assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
+    projectIndexedCounter.assertNoReindex();
+
+    gApi.projects().name(project.get()).branch("foo").delete();
+    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    projectIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void createAndDeleteBranchByPush() throws Exception {
+    grant(project, "refs/*", Permission.PUSH, true);
+    projectIndexedCounter.clear();
+
+    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+
+    PushOneCommit.Result r = pushTo("refs/heads/foo");
+    r.assertOkStatus();
+    assertThat(getRemoteHead(project.get(), "foo")).isEqualTo(r.getCommit());
+    projectIndexedCounter.assertNoReindex();
+
+    PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
+    assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
+    assertThat(getRemoteHead(project.get(), "foo")).isNull();
+    projectIndexedCounter.assertNoReindex();
   }
 
   @Test
@@ -300,6 +328,10 @@ public class ProjectIT extends AbstractDaemonTest {
       assertThat(getCount(projectName)).isEqualTo(expectedCount);
       assertThat(countsByProject).hasSize(1);
       clear();
+    }
+
+    void assertNoReindex() {
+      assertThat(countsByProject).isEmpty();
     }
   }
 }

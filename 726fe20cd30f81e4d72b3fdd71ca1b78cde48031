@@ -88,6 +88,24 @@
       "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d2a8632_3400dd5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-16T18:00:37Z",
+      "side": 1,
+      "message": "I do see that (it\u0027s not new though).\n\nhttps://imgur.com/a/H1sXR Is what happens without the margin\n\nI added a min-height on .list so that the jank should be removed when the first reviewer is added.",
+      "parentUuid": "aab54a52_20a036a4",
+      "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

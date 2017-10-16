@@ -1269,20 +1269,14 @@
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
-     * @param {boolean=} opt_base If specified, file contents come from change
-     *     edit's base patchset.
      */
-    getFileInChangeEdit(changeNum, path, opt_base) {
+    getFileInChangeEdit(changeNum, path) {
       const e = '/edit/' + encodeURIComponent(path);
-      let payload = null;
-      if (opt_base) { payload = {base: true}; }
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e, payload)
-          .then(res => {
+      const headers = {Accept: 'application/json'};
+      return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
+          null, null, headers).then(res => {
             if (!res.ok) { return res; }
-            return res.text().then(text => {
-              res.text = atob(text);
-              return res;
-            });
+            return this.getResponseObject(res);
           });
     },
 
@@ -1348,8 +1342,10 @@
      *    passed as null sometimes.
      * @param {?=} opt_ctx
      * @param {?string=} opt_contentType
+     * @param {Object=} opt_headers
      */
-    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType,
+        opt_headers) {
       const options = {method};
       if (opt_body) {
         options.headers = new Headers();
@@ -1360,6 +1356,13 @@
         }
         options.body = opt_body;
       }
+      if (opt_headers) {
+        if (!options.headers) { options.headers = new Headers(); }
+        for (const header in opt_headers) {
+          if (!opt_headers.hasOwnProperty(header)) { continue; }
+          options.headers.set(header, opt_headers[header]);
+        }
+      }
       return this._auth.fetch(this.getBaseUrl() + url, options)
           .then(response => {
             if (!response.ok) {
@@ -1368,7 +1371,6 @@
               }
               this.fire('server-error', {response});
             }
-
             return response;
           }).catch(err => {
             this.fire('network-error', {error: err});
@@ -1881,13 +1883,14 @@
      * @param {?function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      * @param {?=} opt_contentType
+     * @param {Object=} opt_headers
      * @return {!Promise<!Object>}
      */
     getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
-        opt_errFn, opt_ctx, opt_contentType) {
+        opt_errFn, opt_ctx, opt_contentType, opt_headers) {
       return this._changeBaseURL(changeNum, patchNum).then(url => {
         return this.send(method, url + endpoint, opt_payload, opt_errFn,
-            opt_ctx, opt_contentType);
+            opt_ctx, opt_contentType, opt_headers);
       });
     },
 

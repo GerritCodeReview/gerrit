@@ -29,13 +29,14 @@ public class EventTypes {
     register(CommentAddedEvent.TYPE, CommentAddedEvent.class);
     register(CommitReceivedEvent.TYPE, CommitReceivedEvent.class);
     register(HashtagsChangedEvent.TYPE, HashtagsChangedEvent.class);
-    register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
+    register(PatchSetCreatedEvent.TYPE, PatchSetCreatedEvent.class);
+    register(ProjectCreatedEvent.TYPE, ProjectCreatedEvent.class);
     register(RefReceivedEvent.TYPE, RefReceivedEvent.class);
+    register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
     register(ReviewerAddedEvent.TYPE, ReviewerAddedEvent.class);
     register(ReviewerDeletedEvent.TYPE, ReviewerDeletedEvent.class);
-    register(PatchSetCreatedEvent.TYPE, PatchSetCreatedEvent.class);
     register(TopicChangedEvent.TYPE, TopicChangedEvent.class);
-    register(ProjectCreatedEvent.TYPE, ProjectCreatedEvent.class);
+    register(VoteDeletedEvent.TYPE, VoteDeletedEvent.class);
   }
 
   /**

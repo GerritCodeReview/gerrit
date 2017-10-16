@@ -353,6 +353,30 @@
       "revId": "f818a56ad78bb2bb993de8b57daabe27ce62ae83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1978445d_034c3b74",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-16T17:12:59Z",
+      "side": 1,
+      "message": "Why would it be displayed after numbers?\n\nThe star column has been, until this point, treated as a special case column. Now that it\u0027s part of the standard changeTableColumns array, we can treat it the exact same as all of the other columns. This means removing:\n\n* The \u003cth\u003e with the star class from this file\n* The showStar property in the change-list-item\n* The star \u003ctd\u003e in the change-list-item html file\n* Any other star specific code.\n\nDoes that make sense?",
+      "parentUuid": "27295f7c_9fe01eb6",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 73
+      },
+      "revId": "f818a56ad78bb2bb993de8b57daabe27ce62ae83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

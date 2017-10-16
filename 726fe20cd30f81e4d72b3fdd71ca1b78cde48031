@@ -16,6 +16,24 @@
       "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd38a51b_c32a2a36",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-16T16:48:01Z",
+      "side": 1,
+      "message": "There was already a bottom margin. Aligning items did not center it in that case. The margin is there to force some extra space.",
+      "parentUuid": "3aaf42e3_7291f889",
+      "revId": "726fe20cd30f81e4d72b3fdd71ca1b78cde48031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

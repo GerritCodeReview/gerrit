@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc24ede2_1eb5b033",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-16T13:32:58Z",
+      "side": 1,
+      "message": "Today in our team meeting (Alice, Chang-Cheng, Han-Wen, Edwin) we have discussed again about vote squashing and we came to the conclusion that we are all favour this proposal.\n\nThe main advantage that we see with this solution is that it is least surprising to users.\nIt can be explained to users as simple as:\n\"When a change is moved veto votes are preserved and all other votes are removed\".\n\nKeeping veto votes is important since they prevent submit and it should not be possible to remove them by moving a change back and forth.\n\nThe other advantage of proposal 3 is that its implementation is easy (no vote squashing).\n\nGenrally we think that changing the votes on move (by squashing/unsquashing or by tieing votes to a branch) may confuse users since by looking at a change they can\u0027t tell how the votes will look after a move.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "bf221c24351267d50631aee453deec53421d9c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e5e134_718d022f",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-16T13:32:58Z",
+      "side": 1,
+      "message": "We think this is okay. At the point in time when the -2 was given the user was allowed to block this change and preserving it on change move is the safest option here.",
+      "revId": "bf221c24351267d50631aee453deec53421d9c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

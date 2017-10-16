@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce95a0ed_4b90ec96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T14:00:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f779738f_b899ccda",
+      "range": {
+        "startLine": 7,
+        "startChar": 72,
+        "endLine": 7,
+        "endChar": 82
+      },
+      "revId": "056677b281ee04c30e22884a716e0f733eeac547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa7e2fa2_9a0e930b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4f86dcfa_fcf6a289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T14:00:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "aa7e2fa2_9a0e930b",
+      "revId": "056677b281ee04c30e22884a716e0f733eeac547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4641e87a_b5a679bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2017-10-16T13:54:09Z",
       "side": 1,
       "message": "Shall we keep the default as before? (30s)",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "056677b281ee04c30e22884a716e0f733eeac547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2ca703c_1e3d476e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T14:00:33Z",
+      "side": 1,
+      "message": "Hmm, yeh i guess so. Thanks, done.",
+      "parentUuid": "4641e87a_b5a679bc",
       "range": {
         "startLine": 17,
         "startChar": 11,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "e3d27c6a_865e8349",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3738,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T14:00:33Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "e53741c5_9359cd0d",
+      "range": {
+        "startLine": 3737,
+        "startChar": 64,
+        "endLine": 3738,
+        "endChar": 11
+      },
+      "revId": "056677b281ee04c30e22884a716e0f733eeac547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "386c48f1_285e28f0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -99,6 +189,30 @@
       "writtenOn": "2017-10-16T13:54:09Z",
       "side": 1,
       "message": "30s",
+      "range": {
+        "startLine": 3747,
+        "startChar": 12,
+        "endLine": 3747,
+        "endChar": 14
+      },
+      "revId": "056677b281ee04c30e22884a716e0f733eeac547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bab4e8d1_e1180d1a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3747,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-16T14:00:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "386c48f1_285e28f0",
       "range": {
         "startLine": 3747,
         "startChar": 12,

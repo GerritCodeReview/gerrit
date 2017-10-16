@@ -71,6 +71,16 @@
       allowNonSuggestedValues: Boolean,
       borderless: Boolean,
       disabled: Boolean,
+      showSearchIcon: {
+        type: Boolean,
+        value: false,
+      },
+      // Vertical offset needed for a 1em font-size with no vertical padding.
+      // Inputs with additional padding will need to increase vertical offset.
+      verticalOffset: {
+        type: Number,
+        value: 20,
+      },
 
       text: {
         type: String,
@@ -162,7 +172,8 @@
     },
 
     selectAll() {
-      this.$.input.setSelectionRange(0, this.$.input.value.length);
+      const nativeInputElement = this.$.input.inputElement;
+      nativeInputElement.setSelectionRange(0, this.$.input.value.length);
     },
 
     clear() {
@@ -194,11 +205,15 @@
       this._focused = true;
       this._updateSuggestions();
       this.$.input.classList.remove('warnUncommitted');
+      // Needed so that --paper-input-container-input updated style is applied.
+      this.updateStyles();
     },
 
     _onInputBlur() {
       this.$.input.classList.toggle('warnUncommitted',
           this.warnUncommitted && this.text.length && !this._focused);
+      // Needed so that --paper-input-container-input updated style is applied.
+      this.updateStyles();
     },
 
     _updateSuggestions() {
@@ -361,6 +376,10 @@
       }
 
       this._textChangedSinceCommit = false;
+    },
+
+    _computeShowSearchIconClass(showSearchIcon) {
+      return showSearchIcon ? 'showSearchIcon' : '';
     },
   });
 })();

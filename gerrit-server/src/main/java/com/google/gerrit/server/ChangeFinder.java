@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -52,6 +53,11 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
+
+    //Try commit hash
+    if (id.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      return asChangeControls(query.byCommit(id), user);
+    }
 
     // Try legacy id
     if (!id.isEmpty() && id.charAt(0) != '0') {

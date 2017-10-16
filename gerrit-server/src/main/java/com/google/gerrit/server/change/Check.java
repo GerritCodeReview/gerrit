@@ -17,11 +17,13 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -55,7 +57,11 @@ public class Check
           IOException {
     PermissionBackend.WithUser perm = permissionBackend.user(user);
     if (!rsrc.isUserOwner()) {
-      perm.project(rsrc.getProject()).check(ProjectPermission.READ_CONFIG);
+      try {
+        perm.project(rsrc.getProject()).check(ProjectPermission.READ_CONFIG);
+      } catch (AuthException e) {
+        perm.check(GlobalPermission.MAINTAIN_SERVER);
+      }
     }
     return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));
   }

@@ -197,6 +197,30 @@
     },
     {
       "key": {
+        "uuid": "2a13abd8_1d591e52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-16T20:44:08Z",
+      "side": 1,
+      "message": "\u003e git -c http.extraHeader\u003d\u0027X-Gerrit-Ref:\n\nCould work. Is there an ssh equivalent?",
+      "parentUuid": "a9058f32_cbc1569e",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce443d03_b6bf30d1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -102,12 +102,15 @@ limitations under the License.
     test('cursor scroll behavior', () => {
       cursorElement._handleDiffRenderStart();
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+      assert.isTrue(cursorElement._focusOnMove);
 
       cursorElement._handleWindowScroll();
       assert.equal(cursorElement._scrollBehavior, 'never');
+      assert.isFalse(cursorElement._focusOnMove);
 
       cursorElement.handleDiffUpdate();
       assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+      assert.isTrue(cursorElement._focusOnMove);
     });
 
     suite('unified diff', () => {

@@ -118,6 +118,14 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "iron-image",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "iron-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -225,6 +233,18 @@ def define_bower_components():
       ":paper-behaviors",
       ":paper-material",
       ":paper-ripple",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
+    name = "paper-card",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-behaviors",
+      ":iron-flex-layout",
+      ":iron-image",
+      ":paper-styles",
       ":polymer",
     ],
     seed = True,

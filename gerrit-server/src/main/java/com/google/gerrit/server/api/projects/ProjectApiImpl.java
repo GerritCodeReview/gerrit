@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.HeadInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.project.DeleteTags;
 import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.GetConfig;
 import com.google.gerrit.server.project.GetDescription;
+import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ListDashboards;
@@ -69,6 +71,7 @@ import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
+import com.google.gerrit.server.project.SetHead;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -110,6 +113,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final DashboardApiImpl.Factory dashboardApi;
   private final CheckAccess checkAccess;
   private final Provider<ListDashboards> listDashboards;
+  private final GetHead getHead;
+  private final SetHead setHead;
 
   @AssistedInject
   ProjectApiImpl(
@@ -139,6 +144,8 @@ public class ProjectApiImpl implements ProjectApi {
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
       Provider<ListDashboards> listDashboards,
+      GetHead getHead,
+      SetHead setHead,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -168,6 +175,8 @@ public class ProjectApiImpl implements ProjectApi {
         dashboardApi,
         checkAccess,
         listDashboards,
+        getHead,
+        setHead,
         null);
   }
 
@@ -199,6 +208,8 @@ public class ProjectApiImpl implements ProjectApi {
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
       Provider<ListDashboards> listDashboards,
+      GetHead getHead,
+      SetHead setHead,
       @Assisted String name) {
     this(
         user,
@@ -228,6 +239,8 @@ public class ProjectApiImpl implements ProjectApi {
         dashboardApi,
         checkAccess,
         listDashboards,
+        getHead,
+        setHead,
         name);
   }
 
@@ -259,6 +272,8 @@ public class ProjectApiImpl implements ProjectApi {
       DashboardApiImpl.Factory dashboardApi,
       CheckAccess checkAccess,
       Provider<ListDashboards> listDashboards,
+      GetHead getHead,
+      SetHead setHead,
       String name) {
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -287,6 +302,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.dashboardApi = dashboardApi;
     this.checkAccess = checkAccess;
     this.listDashboards = listDashboards;
+    this.getHead = getHead;
+    this.setHead = setHead;
     this.name = name;
   }
 
@@ -526,6 +543,26 @@ public class ProjectApiImpl implements ProjectApi {
         }
       }
     };
+  }
+
+  @Override
+  public String head() throws RestApiException {
+    try {
+      return getHead.apply(checkExists());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get HEAD", e);
+    }
+  }
+
+  @Override
+  public void head(String head) throws RestApiException {
+    HeadInput input = new HeadInput();
+    input.ref = head;
+    try {
+      setHead.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set HEAD", e);
+    }
   }
 
   private ProjectResource checkExists() throws ResourceNotFoundException {

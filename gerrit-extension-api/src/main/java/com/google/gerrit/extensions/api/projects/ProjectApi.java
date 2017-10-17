@@ -170,6 +170,16 @@ public interface ProjectApi {
 
   ListDashboardsRequest dashboards() throws RestApiException;
 
+  /** Get the name of the branch to which {@code HEAD} points. */
+  String head() throws RestApiException;
+
+  /**
+   * Set the project's {@code HEAD}.
+   *
+   * @param head the HEAD
+   */
+  void head(String head) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -302,6 +312,16 @@ public interface ProjectApi {
 
     @Override
     public void removeDefaultDashboard() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String head() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void head(String head) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -285,6 +286,41 @@ public class ProjectIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("write config not permitted");
     gApi.projects().name(project.get()).config(input);
+  }
+
+  @Test
+  public void setHead() throws Exception {
+    assertThat(gApi.projects().name(project.get()).head()).isEqualTo("refs/heads/master");
+    gApi.projects().name(project.get()).branch("test1").create(new BranchInput());
+    gApi.projects().name(project.get()).branch("test2").create(new BranchInput());
+    for (String head : new String[] {"test1", "refs/heads/test2"}) {
+      gApi.projects().name(project.get()).head(head);
+      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
+    }
+  }
+
+  @Test
+  public void setHeadToNonexistentBranch() throws Exception {
+    exception.expect(UnprocessableEntityException.class);
+    gApi.projects().name(project.get()).head("does-not-exist");
+  }
+
+  @Test
+  public void setHeadToSameBranch() throws Exception {
+    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
+    for (String head : new String[] {"test", "refs/heads/test"}) {
+      gApi.projects().name(project.get()).head(head);
+      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
+    }
+  }
+
+  @Test
+  public void setHeadNotAllowed() throws Exception {
+    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("set head not permitted");
+    gApi.projects().name(project.get()).head("test");
   }
 
   private ConfigInput createTestConfigInput() {

@@ -16,9 +16,11 @@ package com.google.gerrit.server.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.sql.Timestamp;
 
@@ -76,5 +78,15 @@ public class InternalGroupDescription implements GroupDescription.Internal {
   @Override
   public Timestamp getCreatedOn() {
     return internalGroup.getCreatedOn();
+  }
+
+  @Override
+  public ImmutableSet<Account.Id> getMembers() {
+    return internalGroup.getMembers();
+  }
+
+  @Override
+  public ImmutableSet<AccountGroup.UUID> getSubgroups() {
+    return internalGroup.getSubgroups();
   }
 }

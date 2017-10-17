@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetParent implements RestReadView<ProjectResource> {
+public class GetParent implements RestReadView<ProjectResource> {
   private final AllProjectsName allProjectsName;
 
   @Inject

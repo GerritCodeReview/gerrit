@@ -80,7 +80,7 @@ limitations under the License.
     });
 
     test('_computeBaseDropdownContent', () => {
-      element.comments = {};
+      const comments = {};
       const availablePatches = [
         {num: 1},
         {num: 2},
@@ -143,7 +143,7 @@ limitations under the License.
         },
       ];
       assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
-          patchNum, sortedRevisions, revisions), expectedResult);
+          patchNum, sortedRevisions, revisions, comments), expectedResult);
     });
 
     test('_computeBaseDropdownContent called when patchNum updates', () => {
@@ -170,6 +170,35 @@ limitations under the License.
       assert.equal(element._computeBaseDropdownContent.callCount, 1);
     });
 
+    test('_computeBaseDropdownContent called when comments update', () => {
+      element.revisions = [
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      element.availablePatches = [
+        {num: 1},
+        {num: 2},
+        {num: 3},
+        {num: 'edit'},
+      ];
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
+      flushAsynchronousOperations();
+
+      // Should be recomputed for each available patch
+      sandbox.stub(element, '_computeBaseDropdownContent');
+      assert.equal(element._computeBaseDropdownContent.callCount, 0);
+      element.set('comments', {
+        file: [{
+          message: 'test',
+          patch_set: 2,
+        }],
+      });
+      assert.equal(element._computeBaseDropdownContent.callCount, 1);
+    });
+
     test('_computePatchDropdownContent called when basePatchNum updates', () => {
       element.revisions = [
         {commit: {}},
@@ -193,8 +222,37 @@ limitations under the License.
       assert.equal(element._computePatchDropdownContent.callCount, 1);
     });
 
+    test('_computePatchDropdownContent called when comments update', () => {
+      element.revisions = [
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      element.availablePatches = [
+        {num: 1},
+        {num: 2},
+        {num: 3},
+        {num: 'edit'},
+      ];
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
+      flushAsynchronousOperations();
+
+      // Should be recomputed for each available patch
+      sandbox.stub(element, '_computePatchDropdownContent');
+      assert.equal(element._computePatchDropdownContent.callCount, 0);
+      element.set('comments', {
+        file: [{
+          message: 'test',
+          patch_set: 2,
+        }],
+      });
+      assert.equal(element._computePatchDropdownContent.callCount, 1);
+    });
+
     test('_computePatchDropdownContent', () => {
-      element.comments = {};
+      const comments = {};
       const availablePatches = [
         {num: 1},
         {num: 2},
@@ -255,7 +313,7 @@ limitations under the License.
       ];
 
       assert.deepEqual(element._computePatchDropdownContent(availablePatches,
-          basePatchNum, sortedRevisions, revisions), expectedResult);
+          basePatchNum, sortedRevisions, revisions, comments), expectedResult);
     });
 
     test('filesWeblinks', () => {

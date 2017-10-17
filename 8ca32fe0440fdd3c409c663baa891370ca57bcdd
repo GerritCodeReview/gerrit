@@ -47,6 +47,30 @@
       "revId": "8ca32fe0440fdd3c409c663baa891370ca57bcdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bec8daa_f9d4e696",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-17T18:38:48Z",
+      "side": 1,
+      "message": "Is there any particular reason you did it differently than the metaKey check from the diff view?",
+      "parentUuid": "9ffbda88_25c29054",
+      "range": {
+        "startLine": 262,
+        "startChar": 10,
+        "endLine": 262,
+        "endChar": 33
+      },
+      "revId": "8ca32fe0440fdd3c409c663baa891370ca57bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

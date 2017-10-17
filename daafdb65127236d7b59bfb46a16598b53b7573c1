@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a2f4b213_89040112",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3737,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-10-17T09:03:34Z",
+      "side": 1,
+      "message": "This description was not explicative enough: I have added a follow-up change explaining the difference between them.\n\nThis is more about the internal wait queue when a SSH command is parked waiting for a server operation to complete (e.g. pack index)",
+      "parentUuid": "417b2d2e_31ad81d0",
+      "revId": "daafdb65127236d7b59bfb46a16598b53b7573c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b3fc196_2588dccb",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

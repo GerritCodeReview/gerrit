@@ -1109,6 +1109,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "iron-image",
+    package = "polymerelements/iron-image",
+    sha1 = "ff46e7d8ab7b905de380d151b1ac1e95feff5cec",
+    version = "1.2.6",
+)
+
+bower_archive(
     name = "moment",
     package = "moment/moment",
     sha1 = "fc8ce2c799bab21f6ced7aff928244f4ca8880aa",
@@ -1120,6 +1127,13 @@ bower_archive(
     package = "visionmedia/page.js",
     sha1 = "51a05428dd4f68fae1df5f12d0e2b61ba67f7757",
     version = "1.7.1",
+)
+
+bower_archive(
+    name = "paper-card",
+    package = "polymerelements/paper-card",
+    sha1 = "82e31d62f8568cb42e5d31ad8ef59ee7fcdb75d4",
+    version = "1.1.6",
 )
 
 bower_archive(

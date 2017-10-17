@@ -57,6 +57,7 @@ package_licenses = {
   "neon-animation": "polymer",
   "page": "page.js",
   "paper-button": "polymer",
+  "paper-card": "polymer",
   "paper-input": "polymer",
   "paper-item": "polymer",
   "paper-listbox": "polymer",

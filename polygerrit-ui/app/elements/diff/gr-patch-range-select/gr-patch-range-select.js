@@ -34,15 +34,21 @@
       _baseDropdownContent: {
         type: Object,
         computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
-            '_sortedRevisions, revisions)',
+            '_sortedRevisions, revisions, comments)',
       },
       _patchDropdownContent: {
         type: Object,
         computed: '_computePatchDropdownContent(availablePatches,' +
-            'basePatchNum, _sortedRevisions, revisions)',
+            'basePatchNum, _sortedRevisions, revisions, comments)',
       },
       changeNum: String,
-      comments: Array,
+      // In the case of a patch range select (like diff view) comments should
+      // be an empty array, so that the patch and base content computed values
+      // get triggered.
+      comments: {
+        type: Object,
+        value: () => { return {}; },
+      },
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
       patchNum: String,
@@ -58,7 +64,7 @@
     behaviors: [Gerrit.PatchSetBehavior],
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
-        revisions) {
+        revisions, comments) {
       const dropdownContent = [];
       dropdownContent.push({
         text: 'Base',
@@ -72,7 +78,7 @@
           triggerText: `Patchset ${basePatchNum}`,
           text: `Patchset ${basePatchNum}` +
               this._computePatchSetCommentsString(this.comments, basePatchNum),
-          mobileText: this._computeMobileText(basePatchNum, this.comments,
+          mobileText: this._computeMobileText(basePatchNum, comments,
               revisions),
           bottomText: `${this._computePatchSetDescription(
               revisions, basePatchNum)}`,
@@ -89,7 +95,7 @@
     },
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
-        _sortedRevisions, revisions) {
+        _sortedRevisions, revisions, comments) {
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;
@@ -101,8 +107,7 @@
           text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
               `${this._computePatchSetCommentsString(
                   this.comments, patchNum)}`,
-          mobileText: this._computeMobileText(patchNum, this.comments,
-              revisions),
+          mobileText: this._computeMobileText(patchNum, comments, revisions),
           bottomText: `${this._computePatchSetDescription(
               revisions, patchNum)}`,
           value: patchNum,

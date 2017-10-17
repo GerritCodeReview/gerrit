@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f492edab_c33fa068",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-17T00:03:22Z",
+      "side": 0,
+      "message": "This was an attempt to make comments optional (since not used in diff view) but that prevented re-caclutation when only comments were updated but no other inputs.",
+      "range": {
+        "startLine": 75,
+        "startChar": 60,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "40125966e1bbac69f8d8a3b15384e49368ffa311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

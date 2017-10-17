@@ -340,6 +340,52 @@
     },
     {
       "key": {
+        "uuid": "12c3dc19_e48af969",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4580,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-17T14:42:24Z",
+      "side": 1,
+      "message": "I would exclude refs/users/ from this list. Users should be able to fetch and update their own user branch. Since user branches only exist in the All-Users repository including them in the ref advertisement shouldn\u0027t harm performance in general.",
+      "range": {
+        "startLine": 4580,
+        "startChar": 0,
+        "endLine": 4580,
+        "endChar": 16
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c303875_01c8eefd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-17T14:42:24Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 55,
+        "startChar": 40,
+        "endLine": 55,
+        "endChar": 49
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43211703_52aeea21",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
         "patchSetId": 1

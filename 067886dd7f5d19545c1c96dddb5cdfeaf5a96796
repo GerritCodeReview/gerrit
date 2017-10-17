@@ -16,6 +16,24 @@
       "revId": "067886dd7f5d19545c1c96dddb5cdfeaf5a96796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f340b5_a7397146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiBaseLocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-10-17T12:46:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9537347b_4ce0da99",
+      "revId": "067886dd7f5d19545c1c96dddb5cdfeaf5a96796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

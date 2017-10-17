@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "dba82a37_afbdb289",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-17T00:41:19Z",
+      "side": 1,
+      "message": "I doint think i can preserve the order if it has it\u0027s own preference.\n\nI could go back to before where i added \n\n    \u003ctd class\u003d\"cell star\" hidden$\u003d\"[[!showStar]]\" hidden\u003e\n      \u003cgr-change-star change\u003d\"{{change}}\"\u003e\u003c/gr-change-star\u003e\n    \u003c/td\u003e\n\nabove this.\n\nand in gr-change-list too.\n\nor do you think that\u0027s a bad idea? it will at least put it back in the same order as before.",
+      "parentUuid": "f0e9d23e_f7abf53e",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01191c8a_0d3a930b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 13

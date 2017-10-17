@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "92fd1d09_8d5d55e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-17T07:42:10Z",
+      "side": 1,
+      "message": "Should be SC_CONFLICT?",
+      "parentUuid": "9a80f2dc_30bf01f4",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01af7fa0_dfb26d3d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6

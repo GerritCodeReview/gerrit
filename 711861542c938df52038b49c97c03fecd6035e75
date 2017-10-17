@@ -245,6 +245,54 @@
     },
     {
       "key": {
+        "uuid": "dcde56ed_6b4a49ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T07:59:25Z",
+      "side": 1,
+      "message": "+1 for special treatment of opened changes. There could be a special strategy for that: ALL, OMIT_GERRIT, OMIT_GERRIT_EXCEPT_OPEN_CHANGES.\n\nI don\u0027t see a use case for advertising closed changes based on age.",
+      "parentUuid": "639a11f4_53302eda",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42992264_de5cc135",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T07:59:25Z",
+      "side": 1,
+      "message": "\u003e \u003e This still leaves some open issues.\n \u003e \u003e\n \u003e \u003e * What do we do with the download commands? Do we still give a\n \u003e ref name, even though it might not be valid? Or do we try to guess\n \u003e whether the ref would be advertised, and give a SHA-1 if not?\n \u003e \n \u003e I would prefer the latter. The download commands plugin should just\n \u003e apply the same criteria\n \u003e as upload-pack: if it is open or closed and younger than some age\n \u003e then provide change ref otherwise SHA-1. Those clients who can only\n \u003e handle change refs are much less likely to\n \u003e get disrupted with this approach as, most of the time, they are\n \u003e dealing with open and\n \u003e recently closed changes.\n\n+1. In ideal world, when all this is implemented, and a site admin activates OMIT_GERRIT_EXCEPT_OPEN_CHANGES advertising strategy (and new version of download-command plugin is deployed) gerrit users wouldn\u0027t notice any change for opened changes.",
+      "parentUuid": "202d584c_91d14d55",
+      "range": {
+        "startLine": 24,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce443d03_b6bf30d1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -265,6 +313,29 @@
       "revId": "711861542c938df52038b49c97c03fecd6035e75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43211703_52aeea21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T07:59:25Z",
+      "side": 1,
+      "message": "You meant \"skip\" here? Repeating \"omit\" twice doesn\u0027t make any sense in this statement.",
+      "range": {
+        "startLine": 62,
+        "startChar": 62,
+        "endLine": 62,
+        "endChar": 66
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -322,6 +393,29 @@
       "revId": "711861542c938df52038b49c97c03fecd6035e75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30c741ec_aa697613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T07:59:25Z",
+      "side": 1,
+      "message": "The",
+      "range": {
+        "startLine": 157,
+        "startChar": 38,
+        "endLine": 157,
+        "endChar": 39
+      },
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

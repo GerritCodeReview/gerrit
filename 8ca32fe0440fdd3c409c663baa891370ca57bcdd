@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "463ce0f2_e7f6ff16",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-17T17:48:02Z",
+      "side": 1,
+      "message": "Because some keyboard layouts need to use a modifier (Shift) in order to type a bracket, these should check for the meta key specifically rather than all modifiers.\n\nConsider the check in the diff view:\n\nif (this.shouldSuppressKeyboardShortcut(e) ||\n    this.getKeyboardEvent(e).metaKey) { return; }\n\nSee: https://gerrit-review.googlesource.com/c/gerrit/+/107830",
+      "range": {
+        "startLine": 262,
+        "startChar": 10,
+        "endLine": 262,
+        "endChar": 33
+      },
+      "revId": "8ca32fe0440fdd3c409c663baa891370ca57bcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

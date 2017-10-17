@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "f8465646_f28a296a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T09:51:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5660b20b_b69f50d3",
+      "range": {
+        "startLine": 478,
+        "startChar": 16,
+        "endLine": 478,
+        "endChar": 54
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "651934cd_c0c407fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultProjectNameLockManager.java",
         "patchSetId": 6
@@ -210,6 +234,30 @@
       "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33495d7_59eae047",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultProjectNameLockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T09:51:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "651934cd_c0c407fc",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "de59f9ed_0742416a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T09:43:29Z",
+      "side": 1,
+      "message": "Yes, it should be SC_CONFLICT but it is 500 internal server error when two threads try to create the same project concurrently. You can just try running the one test from this change.\n\n\u003e What server error? It\u0027s fixed with synchronization now, right?\n\nYes, it is fixed with this change which synchronizes on project name.",
+      "parentUuid": "92fd1d09_8d5d55e6",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01af7fa0_dfb26d3d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6
@@ -83,6 +107,30 @@
       "writtenOn": "2017-10-17T06:47:01Z",
       "side": 1,
       "message": "Callable is a FunctionalInterface so that you can use lambda expression instead:\n\n  Callable\u003cRestResponse\u003e createProjectFoo \u003d\n           () -\u003e {\n              sync.await();\n              return adminRestSession.put(\"/projects/\" + newProjectName);\n            };",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 14
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69c89532_d0eafcc2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T09:43:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba3f2b34_ae936a3c",
       "range": {
         "startLine": 100,
         "startChar": 8,

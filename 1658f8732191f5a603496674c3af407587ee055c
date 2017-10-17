@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "adc48d6e_b7be7dff",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-17T18:36:14Z",
+      "side": 1,
+      "message": "New in this change is mapping \u0027+\u0027 to \u0027 \u0027 as well, so maybe mention that in this sentence. (Or you could replace \"percent encoding\" in the next sentence with \"URL encoding\", but that is somewhat less precise than what you have.)",
+      "range": {
+        "startLine": 307,
+        "startChar": 56,
+        "endLine": 307,
+        "endChar": 59
+      },
+      "revId": "1658f8732191f5a603496674c3af407587ee055c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04dc6429_22a959df",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 5

@@ -614,15 +614,18 @@ limitations under the License.
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
+      const tapSpy = sandbox.spy(element, '_handleFileListTap');
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
+      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
 
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
     });
 
     test('patch set from revisions', () => {

@@ -447,6 +447,7 @@
       const path = row.dataset.path;
       // Handle checkbox mark as reviewed.
       if (e.target.classList.contains('markReviewed')) {
+        e.preventDefault();
         return this._reviewFile(path);
       }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f15f873_6a7f93f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-17T00:11:32Z",
+      "side": 1,
+      "message": "Non-blocking nit: this can be wrapped to one line.",
+      "range": {
+        "startLine": 110,
+        "startChar": 9,
+        "endLine": 111,
+        "endChar": 25
+      },
+      "revId": "33e417ae80bf3b2381379992f9a370fed7c6294f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -363,6 +363,23 @@
     },
     {
       "key": {
+        "uuid": "802ac75d_dccf66c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T22:08:55Z",
+      "side": 1,
+      "message": "You missed to adjust change edit REST endpoint with --download-commands option:\n\n  GET /changes/\u003cproject\u003e~\u003cchange-id\u003e/edit?download-commands\n\nThe code is here:\n\n* https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java#95\n\nAs the consequence, change edit download command is still using ref name instead of SHA-1, even though upload.refAdvertisementStrategy \u003d OMIT_GERRIT:\n\n  git fetch ssh://davido@wizball:29418/test_project \\\n  refs/users/00/1000000/edit-3187/42 \u0026\u0026 git checkout FETCH_HEAD\n\nThe fix would be similar to ChangeJson.java adjustment, e.g.: [1].\n\n* [1] http://paste.openstack.org/show/623893/",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c303875_01c8eefd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
         "patchSetId": 1

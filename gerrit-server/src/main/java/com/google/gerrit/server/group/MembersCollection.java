@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,8 +24,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.group.AddMembers.PutMember;
@@ -43,8 +40,6 @@ public class MembersCollection
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
   private final AccountsCollection accounts;
-  private final Groups groups;
-  private final Provider<ReviewDb> db;
   private final AddMembers put;
 
   @Inject
@@ -52,14 +47,10 @@ public class MembersCollection
       DynamicMap<RestView<MemberResource>> views,
       Provider<ListMembers> list,
       AccountsCollection accounts,
-      Groups groups,
-      Provider<ReviewDb> db,
       AddMembers put) {
     this.views = views;
     this.list = list;
     this.accounts = accounts;
-    this.groups = groups;
-    this.db = db;
     this.put = put;
   }
 
@@ -82,14 +73,8 @@ public class MembersCollection
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(GroupDescription.Internal group, IdentifiedUser user)
-      throws OrmException, ResourceNotFoundException {
-    AccountGroup.UUID groupUuid = group.getGroupUUID();
-    try {
-      return groups.isMember(db.get(), groupUuid, user.getAccountId());
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
-    }
+  private static boolean isMember(GroupDescription.Internal group, IdentifiedUser user) {
+    return group.getMembers().contains(user.getAccountId());
   }
 
   @Override

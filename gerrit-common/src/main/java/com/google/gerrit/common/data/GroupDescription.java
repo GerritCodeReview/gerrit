@@ -15,8 +15,10 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /** Group methods exposed by the GroupBackend. */
 public class GroupDescription {
@@ -56,6 +58,10 @@ public class GroupDescription {
     boolean isVisibleToAll();
 
     Timestamp getCreatedOn();
+
+    Set<Account.Id> getMembers();
+
+    Set<AccountGroup.UUID> getSubgroups();
   }
 
   private GroupDescription() {}

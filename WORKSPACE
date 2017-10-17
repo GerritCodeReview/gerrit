@@ -1123,6 +1123,13 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-card",
+    package = "polymerelements/paper-card",
+    sha1 = "82e31d62f8568cb42e5d31ad8ef59ee7fcdb75d4",
+    version = "1.1.6",
+)
+
+bower_archive(
     name = "paper-item",
     package = "polymerelements/paper-item",
     sha1 = "803273ceb9ffebec8ecc9373ea638af4cd34af58",

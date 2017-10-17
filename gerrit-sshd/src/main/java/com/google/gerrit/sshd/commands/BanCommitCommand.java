@@ -18,6 +18,7 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.common.BanCommitInput;
 import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.ProjectResource;
@@ -67,8 +68,8 @@ public class BanCommitCommand extends SshCommand {
   @Override
   protected void run() throws Failure {
     try {
-      BanCommit.Input input =
-          BanCommit.Input.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
+      BanCommitInput input =
+          BanCommitInput.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
       BanResultInfo r = banCommit.apply(new ProjectResource(projectState, user), input);

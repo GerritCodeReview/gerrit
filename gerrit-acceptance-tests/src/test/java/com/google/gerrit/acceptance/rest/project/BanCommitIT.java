@@ -21,7 +21,7 @@ import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_R
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.project.BanCommit;
+import com.google.gerrit.extensions.common.BanCommitInput;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -35,7 +35,7 @@ public class BanCommitIT extends AbstractDaemonTest {
 
     RestResponse r =
         adminRestSession.put(
-            "/projects/" + project.get() + "/ban/", BanCommit.Input.fromCommits(c.name()));
+            "/projects/" + project.get() + "/ban/", BanCommitInput.fromCommits(c.name()));
     r.assertOK();
     BanResultInfo info = newGson().fromJson(r.getReader(), BanResultInfo.class);
     assertThat(Iterables.getOnlyElement(info.newlyBanned)).isEqualTo(c.name());
@@ -54,13 +54,13 @@ public class BanCommitIT extends AbstractDaemonTest {
     RestResponse r =
         adminRestSession.put(
             "/projects/" + project.get() + "/ban/",
-            BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
+            BanCommitInput.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
     r.consume();
 
     r =
         adminRestSession.put(
             "/projects/" + project.get() + "/ban/",
-            BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
+            BanCommitInput.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
     r.assertOK();
     BanResultInfo info = newGson().fromJson(r.getReader(), BanResultInfo.class);
     assertThat(Iterables.getOnlyElement(info.alreadyBanned))
@@ -74,7 +74,7 @@ public class BanCommitIT extends AbstractDaemonTest {
     userRestSession
         .put(
             "/projects/" + project.get() + "/ban/",
-            BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"))
+            BanCommitInput.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"))
         .assertForbidden();
   }
 }

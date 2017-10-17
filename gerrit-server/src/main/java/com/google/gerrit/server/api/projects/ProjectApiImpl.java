@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.HeadInput;
+import com.google.gerrit.extensions.common.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -61,6 +62,7 @@ import com.google.gerrit.server.project.GetAccess;
 import com.google.gerrit.server.project.GetConfig;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.GetHead;
+import com.google.gerrit.server.project.GetParent;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ListDashboards;
@@ -72,6 +74,7 @@ import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
 import com.google.gerrit.server.project.SetHead;
+import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -115,6 +118,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<ListDashboards> listDashboards;
   private final GetHead getHead;
   private final SetHead setHead;
+  private final GetParent getParent;
+  private final SetParent setParent;
 
   @AssistedInject
   ProjectApiImpl(
@@ -146,6 +151,8 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
+      GetParent getParent,
+      SetParent setParent,
       @Assisted ProjectResource project) {
     this(
         user,
@@ -177,6 +184,8 @@ public class ProjectApiImpl implements ProjectApi {
         listDashboards,
         getHead,
         setHead,
+        getParent,
+        setParent,
         null);
   }
 
@@ -210,6 +219,8 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
+      GetParent getParent,
+      SetParent setParent,
       @Assisted String name) {
     this(
         user,
@@ -241,6 +252,8 @@ public class ProjectApiImpl implements ProjectApi {
         listDashboards,
         getHead,
         setHead,
+        getParent,
+        setParent,
         name);
   }
 
@@ -274,6 +287,8 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListDashboards> listDashboards,
       GetHead getHead,
       SetHead setHead,
+      GetParent getParent,
+      SetParent setParent,
       String name) {
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -304,6 +319,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.listDashboards = listDashboards;
     this.getHead = getHead;
     this.setHead = setHead;
+    this.getParent = getParent;
+    this.setParent = setParent;
     this.name = name;
   }
 
@@ -562,6 +579,26 @@ public class ProjectApiImpl implements ProjectApi {
       setHead.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set HEAD", e);
+    }
+  }
+
+  @Override
+  public String parent() throws RestApiException {
+    try {
+      return getParent.apply(checkExists());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get parent", e);
+    }
+  }
+
+  @Override
+  public void parent(String parent) throws RestApiException {
+    try {
+      ParentInput input = new ParentInput();
+      input.parent = parent;
+      setParent.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set parent", e);
     }
   }
 

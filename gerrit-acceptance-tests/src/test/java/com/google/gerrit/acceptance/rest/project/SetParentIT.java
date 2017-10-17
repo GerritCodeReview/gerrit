@@ -17,89 +17,73 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.common.ParentInput;
+import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import org.junit.Test;
 
+@NoHttpd
 public class SetParentIT extends AbstractDaemonTest {
   @Test
-  public void setParent_Forbidden() throws Exception {
+  public void setParentNotAllowed() throws Exception {
     String parent = createProject("parent", null, true).get();
-    RestResponse r =
-        userRestSession.put("/projects/" + project.get() + "/parent", newParentInput(parent));
-    r.assertForbidden();
-    r.consume();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.projects().name(project.get()).parent(parent);
   }
 
   @Test
   public void setParent() throws Exception {
     String parent = createProject("parent", null, true).get();
-    RestResponse r =
-        adminRestSession.put("/projects/" + project.get() + "/parent", newParentInput(parent));
-    r.assertOK();
-    r.consume();
 
-    r = adminRestSession.get("/projects/" + project.get() + "/parent");
-    r.assertOK();
-    String newParent = newGson().fromJson(r.getReader(), String.class);
-    assertThat(newParent).isEqualTo(parent);
-    r.consume();
+    gApi.projects().name(project.get()).parent(parent);
+    assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
 
     // When the parent name is not explicitly set, it should be
     // set to "All-Projects".
-    r = adminRestSession.put("/projects/" + project.get() + "/parent", newParentInput(null));
-    r.assertOK();
-    r.consume();
-
-    r = adminRestSession.get("/projects/" + project.get() + "/parent");
-    r.assertOK();
-    newParent = newGson().fromJson(r.getReader(), String.class);
-    assertThat(newParent).isEqualTo(AllProjectsNameProvider.DEFAULT);
-    r.consume();
+    gApi.projects().name(project.get()).parent(null);
+    assertThat(gApi.projects().name(project.get()).parent())
+        .isEqualTo(AllProjectsNameProvider.DEFAULT);
   }
 
   @Test
-  public void setParentForAllProjects_Conflict() throws Exception {
-    RestResponse r =
-        adminRestSession.put(
-            "/projects/" + allProjects.get() + "/parent", newParentInput(project.get()));
-    r.assertConflict();
-    r.consume();
+  public void setParentForAllProjectsNotAllowed() throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cannot set parent of " + AllProjectsNameProvider.DEFAULT);
+    gApi.projects().name(allProjects.get()).parent(project.get());
   }
 
   @Test
-  public void setInvalidParent_Conflict() throws Exception {
-    RestResponse r =
-        adminRestSession.put(
-            "/projects/" + project.get() + "/parent", newParentInput(project.get()));
-    r.assertConflict();
-    r.consume();
+  public void setParentToSelfNotAllowed() throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cycle exists between");
+    gApi.projects().name(project.get()).parent(project.get());
+  }
 
+  @Test
+  public void setParentToOwnChildNotAllowed() throws Exception {
+    String child = createProject("child", project, true).get();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cycle exists between");
+    gApi.projects().name(project.get()).parent(child);
+  }
+
+  @Test
+  public void setParentToGrandchildNotAllowed() throws Exception {
     Project.NameKey child = createProject("child", project, true);
-    r = adminRestSession.put("/projects/" + project.get() + "/parent", newParentInput(child.get()));
-    r.assertConflict();
-    r.consume();
-
     String grandchild = createProject("grandchild", child, true).get();
-    r = adminRestSession.put("/projects/" + project.get() + "/parent", newParentInput(grandchild));
-    r.assertConflict();
-    r.consume();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cycle exists between");
+    gApi.projects().name(project.get()).parent(grandchild);
   }
 
   @Test
-  public void setNonExistingParent_UnprocessibleEntity() throws Exception {
-    RestResponse r =
-        adminRestSession.put(
-            "/projects/" + project.get() + "/parent", newParentInput("non-existing"));
-    r.assertUnprocessableEntity();
-    r.consume();
-  }
-
-  ParentInput newParentInput(String project) {
-    ParentInput in = new ParentInput();
-    in.parent = project;
-    return in;
+  public void setParentToNonexistentProject() throws Exception {
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("not found");
+    gApi.projects().name(project.get()).parent("non-existing");
   }
 }

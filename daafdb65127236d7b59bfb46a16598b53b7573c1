@@ -81,6 +81,30 @@
       "revId": "daafdb65127236d7b59bfb46a16598b53b7573c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af300809_6029fd53",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3738,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-10-17T09:04:32Z",
+      "side": 1,
+      "message": "Yeath, I realised the typo too late when Paladox already pushed the \"Submit\" button :-(",
+      "parentUuid": "0516e17b_2cc6785e",
+      "range": {
+        "startLine": 3737,
+        "startChar": 69,
+        "endLine": 3738,
+        "endChar": 11
+      },
+      "revId": "daafdb65127236d7b59bfb46a16598b53b7573c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "d00300ff_1bf8f87f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T09:44:31Z",
+      "side": 1,
+      "message": "As wrote in the commit message: when two requests concurrently try to create a project with the same name we MAY get an internal server error in one of them. It depends on timing.\n\nA strategy to test such scenarios is to repeat the test several times to increase the probability of hitting the race condition. Therefore, run 10 times.",
+      "parentUuid": "01af7fa0_dfb26d3d",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba3f2b34_ae936a3c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6

@@ -14,16 +14,6 @@
 (function() {
   'use strict';
 
-  /**
-   * TODO(kaspern): move this dictionary to a shareable constants file.
-   */
-  const Actions = {
-    EDIT: {label: 'Edit', key: 'edit'},
-    DELETE: {label: 'Delete', key: 'delete'},
-    RENAME: {label: 'Rename', key: 'rename'},
-    RESTORE: {label: 'Restore', key: 'restore'},
-  };
-
   Polymer({
     is: 'gr-edit-controls',
     properties: {
@@ -36,12 +26,12 @@
        */
       hiddenActions: {
         type: Array,
-        value() { return [Actions.RESTORE.key]; },
+        value() { return [GrEditConstants.Actions.RESTORE.key]; },
       },
 
       _actions: {
         type: Array,
-        value() { return Object.values(Actions); },
+        value() { return Object.values(GrEditConstants.Actions); },
       },
       _path: {
         type: String,
@@ -66,18 +56,17 @@
     _handleTap(e) {
       e.preventDefault();
       const action = Polymer.dom(e).localTarget.id;
-      // TODO(kaspern): Add all actions to this switch.
       switch (action) {
-        case Actions.EDIT.key:
+        case GrEditConstants.Actions.EDIT.key:
           this.openEditDialog();
           return;
-        case Actions.DELETE.key:
+        case GrEditConstants.Actions.DELETE.key:
           this.openDeleteDialog();
           return;
-        case Actions.RENAME.key:
+        case GrEditConstants.Actions.RENAME.key:
           this.openRenameDialog();
           return;
-        case Actions.RESTORE.key:
+        case GrEditConstants.Actions.RESTORE.key:
           this.openRestoreDialog();
           return;
       }

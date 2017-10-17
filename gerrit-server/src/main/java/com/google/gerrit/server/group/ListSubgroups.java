@@ -23,12 +23,10 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,14 +37,11 @@ public class ListSubgroups implements RestReadView<GroupResource> {
   private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListSubgroups.class);
 
   private final GroupControl.Factory controlFactory;
-  private final GroupIncludeCache groupIncludeCache;
   private final GroupJson json;
 
   @Inject
-  ListSubgroups(
-      GroupControl.Factory controlFactory, GroupIncludeCache groupIncludeCache, GroupJson json) {
+  ListSubgroups(GroupControl.Factory controlFactory, GroupJson json) {
     this.controlFactory = controlFactory;
-    this.groupIncludeCache = groupIncludeCache;
     this.json = json;
   }
 
@@ -57,9 +52,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
-    Collection<AccountGroup.UUID> subgroupUuids =
-        groupIncludeCache.subgroupsOf(group.getGroupUUID());
-    for (AccountGroup.UUID subgroupUuid : subgroupUuids) {
+    for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
       try {
         GroupControl i = controlFactory.controlFor(subgroupUuid);
         if (ownerOfParent || i.isVisible()) {

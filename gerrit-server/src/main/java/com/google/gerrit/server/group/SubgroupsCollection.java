@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,11 +24,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddSubgroups.PutSubgroup;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -38,8 +34,6 @@ public class SubgroupsCollection
   private final DynamicMap<RestView<SubgroupResource>> views;
   private final ListSubgroups list;
   private final GroupsCollection groupsCollection;
-  private final Provider<ReviewDb> dbProvider;
-  private final Groups groups;
   private final AddSubgroups addSubgroups;
 
   @Inject
@@ -47,14 +41,10 @@ public class SubgroupsCollection
       DynamicMap<RestView<SubgroupResource>> views,
       ListSubgroups list,
       GroupsCollection groupsCollection,
-      Provider<ReviewDb> dbProvider,
-      Groups groups,
       AddSubgroups addSubgroups) {
     this.views = views;
     this.list = list;
     this.groupsCollection = groupsCollection;
-    this.dbProvider = dbProvider;
-    this.groups = groups;
     this.addSubgroups = addSubgroups;
   }
 
@@ -65,7 +55,7 @@ public class SubgroupsCollection
 
   @Override
   public SubgroupResource parse(GroupResource resource, IdString id)
-      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException, ResourceNotFoundException {
     GroupDescription.Internal parent =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
@@ -77,14 +67,9 @@ public class SubgroupsCollection
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isSubgroup(GroupDescription.Internal parent, GroupDescription.Basic member)
-      throws OrmException, ResourceNotFoundException {
-    try {
-      return groups.isSubgroup(dbProvider.get(), parent.getGroupUUID(), member.getGroupUUID());
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(
-          String.format("Group %s not found", parent.getGroupUUID()));
-    }
+  private static boolean isSubgroup(
+      GroupDescription.Internal parent, GroupDescription.Basic member) {
+    return parent.getSubgroups().contains(member.getGroupUUID());
   }
 
   @Override

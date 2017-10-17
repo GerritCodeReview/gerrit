@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5660b20b_b69f50d3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-17T05:00:56Z",
+      "side": 1,
+      "message": "optional:\n\n new DefaultProjectNameLockManager.Module()\n\nper the comment in DefaultProjectNameLockManager",
+      "range": {
+        "startLine": 478,
+        "startChar": 16,
+        "endLine": 478,
+        "endChar": 54
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "651934cd_c0c407fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultProjectNameLockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-17T05:00:56Z",
+      "side": 1,
+      "message": "optional: Most other classes having their own module expose it as a static class named Module that extends AbstractModule.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

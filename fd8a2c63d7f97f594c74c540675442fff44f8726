@@ -73,6 +73,53 @@
     },
     {
       "key": {
+        "uuid": "56ca5679_4f0efae6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T20:12:04Z",
+      "side": 1,
+      "message": "Thanks for clarifying, I see it now when running the test from this change without the syncronization code. It is sporadically failing with SC_CONFLICT or SC_INTERNAL_SERVER_ERROR depending on the timing:\n\n* SC_CONFLICT: stack trace: http://paste.openstack.org/show/623882\n* SC_INTERNAL_SERVER_ERROR: stack trace: http://paste.openstack.org/show/623885\n\nThis change fixed it, but to make sure, we are not sporadically running into SC_INTERNAL_SERVER_ERROR again but consistently reporting SC_CONFLICT we are using the loop in the unit test.\n\nI still find it hard to understand what you were trying to say in the section above. Is this because you are mixing the situations from before and after this change?",
+      "parentUuid": "de59f9ed_0742416a",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bc8676_2fb3cbc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-17T20:12:04Z",
+      "side": 1,
+      "message": "server?",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01af7fa0_dfb26d3d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 6

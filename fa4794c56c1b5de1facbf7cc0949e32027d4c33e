@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d24a461_f5479cd0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-17T21:52:54Z",
+      "side": 1,
+      "message": "This is repeated here and in gr-file-list-header.  It does not seem like it warrants a behavior, but I\u0027m open to DRY options.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 4
+      },
+      "revId": "fa4794c56c1b5de1facbf7cc0949e32027d4c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

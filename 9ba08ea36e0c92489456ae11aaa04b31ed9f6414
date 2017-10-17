@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d666e8f0_d0db9558",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3739,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-10-17T10:17:28Z",
+      "side": 1,
+      "message": "@Saša do you believe it would make sense to mention how this compares to the transfer timeout?",
+      "range": {
+        "startLine": 3739,
+        "startChar": 12,
+        "endLine": 3739,
+        "endChar": 54
+      },
+      "revId": "9ba08ea36e0c92489456ae11aaa04b31ed9f6414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

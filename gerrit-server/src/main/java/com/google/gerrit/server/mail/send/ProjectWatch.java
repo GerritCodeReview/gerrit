@@ -17,13 +17,11 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -166,9 +164,7 @@ public class ProjectWatch {
     }
   }
 
-  private void deliverToMembers(Watchers.List matching, AccountGroup.UUID startUUID)
-      throws OrmException {
-    ReviewDb db = args.db.get();
+  private void deliverToMembers(Watchers.List matching, AccountGroup.UUID startUUID) {
     Set<AccountGroup.UUID> seen = new HashSet<>();
     List<AccountGroup.UUID> q = new ArrayList<>();
 
@@ -193,12 +189,8 @@ public class ProjectWatch {
       }
 
       GroupDescription.Internal ig = (GroupDescription.Internal) group;
-      try {
-        args.groups.getMembers(db, ig.getGroupUUID()).forEach(matching.accounts::add);
-      } catch (NoSuchGroupException e) {
-        continue;
-      }
-      for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
+      matching.accounts.addAll(ig.getMembers());
+      for (AccountGroup.UUID m : ig.getSubgroups()) {
         if (seen.add(m)) {
           q.add(m);
         }

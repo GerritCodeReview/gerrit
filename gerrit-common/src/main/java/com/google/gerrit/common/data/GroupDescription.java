@@ -14,7 +14,9 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.sql.Timestamp;
 
@@ -56,6 +58,10 @@ public class GroupDescription {
     boolean isVisibleToAll();
 
     Timestamp getCreatedOn();
+
+    ImmutableSet<Account.Id> getMembers();
+
+    ImmutableSet<AccountGroup.UUID> getSubgroups();
   }
 
   private GroupDescription() {}

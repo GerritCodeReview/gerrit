@@ -22,6 +22,9 @@ Sample `etc/gerrit.config`:
 [[accountPatchReviewDb]]
 === Section accountPatchReviewDb
 
+The AccountPatchReviewDb is a database used to store the user file reviewed
+flags. It co-exists with <<database,ReviewDb>> and link:note-db.html[NoteDb].
+
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
 The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`,
@@ -1605,6 +1608,9 @@ The database section configures ReviewDb, where Gerrit stores its metadata
 records about account groups and change reviews. Starting from 2.15, accounts
 are always stored in NoteDb and, optionally, changes too. See the
 link:note-db.html[NoteDb documentation] for more information.
+
+Note that user file reviewed flags are stored in a separate database. See the
+<<accountPatchReviewDb,accountPatchReviewDb>> section for more information.
 
 ----
 [database]

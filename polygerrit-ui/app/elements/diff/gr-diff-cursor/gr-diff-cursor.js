@@ -80,6 +80,11 @@
         value: ScrollBehavior.KEEP_VISIBLE,
       },
 
+      _focusOnMove: {
+        type: Boolean,
+        value: true,
+      },
+
       _listeningForScroll: Boolean,
     },
 
@@ -207,6 +212,7 @@
     _handleWindowScroll() {
       if (this._listeningForScroll) {
         this._scrollBehavior = ScrollBehavior.NEVER;
+        this._focusOnMove = false;
         this._listeningForScroll = false;
       }
     },
@@ -218,6 +224,7 @@
         this.reInitCursor();
       }
       this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
+      this._focusOnMove = true;
       this._listeningForScroll = false;
     },
 

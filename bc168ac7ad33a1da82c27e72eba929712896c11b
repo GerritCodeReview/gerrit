@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "17b9e812_e5ce63bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-17T16:56:16Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s just do that.",
+      "parentUuid": "dba82a37_afbdb289",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "bc168ac7ad33a1da82c27e72eba929712896c11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01191c8a_0d3a930b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 13

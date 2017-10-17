@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "e51f0403_df0e859b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-10-17T15:17:29Z",
+      "side": 1,
+      "message": "I did this approach in https://gerrit-review.googlesource.com/c/gerrit/+/133810",
+      "parentUuid": "92efa0b1_422803fc",
+      "revId": "c78df4667a1655470289c56553164aa01d106973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b9ca071_76e858a9",
         "filename": "polygerrit-ui/app/elements/plugins/gr-layer-api/gr-layer-api.js",
         "patchSetId": 6

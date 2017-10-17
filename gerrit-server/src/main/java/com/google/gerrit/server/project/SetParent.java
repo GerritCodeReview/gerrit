@@ -118,6 +118,10 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
         throw new UnprocessableEntityException("parent project " + newParent + " not found");
       }
 
+      if (parent.getName().equals(project.get())) {
+        throw new ResourceConflictException("cannot set parent to self");
+      }
+
       if (Iterables.tryFind(
               parent.tree(),
               p -> {

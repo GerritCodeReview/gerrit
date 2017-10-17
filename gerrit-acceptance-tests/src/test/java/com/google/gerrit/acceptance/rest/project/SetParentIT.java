@@ -59,7 +59,7 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParentToSelfNotAllowed() throws Exception {
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("cycle exists between");
+    exception.expectMessage("cannot set parent to self");
     gApi.projects().name(project.get()).parent(project.get());
   }
 

@@ -15,11 +15,11 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.HeadInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -31,7 +31,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -46,12 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class SetHead implements RestModifyView<ProjectResource, Input> {
+public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
   private static final Logger log = LoggerFactory.getLogger(SetHead.class);
-
-  public static class Input {
-    @DefaultInput public String ref;
-  }
 
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -71,7 +66,7 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(ProjectResource rsrc, Input input)
+  public String apply(ProjectResource rsrc, HeadInput input)
       throws AuthException, ResourceNotFoundException, BadRequestException,
           UnprocessableEntityException, IOException, PermissionBackendException {
     if (input == null || Strings.isNullOrEmpty(input.ref)) {

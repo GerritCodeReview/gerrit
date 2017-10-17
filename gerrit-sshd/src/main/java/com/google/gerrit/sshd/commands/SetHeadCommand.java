@@ -14,11 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.extensions.common.HeadInput;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SetHead;
-import com.google.gerrit.server.project.SetHead.Input;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -43,7 +43,7 @@ public class SetHeadCommand extends SshCommand {
 
   @Override
   protected void run() throws Exception {
-    Input input = new SetHead.Input();
+    HeadInput input = new HeadInput();
     input.ref = newHead;
     try {
       setHead.apply(new ProjectResource(project, user), input);

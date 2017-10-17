@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "417b2d2e_31ad81d0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3737,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-17T08:15:38Z",
+      "side": 1,
+      "message": "What is the difference between this setting and the transfer.timeout?",
+      "revId": "daafdb65127236d7b59bfb46a16598b53b7573c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b3fc196_2588dccb",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

@@ -22,6 +22,30 @@
       "revId": "f9270428089efa682b99bfe6c3fb406da5327b75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f6d6ca_2d92b524",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-17T00:24:54Z",
+      "side": 1,
+      "message": "Yup -- hidden behind a prop check, so no exception.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js#911",
+      "parentUuid": "3fac07dd_a81f909f",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "f9270428089efa682b99bfe6c3fb406da5327b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db0ea44e_1433e45a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-17T17:37:33Z",
+      "side": 1,
+      "message": "? I didn\u0027t see this discussed in the proposal document.",
+      "revId": "6dcb3ac890b63b0ca5443502201b5c8f06af5068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7134d7d_170b6fe2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-17T17:37:33Z",
+      "side": 1,
+      "message": "This could use a comment explaining what it is doing and why. You don\u0027t need to rehash the entire discussion here; a direct link to the proposal document would be fine.",
+      "revId": "6dcb3ac890b63b0ca5443502201b5c8f06af5068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

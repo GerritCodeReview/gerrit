@@ -1601,8 +1601,10 @@ Default is 1 hour.
 [[database]]
 === Section database
 
-The database section configures where Gerrit stores its metadata
-records about user accounts and change reviews.
+The database section configures ReviewDb, where Gerrit stores its metadata
+records about account groups and change reviews. Starting from 2.15, accounts
+are always stored in NoteDb and, optionally, changes too. See the
+link:note-db.html[NoteDb documentation] for more information.
 
 ----
 [database]

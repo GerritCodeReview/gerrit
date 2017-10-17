@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.extensions.common.ParentInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -33,7 +33,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.SetParent.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -41,12 +40,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
-public class SetParent implements RestModifyView<ProjectResource, Input> {
-  public static class Input {
-    @DefaultInput public String parent;
-    public String commitMessage;
-  }
-
+public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
   private final ProjectCache cache;
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.Server updateFactory;
@@ -65,13 +59,13 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(ProjectResource rsrc, Input input)
+  public String apply(ProjectResource rsrc, ParentInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException {
     return apply(rsrc, input, true);
   }
 
-  public String apply(ProjectResource rsrc, Input input, boolean checkIfAdmin)
+  public String apply(ProjectResource rsrc, ParentInput input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();

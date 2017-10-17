@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.common.ParentInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.project.SetParent;
 import org.junit.Test;
 
 public class SetParentIT extends AbstractDaemonTest {
@@ -97,8 +97,8 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  SetParent.Input newParentInput(String project) {
-    SetParent.Input in = new SetParent.Input();
+  ParentInput newParentInput(String project) {
+    ParentInput in = new ParentInput();
     in.parent = project;
     return in;
   }

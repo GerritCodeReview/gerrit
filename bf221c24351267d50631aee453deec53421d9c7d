@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9085a9da_c427832b",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-17T17:34:04Z",
+      "side": 1,
+      "message": "I am ok with this, at least until we have actual users whose actual workflows are actively hampered by this. (Not just hypothetical users who might have theoretical workflows--sorry Martin.) It also has the advantage that not requiring a change to the data model means we can easily change the behavior later.\n\nOne nit, however...\"minimum\" and \"veto\" votes are not the same thing. A -2 on a label doesn\u0027t block submission unless the function is *WithBlock. Is the proposal to leave -2s even on NoOp labels? That would be simpler to explain and implement (no need to check the label config), but doesn\u0027t match the rationale we\u0027re giving.",
+      "parentUuid": "cc24ede2_1eb5b033",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "bf221c24351267d50631aee453deec53421d9c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24e5e134_718d022f",
         "filename": "Documentation/proposal-ajust-votes.txt",
         "patchSetId": 3

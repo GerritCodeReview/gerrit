@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ef62088_f9f42d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-17T17:44:37Z",
+      "side": 1,
+      "message": "Yeah. I shouldn\u0027t check this. As it will lose blocking -2 in some case.",
+      "parentUuid": "db0ea44e_1433e45a",
+      "revId": "6dcb3ac890b63b0ca5443502201b5c8f06af5068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7134d7d_170b6fe2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
         "patchSetId": 12
@@ -33,6 +51,24 @@
       "revId": "6dcb3ac890b63b0ca5443502201b5c8f06af5068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721b5d33_12ac86c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-17T17:44:37Z",
+      "side": 1,
+      "message": "OK. Will update in the next patch set.",
+      "parentUuid": "b7134d7d_170b6fe2",
+      "revId": "6dcb3ac890b63b0ca5443502201b5c8f06af5068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

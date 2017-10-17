@@ -180,6 +180,16 @@ public interface ProjectApi {
    */
   void head(String head) throws RestApiException;
 
+  /** Get the name of the project's parent. */
+  String parent() throws RestApiException;
+
+  /**
+   * Set the project's parent.
+   *
+   * @param parent the parent
+   */
+  void parent(String parent) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -322,6 +332,16 @@ public interface ProjectApi {
 
     @Override
     public void head(String head) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String parent() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void parent(String parent) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -777,10 +777,7 @@
     },
 
     _handleHeightChanged(e) {
-      // If the textarea resizes, we need to re-fit the overlay.
-      this.debounce('autogrow', () => {
-        this.fire('autogrow');
-      });
+      this.fire('autogrow');
     },
 
     _handleLabelsChanged() {

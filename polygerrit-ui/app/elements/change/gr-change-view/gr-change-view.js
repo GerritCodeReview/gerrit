@@ -37,6 +37,8 @@
 
   const SMALL_RELATED_HEIGHT = 400;
 
+  const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
+
   Polymer({
     is: 'gr-change-view',
 
@@ -458,7 +460,10 @@
     },
 
     _handleReplyAutogrow(e) {
-      this.$.replyOverlay.refit();
+      // If the textarea resizes, we need to re-fit the overlay.
+      this.debounce('reply-overlay-refit', () => {
+        this.$.replyOverlay.refit();
+      }, REPLY_REFIT_DEBOUNCE_INTERVAL_MS);
     },
 
     _handleShowReplyDialog(e) {

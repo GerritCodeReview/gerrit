@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a45058a_62a47e68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/SetParentIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-17T11:23:57Z",
+      "side": 1,
+      "message": "Move this class into \ngerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ since it is no longer testing the REST API.",
+      "revId": "e8ad5f63f65906cf030a7217ce8fa914a61b6132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

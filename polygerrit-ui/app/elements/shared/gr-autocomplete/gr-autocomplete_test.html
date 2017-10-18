@@ -283,11 +283,25 @@ limitations under the License.
     test('_focused flag properly triggered', done => {
       flush(() => {
         assert.isFalse(element._focused);
-        const input = element.$$('input');
+        const input = element.$$('paper-input').inputElement;
         MockInteractions.focus(input);
         assert.isTrue(element._focused);
         done();
       });
+    });
+
+    test('search icon shows with showSearchIcon property', () => {
+      assert.equal(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
+      element.showSearchIcon = true;
+      assert.notEqual(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
+    });
+
+    test('vertical offset overridden by param if it exists', () => {
+      assert.equal(element.$.suggestions.verticalOffset, 20);
+      element.verticalOffset = 30;
+      assert.equal(element.$.suggestions.verticalOffset, 30);
     });
 
     test('_focused flag shows/hides the suggestions', () => {
@@ -449,8 +463,12 @@ limitations under the License.
         element.text = 'blah blah blah';
         MockInteractions.blur(element.$.input);
         assert.isTrue(inputClassList.contains('warnUncommitted'));
+        assert.equal(getComputedStyle(element.$.input.inputElement).color,
+            'rgb(255, 0, 0)');
         MockInteractions.focus(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
+        assert.notEqual(getComputedStyle(element.$.input.inputElement).color,
+            'rgb(255, 0, 0)ed');
       });
 
       test('disabled', () => {

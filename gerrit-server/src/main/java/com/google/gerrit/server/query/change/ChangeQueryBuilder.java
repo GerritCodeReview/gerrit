@@ -778,8 +778,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       Set<Account.Id> allMembers =
           args.listMembers
               .get()
-              .setRecursive(true)
-              .apply(group)
+              .getTransitiveMembers(group)
               .stream()
               .map(a -> new Account.Id(a._accountId))
               .collect(toSet());

@@ -128,6 +128,24 @@
       "revId": "5e0304c2a3b7ea012b0565546bb0ec3f756e0405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051fa524_cbb39451",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T23:36:22Z",
+      "side": 1,
+      "message": "Have a look in download_bower.py; it creates a .bowerrc file.",
+      "parentUuid": "fa397d58_25ce81ae",
+      "revId": "5e0304c2a3b7ea012b0565546bb0ec3f756e0405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

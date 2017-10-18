@@ -178,6 +178,47 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void respectsTopicOnAncestors() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
+    RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    String id1 = getChangeId(c1_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    testRepo.reset(initialHead);
+    RevCommit c2_1 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master/" + name("otherConnectingTopic"), false);
+
+    RevCommit c3_1 = commitBuilder().add("b.txt", "3").message("subject: 3").create();
+    String id3 = getChangeId(c3_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    RevCommit c4_1 = commitBuilder().add("b.txt", "4").message("subject: 4").create();
+    String id4 = getChangeId(c4_1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    testRepo.reset(initialHead);
+    RevCommit c5_1 = commitBuilder().add("c.txt", "5").message("subject: 5").create();
+    String id5 = getChangeId(c5_1);
+    pushHead(testRepo, "refs/for/master/" + name("otherConnectingTopic"), false);
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertSubmittedTogether(id1, id5, id3, id2, id1);
+      assertSubmittedTogether(id2, id5, id2);
+      assertSubmittedTogether(id3, id5, id3, id2, id1);
+      assertSubmittedTogether(id4, id5, id4, id3, id2, id1);
+      assertSubmittedTogether(id5, id5, id2);
+    } else {
+      assertSubmittedTogether(id1);
+      assertSubmittedTogether(id2);
+      assertSubmittedTogether(id3, id3, id2);
+      assertSubmittedTogether(id4, id4, id3, id2);
+      assertSubmittedTogether(id5);
+    }
+  }
+
+  @Test
   public void newBranchTwoChangesTogether() throws Exception {
     Project.NameKey p1 = createProject("a-new-project", null, false);
     TestRepository<?> repo1 = cloneProject(p1);

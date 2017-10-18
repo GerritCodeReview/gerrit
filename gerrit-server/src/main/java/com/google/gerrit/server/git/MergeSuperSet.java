@@ -194,12 +194,13 @@ public class MergeSuperSet {
     int oldSeen;
     int seen = 0;
 
+    changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
+    seen = topicsSeen.size() + visibleTopicsSeen.size();
+
     do {
       oldSeen = seen;
-
-      changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
       changeSet = mergeSuperSetComputation.get().completeWithoutTopic(db, orm, changeSet, user);
-
+      changeSet = topicClosure(db, changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();
     } while (seen != oldSeen);
     return changeSet;

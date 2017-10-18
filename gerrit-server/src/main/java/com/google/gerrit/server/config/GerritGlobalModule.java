@@ -163,6 +163,7 @@ import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
@@ -376,6 +377,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
     DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
+    DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

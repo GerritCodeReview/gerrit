@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae8a603f_06f6fe9d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-18T20:12:24Z",
+      "side": 1,
+      "message": "One idea would be to always create new changes as WIP. It\u0027s not like it\u0027s reviewable immediately upon creation like a pushed commit would be.\n\nI\u0027m not convinced private really needs to be exposed at this point in the interaction, either. I propose we keep it simple until we have evidence that it\u0027s *too* simple.",
+      "parentUuid": "9ca8675d_6f3d64c3",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa54791_9a7e628c",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 20

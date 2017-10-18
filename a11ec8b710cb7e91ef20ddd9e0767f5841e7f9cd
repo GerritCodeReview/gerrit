@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "742e2e84_7c76a2d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T05:56:21Z",
+      "side": 1,
+      "message": "We only add one reviewer and then remove it, so we expect the list to be empty.",
+      "parentUuid": "f7d7b39a_83d287bb",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65e4c6ca_7bb9a6b7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89826279_77cbf59c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T05:56:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "65e4c6ca_7bb9a6b7",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 0
+      },
+      "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

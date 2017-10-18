@@ -22,9 +22,11 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 
+@Singleton
 public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryManager {
 
   public static class Module extends LifecycleModule {

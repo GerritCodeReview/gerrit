@@ -369,7 +369,6 @@ public class GroupsUpdate {
     for (AccountGroupById newIncludedGroup : newSubgroups) {
       groupIncludeCache.evictParentGroupsOf(newIncludedGroup.getIncludeUUID());
     }
-    groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
   }
 
   /**
@@ -412,6 +411,5 @@ public class GroupsUpdate {
     for (AccountGroupById groupToRemove : subgroupsToRemove) {
       groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
     }
-    groupIncludeCache.evictSubgroupsOf(parentGroupUuid);
   }
 }

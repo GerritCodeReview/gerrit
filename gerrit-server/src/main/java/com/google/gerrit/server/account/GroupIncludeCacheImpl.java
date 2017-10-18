@@ -22,7 +22,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -52,7 +51,6 @@ import org.slf4j.LoggerFactory;
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final Logger log = LoggerFactory.getLogger(GroupIncludeCacheImpl.class);
   private static final String PARENT_GROUPS_NAME = "groups_bysubgroup";
-  private static final String SUBGROUPS_NAME = "groups_subgroups";
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
 
@@ -72,12 +70,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
                 new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
             .loader(ParentGroupsLoader.class);
 
-        cache(
-                SUBGROUPS_NAME,
-                AccountGroup.UUID.class,
-                new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
-            .loader(SubgroupsLoader.class);
-
         cache(EXTERNAL_NAME, String.class, new TypeLiteral<ImmutableList<AccountGroup.UUID>>() {})
             .loader(AllExternalLoader.class);
 
@@ -88,7 +80,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   private final LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember;
-  private final LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> subgroups;
   private final LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> parentGroups;
   private final LoadingCache<String, ImmutableList<AccountGroup.UUID>> external;
 
@@ -96,13 +87,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   GroupIncludeCacheImpl(
       @Named(GROUPS_WITH_MEMBER_NAME)
           LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember,
-      @Named(SUBGROUPS_NAME)
-          LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> subgroups,
       @Named(PARENT_GROUPS_NAME)
           LoadingCache<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> parentGroups,
       @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external) {
     this.groupsWithMember = groupsWithMember;
-    this.subgroups = subgroups;
     this.parentGroups = parentGroups;
     this.external = external;
   }
@@ -114,16 +102,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot load groups containing %d as member", memberId.get()));
       return ImmutableSet.of();
-    }
-  }
-
-  @Override
-  public Collection<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID groupId) {
-    try {
-      return subgroups.get(groupId);
-    } catch (ExecutionException e) {
-      log.warn("Cannot load members of group", e);
-      return Collections.emptySet();
     }
   }
 
@@ -141,13 +119,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   public void evictGroupsWithMember(Account.Id memberId) {
     if (memberId != null) {
       groupsWithMember.invalidate(memberId);
-    }
-  }
-
-  @Override
-  public void evictSubgroupsOf(AccountGroup.UUID groupId) {
-    if (groupId != null) {
-      subgroups.invalidate(groupId);
     }
   }
 
@@ -192,8 +163,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId)
-        throws OrmException, NoSuchGroupException {
+    public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId) throws OrmException {
       GroupIndex groupIndex = groupIndexProvider.get();
       if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.MEMBER)) {
         return groupQueryProvider
@@ -209,26 +179,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             .flatMap(Streams::stream)
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
-      }
-    }
-  }
-
-  static class SubgroupsLoader
-      extends CacheLoader<AccountGroup.UUID, ImmutableList<AccountGroup.UUID>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
-
-    @Inject
-    SubgroupsLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
-      schema = sf;
-      this.groups = groups;
-    }
-
-    @Override
-    public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key)
-        throws OrmException, NoSuchGroupException {
-      try (ReviewDb db = schema.open()) {
-        return groups.getSubgroups(db, key).collect(toImmutableList());
       }
     }
   }

@@ -30,14 +30,6 @@ public interface GroupIncludeCache {
   Collection<AccountGroup.UUID> getGroupsWithMember(Account.Id memberId);
 
   /**
-   * Returns the subgroups of a group.
-   *
-   * @param group the UUID of the group
-   * @return the UUIDs of all direct subgroups
-   */
-  Collection<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
-
-  /**
    * Returns the parent groups of a subgroup.
    *
    * @param groupId the UUID of the subgroup
@@ -49,8 +41,6 @@ public interface GroupIncludeCache {
   Collection<AccountGroup.UUID> allExternalMembers();
 
   void evictGroupsWithMember(Account.Id memberId);
-
-  void evictSubgroupsOf(AccountGroup.UUID groupId);
 
   void evictParentGroupsOf(AccountGroup.UUID groupId);
 }

@@ -1007,7 +1007,6 @@ public abstract class AbstractDaemonTest {
         gApi.changes().id(chId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
 
     assertThat(info.nonVisibleChanges).isEqualTo(0);
-    assertThat(actual).hasSize(expected.length);
     assertThat(changeIds(actual)).containsExactly((Object[]) expected).inOrder();
     assertThat(changeIds(info.changes)).containsExactly((Object[]) expected).inOrder();
   }

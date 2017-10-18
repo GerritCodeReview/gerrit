@@ -106,7 +106,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void respectsWholeTopicAndAncestors() throws Exception {
+  public void respectWholeTopic() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
@@ -152,7 +152,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @Test
   public void topicChaining() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    // Create two independent commits and push.
+
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
@@ -162,7 +162,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
-    RevCommit c3_1 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c3_1 = commitBuilder().add("b.txt", "3").message("subject: 3").create();
     String id3 = getChangeId(c3_1);
     pushHead(testRepo, "refs/for/master/" + name("unrelated-topic"), false);
 

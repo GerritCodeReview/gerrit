@@ -60,11 +60,10 @@
   margin-right: 5px;
 
   -webkit-touch-callout: initial;
-  -webkit-user-select: initial;
-  -khtml-user-select: initial;
+  -khtml-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  user-select: initial;
+  user-select: text;
 }
 
 .commentBox {

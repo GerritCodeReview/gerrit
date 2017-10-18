@@ -191,7 +191,7 @@ limitations under the License.
       }
       .editFileControls {
         margin-left: 1em;
-        width: 4em;
+        width: 10em;
       }
       @media screen and (max-width: 50em) {
         .desktop {
@@ -311,8 +311,7 @@ limitations under the License.
           <div class="editFileControls showOnEdit">
             <gr-edit-file-controls
                 class$="[[_computeClass('', file.__path)]]"
-                file-path="[[file.__path]]"
-                on-edit-tap="_handleEditTap"></gr-edit-file-controls>
+                file-path="[[file.__path]]"></gr-edit-file-controls>
           </div>
         </div>
         <template is="dom-if"

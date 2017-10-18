@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../edit/gr-edit-constants.html">
 <link rel="import" href="gr-change-view.html">
 
 <script>void(0);</script>
@@ -1185,6 +1186,50 @@ limitations under the License.
       element.set('_patchRange.patchNum', 1);
 
       assert.isFalse(element._editLoaded);
+    });
+
+    test('file-action-tap handling', () => {
+      const fileList = element.$.fileList;
+      const Actions = GrEditConstants.Actions;
+      const controls = element.$.fileListHeader.$.editControls;
+      sandbox.stub(controls, 'openDeleteDialog');
+      sandbox.stub(controls, 'openRenameDialog');
+      sandbox.stub(controls, 'openRestoreDialog');
+      sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+
+      // Delete
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.DELETE.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openDeleteDialog.called);
+      assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
+
+      // Restore
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.RESTORE.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openRestoreDialog.called);
+      assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
+
+      // Rename
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.RENAME.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openRenameDialog.called);
+      assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
+
+      // Edit
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.EDIT.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
+      assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
+      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
     });
   });
 </script>

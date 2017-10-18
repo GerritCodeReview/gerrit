@@ -1288,5 +1288,26 @@
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },
+
+    _handleFileActionTap(e) {
+      e.preventDefault();
+      const controls = this.$.fileListHeader.$.editControls;
+      const path = e.detail.path;
+      switch (e.detail.action) {
+        case GrEditConstants.Actions.DELETE.id:
+          controls.openDeleteDialog(path);
+          break;
+        case GrEditConstants.Actions.EDIT.id:
+          Gerrit.Nav.navigateToRelativeUrl(
+              Gerrit.Nav.getEditUrlForDiff(this._change, path));
+          break;
+        case GrEditConstants.Actions.RENAME.id:
+          controls.openRenameDialog(path);
+          break;
+        case GrEditConstants.Actions.RESTORE.id:
+          controls.openRestoreDialog(path);
+          break;
+      }
+    },
   });
 })();

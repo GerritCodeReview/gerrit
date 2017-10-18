@@ -19,16 +19,11 @@ import java.util.Collection;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
-  /** @return groups directly a member of the passed group. */
-  Collection<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
-
   /** @return any groups the passed group belongs to. */
   Collection<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
   /** @return set of any UUIDs that are not internal groups. */
   Collection<AccountGroup.UUID> allExternalMembers();
-
-  void evictSubgroupsOf(AccountGroup.UUID groupId);
 
   void evictParentGroupsOf(AccountGroup.UUID groupId);
 }

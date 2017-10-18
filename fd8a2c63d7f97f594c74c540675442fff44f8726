@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "f7621c7e_fe33e87e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-18T07:01:40Z",
+      "side": 1,
+      "message": "OK, now that I asked someone else here to read my commit message I think I understood what is confusing. Yes, I am mixing the situation from before and after this change:\n\n* if we run this test on the code as it was before this change then, to reproduce the issue we need to run it in a loop\n\n* if the test is run on the code as it is in this change then the internal server error is gone, regardless of how many iterations in the loop we have\n\nWould this wording be better:\n\nAdd a test for concurrent project creation. Execute concurrent project\ncreation several times to increases probability of reproducing the issue\nin the code as it was before this change.",
+      "parentUuid": "56ca5679_4f0efae6",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "fd8a2c63d7f97f594c74c540675442fff44f8726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05bc8676_2fb3cbc7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

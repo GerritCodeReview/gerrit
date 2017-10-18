@@ -106,7 +106,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void respectsWholeTopicAndAncestors() throws Exception {
+  public void respectWholeTopic() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();

@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -114,11 +113,6 @@ public abstract class ChangeEmail extends NotificationEmail {
   public void setPatchSet(PatchSet ps, PatchSetInfo psi) {
     patchSet = ps;
     patchSetInfo = psi;
-  }
-
-  @Deprecated
-  public void setChangeMessage(ChangeMessage cm) {
-    setChangeMessage(cm.getMessage(), cm.getWrittenOn());
   }
 
   public void setChangeMessage(String cm, Timestamp t) {
@@ -222,7 +216,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  private void setChangeSubjectHeader() throws EmailException {
+  private void setChangeSubjectHeader() {
     setHeader("Subject", textTemplate("ChangeSubject"));
   }
 
@@ -237,8 +231,14 @@ public abstract class ChangeEmail extends NotificationEmail {
     return null;
   }
 
-  public String getChangeMessageThreadId() throws EmailException {
-    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()@$email.gerritHost>");
+  public String getChangeMessageThreadId() {
+    return "<gerrit."
+        + change.getCreatedOn().getTime()
+        + "."
+        + change.getKey().get()
+        + "@"
+        + this.getGerritHost()
+        + ">";
   }
 
   /** Format the sender's "cover letter", {@link #getCoverLetter()}. */
@@ -443,17 +443,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     return authors;
-  }
-
-  @Override
-  protected void setupVelocityContext() {
-    super.setupVelocityContext();
-    velocityContext.put("change", change);
-    velocityContext.put("changeId", change.getKey());
-    velocityContext.put("coverLetter", getCoverLetter());
-    velocityContext.put("fromName", getNameFor(fromId));
-    velocityContext.put("patchSet", patchSet);
-    velocityContext.put("patchSetInfo", patchSetInfo);
   }
 
   @Override

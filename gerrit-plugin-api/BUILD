@@ -48,7 +48,6 @@ EXPORTS = [
     "//lib:protobuf",
     "//lib:servlet-api-3_1-without-neverlink",
     "//lib:soy",
-    "//lib:velocity",
 ]
 
 java_binary(

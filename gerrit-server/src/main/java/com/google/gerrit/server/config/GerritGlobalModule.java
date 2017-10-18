@@ -152,7 +152,6 @@ import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
-import com.google.gerrit.server.mail.send.VelocityRuntimeProvider;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
@@ -189,7 +188,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.template.soy.tofu.SoyTofu;
 import java.util.List;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostUploadHook;
@@ -284,7 +282,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(ApprovalsUtil.class);
 
-    bind(RuntimeInstance.class).toProvider(VelocityRuntimeProvider.class);
     bind(SoyTofu.class).annotatedWith(MailTemplates.class).toProvider(MailSoyTofuProvider.class);
     bind(FromAddressGenerator.class).toProvider(FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(Boolean.class)

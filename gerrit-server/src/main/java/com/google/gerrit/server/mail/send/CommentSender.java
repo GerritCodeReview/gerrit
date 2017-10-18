@@ -190,38 +190,6 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  public boolean hasInlineComments() {
-    return !inlineComments.isEmpty();
-  }
-
-  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  public String getInlineComments() {
-    return getInlineComments(1);
-  }
-
-  /** No longer used outside Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  public String getInlineComments(int lines) {
-    try (Repository repo = getRepository()) {
-      StringBuilder cmts = new StringBuilder();
-      for (FileCommentGroup group : getGroupedInlineComments(repo)) {
-        String link = group.getLink();
-        if (link != null) {
-          cmts.append(link).append('\n');
-        }
-        cmts.append(group.getTitle()).append(":\n\n");
-        for (Comment c : group.comments) {
-          appendComment(cmts, lines, group.fileData, c);
-        }
-        cmts.append("\n\n");
-      }
-      return cmts.toString();
-    }
-  }
-
   /**
    * @return a list of FileCommentGroup objects representing the inline comments grouped by the
    *     file.
@@ -275,39 +243,6 @@ public class CommentSender extends ReplyToChangeSender {
     return groups;
   }
 
-  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  private void appendComment(
-      StringBuilder out, int contextLines, PatchFile currentFileData, Comment comment) {
-    if (comment instanceof RobotComment) {
-      RobotComment robotComment = (RobotComment) comment;
-      out.append("Robot Comment from ")
-          .append(robotComment.robotId)
-          .append(" (run ID ")
-          .append(robotComment.robotRunId)
-          .append("):\n");
-    }
-    if (comment.range != null) {
-      appendRangedComment(out, currentFileData, comment);
-    } else {
-      appendLineComment(out, contextLines, currentFileData, comment);
-    }
-  }
-
-  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  private void appendRangedComment(StringBuilder out, PatchFile fileData, Comment comment) {
-    String prefix = getCommentLinePrefix(comment);
-    String emptyPrefix = Strings.padStart(": ", prefix.length(), ' ');
-    boolean firstLine = true;
-    for (String line : getLinesByRange(comment.range, fileData, comment.side)) {
-      out.append(firstLine ? prefix : emptyPrefix).append(line).append('\n');
-      firstLine = false;
-    }
-    appendQuotedParent(out, comment);
-    out.append(comment.message.trim()).append('\n');
-  }
-
   private String getCommentLinePrefix(Comment comment) {
     int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
     StringBuilder sb = new StringBuilder();
@@ -337,56 +272,6 @@ public class CommentSender extends ReplyToChangeSender {
       lines.add(s);
     }
     return lines;
-  }
-
-  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  private void appendLineComment(
-      StringBuilder out, int contextLines, PatchFile currentFileData, Comment comment) {
-    short side = comment.side;
-    int lineNbr = comment.lineNbr;
-
-    // Initialize maxLines to the known line number.
-    int maxLines = lineNbr;
-
-    try {
-      maxLines = currentFileData.getLineCount(side);
-    } catch (IOException err) {
-      // The file could not be read, leave the max as is.
-      log.warn(String.format("Failed to read file %s on side %d", comment.key.filename, side), err);
-    } catch (NoSuchEntityException err) {
-      // The file could not be read, leave the max as is.
-      log.warn(String.format("Side %d of file %s didn't exist", side, comment.key.filename), err);
-    }
-
-    int startLine = Math.max(1, lineNbr - contextLines + 1);
-    int stopLine = Math.min(maxLines, lineNbr + contextLines);
-
-    for (int line = startLine; line <= lineNbr; ++line) {
-      appendFileLine(out, currentFileData, side, line);
-    }
-    appendQuotedParent(out, comment);
-    out.append(comment.message.trim()).append('\n');
-
-    for (int line = lineNbr + 1; line < stopLine; ++line) {
-      appendFileLine(out, currentFileData, side, line);
-    }
-  }
-
-  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {
-    String lineStr = getLine(fileData, side, line);
-    cmts.append("Line ").append(line).append(": ").append(lineStr).append("\n");
-  }
-
-  /** No longer used except for Velocity. Remove this method when VTL support is removed. */
-  @Deprecated
-  private void appendQuotedParent(StringBuilder out, Comment child) {
-    Optional<Comment> parent = getParent(child);
-    if (parent.isPresent()) {
-      out.append("> ").append(getShortenedCommentMessage(parent.get())).append('\n');
-    }
   }
 
   /**

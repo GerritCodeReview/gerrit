@@ -205,12 +205,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "velocity",
-    artifact = "org.apache.velocity:velocity:1.7",
-    sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",
-)
-
-maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.54",
     sha1 = "da3584329a263616e277e15462b387addd1b208d",

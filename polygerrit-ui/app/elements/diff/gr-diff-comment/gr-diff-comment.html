@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -306,11 +307,25 @@ limitations under the License.
         </gr-button>
       </div>
     </div>
-    <gr-overlay id="overlay" with-backdrop>
+    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
       <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
           on-confirm="_handleConfirmDeleteComment"
           on-cancel="_handleCancelDeleteComment">
       </gr-confirm-delete-comment-dialog>
+    </gr-overlay>
+    <gr-overlay id="confirmDiscardOverlay" with-backdrop>
+      <gr-confirm-dialog
+          id="confirmDiscaDialog"
+          confirm-label="Discard"
+          on-confirm="_handleConfirmDiscard"
+          on-cancel="_closeConfirmDiscardOverlay">
+        <div class="header">
+          Discard comment
+        </div>
+        <div class="main">
+          Are you sure you want to discard this draft comment?
+        </div>
+      </gr-confirm-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>

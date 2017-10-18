@@ -336,15 +336,17 @@ limitations under the License.
         sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor
         // on input field update
-        assert.equal(input.$.input.selectionStart, 0);
+        assert.equal(input.$.input.inputElement.selectionStart, 0);
         input.text = 'test';
         MockInteractions.focus(input.$.input);
         flushAsynchronousOperations();
         assert.equal(element.accounts.length, 2);
-        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+        MockInteractions.pressAndReleaseKeyOn(
+            input.$.input.inputElement, 8); // Backspace
         assert.equal(element.accounts.length, 2);
         input.text = '';
-        MockInteractions.pressAndReleaseKeyOn(input.$.input, 8); // Backspace
+        MockInteractions.pressAndReleaseKeyOn(
+            input.$.input.inputElement, 8); // Backspace
         assert.equal(element.accounts.length, 1);
       });
 

@@ -20,6 +20,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -68,7 +69,7 @@ public class QueryShell {
 
   @Inject
   QueryShell(
-      final SchemaFactory<ReviewDb> dbFactory,
+      @ReviewDbFactory final SchemaFactory<ReviewDb> dbFactory,
       @Assisted final InputStream in,
       @Assisted final OutputStream out) {
     this.dbFactory = dbFactory;

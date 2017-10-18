@@ -422,6 +422,24 @@
     },
     {
       "key": {
+        "uuid": "45d21318_9044c9e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-18T12:46:19Z",
+      "side": 1,
+      "message": "Ok, but why the git fetch with change edit ref name (e.g.: refs/users/00/1000000/edit-3187/42) still works with this change?",
+      "parentUuid": "9024b5f0_64a5c310",
+      "revId": "711861542c938df52038b49c97c03fecd6035e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c303875_01c8eefd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OmitGerritRefsHook.java",
         "patchSetId": 1

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c469f676_b036dc87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T23:17:59Z",
+      "side": 1,
+      "message": "https://twitter.com/bower/status/918073147789889536",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 83
+      },
+      "revId": "5e0304c2a3b7ea012b0565546bb0ec3f756e0405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0004f74_091b5366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T23:17:59Z",
+      "side": 1,
+      "message": "their",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "5e0304c2a3b7ea012b0565546bb0ec3f756e0405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283e059d_eb430c9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T23:17:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t explain the consequence.  Presumably it will only be a problem for clean builds on systems where the components are not already downloaded?\n\nPer [1] it seems it can be worked around by a setting in .bowerrc.  If that is the case I would rather add documentation of that rather than updating on the stable branch.\n\n[1] https://gist.github.com/sheerun/c04d856a7a368bad2896ff0c4958cb00",
+      "revId": "5e0304c2a3b7ea012b0565546bb0ec3f756e0405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

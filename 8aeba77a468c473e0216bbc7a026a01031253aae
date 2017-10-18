@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "85a776f9_dde7d7c0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-18T20:27:41Z",
+      "side": 1,
+      "message": "I was using NEW as meaning not a private or wip. A normal change :).\n\nIt also defaults to wip otherwise will use private if it\u0027s enabled for the project :).\n\nAnd i will then move private back to checkbox and remove new.",
+      "parentUuid": "2aeadedf_0a70fb22",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa54791_9a7e628c",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 20

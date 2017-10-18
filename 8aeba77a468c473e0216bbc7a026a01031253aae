@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2aeadedf_0a70fb22",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-18T20:14:26Z",
+      "side": 1,
+      "message": "\u003e I think that private is orthogonal to WIP change\n\nYes, absolutely. Doesn\u0027t technically preclude having a dropdown, but all 4 possibilities are valid, so a dropdown would have to have all of them.\n\n\u003e and New change\n\nWhat is a \"New change\"? Are you referring to the Change.Status constant? That doesn\u0027t make sense, the change will always be in state NEW when it\u0027s created. Moreover, I think it would be rather confusing for users to click \"Create change\" and then be presented with a dropdown where only *one* of the options is \"New change\". The obvious reaction is: \"Of course I want a new change, that\u0027s why I clicked Create Change!\" But if you\u0027re using \"new\" to mean \"not WIP\", that initial reaction is wrong, because there are perfectly good reasons why the user wants a WIP change.\n\n\u003e I think we could have a dropdown for WIP/new and a separate checkbox for private. Though I\u0027d like to hear @loganhanks @dborowitz thoughts on that.\n\nI would slightly prefer checkboxes for both, but I don\u0027t feel strongly.\n\nActually, I think I would really prefer if it _always_ set WIP and didn\u0027t give users the option. Private could be a checkbox.",
+      "parentUuid": "9ca8675d_6f3d64c3",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa54791_9a7e628c",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 20

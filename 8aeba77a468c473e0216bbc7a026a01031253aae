@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ca8675d_6f3d64c3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T20:08:28Z",
+      "side": 1,
+      "message": "I think that private is orthogonal to WIP change and New change. (New should also not be all caps).\n\nI think we could have a dropdown for WIP/new and a separate checkbox for private. Though I\u0027d like to hear @loganhanks @dborowitz thoughts on that.",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa54791_9a7e628c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T20:08:28Z",
+      "side": 1,
+      "message": "I think instead should just have\n\n_isWip, _isPrivate",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

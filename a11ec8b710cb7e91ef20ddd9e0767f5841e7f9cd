@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7d7b39a_83d287bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-18T05:43:31Z",
+      "side": 1,
+      "message": "doesNotContain?",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65e4c6ca_7bb9a6b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-18T05:43:31Z",
+      "side": 1,
+      "message": "Move the private methods to the bottom of the class?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 0
+      },
+      "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

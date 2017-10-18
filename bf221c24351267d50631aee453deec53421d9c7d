@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f0eefb26_0a17f8bb",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-18T08:59:29Z",
+      "side": 1,
+      "message": "\u003e It also has the advantage that not requiring a change to the data model means we can easily \n\u003e change the behavior later.\n\nThat\u0027s also a good point.\n\n\u003e One nit, however...\"minimum\" and \"veto\" votes are not the same thing.\n\nI know, I was thinking of only keeping veto votes, but I don\u0027t mind much if we keep all minimum votes instead.",
+      "parentUuid": "9085a9da_c427832b",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "bf221c24351267d50631aee453deec53421d9c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24e5e134_718d022f",
         "filename": "Documentation/proposal-ajust-votes.txt",
         "patchSetId": 3

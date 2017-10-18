@@ -18,11 +18,11 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.INCLUDES;
 import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Suppliers;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
@@ -32,11 +32,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.function.Supplier;
 
 public class GroupJson {
   public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {
     GroupOptionsInfo options = new GroupOptionsInfo();
-    if (isInternalGroup(group) && ((GroupDescription.Internal) group).isVisibleToAll()) {
+    if (group instanceof GroupDescription.Internal
+        && ((GroupDescription.Internal) group).isVisibleToAll()) {
       options.visibleToAll = true;
     }
     return options;
@@ -73,68 +75,60 @@ public class GroupJson {
   }
 
   public GroupInfo format(GroupResource rsrc) throws OrmException {
-    GroupInfo info = init(rsrc.getGroup());
-    initMembersAndSubgroups(rsrc, info);
-    return info;
+    return createGroupInfo(rsrc.getGroup(), rsrc::getControl);
   }
 
   public GroupInfo format(GroupDescription.Basic group) throws OrmException {
-    GroupInfo info = init(group);
-    if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
-      GroupResource rsrc = new GroupResource(groupControlFactory.controlFor(group));
-      initMembersAndSubgroups(rsrc, info);
+    return createGroupInfo(group, Suppliers.memoize(() -> groupControlFactory.controlFor(group)));
+  }
+
+  private GroupInfo createGroupInfo(
+      GroupDescription.Basic group, Supplier<GroupControl> groupControlSupplier)
+      throws OrmException {
+    GroupInfo info = createBasicGroupInfo(group);
+
+    if (group instanceof GroupDescription.Internal) {
+      addInternalDetails(info, (GroupDescription.Internal) group, groupControlSupplier);
     }
+
     return info;
   }
 
-  private GroupInfo init(GroupDescription.Basic group) {
+  private static GroupInfo createBasicGroupInfo(GroupDescription.Basic group) {
     GroupInfo info = new GroupInfo();
     info.id = Url.encode(group.getGroupUUID().get());
     info.name = Strings.emptyToNull(group.getName());
     info.url = Strings.emptyToNull(group.getUrl());
     info.options = createOptions(group);
-
-    if (isInternalGroup(group)) {
-      GroupDescription.Internal internalGroup = (GroupDescription.Internal) group;
-      info.description = Strings.emptyToNull(internalGroup.getDescription());
-      info.groupId = internalGroup.getId().get();
-      AccountGroup.UUID ownerGroupUUID = internalGroup.getOwnerGroupUUID();
-      if (ownerGroupUUID != null) {
-        info.ownerId = Url.encode(ownerGroupUUID.get());
-        GroupDescription.Basic o = groupBackend.get(ownerGroupUUID);
-        if (o != null) {
-          info.owner = o.getName();
-        }
-      }
-      info.createdOn = internalGroup.getCreatedOn();
-    }
-
     return info;
   }
 
-  private static boolean isInternalGroup(GroupDescription.Basic group) {
-    return group instanceof GroupDescription.Internal;
-  }
-
-  private GroupInfo initMembersAndSubgroups(GroupResource rsrc, GroupInfo info)
+  private void addInternalDetails(
+      GroupInfo info,
+      GroupDescription.Internal internalGroup,
+      Supplier<GroupControl> groupControlSupplier)
       throws OrmException {
-    if (!rsrc.isInternalGroup()) {
-      return info;
-    }
-    try {
-      if (options.contains(MEMBERS)) {
-        info.members = listMembers.get().apply(rsrc);
-      }
+    info.description = Strings.emptyToNull(internalGroup.getDescription());
+    info.groupId = internalGroup.getId().get();
 
-      if (options.contains(INCLUDES)) {
-        info.includes = listSubgroups.get().apply(rsrc);
+    AccountGroup.UUID ownerGroupUUID = internalGroup.getOwnerGroupUUID();
+    if (ownerGroupUUID != null) {
+      info.ownerId = Url.encode(ownerGroupUUID.get());
+      GroupDescription.Basic o = groupBackend.get(ownerGroupUUID);
+      if (o != null) {
+        info.owner = o.getName();
       }
-      return info;
-    } catch (MethodNotAllowedException e) {
-      // should never happen, this exception is only thrown if we would try to
-      // list members/includes of an external group, but in case of an external
-      // group we return before
-      throw new IllegalStateException(e);
+    }
+
+    info.createdOn = internalGroup.getCreatedOn();
+
+    if (options.contains(MEMBERS)) {
+      info.members = listMembers.get().getDirectMembers(internalGroup, groupControlSupplier.get());
+    }
+
+    if (options.contains(INCLUDES)) {
+      info.includes =
+          listSubgroups.get().getDirectSubgroups(internalGroup, groupControlSupplier.get());
     }
   }
 }

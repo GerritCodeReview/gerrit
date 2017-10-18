@@ -54,7 +54,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
 
-    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     RevisionInfo rev = info.changes.get(0).revisions.get(c2_1.name());
     assertThat(rev.files).isNull();
   }
@@ -75,7 +74,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
 
-    assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     RevisionInfo rev = info.changes.get(0).revisions.get(c2_1.name());
     assertThat(rev).isNotNull();
     FileInfo file = rev.files.get("b.txt");

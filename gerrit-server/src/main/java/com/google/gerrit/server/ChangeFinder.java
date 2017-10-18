@@ -22,6 +22,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -108,6 +109,12 @@ public class ChangeFinder {
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
+
+    //Try commit hash
+    if (id.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      return asChangeNotes(query.byCommit(id));
+    }
+
     if (y > 0 && z > 0) {
       // Try change triplet (project~branch~Ihash...)
       Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id, y, z);

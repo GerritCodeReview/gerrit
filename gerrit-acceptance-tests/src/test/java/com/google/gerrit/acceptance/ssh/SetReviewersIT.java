@@ -14,57 +14,61 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import org.junit.Before;
 import org.junit.Test;
 
 @UseSsh
+@NoHttpd
 public class SetReviewersIT extends AbstractDaemonTest {
+  PushOneCommit.Result change;
 
-  @Test
-  public void addByCommitHash() throws Exception {
-    PushOneCommit.Result change = createChange();
+  @Before
+  public void setUp() throws Exception {
+    change = createChange();
+  }
+
+  private void setReviewer(boolean add, String id) throws Exception {
     adminSshSession.exec(
-        "gerrit set-reviewers -a "
-            + user.email
-            + " "
-            + change.getCommit().getId().toString().split("\\s+")[1]);
+        String.format("gerrit set-reviewers -%s %s %s", add ? "a" : "r", user.email, id));
     assert_()
         .withFailureMessage(adminSshSession.getError())
         .that(adminSshSession.hasError())
         .isFalse();
-    assertTrue(change.getChange().getReviewers().all().contains(user.id));
+    ImmutableSet<Id> reviewers = change.getChange().getReviewers().all();
+    if (add) {
+      assertThat(reviewers).contains(user.id);
+    } else {
+      assertThat(reviewers).isEmpty();
+    }
+  }
+
+  private void addReviewer(String id) throws Exception {
+    setReviewer(true, id);
+  }
+
+  private void removeReviewer(String id) throws Exception {
+    setReviewer(false, id);
   }
 
   @Test
-  public void addByChangeID() throws Exception {
-    PushOneCommit.Result change = createChange();
-    adminSshSession.exec("gerrit set-reviewers -a " + user.email + " " + change.getChangeId());
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
-    assertTrue(change.getChange().getReviewers().all().contains(user.id));
+  public void byCommitHash() throws Exception {
+    String id = change.getCommit().getId().toString().split("\\s+")[1];
+    addReviewer(id);
+    removeReviewer(id);
   }
 
   @Test
-  public void removeReviewer() throws Exception {
-    PushOneCommit.Result change = createChange();
-    adminSshSession.exec("gerrit set-reviewers -a " + user.email + " " + change.getChangeId());
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
-    assertTrue(change.getChange().getReviewers().all().contains(user.id));
-    adminSshSession.exec("gerrit set-reviewers -r " + user.email + " " + change.getChangeId());
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
-    assertTrue(change.getChange().getReviewers().all().asList().isEmpty());
+  public void byChangeID() throws Exception {
+    addReviewer(change.getChangeId());
+    removeReviewer(change.getChangeId());
   }
 }

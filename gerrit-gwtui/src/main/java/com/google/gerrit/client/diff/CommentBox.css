@@ -60,7 +60,7 @@
   margin-right: 5px;
 
   -webkit-touch-callout: initial;
-  -webkit-user-select: initial;
+  -webkit-user-select: text;
   -khtml-user-select: initial;
   -moz-user-select: text;
   -ms-user-select: text;

@@ -50,7 +50,12 @@ public class ListSubgroups implements RestReadView<GroupResource> {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
 
-    boolean ownerOfParent = rsrc.getControl().isOwner();
+    return getDirectSubgroups(group, rsrc.getControl());
+  }
+
+  public List<GroupInfo> getDirectSubgroups(
+      GroupDescription.Internal group, GroupControl groupControl) throws OrmException {
+    boolean ownerOfParent = groupControl.isOwner();
     List<GroupInfo> included = new ArrayList<>();
     for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
       try {

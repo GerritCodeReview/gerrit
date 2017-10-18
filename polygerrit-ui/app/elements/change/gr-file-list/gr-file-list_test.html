@@ -700,7 +700,6 @@ limitations under the License.
       assert.isTrue(element._updateDiffPreferences.called);
     });
 
-
     test('expanded attribute not set on path when not expanded', () => {
       element._files = [
         {__path: '/COMMIT_MSG'},
@@ -789,6 +788,29 @@ limitations under the License.
         get() { return diffs; },
       });
       element.push('_expandedFilePaths', path);
+    });
+
+    test('filesExpanded value updates to correct enum', () => {
+      element._files = [{__path: 'foo.bar'}, {__path: 'baz.bar'}];
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.NONE);
+      element.push('_expandedFilePaths', 'baz.bar');
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.SOME);
+      element.push('_expandedFilePaths', 'foo.bar');
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.ALL);
+      element.collapseAllDiffs();
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.NONE);
+      element.expandAllDiffs();
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.ALL);
     });
 
     suite('_handleFileListTap', () => {

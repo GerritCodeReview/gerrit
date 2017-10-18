@@ -191,14 +191,51 @@ limitations under the License.
     });
 
     test('diff mode selector is set correctly', () => {
-      const select = element.$.modeSelect;
+      const sideBySideBtn = element.$.sideBySideBtn;
+      const unifiedBtn = element.$.unifiedBtn;
       element.diffViewMode = 'SIDE_BY_SIDE';
       flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-
+      assert.isTrue(sideBySideBtn.classList.contains('selected'));
+      assert.isFalse(unifiedBtn.classList.contains('selected'));
       element.diffViewMode = 'UNIFIED_DIFF';
       flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'UNIFIED_DIFF');
+      assert.isFalse(sideBySideBtn.classList.contains('selected'));
+      assert.isTrue(unifiedBtn.classList.contains('selected'));
+    });
+
+    test('fileViewActions are properly hidden', () => {
+      const actions = element.$$('.fileViewActions');
+      assert.equal(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.ALL;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.NONE;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(actions).display, 'none');
+    });
+
+    test('expand/collapse buttons are toggled correctly', () => {
+      element.shownFileCount = 10;
+      flushAsynchronousOperations();
+      const expandBtn = element.$$('#expandBtn');
+      const collapseBtn = element.$$('#collapseBtn');
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.ALL;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(expandBtn).display, 'none');
+      assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.NONE;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
     });
 
     test('navigateToChange called when range select changes', () => {

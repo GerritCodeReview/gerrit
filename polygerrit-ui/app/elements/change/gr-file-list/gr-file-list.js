@@ -61,6 +61,11 @@
         type: Boolean,
         observer: '_editLoadedChanged',
       },
+      filesExpanded: {
+        type: String,
+        value: GrFileListConstants.FilesExpandedState.NONE,
+        notify: true,
+      },
       _files: {
         type: Array,
         observer: '_filesChanged',
@@ -301,6 +306,8 @@
     collapseAllDiffs() {
       this._showInlineDiffs = false;
       this._expandedFilePaths = [];
+      this.filesExpanded = this._computeExpandedFiles(
+          this._expandedFilePaths.length, this._files.length);
       this.$.diffCursor.handleDiffUpdate();
     },
 
@@ -815,6 +822,15 @@
           detail.path);
     },
 
+    _computeExpandedFiles(expandedCount, totalCount) {
+      if (expandedCount === 0) {
+        return GrFileListConstants.FilesExpandedState.NONE;
+      } else if (expandedCount === totalCount) {
+        return GrFileListConstants.FilesExpandedState.ALL;
+      }
+      return GrFileListConstants.FilesExpandedState.SOME;
+    },
+
     /**
      * Handle splices to the list of expanded file paths. If there are any new
      * entries in the expanded list, then render each diff corresponding in
@@ -824,6 +840,9 @@
      */
     _expandedPathsChanged(record) {
       if (!record) { return; }
+
+      this.filesExpanded = this._computeExpandedFiles(
+          this._expandedFilePaths.length, this._files.length);
 
       // Find the paths introduced by the new index splices:
       const newPaths = record.indexSplices

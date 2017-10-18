@@ -22,6 +22,30 @@
       "revId": "69e4ac2196f0dabdc347e936aea4ff08b14a4f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6408e0cc_17a2cda6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T23:55:36Z",
+      "side": 1,
+      "message": "Are you planning to fix this, or should we revert it?\n\nEither way, I will stop releasing 2.14.5 until it\u0027s resolved.",
+      "parentUuid": "74fec0d9_f6b480c0",
+      "range": {
+        "startLine": 58,
+        "startChar": 21,
+        "endLine": 58,
+        "endChar": 55
+      },
+      "revId": "69e4ac2196f0dabdc347e936aea4ff08b14a4f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

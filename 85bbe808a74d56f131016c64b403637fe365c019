@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f9554cf_4a00277f",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-18T11:45:15Z",
+      "side": 1,
+      "message": "Undo this when gitiles is deployed to the google repo.",
+      "range": {
+        "startLine": 587,
+        "startChar": 17,
+        "endLine": 587,
+        "endChar": 28
+      },
+      "revId": "85bbe808a74d56f131016c64b403637fe365c019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

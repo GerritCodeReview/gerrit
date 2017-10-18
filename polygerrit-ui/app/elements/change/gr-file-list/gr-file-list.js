@@ -936,10 +936,5 @@
     _computeReviewedText(isReviewed) {
       return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
     },
-
-    _handleEditTap(e) {
-      const url = Gerrit.Nav.getEditUrlForDiff(this.change, e.detail.path);
-      Gerrit.Nav.navigateToRelativeUrl(url);
-    },
   });
 })();

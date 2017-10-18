@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../../edit/gr-edit-constants.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -459,7 +460,8 @@ limitations under the License.
             num-files-shown="{{_numFilesShown}}"
             files-expanded="{{_filesExpanded}}"
             file-list-increment="{{_numFilesShown}}"
-            on-files-shown-changed="_setShownFiles"></gr-file-list>
+            on-files-shown-changed="_setShownFiles"
+            on-file-action-tap="_handleFileActionTap"></gr-file-list>
       </section>
       <gr-endpoint-decorator name="change-view-integration">
       </gr-endpoint-decorator>

@@ -18,6 +18,7 @@ limitations under the License.
 
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../gr-edit-constants.html">
 
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -33,6 +34,15 @@ limitations under the License.
         margin-right: .5em;
         text-decoration: none;
       }
+      gr-dropdown {
+        --gr-dropdown-item: {
+          background-color: transparent;
+          border: none;
+          color: #2a66d9;
+          font-size: inherit;
+          text-transform: uppercase;
+        }
+      }
     </style>
     <gr-button
         id="edit"
@@ -41,7 +51,9 @@ limitations under the License.
     <!-- TODO(kaspern): implement more menu. -->
     <gr-dropdown
         id="more"
-        hidden
+        items="[[_fileActions]]"
+        down-arrow
+        on-tap-item="_handleActionTap"
         link>More</gr-dropdown>
   </template>
   <script src="gr-edit-file-controls.js"></script>

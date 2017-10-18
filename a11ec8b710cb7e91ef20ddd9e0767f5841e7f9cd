@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "367aeb87_9c44b24e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-18T06:03:04Z",
+      "side": 1,
+      "message": "Sure, but you don\u0027t know that in the context of this method.",
+      "parentUuid": "742e2e84_7c76a2d7",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "a11ec8b710cb7e91ef20ddd9e0767f5841e7f9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65e4c6ca_7bb9a6b7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/SetReviewersIT.java",
         "patchSetId": 1

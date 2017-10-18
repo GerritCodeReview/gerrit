@@ -19,7 +19,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import java.util.concurrent.ExecutionException;
@@ -45,13 +44,13 @@ public class DefaultProjectNameLockManager implements ProjectNameLockManager {
           .build(
               new CacheLoader<Project.NameKey, Lock>() {
                 @Override
-                public Lock load(NameKey key) throws Exception {
+                public Lock load(Project.NameKey key) throws Exception {
                   return new ReentrantLock();
                 }
               });
 
   @Override
-  public Lock getLock(NameKey name) {
+  public Lock getLock(Project.NameKey name) {
     try {
       return lockCache.get(name);
     } catch (ExecutionException e) {

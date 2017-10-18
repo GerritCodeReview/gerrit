@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df9f2a5c_d63fd7e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T16:29:52Z",
+      "side": 1,
+      "message": "It looks like the autogrow event is already inside a debouncer. I\u0027m not sure if having a second debouncer makes sense? Or should the time interval be increased on the first one?\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/50/134050/2/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js#781",
+      "revId": "ae3df7f3e93e100ccb09ea2e88f1a1668dd408c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

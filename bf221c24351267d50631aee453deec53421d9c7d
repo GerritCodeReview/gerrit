@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "cb75bcd6_fc536837",
+        "filename": "Documentation/proposal-ajust-votes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-18T09:47:23Z",
+      "side": 1,
+      "message": "\u003e \u003e It also has the advantage that not requiring a change to the data model means we can easily \n\u003e \u003e change the behavior later.\n\u003e \n\u003e That\u0027s also a good point.\n\n+1.\n\n\u003e \n\u003e \u003e One nit, however...\"minimum\" and \"veto\" votes are not the same thing.\n\u003e \n\u003e I know, I was thinking of only keeping veto votes, but I don\u0027t mind much if we keep all minimum votes instead.\n\nSine move will not create a new patch set, the copy strategies defined for a label shouldn\u0027t be applied here. My current implementation is just keeping all minimum votes and no squash.",
+      "parentUuid": "f0eefb26_0a17f8bb",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "bf221c24351267d50631aee453deec53421d9c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24e5e134_718d022f",
         "filename": "Documentation/proposal-ajust-votes.txt",
         "patchSetId": 3

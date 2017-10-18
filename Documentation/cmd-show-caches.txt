@@ -66,7 +66,6 @@ Intended for interactive use only.
     groups_bysubgroup             |   230               |   2.4ms | 62%     |
     groups_byuuid                 |  5612               |  29.2ms | 99%     |
     groups_external               |     1               |   1.5s  | 98%     |
-    groups_subgroups              |  5714               |  19.7ms | 99%     |
     ldap_group_existence          |                     |         |         |
     ldap_groups                   |   650               | 680.5ms | 99%     |
     ldap_groups_byinclude         |  1024               |         | 83%     |

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42d35a9b_371964bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-18T21:37:57Z",
+      "side": 1,
+      "message": "question mark instead of period?",
+      "range": {
+        "startLine": 326,
+        "startChar": 61,
+        "endLine": 326,
+        "endChar": 62
+      },
+      "revId": "7ef5adcfae22607c0ca1709f30da8cdccb4d2881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

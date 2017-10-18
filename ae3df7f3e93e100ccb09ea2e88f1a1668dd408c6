@@ -16,6 +16,24 @@
       "revId": "ae3df7f3e93e100ccb09ea2e88f1a1668dd408c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0a81d6e_545b7b6f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-18T17:39:27Z",
+      "side": 1,
+      "message": "Good catch. IMO it\u0027s better to have the debouncer closer to the expensive call that necessitates it, so I just removed the inner debounce and moved the comment.\n\nI think they just got separated when the reply dialog was decomposed out of the change view.\n\nLet me know if this sounds right to you.",
+      "parentUuid": "df9f2a5c_d63fd7e6",
+      "revId": "ae3df7f3e93e100ccb09ea2e88f1a1668dd408c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

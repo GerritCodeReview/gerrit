@@ -262,7 +262,7 @@ limitations under the License.
     test('delete comment', done => {
       sandbox.stub(
           element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
-      sandbox.spy(element.$.overlay, 'open');
+      sandbox.spy(element.$.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
       element._isAdmin = true;
@@ -270,7 +270,7 @@ limitations under the License.
           .classList.contains('showDeleteButtons'));
       MockInteractions.tap(element.$$('.action.delete'));
       flush(() => {
-        element.$.overlay.open.lastCall.returnValue.then(() => {
+        element.$.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
           element.$.confirmDeleteComment.message = 'removal reason';
           element._handleConfirmDeleteComment();
           assert.isTrue(element.$.restAPI.deleteComment.calledWith(
@@ -484,12 +484,13 @@ limitations under the License.
     test('draft discard removes message from storage', done => {
       element._messageText = '';
       const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      sandbox.stub(element, '_closeConfirmDiscardOverlay');
 
       element.addEventListener('comment-discard', e => {
         assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
-      MockInteractions.tap(element.$$('.discard'));
+      element._handleConfirmDiscard({preventDefault: sinon.stub()});
     });
 
     test('ctrl+s saves comment', done => {

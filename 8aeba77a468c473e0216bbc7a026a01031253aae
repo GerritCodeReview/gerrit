@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "2e8ce447_eb5d961a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-18T20:56:41Z",
+      "side": 1,
+      "message": "WIP is now always true, with a checkbox added to support setting as private (optional). Ticked if that server side config is enabled.",
+      "parentUuid": "85a776f9_dde7d7c0",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa54791_9a7e628c",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 20
@@ -108,6 +132,30 @@
       "writtenOn": "2017-10-18T20:08:28Z",
       "side": 1,
       "message": "I think instead should just have\n\n_isWip, _isPrivate",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "8aeba77a468c473e0216bbc7a026a01031253aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74d972a7_0a1d62c0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-18T20:56:41Z",
+      "side": 1,
+      "message": "Not needed with the update change :).",
+      "parentUuid": "cfa54791_9a7e628c",
       "range": {
         "startLine": 36,
         "startChar": 6,

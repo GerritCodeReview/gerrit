@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f691b899_4c403c20",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T00:09:28Z",
+      "side": 1,
+      "message": "Good idea! done.",
+      "parentUuid": "68049705_232e129b",
+      "range": {
+        "startLine": 221,
+        "startChar": 11,
+        "endLine": 225,
+        "endChar": 110
+      },
+      "revId": "fa4794c56c1b5de1facbf7cc0949e32027d4c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b73afc4d_d73d9b34",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
         "patchSetId": 5
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "47fc7bbe_6483e8eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T00:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa02662b_4e534f95",
+      "range": {
+        "startLine": 831,
+        "startChar": 29,
+        "endLine": 831,
+        "endChar": 31
+      },
+      "revId": "fa4794c56c1b5de1facbf7cc0949e32027d4c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da45b4a4_7c54b1ed",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 5
@@ -162,6 +210,30 @@
       "revId": "fa4794c56c1b5de1facbf7cc0949e32027d4c33e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b52087b_c26f93c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-18T00:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da45b4a4_7c54b1ed",
+      "range": {
+        "startLine": 847,
+        "startChar": 6,
+        "endLine": 849,
+        "endChar": 7
+      },
+      "revId": "fa4794c56c1b5de1facbf7cc0949e32027d4c33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

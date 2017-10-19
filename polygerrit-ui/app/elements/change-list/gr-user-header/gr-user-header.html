@@ -1,3 +1,4 @@
+
 <!--
 Copyright (C) 2017 The Android Open Source Project
 
@@ -15,10 +16,11 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-avatar/gr-avatar.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-user-header">
   <template>
@@ -35,11 +37,6 @@ limitations under the License.
         position: absolute;
         top: 1em;
         width: 7em;
-      }
-      .info {
-        left: 9em;
-        position: absolute;
-        top: 1em;
       }
       .info > div > span {
         display: inline-block;
@@ -58,30 +55,34 @@ limitations under the License.
         display: none;
       }
     </style>
-    <gr-avatar
-        account="[[_accountDetails]]"
-        image-size="100"
-        aria-label="Account avatar"></gr-avatar>
-    <div class="info">
-      <h1 class$="name">
-        [[_computeDetail(_accountDetails, 'name')]]
-        <hr/>
-      </h1>
-      <div class$="status [[_computeStatusClass(_accountDetails)]]">
-        <span>Status:</span> [[_status]]
+    <paper-card>
+      <div class="card-content">
+        <gr-avatar
+            account="[[_accountDetails]]"
+            image-size="100"
+            aria-label="Account avatar"></gr-avatar>
+        <div class="info">
+          <h1 class$="name">
+            [[_computeDetail(_accountDetails, 'name')]]
+            <hr/>
+          </h1>
+          <div class$="status [[_computeStatusClass(_accountDetails)]]">
+            <span>Status:</span> [[_status]]
+          </div>
+          <div>
+            <span>Email:</span>
+            <a href="mailto:[[_computeDetail(_accountDetails, 'email')]]"><!--
+              -->[[_computeDetail(_accountDetails, 'email')]]</a>
+          </div>
+          <div>
+            <span>Joined:</span>
+            <gr-date-formatter
+                date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
+            </gr-date-formatter>
+          </div>
+        </div>
       </div>
-      <div>
-        <span>Email:</span>
-        <a href="mailto:[[_computeDetail(_accountDetails, 'email')]]"><!--
-          -->[[_computeDetail(_accountDetails, 'email')]]</a>
-      </div>
-      <div>
-        <span>Joined:</span>
-        <gr-date-formatter
-            date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
-        </gr-date-formatter>
-      </div>
-    </div>
+    </paper-card>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-user-header.js"></script>

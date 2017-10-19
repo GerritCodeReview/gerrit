@@ -1,3 +1,4 @@
+
 // Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,10 +46,11 @@
         return;
       }
 
-      this.$.restAPI.getAccountDetails(userId).then(details => {
+      const account = userId.username ? userId.username : userId.name;
+      this.$.restAPI.getAccountDetails(account).then(details => {
         this._accountDetails = details;
       });
-      this.$.restAPI.getAccountStatus(userId).then(status => {
+      this.$.restAPI.getAccountStatus(account).then(status => {
         this._status = status;
       });
     },

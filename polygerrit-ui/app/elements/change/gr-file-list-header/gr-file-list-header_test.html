@@ -294,6 +294,16 @@ limitations under the License.
         assert.isTrue(isVisible(element.$$('.descriptionContainer')));
         assert.isTrue(isVisible(element.$.diffPrefsContainer));
       });
+
+      test('edit-controls visibility', () => {
+        element.editLoaded = true;
+        flushAsynchronousOperations();
+        assert.isTrue(isVisible(element.$.editControls.parentElement));
+
+        element.editLoaded = false;
+        flushAsynchronousOperations();
+        assert.isFalse(isVisible(element.$.editControls.parentElement));
+      });
     });
   });
 </script>

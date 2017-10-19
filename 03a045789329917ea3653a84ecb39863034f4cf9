@@ -46,6 +46,30 @@
       "revId": "03a045789329917ea3653a84ecb39863034f4cf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1de5a49b_89cf56ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T20:48:38Z",
+      "side": 1,
+      "message": "Ah gotcha. I worry about parentElement due to shadow DOM but since these are both contained in the same element, it\u0027s probably ok. An alternative is just to select element.$$(\u0027.showOnEdit .flexContainer), but I\u0027ll leave that up to you.",
+      "parentUuid": "d9b532a6_e835e764",
+      "range": {
+        "startLine": 301,
+        "startChar": 54,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "03a045789329917ea3653a84ecb39863034f4cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

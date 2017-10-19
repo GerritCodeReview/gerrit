@@ -22,6 +22,30 @@
       "revId": "61610881aab587d19030f95a5fc5dde24bb83f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e479da4_25bbec7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-19T02:04:28Z",
+      "side": 1,
+      "message": "You mean, we don\u0027t need this one:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/134650  ?",
+      "parentUuid": "5d3f943e_3df929e1",
+      "range": {
+        "startLine": 58,
+        "startChar": 38,
+        "endLine": 58,
+        "endChar": 54
+      },
+      "revId": "61610881aab587d19030f95a5fc5dde24bb83f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

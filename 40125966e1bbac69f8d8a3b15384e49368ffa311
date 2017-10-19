@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c345897c_1478cb3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-19T17:38:21Z",
+      "side": 0,
+      "message": "This change deleted this component.",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 15
+      },
+      "revId": "40125966e1bbac69f8d8a3b15384e49368ffa311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

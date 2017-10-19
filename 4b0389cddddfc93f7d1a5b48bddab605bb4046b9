@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44fd3be7_55abcbd8",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "FYI: you could place a plugin in polygerrit-ui/app/samples folder and use ./polygerrit-ui/run-server.sh --host chromium-review.googlesource.com --plugins /absolute/path/here/gerrit/polygerrit-ui/app/samples\n\nThis way you would be able to achieve following:\n- create a sample plugin for other developers\n- remove shims (starting with line 43, etc)",
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afc9dea7_9cbe0952",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "Ideally, this shouldn\u0027t be exposed to plugin.",
+      "range": {
+        "startLine": 20,
+        "startChar": 24,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e023d17_6a4e1eec",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "Ideally, this shouldn\u0027t be exposed to plugin.",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94024b09_52862565",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "Ideally, this shouldn\u0027t be exposed to plugin.",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38435be_81408884",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure what are the advantages over using an endpoint, but don\u0027t feel strongly.\nTo me, it\u0027s just another way for doing the same thing.",
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbc831c8_7887e14e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-19T17:50:59Z",
+      "side": 1,
+      "message": "Ideally, this should go into own API",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 17
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

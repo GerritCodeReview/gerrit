@@ -1,5 +1,5 @@
 <!--
-Copyright (C) 2015 The Android Open Source Project
+Copyright (C) 2017 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../gr-account-label/gr-account-label.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-account-link">
   <template>
@@ -35,12 +36,19 @@ limitations under the License.
           text-decoration: underline;
         };
       }
+      .hoverCards {
+        display: none;
+      }
+      .hoverCards.show {
+        display: block;
+      }
     </style>
     <span>
       <a href$="[[_computeOwnerLink(account)]]" tabindex="-1">
         <gr-account-label account="[[account]]"
             avatar-image-size="[[avatarImageSize]]"
-            show-email="[[_computeShowEmail(account)]]"></gr-account-label>
+            show-email="[[_computeShowEmail(account)]]"
+            on-mouseove="_useHoverCards"></gr-account-label>
       </a>
     </span>
   </template>

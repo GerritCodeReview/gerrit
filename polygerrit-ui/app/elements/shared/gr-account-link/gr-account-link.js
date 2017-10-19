@@ -23,6 +23,7 @@
         type: Number,
         value: 32,
       },
+      _showCards: String,
     },
 
     behaviors: [
@@ -38,6 +39,10 @@
 
     _computeShowEmail(account) {
       return !!(account && !account.name);
+    },
+
+    _useHoverCards(e) {
+      this._showCards = 'show';
     },
   });
 })();

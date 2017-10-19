@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
@@ -99,6 +100,12 @@ limitations under the License.
       .u-gray-background {
         background-color: #F5F5F5;
       }
+      .hoverCards {
+        display: none;
+      }
+      .hoverCards.show {
+        display: block;
+      }
       @media only screen and (max-width: 50em) {
         :host {
           display: flex;
@@ -135,7 +142,12 @@ limitations under the License.
     </td>
     <td class="cell owner"
         hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]">
-      <gr-account-link account="[[change.owner]]"></gr-account-link>
+      <paper-card class$="hoverCards [[_showCards]]"heading="[[change.owner.name]]" image="http://placehold.it/350x150/FFC107/000000" alt="[[change.owner.name]]">
+        <div class="card-content">
+          [[change.owner.email]]
+        </div>
+      </paper-card>
+      <gr-account-link account="[[change.owner]]" on-mouseover="_useHoverCards"></gr-account-link>
     </td>
     <td class="cell assignee"
         hidden$="[[isColumnHidden('Assignee', visibleChangeTableColumns)]]">

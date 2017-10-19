@@ -34,6 +34,7 @@
         value: false,
       },
       showNumber: Boolean,
+      _showCards: String,
     },
 
     behaviors: [
@@ -114,6 +115,10 @@
     _computeTopicURL(change) {
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic);
+    },
+
+    _useHoverCards(e) {
+      this._showCards = 'show';
     },
   });
 })();

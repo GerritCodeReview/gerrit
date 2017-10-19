@@ -72,8 +72,8 @@ limitations under the License.
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
       <gr-button
-          id$="[[action.key]]"
-          class$="[[_computeIsInvisible(action.key, hiddenActions)]]"
+          id$="[[action.id]]"
+          class$="[[_computeIsInvisible(action.id, hiddenActions)]]"
           link
           on-tap="_handleTap">[[action.label]]</gr-button>
     </template>

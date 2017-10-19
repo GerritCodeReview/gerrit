@@ -70,6 +70,30 @@
       "revId": "03a045789329917ea3653a84ecb39863034f4cf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "006b46e5_97a74c5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-19T21:09:47Z",
+      "side": 1,
+      "message": "Yeah, I hear you, but I checked it with shadow DOM enabled and it worked fine.\n\nI worry about that alternative solution will break if I use this flexContainer class elsewhere.",
+      "parentUuid": "1de5a49b_89cf56ea",
+      "range": {
+        "startLine": 301,
+        "startChar": 54,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "03a045789329917ea3653a84ecb39863034f4cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

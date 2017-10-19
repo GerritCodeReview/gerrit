@@ -159,9 +159,5 @@
           section.query;
       return query.replace(/\$\{user\}/g, user);
     },
-
-    _computeUserHeaderClass(userParam) {
-      return userParam === 'self' ? 'hide' : '';
-    },
   });
 })();

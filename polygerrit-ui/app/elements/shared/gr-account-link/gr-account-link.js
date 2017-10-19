@@ -23,6 +23,10 @@
         type: Number,
         value: 32,
       },
+      _showCards: {
+        type: String,
+        value: '',
+      },
     },
 
     behaviors: [
@@ -38,6 +42,10 @@
 
     _computeShowEmail(account) {
       return !!(account && !account.name);
+    },
+
+    _useHoverCards(e) {
+      this._showCards = 'show';
     },
   });
 })();

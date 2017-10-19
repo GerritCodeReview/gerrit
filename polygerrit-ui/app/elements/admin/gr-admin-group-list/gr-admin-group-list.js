@@ -93,7 +93,7 @@
     },
 
     _computeGroupUrl(id) {
-      return this.getUrl(this._path + '/', id);
+      return Gerrit.Nav.getUrlForGroup(id);
     },
 
     _getCreateGroupCapability() {

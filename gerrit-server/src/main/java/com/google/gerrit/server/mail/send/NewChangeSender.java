@@ -55,7 +55,7 @@ public abstract class NewChangeSender extends ChangeEmail {
       case ALL:
       default:
         add(RecipientType.CC, extraCC);
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case OWNER_REVIEWERS:
         add(RecipientType.TO, reviewers);
         break;

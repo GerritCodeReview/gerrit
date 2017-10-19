@@ -17,8 +17,8 @@
 set -eu
 
 # Keep this version in sync with dev-contributing.txt.
-VERSION="1.3"
-SHA1="a73cfe6f9af01bd6ff150c0b50c9d620400f784c"
+VERSION="1.5"
+SHA1="f17e265e3c1029c0f9beae97d89d3ab09b9d17ad"
 
 root="$(git rev-parse --show-toplevel)"
 if [[ -z "$root" ]]; then

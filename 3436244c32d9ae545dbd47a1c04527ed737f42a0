@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47067e79_9e11edb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-19T04:45:35Z",
+      "side": 1,
+      "message": "Add a space after //\n\nIt was like this before, but I didn\u0027t notice until after merging, and it wasn\u0027t worth making a commit to only fix this.",
+      "revId": "3436244c32d9ae545dbd47a1c04527ed737f42a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

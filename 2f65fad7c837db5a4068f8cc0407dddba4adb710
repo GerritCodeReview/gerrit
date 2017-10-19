@@ -177,6 +177,24 @@
       "revId": "2f65fad7c837db5a4068f8cc0407dddba4adb710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "216aad60_bb5cd049",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-19T04:57:24Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "be749773_0d77e315",
+      "revId": "2f65fad7c837db5a4068f8cc0407dddba4adb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -365,6 +365,36 @@ limitations under the License.
               '/dashboard/user?name=query&title=custom%20dashboard');
         });
       });
+
+      suite('groups', () => {
+        test('group info', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+          };
+          assert.equal(element._generateUrl(params), '/admin/groups/1234');
+        });
+
+        test('group members', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'members',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,members');
+        });
+
+        test('group audit log', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'log',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,audit-log');
+        });
+      });
     });
 
     suite('param normalization', () => {
@@ -804,9 +834,8 @@ limitations under the License.
         test('_handleGroupAuditLogRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupAuditLogRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-audit-log',
-            detailType: 'audit-log',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'log',
             groupId: 1234,
           });
         });
@@ -814,9 +843,8 @@ limitations under the License.
         test('_handleGroupMembersRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupMembersRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-members',
-            detailType: 'members',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'members',
             groupId: 1234,
           });
         });
@@ -872,8 +900,7 @@ limitations under the License.
         test('_handleGroupRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleGroupRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group',
+            view: Gerrit.Nav.View.GROUP,
             groupId: 4321,
           });
         });

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96c39534_f5424123",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-19T21:53:14Z",
+      "side": 1,
+      "message": "Why not make this a multiple return?\n\nOr even move the getBaseUrl call into _generate*Url, make this a switch, and just return the call?",
+      "revId": "e72b2881be654af422d15bbe28cbf1a7a411f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

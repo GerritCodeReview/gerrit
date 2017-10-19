@@ -14,12 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
@@ -29,17 +32,15 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
-<link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
+<link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -460,6 +461,8 @@ limitations under the License.
             file-list-increment="{{_numFilesShown}}"
             on-files-shown-changed="_setShownFiles"></gr-file-list>
       </section>
+      <gr-endpoint-decorator name="change-view-integration">
+      </gr-endpoint-decorator>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"

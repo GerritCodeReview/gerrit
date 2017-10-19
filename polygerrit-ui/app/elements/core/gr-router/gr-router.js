@@ -187,94 +187,130 @@
       page.redirect(url);
     },
 
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
     _generateUrl(params) {
       const base = this.getBaseUrl();
       let url = '';
       const Views = Gerrit.Nav.View;
 
       if (params.view === Views.SEARCH) {
-        const operators = [];
-        if (params.owner) {
-          operators.push('owner:' + this.encodeURL(params.owner, false));
-        }
-        if (params.project) {
-          operators.push('project:' + this.encodeURL(params.project, false));
-        }
-        if (params.branch) {
-          operators.push('branch:' + this.encodeURL(params.branch, false));
-        }
-        if (params.topic) {
-          operators.push('topic:"' + this.encodeURL(params.topic, false) + '"');
-        }
-        if (params.hashtag) {
-          operators.push('hashtag:"' +
-              this.encodeURL(params.hashtag.toLowerCase(), false) + '"');
-        }
-        if (params.statuses) {
-          if (params.statuses.length === 1) {
-            operators.push(
-                'status:' + this.encodeURL(params.statuses[0], false));
-          } else if (params.statuses.length > 1) {
-            operators.push(
-                '(' +
-                params.statuses.map(s => `status:${this.encodeURL(s, false)}`)
-                    .join(' OR ') +
-                ')');
-          }
-        }
-        url = '/q/' + operators.join('+');
+        url = this._generateSearchUrl(params);
       } else if (params.view === Views.CHANGE) {
-        let range = this._getPatchRangeExpression(params);
-        if (range.length) { range = '/' + range; }
-        let suffix = `${range}`;
-        if (params.querystring) {
-          suffix += '?' + params.querystring;
-        }
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
-        } else {
-          url = `/c/${params.changeNum}${suffix}`;
-        }
+        url = this._generateChangeUrl(params);
       } else if (params.view === Views.DASHBOARD) {
-        if (params.sections) {
-          // Custom dashboard.
-          const queryParams = params.sections.map(section => {
-            return encodeURIComponent(section.name) + '=' +
-                encodeURIComponent(section.query);
-          });
-          if (params.title) {
-            queryParams.push('title=' + encodeURIComponent(params.title));
-          }
-          const user = params.user ? params.user : '';
-          url = `/dashboard/${user}?${queryParams.join('&')}`;
-        } else {
-          // User dashboard.
-          url = `/dashboard/${params.user || 'self'}`;
-        }
+        url = this._generateDashboardUrl(params);
       } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
-        let range = this._getPatchRangeExpression(params);
-        if (range.length) { range = '/' + range; }
-
-        let suffix = `${range}/${this.encodeURL(params.path, true)}`;
-
-        if (params.view === Views.EDIT) { suffix += ',edit'; }
-
-        if (params.lineNum) {
-          suffix += '#';
-          if (params.leftSide) { suffix += 'b'; }
-          suffix += params.lineNum;
-        }
-
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
-        } else {
-          url = `/c/${params.changeNum}${suffix}`;
-        }
+        url = this._generateDiffOrEditUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
 
       return base + url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateSearchUrl(params) {
+      const operators = [];
+      if (params.owner) {
+        operators.push('owner:' + this.encodeURL(params.owner, false));
+      }
+      if (params.project) {
+        operators.push('project:' + this.encodeURL(params.project, false));
+      }
+      if (params.branch) {
+        operators.push('branch:' + this.encodeURL(params.branch, false));
+      }
+      if (params.topic) {
+        operators.push('topic:"' + this.encodeURL(params.topic, false) + '"');
+      }
+      if (params.hashtag) {
+        operators.push('hashtag:"' +
+            this.encodeURL(params.hashtag.toLowerCase(), false) + '"');
+      }
+      if (params.statuses) {
+        if (params.statuses.length === 1) {
+          operators.push(
+              'status:' + this.encodeURL(params.statuses[0], false));
+        } else if (params.statuses.length > 1) {
+          operators.push(
+              '(' +
+              params.statuses.map(s => `status:${this.encodeURL(s, false)}`)
+                  .join(' OR ') +
+              ')');
+        }
+      }
+      return '/q/' + operators.join('+');
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateChangeUrl(params) {
+      let range = this._getPatchRangeExpression(params);
+      if (range.length) { range = '/' + range; }
+      let suffix = `${range}`;
+      if (params.querystring) {
+        suffix += '?' + params.querystring;
+      }
+      if (params.project) {
+        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+      } else {
+        return `/c/${params.changeNum}${suffix}`;
+      }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateDashboardUrl(params) {
+      if (params.sections) {
+        // Custom dashboard.
+        const queryParams = params.sections.map(section => {
+          return encodeURIComponent(section.name) + '=' +
+              encodeURIComponent(section.query);
+        });
+        if (params.title) {
+          queryParams.push('title=' + encodeURIComponent(params.title));
+        }
+        const user = params.user ? params.user : '';
+        return `/dashboard/${user}?${queryParams.join('&')}`;
+      } else {
+        // User dashboard.
+        return `/dashboard/${params.user || 'self'}`;
+      }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateDiffOrEditUrl(params) {
+      let range = this._getPatchRangeExpression(params);
+      if (range.length) { range = '/' + range; }
+
+      let suffix = `${range}/${this.encodeURL(params.path, true)}`;
+
+      if (params.view === Gerrit.Nav.View.EDIT) { suffix += ',edit'; }
+
+      if (params.lineNum) {
+        suffix += '#';
+        if (params.leftSide) { suffix += 'b'; }
+        suffix += params.lineNum;
+      }
+
+      if (params.project) {
+        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+      } else {
+        return `/c/${params.changeNum}${suffix}`;
+      }
     },
 
     /**

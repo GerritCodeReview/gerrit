@@ -94,6 +94,30 @@
       "revId": "69e4ac2196f0dabdc347e936aea4ff08b14a4f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2da65ae_6fcf5279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-19T00:55:47Z",
+      "side": 1,
+      "message": "That\u0027s exactly what I did. I\u0027m now testing it works as expected.",
+      "parentUuid": "78590311_2e694b67",
+      "range": {
+        "startLine": 58,
+        "startChar": 21,
+        "endLine": 58,
+        "endChar": 55
+      },
+      "revId": "69e4ac2196f0dabdc347e936aea4ff08b14a4f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

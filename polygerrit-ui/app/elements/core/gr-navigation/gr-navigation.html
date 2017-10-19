@@ -47,6 +47,16 @@ limitations under the License.
     //    - `leftSide`, optional, Boolean, if a `lineNum` is provided, a value
     //        of true selects the line from base of the patch range. False by
     //        default.
+    //
+    //  - Gerrit.Nav.View.GROUP:
+    //    - `groupId`, required, String, the ID of the group.
+    //    - `detail`, optional, String, the name of the group detail view.
+    //      Value can be "members" or "log".
+    //
+    //  - Gerrit.Nav.View.GROUP_LIST:
+    //    - `offset`, optional, Number
+    //    - `filter`, optional, String
+    //    - `openCreateModal`, optional, Boolean
 
     window.Gerrit = window.Gerrit || {};
 
@@ -71,6 +81,7 @@ limitations under the License.
         EDIT: 'edit',
         SEARCH: 'search',
         SETTINGS: 'settings',
+        GROUP: 'group',
       },
 
       /** @type {Function} */
@@ -314,6 +325,50 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
+      },
+
+      /**
+       * @return {string}
+       */
+      getUrlForGroups() {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP_LIST,
+        });
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroup(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+        });
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroupLog(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+          detail: 'log',
+        });
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroupMembers(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+          detail: 'members',
+        });
       },
     };
   })(window);

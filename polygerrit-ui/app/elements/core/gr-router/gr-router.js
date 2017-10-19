@@ -204,6 +204,10 @@
         url = this._generateDashboardUrl(params);
       } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
         url = this._generateDiffOrEditUrl(params);
+      } else if (params.view === Views.GROUP) {
+        url = this._generateGroupUrl(params);
+      } else if (params.view === Views.GROUP_LIST) {
+        url = this._generateGroupListUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
@@ -311,6 +315,28 @@
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateGroupUrl(params) {
+      let url =  `/admin/groups/${encodeURIComponent(params.groupId)}`;
+      if (params.detail === 'members') {
+        url += ',members';
+      } else if (params.detail === 'log') {
+        url += ',audit-log';
+      }
+      return url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateGroupListUrl(params) {
+      return '/admin/groups';
     },
 
     /**
@@ -765,28 +791,32 @@
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
     },
 
+    _handleGroupRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.GROUP,
+        groupId: data.params[0],
+      });
+    },
+
     _handleGroupAuditLogRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-audit-log',
-        detailType: 'audit-log',
+        view: Gerrit.Nav.View.GROUP,
+        detail: 'log',
         groupId: data.params[0],
       });
     },
 
     _handleGroupMembersRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-members',
-        detailType: 'members',
+        view: Gerrit.Nav.View.GROUP,
+        detail: 'members',
         groupId: data.params[0],
       });
     },
 
     _handleGroupListOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        view: Gerrit.Nav.View.GROUP_LIST,
         offset: data.params[1] || 0,
         filter: null,
         openCreateModal: data.hash === 'create',
@@ -795,8 +825,7 @@
 
     _handleGroupListFilterOffsetRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        view: Gerrit.Nav.View.GROUP_LIST,
         offset: data.params.offset,
         filter: data.params.filter,
       });
@@ -804,17 +833,8 @@
 
     _handleGroupListFilterRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-admin-group-list',
+        view: Gerrit.Nav.View.GROUP_LIST,
         filter: data.params.filter || null,
-      });
-    },
-
-    _handleGroupRoute(data) {
-      this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group',
-        groupId: data.params[0],
       });
     },
 

@@ -14,26 +14,6 @@
 (function() {
   'use strict';
 
-  const ADMIN_LINKS = [{
-    name: 'Projects',
-    url: '/admin/projects',
-    view: 'gr-project-list',
-    viewableToAll: true,
-    children: [],
-  }, {
-    name: 'Groups',
-    section: 'Groups',
-    url: '/admin/groups',
-    view: 'gr-admin-group-list',
-    children: [],
-  }, {
-    name: 'Plugins',
-    capability: 'viewPlugins',
-    section: 'Plugins',
-    url: '/admin/plugins',
-    view: 'gr-plugin-list',
-  }];
-
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
 
   Polymer({
@@ -74,6 +54,31 @@
       _showProjectDetailList: Boolean,
       _showPluginList: Boolean,
       _showProjectAccess: Boolean,
+
+      _adminLinks: {
+        type: Array,
+        readOnly: true,
+        value: () => [{
+            name: 'Projects',
+            url: '/admin/projects',
+            view: 'gr-project-list',
+            viewableToAll: true,
+            children: [],
+          }, {
+            name: 'Groups',
+            section: 'Groups',
+            url: Gerrit.Nav.getUrlForGroups(),
+            view: 'gr-admin-group-list',
+            children: [],
+          }, {
+            name: 'Plugins',
+            capability: 'viewPlugins',
+            section: 'Plugins',
+            url: '/admin/plugins',
+            view: 'gr-plugin-list',
+          },
+        ],
+      },
     },
 
     behaviors: [
@@ -103,7 +108,7 @@
     },
 
     _filterLinks(filterFn) {
-      const links = ADMIN_LINKS.filter(filterFn);
+      const links = this._adminLinks.filter(filterFn);
       const filteredLinks = [];
       for (const link of links) {
         const linkCopy = Object.assign({}, link);
@@ -148,14 +153,13 @@
           linkCopy.subsection = {
             name: this._groupName,
             view: 'gr-group',
-            url: `/admin/groups/${this.encodeURL(this._groupId + '', true)}`,
+            url: Gerrit.Nav.getUrlForGroup(this._groupId),
             children: [
               {
                 name: 'Members',
                 detailType: 'members',
                 view: 'gr-group-members',
-                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
-                    ',members',
+                url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
               },
             ],
           };
@@ -165,8 +169,7 @@
                   name: 'Audit Log',
                   detailType: 'audit-log',
                   view: 'gr-group-audit-log',
-                  url: '/admin/groups/' +
-                      `${this.encodeURL(this._groupId + '', true)},audit-log`,
+                  url: Gerrit.Nav.getUrlForGroupLog(this._groupId),
                 }
             );
           }
@@ -187,10 +190,16 @@
     },
 
     _paramsChanged(params) {
-      this.set('_showGroup', params.adminView === 'gr-group');
+      this.set('_showGroupList', params.view === Gerrit.Nav.View.GROUP_LIST);
+
+      this.set('_showGroup', params.view === Gerrit.Nav.View.GROUP &&
+          !params.detail);
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
-      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
-      this.set('_showGroupMembers', params.adminView === 'gr-group-members');
+      this.set('_showGroupAuditLog', params.view === Gerrit.Nav.View.GROUP &&
+          params.detail === 'log');
+      this.set('_showGroupMembers', params.view === Gerrit.Nav.View.GROUP &&
+          params.detail === 'members');
+
       this.set('_showProjectCommands',
           params.adminView === 'gr-project-commands');
       this.set('_showProjectMain', params.adminView === 'gr-project');
@@ -198,8 +207,10 @@
           params.adminView === 'gr-project-list');
       this.set('_showProjectDetailList',
           params.adminView === 'gr-project-detail-list');
-      this.set('_showPluginList', params.adminView === 'gr-plugin-list');
       this.set('_showProjectAccess', params.adminView === 'gr-project-access');
+
+      this.set('_showPluginList', params.adminView === 'gr-plugin-list');
+
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.

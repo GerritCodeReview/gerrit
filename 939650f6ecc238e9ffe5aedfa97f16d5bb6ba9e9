@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "427fe97e_3d6e8bb5",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T22:39:13Z",
+      "side": 1,
+      "message": "Nit: don\u0027t .5em (don\u0027t need the 0).",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "939650f6ecc238e9ffe5aedfa97f16d5bb6ba9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f985ff_def656ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T22:39:13Z",
+      "side": 1,
+      "message": "Is there a reason this couldn\u0027t be either all padding or all margin?\n\nThe dropdown position looks better (in my opinion) when \n\ngr-dropdown {\n  padding: 1.5em .5em;\n}\n\nwhich I think is the same look that was going for herel.",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 24
+      },
+      "revId": "939650f6ecc238e9ffe5aedfa97f16d5bb6ba9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d49ac79_98d2582b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T22:39:13Z",
+      "side": 1,
+      "message": "Nit: .5 instead of 0.5",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 97,
+        "endChar": 22
+      },
+      "revId": "939650f6ecc238e9ffe5aedfa97f16d5bb6ba9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

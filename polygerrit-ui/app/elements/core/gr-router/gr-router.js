@@ -204,6 +204,8 @@
         url = this._generateDashboardUrl(params);
       } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
         url = this._generateDiffOrEditUrl(params);
+      } else if (params.view === Views.GROUP) {
+        url = this._generateGroupUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
@@ -311,6 +313,18 @@
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateGroupUrl(params) {
+      let url =  `/admin/groups`;
+      if (params.groupId) {
+        url += '/' + encodeURIComponent(params.groupId);
+      }
+      return url;
     },
 
     /**
@@ -812,8 +826,7 @@
 
     _handleGroupRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group',
+        view: Gerrit.Nav.View.GROUP,
         groupId: data.params[0],
       });
     },

@@ -47,6 +47,10 @@ limitations under the License.
     //    - `leftSide`, optional, Boolean, if a `lineNum` is provided, a value
     //        of true selects the line from base of the patch range. False by
     //        default.
+    //
+    //  - Gerrit.Nav.View.GROUP:
+    //    - `groupId`, optional, String, the ID of the group.
+    //    - `detailView`, optional, String, the name of the group detail view.
 
     window.Gerrit = window.Gerrit || {};
 
@@ -71,6 +75,7 @@ limitations under the License.
         EDIT: 'edit',
         SEARCH: 'search',
         SETTINGS: 'settings',
+        GROUP: 'group',
       },
 
       /** @type {Function} */
@@ -314,6 +319,17 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroupById(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+        });
       },
     };
   })(window);

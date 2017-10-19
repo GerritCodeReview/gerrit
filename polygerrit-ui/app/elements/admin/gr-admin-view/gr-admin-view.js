@@ -187,7 +187,8 @@
     },
 
     _paramsChanged(params) {
-      this.set('_showGroup', params.adminView === 'gr-group');
+      this.set('_showGroup', params.view === Gerrit.Nav.View.GROUP &&
+          !params.detailView);
       this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
       this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
       this.set('_showGroupMembers', params.adminView === 'gr-group-members');

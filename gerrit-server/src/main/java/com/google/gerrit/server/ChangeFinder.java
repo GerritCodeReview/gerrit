@@ -54,17 +54,17 @@ public class ChangeFinder {
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
 
-    //Try commit hash
-    if (id.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      return asChangeControls(query.byCommit(id), user);
-    }
-
     // Try legacy id
     if (!id.isEmpty() && id.charAt(0) != '0') {
       Integer n = Ints.tryParse(id);
       if (n != null) {
         return asChangeControls(query.byLegacyChangeId(new Change.Id(n)), user);
       }
+    }
+
+  //Try commit hash
+    if (id.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      return asChangeControls(query.byCommit(id), user);
     }
 
     // Try isolated changeId

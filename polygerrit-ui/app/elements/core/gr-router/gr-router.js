@@ -204,6 +204,8 @@
         url = this._generateDashboardUrl(params);
       } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
         url = this._generateDiffOrEditUrl(params);
+      } else if (params.view === Views.GROUP) {
+        url = this._generateGroupUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
@@ -311,6 +313,20 @@
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateGroupUrl(params) {
+      let url = `/admin/groups/${this.encodeURL(params.groupId + '', true)}`;
+      if (params.detail === Gerrit.Nav.GroupDetailView.MEMBERS) {
+        url += ',members';
+      } else if (params.detail === Gerrit.Nav.GroupDetailView.LOG) {
+        url += ',audit-log';
+      }
+      return url;
     },
 
     /**
@@ -765,20 +781,25 @@
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
     },
 
+    _handleGroupRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.GROUP,
+        groupId: data.params[0],
+      });
+    },
+
     _handleGroupAuditLogRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-audit-log',
-        detailType: 'audit-log',
+        view: Gerrit.Nav.View.GROUP,
+        detail: Gerrit.Nav.GroupDetailView.LOG,
         groupId: data.params[0],
       });
     },
 
     _handleGroupMembersRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-members',
-        detailType: 'members',
+        view: Gerrit.Nav.View.GROUP,
+        detail: Gerrit.Nav.GroupDetailView.MEMBERS,
         groupId: data.params[0],
       });
     },
@@ -807,14 +828,6 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-group-list',
         filter: data.params.filter || null,
-      });
-    },
-
-    _handleGroupRoute(data) {
-      this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group',
-        groupId: data.params[0],
       });
     },
 

@@ -75,6 +75,7 @@ limitations under the License.
       }];
 
       element.params = {
+        view: 'admin',
         adminView: 'gr-project-list',
       };
 
@@ -206,7 +207,7 @@ limitations under the License.
         assert.isTrue(element.reload.called);
         done();
       });
-      element.params = {group: 1, adminView: 'gr-group'};
+      element.params = {group: 1, view: Gerrit.Nav.View.GROUP};
       element._groupName = 'oldName';
       flushAsynchronousOperations();
       element.$$('gr-group').fire('name-changed', {name: newName});

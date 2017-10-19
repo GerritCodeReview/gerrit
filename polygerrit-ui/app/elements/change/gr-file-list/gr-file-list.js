@@ -433,12 +433,7 @@
 
     _getFiles() {
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
-          this.changeNum, this.patchRange).then(files => {
-            // Append UI-specific properties.
-            return files.map(file => {
-              return file;
-            });
-          });
+          this.changeNum, this.patchRange);
     },
 
     /**

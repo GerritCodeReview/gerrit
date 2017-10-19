@@ -105,6 +105,29 @@
     },
     {
       "key": {
+        "uuid": "39b6abca_25ec051d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-19T20:19:32Z",
+      "side": 1,
+      "message": "I don\u0027t think the plugin provided layer can be a function only: any such layer that has to asynchronously request information (such as coverage) and render the annotations when it has loaded will need to provide an `addListener` method as well.\n\nI think the results of `getDiffLayers` would each have to be an instance of the annotation layer interface:\n* A required annotate function, and\n* An optional addListener function.",
+      "range": {
+        "startLine": 127,
+        "startChar": 21,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbc831c8_7887e14e",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 6
@@ -125,6 +148,29 @@
       "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e23b7cc_f5b552b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-19T20:19:32Z",
+      "side": 1,
+      "message": "Nice; I like this approach of using these params to configure the layers.",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 44
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

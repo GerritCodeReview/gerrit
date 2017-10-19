@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "77d365aa_635fb736",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T20:35:54Z",
+      "side": 1,
+      "message": "\"see the html code, it is checked if the private config is enabled.\"\n\n--\u003e you don\u0027t explicitly set the checked attribute. It gets set based on the config.  So, you should not be setting element.$.privateChangeCheckBox.checked here in the tests, because that\u0027s not how it works in the application.  I\u0027m not saying that there is anything wrong with the code, what I\u0027m saying is that the tests are not correctly representing how it works.",
+      "parentUuid": "4c47288f_53fe663c",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "33f3a5cd933f6bfbff78e1bd450d63c83234c506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc0eeb76_c13376a9",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
         "patchSetId": 29

@@ -1365,7 +1365,7 @@ public class ReceiveCommits {
       if (!hashtag.isEmpty()) {
         hashtags.add(hashtag);
       }
-      //TODO(dpursehouse): validate hashtags
+      // TODO(dpursehouse): validate hashtags
     }
 
     MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes, NotesMigration notesMigration) {

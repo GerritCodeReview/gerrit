@@ -396,7 +396,7 @@ public class SmtpEmailSender implements EmailSender {
         try {
           client.disconnect();
         } catch (IOException e2) {
-          //Ignored
+          // Ignored
         }
       }
       if (e instanceof EmailException) {

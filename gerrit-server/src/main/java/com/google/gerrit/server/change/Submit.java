@@ -234,7 +234,7 @@ public class Submit
         if (msg != null) {
           throw new ResourceConflictException(msg.getMessage());
         }
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case ABANDONED:
       case DRAFT:
       default:

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9a677853_963a46d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-10-19T04:39:47Z",
+      "side": 1,
+      "message": "Really sorry but I made a mistake moving the sha-1 regex as first option. If the legacy-id has 7 digits or more (our case in production servers), it will be recognized as a sha-1. Given the low probability of having such sha-1, id will be mismatched and change not found error thrown.\n\nNew attempt: https://gerrit-review.googlesource.com/c/gerrit/+/134730",
+      "parentUuid": "60c1817e_6dba540a",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "2f65fad7c837db5a4068f8cc0407dddba4adb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60c43672_7838fefb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeFinder.java",
         "patchSetId": 2

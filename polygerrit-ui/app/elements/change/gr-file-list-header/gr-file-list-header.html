@@ -74,15 +74,6 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      .showOnEdit {
-        display: none;
-      }
-      .editLoaded .hideOnEdit {
-        display: none;
-      }
-      .editLoaded .showOnEdit {
-        display: initial;
-      }
       .patchInfo-header-wrapper .container {
         align-items: center;
         display: flex;
@@ -126,14 +117,10 @@ limitations under the License.
       .fileViewActions > *:not(:last-child) {
         margin-right: .6em;
       }
-      .fileViewActions .separator {
-        height: 1.5em;
-        margin: 0 1em;
-      }
       .separator {
         background-color: rgba(0, 0, 0, .3);
         height: 1.5em;
-        margin: 0 .6em;
+        margin: 0 1em;
         width: 1px;
       }
       .separator.transparent {
@@ -145,8 +132,14 @@ limitations under the License.
       .editLoaded .hideOnEdit {
         display: none;
       }
+      .showOnEdit {
+        display: none;
+      }
       .editLoaded .showOnEdit {
         display: initial;
+      }
+      .editLoaded .showOnEdit.flexContainer {
+        display: flex;
       }
       .label {
         font-family: var(--font-family-bold);
@@ -194,6 +187,10 @@ limitations under the License.
           </span>
         </div>
         <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
+          <span class="showOnEdit flexContainer">
+            <gr-edit-controls id="editControls" change="[[change]]"></gr-edit-controls>
+            <span class="separator"></span>
+          </span>
           <span class="downloadContainer desktop">
             <gr-button link
                 class="download"

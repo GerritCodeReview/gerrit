@@ -20,7 +20,7 @@ notifications when changes are made.
 
 Changes can be specified in the
 link:rest-api-changes.html#change-id[same format] supported by the REST
-API, as well as with the commit SHA-1.
+API, as well as with the commit SHA-1 (at least the 7 first characters).
 
 == OPTIONS
 

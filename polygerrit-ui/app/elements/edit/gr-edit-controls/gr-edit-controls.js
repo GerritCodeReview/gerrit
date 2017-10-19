@@ -26,7 +26,7 @@
        */
       hiddenActions: {
         type: Array,
-        value() { return [GrEditConstants.Actions.RESTORE.key]; },
+        value() { return [GrEditConstants.Actions.RESTORE.id]; },
       },
 
       _actions: {
@@ -57,16 +57,16 @@
       e.preventDefault();
       const action = Polymer.dom(e).localTarget.id;
       switch (action) {
-        case GrEditConstants.Actions.EDIT.key:
+        case GrEditConstants.Actions.EDIT.id:
           this.openEditDialog();
           return;
-        case GrEditConstants.Actions.DELETE.key:
+        case GrEditConstants.Actions.DELETE.id:
           this.openDeleteDialog();
           return;
-        case GrEditConstants.Actions.RENAME.key:
+        case GrEditConstants.Actions.RENAME.id:
           this.openRenameDialog();
           return;
-        case GrEditConstants.Actions.RESTORE.key:
+        case GrEditConstants.Actions.RESTORE.id:
           this.openRestoreDialog();
           return;
       }
@@ -186,8 +186,8 @@
           }));
     },
 
-    _computeIsInvisible(key, hiddenActions) {
-      return hiddenActions.includes(key) ? 'invisible' : '';
+    _computeIsInvisible(id, hiddenActions) {
+      return hiddenActions.includes(id) ? 'invisible' : '';
     },
   });
 })();

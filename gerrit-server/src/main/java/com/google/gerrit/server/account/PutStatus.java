@@ -15,15 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.StatusInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.PutStatus.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -35,17 +34,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class PutStatus implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-    @DefaultInput String status;
-
-    public Input(String status) {
-      this.status = status;
-    }
-
-    public Input() {}
-  }
-
+public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountsUpdate.Server accountsUpdate;
@@ -61,7 +50,7 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<String> apply(AccountResource rsrc, Input input)
+  public Response<String> apply(AccountResource rsrc, StatusInput input)
       throws AuthException, ResourceNotFoundException, OrmException, IOException,
           PermissionBackendException, ConfigInvalidException {
     if (self.get() != rsrc.getUser()) {
@@ -70,10 +59,10 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
     return apply(rsrc.getUser(), input);
   }
 
-  public Response<String> apply(IdentifiedUser user, Input input)
+  public Response<String> apply(IdentifiedUser user, StatusInput input)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     if (input == null) {
-      input = new Input();
+      input = new StatusInput();
     }
 
     String newStatus = input.status;

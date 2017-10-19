@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInput;
+import com.google.gerrit.extensions.common.StatusInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -406,7 +407,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public void setStatus(String status) throws RestApiException {
-    PutStatus.Input in = new PutStatus.Input(status);
+    StatusInput in = new StatusInput(status);
     try {
       putStatus.apply(account, in);
     } catch (Exception e) {

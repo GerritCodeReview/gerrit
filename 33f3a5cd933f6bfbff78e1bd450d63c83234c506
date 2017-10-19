@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "72eeb9b6_25c5a8fc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-19T15:32:19Z",
+      "side": 1,
+      "message": "But you are not checking that this handles the default correctly. You should check that the default is handled correctly, and then that toggling it is also handled correctly.\n\nAlso, the next change does:\nconst isPrivate \u003d this.$.privateChangeCheckBox.checked;\n\nThis is not setting checked, it is determining if the checkbox is currently checked.",
+      "parentUuid": "edd52456_d52a140d",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 68
+      },
+      "revId": "33f3a5cd933f6bfbff78e1bd450d63c83234c506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc0eeb76_c13376a9",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
         "patchSetId": 29

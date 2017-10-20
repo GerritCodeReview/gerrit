@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "6e3c8966_a91e0307",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T20:22:10Z",
+      "side": 1,
+      "message": "I removed the new new text but also slightly reworded the existing one.",
+      "parentUuid": "b0edaf3e_22ff7e99",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c407dc20_5c3cd552",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 1
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "As with my comment above we have to change this as well. I\u0027ll have to re-check the behaviour just to be sure.",
       "parentUuid": "2f00a3ad_5c6a85f5",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9300dbb_e2c4f1b4",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T20:22:10Z",
+      "side": 1,
+      "message": "Thanks for the note. So I\u0027ll wait for you to come back after the check!",
+      "parentUuid": "a2de0d57_7544f30d",
       "range": {
         "startLine": 130,
         "startChar": 0,

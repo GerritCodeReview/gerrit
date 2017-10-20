@@ -110,8 +110,8 @@ public class ChangeFinder {
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
 
-    //Try commit hash
-    if (id.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+    // Try commit hash
+    if (id.matches("^([0-9a-fA-F]{" + RevId.ABBREV_LEN + "," + RevId.LEN + "})$")) {
       return asChangeNotes(query.byCommit(id));
     }
 

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig;
@@ -204,7 +205,6 @@ public class CommitValidators {
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
-    private static final int SHA1_LENGTH = 7;
     private static final String CHANGE_ID_PREFIX = FooterConstants.CHANGE_ID.getName() + ":";
     private static final String MISSING_CHANGE_ID_MSG =
         "[%s] missing " + FooterConstants.CHANGE_ID.getName() + " in commit message footer";
@@ -248,7 +248,7 @@ public class CommitValidators {
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
       List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
-      String sha1 = commit.abbreviate(SHA1_LENGTH).name();
+      String sha1 = commit.abbreviate(RevId.ABBREV_LEN).name();
 
       if (idList.isEmpty()) {
         if (projectState.isRequireChangeID()) {

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b0edaf3e_22ff7e99",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T20:15:35Z",
+      "side": 1,
+      "message": "whoops. It\u0027s not only actually wrong, it\u0027s also mentioned already above.\n\n\"The committer header is also set to the submitter, while the author header retains the original patch set author.\"\n\nI\u0027d say remove this new sentence altogether. Sorry for the confusion.",
+      "parentUuid": "f228f094_df2eb37e",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c407dc20_5c3cd552",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 1
@@ -167,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "a2de0d57_7544f30d",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T20:15:35Z",
+      "side": 1,
+      "message": "As with my comment above we have to change this as well. I\u0027ll have to re-check the behaviour just to be sure.",
+      "parentUuid": "2f00a3ad_5c6a85f5",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ede86ef_f324e301",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 1
@@ -211,6 +259,30 @@
       "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4a16a86_e4c8a7b4",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T20:15:35Z",
+      "side": 1,
+      "message": "Perhaps this is wrong too, the committer may be set to the submitter instead of the original committer.",
+      "parentUuid": "af5d6665_2b255946",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

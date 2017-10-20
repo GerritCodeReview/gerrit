@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "69fac4a5_e4b60d9d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-20T23:55:48Z",
+      "side": 1,
+      "message": "See the line below on the current change.\n\nI moved it so i can check the default is false and when we use this, that it is checked by default.",
+      "parentUuid": "2adbf26b_56fc631f",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 8
+      },
+      "revId": "33f3a5cd933f6bfbff78e1bd450d63c83234c506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "979f17d5_3a9f07d3",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
         "patchSetId": 29

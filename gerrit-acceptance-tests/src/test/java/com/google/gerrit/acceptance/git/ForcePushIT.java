@@ -15,15 +15,23 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.OK;
+import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
+@NoHttpd
 public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
@@ -65,5 +73,37 @@ public class ForcePushIT extends AbstractDaemonTest {
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
     r2.assertOkStatus();
+  }
+
+  @Test
+  public void deleteNotAllowed() throws Exception {
+    assertDeleteRef(REJECTED_OTHER_REASON);
+  }
+
+  @Test
+  public void deleteNotAllowedWithOnlyPushPermission() throws Exception {
+    grant(Permission.PUSH, project, "refs/*", false);
+    assertDeleteRef(REJECTED_OTHER_REASON);
+  }
+
+  @Test
+  public void deleteAllowedWithForcePushPermission() throws Exception {
+    grant(Permission.PUSH, project, "refs/*", true);
+    assertDeleteRef(OK);
+  }
+
+  @Test
+  public void deleteAllowedWithDeletePermission() throws Exception {
+    grant(Permission.DELETE, project, "refs/*", true);
+    assertDeleteRef(OK);
+  }
+
+  private void assertDeleteRef(RemoteRefUpdate.Status expectedStatus) throws Exception {
+    BranchInput in = new BranchInput();
+    in.ref = "refs/heads/test";
+    gApi.projects().name(project.get()).branch(in.ref).create(in);
+    PushResult result = deleteRef(testRepo, in.ref);
+    RemoteRefUpdate refUpdate = result.getRemoteUpdate(in.ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(expectedStatus);
   }
 }

@@ -69,6 +69,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -3191,13 +3192,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void submittableAfterLosingPermissions_MaxWithBlock() throws Exception {
-    configLabel("Label", "MaxWithBlock");
+    configLabel("Label", LabelFunction.MAX_WITH_BLOCK);
     submittableAfterLosingPermissions("Label");
   }
 
   @Test
   public void submittableAfterLosingPermissions_AnyWithBlock() throws Exception {
-    configLabel("Label", "AnyWithBlock");
+    configLabel("Label", LabelFunction.ANY_WITH_BLOCK);
     submittableAfterLosingPermissions("Label");
   }
 

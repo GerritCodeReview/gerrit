@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.MoveInput;
@@ -238,9 +239,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     String testLabelA = "Label-A";
     String testLabelB = "Label-B";
     String testLabelC = "Label-C";
-    configLabel(testLabelA, "AnyWithBlock");
-    configLabel(testLabelB, "MaxNoBlock");
-    configLabel(testLabelC, "NoBlock");
+    configLabel(testLabelA, LabelFunction.ANY_WITH_BLOCK);
+    configLabel(testLabelB, LabelFunction.MAX_NO_BLOCK);
+    configLabel(testLabelC, LabelFunction.NO_BLOCK);
 
     AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();

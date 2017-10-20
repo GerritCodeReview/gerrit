@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.common.HeadInput;
+import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;

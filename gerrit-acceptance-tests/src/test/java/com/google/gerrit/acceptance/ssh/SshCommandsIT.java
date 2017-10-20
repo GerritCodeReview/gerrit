@@ -45,7 +45,6 @@ public class SshCommandsIT extends AbstractDaemonTest {
   private static final List<String> COMMON_ROOT_COMMANDS =
       ImmutableList.of(
           "apropos",
-          "ban-commit",
           "close-connection",
           "flush-caches",
           "gc",
@@ -63,6 +62,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
 
   private static final List<String> MASTER_ONLY_ROOT_COMMANDS =
       ImmutableList.of(
+          "ban-commit",
           "create-account",
           "create-branch",
           "create-group",

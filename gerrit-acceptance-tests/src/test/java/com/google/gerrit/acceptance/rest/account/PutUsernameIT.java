@@ -18,7 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.common.UsernameInput;
+import com.google.gerrit.extensions.api.accounts.UsernameInput;
+
 import org.junit.Test;
 
 public class PutUsernameIT extends AbstractDaemonTest {

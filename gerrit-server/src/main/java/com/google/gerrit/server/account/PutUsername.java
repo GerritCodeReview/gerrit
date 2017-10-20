@@ -15,8 +15,8 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.extensions.api.accounts.UsernameInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.common.UsernameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;

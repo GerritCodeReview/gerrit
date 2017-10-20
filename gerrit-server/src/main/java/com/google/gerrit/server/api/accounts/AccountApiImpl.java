@@ -21,6 +21,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.api.accounts.StatusInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -406,7 +407,7 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public void setStatus(String status) throws RestApiException {
-    PutStatus.Input in = new PutStatus.Input(status);
+    StatusInput in = new StatusInput(status);
     try {
       putStatus.apply(account, in);
     } catch (Exception e) {

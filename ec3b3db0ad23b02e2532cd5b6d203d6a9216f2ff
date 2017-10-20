@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a17af2d_5b080a36",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-20T00:08:15Z",
+      "side": 1,
+      "message": "This sections isn\u0027t necessary anymore if WIP is just default. We don\u0027t need to display it, we just create all changes as WIP without displaying anything to the user.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "ec3b3db0ad23b02e2532cd5b6d203d6a9216f2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

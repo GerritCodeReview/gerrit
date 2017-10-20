@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48348b67_e21a7a62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-20T13:36:06Z",
+      "side": 0,
+      "message": "Also remove this cache from the documentation:\n- rest-api-config.txt\n- config-gerrit.txt\n- cmd-show-caches.txt",
+      "range": {
+        "startLine": 53,
+        "startChar": 48,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "69f09ae4ca11f31c3f71313117b54b2641c37b1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

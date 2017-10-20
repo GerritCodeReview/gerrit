@@ -45,7 +45,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -330,7 +329,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private void setApproval(ChangeContext ctx, IdentifiedUser user)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException {
     Change.Id id = ctx.getChange().getId();
     List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
@@ -352,7 +351,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private LabelNormalizer.Result approve(ChangeContext ctx, ChangeUpdate update)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException {
     PatchSet.Id psId = update.getPatchSetId();
     Map<PatchSetApproval.Key, PatchSetApproval> byKey = new HashMap<>();
     for (PatchSetApproval psa :

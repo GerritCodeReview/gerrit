@@ -34,6 +34,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.function.BooleanSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -150,7 +151,7 @@ public class GroupCacheImpl implements GroupCache {
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
     private final SchemaFactory<ReviewDb> schema;
     private final Groups groups;
-    private final boolean hasGroupIndex;
+    private final BooleanSupplier hasGroupIndex;
     private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
@@ -161,13 +162,13 @@ public class GroupCacheImpl implements GroupCache {
         Provider<InternalGroupQuery> groupQueryProvider) {
       this.schema = schema;
       this.groups = groups;
-      this.hasGroupIndex = groupIndexCollection.getSearchIndex() != null;
+      hasGroupIndex = () -> groupIndexCollection.getSearchIndex() != null;
       this.groupQueryProvider = groupQueryProvider;
     }
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      if (hasGroupIndex) {
+      if (hasGroupIndex.getAsBoolean()) {
         return groupQueryProvider.get().byId(key);
       }
 

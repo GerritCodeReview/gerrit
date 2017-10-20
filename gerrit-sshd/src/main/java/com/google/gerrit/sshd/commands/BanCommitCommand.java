@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -36,7 +36,7 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(
   name = "ban-commit",
   description = "Ban a commit from a project's repository",
-  runsAt = MASTER_OR_SLAVE
+  runsAt = MASTER
 )
 public class BanCommitCommand extends SshCommand {
   @Option(

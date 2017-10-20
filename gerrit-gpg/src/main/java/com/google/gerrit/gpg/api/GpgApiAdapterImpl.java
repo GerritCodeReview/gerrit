@@ -15,8 +15,8 @@
 package com.google.gerrit.gpg.api;
 
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
+import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
-import com.google.gerrit.extensions.common.GpgKeysInput;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;

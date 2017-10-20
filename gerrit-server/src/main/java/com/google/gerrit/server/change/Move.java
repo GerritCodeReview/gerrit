@@ -21,6 +21,7 @@ import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,18 +32,24 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -55,7 +62,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -71,6 +79,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final ApprovalsUtil approvalsUtil;
+  private final ProjectCache projectCache;
+  private final Provider<CurrentUser> userProvider;
 
   @Inject
   Move(
@@ -81,7 +92,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       Provider<InternalChangeQuery> queryProvider,
       ChangeMessagesUtil cmUtil,
       RetryHelper retryHelper,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      ApprovalsUtil approvalsUtil,
+      ProjectCache projectCache,
+      Provider<CurrentUser> userProvider) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -90,6 +104,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.queryProvider = queryProvider;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
+    this.approvalsUtil = approvalsUtil;
+    this.projectCache = projectCache;
+    this.userProvider = userProvider;
   }
 
   @Override
@@ -138,7 +155,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
+        throws OrmException, ResourceConflictException, IOException {
       change = ctx.getChange();
       if (change.getStatus() != Status.NEW) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
@@ -188,9 +205,12 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         throw new ResourceConflictException("Patch set is not current");
       }
 
-      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+      PatchSet.Id psId = change.currentPatchSetId();
+      ChangeUpdate update = ctx.getUpdate(psId);
       update.setBranch(newDestKey.get());
       change.setDest(newDestKey);
+
+      updateApprovals(ctx, update, psId, projectKey);
 
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Change destination moved from ");
@@ -206,6 +226,48 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
 
       return true;
+    }
+
+    /**
+     * We have a long discussion about how to deal with its votes after moving a change from one
+     * branch to another. In the end, we think only keeping the veto votes is the best way since
+     * it's simple for us and less confusing for our users. See the discussion in the following
+     * proposal: https://gerrit-review.googlesource.com/c/gerrit/+/129171
+     */
+    private void updateApprovals(
+        ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
+        throws IOException, OrmException {
+      List<PatchSetApproval> approvals = new ArrayList<>();
+      for (PatchSetApproval psa :
+          approvalsUtil.byPatchSet(
+              ctx.getDb(),
+              ctx.getNotes(),
+              userProvider.get(),
+              psId,
+              ctx.getRevWalk(),
+              ctx.getRepoView().getConfig())) {
+        ProjectState projectState = projectCache.checkedGet(project);
+        LabelType type =
+            projectState.getLabelTypes(ctx.getNotes(), ctx.getUser()).byLabel(psa.getLabelId());
+        // Only keep those veto votes:
+        // 1- the label function is "MaxWithBlock" or "AnyWithBlock".
+        // 2- the vote holds the minimum value.
+        if (type.isMaxNegative(psa)
+            && (type.getFunctionName().equals("MaxWithBlock")
+                || type.getFunctionName().equals("AnyWithBlock"))) {
+          continue;
+        }
+
+        // Remove votes from NoteDb.
+        update.removeApprovalFor(psa.getAccountId(), psa.getLabel());
+        approvals.add(
+            new PatchSetApproval(
+                new PatchSetApproval.Key(psId, psa.getAccountId(), new LabelId(psa.getLabel())),
+                (short) 0,
+                ctx.getWhen()));
+      }
+      // Remove votes from ReviewDb.
+      ctx.getDb().patchSetApprovals().upsert(approvals);
     }
   }
 

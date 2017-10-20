@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2baf24ff_41aa3c68",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T16:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "901581fa_c2438ec8",
+      "range": {
+        "startLine": 81,
+        "startChar": 36,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f332e366_7a7ac395",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f228f094_df2eb37e",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T16:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f332e366_7a7ac395",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2f00a3ad_5c6a85f5",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T16:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c407dc20_5c3cd552",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ede86ef_f324e301",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 1
@@ -115,6 +187,30 @@
       "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af5d6665_2b255946",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T16:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ede86ef_f324e301",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

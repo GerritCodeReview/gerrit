@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -300,7 +301,7 @@ public class ChangeControl {
               .byLabel(ap.getLabel());
       if (type != null
           && ap.getValue() == 1
-          && type.getFunctionName().equalsIgnoreCase("PatchSetLock")) {
+          && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
         return true;
       }
     }

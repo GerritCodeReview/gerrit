@@ -88,7 +88,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
@@ -101,7 +101,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
@@ -114,7 +114,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.rejected).isNotNull();
@@ -127,7 +127,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.disliked).isNull();
@@ -148,7 +148,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     input.message = "foo";
 
     revision(r).review(input);
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(P.getName());
     assertThat(q.all).hasSize(2);
     assertThat(q.disliked).isNull();
@@ -162,7 +162,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     assertThat(q.disliked).isNull();
@@ -181,7 +181,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();
 
-    ChangeInfo info = get(r.getChangeId(), ListChangesOption.DETAILED_LABELS);
+    ChangeInfo info = getWithLabels(r);
     assertPermitted(info, "Code-Review", 2);
     assertPermitted(info, P.getName(), 0, 1);
     assertPermitted(info, label.getName());
@@ -202,5 +202,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(label.getName(), label);
     cfg.getLabelSections().put(P.getName(), P);
     saveProjectConfig(project, cfg);
+  }
+
+  private ChangeInfo getWithLabels(PushOneCommit.Result r) throws Exception {
+    return get(r.getChangeId(), ListChangesOption.LABELS, ListChangesOption.DETAILED_LABELS);
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -21,7 +22,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;

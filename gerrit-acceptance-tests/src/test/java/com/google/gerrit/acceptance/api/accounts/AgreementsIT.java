@@ -21,13 +21,13 @@ import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ServerInfo;

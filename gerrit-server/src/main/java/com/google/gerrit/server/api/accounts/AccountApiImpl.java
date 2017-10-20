@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
@@ -30,7 +31,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;

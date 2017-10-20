@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;

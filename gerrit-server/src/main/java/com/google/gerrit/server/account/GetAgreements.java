@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;

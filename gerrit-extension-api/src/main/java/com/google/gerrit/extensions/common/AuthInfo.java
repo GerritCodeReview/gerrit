@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.accounts.AgreementInfo;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;

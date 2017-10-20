@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d5e7faf_ccf6f68c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AgreementInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-20T14:05:27Z",
+      "side": 1,
+      "message": "This may be short lived as 2.16 / 3.0 has not been decided yet. By that i mean we doint know if there will be a 2.16 release.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 72
+      },
+      "revId": "ad5065326c64120bf8ce4b8d42de03d09314d278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

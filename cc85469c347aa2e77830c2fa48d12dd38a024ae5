@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49c0b644_0530c577",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-20T23:13:15Z",
+      "side": 1,
+      "message": "Rather than adding this here (and repeating in the block below) maybe we can add documentation of the gerrit server identity somewhere else and then link to it from here?",
+      "parentUuid": "ca2ccb30_08e536b1",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "cc85469c347aa2e77830c2fa48d12dd38a024ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1adeb8a8_a3295567",
         "filename": "Documentation/project-configuration.txt",
         "patchSetId": 3

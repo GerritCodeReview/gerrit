@@ -46,6 +46,75 @@
       "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f332e366_7a7ac395",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T15:37:25Z",
+      "side": 1,
+      "message": "Both maintained for this one. Suggestion:\n\n Both author and committer are maintained with this submit type.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c407dc20_5c3cd552",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T15:37:25Z",
+      "side": 1,
+      "message": "Both maintained for this one. Suggestion:\n\n Both author and committer are maintained with this submit type.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 65
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ede86ef_f324e301",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T15:37:25Z",
+      "side": 1,
+      "message": "Both maintained for this one. Suggestion:\n\n Both author and committer are maintained with this submit type.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 10
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

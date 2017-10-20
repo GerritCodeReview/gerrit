@@ -95,7 +95,6 @@ public class DefaultCommandModule extends CommandModule {
       command("git-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
       command("gerrit-receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
       command(git, "receive-pack").to(NotSupportedInSlaveModeFailureCommand.class);
-      command(gerrit, "test-submit").to(NotSupportedInSlaveModeFailureCommand.class);
     } else {
       if (sshEnabled()) {
         command("git-receive-pack").to(Commands.key(git, "receive-pack"));

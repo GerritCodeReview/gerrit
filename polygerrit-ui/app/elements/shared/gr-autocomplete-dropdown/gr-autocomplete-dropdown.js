@@ -57,7 +57,7 @@
 
     behaviors: [
       Polymer.IronFitBehavior,
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     keyBindings: {

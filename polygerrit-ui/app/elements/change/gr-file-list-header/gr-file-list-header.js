@@ -65,7 +65,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     _expandAllDiffs() {

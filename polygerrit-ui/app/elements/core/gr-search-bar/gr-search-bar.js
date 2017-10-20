@@ -98,9 +98,9 @@
     is: 'gr-search-bar',
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.AnonymousNameBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     keyBindings: {

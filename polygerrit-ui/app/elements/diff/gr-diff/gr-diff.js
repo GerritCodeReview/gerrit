@@ -140,7 +140,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     listeners: {

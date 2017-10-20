@@ -103,8 +103,8 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.DocsUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.DocsUrlBehavior,
     ],
 
     observers: [

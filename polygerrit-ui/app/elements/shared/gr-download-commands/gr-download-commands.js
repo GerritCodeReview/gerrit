@@ -31,7 +31,7 @@
     },
 
     behaviors: [
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     attached() {

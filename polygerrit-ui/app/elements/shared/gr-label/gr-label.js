@@ -18,7 +18,7 @@
     is: 'gr-label',
 
     behaviors: [
-      Gerrit.TooltipBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
   });
 })();

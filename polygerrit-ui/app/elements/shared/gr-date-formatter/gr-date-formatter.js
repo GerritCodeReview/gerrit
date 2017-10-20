@@ -58,7 +58,7 @@
     },
 
     behaviors: [
-      Gerrit.TooltipBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
 
     attached() {

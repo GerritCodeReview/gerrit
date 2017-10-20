@@ -54,7 +54,7 @@
     },
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
+      window.Gerrit.AnonymousNameBehavior,
     ],
 
     detached() {

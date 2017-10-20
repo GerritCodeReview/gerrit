@@ -31,7 +31,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     /**

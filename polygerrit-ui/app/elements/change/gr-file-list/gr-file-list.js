@@ -123,10 +123,10 @@
     },
 
     behaviors: [
-      Gerrit.AsyncForeachBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.AsyncForeachBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     observers: [

@@ -22,6 +22,7 @@ const EXTERN_NAMES = [
   'GrDiffGroup',
   'GrDiffLine',
   'GrDomHooks',
+  'GrEditConstants',
   'GrEtagDecorator',
   'GrFileListConstants',
   'GrGapiAuth',

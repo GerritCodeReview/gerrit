@@ -76,6 +76,11 @@ If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
 then a merge commit is automatically created.  This is identical
 to the classical `git merge` behavior, or `git merge --ff`.
++
+The author of the merge commit is set to the user who submitted
+the change, the committer is set to the Gerrit server identity
+which is derived from the `user.name` and `user.email` Git configuration
+settings on the Gerrit server.
 
 [[always_merge]]
 * Always Merge
@@ -84,6 +89,11 @@ Always produce a merge commit, even if the change is a strict
 superset of the destination branch.  This is identical to the
 behavior of `git merge --no-ff`, and may be useful if the
 project needs to follow submits with `git log --first-parent`.
++
+The author of the merge commit is set to the user who submitted
+the change, the committer is set to the Gerrit server identity
+which is derived from the `user.name` and `user.email` Git configuration
+settings on the Gerrit server.
 
 [[cherry_pick]]
 * Cherry Pick
@@ -94,9 +104,8 @@ branch head.
 +
 When cherry picking a change, Gerrit automatically appends onto the
 end of the commit message a short summary of the change's approvals,
-and a URL link back to the change on the web.  The committer header
-is also set to the submitter, while the author header retains the
-original patch set author.
+and a URL link back to the change on the web.  The committer is set
+to the submitter while the author retains the original patch set author.
 +
 Note that Gerrit ignores dependencies between changes when using this
 submit type unless
@@ -113,10 +122,12 @@ If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
 then the change is automatically rebased and then the branch is
 fast-forwarded to the change.
-
++
 When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict.  A path conflict occurs when
 the same file has also been changed on the other side of the merge.
++
+Both author and committer are maintained with this submit type.
 
 [[rebase_always]]
 * Rebase Always
@@ -125,9 +136,11 @@ Basically, the same as Rebase If Necessary, but it creates a new patchset even
 if fast forward is possible AND like Cherry Pick it ensures footers such as
 Change-Id, Reviewed-On, and others are present in resulting commit that is
 merged.
-
++
 Thus, Rebase Always can be considered similar to Cherry Pick, but with
 the important distinction that Rebase Always does not ignore dependencies.
++
+Both author and committer are maintained with this submit type.
 
 [[content_merge]]
 If `Allow content merges` is enabled, Gerrit will try

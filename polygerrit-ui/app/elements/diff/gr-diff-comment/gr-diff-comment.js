@@ -411,6 +411,20 @@
 
     _handleDiscard(e) {
       e.preventDefault();
+      if (this._computeSaveDisabled(this._messageText)) {
+        this._discardDraft();
+        return;
+      }
+      this._openOverlay(this.$.confirmDiscardOverlay);
+    },
+
+    _handleConfirmDiscard(e) {
+      e.preventDefault();
+      this._closeConfirmDiscardOverlay();
+      this._discardDraft();
+    },
+
+    _discardDraft() {
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
@@ -433,6 +447,10 @@
         this.disabled = false;
         throw err;
       });
+    },
+
+    _closeConfirmDiscardOverlay() {
+      this._closeOverlay(this.$.confirmDiscardOverlay);
     },
 
     _getSavingMessage(numPending) {
@@ -529,15 +547,23 @@
     },
 
     _handleCommentDelete() {
-      Polymer.dom(Gerrit.getRootElement()).appendChild(this.$.overlay);
-      this.async(() => {
-        this.$.overlay.open();
-      }, 1);
+      this._openOverlay(this.$.confirmDeleteOverlay);
     },
 
     _handleCancelDeleteComment() {
-      Polymer.dom(Gerrit.getRootElement()).removeChild(this.$.overlay);
-      this.$.overlay.close();
+      this._closeOverlay(this.$.confirmDeleteOverlay);
+    },
+
+    _openOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
+      this.async(() => {
+        overlay.open();
+      }, 1);
+    },
+
+    _closeOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
+      overlay.close();
     },
 
     _handleConfirmDeleteComment() {

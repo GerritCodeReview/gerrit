@@ -577,7 +577,7 @@ safest mode as commits cannot be discarded.
 
 * Force option
 +
-Allows an existing branch to be deleted. Since a force push is
+Implies <<category_delete,Delete Reference>>. Since a force push is
 effectively a delete immediately followed by a create, but performed
 atomically on the server and logged, this option also permits forced
 push updates to branches.  Enabling this option allows existing commits

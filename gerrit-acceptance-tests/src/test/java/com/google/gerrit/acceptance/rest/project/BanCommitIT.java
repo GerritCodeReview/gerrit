@@ -21,7 +21,7 @@ import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_R
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.common.BanCommitInput;
+import com.google.gerrit.extensions.api.projects.BanCommitInput;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RemoteRefUpdate;

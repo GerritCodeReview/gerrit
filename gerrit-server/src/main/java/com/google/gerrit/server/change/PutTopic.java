@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.common.TopicInput;
+import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;

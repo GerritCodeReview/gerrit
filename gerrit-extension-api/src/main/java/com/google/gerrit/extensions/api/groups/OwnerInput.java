@@ -12,22 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.groups;
 
-import com.google.common.collect.Lists;
-import java.util.List;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public class BanCommitInput {
-  public List<String> commits;
-  public String reason;
-
-  public static BanCommitInput fromCommits(String firstCommit, String... moreCommits) {
-    return fromCommits(Lists.asList(firstCommit, moreCommits));
-  }
-
-  public static BanCommitInput fromCommits(List<String> commits) {
-    BanCommitInput in = new BanCommitInput();
-    in.commits = commits;
-    return in;
-  }
+public class OwnerInput {
+  @DefaultInput public String owner;
 }

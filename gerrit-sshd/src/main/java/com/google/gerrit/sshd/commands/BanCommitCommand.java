@@ -18,7 +18,7 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.common.BanCommitInput;
+import com.google.gerrit.extensions.api.projects.BanCommitInput;
 import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 import com.google.gerrit.server.project.ProjectResource;

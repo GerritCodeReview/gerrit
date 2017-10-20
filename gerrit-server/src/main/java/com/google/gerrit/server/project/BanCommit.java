@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.common.BanCommitInput;
+import com.google.gerrit.extensions.api.projects.BanCommitInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;

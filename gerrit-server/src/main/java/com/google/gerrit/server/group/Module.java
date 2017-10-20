@@ -27,6 +27,7 @@ import com.google.gerrit.server.group.AddMembers.UpdateMember;
 import com.google.gerrit.server.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.group.DeleteSubgroups.DeleteSubgroup;
+import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.inject.Provides;
 
 public class Module extends RestApiModule {

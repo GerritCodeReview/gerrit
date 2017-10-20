@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -56,7 +57,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   @Test
   public void defaultMessage() throws Exception {
     String changeId = createChange().getChangeId();
-    ChangeInfo c = get(changeId);
+    ChangeInfo c = get(changeId, MESSAGES);
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(1);
     assertThat(c.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
@@ -69,7 +70,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, firstMessage);
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
-    ChangeInfo c = get(changeId);
+    ChangeInfo c = get(changeId, MESSAGES);
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(3);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
@@ -84,7 +85,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String tag = "jenkins";
     String msg = "Message with tag.";
     postMessage(changeId, msg, tag);
-    ChangeInfo c = get(changeId);
+    ChangeInfo c = get(changeId, MESSAGES);
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(2);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();

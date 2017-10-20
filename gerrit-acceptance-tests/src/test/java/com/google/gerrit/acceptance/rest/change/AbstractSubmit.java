@@ -1112,7 +1112,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertNew(String changeId) throws Exception {
-    assertThat(get(changeId).status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
   }
 
   protected void assertApproved(String changeId) throws Exception {

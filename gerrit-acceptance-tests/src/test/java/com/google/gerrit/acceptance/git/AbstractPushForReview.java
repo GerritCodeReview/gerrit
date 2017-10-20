@@ -23,6 +23,9 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
@@ -672,7 +675,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master/%m=my_test_message");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
-    ChangeInfo ci = get(r.getChangeId());
+    ChangeInfo ci = get(r.getChangeId(), MESSAGES, ALL_REVISIONS);
     Collection<ChangeMessageInfo> changeMessages = ci.messages;
     assertThat(changeMessages).hasSize(1);
     for (ChangeMessageInfo cm : changeMessages) {
@@ -707,7 +710,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master/%m=new_test_message");
     r.assertOkStatus();
 
-    ChangeInfo ci = get(r.getChangeId());
+    ChangeInfo ci = get(r.getChangeId(), ALL_REVISIONS);
     Collection<RevisionInfo> revisions = ci.revisions.values();
     assertThat(revisions).hasSize(2);
     for (RevisionInfo ri : revisions) {
@@ -723,7 +726,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithApprovals() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
     r.assertOkStatus();
-    ChangeInfo ci = get(r.getChangeId());
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
@@ -742,7 +745,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
 
-    ci = get(r.getChangeId());
+    ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     cr = ci.labels.get("Code-Review");
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
@@ -763,7 +766,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "moreContent",
             r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
-    ci = get(r.getChangeId());
+    ci = get(r.getChangeId(), MESSAGES);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
   }
 
@@ -783,7 +786,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             r.getChangeId());
     r = push.to("refs/for/master/%l=Code-Review+2");
 
-    ChangeInfo ci = get(r.getChangeId());
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
@@ -828,7 +831,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // 2. +1 from Administrator (uploader):
     //    On push Code-Review+1 was specified, hence we expect a +1 vote from
     //    the uploader.
-    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get());
+    ChangeInfo ci =
+        get(GitUtil.getChangeId(testRepo, c).get(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(2);
     int indexAdmin = admin.fullName.equals(cr.all.get(0).name) ? 0 : 1;
@@ -864,7 +868,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     pushHead(testRepo, "refs/for/master/%l=Code-Review+1,l=Custom-Label-1", false);
 
-    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get());
+    ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get(), DETAILED_LABELS, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     cr = ci.labels.get("Custom-Label");
@@ -1161,8 +1165,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private void assertTwoChangesWithSameRevision(PushOneCommit.Result result) throws Exception {
     List<ChangeInfo> changes = query(result.getCommit().name());
     assertThat(changes).hasSize(2);
-    ChangeInfo c1 = get(changes.get(0).id);
-    ChangeInfo c2 = get(changes.get(1).id);
+    ChangeInfo c1 = get(changes.get(0).id, CURRENT_REVISION);
+    ChangeInfo c2 = get(changes.get(1).id, CURRENT_REVISION);
     assertThat(c1.project).isEqualTo(c2.project);
     assertThat(c1.branch).isNotEqualTo(c2.branch);
     assertThat(c1.changeId).isEqualTo(c2.changeId);

@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -120,6 +119,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.jcraft.jsch.JSchException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -298,6 +298,13 @@ public abstract class AbstractDaemonTest {
     TempFileUtil.cleanup();
   }
 
+  protected void restartAsSlave() throws Exception {
+    closeSsh();
+    server = GerritServer.restartAsSlave(server);
+    server.getTestInjector().injectMembers(this);
+    initSsh();
+  }
+
   protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
     cfg.setBoolean("change", null, "submitWholeTopic", true);
@@ -360,20 +367,7 @@ public abstract class AbstractDaemonTest {
     userRestSession = new RestSession(server, user);
 
     testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
-    if (testRequiresSsh
-        && SshMode.useSsh()
-        && (adminSshSession == null || userSshSession == null)) {
-      // Create Ssh sessions
-      initSsh(admin);
-      Context ctx = newRequestContext(user);
-      atrScope.set(ctx);
-      userSshSession = ctx.getSession();
-      userSshSession.open();
-      ctx = newRequestContext(admin);
-      atrScope.set(ctx);
-      adminSshSession = ctx.getSession();
-      adminSshSession.open();
-    }
+    initSsh();
 
     resourcePrefix =
         UNSAFE_PROJECT_NAME
@@ -384,6 +378,23 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
+  }
+
+  protected void initSsh() throws JSchException {
+    if (testRequiresSsh
+        && SshMode.useSsh()
+        && (adminSshSession == null || userSshSession == null)) {
+      // Create Ssh sessions
+      GitUtil.initSsh(admin);
+      Context ctx = newRequestContext(user);
+      atrScope.set(ctx);
+      userSshSession = ctx.getSession();
+      userSshSession.open();
+      ctx = newRequestContext(admin);
+      atrScope.set(ctx);
+      adminSshSession = ctx.getSession();
+      adminSshSession.open();
+    }
   }
 
   private TestAccount getCloneAsAccount(Description description) {
@@ -512,17 +523,23 @@ public abstract class AbstractDaemonTest {
       repo.close();
     }
     db.close();
-    if (adminSshSession != null) {
-      adminSshSession.close();
-    }
-    if (userSshSession != null) {
-      userSshSession.close();
-    }
+    closeSsh();
     if (server != commonServer) {
       server.close();
       server = null;
     }
     NoteDbMode.resetFromEnv(notesMigration);
+  }
+
+  protected void closeSsh() {
+    if (adminSshSession != null) {
+      adminSshSession.close();
+      adminSshSession = null;
+    }
+    if (userSshSession != null) {
+      userSshSession.close();
+      userSshSession = null;
+    }
   }
 
   protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {

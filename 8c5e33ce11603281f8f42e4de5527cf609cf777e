@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c4414_6034f595",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-20T04:52:58Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any tests that prove this, so I added them here:\n\nhttps://gerrit-review.googlesource.com/#/c/gerrit/+/135072",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "8c5e33ce11603281f8f42e4de5527cf609cf777e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

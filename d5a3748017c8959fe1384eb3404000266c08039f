@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6af884e_1fdc9cb3",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2017-10-20T13:29:19Z",
+      "side": 1,
+      "message": "This should probably say something like \"the globally configured email address for Gerrit\", but I wanted to mention the exact configuration directive for this, but couldn\u0027t find it. Help, anyone?\n\nLikewise for the ... below.",
+      "range": {
+        "startLine": 81,
+        "startChar": 36,
+        "endLine": 81,
+        "endChar": 39
+      },
+      "revId": "d5a3748017c8959fe1384eb3404000266c08039f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

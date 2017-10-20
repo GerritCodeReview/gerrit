@@ -22,6 +22,29 @@
       "revId": "1839fa307daf427352cb9ad7c4ddb0d1c1de8c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b85fa65a_fc395ccc",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-20T21:46:50Z",
+      "side": 1,
+      "message": "This parameter doesn\u0027t appear to be declared. Does this template work?",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "1839fa307daf427352cb9ad7c4ddb0d1c1de8c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -249,12 +249,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         ProjectState projectState = projectCache.checkedGet(project);
         LabelType type =
             projectState.getLabelTypes(ctx.getNotes(), ctx.getUser()).byLabel(psa.getLabelId());
-        // Only keep those veto votes:
-        // 1- the label function is "MaxWithBlock" or "AnyWithBlock".
+        // Only keep veto votes, defined as votes where:
+        // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
-        if (type.isMaxNegative(psa)
-            && (type.getFunctionName().equals("MaxWithBlock")
-                || type.getFunctionName().equals("AnyWithBlock"))) {
+        if (type.isMaxNegative(psa) && type.getFunction().isBlock()) {
           continue;
         }
 

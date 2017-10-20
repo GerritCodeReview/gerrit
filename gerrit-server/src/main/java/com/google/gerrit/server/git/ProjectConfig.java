@@ -19,11 +19,9 @@ import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -33,6 +31,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
@@ -67,6 +66,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -156,9 +156,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final String KEY_BRANCH = "branch";
-  private static final ImmutableSet<String> LABEL_FUNCTIONS =
-      ImmutableSet.of(
-          "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
   private static final String REVIEWER = "reviewer";
   private static final String KEY_ENABLE_REVIEWER_BY_EMAIL = "enableByEmail";
@@ -868,19 +865,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      String functionName =
-          MoreObjects.firstNonNull(rc.getString(LABEL, name, KEY_FUNCTION), "MaxWithBlock");
-      if (LABEL_FUNCTIONS.contains(functionName)) {
-        label.setFunctionName(functionName);
-      } else {
+      String functionName = rc.getString(LABEL, name, KEY_FUNCTION);
+      Optional<LabelFunction> function =
+          functionName != null
+              ? LabelFunction.parse(functionName)
+              : Optional.of(LabelFunction.MAX_WITH_BLOCK);
+      if (!function.isPresent()) {
         error(
             new ValidationError(
                 PROJECT_CONFIG,
                 String.format(
                     "Invalid %s for label \"%s\". Valid names are: %s",
-                    KEY_FUNCTION, name, Joiner.on(", ").join(LABEL_FUNCTIONS))));
-        label.setFunctionName(null);
+                    KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
       }
+      label.setFunction(function.orElse(null));
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
@@ -1367,7 +1365,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String name = e.getKey();
       LabelType label = e.getValue();
       toUnset.remove(name);
-      rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
+      rc.setString(LABEL, name, KEY_FUNCTION, label.getFunction().getFunctionName());
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
 
       setBooleanConfigKey(

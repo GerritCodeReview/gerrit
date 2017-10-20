@@ -39,6 +39,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
@@ -1387,16 +1388,17 @@ public abstract class AbstractDaemonTest {
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
   }
 
-  protected void configLabel(String label, String func) throws Exception {
+  protected void configLabel(String label, LabelFunction func) throws Exception {
     configLabel(
         project, label, func, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
   }
 
   protected void configLabel(
-      Project.NameKey project, String label, String func, LabelValue... value) throws Exception {
+      Project.NameKey project, String label, LabelFunction func, LabelValue... value)
+      throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     LabelType labelType = category(label, value);
-    labelType.setFunctionName(func);
+    labelType.setFunction(func);
     cfg.getLabelSections().put(labelType.getName(), labelType);
     saveProjectConfig(project, cfg);
   }

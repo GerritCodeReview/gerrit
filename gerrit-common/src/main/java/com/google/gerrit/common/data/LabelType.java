@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class LabelType {
 
   protected String name;
 
-  protected String functionName;
+  protected LabelFunction function;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
   protected boolean copyAllScoresOnMergeFirstParentUpdate;
@@ -124,7 +125,7 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    functionName = "MaxWithBlock";
+    function = LabelFunction.MAX_WITH_BLOCK;
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
@@ -154,12 +155,12 @@ public class LabelType {
     return psa.getLabelId().get().equalsIgnoreCase(name);
   }
 
-  public String getFunctionName() {
-    return functionName;
+  public LabelFunction getFunction() {
+    return function;
   }
 
-  public void setFunctionName(String functionName) {
-    this.functionName = functionName;
+  public void setFunction(@Nullable LabelFunction function) {
+    this.function = function;
   }
 
   public boolean canOverride() {

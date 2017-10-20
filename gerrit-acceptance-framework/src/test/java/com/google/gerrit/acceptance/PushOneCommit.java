@@ -464,6 +464,7 @@ public class PushOneCommit {
 
     public void assertErrorStatus() {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(refUpdate).isNotNull();
       assertThat(refUpdate.getStatus())
           .named(message(refUpdate))
           .isEqualTo(Status.REJECTED_OTHER_REASON);
@@ -471,12 +472,14 @@ public class PushOneCommit {
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(refUpdate).isNotNull();
       assertThat(refUpdate.getStatus()).named(message(refUpdate)).isEqualTo(expectedStatus);
       assertThat(refUpdate.getMessage()).isEqualTo(expectedMessage);
     }
 
     public void assertMessage(String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(refUpdate).isNotNull();
       assertThat(message(refUpdate).toLowerCase()).contains(expectedMessage.toLowerCase());
     }
 
@@ -487,6 +490,7 @@ public class PushOneCommit {
 
     public String getMessage() {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+      assertThat(refUpdate).isNotNull();
       return message(refUpdate);
     }
 

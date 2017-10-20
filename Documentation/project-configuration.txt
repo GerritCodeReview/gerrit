@@ -273,13 +273,20 @@ There are several ways to delete a branch:
 - in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
 - via the link:rest-api-projects.html#delete-branch[Delete Branch]
   REST endpoint
-- by using a git client to force push nothing to an existing branch
+- by using a git client
++
+----
+  $ git push origin --delete refs/heads/<branch-to-delete>
+----
++
+another method, by force pushing nothing to an existing branch:
 +
 ----
   $ git push --force origin :refs/heads/<branch-to-delete>
 ----
 
 To be able to delete branches, the user must have the
+link:access-control.html#category_delete[Delete Reference] or the
 link:access-control.html#category_push[Push] access right with the
 `force` option. In addition, project owners and Gerrit administrators
 can delete branches from the Web UI or via REST even without having the

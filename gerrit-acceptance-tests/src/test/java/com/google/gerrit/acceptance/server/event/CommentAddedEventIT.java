@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.event;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -124,7 +125,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     revision(r).review(reviewInput);
 
     // push a new revision with +1 vote
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = info(r.getChangeId());
     r = amendChange(c.changeId);
     reviewInput = new ReviewInput().label(label.getName(), (short) 1);
     revision(r).review(reviewInput);
@@ -206,7 +207,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     reviewInput.message = label.getName();
     revision(r).review(reviewInput);
 
-    ChangeInfo c = get(r.getChangeId());
+    ChangeInfo c = get(r.getChangeId(), DETAILED_LABELS);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     ApprovalValues labelAttr = getApprovalValues(label);
@@ -233,7 +234,7 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
     reviewInput.message = pLabel.getName();
     revision(r).review(reviewInput);
 
-    c = get(r.getChangeId());
+    c = get(r.getChangeId(), DETAILED_LABELS);
     q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
     pLabelAttr = getApprovalValues(pLabel);

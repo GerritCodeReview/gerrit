@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -50,7 +51,7 @@ public class AbandonIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = get(changeId, MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
 
@@ -68,12 +69,12 @@ public class AbandonIT extends AbstractDaemonTest {
     changeAbandoner.batchAbandon(
         batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
 
-    ChangeInfo info = get(a.getChangeId());
+    ChangeInfo info = get(a.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
 
-    info = get(b.getChangeId());
+    info = get(b.getChangeId(), MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("abandoned");
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("deadbeef");
@@ -155,7 +156,7 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.ABANDONED);
 
     gApi.changes().id(changeId).restore();
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = get(changeId, MESSAGES);
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
     assertThat(Iterables.getLast(info.messages).message.toLowerCase()).contains("restored");
 

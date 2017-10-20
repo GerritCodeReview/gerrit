@@ -1107,7 +1107,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = info(changeId);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
 
     exception.expect(ResourceConflictException.class);
@@ -1126,7 +1126,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
     gApi.changes().id(changeId).abandon();
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = info(changeId);
     assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
 
     RebaseInput ri = new RebaseInput();
@@ -2109,10 +2109,10 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
-    assertThat(get(r.getChangeId()).reviewed).isNull();
+    assertThat(get(r.getChangeId(), REVIEWED).reviewed).isNull();
 
     revision(r).review(ReviewInput.recommend());
-    assertThat(get(r.getChangeId()).reviewed).isTrue();
+    assertThat(get(r.getChangeId(), REVIEWED).reviewed).isTrue();
   }
 
   @Test

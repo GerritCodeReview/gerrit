@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
@@ -523,7 +524,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     gApi.changes().id(t2).restore();
     gApi.changes().id(t1).current().cherryPick(in);
-    assertThat(get(t2).revisions).hasSize(2);
+    assertThat(get(t2, ALL_REVISIONS).revisions).hasSize(2);
     assertThat(gApi.changes().id(t2).current().file(FILE_NAME).content().asString()).isEqualTo("a");
   }
 

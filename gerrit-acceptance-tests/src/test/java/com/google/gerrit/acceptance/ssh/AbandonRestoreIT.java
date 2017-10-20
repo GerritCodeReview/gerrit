@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -67,7 +68,7 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
   }
 
   private void assertChangeMessages(String changeId, List<String> expected) throws Exception {
-    ChangeInfo c = get(changeId);
+    ChangeInfo c = get(changeId, MESSAGES);
     Iterable<ChangeMessageInfo> messages = c.messages;
     assertThat(messages).isNotNull();
     assertThat(messages).hasSize(expected.size());

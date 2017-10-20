@@ -403,7 +403,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertThat(headAfterChange2.getShortMessage()).isEqualTo("Change 2");
     assertThat(headAfterChange1).isEqualTo(headAfterChange2.getParent(0));
 
-    ChangeInfo info2 = get(change2.getChangeId());
+    ChangeInfo info2 = info(change2.getChangeId());
     assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
   }
 

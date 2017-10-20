@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -126,7 +127,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
 
   private RevCommit getCurrentCommit(PushOneCommit.Result change) throws Exception {
     testRepo.git().fetch().setRemote("origin").call();
-    ChangeInfo info = get(change.getChangeId());
+    ChangeInfo info = get(change.getChangeId(), CURRENT_REVISION);
     RevCommit c = testRepo.getRevWalk().parseCommit(ObjectId.fromString(info.currentRevision));
     testRepo.getRevWalk().parseBody(c);
     return c;

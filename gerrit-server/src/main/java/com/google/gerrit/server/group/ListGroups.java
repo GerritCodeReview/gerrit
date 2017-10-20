@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

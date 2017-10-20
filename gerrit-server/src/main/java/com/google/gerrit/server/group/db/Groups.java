@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;

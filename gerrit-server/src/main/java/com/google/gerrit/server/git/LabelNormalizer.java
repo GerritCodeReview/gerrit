@@ -26,16 +26,12 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -75,20 +71,12 @@ public class LabelNormalizer {
     }
   }
 
-  private final Provider<ReviewDb> db;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
 
   @Inject
-  LabelNormalizer(
-      Provider<ReviewDb> db,
-      IdentifiedUser.GenericFactory userFactory,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
-    this.db = db;
+  LabelNormalizer(IdentifiedUser.GenericFactory userFactory, ProjectCache projectCache) {
     this.userFactory = userFactory;
-    this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
   }
 
@@ -100,7 +88,7 @@ public class LabelNormalizer {
    * @throws OrmException
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
-      throws OrmException, PermissionBackendException, IOException {
+      throws OrmException, IOException {
     IdentifiedUser user = userFactory.create(notes.getChange().getOwner());
     return normalize(notes, user, approvals);
   }
@@ -114,7 +102,7 @@ public class LabelNormalizer {
    */
   public Result normalize(
       ChangeNotes notes, CurrentUser user, Collection<PatchSetApproval> approvals)
-      throws PermissionBackendException, IOException {
+      throws IOException {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4cea3bf_f5f463ca",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-20T23:53:55Z",
+      "side": 1,
+      "message": "this should be true.",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 62
+      },
+      "revId": "4959ac0cdbf128e1a31acc969ac5c7096fb2a665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b27fc1b_40396138",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-20T23:53:55Z",
+      "side": 1,
+      "message": "this should be removed",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 8
+      },
+      "revId": "4959ac0cdbf128e1a31acc969ac5c7096fb2a665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85e41f0a_f40d6b79",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 32
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-20T23:53:55Z",
+      "side": 1,
+      "message": "This should be removed",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 61
+      },
+      "revId": "4959ac0cdbf128e1a31acc969ac5c7096fb2a665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

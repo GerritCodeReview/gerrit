@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.accounts;
 
-import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public class SshKeyInput {
-  public RawInput raw;
+public class UsernameInput {
+  @DefaultInput public String username;
 }

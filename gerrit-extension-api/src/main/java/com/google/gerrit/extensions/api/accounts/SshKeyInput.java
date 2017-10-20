@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.accounts;
 
-import java.util.List;
+import com.google.gerrit.extensions.restapi.RawInput;
 
-public class GpgKeysInput {
-  public List<String> add;
-  public List<String> delete;
+public class SshKeyInput {
+  public RawInput raw;
 }

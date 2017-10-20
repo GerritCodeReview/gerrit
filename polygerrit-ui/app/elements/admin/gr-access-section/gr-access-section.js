@@ -52,7 +52,7 @@
     },
 
     behaviors: [
-      Gerrit.AccessBehavior,
+      window.Gerrit.AccessBehavior,
     ],
 
     _sectionChanged(section) {

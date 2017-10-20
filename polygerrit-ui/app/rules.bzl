@@ -13,12 +13,10 @@ def polygerrit_bundle(name, srcs, outs, app):
 
   closure_js_binary(
     name = name + "_closure_bin",
-    # Known issue: Closure compilation not compatible with Polymer behaviors.
-    # See: https://github.com/google/closure-compiler/issues/2042
-    compilation_level = "WHITESPACE_ONLY",
+    compilation_level = "SIMPLE_OPTIMIZATIONS",
     defs = [
       "--polymer_pass",
-      "--jscomp_off=duplicate",
+      "--jscomp_off=globalThis",
       "--force_inject_library=es6_runtime",
     ],
     language = "ECMASCRIPT5",
@@ -31,7 +29,13 @@ def polygerrit_bundle(name, srcs, outs, app):
     convention = "GOOGLE",
     # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
     # and remove this supression
-    suppress = ["JSC_UNUSED_LOCAL_ASSIGNMENT"],
+    suppress = [
+      "JSC_UNUSED_LOCAL_ASSIGNMENT",
+      "JSC_USELESS_CODE",
+      "JSC_UNDEFINED_VARIABLE",
+      "JSC_INEXISTENT_PARAM",
+      "duplicate",
+    ],
     deps = [
       "//lib/polymer_externs:polymer_closure",
       "@io_bazel_rules_closure//closure/library",

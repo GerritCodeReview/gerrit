@@ -190,17 +190,17 @@
       },
     },
 
-    FocusTarget,
+    FocusTarget: FocusTarget,
 
     // TODO(logan): Remove once the fix for issue 6841 is stable on
     // googlesource.com.
-    START_REVIEW_MESSAGE,
+    START_REVIEW_MESSAGE: START_REVIEW_MESSAGE,
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     keyBindings: {

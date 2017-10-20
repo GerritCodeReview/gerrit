@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(GrEditConstants) {
   'use strict';
 
   Polymer({
@@ -50,7 +50,7 @@
     },
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
+      window.Gerrit.PatchSetBehavior,
     ],
 
     _handleTap(e) {
@@ -190,4 +190,4 @@
       return hiddenActions.includes(id) ? 'invisible' : '';
     },
   });
-})();
+})(window.GrEditConstants);

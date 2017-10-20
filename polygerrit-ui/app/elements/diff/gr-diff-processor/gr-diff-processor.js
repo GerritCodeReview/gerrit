@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(GrDiffGroup, GrDiffLine) {
   'use strict';
 
   const WHOLE_FILE = -1;
@@ -537,4 +537,4 @@
       return this._breakdown(head, size).concat([tail]);
     },
   });
-})();
+})(window.GrDiffGroup, window.GrDiffLine);

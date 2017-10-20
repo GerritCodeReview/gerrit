@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(moment) {
   'use strict';
 
   const Duration = {
@@ -58,7 +58,7 @@
     },
 
     behaviors: [
-      Gerrit.TooltipBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
 
     attached() {
@@ -168,4 +168,4 @@
       return date.format(format) + this._getUtcOffsetString();
     },
   });
-})();
+})(window.moment);

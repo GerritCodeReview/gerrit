@@ -17,9 +17,9 @@
     is: 'gr-comment-list',
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.PathListBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     properties: {

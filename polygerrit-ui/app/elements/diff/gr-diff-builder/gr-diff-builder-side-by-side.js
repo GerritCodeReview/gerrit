@@ -116,4 +116,4 @@
   };
 
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
-})(window, GrDiffBuilder);
+})(window, window.GrDiffBuilder);

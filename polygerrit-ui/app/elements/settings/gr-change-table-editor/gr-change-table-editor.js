@@ -29,7 +29,7 @@
     },
 
     behaviors: [
-      Gerrit.ChangeTableBehavior,
+      window.Gerrit.ChangeTableBehavior,
     ],
 
     _getButtonText(isShown) {

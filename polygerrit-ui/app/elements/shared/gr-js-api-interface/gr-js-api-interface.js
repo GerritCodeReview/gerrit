@@ -44,10 +44,12 @@
       },
     },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [
+      window.Gerrit.PatchSetBehavior
+    ],
 
-    Element,
-    EventType,
+    Element: Element,
+    EventType: EventType,
 
     handleEvent(type, detail) {
       Gerrit.awaitPluginsLoaded().then(() => {

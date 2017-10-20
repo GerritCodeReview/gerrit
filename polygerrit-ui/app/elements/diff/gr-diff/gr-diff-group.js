@@ -114,4 +114,4 @@
   };
 
   window.GrDiffGroup = GrDiffGroup;
-})(window, GrDiffLine);
+})(window, window.GrDiffLine);

@@ -311,13 +311,13 @@
       },
     },
 
-    ActionType,
-    ChangeActions,
-    RevisionActions,
+    ActionType: ActionType,
+    ChangeActions: ChangeActions,
+    RevisionActions: RevisionActions,
 
     behaviors: [
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     observers: [

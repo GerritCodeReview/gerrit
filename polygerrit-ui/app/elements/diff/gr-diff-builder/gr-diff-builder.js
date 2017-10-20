@@ -727,4 +727,4 @@
   };
 
   window.GrDiffBuilder = GrDiffBuilder;
-})(window, GrDiffGroup, GrDiffLine);
+})(window, window.GrDiffGroup, window.GrDiffLine);

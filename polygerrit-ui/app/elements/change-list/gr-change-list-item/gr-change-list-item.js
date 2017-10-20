@@ -34,10 +34,10 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.ChangeTableBehavior,
+      window.Gerrit.RESTClientBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     _computeChangeURL(change) {

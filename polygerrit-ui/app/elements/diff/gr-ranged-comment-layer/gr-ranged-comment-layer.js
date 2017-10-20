@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(GrDiffLine, GrAnnotation) {
   'use strict';
 
   const HOVER_PATH_PATTERN = /^comments\.(left|right)\.\#(\d+)\.__hovering$/;
@@ -198,4 +198,4 @@
           .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
     },
   });
-})();
+})(window.GrDiffLine, window.GrAnnotation);

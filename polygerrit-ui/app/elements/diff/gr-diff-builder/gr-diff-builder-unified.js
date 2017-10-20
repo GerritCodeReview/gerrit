@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function(window, GrDiffBuilder) {
+(function(window, GrDiffBuilder, GrDiffLine) {
   'use strict';
 
   // Prevent redefinition.
@@ -108,4 +108,4 @@
   };
 
   window.GrDiffBuilderUnified = GrDiffBuilderUnified;
-})(window, GrDiffBuilder);
+})(window, window.GrDiffBuilder, window.GrDiffLine);

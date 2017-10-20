@@ -93,7 +93,7 @@
     ],
 
     behaviors: [
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     get options() {

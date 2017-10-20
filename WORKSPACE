@@ -20,8 +20,8 @@ http_archive(
 # https://github.com/google/closure-compiler/blob/master/contrib/externs/polymer-1.0.js
 http_file(
     name = "polymer_closure",
-    sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
-    url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
+    sha256 = "6805e3739098366bb97affdbfa8a913b573b2c2aaaa126b2c7668ee660935ce8",
+    url = "https://raw.githubusercontent.com/google/closure-compiler/webpack-v20171015/contrib/externs/polymer-1.0.js",
 )
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")

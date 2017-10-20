@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(GrAnnotation) {
   'use strict';
 
   Polymer({
@@ -142,7 +142,7 @@
      * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {
-      const range = GrRangeNormalizer.normalize(domRange);
+      const range = window.GrRangeNormalizer.normalize(domRange);
       return this._fixTripleClickSelection({
         start: this._normalizeSelectionSide(
             range.startContainer, range.startOffset),
@@ -370,4 +370,4 @@
       }
     },
   });
-})();
+})(window.GrAnnotation);

@@ -34,8 +34,8 @@
     is: 'gr-rest-api-interface',
 
     behaviors: [
-      Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.PathListBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     /**
@@ -86,7 +86,7 @@
       },
     },
 
-    JSON_PREFIX,
+    JSON_PREFIX: JSON_PREFIX,
 
     /**
      * Fetch JSON from url provided.

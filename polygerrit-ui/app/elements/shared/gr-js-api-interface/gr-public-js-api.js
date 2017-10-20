@@ -11,7 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function(window) {
+(function(
+    window,
+    GrPluginEndpoints,
+    GrPopupInterface,
+    GrEventHelper,
+    GrAttributeHelper,
+    GrProjectApi,
+    GrThemeApi,
+    GrChangeViewApi,
+    GrChangeReplyInterface,
+    GrChangeActionsInterface,
+    GrDomHooksManager) {
   'use strict';
 
   const warnNotSupported = function(opt_name) {
@@ -323,4 +334,15 @@
   };
 
   window.Gerrit = Gerrit;
-})(window);
+})(
+    window,
+    window.GrPluginEndpoints,
+    window.GrPopupInterface,
+    window.GrEventHelper,
+    window.GrAttributeHelper,
+    window.GrProjectApi,
+    window.GrThemeApi,
+    window.GrChangeViewApi,
+    window.GrChangeReplyInterface,
+    window.GrChangeActionsInterface,
+    window.GrDomHooksManager);

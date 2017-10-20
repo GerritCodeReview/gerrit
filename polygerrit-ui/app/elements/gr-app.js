@@ -77,8 +77,8 @@
     ],
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     keyBindings: {

@@ -54,7 +54,7 @@
     },
 
     behaviors: [
-      Gerrit.AccessBehavior,
+      window.Gerrit.AccessBehavior,
     ],
 
     observers: [

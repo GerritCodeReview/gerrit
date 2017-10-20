@@ -60,7 +60,7 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
     ],
 
     listeners: {

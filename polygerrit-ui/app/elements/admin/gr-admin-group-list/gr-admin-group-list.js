@@ -64,7 +64,7 @@
     },
 
     behaviors: [
-      Gerrit.ListViewBehavior,
+      window.Gerrit.ListViewBehavior,
     ],
 
     attached() {

@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
+(function(GrFileListConstants) {
   'use strict';
 
   const ERR_EDIT_LOADED = 'You cannot change the review status of an edit.';
@@ -123,10 +123,10 @@
     },
 
     behaviors: [
-      Gerrit.AsyncForeachBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
+      window.Gerrit.AsyncForeachBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.PathListBehavior,
     ],
 
     observers: [
@@ -942,4 +942,4 @@
       Gerrit.Nav.navigateToRelativeUrl(url);
     },
   });
-})();
+})(window.GrFileListConstants);

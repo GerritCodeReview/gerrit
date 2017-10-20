@@ -45,7 +45,8 @@ limitations under the License.
   <script src="gr-diff-builder-unified.js"></script>
   <script src="gr-diff-builder-image.js"></script>
   <script>
-    (function() {
+    (function(GrDiffBuilder, GrDiffBuilderImage, GrDiffBuilderSideBySide,
+        GrDiffBuilderUnified, GrAnnotation, GrDiffLine) {
       'use strict';
 
       const DiffViewMode = {
@@ -409,6 +410,8 @@ limitations under the License.
           this._builder.setBlame(blame);
         },
       });
-    })();
+    })(window.GrDiffBuilder, window.GrDiffBuilderImage,
+      window.GrDiffBuilderSideBySide, window.GrDiffBuilderUnified,
+      window.GrAnnotation, window.GrDiffLine);
   </script>
 </dom-module>

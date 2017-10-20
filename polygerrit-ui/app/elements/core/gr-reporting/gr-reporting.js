@@ -74,7 +74,7 @@
   };
   catchErrors();
 
-  const GrReporting = Polymer({
+  let GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {
@@ -87,7 +87,7 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
     ],
 
     get performanceTiming() {

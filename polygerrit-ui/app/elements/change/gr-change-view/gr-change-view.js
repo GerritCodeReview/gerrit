@@ -205,9 +205,9 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.RESTClientBehavior,
     ],
 
     listeners: {

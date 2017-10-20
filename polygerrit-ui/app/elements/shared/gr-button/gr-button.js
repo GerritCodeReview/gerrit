@@ -49,8 +49,8 @@
     },
 
     behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.TooltipBehavior,
+      window.Gerrit.KeyboardShortcutBehavior,
+      window.Gerrit.TooltipBehavior,
     ],
 
     hostAttributes: {

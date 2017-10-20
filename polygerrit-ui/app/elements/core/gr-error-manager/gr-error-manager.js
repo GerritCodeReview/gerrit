@@ -26,7 +26,7 @@
     is: 'gr-error-manager',
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
+      window.Gerrit.BaseUrlBehavior,
     ],
 
     properties: {

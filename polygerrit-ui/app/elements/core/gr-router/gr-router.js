@@ -169,9 +169,9 @@
     },
 
     behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.URLEncodingBehavior,
+      window.Gerrit.BaseUrlBehavior,
+      window.Gerrit.PatchSetBehavior,
+      window.Gerrit.URLEncodingBehavior,
     ],
 
     start() {

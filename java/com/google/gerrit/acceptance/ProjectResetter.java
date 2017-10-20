@@ -120,11 +120,12 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsersName;
-  @Nullable private final AccountCreator accountCreator;
-  @Nullable private final AccountCache accountCache;
-  @Nullable private final ProjectCache projectCache;
+  @Inject private GitRepositoryManager repoManager;
+  @Inject private AllUsersName allUsersName;
+  @Inject @Nullable private AccountCreator accountCreator;
+  @Inject @Nullable private AccountCache accountCache;
+  @Inject @Nullable private ProjectCache projectCache;
+
   private final Multimap<Project.NameKey, String> refsPatternByProject;
   private final Multimap<Project.NameKey, RefState> savedRefStatesByProject;
 

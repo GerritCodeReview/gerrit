@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -48,6 +49,7 @@ import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,10 +60,18 @@ import org.eclipse.jgit.lib.Config;
 class InMemoryTestingDatabaseModule extends LifecycleModule {
   private final Config cfg;
   private final Path sitePath;
+  @Nullable private final InMemoryRepositoryManager repoManager;
+  @Nullable private final InMemoryDatabase.Instance inMemoryDatabaseInstance;
 
-  InMemoryTestingDatabaseModule(Config cfg, Path sitePath) {
+  InMemoryTestingDatabaseModule(
+      Config cfg,
+      Path sitePath,
+      @Nullable InMemoryRepositoryManager repoManager,
+      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance) {
     this.cfg = cfg;
     this.sitePath = sitePath;
+    this.repoManager = repoManager;
+    this.inMemoryDatabaseInstance = inMemoryDatabaseInstance;
     makeSiteDirs(sitePath);
   }
 
@@ -72,8 +82,12 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     // TODO(dborowitz): Use jimfs.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
 
-    bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
-    bind(InMemoryRepositoryManager.class).in(SINGLETON);
+    if (repoManager != null) {
+      bind(GitRepositoryManager.class).toInstance(repoManager);
+    } else {
+      bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
+      bind(InMemoryRepositoryManager.class).in(SINGLETON);
+    }
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
@@ -83,6 +97,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
+    bind(InMemoryDatabase.Instance.class).toProvider(Providers.of(inMemoryDatabaseInstance));
     bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
     bind(InMemoryDatabase.class).in(SINGLETON);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
@@ -132,7 +147,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
     @Override
     public void stop() {
-      mem.drop();
+      mem.getDbInstance().drop();
     }
   }
 

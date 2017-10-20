@@ -222,6 +222,10 @@ public class Daemon extends SiteProgram {
     httpd = enable;
   }
 
+  public void setSlave(boolean slave) {
+    this.slave = slave;
+  }
+
   @Override
   public int run() throws Exception {
     if (stopOnly) {

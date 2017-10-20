@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -27,6 +28,7 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -35,6 +37,8 @@ import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.GroupNoteDbMode;
+import com.google.gerrit.testing.InMemoryDatabase;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
@@ -261,7 +265,7 @@ public class GerritServer implements AutoCloseable {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, null);
+      return start(desc, baseConfig, site, null, null, null);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -278,6 +282,10 @@ public class GerritServer implements AutoCloseable {
    *     initialize this directory. Can be retrieved from the returned instance via {@link
    *     #getSitePath()}.
    * @param testSysModule optional additional module to add to the system injector.
+   * @param inMemoryRepoManager {@link InMemoryRepositoryManager} that should be used if the site is
+   *     started in memory
+   * @param inMemoryDatabaseInstance {@link com.google.gerrit.testing.InMemoryDatabase.Instance}
+   *     that should be used if the site is started in memory
    * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
    *     the test is not in-memory.
    * @return started server.
@@ -288,6 +296,8 @@ public class GerritServer implements AutoCloseable {
       Config baseConfig,
       Path site,
       @Nullable Module testSysModule,
+      @Nullable InMemoryRepositoryManager inMemoryRepoManager,
+      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance,
       String... additionalArgs)
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
@@ -307,16 +317,24 @@ public class GerritServer implements AutoCloseable {
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
     daemon.setAdditionalSysModuleForTesting(testSysModule);
     daemon.setEnableSshd(desc.useSsh());
+    daemon.setSlave(baseConfig.getBoolean("container", "slave", false));
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
-      return startInMemory(desc, site, baseConfig, daemon);
+      return startInMemory(
+          desc, site, baseConfig, daemon, inMemoryRepoManager, inMemoryDatabaseInstance);
     }
     return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
 
   private static GerritServer startInMemory(
-      Description desc, Path site, Config baseConfig, Daemon daemon) throws Exception {
+      Description desc,
+      Path site,
+      Config baseConfig,
+      Daemon daemon,
+      @Nullable InMemoryRepositoryManager inMemoryRepoManager,
+      @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance)
+      throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
@@ -329,7 +347,9 @@ public class GerritServer implements AutoCloseable {
     daemon.setEnableHttpd(desc.httpd());
     daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
     daemon.setDatabaseForTesting(
-        ImmutableList.<Module>of(new InMemoryTestingDatabaseModule(cfg, site)));
+        ImmutableList.<Module>of(
+            new InMemoryTestingDatabaseModule(
+                cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance)));
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }
@@ -474,6 +494,40 @@ public class GerritServer implements AutoCloseable {
 
   Description getDescription() {
     return desc;
+  }
+
+  public static GerritServer restartAsSlave(GerritServer server) throws Exception {
+    checkState(server.desc.sandboxed(), "restarting as slave requires @Sandboxed");
+
+    Path site = server.testInjector.getInstance(Key.get(Path.class, SitePath.class));
+
+    Config cfg = server.testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    cfg.setBoolean("container", null, "slave", true);
+
+    InMemoryRepositoryManager inMemoryRepoManager = null;
+    if (hasBinding(server.testInjector, InMemoryRepositoryManager.class)) {
+      inMemoryRepoManager = server.testInjector.getInstance(InMemoryRepositoryManager.class);
+    }
+
+    InMemoryDatabase.Instance dbInstance = null;
+    if (hasBinding(server.testInjector, InMemoryDatabase.class)) {
+      InMemoryDatabase inMemoryDatabase = server.testInjector.getInstance(InMemoryDatabase.class);
+      dbInstance = inMemoryDatabase.getDbInstance();
+      dbInstance.setKeepOpen(true);
+    }
+    try {
+      server.close();
+      server.daemon.stop();
+      return start(server.desc, cfg, site, null, inMemoryRepoManager, dbInstance);
+    } finally {
+      if (dbInstance != null) {
+        dbInstance.setKeepOpen(false);
+      }
+    }
+  }
+
+  private static boolean hasBinding(Injector injector, Class<?> clazz) {
+    return injector.getExistingBinding(Key.get(clazz)) != null;
   }
 
   @Override

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -97,7 +99,9 @@ public class LabelType {
 
   protected String name;
 
+  // String rather than LabelFunction for backwards compatibility with GWT JSON interface.
   protected String functionName;
+
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
   protected boolean copyAllScoresOnMergeFirstParentUpdate;
@@ -124,7 +128,7 @@ public class LabelType {
     values = sortValues(valueList);
     defaultValue = 0;
 
-    functionName = "MaxWithBlock";
+    functionName = LabelFunction.MAX_WITH_BLOCK.getFunctionName();
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
@@ -154,12 +158,19 @@ public class LabelType {
     return psa.getLabelId().get().equalsIgnoreCase(name);
   }
 
-  public String getFunctionName() {
-    return functionName;
+  public LabelFunction getFunction() {
+    if (functionName == null) {
+      return null;
+    }
+    Optional<LabelFunction> f = LabelFunction.parse(functionName);
+    if (!f.isPresent()) {
+      throw new IllegalStateException("Unsupported functionName: " + functionName);
+    }
+    return f.get();
   }
 
-  public void setFunctionName(String functionName) {
-    this.functionName = functionName;
+  public void setFunction(@Nullable LabelFunction function) {
+    this.functionName = function != null ? function.getFunctionName() : null;
   }
 
   public boolean canOverride() {

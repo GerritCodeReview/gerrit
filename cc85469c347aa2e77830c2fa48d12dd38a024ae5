@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca2ccb30_08e536b1",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T21:09:01Z",
+      "side": 1,
+      "message": "Suggestion, add links:\n\n as configured with the link:config-gerrit.html#user.name[`user.name`]\n and link:config-gerrit.html#user.email[`user.email`] Gerrit server\n settings.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "cc85469c347aa2e77830c2fa48d12dd38a024ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1adeb8a8_a3295567",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T21:09:01Z",
+      "side": 1,
+      "message": "Just tested this.\n\nCorrect as-is.",
+      "range": {
+        "startLine": 107,
+        "startChar": 47,
+        "endLine": 108,
+        "endChar": 72
+      },
+      "revId": "cc85469c347aa2e77830c2fa48d12dd38a024ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f17f940_df0cf029",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T21:09:01Z",
+      "side": 1,
+      "message": "Just tested this.\n\nAuthor is maintained, committer is set to the submitter when rebase was necessary or retained to original if it was a fast-forward.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 63
+      },
+      "revId": "cc85469c347aa2e77830c2fa48d12dd38a024ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde22300_7e48c8ad",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2017-10-20T21:09:01Z",
+      "side": 1,
+      "message": "Just tested this.\n\nAuthor is maintained, committer is set to the submitter.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 63
+      },
+      "revId": "cc85469c347aa2e77830c2fa48d12dd38a024ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.groups;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.api.groups.OwnerInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
-import com.google.gerrit.extensions.common.OwnerInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.AddSubgroups;

@@ -31,7 +31,6 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -213,7 +212,7 @@ public class ApprovalCopier {
         }
       }
       return labelNormalizer.normalize(notes, user, byUser.values()).getNormalized();
-    } catch (IOException | PermissionBackendException e) {
+    } catch (IOException e) {
       throw new OrmException(e);
     }
   }

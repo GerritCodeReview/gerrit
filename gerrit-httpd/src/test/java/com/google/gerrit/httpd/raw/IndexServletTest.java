@@ -24,8 +24,9 @@ public class IndexServletTest {
   class TestIndexServlet extends IndexServlet {
     private static final long serialVersionUID = 1L;
 
-    TestIndexServlet(String canonicalURL, String cdnPath) throws URISyntaxException {
-      super(canonicalURL, cdnPath);
+    TestIndexServlet(String canonicalURL, String cdnPath, String faviconURL)
+        throws URISyntaxException {
+      super(canonicalURL, cdnPath, faviconURL);
     }
 
     String getIndexSource() {
@@ -35,14 +36,14 @@ public class IndexServletTest {
 
   @Test
   public void noPathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null);
+    SoyMapData data = IndexServlet.getTemplateData("http://example.com/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("");
   }
 
   @Test
   public void pathAndNoCDN() throws URISyntaxException {
-    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit/", null);
+    SoyMapData data = IndexServlet.getTemplateData("http://example.com/gerrit/", null, null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue()).isEqualTo("/gerrit");
   }
@@ -50,7 +51,7 @@ public class IndexServletTest {
   @Test
   public void noPathAndCDN() throws URISyntaxException {
     SoyMapData data =
-        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/");
+        IndexServlet.getTemplateData("http://example.com/", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
@@ -59,7 +60,8 @@ public class IndexServletTest {
   @Test
   public void pathAndCDN() throws URISyntaxException {
     SoyMapData data =
-        IndexServlet.getTemplateData("http://example.com/gerrit", "http://my-cdn.com/foo/bar/");
+        IndexServlet.getTemplateData(
+            "http://example.com/gerrit", "http://my-cdn.com/foo/bar/", null);
     assertThat(data.getSingle("canonicalPath").stringValue()).isEqualTo("/gerrit");
     assertThat(data.getSingle("staticResourcePath").stringValue())
         .isEqualTo("http://my-cdn.com/foo/bar/");
@@ -69,10 +71,17 @@ public class IndexServletTest {
   public void renderTemplate() throws URISyntaxException {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
-    TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath);
+    String testFaviconURL = "zaz-url";
+    TestIndexServlet servlet = new TestIndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL);
     String output = servlet.getIndexSource();
     assertThat(output).contains("<!DOCTYPE html>");
     assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
     assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
+    assertThat(output)
+        .contains(
+            "<link rel=\"icon\" type=\"image/x-icon\" href=\""
+                + testCanonicalUrl
+                + "/"
+                + testFaviconURL);
   }
 }

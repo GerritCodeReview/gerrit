@@ -28,18 +28,18 @@
     // Pattern for a catchall route when no other pattern is matched.
     DEFAULT: /.*/,
 
-    // Matches /admin/groups/<group>
-    GROUP: /^\/admin\/groups\/([^,]+)$/,
+    // Matches /admin/groups/[uuid-]<group>
+    GROUP: /^\/admin\/groups\/(?:uuid-)?([^,]+)$/,
 
-    // Matches /admin/groups/<group>,info (backwords compat with gwtui)
-    // Redirects to /admin/groups/<group>
-    GROUP_INFO: /^\/admin\/groups\/(.+),info$/,
+    // Matches /admin/groups/[uuid-]<group>,info (backwords compat with gwtui)
+    // Redirects to /admin/groups/[uuid-]<group>
+    GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
 
     // Matches /admin/groups/<group>,audit-log
-    GROUP_AUDIT_LOG: /^\/admin\/groups\/(.+),audit-log$/,
+    GROUP_AUDIT_LOG: /^\/admin\/groups\/(?:uuid-)?(.+),audit-log$/,
 
-    // Matches /admin/groups/<group>,members
-    GROUP_MEMBERS: /^\/admin\/groups\/(.+),members$/,
+    // Matches /admin/groups/[uuid-]<group>,members
+    GROUP_MEMBERS: /^\/admin\/groups\/(?:uuid-)?(.+),members$/,
 
     // Matches /admin/groups[,<offset>][/].
     GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,

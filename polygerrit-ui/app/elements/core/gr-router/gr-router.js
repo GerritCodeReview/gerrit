@@ -761,16 +761,26 @@
       });
     },
 
+    handleGroupUuid(data) {
+      if (data.startsWith('uuid-')) {
+        return data.replace('uuid', '');
+      }
+
+      return data;
+    },
+
     _handleGroupInfoRoute(data) {
-      this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+      this._redirect('/admin/groups/' + encodeURIComponent(this.handleGroupUuid(data.params[0])));
     },
 
     _handleGroupAuditLogRoute(data) {
+      this.handleGroupUuid(data);
+
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group-audit-log',
         detailType: 'audit-log',
-        groupId: data.params[0],
+        groupId: this.handleGroupUuid(data.params[0]),
       });
     },
 
@@ -779,7 +789,7 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group-members',
         detailType: 'members',
-        groupId: data.params[0],
+        groupId: this.handleGroupUuid(data.params[0]),
       });
     },
 
@@ -814,7 +824,7 @@
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group',
-        groupId: data.params[0],
+        groupId: this.handleGroupUuid(data.params[0]),
       });
     },
 

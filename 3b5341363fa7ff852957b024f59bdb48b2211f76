@@ -34,6 +34,24 @@
       "revId": "3b5341363fa7ff852957b024f59bdb48b2211f76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3adec7f_5b666bc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-21T20:47:42Z",
+      "side": 1,
+      "message": "I\u0027ve filled this https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7517 as i just experenced this after deleting a project it keeps trying to read it even if the change is not on that project.",
+      "parentUuid": "23b07293_1337e289",
+      "revId": "3b5341363fa7ff852957b024f59bdb48b2211f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

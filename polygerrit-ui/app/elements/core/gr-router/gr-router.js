@@ -28,6 +28,8 @@
     // Pattern for a catchall route when no other pattern is matched.
     DEFAULT: /.*/,
 
+    GROUP_UUID: /^\/admin\/groups\/uuid-(.+)$/,
+
     // Matches /admin/groups/<group>
     GROUP: /^\/admin\/groups\/([^,]+)$/,
 
@@ -505,6 +507,8 @@
 
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
+      this._mapRoute(RoutePattern.GROUP_UUID, '_handleGroupUuidRoute', true);
+
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
       this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
@@ -759,6 +763,10 @@
           });
         }
       });
+    },
+
+    _handleGroupUuidRoute(data) {
+      this._redirect('/admin/groups/' + data.params[0]);
     },
 
     _handleGroupInfoRoute(data) {

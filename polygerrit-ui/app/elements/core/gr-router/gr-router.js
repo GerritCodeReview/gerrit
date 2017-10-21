@@ -29,17 +29,17 @@
     DEFAULT: /.*/,
 
     // Matches /admin/groups/<group>
-    GROUP: /^\/admin\/groups\/([^,]+)$/,
+    GROUP: /^\/admin\/groups\/(uuid-)?([^,]+)$/,
 
     // Matches /admin/groups/<group>,info (backwords compat with gwtui)
     // Redirects to /admin/groups/<group>
-    GROUP_INFO: /^\/admin\/groups\/(.+),info$/,
+    GROUP_INFO: /^\/admin\/groups\/(uuid-)?(.+),info$/,
 
     // Matches /admin/groups/<group>,audit-log
-    GROUP_AUDIT_LOG: /^\/admin\/groups\/(.+),audit-log$/,
+    GROUP_AUDIT_LOG: /^\/admin\/groups\/(uuid-)?(.+),audit-log$/,
 
     // Matches /admin/groups/<group>,members
-    GROUP_MEMBERS: /^\/admin\/groups\/(.+),members$/,
+    GROUP_MEMBERS: /^\/admin\/groups\/(uuid-)?(.+),members$/,
 
     // Matches /admin/groups[,<offset>][/].
     GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
@@ -762,7 +762,7 @@
     },
 
     _handleGroupInfoRoute(data) {
-      this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+      this._redirect('/admin/groups/' + encodeURIComponent(data.params[1]));
     },
 
     _handleGroupAuditLogRoute(data) {
@@ -770,7 +770,7 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group-audit-log',
         detailType: 'audit-log',
-        groupId: data.params[0],
+        groupId: data.params[1],
       });
     },
 
@@ -779,7 +779,7 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group-members',
         detailType: 'members',
-        groupId: data.params[0],
+        groupId: data.params[1],
       });
     },
 
@@ -814,7 +814,7 @@
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-group',
-        groupId: data.params[0],
+        groupId: data.params[1],
       });
     },
 

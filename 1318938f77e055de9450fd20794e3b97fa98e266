@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14c77b3f_804451fa",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-21T01:56:15Z",
+      "side": 1,
+      "message": "Should this be encoded, like on L773?",
+      "range": {
+        "startLine": 769,
+        "startChar": 40,
+        "endLine": 769,
+        "endChar": 54
+      },
+      "revId": "1318938f77e055de9450fd20794e3b97fa98e266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

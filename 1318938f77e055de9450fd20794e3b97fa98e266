@@ -22,6 +22,30 @@
       "revId": "1318938f77e055de9450fd20794e3b97fa98e266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebaf3b8e_95087d0a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-21T01:57:24Z",
+      "side": 1,
+      "message": "Nope, as it can do ,members and ,audit-log which would not look nice if encoded but would still work.\n\nAs uuid-* has to be a number and not a project this does not have to be encoded :).",
+      "parentUuid": "14c77b3f_804451fa",
+      "range": {
+        "startLine": 769,
+        "startChar": 40,
+        "endLine": 769,
+        "endChar": 54
+      },
+      "revId": "1318938f77e055de9450fd20794e3b97fa98e266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

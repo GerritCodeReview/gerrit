@@ -486,6 +486,18 @@
       });
     },
 
+    getAccountExternalId() {
+      return this.fetchJSON('/accounts/self/external.ids');
+    },
+
+    accountDeleteIdentities(id) {
+      return this.send('POST', '/accounts/self/external.ids:delete', id,
+          null, null)
+          .then(response => {
+            return this.getResponseObject(response);
+          });
+    },
+
     /**
      * @param {string} userId the ID of the user usch as an email address.
      * @return {!Promise<!Object>}

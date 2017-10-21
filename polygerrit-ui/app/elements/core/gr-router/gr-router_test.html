@@ -795,14 +795,14 @@ limitations under the License.
 
       suite('group routes', () => {
         test('_handleGroupInfoRoute', () => {
-          const data = {params: {0: 1234}};
+          const data = {params: {1: 1234}};
           element._handleGroupInfoRoute(data);
           assert.isTrue(redirectStub.calledOnce);
-          assert.equal(redirectStub.lastCall.args[0], '/admin/groups/1234');
+          assert.equal(redirectStub.lastCall.args[1], '/admin/groups/1234');
         });
 
         test('_handleGroupAuditLogRoute', () => {
-          const data = {params: {0: 1234}};
+          const data = {params: {1: 1234}};
           assertDataToParams(data, '_handleGroupAuditLogRoute', {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-group-audit-log',
@@ -812,7 +812,7 @@ limitations under the License.
         });
 
         test('_handleGroupMembersRoute', () => {
-          const data = {params: {0: 1234}};
+          const data = {params: {1: 1234}};
           assertDataToParams(data, '_handleGroupMembersRoute', {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-group-members',
@@ -870,7 +870,7 @@ limitations under the License.
         });
 
         test('_handleGroupRoute', () => {
-          const data = {params: {0: 4321}};
+          const data = {params: {1: 4321}};
           assertDataToParams(data, '_handleGroupRoute', {
             view: Gerrit.Nav.View.ADMIN,
             adminView: 'gr-group',

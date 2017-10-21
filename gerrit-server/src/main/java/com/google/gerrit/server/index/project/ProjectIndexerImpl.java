@@ -18,10 +18,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectData;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -64,10 +64,18 @@ public class ProjectIndexerImpl implements ProjectIndexer {
 
   @Override
   public void index(Project.NameKey nameKey) throws IOException {
-    for (Index<?, ProjectData> i : getWriteIndexes()) {
-      i.replace(projectCache.get(nameKey).toProjectData());
+    ProjectState projectState = projectCache.get(nameKey);
+    if (projectState != null) {
+      ProjectData projectData = projectState.toProjectData();
+      for (ProjectIndex i : getWriteIndexes()) {
+        i.replace(projectData);
+      }
+      fireProjectIndexedEvent(nameKey.get());
+    } else {
+      for (ProjectIndex i : getWriteIndexes()) {
+        i.delete(nameKey);
+      }
     }
-    fireProjectIndexedEvent(nameKey.get());
   }
 
   private void fireProjectIndexedEvent(String name) {

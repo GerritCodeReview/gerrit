@@ -486,6 +486,10 @@
       });
     },
 
+    getAccountExternalId() {
+      return this.fetchJSON('/accounts/self/external.ids');
+    },
+
     /**
      * @param {string} userId the ID of the user usch as an email address.
      * @return {!Promise<!Object>}

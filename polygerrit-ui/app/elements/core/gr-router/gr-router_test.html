@@ -134,6 +134,7 @@ limitations under the License.
         '_handleGroupListFilterRoute',
         '_handleGroupListOffsetRoute',
         '_handleGroupMembersRoute',
+        '_handleGroupUuidRoute',
         '_handleGroupRoute',
         '_handlePluginListFilterOffsetRoute',
         '_handlePluginListFilterRoute',
@@ -143,7 +144,7 @@ limitations under the License.
         '_handleSettingsLegacyRoute',
         '_handleSettingsRoute',
       ];
-      assert.deepEqual(actualRequiresAuth, shouldRequireAutoAuth);
+      assert.deepEqual(actualRequiresAuth.sort(), shouldRequireAutoAuth.sort());
 
       const unauthenticatedHandlers = [
         '_handleBranchListFilterOffsetRoute',

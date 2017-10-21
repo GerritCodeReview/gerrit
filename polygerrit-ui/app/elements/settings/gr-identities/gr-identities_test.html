@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-identities</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-identities.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-identities></gr-identities>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-identities tests', () => {
+    let element;
+    let sandbox;
+    const ids = [
+      {
+        identity: 'username:john',
+        email_address: 'john.doe@example.com',
+        trusted: true,
+      }, {
+        identity: 'gerrit:gerrit',
+        email_address: 'gerrit@example.com',
+      }, {
+        identity: 'mailto:gerrit2@example.com',
+        email_address: 'gerrit2@example.com',
+        trusted: true,
+        can_delete: true,
+      },
+    ];
+
+    setup(done => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-rest-api-interface', {
+        getExternalIds() { return Promise.resolve(ids); },
+      });
+
+      element = fixture('basic');
+
+      element.loadData().then(() => { flush(done); });
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('renders', () => {
+      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+
+      assert.equal(rows.length, 2);
+
+      const nameCells = rows.map(row =>
+        row.querySelectorAll('td')[2].textContent
+      );
+
+      assert.equal(nameCells[0], 'gerrit:gerrit');
+      assert.equal(nameCells[1], '');
+    });
+
+    test('renders email', () => {
+      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+
+      assert.equal(rows.length, 2);
+
+      const nameCells = rows.map(row =>
+        row.querySelectorAll('td')[1].textContent
+      );
+
+      assert.equal(nameCells[0], 'gerrit@example.com');
+      assert.equal(nameCells[1], 'gerrit2@example.com');
+    });
+
+    test('_computeIdentity', () => {
+      assert.equal(
+          element._computeIdentity(ids[0].identity), 'username:john');
+      assert.equal(element._computeIdentity(ids[2].identity), '');
+    });
+
+    test('filterIdentities', () => {
+      assert.isFalse(element.filterIdentities(ids[0]));
+
+      assert.isTrue(element.filterIdentities(ids[1]));
+    });
+
+    test('delete id', done => {
+      element._idName = 'mailto:gerrit2@example.com';
+      const loadDataStub = sandbox.stub(element, 'loadData');
+      element._handleDeleteItemConfirm().then(() => {
+        assert.isTrue(loadDataStub.called);
+        done();
+      });
+    });
+
+    test('_handleDeleteItem opens modal', () => {
+      const deleteBtn =
+          Polymer.dom(element.root).querySelector('.deleteButton');
+      const deleteItem = sandbox.stub(element, '_handleDeleteItem');
+      MockInteractions.tap(deleteBtn);
+      assert.isTrue(deleteItem.called);
+    });
+  });
+</script>

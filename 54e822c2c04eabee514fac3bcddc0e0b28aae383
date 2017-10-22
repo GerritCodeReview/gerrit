@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5f7b41a_36cb4f28",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-22T23:36:27Z",
+      "side": 1,
+      "message": "1. We already have a definition for jsr305 (see below).\n\n2. Upgrade of jsr305 to 3.0.2 was already rejected on master (see https://gerrit-review.googlesource.com/c/gerrit/+/133192)",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 1
+      },
+      "revId": "54e822c2c04eabee514fac3bcddc0e0b28aae383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101c1ce4_43828818",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-22T23:36:27Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 1
+      },
+      "revId": "54e822c2c04eabee514fac3bcddc0e0b28aae383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

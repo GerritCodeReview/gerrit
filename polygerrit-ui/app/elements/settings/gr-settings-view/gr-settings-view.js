@@ -15,6 +15,7 @@
   'use strict';
 
   const PREFS_SECTION_FIELDS = [
+    'header_colour_changer',
     'changes_per_page',
     'date_format',
     'time_format',

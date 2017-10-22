@@ -22,6 +22,30 @@
       "revId": "e7c7d65b3593deb2b3317c7f167baf22b7f2c6df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6809a35f_410e5567",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-22T23:34:45Z",
+      "side": 1,
+      "message": "Oh sorry. I\u0027ve fixed the sentence now.",
+      "parentUuid": "1a48bc0f_3d2e3216",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "e7c7d65b3593deb2b3317c7f167baf22b7f2c6df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

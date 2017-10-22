@@ -21,7 +21,7 @@ def _npm_binary_impl(ctx):
   """rule to download a NPM archive."""
   name = ctx.name
   version= NPM_VERSIONS[name]
-  sha1 = NPM_VERSIONS[name]
+  sha1 = NPM_SHA1S[name]
 
   dir = '%s-%s' % (name, version)
   filename = '%s.tgz' % dir
@@ -38,7 +38,6 @@ def _npm_binary_impl(ctx):
   python = ctx.which("python")
   script = ctx.path(ctx.attr._download_script)
 
-  sha1 = NPM_SHA1S[name]
   args = [python, script, "-o", dest, "-u", url, "-v", sha1]
   out = ctx.execute(args)
   if out.return_code:

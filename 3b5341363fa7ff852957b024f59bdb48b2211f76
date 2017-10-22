@@ -52,6 +52,24 @@
       "revId": "3b5341363fa7ff852957b024f59bdb48b2211f76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f06f45a_24bc2c7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-22T02:59:27Z",
+      "side": 1,
+      "message": "\u003e Why not?\n\nTechnically it might be enough to call i.delete(), but a full solution needs to include notification of deletion (i.e. ProjectIndexedListener needs to be extended similar to ChangeIndexedListener).  Also I\u0027m not sure if this would be the proper place to do it, or if this class should instead have a delete() method that gets called from somewhere.\n\nI would prefer to do this in a follow up change.",
+      "parentUuid": "e3adec7f_5b666bc4",
+      "revId": "3b5341363fa7ff852957b024f59bdb48b2211f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

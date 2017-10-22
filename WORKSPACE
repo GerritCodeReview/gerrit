@@ -100,18 +100,30 @@ maven_jar(
     sha1 = "5d9e2e895e3111622720157d0aa540066d5fce3a",
 )
 
-GWT_VERS = "2.8.1"
+GWT_VERS = "2.8.2"
 
 maven_jar(
     name = "user",
     artifact = "com.google.gwt:gwt-user:" + GWT_VERS,
-    sha1 = "9a13fbee70848f1f1cddd3ae33ad180af3392d9e",
+    sha1 = "a2b9be2c996a658c4e009ba652a9c6a81c88a797",
+    deps = [
+      "@jsr305//jar",
+    ],
 )
 
 maven_jar(
     name = "dev",
     artifact = "com.google.gwt:gwt-dev:" + GWT_VERS,
-    sha1 = "c7e88c07e9cda90cc623b4451d0d9713ae03aa53",
+    sha1 = "7a87e060bbf129386b7ae772459fb9f87297c332",
+    deps = [
+      "@jsr305//jar",
+    ],
+)
+
+maven_jar(
+    name = "jsr305",
+    artifact = "com.google.code.findbugs:jsr305:3.0.2",
+    sha1 = "25ea2e8b0c338a877313bd4672d3fe056ea78f0d",
 )
 
 maven_jar(

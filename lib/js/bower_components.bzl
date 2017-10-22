@@ -230,6 +230,17 @@ def define_bower_components():
     seed = True,
   )
   bower_component(
+    name = "paper-icon-button",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-icon",
+      ":paper-behaviors",
+      ":paper-styles",
+      ":polymer",
+    ],
+    seed = True,
+  )
+  bower_component(
     name = "paper-input",
     license = "//lib:LICENSE-polymer",
     deps = [
@@ -287,6 +298,18 @@ def define_bower_components():
     deps = [
       ":font-roboto",
       ":iron-flex-layout",
+      ":polymer",
+    ],
+  )
+  bower_component(
+    name = "paper-swatch-picker",
+    license = "//lib:LICENSE-polymer",
+    deps = [
+      ":iron-flex-layout",
+      ":iron-iconset-svg",
+      ":paper-icon-button",
+      ":paper-item",
+      ":paper-listbox",
       ":polymer",
     ],
   )

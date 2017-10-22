@@ -158,6 +158,11 @@ public class GeneralPreferencesInfo {
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
+  // PolyGerrit specific preference
+  public String headerColourChanger;
+  public String footerColourChanger;
+  public String fontColourChanger;
+  public String navColourChanger;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -227,6 +232,10 @@ public class GeneralPreferencesInfo {
     p.signedOffBy = false;
     p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
     p.publishCommentsOnPush = false;
+    p.headerColourChanger = "#eee";
+    p.footerColourChanger = "#eee";
+    p.fontColourChanger = "#212121";
+    p.navColourChanger = "#f5f5f5";
     return p;
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c9af6f5_e97cd536",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-22T23:38:40Z",
+      "side": 1,
+      "message": "Thanks, i didn\u0027t see it when i did this.",
+      "parentUuid": "d5f7b41a_36cb4f28",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 1
+      },
+      "revId": "54e822c2c04eabee514fac3bcddc0e0b28aae383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "101c1ce4_43828818",
         "filename": "WORKSPACE",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-22T23:36:27Z",
       "side": 1,
       "message": "here",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 1
+      },
+      "revId": "54e822c2c04eabee514fac3bcddc0e0b28aae383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a9922f_b1526cd4",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-22T23:38:40Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "101c1ce4_43828818",
       "range": {
         "startLine": 589,
         "startChar": 0,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fcb5f75_7e4cfe1c",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1054260
+      },
+      "writtenOn": "2017-10-22T17:46:57Z",
+      "side": 0,
+      "message": "Here I really have no idea where this R comes from. I don\u0027t get the Prolog things yet.\nMy fix works but I am sure there might be more to understand from\n   commit_label(label(Category,X),R),Z)\n\nprobably current_user(R) after l.901?",
+      "range": {
+        "startLine": 902,
+        "startChar": 27,
+        "endLine": 902,
+        "endChar": 28
+      },
+      "revId": "4eec90c9e4f8ccda64163124d301e51e8556803b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18ec8b67_6f14b46b",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1054260
+      },
+      "writtenOn": "2017-10-22T17:46:57Z",
+      "side": 1,
+      "message": "I haven\u0027t tried this example but seems broken while reading the code without my (untested) fix.",
+      "revId": "23541b8f1cf3029d43798af90e360c7f763ed057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

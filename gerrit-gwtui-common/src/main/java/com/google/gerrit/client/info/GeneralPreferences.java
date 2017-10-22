@@ -58,6 +58,15 @@ public class GeneralPreferences extends JavaScriptObject {
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
     p.defaultBaseForMerges(d.defaultBaseForMerges);
+    // PolyGerrit specific preference
+    p.themeHeaderColor(d.themeHeaderColor);
+    p.themeFooterColor(d.themeFooterColor);
+    p.themeFontColor(d.themeFontColor);
+    p.themeNavColor(d.themeNavColor);
+    p.themeNavFontColor(d.themeNavFontColor);
+    p.themeButtonLinkColor(d.themeButtonLinkColor);
+    p.themeTableHeaderColor(d.themeTableHeaderColor);
+    p.themeTableHeaderFontColor(d.themeTableHeaderFontColor);
     return p;
   }
 
@@ -148,6 +157,22 @@ public class GeneralPreferences extends JavaScriptObject {
 
   private native String defaultBaseForMergesRaw() /*-{ return this.default_base_for_merges }-*/;
 
+  private native String themeHeaderColor() /*-{ return this.theme_header_color }-*/;
+
+  private native String themeFooterColor() /*-{ return this.theme_footer_color }-*/;
+
+  private native String themeFontColor() /*-{ return this.theme_font_color }-*/;
+
+  private native String themeNavColor() /*-{ return this.theme_nav_color }-*/;
+
+  private native String themeNavFontColor() /*-{ return this.theme_nav_font_color }-*/;
+
+  private native String themeButtonLinkColor() /*-{ return this.theme_button_link_color }-*/;
+
+  private native String themeTableHeaderColor() /*-{ return this.theme_table_header_color }-*/;
+
+  private native String themeTableFontHeaderColor() /*-{ return this.theme_table_font_header_color }-*/;
+
   public final native boolean
       publishCommentsOnPush() /*-{ return this.publish_comments_on_push || false }-*/;
 
@@ -226,6 +251,22 @@ public class GeneralPreferences extends JavaScriptObject {
   }
 
   private native void defaultBaseForMergesRaw(String b) /*-{ this.default_base_for_merges = b }-*/;
+
+  private native void themeHeaderColor(String b) /*-{ this.theme_header_color = b }-*/;
+
+  private native void themeFooterColor(String b) /*-{ this.theme_footer_color = b }-*/;
+
+  private native void themeFontColor(String b) /*-{ this.themeFontColor = b }-*/;
+
+  private native void themeNavColor(String b) /*-{ this.theme_nav_color = b }-*/;
+
+  private native void themeNavFontColor(String b) /*-{ this.theme_nav_font_color = b }-*/;
+
+  private native void themeButtonLinkColor(String b) /*-{ this.theme_button_link_color = b }-*/;
+
+  private native void themeTableHeaderColor(String b) /*-{ this.theme_table_header_color = b }-*/;
+
+  private native void themeTableHeaderFontColor(String b) /*-{ this.theme_table_header_font_color = b }-*/;
 
   public final native void publishCommentsOnPush(
       boolean p) /*-{ this.publish_comments_on_push = p }-*/;

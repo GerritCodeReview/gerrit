@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-swatch-picker/paper-swatch-picker.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -97,6 +98,70 @@ limitations under the License.
             id="Preferences"
             class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
+          <section>
+            <span class="title">Change Header Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.header_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.header_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Footer Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.footer_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.footer_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Font Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.font_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.font_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Nav Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.nav_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.nav_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Nav Font Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.nav_font_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.nav_font_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Button Link Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.button_link_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.button_link_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Table Header Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.table_header_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.table_header_colour_changer}}
+            </span>
+          </section>
+          <section>
+            <span class="title">Change Table Header Font Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.table_header_font_colour_changer}}"></paper-swatch-picker>
+
+              {{_localPrefs.table_header_font_colour_changer}}
+            </span>
+          </section>
           <section>
             <span class="title">Changes per page</span>
             <span class="value">

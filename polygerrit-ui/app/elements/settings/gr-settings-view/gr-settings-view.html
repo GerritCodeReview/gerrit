@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-swatch-picker/paper-swatch-picker.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -97,6 +98,12 @@ limitations under the License.
             id="Preferences"
             class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
+          <section>
+            <span class="title">Changes Header Colour</span>
+            <span class="value">
+              <paper-swatch-picker color="{{_localPrefs.header_colour_changer}}"></paper-swatch-picker>
+            </span>
+          </section>
           <section>
             <span class="title">Changes per page</span>
             <span class="value">

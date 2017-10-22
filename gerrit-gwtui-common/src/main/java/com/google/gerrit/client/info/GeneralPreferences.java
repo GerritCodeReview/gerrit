@@ -58,6 +58,10 @@ public class GeneralPreferences extends JavaScriptObject {
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
     p.defaultBaseForMerges(d.defaultBaseForMerges);
+    // PolyGerrit specific preference
+    p.headerColourChanger(d.headerColourChanger);
+    p.fontColourChanger(d.fontColourChanger);
+    p.navColourChanger(d.navColourChanger);
     return p;
   }
 
@@ -148,6 +152,12 @@ public class GeneralPreferences extends JavaScriptObject {
 
   private native String defaultBaseForMergesRaw() /*-{ return this.default_base_for_merges }-*/;
 
+  private native String headerColourChanger() /*-{ return this.header_colour_changer }-*/;
+
+  private native String fontColourChanger() /*-{ return this.font_colour_changer }-*/;
+
+  private native String navColourChanger() /*-{ return this.nav_colour_changer }-*/;
+
   public final native boolean
       publishCommentsOnPush() /*-{ return this.publish_comments_on_push || false }-*/;
 
@@ -226,6 +236,12 @@ public class GeneralPreferences extends JavaScriptObject {
   }
 
   private native void defaultBaseForMergesRaw(String b) /*-{ this.default_base_for_merges = b }-*/;
+
+  private native void headerColourChanger(String b) /*-{ this.header_colour_changer = b }-*/;
+
+  private native void fontColourChanger(String b) /*-{ this.font_colour_changer = b }-*/;
+
+  private native void navColourChanger(String b) /*-{ this.nav_colour_changer = b }-*/;
 
   public final native void publishCommentsOnPush(
       boolean p) /*-{ this.publish_comments_on_push = p }-*/;

@@ -15,6 +15,14 @@
   'use strict';
 
   const PREFS_SECTION_FIELDS = [
+    'header_colour_changer',
+    'footer_colour_changer',
+    'font_colour_changer',
+    'nav_colour_changer',
+    'nav_font_colour_changer',
+    'button_link_colour_changer',
+    'table_header_colour_changer',
+    'table_font_header_colour_changer',
     'changes_per_page',
     'date_format',
     'time_format',

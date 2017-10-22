@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbaac6bd_1601f4a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-22T06:30:09Z",
+      "side": 1,
+      "message": "Instead of reusing the subject from the original change, please write a subject that describes the fix.\n\nIn the body, the link to the original change can be done with abbreviated change Id which will be automatically hyperlinked, rather than sha1.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "b2e7df0fd002cdc4972a2c9d873da4eb3abccf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

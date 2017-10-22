@@ -22,11 +22,20 @@
     },
 
     attached() {
+      this.changeTheme();
       this.listen(window, 'scroll', '_handleBodyScroll');
     },
 
     detached() {
       this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this.customStyle['--gr-page-nav-background-colour'] =
+            prefs.nav_colour_changer;
+        this.updateStyles();
+      });
     },
 
     _handleBodyScroll() {

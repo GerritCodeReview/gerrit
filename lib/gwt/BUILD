@@ -20,6 +20,9 @@ java_library(
     neverlink = 1,
     visibility = ["//visibility:public"],
     exports = ["@user//jar"],
+    deps = [
+        "@jsr305//jar"
+    ],
 )
 
 java_library(
@@ -28,6 +31,9 @@ java_library(
     neverlink = 1,
     visibility = ["//visibility:public"],
     exports = ["@dev//jar"],
+    deps = [
+        "@jsr305//jar"
+    ],
 )
 
 java_library(

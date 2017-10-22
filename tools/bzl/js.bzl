@@ -20,8 +20,8 @@ def _npm_tarball(name):
 def _npm_binary_impl(ctx):
   """rule to download a NPM archive."""
   name = ctx.name
-  version= NPM_VERSIONS[name]
-  sha1 = NPM_SHA1S[name]
+  version = ctx.attr.version
+  sha1 = ctx.attr.sha1
 
   dir = '%s-%s' % (name, version)
   filename = '%s.tgz' % dir
@@ -49,6 +49,8 @@ npm_binary = repository_rule(
         # Label resolves within repo of the .bzl file.
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
         "repository": attr.string(default = NPMJS),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
     },
     local = True,
     implementation = _npm_binary_impl,

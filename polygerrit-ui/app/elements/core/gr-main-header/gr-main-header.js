@@ -112,6 +112,7 @@
     ],
 
     attached() {
+      this.changeTheme();
       this._loadAccount();
       this._loadConfig();
       this.listen(window, 'location-change', '_handleLocationChange');
@@ -123,6 +124,18 @@
 
     reload() {
       this._loadAccount();
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this.customStyle['--primary-text-color'] =
+            prefs.header_colour_changer;
+        this.updateStyles();
+      }).catch(() => {
+        // Default for logged out users.
+        this.customStyle['--primary-text-color'] = '#212121';
+        this.updateStyles();
+      });
     },
 
     _handleLocationChange(e) {

@@ -158,6 +158,15 @@ public class GeneralPreferencesInfo {
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
+  // PolyGerrit specific preference
+  public String themeHeaderColor;
+  public String themeFooterColor;
+  public String themeFontColor;
+  public String themeNavColor;
+  public String themeNavFontColor;
+  public String themeButtonLinkColor;
+  public String themeTableHeaderColor;
+  public String themeTableHeaderFontColor;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;

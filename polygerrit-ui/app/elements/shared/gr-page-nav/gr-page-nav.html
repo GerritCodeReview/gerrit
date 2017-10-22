@@ -16,12 +16,13 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-page-nav">
   <template>
     <style include="shared-styles">
       #nav {
-        background-color: #f5f5f5;
+        background-color: var(--gr-page-nav-background-colour, '#f5f5f5');
         border: 1px solid #eee;
         border-top: none;
         height: 100%;
@@ -41,6 +42,7 @@ limitations under the License.
     <nav id="nav">
       <content></content>
     </nav>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-page-nav.js"></script>
 </dom-module>

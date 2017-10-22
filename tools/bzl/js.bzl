@@ -2,17 +2,7 @@ NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"
 
-NPM_VERSIONS = {
-    "bower": "1.8.2",
-    "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
-}
-
-NPM_SHA1S = {
-    "bower": "adf53529c8d4af02ef24fb8d5341c1419d33e2f7",
-    "crisper": "7183c58cea33632fb036c91cefd1b43e390d22a2",
-    "vulcanize": "679107f251c19ab7539529b1e3fdd40829e6fc63",
-}
+load("//lib/js:npm.bzl", "NPM_VERSIONS")
 
 def _npm_tarball(name):
   return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
@@ -20,8 +10,8 @@ def _npm_tarball(name):
 def _npm_binary_impl(ctx):
   """rule to download a NPM archive."""
   name = ctx.name
-  version= NPM_VERSIONS[name]
-  sha1 = NPM_SHA1S[name]
+  version = ctx.attr.version
+  sha1 = ctx.attr.sha1
 
   dir = '%s-%s' % (name, version)
   filename = '%s.tgz' % dir
@@ -49,6 +39,8 @@ npm_binary = repository_rule(
         # Label resolves within repo of the .bzl file.
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
         "repository": attr.string(default = NPMJS),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
     },
     local = True,
     implementation = _npm_binary_impl,

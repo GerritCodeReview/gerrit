@@ -1018,18 +1018,25 @@ maven_jar(
 
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
+# When updating these, also update lib/js/npm.bzl
 npm_binary(
     name = "bower",
+    sha1 = "adf53529c8d4af02ef24fb8d5341c1419d33e2f7",
+    version = "1.8.2",
 )
 
 npm_binary(
     name = "vulcanize",
     repository = GERRIT,
+    sha1 = "679107f251c19ab7539529b1e3fdd40829e6fc63",
+    version = "1.14.8",
 )
 
 npm_binary(
     name = "crisper",
     repository = GERRIT,
+    sha1 = "7183c58cea33632fb036c91cefd1b43e390d22a2",
+    version = "2.0.2",
 )
 
 # bower_archive() seed components.

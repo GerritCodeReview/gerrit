@@ -109,6 +109,25 @@
       'a m o': '_jumpKeyPressed',
     },
 
+    attached() {
+      this.changeTheme();
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs && prefs.theme_header_color) {
+          this.customStyle['--header-background-color'] =
+              prefs.theme_header_color;
+        }
+
+        if (prefs && prefs.theme_footer_color) {
+          this.customStyle['--footer-background-color'] =
+              prefs.theme_footer_color;
+        }
+        this.updateStyles();
+      });
+    },
+
     ready() {
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();

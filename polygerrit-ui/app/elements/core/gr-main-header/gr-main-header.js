@@ -112,6 +112,7 @@
     ],
 
     attached() {
+      this.changeTheme();
       this._loadAccount();
       this._loadConfig();
       this.listen(window, 'location-change', '_handleLocationChange');
@@ -123,6 +124,16 @@
 
     reload() {
       this._loadAccount();
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs && prefs.theme_font_color) {
+          this.customStyle['--primary-text-color'] =
+              prefs.theme_font_color;
+          this.updateStyles();
+        }
+      });
     },
 
     _handleLocationChange(e) {

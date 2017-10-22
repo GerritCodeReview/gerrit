@@ -22,11 +22,22 @@
     },
 
     attached() {
+      this.changeTheme();
       this.listen(window, 'scroll', '_handleBodyScroll');
     },
 
     detached() {
       this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        if (prefs && prefs.theme_nav_color) {
+          this.customStyle['--gr-page-nav-background-colour'] =
+              prefs.theme_nav_color;
+          this.updateStyles();
+        }
+      });
     },
 
     _handleBodyScroll() {

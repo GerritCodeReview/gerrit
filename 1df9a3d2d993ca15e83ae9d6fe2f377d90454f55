@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "489090f9_1478a789",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-22T23:44:49Z",
+      "side": 1,
+      "message": "No other definitions in WORKSPACE declare deps.  Should this instead be in lib/gwt/BUILD?\n\nI think it should also be declared as something like \"//lib/jsr305\" instead of \"@jsr305//jar\".",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 6
+      },
+      "revId": "1df9a3d2d993ca15e83ae9d6fe2f377d90454f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

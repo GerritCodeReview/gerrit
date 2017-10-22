@@ -22,6 +22,30 @@
       "revId": "1df9a3d2d993ca15e83ae9d6fe2f377d90454f55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cad0ae2_ce5a2bc2",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-22T23:48:28Z",
+      "side": 1,
+      "message": "I think we can move it to gwt, but i doint think we need to put it in more files.\n\nwe can do \n\n    deps \u003d [\n        \"@jsr305//jar\",\n    ],\n\nthanks, done.",
+      "parentUuid": "489090f9_1478a789",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 6
+      },
+      "revId": "1df9a3d2d993ca15e83ae9d6fe2f377d90454f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

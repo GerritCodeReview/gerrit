@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d85ae4c_d936b1ed",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-22T20:43:41Z",
+      "side": 1,
+      "message": "Im thinking about making this one variable that is an object that does this\n\n\"theme\": {\n  \"header_colour\": \"colour\",\n  \"footer_colour\": \"colour\",\n  ...\n},\n\n@David Pursehouse do you know how i can do the following ^^ in java please?\n\n\nMaybe we should do what \"Change Table Columns\" does which allows us to put things in which then dosen\u0027t require us to create more changes to add more objects. Though that\u0027s a suggestion though not sure. Also wondering how i would do that?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 45
+      },
+      "revId": "17fcaa073eae41085e3c87789e626d0754545ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

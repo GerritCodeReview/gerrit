@@ -1088,10 +1088,31 @@ bower_archive(
 )
 
 bower_archive(
+    name = "paper-icon-button",
+    package = "polymerelements/paper-icon-button",
+    sha1 = "7d34aef8da7a7f01ace9962d87bfa5dc5908a985",
+    version = "1.1.6",
+)
+
+bower_archive(
     name = "paper-input",
     package = "polymerelements/paper-input",
     sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",
     version = "1.1.18",
+)
+
+bower_archive(
+    name = "paper-menu-button",
+    package = "polymerelements/paper-menu-button",
+    sha1 = "784691fcdf2344a713612ad0a639ceca2dc5318b",
+    version = "1.5.2",
+)
+
+bower_archive(
+    name = "paper-swatch-picker",
+    package = "polymerelements/paper-swatch-picker",
+    sha1 = "b0419d1396ebc8cc337b40a3b693029be0f2e115",
+    version = "1.0.2",
 )
 
 bower_archive(

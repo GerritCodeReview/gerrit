@@ -85,6 +85,20 @@
       '?': '_showKeyboardShortcuts',
     },
 
+    attached() {
+      this.changeTheme();
+    },
+
+    changeTheme() {
+      this.$.restAPI.getPreferences().then(prefs => {
+        this.customStyle['--header-background-color'] =
+            prefs.header_colour_changer;
+        this.customStyle['--footer-background-color'] =
+            prefs.footer_colour_changer;
+        this.updateStyles();
+      });
+    },
+
     ready() {
       this._isShadowDom = Polymer.Settings.useShadow;
       this.$.router.start();

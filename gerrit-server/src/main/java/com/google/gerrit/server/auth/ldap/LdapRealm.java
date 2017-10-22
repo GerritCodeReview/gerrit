@@ -326,14 +326,20 @@ class LdapRealm extends AbstractRealm {
   @Override
   public boolean isActive(String username)
       throws LoginException, NamingException, AccountException {
+    final DirContext ctx = helper.open();
     try {
-      DirContext ctx = helper.open();
       Helper.LdapSchema schema = helper.getSchema(ctx);
       helper.findAccount(schema, ctx, username, false);
+      return true;
     } catch (NoSuchUserException e) {
       return false;
+    } finally {
+      try {
+        ctx.close();
+      } catch (NamingException e) {
+        log.warn("Cannot close LDAP query handle", e);
+      }
     }
-    return true;
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

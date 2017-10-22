@@ -200,7 +200,7 @@ def _main():
 
         try:
             gerrit.post("/changes/" + change_id + "/abandon",
-                        json={"message" : "%s" % abandon_message})
+                        json={"message": "%s" % abandon_message})
             abandoned += 1
         except Exception as e:
             errors += 1
@@ -208,6 +208,7 @@ def _main():
     logging.info("Total %d stale open changes", len(stale_changes))
     if not options.dry_run:
         logging.info("Abandoned %d changes. %d errors.", abandoned, errors)
+
 
 if __name__ == "__main__":
     sys.exit(_main())

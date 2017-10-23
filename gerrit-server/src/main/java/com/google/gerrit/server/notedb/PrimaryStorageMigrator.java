@@ -27,7 +27,6 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -479,10 +478,7 @@ public class PrimaryStorageMigrator {
 
   private Project.NameKey getProject(Change.Id id) throws OrmException {
     List<ChangeData> cds =
-        queryProvider
-            .get()
-            .setRequestedFields(ImmutableSet.of(ChangeField.PROJECT.getName()))
-            .byLegacyChangeId(id);
+        queryProvider.get().setRequestedFields(ChangeField.PROJECT).byLegacyChangeId(id);
     Set<Project.NameKey> projects = new TreeSet<>();
     for (ChangeData cd : cds) {
       projects.add(cd.project());

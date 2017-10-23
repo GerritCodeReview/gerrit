@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -68,12 +67,7 @@ public class MergeSuperSet {
     // more than necessary. This provides reasonable performance when loading
     // the change screen; callers that care about reading the latest value of
     // these fields should clear them explicitly using reloadChanges().
-    Set<String> fields =
-        ImmutableSet.of(
-            ChangeField.CHANGE.getName(),
-            ChangeField.PATCH_SET.getName(),
-            ChangeField.MERGEABLE.getName());
-    return q.setRequestedFields(fields);
+    return q.setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET, ChangeField.MERGEABLE);
   }
 
   private final ChangeData.Factory changeDataFactory;

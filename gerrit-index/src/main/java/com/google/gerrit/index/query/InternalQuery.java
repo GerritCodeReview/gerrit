@@ -14,15 +14,19 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gwtorm.server.OrmException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Execute a single query over a secondary index, for use by Gerrit internals.
@@ -59,13 +63,16 @@ public class InternalQuery<T> {
     return this;
   }
 
-  public InternalQuery<T> setRequestedFields(Set<String> fields) {
-    queryProcessor.setRequestedFields(fields);
+  @SuppressWarnings("unchecked") // Can't set @SafeVarargs on a non-final method.
+  public InternalQuery<T> setRequestedFields(FieldDef<T, ?>... fields) {
+    checkArgument(fields.length > 0, "requested field list is empty");
+    queryProcessor.setRequestedFields(
+        Arrays.stream(fields).map(FieldDef::getName).collect(toSet()));
     return this;
   }
 
   public InternalQuery<T> noFields() {
-    queryProcessor.setRequestedFields(ImmutableSet.<String>of());
+    queryProcessor.setRequestedFields(ImmutableSet.of());
     return this;
   }
 

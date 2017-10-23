@@ -24,6 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
@@ -100,8 +101,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return this;
   }
 
+  @SafeVarargs
   @Override
-  public InternalChangeQuery setRequestedFields(Set<String> fields) {
+  public final InternalChangeQuery setRequestedFields(FieldDef<ChangeData, ?>... fields) {
     super.setRequestedFields(fields);
     return this;
   }

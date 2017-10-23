@@ -21,6 +21,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.InternalQuery;
@@ -66,8 +67,9 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return this;
   }
 
+  @SafeVarargs
   @Override
-  public InternalAccountQuery setRequestedFields(Set<String> fields) {
+  public final InternalAccountQuery setRequestedFields(FieldDef<AccountState, ?>... fields) {
     super.setRequestedFields(fields);
     return this;
   }

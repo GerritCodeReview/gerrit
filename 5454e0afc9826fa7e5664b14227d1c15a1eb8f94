@@ -140,6 +140,30 @@
       "revId": "5454e0afc9826fa7e5664b14227d1c15a1eb8f94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bb5e5fb_3d6dea2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-23T17:01:21Z",
+      "side": 1,
+      "message": "Spelling.",
+      "parentUuid": "fb654872_0d05a799",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "5454e0afc9826fa7e5664b14227d1c15a1eb8f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

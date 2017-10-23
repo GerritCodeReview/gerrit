@@ -58,7 +58,7 @@ limitations under the License.
 
       stub('gr-rest-api-interface', {
         getSuggestedProjects(input) {
-          if (input.startsWith('the')) {
+          if (input.startsWith('th')) {
             return Promise.resolve({'the project': {
               id: 'the project',
               state: 'ACTIVE',
@@ -116,6 +116,14 @@ limitations under the License.
 
     test('_getProjectSuggestions non-empty', done => {
       element._getProjectSuggestions('the project').then(projects => {
+        assert.equal(projects.length, 1);
+        assert.equal(projects[0].name, 'the project');
+        done();
+      });
+    });
+
+    test('_getProjectSuggestions non-empty with two letter project', done => {
+      element._getProjectSuggestions('th').then(projects => {
         assert.equal(projects.length, 1);
         assert.equal(projects[0].name, 'the project');
         done();

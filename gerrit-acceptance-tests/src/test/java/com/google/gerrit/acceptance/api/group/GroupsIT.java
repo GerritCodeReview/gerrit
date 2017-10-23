@@ -249,16 +249,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createdOnFieldDefaultsToAuditCreationInstantBeforeSchemaUpgrade() throws Exception {
-    String newGroupName = name("newGroup");
-    GroupInfo newGroup = gApi.groups().create(newGroupName).get();
-    setCreatedOnToNull(new AccountGroup.UUID(newGroup.id));
-
-    GroupInfo updatedGroup = gApi.groups().id(newGroup.id).get();
-    assertThat(updatedGroup.createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
-  }
-
-  @Test
   public void getGroup() throws Exception {
     InternalGroup adminGroup = getFromCache("Administrators");
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
@@ -715,10 +705,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private InternalGroup getFromCache(String name) throws Exception {
     return groupCache.get(new AccountGroup.NameKey(name)).orElse(null);
-  }
-
-  private void setCreatedOnToNull(AccountGroup.UUID groupUuid) throws Exception {
-    groupsUpdateProvider.get().updateGroup(db, groupUuid, group -> group.setCreatedOn(null));
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

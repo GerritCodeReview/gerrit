@@ -39,6 +39,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -65,7 +66,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
   @Override
   public Response<String> apply(AccountResource resource, AgreementInput input)
-      throws IOException, OrmException, RestApiException {
+      throws IOException, OrmException, RestApiException, ConfigInvalidException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }

@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '2.8.0'
+VERSION = '2.8.2'
 
 maven_jar(
   name = 'user',
   id = 'com.google.gwt:gwt-user:' + VERSION,
-  sha1 = '518579870499e15531f454f35dca0772d7fa31f7',
+  sha1 = 'a2b9be2c996a658c4e009ba652a9c6a81c88a797',
   license = 'Apache2.0',
   attach_source = False,
 )
@@ -13,7 +13,7 @@ maven_jar(
 maven_jar(
   name = 'dev',
   id = 'com.google.gwt:gwt-dev:' + VERSION,
-  sha1 = 'f160a61272c5ebe805cd2d3d3256ed3ecf14893f',
+  sha1 = '7a87e060bbf129386b7ae772459fb9f87297c332',
   license = 'Apache2.0',
   attach_source = False,
 )
@@ -69,5 +69,14 @@ maven_jar(
   attach_source = False,
   bin_sha1 = 'cdb2dcb4e22b83d6b32b93095f644c3462739e82',
   license = 'DO_NOT_DISTRIBUTE',
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'jsr305',
+  id = 'com.google.code.findbugs:jsr305:3.0.1',
+  sha1 = 'f7be08ec23c21485b9b5a1cf1654c2ec8c58168d',
+  license = 'Apache2.0',
+  attach_source = False,
   visibility = ['PUBLIC'],
 )

@@ -74,6 +74,10 @@
     DOWNLOAD: 'download',
   };
 
+  const NotSupportedActions = [
+    'followup',
+  ];
+
   const ActionLoadingLabels = {
     abandon: 'Abandoning...',
     cherrypick: 'Cherry-Picking...',
@@ -323,6 +327,7 @@
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
           'editLoaded, editBasedOnCurrentPatchSet, change)',
+      '_changeOrPatchNumChanged(changeNum, patchNum)',
     ],
 
     listeners: {
@@ -351,6 +356,10 @@
         this._loading = false;
         throw err;
       });
+    },
+
+    _changeOrPatchNumChanged() {
+      this.reload();
     },
 
     addActionButton(type, label) {
@@ -430,6 +439,14 @@
         this.push('_hiddenActions', key);
       } else if (!hidden && idx !== -1) {
         this.splice('_hiddenActions', idx, 1);
+      }
+    },
+
+    getKeyByAction(action) {
+      if (this.revisionActions[action]) {
+        return this.revisionActions[action].__key;
+      } else if (this.actions[action]) {
+        return this.actions[action].__key;
       }
     },
 
@@ -605,11 +622,18 @@
       const result = [];
       const values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
+      const customActions = [];
       for (const a in actions) {
-        if (!values.includes(a)) { continue; }
+        if (NotSupportedActions.includes(a)) {
+          continue;
+        }
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.includes(a);
+        if (!values.includes(a)) {
+          customActions.push(actions[a]);
+          continue;
+        }
         if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
@@ -631,7 +655,7 @@
         // Triggers a re-render by ensuring object inequality.
         return Object.assign({}, a);
       });
-      return result.concat(additionalActions);
+      return result.concat(additionalActions).concat(customActions);
     },
 
     _computeLoadingLabel(action) {
@@ -668,7 +692,8 @@
       e.preventDefault();
       const el = Polymer.dom(e).localTarget;
       const key = el.getAttribute('data-action-key');
-      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
+          key.indexOf('~') !== -1) {
         this.fire(`${key}-tap`, {node: el});
         return;
       }

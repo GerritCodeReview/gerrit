@@ -398,5 +398,38 @@ limitations under the License.
         assert.isTrue(openStub.calledOnce);
       });
     });
+
+    suite('onAction', () => {
+      let change;
+      let revision;
+
+      setup(() => {
+        change = {};
+        revision = {};
+        sandbox.stub(plugin, 'on').callsArgWith(1, change, revision);
+        sandbox.stub(plugin, 'changeActions').returns({
+          addTapListener: sandbox.stub().callsArg(1),
+          getKeyByAction: () => 'some',
+        });
+      });
+
+      test('change action', () => {
+        const stub = sandbox.stub();
+        plugin.deprecated.onAction('change', 'foo', ctx => {
+          assert.strictEqual(ctx.change, change);
+          assert.strictEqual(ctx.revision, revision);
+          stub();
+        });
+        assert.isTrue(stub.called);
+      });
+
+      test('other actions', () => {
+        const stub = sandbox.stub();
+        plugin.deprecated.onAction('project', 'foo', stub);
+        plugin.deprecated.onAction('edit', 'foo', stub);
+        plugin.deprecated.onAction('branch', 'foo', stub);
+        assert.isFalse(stub.called);
+      });
+    });
   });
 </script>

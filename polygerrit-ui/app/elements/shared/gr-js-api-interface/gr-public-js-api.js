@@ -79,6 +79,7 @@
 
     this.deprecated = {
       popup: deprecatedAPI.popup.bind(this),
+      onAction: deprecatedAPI.onAction.bind(this),
     };
   }
 
@@ -180,8 +181,9 @@
   },
 
   Plugin.prototype.changeActions = function() {
-    return new GrChangeActionsInterface(Plugin._sharedAPIElement.getElement(
-        Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
+    return new GrChangeActionsInterface(this,
+      Plugin._sharedAPIElement.getElement(
+          Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
   Plugin.prototype.changeReply = function() {
@@ -226,6 +228,25 @@
     }
     const api = new GrPopupInterface(this);
     api.open().then(api => api._getElement().appendChild(el));
+  };
+
+  deprecatedAPI.onAction = function(type, action, callback) {
+    console.warn('plugin.deprecated.onAction() is deprecated,' +
+        ' use plugin.changeActions() instead!');
+    if (type !== 'change' && type !== 'revision') {
+      console.warn(`${type} actions are not supported.`);
+      return;
+    }
+    this.on('showchange', (change, revision) => {
+      const key = this.changeActions().getKeyByAction(action);
+      this.changeActions().addTapListener(key, () => {
+        const context = {
+          change,
+          revision,
+        };
+        callback(context);
+      });
+    });
   };
 
   const Gerrit = window.Gerrit || {};

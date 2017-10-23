@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d5c293a_aab381e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-23T16:22:42Z",
+      "side": 1,
+      "message": "Are you sure? Is this fact documented?\n\nToday, I thought you could create a repo with \"git init\" (without --bare) and Gerrit will recognize it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "d081fe2fddb804b21a5b81db7ea46e03dc97e459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

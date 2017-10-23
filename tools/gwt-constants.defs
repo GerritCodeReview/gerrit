@@ -20,6 +20,7 @@ GWT_TRANSITIVE_DEPS = [
   '//lib/gwt:javax-validation_src',
   '//lib/gwt:jsinterop-annotations',
   '//lib/gwt:jsinterop-annotations_src',
+  '//lib/gwt:jsr305',
   '//lib/gwt:tapestry',
   '//lib/gwt:w3c-css-sac',
   '//lib/ow2:ow2-asm',

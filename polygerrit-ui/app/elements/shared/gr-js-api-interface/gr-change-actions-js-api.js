@@ -14,7 +14,8 @@
 (function(window) {
   'use strict';
 
-  function GrChangeActionsInterface(el) {
+  function GrChangeActionsInterface(plugin, el) {
+    this.plugin = plugin;
     this._el = el;
     this.RevisionActions = el.RevisionActions;
     this.ChangeActions = el.ChangeActions;
@@ -71,6 +72,11 @@
 
   GrChangeActionsInterface.prototype.setEnabled = function(key, enabled) {
     this._el.setActionButtonProp(key, 'enabled', enabled);
+  };
+
+  GrChangeActionsInterface.prototype.getActionDetails = function(action) {
+    return this._el.getActionDetails(action) ||
+      this._el.getActionDetails(this.plugin.getPluginName() + '~' + action);
   };
 
   window.GrChangeActionsInterface = GrChangeActionsInterface;

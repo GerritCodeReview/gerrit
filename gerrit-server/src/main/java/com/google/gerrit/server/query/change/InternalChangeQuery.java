@@ -205,7 +205,13 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
               Change c = cn.getChange();
               return c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED;
             });
-    return Lists.transform(notes, n -> changeDataFactory.create(db, n));
+    return Lists.transform(
+        notes,
+        n -> {
+          ChangeData cd = changeDataFactory.create(db, n);
+          postProcess(cd);
+          return cd;
+        });
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
@@ -282,5 +288,10 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       groupPredicates.add(new GroupPredicate(g));
     }
     return query(and(project(project), or(groupPredicates)));
+  }
+
+  @Override
+  protected void postProcess(ChangeData ent) {
+    ent.setLazyLoad(false);
   }
 }

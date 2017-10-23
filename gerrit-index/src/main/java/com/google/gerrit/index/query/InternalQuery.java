@@ -15,10 +15,10 @@
 package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
@@ -78,7 +78,9 @@ public class InternalQuery<T> {
 
   public List<T> query(Predicate<T> p) throws OrmException {
     try {
-      return queryProcessor.query(p).entities();
+      List<T> result = queryProcessor.query(p).entities();
+      result.forEach(this::postProcess);
+      return result;
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }
@@ -96,11 +98,28 @@ public class InternalQuery<T> {
    */
   public List<List<T>> query(List<Predicate<T>> queries) throws OrmException {
     try {
-      return Lists.transform(queryProcessor.query(queries), QueryResult::entities);
+      return queryProcessor
+          .query(queries)
+          .stream()
+          .map(
+              qr -> {
+                qr.entities().forEach(this::postProcess);
+                return qr.entities();
+              })
+          .collect(toList());
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }
   }
+
+  /**
+   * Post-process an entity from the query subsystem.
+   *
+   * <p>Base implementation does nothing.
+   *
+   * @param ent entity returned by the index.
+   */
+  protected void postProcess(T ent) {}
 
   protected Schema<T> schema() {
     Index<?, T> index = indexes != null ? indexes.getSearchIndex() : null;

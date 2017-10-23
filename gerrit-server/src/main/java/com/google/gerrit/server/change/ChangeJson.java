@@ -162,10 +162,10 @@ public class ChangeJson {
   // efficiency reasons. Callers that care about submittability after taking
   // vote squashing into account should be looking at the submit action.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().fastEvalLabels(true).build();
+      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().fastEvalLabels(true).build();
+      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(

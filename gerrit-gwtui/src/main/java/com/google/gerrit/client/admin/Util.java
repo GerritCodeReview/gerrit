@@ -35,6 +35,8 @@ public class Util {
       return "";
     }
     switch (type) {
+      case INHERIT:
+        return AdminConstants.I.projectSubmitType_INHERIT();
       case FAST_FORWARD_ONLY:
         return AdminConstants.I.projectSubmitType_FAST_FORWARD_ONLY();
       case MERGE_IF_NECESSARY:

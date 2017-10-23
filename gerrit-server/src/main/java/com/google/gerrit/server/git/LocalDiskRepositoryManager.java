@@ -138,7 +138,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
+    FileKey loc =
+        FileKey.exact(path.resolve(name.get() + Constants.DOT_GIT_EXT).toFile(), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {

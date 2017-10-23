@@ -323,6 +323,7 @@
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
           'editLoaded, editBasedOnCurrentPatchSet, change)',
+      '_changeOrPatchNumChanged(changeNum, patchNum)',
     ],
 
     listeners: {
@@ -351,6 +352,10 @@
         this._loading = false;
         throw err;
       });
+    },
+
+    _changeOrPatchNumChanged() {
+      this.reload();
     },
 
     addActionButton(type, label) {
@@ -430,6 +435,14 @@
         this.push('_hiddenActions', key);
       } else if (!hidden && idx !== -1) {
         this.splice('_hiddenActions', idx, 1);
+      }
+    },
+
+    getActionDetails(action) {
+      if (this.revisionActions[action]) {
+        return this.revisionActions[action];
+      } else if (this.actions[action]) {
+        return this.actions[action];
       }
     },
 
@@ -605,11 +618,26 @@
       const result = [];
       const values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
+      const pluginActions = [];
       for (const a in actions) {
-        if (!values.includes(a)) { continue; }
+        if (!actions.hasOwnProperty(a)) {
+          continue;
+        }
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.includes(a);
+        // Plugin actions always contain ~ in the key.
+        if (a.indexOf('~') !== -1) {
+          pluginActions.push(actions[a]);
+          // Add server-side provided plugin actions to overflow menu.
+          this._overflowActions.push({
+            type,
+            key: a,
+          });
+          continue;
+        } else if (!values.includes(a)) {
+          continue;
+        }
         if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
           // more explicit to the user.
@@ -618,7 +646,6 @@
           }
         }
         // Triggers a re-render by ensuring object inequality.
-        // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));
       }
 
@@ -631,7 +658,7 @@
         // Triggers a re-render by ensuring object inequality.
         return Object.assign({}, a);
       });
-      return result.concat(additionalActions);
+      return result.concat(additionalActions).concat(pluginActions);
     },
 
     _computeLoadingLabel(action) {
@@ -668,7 +695,8 @@
       e.preventDefault();
       const el = Polymer.dom(e).localTarget;
       const key = el.getAttribute('data-action-key');
-      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
+          key.indexOf('~') !== -1) {
         this.fire(`${key}-tap`, {node: el});
         return;
       }
@@ -677,6 +705,14 @@
     },
 
     _handleOveflowItemTap(e) {
+      e.preventDefault();
+      const el = Polymer.dom(e).localTarget;
+      const key = e.detail.action.__key;
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
+          key.indexOf('~') !== -1) {
+        this.fire(`${key}-tap`, {node: el});
+        return;
+      }
       this._handleAction(e.detail.action.__type, e.detail.action.__key);
     },
 

@@ -352,6 +352,13 @@ limitations under the License.
       assert.isOk(plugin.attributeHelper());
     });
 
+    test('deprecated.install', () => {
+      plugin.deprecated.install();
+      assert.strictEqual(plugin.popup, plugin.deprecated.popup);
+      assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);
+      assert.notStrictEqual(plugin.install, plugin.deprecated.install);
+    });
+
     suite('test plugin with base url', () => {
       setup(() => {
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
@@ -396,6 +403,44 @@ limitations under the License.
           }}));
         plugin.deprecated.popup(el);
         assert.isTrue(openStub.calledOnce);
+      });
+    });
+
+    suite('onAction', () => {
+      let change;
+      let revision;
+      let actionDetails;
+
+      setup(() => {
+        change = {};
+        revision = {};
+        actionDetails = {__key: 'some'};
+        sandbox.stub(plugin, 'on').callsArgWith(1, change, revision);
+        sandbox.stub(plugin, 'changeActions').returns({
+          addTapListener: sandbox.stub().callsArg(1),
+          getActionDetails: () => actionDetails,
+        });
+      });
+
+      test('returns GrPluginActionContext', () => {
+        const stub = sandbox.stub();
+        plugin.deprecated.onAction('change', 'foo', ctx => {
+          assert.isTrue(ctx instanceof GrPluginActionContext);
+          assert.strictEqual(ctx.change, change);
+          assert.strictEqual(ctx.revision, revision);
+          assert.strictEqual(ctx.action, actionDetails);
+          assert.strictEqual(ctx.plugin, plugin);
+          stub();
+        });
+        assert.isTrue(stub.called);
+      });
+
+      test('other actions', () => {
+        const stub = sandbox.stub();
+        plugin.deprecated.onAction('project', 'foo', stub);
+        plugin.deprecated.onAction('edit', 'foo', stub);
+        plugin.deprecated.onAction('branch', 'foo', stub);
+        assert.isFalse(stub.called);
       });
     });
   });

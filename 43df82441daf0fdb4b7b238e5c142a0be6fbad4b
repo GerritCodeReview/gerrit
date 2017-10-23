@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ed36049_a46bdc83",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-23T14:51:12Z",
+      "side": 1,
+      "message": "It seems like we don\u0027t really need this predicate anymore, because we shouldn\u0027t be checking permissions on labels. On the LHS, this is only used by user_label_range, so it\u0027s currently unused within gerrit_common.pl\n\nHowever I\u0027m slightly inclined to keep it for backwards compatibility in case people are currently referencing it in their custom rules. Hm, I guess the same argument may apply to user_label_range. What do you think?",
+      "revId": "43df82441daf0fdb4b7b238e5c142a0be6fbad4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d9afbce_fbde9b42",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-23T14:51:12Z",
+      "side": 1,
+      "message": "$fast_range is an implementation detail of the fastEvalLabels flag, so all references should be removed.",
+      "revId": "43df82441daf0fdb4b7b238e5c142a0be6fbad4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

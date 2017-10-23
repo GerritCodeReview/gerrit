@@ -28,11 +28,13 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
@@ -56,7 +58,8 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
   @Override
   public GroupInfo apply(GroupResource resource, OwnerInput input)
       throws ResourceNotFoundException, MethodNotAllowedException, AuthException,
-          BadRequestException, UnprocessableEntityException, OrmException, IOException {
+          BadRequestException, UnprocessableEntityException, OrmException, IOException,
+          ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     if (!resource.getControl().isOwner()) {
@@ -70,11 +73,10 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
     GroupDescription.Basic owner = groupsCollection.parse(input.owner);
     if (!internalGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
+      InternalGroupUpdate groupUpdate =
+          InternalGroupUpdate.builder().setOwnerGroupUUID(owner.getGroupUUID()).build();
       try {
-        groupsUpdateProvider
-            .get()
-            .updateGroup(
-                db.get(), groupUuid, group -> group.setOwnerGroupUUID(owner.getGroupUUID()));
+        groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
       }

@@ -31,6 +31,7 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -488,6 +489,16 @@ public class ProjectState {
 
   public Set<GroupReference> getLocalGroups() {
     return getGroups(getLocalAccessSections());
+  }
+
+  public SubmitType getSubmitType() {
+    for (ProjectState s : tree()) {
+      SubmitType t = s.getProject().getConfiguredSubmitType();
+      if (t != SubmitType.INHERIT) {
+        return t;
+      }
+    }
+    return Project.DEFAULT_ALL_PROJECTS_SUBMIT_TYPE;
   }
 
   private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {

@@ -41,7 +41,7 @@ public class RepositoryConfigTest {
   @Test
   public void defaultSubmitTypeWhenNotConfigured() {
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
-        .isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+        .isEqualTo(SubmitType.INHERIT);
   }
 
   @Test
@@ -67,7 +67,7 @@ public class RepositoryConfigTest {
   public void defaultSubmitTypeForSpecificFilter() {
     configureDefaultSubmitType("someProject", SubmitType.CHERRY_PICK);
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someOtherProject")))
-        .isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+        .isEqualTo(SubmitType.INHERIT);
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
   }

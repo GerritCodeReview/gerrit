@@ -15,10 +15,11 @@
 package com.google.gerrit.extensions.client;
 
 public enum SubmitType {
+  INHERIT,
   FAST_FORWARD_ONLY,
   MERGE_IF_NECESSARY,
   REBASE_IF_NECESSARY,
   REBASE_ALWAYS,
   MERGE_ALWAYS,
-  CHERRY_PICK
+  CHERRY_PICK;
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b248f431_ded7826d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-23T20:02:15Z",
+      "side": 1,
+      "message": "Please update the documentation of the regex to match the updated regex, here and elsewhere.",
+      "revId": "6b5ba0f09937aa689d7365c6f0432698728b7af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d8320da_1993901f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-23T20:02:15Z",
+      "side": 1,
+      "message": "Remove empty whitespace.",
+      "revId": "6b5ba0f09937aa689d7365c6f0432698728b7af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

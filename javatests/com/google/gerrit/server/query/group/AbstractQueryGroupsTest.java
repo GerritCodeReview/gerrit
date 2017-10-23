@@ -45,6 +45,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -365,9 +366,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     // update group in the database so that group index is stale
     String newDescription = "barY";
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(group1.id);
-    groupsUpdateProvider
-        .get()
-        .updateGroupInDb(db, groupUuid, group -> group.setDescription(newDescription));
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder().setDescription(newDescription).build();
+    groupsUpdateProvider.get().updateGroupInDb(db, groupUuid, groupUpdate);
 
     assertQuery("description:" + group1.description, group1);
     assertQuery("description:" + newDescription);

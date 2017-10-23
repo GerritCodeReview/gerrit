@@ -860,20 +860,26 @@
      */
     _renderInOrder(paths, diffElements, initialCount) {
       let iter = 0;
-      return this.asyncForeach(paths, path => {
-        iter++;
-        console.log('Expanding diff', iter, 'of', initialCount, ':', path);
-        const diffElem = this._findDiffByPath(path, diffElements);
-        diffElem.comments = this.$.commentAPI.getCommentsForPath(path,
-            this.patchRange, this.projectConfig);
-        const promises = [diffElem.reload()];
-        if (this._isLoggedIn) {
-          promises.push(this._reviewFile(path));
-        }
-        return Promise.all(promises);
-      }).then(() => {
-        console.log('Finished expanding', initialCount, 'diff(s)');
-      });
+
+      return this.$.commentAPI.loadAll(this.changeNum)
+          .then(() => {
+            return this.asyncForeach(paths, path => {
+              iter++;
+              console.log('Expanding diff', iter, 'of', initialCount, ':',
+                  path);
+              const diffElem = this._findDiffByPath(path, diffElements);
+              diffElem.comments = this.$.commentAPI.getCommentsForPath(path,
+                  this.patchRange, this.projectConfig);
+              const promises = [diffElem.reload()];
+              if (this._isLoggedIn) {
+                promises.push(this._reviewFile(path));
+              }
+              return Promise.all(promises);
+            });
+          })
+          .then(() => {
+            console.log('Finished expanding', initialCount, 'diff(s)');
+          });
     },
 
     /**

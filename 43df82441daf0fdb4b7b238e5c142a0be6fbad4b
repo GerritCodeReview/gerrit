@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "232ceeb1_059741f8",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-23T15:52:17Z",
+      "side": 1,
+      "message": "I think they are exposed in that your custom prolog can refer to any of these names. But if they\u0027re not documented, then I guess we\u0027re not worried about breaking people who rely on undocumented features like this. Thanks for checking.",
+      "parentUuid": "524a45c9_bbc320e9",
+      "revId": "43df82441daf0fdb4b7b238e5c142a0be6fbad4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d9afbce_fbde9b42",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 1

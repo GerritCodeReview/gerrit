@@ -16,6 +16,24 @@
       "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d39dd78_38850ee6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T16:42:56Z",
+      "side": 1,
+      "message": "It was easier like this and that\u0027s how GWTUI does it too :).",
+      "parentUuid": "794a8b91_49335ad9",
+      "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

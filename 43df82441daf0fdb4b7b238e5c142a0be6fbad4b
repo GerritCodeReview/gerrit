@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "90b2446a_2f71c0d1",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-23T15:56:57Z",
+      "side": 1,
+      "message": "The only doc is:\n\"For a complete list of built-in helpers read the gerrit_common.pl and all Java classes whose name matches PRED_*.java from Gerrit’s source code.\"\n\nAt lease we\u0027re sure they are not referenced by any repo on our gerrit host.",
+      "parentUuid": "232ceeb1_059741f8",
+      "revId": "43df82441daf0fdb4b7b238e5c142a0be6fbad4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d9afbce_fbde9b42",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 1

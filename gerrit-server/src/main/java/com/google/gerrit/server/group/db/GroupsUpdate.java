@@ -17,7 +17,9 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.group.db.Groups.getExistingGroupFromReviewDb;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.audit.AuditService;
@@ -29,11 +31,15 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmException;
@@ -41,11 +47,13 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * A database accessor for write calls related to groups.
@@ -73,6 +81,8 @@ public class GroupsUpdate {
     GroupsUpdate create(@Nullable IdentifiedUser currentUser);
   }
 
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsersName;
   private final Groups groups;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
@@ -80,23 +90,44 @@ public class GroupsUpdate {
   private final RenameGroupOp.Factory renameGroupOpFactory;
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent committerIdent;
+  private final MetaDataUpdateFactory metaDataUpdateFactory;
 
   @Inject
   GroupsUpdate(
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
       Groups groups,
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
       AuditService auditService,
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritPersonIdent PersonIdent serverIdent,
+      MetaDataUpdate.User metaDataUpdateUserFactory,
+      MetaDataUpdate.Server metaDataUpdateServerFactory,
       @Assisted @Nullable IdentifiedUser currentUser) {
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
     this.groups = groups;
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.currentUser = currentUser;
+    this.metaDataUpdateFactory =
+        getMetaDataUpdateFactory(
+            currentUser, metaDataUpdateUserFactory, metaDataUpdateServerFactory);
     committerIdent = getCommitterIdent(serverIdent, currentUser);
+  }
+
+  // TODO(aliceks): Introduce a common class for MetaDataUpdate.User and MetaDataUpdate.Server which
+  // doesn't require this ugly code. In addition, allow to pass in the repository.
+  private static MetaDataUpdateFactory getMetaDataUpdateFactory(
+      @Nullable IdentifiedUser currentUser,
+      MetaDataUpdate.User metaDataUpdateUserFactory,
+      MetaDataUpdate.Server metaDataUpdateServerFactory) {
+    return currentUser != null
+        ? projectName -> metaDataUpdateUserFactory.create(projectName, currentUser)
+        : metaDataUpdateServerFactory::create;
   }
 
   private static PersonIdent getCommitterIdent(
@@ -151,26 +182,47 @@ public class GroupsUpdate {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param groupUuid the UUID of the group to update
-   * @param groupConsumer a {@code Consumer} which performs the desired updates on the group
+   * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
+   *     group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws IOException if the cache entry for the group couldn't be invalidated
+   * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
-  public void updateGroup(
-      ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
-      throws OrmException, IOException, NoSuchGroupException {
-    AccountGroup updatedGroup = updateGroupInDb(db, groupUuid, groupConsumer);
-    groupCache.evict(updatedGroup.getGroupUUID(), updatedGroup.getId(), updatedGroup.getNameKey());
+  public void updateGroup(ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+    UpdateResult result = updateGroupInDb(db, groupUuid, groupUpdate);
+    updateCachesOnGroupUpdate(result);
   }
 
   @VisibleForTesting
-  public AccountGroup updateGroupInDb(
-      ReviewDb db, AccountGroup.UUID groupUuid, Consumer<AccountGroup> groupConsumer)
-      throws OrmException, NoSuchGroupException {
+  public UpdateResult updateGroupInDb(
+      ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
     AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
-    groupConsumer.accept(group);
+    UpdateResult reviewDbUpdateResult = updateGroupInReviewDb(db, group, groupUpdate);
+
+    Optional<UpdateResult> noteDbUpdateResult = updateGroupInNoteDb(groupUuid, groupUpdate);
+    return noteDbUpdateResult.orElse(reviewDbUpdateResult);
+  }
+
+  private static void applyUpdate(AccountGroup group, InternalGroupUpdate groupUpdate) {
+    groupUpdate.getDescription().ifPresent(d -> group.setDescription(Strings.emptyToNull(d)));
+    groupUpdate.getOwnerGroupUUID().ifPresent(group::setOwnerGroupUUID);
+    groupUpdate.getVisibleToAll().ifPresent(group::setVisibleToAll);
+  }
+
+  private static UpdateResult updateGroupInReviewDb(
+      ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
+    applyUpdate(group, groupUpdate);
+
     db.accountGroups().update(ImmutableList.of(group));
-    return group;
+
+    UpdateResult.Builder resultBuilder =
+        UpdateResult.builder()
+            .setGroupUuid(group.getGroupUUID())
+            .setGroupId(group.getId())
+            .setGroupName(group.getNameKey());
+    return resultBuilder.build();
   }
 
   /**
@@ -219,6 +271,55 @@ public class GroupsUpdate {
         renameGroupOpFactory
             .create(committerIdent, groupUuid, oldName.get(), newName.get())
             .start(0, TimeUnit.MILLISECONDS);
+  }
+
+  private Optional<UpdateResult> updateGroupInNoteDb(
+      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig = loadFor(groupUuid);
+    if (!groupConfig.getLoadedGroup().isPresent()) {
+      // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
+      return Optional.empty();
+    }
+
+    return updateGroupInNoteDb(groupConfig, groupUpdate);
+  }
+
+  private GroupConfig loadFor(AccountGroup.UUID groupUuid)
+      throws IOException, ConfigInvalidException {
+    try (Repository repository = repoManager.openRepository(allUsersName)) {
+      return GroupConfig.loadForGroup(repository, groupUuid);
+    }
+  }
+
+  private Optional<UpdateResult> updateGroupInNoteDb(
+      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
+    Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
+
+    groupConfig.setGroupUpdate(groupUpdate);
+    commit(groupConfig);
+    InternalGroup updatedGroup =
+        groupConfig
+            .getLoadedGroup()
+            .orElseThrow(
+                () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+
+    UpdateResult.Builder resultBuilder =
+        UpdateResult.builder()
+            .setGroupUuid(updatedGroup.getGroupUUID())
+            .setGroupId(updatedGroup.getId())
+            .setGroupName(updatedGroup.getNameKey());
+    return Optional.of(resultBuilder.build());
+  }
+
+  private void commit(GroupConfig groupConfig) throws IOException {
+    try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(allUsersName)) {
+      groupConfig.commit(metaDataUpdate);
+    }
+  }
+
+  private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+    groupCache.evict(result.getGroupUuid(), result.getGroupId(), result.getGroupName());
   }
 
   /**
@@ -411,6 +512,35 @@ public class GroupsUpdate {
     groupCache.evict(parentGroup.getGroupUUID(), parentGroup.getId(), parentGroup.getNameKey());
     for (AccountGroupById groupToRemove : subgroupsToRemove) {
       groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
+    }
+  }
+
+  @FunctionalInterface
+  private interface MetaDataUpdateFactory {
+    MetaDataUpdate create(Project.NameKey projectName) throws IOException;
+  }
+
+  @AutoValue
+  abstract static class UpdateResult {
+    abstract AccountGroup.UUID getGroupUuid();
+
+    abstract AccountGroup.Id getGroupId();
+
+    abstract AccountGroup.NameKey getGroupName();
+
+    static Builder builder() {
+      return new AutoValue_GroupsUpdate_UpdateResult.Builder();
+    }
+
+    @AutoValue.Builder
+    abstract static class Builder {
+      abstract Builder setGroupUuid(AccountGroup.UUID groupUuid);
+
+      abstract Builder setGroupId(AccountGroup.Id groupId);
+
+      abstract Builder setGroupName(AccountGroup.NameKey name);
+
+      abstract UpdateResult build();
     }
   }
 }

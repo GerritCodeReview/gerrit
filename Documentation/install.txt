@@ -175,8 +175,8 @@ link:install-j2ee.html[J2EE installation].
 [[installation_on_windows]]
 == Installation on Windows
 
-If new site is going to be initialized with Bouncy Castle cryptography,
-ssh-keygen command must be available during the init phase. If you have
+The `ssh-keygen` command must be available during the init phase to
+generate SSH host keys. If you have
 link:https://git-for-windows.github.io/[Git for Windows] installed,
 start Command Prompt and temporary add directory with ssh-keygen to the
 PATH environment variable just before running init command:

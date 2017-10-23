@@ -176,7 +176,9 @@ public class ProjectApi {
     in.setRejectImplicitMerges(rejectImplicitMerges);
     in.setPrivateByDefault(privateByDefault);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
-    in.setSubmitType(submitType);
+    if (submitType != null) {
+      in.setSubmitType(submitType);
+    }
     in.setState(state);
     in.setPluginConfigValues(pluginConfigValues);
     in.setEnableReviewerByEmail(enableReviewerByEmail);

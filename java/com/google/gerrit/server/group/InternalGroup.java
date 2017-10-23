@@ -30,16 +30,17 @@ public abstract class InternalGroup implements Serializable {
       AccountGroup accountGroup,
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups) {
-    return new AutoValue_InternalGroup(
-        accountGroup.getId(),
-        accountGroup.getNameKey(),
-        accountGroup.getDescription(),
-        accountGroup.getOwnerGroupUUID(),
-        accountGroup.isVisibleToAll(),
-        accountGroup.getGroupUUID(),
-        accountGroup.getCreatedOn(),
-        members,
-        subgroups);
+    return builder()
+        .setId(accountGroup.getId())
+        .setNameKey(accountGroup.getNameKey())
+        .setDescription(accountGroup.getDescription())
+        .setOwnerGroupUUID(accountGroup.getOwnerGroupUUID())
+        .setVisibleToAll(accountGroup.isVisibleToAll())
+        .setGroupUUID(accountGroup.getGroupUUID())
+        .setCreatedOn(accountGroup.getCreatedOn())
+        .setMembers(members)
+        .setSubgroups(subgroups)
+        .build();
   }
 
   public abstract AccountGroup.Id getId();
@@ -64,4 +65,31 @@ public abstract class InternalGroup implements Serializable {
   public abstract ImmutableSet<Account.Id> getMembers();
 
   public abstract ImmutableSet<AccountGroup.UUID> getSubgroups();
+
+  public static Builder builder() {
+    return new AutoValue_InternalGroup.Builder();
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setId(AccountGroup.Id id);
+
+    public abstract Builder setNameKey(AccountGroup.NameKey name);
+
+    public abstract Builder setDescription(@Nullable String description);
+
+    public abstract Builder setOwnerGroupUUID(AccountGroup.UUID ownerGroupUuid);
+
+    public abstract Builder setVisibleToAll(boolean visibleToAll);
+
+    public abstract Builder setGroupUUID(AccountGroup.UUID groupUuid);
+
+    public abstract Builder setCreatedOn(Timestamp createdOn);
+
+    public abstract Builder setMembers(ImmutableSet<Account.Id> members);
+
+    public abstract Builder setSubgroups(ImmutableSet<AccountGroup.UUID> subgroups);
+
+    public abstract InternalGroup build();
+  }
 }

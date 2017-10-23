@@ -99,6 +99,11 @@ limitations under the License.
             },
             max_object_size_limit: {},
             submit_type: 'MERGE_IF_NECESSARY',
+            inherited_submit_type: {
+              value: 'MERGE_IF_NECESSARY',
+              configured_value: 'INHERIT',
+              inherited_value: 'MERGE_IF_NECESSARY',
+            },
           });
         },
         getConfig() {
@@ -248,6 +253,16 @@ limitations under the License.
         element._loadRepo().then(() => {
           assert.equal(element._repoConfig.state, 'ACTIVE');
           assert.equal(element.$.stateSelect.bindValue, 'ACTIVE');
+          done();
+        });
+      });
+
+      test('inherited submit type value is calculated correctly', done => {
+        element._loadRepo().then(() => {
+          const sel = element.$.submitTypeSelect;
+          assert.equal(sel.bindValue, 'INHERIT');
+          // DO NOT SUBMIT: typo causes test failure.
+          assert.equal(sel.nativeSelect.options[0].text, 'Inhrit (Merge if necessary)');
           done();
         });
       });

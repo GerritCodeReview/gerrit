@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
+import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -42,7 +43,6 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -151,7 +151,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PLUGIN = "plugin";
 
-  private static final SubmitType DEFAULT_SUBMIT_ACTION = SubmitType.MERGE_IF_NECESSARY;
   private static final ProjectState DEFAULT_STATE_VALUE = ProjectState.ACTIVE;
 
   private static final String EXTENSION_PANELS = "extension-panels";
@@ -519,7 +518,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
 
-    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_ACTION));
+    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_TYPE));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, DEFAULT_STATE_VALUE));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
@@ -1043,7 +1042,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         KEY_MAX_OBJECT_SIZE_LIMIT,
         validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
+    set(rc, SUBMIT, null, KEY_ACTION, p.getConfiguredSubmitType(), DEFAULT_SUBMIT_TYPE);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 

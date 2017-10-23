@@ -236,6 +236,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case MERGE_ALWAYS:
         case MERGE_IF_NECESSARY:
+        case INHERIT:
           assertThat(e.getMessage())
               .isEqualTo(
                   "Failed to submit 3 changes due to the following problems:\n"

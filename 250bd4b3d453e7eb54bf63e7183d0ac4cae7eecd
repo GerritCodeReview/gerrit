@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "794a8b91_49335ad9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-23T16:30:49Z",
+      "side": 1,
+      "message": "Is there a reason we need a separate regex, as opposed to just including an optional \"uuid\" string to the current group regex?",
+      "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

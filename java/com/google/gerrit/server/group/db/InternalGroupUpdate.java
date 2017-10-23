@@ -15,8 +15,12 @@
 package com.google.gerrit.server.group.db;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 
 // TODO(aliceks): Add Javadoc descriptions to this file.
 @AutoValue
@@ -28,8 +32,11 @@ public abstract class InternalGroupUpdate {
 
   public abstract Optional<Boolean> getVisibleToAll();
 
+  public abstract Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>>
+      getMemberModification();
+
   public static Builder builder() {
-    return new AutoValue_InternalGroupUpdate.Builder();
+    return new AutoValue_InternalGroupUpdate.Builder().setMemberModification(Function.identity());
   }
 
   @AutoValue.Builder
@@ -39,6 +46,9 @@ public abstract class InternalGroupUpdate {
     public abstract Builder setOwnerGroupUUID(AccountGroup.UUID ownerGroupUUID);
 
     public abstract Builder setVisibleToAll(boolean visibleToAll);
+
+    public abstract Builder setMemberModification(
+        Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>> memberModification);
 
     public abstract InternalGroupUpdate build();
   }

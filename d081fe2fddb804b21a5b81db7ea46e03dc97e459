@@ -22,6 +22,30 @@
       "revId": "d081fe2fddb804b21a5b81db7ea46e03dc97e459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7471d4_b0826228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-10-23T20:54:37Z",
+      "side": 1,
+      "message": "\u003e Are you sure? Is this fact documented?\n\nNow that you asked I checked again and you are right, LocalDiskRepositoryManager also\nsupports directories not ending with \".git\". It was added in [1], which unfortunately\ndidn\u0027t tell anything about the motivation.\n\n\u003e \n\u003e Today, I thought you could create a repo with \"git init\" (without --bare) and Gerrit will recognize it.\n\nLooks like I shall abandon this change or make this behaviour configurable so\nthat one can trade less flexibility for potentially faster project scanning.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/80240",
+      "parentUuid": "3d5c293a_aab381e9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "d081fe2fddb804b21a5b81db7ea46e03dc97e459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

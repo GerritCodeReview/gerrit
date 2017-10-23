@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "255a9ef1_113a2229",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T20:04:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b248f431_ded7826d",
+      "revId": "6b5ba0f09937aa689d7365c6f0432698728b7af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d8320da_1993901f",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-23T20:02:15Z",
       "side": 1,
       "message": "Remove empty whitespace.",
+      "revId": "6b5ba0f09937aa689d7365c6f0432698728b7af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed4f9d3_59f19ce7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T20:04:33Z",
+      "side": 1,
+      "message": "Thanks, sorry, did that so ci would retest.\n\nWish there was a recheck command :).",
+      "parentUuid": "8d8320da_1993901f",
       "revId": "6b5ba0f09937aa689d7365c6f0432698728b7af1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

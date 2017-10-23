@@ -88,6 +88,24 @@
       "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed95ba34_4bed07ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T19:13:39Z",
+      "side": 1,
+      "message": "It\u0027s, because we are now handling it in side each group function. It was better if we had one that redirected it to the correct url instead of cutting off uuid- but keeping uuid- in the url.\n\nBut i\u0027ve done it the way you suggested.",
+      "parentUuid": "e435634d_8255beba",
+      "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

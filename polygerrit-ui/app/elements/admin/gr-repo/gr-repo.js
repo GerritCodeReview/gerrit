@@ -21,6 +21,7 @@
   };
 
   const SUBMIT_TYPES = {
+    // Exclude INHERIT, which is handled specially.
     mergeIfNecessary: {
       value: 'MERGE_IF_NECESSARY',
       label: 'Merge if necessary',
@@ -129,6 +130,15 @@
 
       promises.push(this.$.restAPI.getProjectConfig(this.repo).then(
           config => {
+            if (config.default_submit_type) {
+              // The gr-select is bound to submit_type, which needs to be the
+              // *configured* submit type. When default_submit_type is
+              // present, the server reports the *effective* submit type in
+              // submit_type, so we need to overwrite it before storing the
+              // config in this.
+              config.submit_type =
+                  config.default_submit_type.configured_value;
+            }
             if (!config.state) {
               config.state = STATES.active.value;
             }
@@ -183,6 +193,36 @@
       ];
     },
 
+    _formatSubmitTypeSelect(projectConfig) {
+      if (!projectConfig) { return; }
+      const allValues = Object.values(SUBMIT_TYPES);
+      const type = projectConfig.default_submit_type;
+      if (!type) {
+        // Server is too old to report default_submit_type, so assume INHERIT
+        // is not a valid value.
+        return allValues;
+      }
+
+      let inheritLabel = 'Inherit';
+      if (type.inherited_value) {
+        let inherited = type.inherited_value;
+        for (const val of allValues) {
+          if (val.value === type.inherited_value) {
+            inherited = val.label;
+            break;
+          }
+        }
+        inheritLabel = `Inherit (${inherited})`;
+      }
+      return [
+        {
+          label: inheritLabel,
+          value: 'INHERIT',
+        },
+        ...allValues,
+      ];
+    },
+
     _isLoading() {
       return this._loading || this._loading === undefined;
     },
@@ -195,6 +235,12 @@
       const configInputObj = {};
       for (const key in p) {
         if (p.hasOwnProperty(key)) {
+          if (key === 'default_submit_type') {
+            // default_submit_type is not in the input type, and the
+            // configured value was already copied to submit_type by
+            // _loadProject. Omit this property when saving.
+            continue;
+          }
           if (typeof p[key] === 'object') {
             configInputObj[key] = p[key].configured_value;
           } else {

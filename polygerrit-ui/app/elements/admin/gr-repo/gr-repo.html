@@ -103,7 +103,8 @@ limitations under the License.
                       id="submitTypeSelect"
                       bind-value="{{_repoConfig.submit_type}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat" items="[[_submitTypes]]">
+                      <template is="dom-repeat"
+                          items="[[_formatSubmitTypeSelect(_repoConfig)]]">
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
                     </select>

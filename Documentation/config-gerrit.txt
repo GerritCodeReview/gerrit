@@ -3748,7 +3748,7 @@ Path must be absolute.
 [[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
 +
 The default submit type for newly created projects. Supported values
-are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
+are `INHERIT`, `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
 `REBASE_ALWAYS`, `MERGE_ALWAYS` and `CHERRY_PICK`.
 +
 For more details see link:project-configuration.html#submit_type[Submit Types].

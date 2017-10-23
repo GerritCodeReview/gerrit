@@ -22,6 +22,12 @@ import com.google.gwtorm.client.StringKey;
 
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
+  /** Default submit type for new projects. */
+  public static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.INHERIT;
+
+  /** Default submit type for root project (All-Projects). */
+  public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
+
   /** Project name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -112,7 +118,7 @@ public final class Project {
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
+    submitType = SubmitType.INHERIT;
     state = ProjectState.ACTIVE;
     useContributorAgreements = InheritableBoolean.INHERIT;
     useSignedOffBy = InheritableBoolean.INHERIT;
@@ -238,7 +244,14 @@ public final class Project {
     rejectImplicitMerges = check;
   }
 
-  public SubmitType getSubmitType() {
+  /**
+   * Submit type as configured in {@code project.config}.
+   *
+   * <p>Does not take inheritance into account, i.e. may return {@link SubmitType#INHERIT}.
+   *
+   * @return submit type.
+   */
+  public SubmitType getConfiguredSubmitType() {
     return submitType;
   }
 

@@ -42,10 +42,7 @@ public class RepositoryConfig {
 
   public SubmitType getDefaultSubmitType(Project.NameKey project) {
     return cfg.getEnum(
-        SECTION_NAME,
-        findSubSection(project.get()),
-        DEFAULT_SUBMIT_TYPE_NAME,
-        SubmitType.MERGE_IF_NECESSARY);
+        SECTION_NAME, findSubSection(project.get()), DEFAULT_SUBMIT_TYPE_NAME, SubmitType.INHERIT);
   }
 
   public List<String> getOwnerGroups(Project.NameKey project) {

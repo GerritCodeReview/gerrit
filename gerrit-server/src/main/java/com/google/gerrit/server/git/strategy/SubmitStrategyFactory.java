@@ -96,6 +96,7 @@ public class SubmitStrategyFactory {
         return new RebaseIfNecessary(args);
       case REBASE_ALWAYS:
         return new RebaseAlways(args);
+      case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

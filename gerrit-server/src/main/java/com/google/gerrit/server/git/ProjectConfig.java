@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
+import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -42,7 +43,6 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -165,7 +165,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String PLUGIN = "plugin";
 
-  private static final SubmitType DEFAULT_SUBMIT_ACTION = SubmitType.MERGE_IF_NECESSARY;
   private static final ProjectState DEFAULT_STATE_VALUE = ProjectState.ACTIVE;
 
   private static final String EXTENSION_PANELS = "extension-panels";
@@ -542,7 +541,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setEnableReviewerByEmail(
         getEnum(rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.INHERIT));
 
-    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_ACTION));
+    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, DEFAULT_SUBMIT_TYPE));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
     p.setMatchAuthorToCommitterDate(
         getEnum(
@@ -1128,7 +1127,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         p.getEnableReviewerByEmail(),
         InheritableBoolean.INHERIT);
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_ACTION);
+    set(rc, SUBMIT, null, KEY_ACTION, p.getConfiguredSubmitType(), DEFAULT_SUBMIT_TYPE);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
     set(
         rc,

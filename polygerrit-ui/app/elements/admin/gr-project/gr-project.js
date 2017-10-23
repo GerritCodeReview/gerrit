@@ -21,6 +21,7 @@
   };
 
   const SUBMIT_TYPES = {
+    // Exclude INHERIT, which is handled specially.
     mergeIfNecessary: {
       value: 'MERGE_IF_NECESSARY',
       label: 'Merge if necessary',
@@ -129,6 +130,15 @@
 
       promises.push(this.$.restAPI.getProjectConfig(this.project).then(
           config => {
+            if (config.inherited_submit_type) {
+              // The gr-select is bound to submit_type, which needs to be the
+              // *configured* submit type. When inherited_submit_type is
+              // present, the server reports the *effective* submit type in
+              // submit_type, so we need to overwrite it before storing the
+              // config in this.
+              config.submit_type =
+                  config.inherited_submit_type.configured_value;
+            }
             this._projectConfig = config;
             if (!this._projectConfig.state) {
               this._projectConfig.state = STATES.active.value;
@@ -183,6 +193,36 @@
       ];
     },
 
+    _formatSubmitTypeSelect(projectConfig) {
+      if (!projectConfig) { return; }
+      const allValues = Object.values(SUBMIT_TYPES);
+      const type = projectConfig.inherited_submit_type;
+      if (!type) {
+        // Server is too old to report inherited_submit_type, so assume INHERIT
+        // is not a valid value.
+        return allValues;
+      }
+
+      let inheritLabel = 'Inherit';
+      if (type.inherited_value) {
+        let inherited = type.inherited_value;
+        for (const val of allValues) {
+          if (val.value === type.inherited_value) {
+            inherited = val.label;
+            break;
+          }
+        }
+        inheritLabel = `Inherit (${inherited})`;
+      }
+      return [
+        {
+          label: inheritLabel,
+          value: 'INHERIT',
+        },
+        ...Object.values(SUBMIT_TYPES),
+      ];
+    },
+
     _isLoading() {
       return this._loading || this._loading === undefined;
     },
@@ -197,6 +237,10 @@
         if (p.hasOwnProperty(key)) {
           if (typeof p[key] === 'object') {
             configInputObj[key] = p[key].configured_value;
+          } else if (key === 'inherited_submit_type') {
+            // inherited_submit_type is not in the input type, and the
+            // configured value was already copied to submit_type by
+            // _loadProject.
           } else {
             configInputObj[key] = p[key];
           }

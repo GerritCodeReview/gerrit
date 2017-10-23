@@ -16,8 +16,12 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -27,6 +31,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.StringJoiner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -37,12 +45,14 @@ import org.eclipse.jgit.revwalk.RevSort;
 // TODO(aliceks): Add Javadoc descriptions to this file.
 public class GroupConfig extends VersionedMetaData {
   private static final String GROUP_CONFIG_FILE = "group.config";
+  private static final String MEMBERS_FILE = "members";
 
   private final AccountGroup.UUID groupUuid;
   private final String ref;
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
+  private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
   private boolean isLoaded = false;
 
   private GroupConfig(AccountGroup.UUID groupUuid) {
@@ -62,8 +72,10 @@ public class GroupConfig extends VersionedMetaData {
     return loadedGroup;
   }
 
-  public void setGroupUpdate(InternalGroupUpdate groupUpdate) {
+  public void setGroupUpdate(
+      InternalGroupUpdate groupUpdate, Function<Account.Id, String> accountNameEmailRetriever) {
     this.groupUpdate = Optional.of(groupUpdate);
+    this.accountNameEmailRetriever = accountNameEmailRetriever;
   }
 
   @Override
@@ -81,7 +93,7 @@ public class GroupConfig extends VersionedMetaData {
       Timestamp createdOn = new Timestamp(earliestCommit.getCommitTime() * 1000L);
 
       Config config = readConfig(GROUP_CONFIG_FILE);
-      ImmutableSet<Account.Id> members = ImmutableSet.of();
+      ImmutableSet<Account.Id> members = readMembers();
       ImmutableSet<AccountGroup.UUID> subgroups = ImmutableSet.of();
       loadedGroup = Optional.of(createFrom(groupUuid, config, members, subgroups, createdOn));
     }
@@ -120,13 +132,23 @@ public class GroupConfig extends VersionedMetaData {
 
     Config config = updateGroupProperties();
 
-    ImmutableSet<Account.Id> originalMembers = loadedGroup.get().getMembers();
+    ImmutableSet<Account.Id> originalMembers =
+        loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
+    Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
+
     ImmutableSet<AccountGroup.UUID> originalSubgroups = loadedGroup.get().getSubgroups();
 
-    commit.setMessage("Update group");
+    String commitMessage = createCommitMessage(originalMembers, updatedMembers);
+    commit.setMessage(commitMessage);
 
     loadedGroup =
-        Optional.of(createFrom(groupUuid, config, originalMembers, originalSubgroups, createdOn));
+        Optional.of(
+            createFrom(
+                groupUuid,
+                config,
+                updatedMembers.orElse(originalMembers),
+                originalSubgroups,
+                createdOn));
 
     return true;
   }
@@ -144,5 +166,75 @@ public class GroupConfig extends VersionedMetaData {
                     configEntry -> configEntry.updateConfigValue(config, internalGroupUpdate)));
     saveConfig(GROUP_CONFIG_FILE, config);
     return config;
+  }
+
+  private Optional<ImmutableSet<Account.Id>> updateMembers(ImmutableSet<Account.Id> originalMembers)
+      throws IOException {
+    Optional<ImmutableSet<Account.Id>> updatedMembers =
+        groupUpdate
+            .map(InternalGroupUpdate::getMemberModification)
+            .map(memberModification -> memberModification.apply(originalMembers))
+            .map(ImmutableSet::copyOf);
+    if (updatedMembers.isPresent()) {
+      saveMembers(updatedMembers.get());
+    }
+    return updatedMembers;
+  }
+
+  private void saveMembers(ImmutableSet<Account.Id> members) throws IOException {
+    saveToFile(MEMBERS_FILE, members, member -> String.valueOf(member.get()));
+  }
+
+  private <E> void saveToFile(
+      String filePath, ImmutableSet<E> elements, Function<E, String> toStringFunction)
+      throws IOException {
+    String fileContent = elements.stream().map(toStringFunction).collect(Collectors.joining("\n"));
+    saveUTF8(filePath, fileContent);
+  }
+
+  private ImmutableSet<Account.Id> readMembers() throws IOException, ConfigInvalidException {
+    return readFromFile(MEMBERS_FILE, entry -> new Account.Id(Integer.parseInt(entry)));
+  }
+
+  private <E> ImmutableSet<E> readFromFile(String filePath, Function<String, E> fromStringFunction)
+      throws IOException, ConfigInvalidException {
+    String fileContent = readUTF8(filePath);
+    try {
+      Iterable<String> lines =
+          Splitter.on('\n').trimResults().omitEmptyStrings().split(fileContent);
+      return Streams.stream(lines).map(fromStringFunction).collect(toImmutableSet());
+    } catch (NumberFormatException e) {
+      throw new ConfigInvalidException(
+          String.format("Invalid file %s for commit %s", filePath, revision.name()), e);
+    }
+  }
+
+  private String createCommitMessage(
+      ImmutableSet<Account.Id> originalMembers, Optional<ImmutableSet<Account.Id>> updatedMembers) {
+    String summaryLine = "Update group";
+
+    StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
+    footerJoiner.setEmptyValue("");
+    updatedMembers
+        .map(newMembers -> getCommitFooterForMemberModifications(originalMembers, newMembers))
+        .ifPresent(footerJoiner::add);
+    String footer = footerJoiner.toString();
+
+    return summaryLine + footer;
+  }
+
+  private String getCommitFooterForMemberModifications(
+      ImmutableSet<Account.Id> oldMembers, ImmutableSet<Account.Id> newMembers) {
+    Stream<String> removedMembers =
+        Sets.difference(oldMembers, newMembers)
+            .stream()
+            .map(accountNameEmailRetriever)
+            .map("Remove: "::concat);
+    Stream<String> addedMembers =
+        Sets.difference(newMembers, oldMembers)
+            .stream()
+            .map(accountNameEmailRetriever)
+            .map("Add: "::concat);
+    return Stream.concat(removedMembers, addedMembers).collect(Collectors.joining("\n"));
   }
 }

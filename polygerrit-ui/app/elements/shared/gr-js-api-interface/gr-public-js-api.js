@@ -78,7 +78,9 @@
     this._name = pathname.split('/')[2];
 
     this.deprecated = {
+      install: deprecatedAPI.install.bind(this),
       popup: deprecatedAPI.popup.bind(this),
+      onAction: deprecatedAPI.onAction.bind(this),
     };
   }
 
@@ -180,8 +182,9 @@
   },
 
   Plugin.prototype.changeActions = function() {
-    return new GrChangeActionsInterface(Plugin._sharedAPIElement.getElement(
-        Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
+    return new GrChangeActionsInterface(this,
+      Plugin._sharedAPIElement.getElement(
+          Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
   Plugin.prototype.changeReply = function() {
@@ -214,14 +217,41 @@
     return api.open();
   };
 
-  const deprecatedAPI = {};
-  deprecatedAPI.popup = function(el) {
-    console.warn('plugin.deprecated.popup() is deprecated!');
-    if (!el) {
-      throw new Error('Popup contents not found');
-    }
-    const api = new GrPopupInterface(this);
-    api.open().then(api => api._getElement().appendChild(el));
+  const deprecatedAPI = {
+    install() {
+      console.log('Installing deprecated APIs is deprecated!');
+      for (const method in this.deprecated) {
+        if (method === 'install') continue;
+        this[method] = this.deprecated[method];
+      }
+    },
+
+    popup(el) {
+      console.warn('plugin.deprecated.popup() is deprecated, ' +
+          'use plugin.popup() insted!');
+      if (!el) {
+        throw new Error('Popup contents not found');
+      }
+      const api = new GrPopupInterface(this);
+      api.open().then(api => api._getElement().appendChild(el));
+      return api;
+    },
+
+    onAction(type, action, callback) {
+      console.warn('plugin.deprecated.onAction() is deprecated,' +
+          ' use plugin.changeActions() instead!');
+      if (type !== 'change' && type !== 'revision') {
+        console.warn(`${type} actions are not supported.`);
+        return;
+      }
+      this.on('showchange', (change, revision) => {
+        const details = this.changeActions().getActionDetails(action);
+        this.changeActions().addTapListener(details.__key, () => {
+          callback(new GrPluginActionContext(this, details, change, revision));
+        });
+      });
+    },
+
   };
 
   const Gerrit = window.Gerrit || {};

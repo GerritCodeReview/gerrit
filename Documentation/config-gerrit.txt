@@ -3695,7 +3695,9 @@ are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`,
 +
 For more details see link:project-configuration.html#submit_type[Submit Types].
 +
-By default, `MERGE_IF_NECESSARY`.
+This submit type is only applied at project creation time. If the submit type
+is unset in the project config at runtime, it defaults to
+link:project-configuration.html#submit_type_inherit[`INHERIT`].
 
 [[repository.name.ownerGroup]]repository.<name>.ownerGroup::
 +

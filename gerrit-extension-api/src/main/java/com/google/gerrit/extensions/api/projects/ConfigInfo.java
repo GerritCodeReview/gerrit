@@ -36,6 +36,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
+  public SubmitTypeInfo inheritedSubmitType;
   public ProjectState state;
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
   public Map<String, ActionInfo> actions;
@@ -69,5 +70,11 @@ public class ConfigInfo {
     public String inheritedValue;
     public List<String> permittedValues;
     public List<String> values;
+  }
+
+  public static class SubmitTypeInfo {
+    public SubmitType value;
+    public SubmitType configuredValue;
+    public SubmitType inheritedValue;
   }
 }

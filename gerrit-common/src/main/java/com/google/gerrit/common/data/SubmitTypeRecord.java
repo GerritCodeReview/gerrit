@@ -48,6 +48,9 @@ public class SubmitTypeRecord {
   public final String errorMessage;
 
   private SubmitTypeRecord(Status status, SubmitType type, String errorMessage) {
+    if (type == SubmitType.INHERIT) {
+      throw new IllegalArgumentException("Cannot output submit type " + type);
+    }
     this.status = status;
     this.type = type;
     this.errorMessage = errorMessage;

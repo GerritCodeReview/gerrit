@@ -332,12 +332,16 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(AdminConstants.I.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(SubmitType newSubmitType) {
+  private void setSubmitType(SubmitType newSubmitType, SubmitType newConfiguredSubmitType) {
+    // TODO
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
-        if (newSubmitType.name().equals(submitType.getValue(i))) {
+        if (newConfiguredSubmitType.name().equals(submitType.getValue(i))) {
           index = i;
+          if (newConfiguredSubmitType == SubmitType.INHERIT) {
+
+          }
           break;
         }
       }
@@ -416,7 +420,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(privateByDefault, result.privateByDefault());
     setBool(enableReviewerByEmail, result.enableReviewerByEmail());
     setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
-    setSubmitType(result.submitType());
+    setSubmitType(result.submitType(), result.configuredSubmitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
     if (result.maxObjectSizeLimit().inheritedValue() != null) {

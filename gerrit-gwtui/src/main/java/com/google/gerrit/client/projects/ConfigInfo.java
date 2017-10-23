@@ -70,6 +70,11 @@ public class ConfigInfo extends JavaScriptObject {
     return SubmitType.valueOf(submitTypeRaw());
   }
 
+  public final SubmitType configuredSubmitType() {
+    String raw = configuredSubmitTypeRaw();
+    return raw != null ? SubmitType.valueOf(raw) : null;
+  }
+
   public final native NativeMap<NativeMap<ConfigParameterInfo>> pluginConfig()
       /*-{ return this.plugin_config || {}; }-*/ ;
 
@@ -79,6 +84,8 @@ public class ConfigInfo extends JavaScriptObject {
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
   private native String submitTypeRaw() /*-{ return this.submit_type }-*/;
+
+  private native String configuredSubmitTypeRaw() /*-{ return this.configured_submit_type; }-*/;
 
   public final ProjectState state() {
     if (stateRaw() == null) {

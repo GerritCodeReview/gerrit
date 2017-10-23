@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
@@ -59,6 +60,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
   public static final ImmutableBiMap<SubmitType, Character> SUBMIT_TYPES =
       new ImmutableBiMap.Builder<SubmitType, Character>()
+          .put(SubmitType.INHERIT, 'I')
           .put(SubmitType.FAST_FORWARD_ONLY, 'F')
           .put(SubmitType.MERGE_IF_NECESSARY, 'M')
           .put(SubmitType.REBASE_ALWAYS, 'P')
@@ -98,6 +100,11 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     private String mergeStrategy;
 
     public EntryKey(ObjectId commit, ObjectId into, SubmitType submitType, String mergeStrategy) {
+      checkArgument(
+          submitType != SubmitType.INHERIT,
+          "Cannot cache %s.%s",
+          SubmitType.class.getSimpleName(),
+          submitType);
       this.commit = checkNotNull(commit, "commit");
       this.into = checkNotNull(into, "into");
       this.submitType = checkNotNull(submitType, "submitType");

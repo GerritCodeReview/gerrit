@@ -183,6 +183,29 @@
       ];
     },
 
+    _formatSubmitTypeSelect(projectConfig) {
+      if (!projectConfig) { return; }
+      var allValues = Object.values(SUBMIT_TYPES);
+      var type = projectConfig.inherited_submit_type;
+      if (!type) {
+        // Server is too old to report inherited_submit_type, so assume INHERIT
+        // is not a valid value.
+        return allValues;
+      }
+
+      let inheritLabel = 'Inherit';
+      if (type.inherited_value) {
+        inheritLabel = `Inherit (${type.inherited_value})`;
+      }
+      return [
+        {
+          label: inheritLabel,
+          value = 'INHERIT',
+        },
+        ...Object.values(SUBMIT_TYPES),
+      ];
+    }
+
     _isLoading() {
       return this._loading || this._loading === undefined;
     },

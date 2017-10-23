@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -120,7 +122,16 @@ public class ConfigInfoImpl extends ConfigInfo {
     maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
-    this.submitType = p.getSubmitType();
+    this.submitType = projectState.getSubmitType();
+
+    this.inheritedSubmitType = new SubmitTypeInfo();
+    this.inheritedSubmitType.value = this.submitType;
+    this.inheritedSubmitType.configuredValue = MoreObjects.firstNonNull(
+        projectState.getConfig().getProject().getConfiguredSubmitType(),
+        Project.DEFAULT_SUBMIT_TYPE);
+    ProjectState parent = projectState.isAllProjects() ? projectState : projectState.parents().get(0);
+    this.inheritedSubmitType.inheritedValue = parent.getSubmitType();
+
     this.state =
         p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE
             ? p.getState()

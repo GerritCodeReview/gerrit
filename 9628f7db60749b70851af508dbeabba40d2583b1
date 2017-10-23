@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44e993e8_09759a8e",
+        "filename": "lib/gwt/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-23T08:16:42Z",
+      "side": 1,
+      "message": "The gwt-user artifact has no dependency on jsr305 as far as I can see:\n\nhttp://search.maven.org/#artifactdetails%7Ccom.google.gwt%7Cgwt-user%7C2.8.2%7Cjar\n\nSo I\u0027m not sure why this is needed.\n\nHowever removing it causes the build to fail, so it must be needed somehow.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "9628f7db60749b70851af508dbeabba40d2583b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d2da3a_659eb57f",
+        "filename": "lib/gwt/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-23T08:16:42Z",
+      "side": 1,
+      "message": "This should be:\n\n \"//lib:jsr305\"\n\nsorry for confusion caused by my comment on the earlier patch set.",
+      "range": {
+        "startLine": 35,
+        "startChar": 9,
+        "endLine": 35,
+        "endChar": 21
+      },
+      "revId": "9628f7db60749b70851af508dbeabba40d2583b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2fc69e_c58dda14",
+        "filename": "lib/jsr305/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-23T08:16:42Z",
+      "side": 1,
+      "message": "This file is not necessary; jsr305 is already defined in lib/BUILD",
+      "revId": "9628f7db60749b70851af508dbeabba40d2583b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

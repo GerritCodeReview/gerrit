@@ -174,8 +174,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  public void addMembers(AccountGroup.UUID groupUuid, Collection<? extends Account.Id> newMemberIds)
-      throws OrmException, IOException, NoSuchGroupException {
+  public void addMembers(AccountGroup.UUID groupUuid, Collection<Account.Id> newMemberIds)
+      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
     groupsUpdateProvider
         .get()
         .addGroupMembers(db.get(), groupUuid, ImmutableSet.copyOf(newMemberIds));

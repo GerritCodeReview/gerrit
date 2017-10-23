@@ -108,6 +108,32 @@ limitations under the License.
       assert.isFalse(element._shouldHideActions({base: ['test']}, false));
     });
 
+    test('plugin actions', () => {
+      element.revisionActions = {
+        'plugin~action': {},
+      };
+      assert.isOk(element.revisionActions['plugin~action']);
+    });
+
+    test('not supported actions are filtered out', () => {
+      element.revisionActions = {
+        followup: {
+        },
+      };
+      assert.equal(element.querySelectorAll('section gr-button').length, 0);
+    });
+
+    test('getActionDetails', () => {
+      element.revisionActions = Object.assign({
+        'plugin~action': {},
+      }, element.revisionActions);
+      assert.isUndefined(element.getActionDetails('rubbish'));
+      assert.strictEqual(element.revisionActions['plugin~action'],
+          element.getActionDetails('plugin~action'));
+      assert.strictEqual(element.revisionActions['rebase'],
+          element.getActionDetails('rebase'));
+    });
+
     test('hide revision action', done => {
       flush(() => {
         const buttonEl = element.$$('[data-action-key="submit"]');

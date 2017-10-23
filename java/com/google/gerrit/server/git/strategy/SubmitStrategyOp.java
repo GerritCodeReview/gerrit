@@ -465,6 +465,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         case REBASE_IF_NECESSARY:
         case REBASE_ALWAYS:
           return message(ctx, commit, CommitMergeStatus.CLEAN_REBASE);
+        case INHERIT:
         default:
           throw new IllegalStateException(
               "unexpected submit type "

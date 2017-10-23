@@ -133,6 +133,8 @@ public interface AdminConstants extends Constants {
 
   String headingProjectSubmitType();
 
+  String projectSubmitType_INHERIT();
+
   String projectSubmitType_FAST_FORWARD_ONLY();
 
   String projectSubmitType_MERGE_ALWAYS();

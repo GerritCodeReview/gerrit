@@ -47,7 +47,7 @@ public class PRED_project_default_submit_type_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     ProjectState projectState = StoredValues.PROJECT_STATE.get(engine);
-    SubmitType submitType = projectState.getProject().getSubmitType();
+    SubmitType submitType = projectState.getSubmitType();
     if (!a1.unify(term[submitType.ordinal()], engine.trail)) {
       return engine.fail();
     }

@@ -30,6 +30,7 @@ import com.google.gerrit.client.projects.ConfigInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
+import com.google.gerrit.client.projects.ConfigInfo.SubmitTypeInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -335,18 +336,27 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(AdminConstants.I.useSignedOffBy(), signedOffBy);
   }
 
-  private void setSubmitType(SubmitType newSubmitType) {
+  private void setSubmitType(SubmitTypeInfo newSubmitType) {
     int index = -1;
-    if (submitType != null) {
+    if (newSubmitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
-        if (newSubmitType.name().equals(submitType.getValue(i))) {
+        if (submitType.getValue(i).equals(SubmitType.INHERIT.name())) {
+          submitType.setItemText(i, getInheritString(newSubmitType));
+        }
+        if (newSubmitType.configuredValue().name().equals(submitType.getValue(i))) {
           index = i;
-          break;
         }
       }
       submitType.setSelectedIndex(index);
       setEnabledForUseContentMerge();
     }
+  }
+
+  private static String getInheritString(SubmitTypeInfo submitType) {
+    return Util.toLongString(SubmitType.INHERIT)
+        + " ("
+        + Util.toLongString(submitType.inheritedValue())
+        + ")";
   }
 
   private void setState(ProjectState newState) {
@@ -419,7 +429,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(privateByDefault, result.privateByDefault());
     setBool(enableReviewerByEmail, result.enableReviewerByEmail());
     setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
-    setSubmitType(result.submitType());
+    setSubmitType(result.defaultSubmitType());
     setState(result.state());
     maxObjectSizeLimit.setText(result.maxObjectSizeLimit().configuredValue());
     if (result.maxObjectSizeLimit().inheritedValue() != null) {

@@ -494,7 +494,7 @@ link:#project-input[ProjectInput].
 
   {
     "description": "This is a demo project.",
-    "submit_type": "CHERRY_PICK",
+    "submit_type": "INHERIT",
     "owners": [
       "MyProject-Owners"
     ]
@@ -821,7 +821,12 @@ read access to `refs/meta/config`.
       "configured_value": "15m",
       "inherited_value": "20m"
     },
-    "submit_type": "MERGE_IF_NECESSARY",
+    "submit_type": "INHERIT",
+    "default_submit_type": {
+      "value": "MERGE_IF_NECESSARY",
+      "configured_value": "INHERIT",
+      "inherited_value": "MERGE_IF_NECESSARY"
+    },
     "state": "ACTIVE",
     "commentlinks": {},
     "plugin_config": {
@@ -933,6 +938,11 @@ ConfigInfo] entity.
       "inherited_value": "20m"
     },
     "submit_type": "REBASE_IF_NECESSARY",
+    "default_submit_type": {
+      "value": "REBASE_IF_NECESSARY",
+      "configured_value": "INHERIT",
+      "inherited_value": "REBASE_IF_NECESSARY"
+    },
     "state": "ACTIVE",
     "commentlinks": {}
   }
@@ -2846,10 +2856,12 @@ all new changes are set as private by default.
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[
 MaxObjectSizeLimitInfo] entity.
+|`default_submit_type`     ||
+link:#submit-type-info[SubmitTypeInfo] that describes the default submit type of
+the project, when not overridden at the change level.
 |`submit_type`               ||
-The default submit type of the project, can be `MERGE_IF_NECESSARY`,
-`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or
-`CHERRY_PICK`.
+Deprecated; equivalent to link:#submit-type-info[`value`] in
+`default_submit_type`.
 |`match_author_to_committer_date` |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that indicates whether
 a change's author date will be changed to match its submitter date upon submit.
@@ -3316,6 +3328,27 @@ statistics of a Git repository.
 |`size_of_loose_objects`   |Size of loose objects in bytes.
 |`size_of_packed_objects`  |Size of packed objects in bytes.
 |======================================
+
+[[submit-type-info]]
+=== SubmitTypeInfo
+Information about the link:project-configuration.html#submit_type[default submit
+type of a project], taking into account project inheritance.
+
+Valid values for each field are `MERGE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,
+`REBASE_IF_NECESSARY`, `REBASE_ALWAYS`, `MERGE_ALWAYS` or `CHERRY_PICK`, plus
+`INHERIT` where applicable.
+
+[options="header",cols="1,6"]
+|===============================
+|Field Name         |Description
+|`value`            |
+The effective submit type value. Never `INHERIT`.
+|`configured_value` |
+The configured value, can be one of the submit types, or `INHERIT` to inherit
+from the parent project.
+|`inherited_value`  |
+The effective value that would be inherited from the parent. Never `INHERIT`.
+|===============================
 
 [[tag-info]]
 === TagInfo

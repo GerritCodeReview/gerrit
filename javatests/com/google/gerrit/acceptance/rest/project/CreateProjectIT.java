@@ -24,9 +24,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -181,7 +184,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
-    assertThat(project.getSubmitType()).isEqualTo(in.submitType);
+    assertThat(project.getConfiguredSubmitType()).isEqualTo(in.submitType);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS))
         .isEqualTo(in.useContributorAgreements);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY))
@@ -329,6 +332,84 @@ public class CreateProjectIT extends AbstractDaemonTest {
       removeGlobalCapabilities(
           SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test
+  public void createProjectWithDefaultInheritedSubmitType() throws Exception {
+    String parent = name("parent");
+    ProjectInput pin = new ProjectInput();
+    pin.name = parent;
+    ConfigInfo cfg = gApi.projects().create(pin).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+
+    ConfigInput cin = new ConfigInput();
+    cin.submitType = SubmitType.CHERRY_PICK;
+    gApi.projects().name(parent).config(cin);
+    cfg = gApi.projects().name(parent).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+
+    String child = name("child");
+    pin = new ProjectInput();
+    pin.submitType = SubmitType.INHERIT;
+    pin.parent = parent;
+    pin.name = child;
+    cfg = gApi.projects().create(pin).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.INHERIT);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.CHERRY_PICK);
+
+    cin = new ConfigInput();
+    cin.submitType = SubmitType.REBASE_IF_NECESSARY;
+    gApi.projects().name(parent).config(cin);
+    cfg = gApi.projects().name(parent).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+
+    cfg = gApi.projects().name(child).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.INHERIT);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.REBASE_IF_NECESSARY);
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test
+  @GerritConfig(
+    name = "repository.testinheritedsubmittype/*.defaultSubmitType",
+    value = "CHERRY_PICK"
+  )
+  public void repositoryConfigTakesPrecedenceOverInheritedSubmitType() throws Exception {
+    // Can't use name() since we need to specify this project name in gerrit.config prior to
+    // startup. Pick something reasonably unique instead.
+    String parent = "testinheritedsubmittype";
+    ProjectInput pin = new ProjectInput();
+    pin.name = parent;
+    pin.submitType = SubmitType.MERGE_ALWAYS;
+    ConfigInfo cfg = gApi.projects().create(pin).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.MERGE_ALWAYS);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_ALWAYS);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.MERGE_ALWAYS);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+
+    String child = parent + "/child";
+    pin = new ProjectInput();
+    pin.parent = parent;
+    pin.name = child;
+    cfg = gApi.projects().create(pin).config();
+    assertThat(cfg.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.CHERRY_PICK);
+    assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_ALWAYS);
   }
 
   private void assertHead(String projectName, String expectedRef) throws Exception {

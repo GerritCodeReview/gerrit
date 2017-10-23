@@ -52,6 +52,24 @@
       "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20d4712_8210abd6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T17:05:41Z",
+      "side": 1,
+      "message": "Oh, you mean \n\nGROUP_INFO: /^\\/admin\\/groups\\/(uuid-)?(.+),info$/, ?\n\nGROUP_AUDIT_LOG: /^\\/admin\\/groups\\/(uuid-)?(.+),audit-log$/,\n\nIsn\u0027t it easier to define it once instead of doing ^^ which could be confusing?",
+      "parentUuid": "07a44429_f5437ef4",
+      "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

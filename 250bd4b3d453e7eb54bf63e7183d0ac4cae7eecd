@@ -106,6 +106,24 @@
       "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d67d3c_1ef2261a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-23T19:52:25Z",
+      "side": 1,
+      "message": "In what cases is the group labelled with \"uuid\"?",
+      "parentUuid": "ed95ba34_4bed07ef",
+      "revId": "250bd4b3d453e7eb54bf63e7183d0ac4cae7eecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

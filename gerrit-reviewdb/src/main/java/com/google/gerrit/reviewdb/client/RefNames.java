@@ -67,6 +67,8 @@ public class RefNames {
 
   public static final String EDIT_PREFIX = "edit-";
 
+  public static final String REFS_GROUPS = "refs/groups/";
+
   /*
    * The following refs contain an account ID and should be visible only to that account.
    *
@@ -120,6 +122,10 @@ public class RefNames {
       return true;
     }
     return false;
+  }
+
+  public static String refsGroups(AccountGroup.UUID groupUuid) {
+    return REFS_GROUPS + groupUuid;
   }
 
   public static String refsUsers(Account.Id accountId) {

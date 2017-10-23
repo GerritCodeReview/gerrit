@@ -125,6 +125,10 @@ public class RefNames {
     return false;
   }
 
+  public static String refsGroups(AccountGroup.UUID groupUuid) {
+    return REFS_GROUPS + groupUuid;
+  }
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = newStringBuilder().append(REFS_USERS);
     return shard(accountId.get(), r).toString();

@@ -5201,6 +5201,9 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 
 Cherry picks a revision to a destination branch.
 
+To cherry pick a commit with no change-id associated with it, see
+link:rest-api-projects.html#cherry-pick-commit[CherryPickCommit].
+
 The commit message and destination branch must be provided in the request body inside a
 link:#cherrypick-input[CherryPickInput] entity.  If the commit message
 does not specify a Change-Id, a new one is picked for the destination change.

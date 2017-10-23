@@ -62,6 +62,7 @@ GWT_PLUGIN_DEPS = [
 ]
 
 GWT_TRANSITIVE_DEPS = [
+    "//lib:jsr305",
     "//lib/gwt:ant",
     "//lib/gwt:colt",
     "//lib/gwt:javax-validation",

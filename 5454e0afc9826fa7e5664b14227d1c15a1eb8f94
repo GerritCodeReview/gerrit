@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad6979d5_0bff2759",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T17:00:03Z",
+      "side": 1,
+      "message": "I\u0027ve fixed up the sentence.",
+      "parentUuid": "2f12ced2_8ba6aa9e",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "5454e0afc9826fa7e5664b14227d1c15a1eb8f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a148389b_3693551a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -59,6 +83,54 @@
       "writtenOn": "2017-10-23T16:56:07Z",
       "side": 1,
       "message": "\"we need to reduce the threshold to one\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "5454e0afc9826fa7e5664b14227d1c15a1eb8f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb654872_0d05a799",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T17:00:03Z",
+      "side": 1,
+      "message": "Im not sure what sp means.",
+      "parentUuid": "a148389b_3693551a",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "5454e0afc9826fa7e5664b14227d1c15a1eb8f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "607958db_530c43d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-23T17:00:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9e966f59_734cce61",
       "range": {
         "startLine": 11,
         "startChar": 41,

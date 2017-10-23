@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25140b18_aec7f708",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-23T16:48:35Z",
+      "side": 0,
+      "message": "This comment will be removed in the next patch set.",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 72
+      },
+      "revId": "4eec90c9e4f8ccda64163124d301e51e8556803b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

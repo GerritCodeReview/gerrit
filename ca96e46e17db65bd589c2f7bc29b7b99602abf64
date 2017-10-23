@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10932902_783fab9f",
+        "filename": "lib/gwt/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-23T10:36:38Z",
+      "side": 1,
+      "message": "Can this and one on the line 34-36 below go into GWT_TRANSITIVE_DEPS definition in tools/bzl/gwt.bzl?\n\n  GWT_TRANSITIVE_DEPS \u003d [\n      \"//lib/gwt:ant\",\n      \"//lib/gwt:colt\",\n      \"//lib/gwt:javax-validation\",\n      \"//lib/gwt:javax-validation_src\",\n      \"//lib/gwt:jsinterop-annotations\",\n      \"//lib/gwt:jsinterop-annotations_src\",\n      \"//lib/gwt:tapestry\",\n      \"//lib/gwt:w3c-css-sac\",\n      \"//lib/ow2:ow2-asm\",\n      \"//lib/ow2:ow2-asm-analysis\",\n      \"//lib/ow2:ow2-asm-commons\",\n      \"//lib/ow2:ow2-asm-tree\",\n      \"//lib/ow2:ow2-asm-util\",\n  ]\n\nI would prefer to handle all transitive deps in the same way.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "ca96e46e17db65bd589c2f7bc29b7b99602abf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

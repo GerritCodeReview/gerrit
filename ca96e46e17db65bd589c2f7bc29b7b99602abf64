@@ -22,6 +22,30 @@
       "revId": "ca96e46e17db65bd589c2f7bc29b7b99602abf64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ec6ff82_839c9e18",
+        "filename": "lib/gwt/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-23T10:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10932902_783fab9f",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "ca96e46e17db65bd589c2f7bc29b7b99602abf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

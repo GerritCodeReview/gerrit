@@ -125,6 +125,10 @@ public class RefNames {
     return false;
   }
 
+  public static String refsGroups(AccountGroup.UUID groupUuid) {
+    return REFS_GROUPS + shardUuid(groupUuid.get());
+  }
+
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = newStringBuilder().append(REFS_USERS);
     return shard(accountId.get(), r).toString();
@@ -171,6 +175,13 @@ public class RefNames {
     sb.append('/');
     sb.append(id);
     return sb;
+  }
+
+  private static String shardUuid(String uuid) {
+    if (uuid == null || uuid.length() < 2) {
+      throw new IllegalArgumentException("UUIDs must consist of at least two characters");
+    }
+    return uuid.substring(0, 2) + '/' + uuid;
   }
 
   /**

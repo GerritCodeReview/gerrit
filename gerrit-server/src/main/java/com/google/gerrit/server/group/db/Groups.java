@@ -25,14 +25,22 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +58,21 @@ import org.slf4j.LoggerFactory;
 public class Groups {
   private static final Logger log = LoggerFactory.getLogger(Groups.class);
 
+  private final boolean readFromNoteDb;
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsersName;
+
+  @Inject
+  public Groups(
+      @GerritServerConfig Config config,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName) {
+    // TODO(aliceks): Switch on for tests.
+    readFromNoteDb = config.getBoolean("user", null, "readGroupsFromNoteDb", false);
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
+  }
+
   /**
    * Returns the {@code AccountGroup} for the specified ID if it exists.
    *
@@ -58,7 +81,7 @@ public class Groups {
    * @return the found {@code AccountGroup} if it exists, or else an empty {@code Optional}
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
    */
-  public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.Id groupId)
+  public static Optional<InternalGroup> getGroupFromReviewDb(ReviewDb db, AccountGroup.Id groupId)
       throws OrmException {
     AccountGroup accountGroup = db.accountGroups().get(groupId);
     if (accountGroup == null) {
@@ -75,14 +98,29 @@ public class Groups {
    * @return the found {@code InternalGroup} if it exists, or else an empty {@code Optional}
    * @throws OrmDuplicateKeyException if multiple groups are found for the specified UUID
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   * @throws IOException if the group couldn't be retrieved from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
   public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromNoteDb) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+        return getGroupFromNoteDb(allUsersRepo, groupUuid);
+      }
+    }
+
     Optional<AccountGroup> accountGroup = getGroupFromReviewDb(db, groupUuid);
     if (!accountGroup.isPresent()) {
       return Optional.empty();
     }
     return Optional.of(asInternalGroup(db, accountGroup.get()));
+  }
+
+  private static Optional<InternalGroup> getGroupFromNoteDb(
+      Repository allUsersRepository, AccountGroup.UUID groupUuid)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
+    return groupConfig.getLoadedGroup();
   }
 
   private static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)
@@ -132,19 +170,21 @@ public class Groups {
   }
 
   public Stream<InternalGroup> getAll(ReviewDb db) throws OrmException {
+    // TODO(aliceks): Add code for NoteDb.
     return getAllUuids(db)
         .map(groupUuid -> getGroupIfPossible(db, groupUuid))
         .flatMap(Streams::stream);
   }
 
   public Stream<AccountGroup.UUID> getAllUuids(ReviewDb db) throws OrmException {
+    // TODO(aliceks): Add code for NoteDb.
     return Streams.stream(db.accountGroups().all()).map(AccountGroup::getGroupUUID);
   }
 
   private Optional<InternalGroup> getGroupIfPossible(ReviewDb db, AccountGroup.UUID groupUuid) {
     try {
       return getGroup(db, groupUuid);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
     }
     return Optional.empty();
@@ -233,6 +273,7 @@ public class Groups {
    * @throws OrmException if an error occurs while reading from ReviewDb
    */
   public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db) throws OrmException {
+    // TODO(aliceks): Add code for NoteDb.
     return Streams.stream(db.accountGroupById().all())
         .map(AccountGroupById::getIncludeUUID)
         .distinct()

@@ -48,6 +48,7 @@ public class GroupsOnInit {
    */
   public AccountGroup getExistingGroup(ReviewDb db, AccountGroup.NameKey groupName)
       throws OrmException, NoSuchGroupException {
+    // TODO(aliceks): Add implementation for NoteDb.
     AccountGroupName accountGroupName = db.accountGroupNames().get(groupName);
     if (accountGroupName == null) {
       throw new NoSuchGroupException(groupName.toString());

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e07f4803_cea6e2a1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GroupsOnInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:47:00Z",
+      "side": 1,
+      "message": "TODO for this topic.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 52
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd0b98d_3be5c8b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:47:00Z",
+      "side": 1,
+      "message": "TODO for this topic.",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 40
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d8baff_ccaa0134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:47:00Z",
+      "side": 1,
+      "message": "TODO for this topic.",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 94
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c6fecb6_ef89a124",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:47:00Z",
+      "side": 1,
+      "message": "TODO for this topic.",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 94
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

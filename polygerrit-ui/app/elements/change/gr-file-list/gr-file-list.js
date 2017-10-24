@@ -164,6 +164,7 @@
      * Context: Issue 7277
      */
     _scopedKeydownHandler(e) {
+      console.log('handling event', e);
       if (e.keyCode === 13) {
         // Enter.
         this._handleOKey(e);

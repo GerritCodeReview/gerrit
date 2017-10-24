@@ -78,6 +78,8 @@
 
     _handleCommitKey(e) {
       e.preventDefault();
+      e.stopPropagation();
+      console.log('propagation stopped on event', e);
       this.click();
     },
   });

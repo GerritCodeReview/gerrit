@@ -22,6 +22,30 @@
       "revId": "6fabbbf1303a47f511ef2499166846e9390073fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34d0e763_aa19762b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2017-10-24T08:14:11Z",
+      "side": 1,
+      "message": "in WORKSPACE there is explicit constraint of 0.5.3 and above, I just upgraded from 0.5.2 to 0.5.4 to meet this constraint.\n\nwhat latest version do you expect? 0.7? I will have to find a way to provide an ebuild for gentoo, I see many changes... will not be trivial, will take me some time.",
+      "parentUuid": "9b55d0d9_726f0769",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "6fabbbf1303a47f511ef2499166846e9390073fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

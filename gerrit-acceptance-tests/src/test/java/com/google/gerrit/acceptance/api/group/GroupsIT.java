@@ -48,6 +48,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -57,10 +58,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbConfig() {
+    Config config = new Config();
+    config.setBoolean("user", null, "readGroupsFromNoteDb", true);
+    return config;
+  }
+
   @Inject private Groups groups;
 
   @Test

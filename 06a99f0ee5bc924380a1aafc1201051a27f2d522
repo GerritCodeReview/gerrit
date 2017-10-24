@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "47cfed96_cc3f946b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T16:04:29Z",
+      "side": 1,
+      "message": "That\u0027s wrong and is responsible for test failure. I\u0027ll fix it tomorrow.",
+      "range": {
+        "startLine": 213,
+        "startChar": 32,
+        "endLine": 213,
+        "endChar": 91
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddd89664_896caf5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2

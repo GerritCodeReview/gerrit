@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fed2f02e_3eaaa7fa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6450,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-24T18:47:49Z",
+      "side": 1,
+      "message": "This is redundant, none of the other field names start with \"`field_name` is a ...\"",
+      "range": {
+        "startLine": 6450,
+        "startChar": 0,
+        "endLine": 6450,
+        "endChar": 19
+      },
+      "revId": "d798d31c5431879a995b0ee88f3ddfe2865ca591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d35084_2cf37de8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-24T18:47:49Z",
+      "side": 1,
+      "message": "Should it be an error to specify both inherit_parent and base_change?",
+      "revId": "d798d31c5431879a995b0ee88f3ddfe2865ca591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b66f7330_098189c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-24T18:47:49Z",
+      "side": 1,
+      "message": "Different error message to distinguish this case?",
+      "revId": "d798d31c5431879a995b0ee88f3ddfe2865ca591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89fcd2fa_63a0b176",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-24T18:47:49Z",
+      "side": 1,
+      "message": "check?",
+      "range": {
+        "startLine": 206,
+        "startChar": 66,
+        "endLine": 206,
+        "endChar": 70
+      },
+      "revId": "d798d31c5431879a995b0ee88f3ddfe2865ca591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

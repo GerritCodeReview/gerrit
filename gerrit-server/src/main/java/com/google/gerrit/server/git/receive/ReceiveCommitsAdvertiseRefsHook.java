@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.receive;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -91,14 +90,6 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         r, advertiseOpenChanges(allPatchSets));
   }
 
-  private static final ImmutableSet<String> OPEN_CHANGES_FIELDS =
-      ImmutableSet.of(
-          // Required for ChangeIsVisibleToPrdicate.
-          ChangeField.CHANGE.getName(),
-          ChangeField.REVIEWER.getName(),
-          // Required during advertiseOpenChanges.
-          ChangeField.PATCH_SET.getName());
-
   private Set<ObjectId> advertiseOpenChanges(Set<ObjectId> allPatchSets) {
     // Advertise some recent open changes, in case a commit is based on one.
     int limit = 32;
@@ -107,7 +98,12 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
       for (ChangeData cd :
           queryProvider
               .get()
-              .setRequestedFields(OPEN_CHANGES_FIELDS)
+              .setRequestedFields(
+                  // Required for ChangeIsVisibleToPrdicate.
+                  ChangeField.CHANGE,
+                  ChangeField.REVIEWER,
+                  // Required during advertiseOpenChanges.
+                  ChangeField.PATCH_SET)
               .enforceVisibility(true)
               .setLimit(limit)
               .byProjectOpen(projectName)) {

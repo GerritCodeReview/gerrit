@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -149,8 +148,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
         List<ChangeData> cds =
             queryProvider
                 .get()
-                .setRequestedFields(
-                    ImmutableSet.of(ChangeField.CHANGE.getName(), ChangeField.REVIEWER.getName()))
+                .setRequestedFields(ChangeField.CHANGE, ChangeField.REVIEWER)
                 .byProject(key);
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {

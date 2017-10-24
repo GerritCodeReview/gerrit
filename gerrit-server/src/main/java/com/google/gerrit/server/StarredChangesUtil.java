@@ -284,9 +284,11 @@ public class StarredChangesUtil {
 
   public ImmutableListMultimap<Account.Id, String> byChangeFromIndex(Change.Id changeId)
       throws OrmException {
-    Set<String> fields = ImmutableSet.of(ChangeField.ID.getName(), ChangeField.STAR.getName());
     List<ChangeData> changeData =
-        queryProvider.get().setRequestedFields(fields).byLegacyChangeId(changeId);
+        queryProvider
+            .get()
+            .setRequestedFields(ChangeField.ID, ChangeField.STAR)
+            .byLegacyChangeId(changeId);
     if (changeData.size() != 1) {
       throw new NoSuchChangeException(changeId);
     }

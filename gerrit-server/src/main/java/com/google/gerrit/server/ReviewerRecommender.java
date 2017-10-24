@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.query.Predicate;
@@ -205,7 +204,7 @@ public class ReviewerRecommender {
           queryProvider
               .get()
               .setLimit(25)
-              .setRequestedFields(ImmutableSet.of(ChangeField.APPROVAL.getName()))
+              .setRequestedFields(ChangeField.APPROVAL)
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {
@@ -267,8 +266,7 @@ public class ReviewerRecommender {
       }
     }
 
-    List<List<ChangeData>> result =
-        queryProvider.get().setLimit(25).setRequestedFields(ImmutableSet.of()).query(predicates);
+    List<List<ChangeData>> result = queryProvider.get().setLimit(25).noFields().query(predicates);
 
     Iterator<List<ChangeData>> queryResultIterator = result.iterator();
     Iterator<Account.Id> reviewersIterator = reviewers.keySet().iterator();

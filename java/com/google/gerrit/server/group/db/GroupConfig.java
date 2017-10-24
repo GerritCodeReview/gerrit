@@ -248,6 +248,7 @@ public class GroupConfig extends VersionedMetaData {
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");
+    getCommitFooterForRename().ifPresent(footerJoiner::add);
     updatedMembers
         .map(newMembers -> getCommitFooterForMemberModifications(originalMembers, newMembers))
         .ifPresent(footerJoiner::add);
@@ -259,6 +260,16 @@ public class GroupConfig extends VersionedMetaData {
     String footer = footerJoiner.toString();
 
     return summaryLine + footer;
+  }
+
+  private Optional<String> getCommitFooterForRename() {
+    return loadedGroup
+        .map(InternalGroup::getName)
+        .flatMap(
+            originalName ->
+                groupUpdate
+                    .map(InternalGroupUpdate::getName)
+                    .map(newName -> "Rename from " + originalName + " to " + newName));
   }
 
   private String getCommitFooterForMemberModifications(

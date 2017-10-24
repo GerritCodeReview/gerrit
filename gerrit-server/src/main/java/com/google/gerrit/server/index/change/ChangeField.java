@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.intRange;
@@ -563,8 +562,6 @@ public class ChangeField {
                 return reviewedBy.stream().map(Account.Id::get).collect(toList());
               });
 
-  // Submit rule options in this class should never use fastEvalLabels. This
-  // slows down indexing slightly but produces correct search results.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       SubmitRuleOptions.defaults().allowClosed(true).build();
 
@@ -634,7 +631,6 @@ public class ChangeField {
 
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
-    checkArgument(!opts.fastEvalLabels());
     List<SubmitRecord> records = parseSubmitRecords(values);
     if (records.isEmpty()) {
       // Assume no values means the field is not in the index;
@@ -645,7 +641,7 @@ public class ChangeField {
 
     // Cache the fastEvalLabels variant as well so it can be used by
     // ChangeJson.
-    out.setSubmitRecords(opts.toBuilder().fastEvalLabels(true).build(), records);
+    out.setSubmitRecords(opts.toBuilder().build(), records);
   }
 
   @VisibleForTesting

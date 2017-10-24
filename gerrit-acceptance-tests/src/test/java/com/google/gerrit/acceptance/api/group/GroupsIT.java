@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -48,13 +47,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,7 +63,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
-  @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
 
@@ -264,7 +261,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
-    Timestamp testStartTime = TimeUtil.nowTs();
+    // NoteDb allows only second precision.
+    Timestamp testStartTime = Timestamp.from(Instant.now().truncatedTo(ChronoUnit.SECONDS));
     String newGroupName = name("newGroup");
     GroupInfo group = gApi.groups().create(newGroupName).get();
 

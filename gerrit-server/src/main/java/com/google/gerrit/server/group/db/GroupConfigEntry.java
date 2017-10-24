@@ -30,6 +30,12 @@ enum GroupConfigEntry {
     }
 
     @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      AccountGroup.Id id = group.getId();
+      config.setInt(SECTION_NAME, null, super.keyName, id.get());
+    }
+
+    @Override
     void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
       // Updating the ID is not supported.
     }
@@ -40,6 +46,12 @@ enum GroupConfigEntry {
       AccountGroup.NameKey name =
           new AccountGroup.NameKey(config.getString(SECTION_NAME, null, super.keyName));
       group.setNameKey(name);
+    }
+
+    @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      AccountGroup.NameKey name = group.getNameKey();
+      config.setString(SECTION_NAME, null, super.keyName, name.get());
     }
 
     @Override
@@ -54,6 +66,11 @@ enum GroupConfigEntry {
     void readFromConfig(InternalGroup.Builder group, Config config) {
       String description = config.getString(SECTION_NAME, null, super.keyName);
       group.setDescription(description);
+    }
+
+    @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      config.setString(SECTION_NAME, null, super.keyName, null);
     }
 
     @Override
@@ -74,6 +91,11 @@ enum GroupConfigEntry {
     }
 
     @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      config.setString(SECTION_NAME, null, super.keyName, group.getGroupUUID().get());
+    }
+
+    @Override
     void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
       groupUpdate
           .getOwnerGroupUUID()
@@ -87,6 +109,11 @@ enum GroupConfigEntry {
     void readFromConfig(InternalGroup.Builder group, Config config) {
       boolean visibleToAll = config.getBoolean(SECTION_NAME, super.keyName, false);
       group.setVisibleToAll(visibleToAll);
+    }
+
+    @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      config.setBoolean(SECTION_NAME, null, super.keyName, false);
     }
 
     @Override
@@ -107,6 +134,8 @@ enum GroupConfigEntry {
   }
 
   abstract void readFromConfig(InternalGroup.Builder group, Config config);
+
+  abstract void initNewConfig(Config config, InternalGroupCreation group);
 
   abstract void updateConfigValue(Config config, InternalGroupUpdate groupUpdate);
 }

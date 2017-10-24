@@ -128,8 +128,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec :
-          submitRuleEvaluatorFactory.create(user, cd).setFastEvalLabels(true).evaluate()) {
+      for (SubmitRecord rec : submitRuleEvaluatorFactory.create(user, cd).evaluate()) {
         if (rec.labels == null) {
           continue;
         }

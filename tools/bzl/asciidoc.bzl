@@ -34,6 +34,7 @@ def release_notes_attributes():
 
 def _replace_macros_impl(ctx):
   cmd = [
+    "python",
     ctx.file._exe.path,
     '--suffix', ctx.attr.suffix,
     "-s", ctx.file.src.path,
@@ -47,6 +48,7 @@ def _replace_macros_impl(ctx):
     inputs = [ctx.file._exe, ctx.file.src],
     outputs = [ctx.outputs.out],
     command = cmd,
+    use_default_shell_env = True,
     progress_message = "Replacing macros in %s" % ctx.file.src.short_path,
   )
 

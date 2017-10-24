@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddd89664_896caf5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:58:38Z",
+      "side": 1,
+      "message": "Is there a reason why we can\u0027t pass in the repository which we used to load the GroupConfig in loadFor() here?\n\nI saw that AccountConfig also didn\u0027t reuse the repository but I was wondering whether we maybe should.",
+      "range": {
+        "startLine": 320,
+        "startChar": 41,
+        "endLine": 320,
+        "endChar": 83
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

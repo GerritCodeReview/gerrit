@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "8b729581_4b5503b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-24T13:20:59Z",
+      "side": 1,
+      "message": "I just verified this locally. DETAILED_ACCOUNTS is also needed in several other places.",
+      "parentUuid": "c9f3d779_4e7b7d88",
+      "revId": "b9d923d3cdf9847389328299e6c7bd2d736c176e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9479dd13_87085b9e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

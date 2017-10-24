@@ -35,8 +35,13 @@ public abstract class InternalGroupUpdate {
   public abstract Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>>
       getMemberModification();
 
+  public abstract Function<ImmutableSet<AccountGroup.UUID>, ? extends Set<AccountGroup.UUID>>
+      getSubgroupModification();
+
   public static Builder builder() {
-    return new AutoValue_InternalGroupUpdate.Builder().setMemberModification(Function.identity());
+    return new AutoValue_InternalGroupUpdate.Builder()
+        .setMemberModification(Function.identity())
+        .setSubgroupModification(Function.identity());
   }
 
   @AutoValue.Builder
@@ -49,6 +54,10 @@ public abstract class InternalGroupUpdate {
 
     public abstract Builder setMemberModification(
         Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>> memberModification);
+
+    public abstract Builder setSubgroupModification(
+        Function<ImmutableSet<AccountGroup.UUID>, ? extends Set<AccountGroup.UUID>>
+            subgroupModification);
 
     public abstract InternalGroupUpdate build();
   }

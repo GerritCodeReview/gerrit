@@ -46,6 +46,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 public class GroupConfig extends VersionedMetaData {
   private static final String GROUP_CONFIG_FILE = "group.config";
   private static final String MEMBERS_FILE = "members";
+  private static final String SUBGROUPS_FILE = "subgroups";
 
   private final AccountGroup.UUID groupUuid;
   private final String ref;
@@ -53,6 +54,7 @@ public class GroupConfig extends VersionedMetaData {
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
   private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
+  private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
 
   private GroupConfig(AccountGroup.UUID groupUuid) {
@@ -73,9 +75,12 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   public void setGroupUpdate(
-      InternalGroupUpdate groupUpdate, Function<Account.Id, String> accountNameEmailRetriever) {
+      InternalGroupUpdate groupUpdate,
+      Function<Account.Id, String> accountNameEmailRetriever,
+      Function<AccountGroup.UUID, String> groupNameRetriever) {
     this.groupUpdate = Optional.of(groupUpdate);
     this.accountNameEmailRetriever = accountNameEmailRetriever;
+    this.groupNameRetriever = groupNameRetriever;
   }
 
   @Override
@@ -93,7 +98,7 @@ public class GroupConfig extends VersionedMetaData {
 
       Config config = readConfig(GROUP_CONFIG_FILE);
       ImmutableSet<Account.Id> members = readMembers();
-      ImmutableSet<AccountGroup.UUID> subgroups = ImmutableSet.of();
+      ImmutableSet<AccountGroup.UUID> subgroups = readSubgroups();
       loadedGroup = Optional.of(createFrom(groupUuid, config, members, subgroups, createdOn));
     }
 
@@ -135,9 +140,12 @@ public class GroupConfig extends VersionedMetaData {
         loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
 
-    ImmutableSet<AccountGroup.UUID> originalSubgroups = loadedGroup.get().getSubgroups();
+    ImmutableSet<AccountGroup.UUID> originalSubgroups =
+        loadedGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
+    Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups = updateSubgroups(originalSubgroups);
 
-    String commitMessage = createCommitMessage(originalMembers, updatedMembers);
+    String commitMessage =
+        createCommitMessage(originalMembers, updatedMembers, originalSubgroups, updatedSubgroups);
     commit.setMessage(commitMessage);
 
     loadedGroup =
@@ -146,7 +154,7 @@ public class GroupConfig extends VersionedMetaData {
                 groupUuid,
                 config,
                 updatedMembers.orElse(originalMembers),
-                originalSubgroups,
+                updatedSubgroups.orElse(originalSubgroups),
                 createdOn));
 
     return true;
@@ -180,8 +188,25 @@ public class GroupConfig extends VersionedMetaData {
     return updatedMembers;
   }
 
+  private Optional<ImmutableSet<AccountGroup.UUID>> updateSubgroups(
+      ImmutableSet<AccountGroup.UUID> originalSubgroups) throws IOException {
+    Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups =
+        groupUpdate
+            .map(InternalGroupUpdate::getSubgroupModification)
+            .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
+            .map(ImmutableSet::copyOf);
+    if (updatedSubgroups.isPresent()) {
+      saveSubgroups(updatedSubgroups.get());
+    }
+    return updatedSubgroups;
+  }
+
   private void saveMembers(ImmutableSet<Account.Id> members) throws IOException {
     saveToFile(MEMBERS_FILE, members, member -> String.valueOf(member.get()));
+  }
+
+  private void saveSubgroups(ImmutableSet<AccountGroup.UUID> subgroups) throws IOException {
+    saveToFile(SUBGROUPS_FILE, subgroups, AccountGroup.UUID::get);
   }
 
   private <E> void saveToFile(
@@ -193,6 +218,11 @@ public class GroupConfig extends VersionedMetaData {
 
   private ImmutableSet<Account.Id> readMembers() throws IOException, ConfigInvalidException {
     return readFromFile(MEMBERS_FILE, entry -> new Account.Id(Integer.parseInt(entry)));
+  }
+
+  private ImmutableSet<AccountGroup.UUID> readSubgroups()
+      throws IOException, ConfigInvalidException {
+    return readFromFile(SUBGROUPS_FILE, AccountGroup.UUID::new);
   }
 
   private <E> ImmutableSet<E> readFromFile(String filePath, Function<String, E> fromStringFunction)
@@ -213,13 +243,21 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private String createCommitMessage(
-      ImmutableSet<Account.Id> originalMembers, Optional<ImmutableSet<Account.Id>> updatedMembers) {
+      ImmutableSet<Account.Id> originalMembers,
+      Optional<ImmutableSet<Account.Id>> updatedMembers,
+      ImmutableSet<AccountGroup.UUID> originalSubgroups,
+      Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups) {
     String summaryLine = "Update group";
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");
     updatedMembers
         .map(newMembers -> getCommitFooterForMemberModifications(originalMembers, newMembers))
+        .ifPresent(footerJoiner::add);
+    updatedSubgroups
+        .map(
+            newSubgroups ->
+                getCommitFooterForSubgroupModifications(originalSubgroups, newSubgroups))
         .ifPresent(footerJoiner::add);
     String footer = footerJoiner.toString();
 
@@ -238,6 +276,21 @@ public class GroupConfig extends VersionedMetaData {
             .stream()
             .map(accountNameEmailRetriever)
             .map("Add: "::concat);
+    return Stream.concat(removedMembers, addedMembers).collect(Collectors.joining("\n"));
+  }
+
+  private String getCommitFooterForSubgroupModifications(
+      ImmutableSet<AccountGroup.UUID> oldSubgroups, ImmutableSet<AccountGroup.UUID> newSubgroups) {
+    Stream<String> removedMembers =
+        Sets.difference(oldSubgroups, newSubgroups)
+            .stream()
+            .map(groupNameRetriever)
+            .map("Remove: group "::concat);
+    Stream<String> addedMembers =
+        Sets.difference(newSubgroups, oldSubgroups)
+            .stream()
+            .map(groupNameRetriever)
+            .map("Add: group "::concat);
     return Stream.concat(removedMembers, addedMembers).collect(Collectors.joining("\n"));
   }
 }

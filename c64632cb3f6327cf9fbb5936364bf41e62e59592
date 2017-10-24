@@ -52,6 +52,24 @@
       "revId": "c64632cb3f6327cf9fbb5936364bf41e62e59592",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b48c7ad7_d4e76973",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-24T18:17:04Z",
+      "side": 1,
+      "message": "So your point is that this should be a suite composed of tests, instead of one large test?",
+      "parentUuid": "92ac98ed_3a4c83e1",
+      "revId": "c64632cb3f6327cf9fbb5936364bf41e62e59592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

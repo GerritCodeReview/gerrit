@@ -117,6 +117,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -2552,7 +2553,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
-    createBranch(new Branch.NameKey(project, "dev"));
+    createBranch("dev");
     PushOneCommit.Result changeA =
         pushFactory
             .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
@@ -2588,7 +2589,7 @@ public class ChangeIT extends AbstractDaemonTest {
     currentMaster.assertOkStatus();
 
     // push a commit into dev branch
-    createBranch(new Branch.NameKey(project, "dev"));
+    createBranch("dev");
     PushOneCommit.Result changeA =
         pushFactory
             .create(db, user.getIdent(), testRepo, "change A", "A.txt", "A content")
@@ -2610,6 +2611,70 @@ public class ChangeIT extends AbstractDaemonTest {
         .isEqualTo(parent);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isNotEqualTo(currentMaster.getCommit().getName());
+  }
+
+  @Test
+  public void createMergePatchSetCannotBaseOnInvisibleChange() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    createBranch("foo");
+    createBranch("bar");
+
+    // Create a merged commit on 'foo' branch.
+    merge(createChange("refs/for/foo"));
+
+    // Create the base change on 'bar' branch.
+    testRepo.reset(initialHead);
+    String baseChange = createChange("refs/for/bar").getChangeId();
+    gApi.changes().id(baseChange).setPrivate(true, "set private");
+
+    // Create the destination change on 'master' branch.
+    setApiUser(user);
+    testRepo.reset(initialHead);
+    String changeId = createChange().getChangeId();
+
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Read not permitted for " + baseChange);
+    gApi.changes().id(changeId).createMergePatchSet(createMergePatchSetInput(baseChange));
+  }
+
+  @Test
+  public void createMergePatchSetBaseOnChange() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    createBranch("foo");
+    createBranch("bar");
+
+    // Create a merged commit on 'foo' branch.
+    merge(createChange("refs/for/foo"));
+
+    // Create the base change on 'bar' branch.
+    testRepo.reset(initialHead);
+    PushOneCommit.Result result = createChange("refs/for/bar");
+    String baseChange = result.getChangeId();
+    String expectedParent = result.getCommit().getName();
+
+    // Create the destination change on 'master' branch.
+    testRepo.reset(initialHead);
+    String changeId = createChange().getChangeId();
+
+    gApi.changes().id(changeId).createMergePatchSet(createMergePatchSetInput(baseChange));
+
+    ChangeInfo changeInfo =
+        gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
+    assertThat(changeInfo.revisions.size()).isEqualTo(2);
+    assertThat(changeInfo.subject).isEqualTo("create ps2");
+    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
+        .isEqualTo(expectedParent);
+  }
+
+  private MergePatchSetInput createMergePatchSetInput(String baseChange) {
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "foo";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "create ps2";
+    in.inheritParent = false;
+    in.baseChange = baseChange;
+    return in;
   }
 
   @Test

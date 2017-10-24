@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -194,8 +195,10 @@ public class CreateChange
           throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
         }
         ChangeNotes change = Iterables.getOnlyElement(notes);
-        if (!permissionBackend.user(user).change(change).database(db).test(ChangePermission.READ)) {
-          throw new UnprocessableEntityException("Base change not found: " + input.baseChange);
+        try {
+          permissionBackend.user(user).change(change).database(db).check(ChangePermission.READ);
+        } catch (AuthException e) {
+          throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
         }
         PatchSet ps = psUtil.current(db.get(), change);
         parentCommit = ObjectId.fromString(ps.getRevision().get());

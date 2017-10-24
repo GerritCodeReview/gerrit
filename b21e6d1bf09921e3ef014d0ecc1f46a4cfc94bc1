@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d47889_98d126e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-24T23:13:54Z",
+      "side": 1,
+      "message": "The plugin should be fixed to convert this to a String.  IIRC a similar fix was done for at least one other plugin.",
+      "range": {
+        "startLine": 14,
+        "startChar": 59,
+        "endLine": 14,
+        "endChar": 81
+      },
+      "revId": "b21e6d1bf09921e3ef014d0ecc1f46a4cfc94bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

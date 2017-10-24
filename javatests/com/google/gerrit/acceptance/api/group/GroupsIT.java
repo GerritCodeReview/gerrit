@@ -56,15 +56,14 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -85,7 +84,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
-  @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private AllUsersName allUsers;
@@ -285,7 +283,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
-    Timestamp testStartTime = TimeUtil.nowTs();
+    // NoteDb allows only second precision.
+    Timestamp testStartTime = Timestamp.from(Instant.now().truncatedTo(ChronoUnit.SECONDS));
     String newGroupName = name("newGroup");
     GroupInfo group = gApi.groups().create(newGroupName).get();
 

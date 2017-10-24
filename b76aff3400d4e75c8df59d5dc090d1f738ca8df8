@@ -91,6 +91,29 @@
       "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2400af2c_1b71acf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T16:24:43Z",
+      "side": 1,
+      "message": "@Alice: Never thrown.",
+      "range": {
+        "startLine": 182,
+        "startChar": 69,
+        "endLine": 182,
+        "endChar": 87
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

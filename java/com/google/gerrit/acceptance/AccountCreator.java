@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -31,7 +33,9 @@ import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,12 +44,14 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AccountCreator {
@@ -126,7 +132,7 @@ public class AccountCreator {
           if (!group.isPresent()) {
             throw new NoSuchGroupException(n);
           }
-          groupsUpdateProvider.get().addGroupMember(db, group.get().getGroupUUID(), id);
+          addGroupMember(db, group.get().getGroupUUID(), id);
         }
       }
 
@@ -187,5 +193,14 @@ public class AccountCreator {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePublicKey(out, comment);
     return out.toString(US_ASCII.name()).trim();
+  }
+
+  private void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
+      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
+            .build();
+    groupsUpdateProvider.get().updateGroup(db, groupUuid, groupUpdate);
   }
 }

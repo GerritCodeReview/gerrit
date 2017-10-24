@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AgreementInput;
@@ -93,7 +93,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
     Account account = self.get().getAccount();
     try {
-      addMembers.addMembers(uuid, ImmutableList.of(account.getId()));
+      addMembers.addMembers(uuid, ImmutableSet.of(account.getId()));
     } catch (NoSuchGroupException e) {
       throw new ResourceConflictException("autoverify group not found");
     }

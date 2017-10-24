@@ -17,5 +17,6 @@ package com.google.gerrit.extensions.common;
 public class MergePatchSetInput {
   public String subject;
   public boolean inheritParent;
+  public String baseChange;
   public MergeInput merge;
 }

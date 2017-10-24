@@ -67,6 +67,16 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, key);
         assert.isTrue(tapSpy.calledOnce);
       });
+
+      test('dispatches no tap event with modifier on keycode ' + key, () => {
+        const tapSpy = sandbox.spy();
+        element.addEventListener('tap', tapSpy);
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
+        assert.isFalse(tapSpy.calledOnce);
+      });
     }
 
     suite('disabled', () => {

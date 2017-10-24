@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "732e436c_64b41c6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T13:59:24Z",
+      "side": 1,
+      "message": "Do we have a preference on how to end a commit message (with \\n or without)? I looked at the rest of our code and noticed that we aren\u0027t consistent.",
+      "range": {
+        "startLine": 219,
+        "startChar": 32,
+        "endLine": 219,
+        "endChar": 66
+      },
+      "revId": "d4df50bb92799058a2f0509b6187f52ba2a55f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b96131c_4cccc0f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-24T02:36:52Z",
+      "side": 1,
+      "message": "Maybe just remove the \"optional\" from the bullet point, and reword it to remove the \"if you installed\" part of the sentence?\n\nWould that work?\n\nTBH I\u0027m not sure because I\u0027ve only used Gerrit with the default Jetty container.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "0ff71f2fe975881ff60791ca1077d7546fea2bdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

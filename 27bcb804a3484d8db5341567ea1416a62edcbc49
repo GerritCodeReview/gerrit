@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd9d86f6_6e8f2d1d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.html",
+        "patchSetId": 35
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-24T22:50:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure why this was added? You were previously testing the case in which private by default was not set, but now that test case isn\u0027t tested. I would rename this test to \u0027new change created with wip\u0027 and can also just assert private is not checked/the change is not created with private.",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "27bcb804a3484d8db5341567ea1416a62edcbc49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf7f2456_d8b50906",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-24T11:41:04Z",
+      "side": 0,
+      "message": "If we will always have \"fastEvalLabels \u003d true\", we should keep \"assume_range_from_label\"?",
+      "range": {
+        "startLine": 481,
+        "startChar": 6,
+        "endLine": 483,
+        "endChar": 7
+      },
+      "revId": "7c44d134b06a5085f15fb192f8ce796594433a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

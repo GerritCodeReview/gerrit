@@ -16,7 +16,6 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -28,11 +27,14 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, NameInput> {
@@ -48,7 +50,8 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
   @Override
   public String apply(GroupResource rsrc, NameInput input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-          ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
+          ResourceConflictException, ResourceNotFoundException, OrmException, IOException,
+          ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     if (!rsrc.getControl().isOwner()) {
@@ -70,15 +73,16 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
   }
 
   private void renameGroup(GroupDescription.Internal group, String newName)
-      throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException {
+      throws ResourceConflictException, ResourceNotFoundException, OrmException, IOException,
+          ConfigInvalidException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder().setName(new AccountGroup.NameKey(newName)).build();
     try {
-      groupsUpdateProvider
-          .get()
-          .renameGroup(db.get(), groupUuid, new AccountGroup.NameKey(newName));
+      groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
-    } catch (NameAlreadyUsedException e) {
+    } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException("group with name " + newName + " already exists");
     }
   }

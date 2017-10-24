@@ -163,17 +163,6 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param fast if true assume reviewers are permitted to use label values currently stored on the
-   *     change. Fast mode bypasses some reviewer permission checks.
-   * @return this
-   */
-  public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {
-    checkNotStarted();
-    optsBuilder.fastEvalLabels(fast);
-    return this;
-  }
-
-  /**
    * @param allow whether to allow {@link #evaluate()} on closed changes.
    * @return this
    */
@@ -478,10 +467,6 @@ public class SubmitRuleEvaluator {
     PrologEnvironment env = getPrologEnvironment(user);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
-      if (opts.fastEvalLabels()) {
-        env.once("gerrit", "assume_range_from_label");
-      }
-
       List<Term> results = new ArrayList<>();
       try {
         for (Term[] template : env.all("gerrit", userRuleWrapperName, sr, new VariableTerm())) {
@@ -570,10 +555,6 @@ public class SubmitRuleEvaluator {
       parentEnv.copyStoredValues(childEnv);
       Term filterRule = parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
       try {
-        if (opts.fastEvalLabels()) {
-          env.once("gerrit", "assume_range_from_label");
-        }
-
         Term[] template =
             parentEnv.once(
                 "gerrit", filterRuleWrapperName, filterRule, results, new VariableTerm());

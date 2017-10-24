@@ -30,10 +30,8 @@ public abstract class SubmitRuleOptions {
   }
 
   public static Builder defaults() {
-    return builder().fastEvalLabels(false).allowClosed(false).skipFilters(false).rule(null);
+    return builder().allowClosed(false).skipFilters(false).rule(null);
   }
-
-  public abstract boolean fastEvalLabels();
 
   public abstract boolean allowClosed();
 
@@ -44,8 +42,6 @@ public abstract class SubmitRuleOptions {
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public abstract SubmitRuleOptions.Builder fastEvalLabels(boolean fastEvalLabels);
-
     public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
 
     public abstract SubmitRuleOptions.Builder skipFilters(boolean skipFilters);
@@ -56,10 +52,6 @@ public abstract class SubmitRuleOptions {
   }
 
   public Builder toBuilder() {
-    return builder()
-        .fastEvalLabels(fastEvalLabels())
-        .allowClosed(allowClosed())
-        .skipFilters(skipFilters())
-        .rule(rule());
+    return builder().allowClosed(allowClosed()).skipFilters(skipFilters()).rule(rule());
   }
 }

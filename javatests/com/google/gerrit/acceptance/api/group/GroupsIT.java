@@ -59,6 +59,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -73,6 +74,7 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -84,6 +86,14 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbConfig() {
+    Config config = new Config();
+    config.setBoolean("user", null, "writeGroupsToNoteDb", true);
+    config.setBoolean("user", null, "readGroupsFromNoteDb", true);
+    return config;
+  }
+
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private AllUsersName allUsers;

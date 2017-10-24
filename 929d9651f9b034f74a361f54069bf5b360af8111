@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8ef69cc_92db14d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T15:49:05Z",
+      "side": 1,
+      "message": "Do we care about those two fields for updates? I saw that MetaDataUpdate.User sets them but uses the serverIdent for the committer and the userIdent for the author. In addition, the timestamps might not be correct. (I used the same approach as in AccountConfig but am wondering about it.)",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 77
+      },
+      "revId": "929d9651f9b034f74a361f54069bf5b360af8111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

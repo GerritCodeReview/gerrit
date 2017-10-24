@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d19fb9bd_aff47e15",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-24T21:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "781b6e76_e2cd96be",
+      "revId": "c8f535d4a4093ed3575ea6ed1cbd5a7dcc700a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2bbd356_0e681b5c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-24T21:43:25Z",
       "side": 1,
       "message": "Optional nitpick: the result is the same, but this inner .then can be flattened onto the top-level chain ..\n\nreturn this.$.commentAPI.loadAll(this.changeNum)\n    .then(() \u003d\u003e {\n      return this.asyncForeach(paths, path \u003d\u003e {\n        iter++;\n        console.log(\u0027Expanding diff\u0027, iter, \u0027of\u0027, initialCount, \u0027:\u0027, path);\n        const diffElem \u003d this._findDiffByPath(path, diffElements);\n        diffElem.comments \u003d this.$.commentAPI.getCommentsForPath(path,\n            this.patchRange, this.projectConfig);\n        const promises \u003d [diffElem.reload()];\n        if (this._isLoggedIn) {\n          promises.push(this._reviewFile(path));\n        }\n        return Promise.all(promises);\n      })\n    })\n    .then(() \u003d\u003e {\n      console.log(\u0027Finished expanding\u0027, initialCount, \u0027diff(s)\u0027);\n    });\n\n.. since the goal with promises is sort of for flattening callback structures.",
+      "range": {
+        "startLine": 889,
+        "startChar": 10,
+        "endLine": 891,
+        "endChar": 11
+      },
+      "revId": "c8f535d4a4093ed3575ea6ed1cbd5a7dcc700a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7a1bd9a_92625cea",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-24T21:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2bbd356_0e681b5c",
       "range": {
         "startLine": 889,
         "startChar": 10,

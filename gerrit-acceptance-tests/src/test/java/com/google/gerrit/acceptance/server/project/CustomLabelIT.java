@@ -26,6 +26,7 @@ import static com.google.gerrit.server.project.Util.value;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 import org.junit.After;
@@ -197,6 +199,66 @@ public class CustomLabelIT extends AbstractDaemonTest {
     revision(r).review(in);
   }
 
+  @Test
+  public void customLabelWithUserPermissionChange() throws Exception {
+    String testLabel = "Test-Label";
+    configLabel(
+        project,
+        testLabel,
+        LabelFunction.MAX_WITH_BLOCK,
+        value(2, "Looks good to me, approved"),
+        value(1, "Looks good to me, but someone else must approve"),
+        value(0, "No score"),
+        value(-1, "I would prefer this is not merged as is"),
+        value(-2, "This shall not be merged"));
+
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    Util.allow(cfg, Permission.forLabel(testLabel), -2, +2, registered, "refs/heads/*");
+    saveProjectConfig(cfg);
+
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+
+    // admin votes 'Test-Label +2' and 'Code-Review +2'.
+    ReviewInput input = new ReviewInput();
+    input.label(testLabel, 2);
+    input.label("Code-Review", 2);
+    revision(result).review(input);
+
+    // Verify the value of 'Test-Label' is +2.
+    assertLabelStatus(changeId, testLabel);
+
+    // The change is submittable.
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    // Update admin's permitted range for 'Test-Label' to be -1...+1.
+    Util.remove(cfg, Permission.forLabel(testLabel), registered, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(testLabel), -1, +1, registered, "refs/heads/*");
+    saveProjectConfig(cfg);
+
+    // Verify admin doesn't have +2 permission any more.
+    assertPermitted(gApi.changes().id(changeId).get(), testLabel, -1, 0, 1);
+
+    // Verify the value of 'Test-Label' is still +2.
+    assertLabelStatus(changeId, testLabel);
+
+    // Verify the change is still submittable.
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+    gApi.changes().id(changeId).current().submit();
+  }
+
+  private void assertLabelStatus(String changeId, String testLabel) throws Exception {
+    ChangeInfo changeInfo = getWithLabels(changeId);
+    LabelInfo labelInfo = changeInfo.labels.get(testLabel);
+    assertThat(labelInfo.all).hasSize(1);
+    assertThat(labelInfo.approved).isNotNull();
+    assertThat(labelInfo.recommended).isNull();
+    assertThat(labelInfo.disliked).isNull();
+    assertThat(labelInfo.rejected).isNull();
+    assertThat(labelInfo.blocking).isNull();
+  }
+
   private void saveLabelConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.getLabelSections().put(label.getName(), label);
@@ -205,6 +267,10 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo getWithLabels(PushOneCommit.Result r) throws Exception {
-    return get(r.getChangeId(), ListChangesOption.LABELS, ListChangesOption.DETAILED_LABELS);
+    return getWithLabels(r.getChangeId());
+  }
+
+  private ChangeInfo getWithLabels(String changeId) throws Exception {
+    return get(changeId, ListChangesOption.LABELS, ListChangesOption.DETAILED_LABELS);
   }
 }

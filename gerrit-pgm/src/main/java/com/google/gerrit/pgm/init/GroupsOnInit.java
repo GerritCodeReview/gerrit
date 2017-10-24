@@ -76,6 +76,7 @@ public class GroupsOnInit {
    */
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, NoSuchGroupException {
+    // TODO(aliceks): Add implementation for NoteDb.
     AccountGroup group = getExistingGroup(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
 

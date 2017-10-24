@@ -15,9 +15,9 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
@@ -25,13 +25,22 @@ import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupCreation;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -39,41 +48,47 @@ import java.nio.file.Path;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
   @SitePath private final Path site_path;
 
+  private final GitRepositoryManager repoManager;
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
+  private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
 
-  private AccountGroup admin;
-  private AccountGroup batch;
-
   @Inject
   public SchemaCreator(
       SitePaths site,
+      GitRepositoryManager repoManager,
       AllProjectsCreator ap,
       AllUsersCreator auc,
+      AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic) {
-    this(site.site_path, ap, auc, au, dst, ic);
+    this(site.site_path, repoManager, ap, auc, allUsersName, au, dst, ic);
   }
 
   public SchemaCreator(
       @SitePath Path site,
+      GitRepositoryManager repoManager,
       AllProjectsCreator ap,
       AllUsersCreator auc,
+      AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic) {
     site_path = site;
+    this.repoManager = repoManager;
     allProjectsCreator = ap;
     allUsersCreator = auc;
+    this.allUsersName = allUsersName;
     serverUser = au;
     dataSourceType = dst;
     indexCollection = ic;
@@ -89,34 +104,87 @@ public class SchemaCreator {
     sVer.versionNbr = SchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
-    createDefaultGroups(db);
+    GroupReference admins = createGroupReference("Administrators");
+    GroupReference batchUsers = createGroupReference("Non-Interactive Users");
+
     initSystemConfig(db);
-    allProjectsCreator
-        .setAdministrators(GroupReference.forGroup(admin))
-        .setBatchUsers(GroupReference.forGroup(batch))
-        .create();
-    allUsersCreator.setAdministrators(GroupReference.forGroup(admin)).create();
+    allProjectsCreator.setAdministrators(admins).setBatchUsers(batchUsers).create();
+    // We have to create the All-Users repository before we can use it to store the groups in it.
+    allUsersCreator.setAdministrators(admins).create();
+
+    try (Repository repository = repoManager.openRepository(allUsersName)) {
+      createAdminsGroup(db, repository, admins);
+      createBatchUsersGroup(db, repository, batchUsers, admins.getUUID());
+    }
+
     dataSourceType.getIndexScript().run(db);
   }
 
-  private void createDefaultGroups(ReviewDb db) throws OrmException, IOException {
-    admin = newGroup(db, "Administrators");
-    admin.setDescription("Gerrit Site Administrators");
-    createGroupInReviewDb(db, admin);
-    index(InternalGroup.create(admin, ImmutableSet.of(), ImmutableSet.of()));
+  private void createAdminsGroup(ReviewDb db, Repository repository, GroupReference groupReference)
+      throws OrmException, IOException, ConfigInvalidException {
+    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
 
-    batch = newGroup(db, "Non-Interactive Users");
-    batch.setDescription("Users who perform batch actions on Gerrit");
-    batch.setOwnerGroupUUID(admin.getGroupUUID());
-    createGroupInReviewDb(db, batch);
-    index(InternalGroup.create(batch, ImmutableSet.of(), ImmutableSet.of()));
+    createGroup(db, repository, groupCreation, groupUpdate);
   }
 
-  // TODO(aliceks): Add code for NoteDb.
-  private static void createGroupInReviewDb(ReviewDb db, AccountGroup group) throws OrmException {
-    AccountGroupName gn = new AccountGroupName(group);
-    db.accountGroupNames().insert(ImmutableList.of(gn));
+  private void createBatchUsersGroup(
+      ReviewDb db,
+      Repository repository,
+      GroupReference groupReference,
+      AccountGroup.UUID adminsGroupUuid)
+      throws OrmException, IOException, ConfigInvalidException {
+    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setDescription("Users who perform batch actions on Gerrit")
+            .setOwnerGroupUUID(adminsGroupUuid)
+            .build();
+
+    createGroup(db, repository, groupCreation, groupUpdate);
+  }
+
+  private void createGroup(
+      ReviewDb db,
+      Repository repository,
+      InternalGroupCreation groupCreation,
+      InternalGroupUpdate groupUpdate)
+      throws OrmException, ConfigInvalidException, IOException {
+    createGroupInReviewDb(db, groupCreation, groupUpdate);
+    InternalGroup adminsGroup = createGroupInNoteDb(repository, groupCreation, groupUpdate);
+    index(adminsGroup);
+  }
+
+  private static void createGroupInReviewDb(
+      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws OrmException {
+    AccountGroup group = GroupsUpdate.createAccountGroup(groupCreation, groupUpdate);
+    db.accountGroupNames().insert(ImmutableList.of(new AccountGroupName(group)));
     db.accountGroups().insert(ImmutableList.of(group));
+  }
+
+  private InternalGroup createGroupInNoteDb(
+      Repository repository, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
+    // We don't add any initial members or subgroups and hence the provided functions should never
+    // be called. To be on the safe side, we specify some valid functions.
+    groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository)) {
+      groupConfig.commit(metaDataUpdate);
+    }
+    return groupConfig
+        .getLoadedGroup()
+        .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
+  }
+
+  private MetaDataUpdate createMetaDataUpdate(Repository repository) throws IOException {
+    MetaDataUpdate metaDataUpdate =
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repository);
+    metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
+    metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
+    return metaDataUpdate;
   }
 
   private void index(InternalGroup group) throws IOException {
@@ -125,13 +193,19 @@ public class SchemaCreator {
     }
   }
 
-  private AccountGroup newGroup(ReviewDb c, String name) throws OrmException {
-    AccountGroup.UUID uuid = GroupUUID.make(name, serverUser);
-    return new AccountGroup( //
-        new AccountGroup.NameKey(name), //
-        new AccountGroup.Id(c.nextAccountGroupId()), //
-        uuid,
-        TimeUtil.nowTs());
+  private GroupReference createGroupReference(String name) {
+    AccountGroup.UUID groupUuid = GroupUUID.make(name, serverUser);
+    return new GroupReference(groupUuid, name);
+  }
+
+  private static InternalGroupCreation getGroupCreation(ReviewDb db, GroupReference groupReference)
+      throws OrmException {
+    return InternalGroupCreation.builder()
+        .setNameKey(new AccountGroup.NameKey(groupReference.getName()))
+        .setId(new AccountGroup.Id(db.nextAccountGroupId()))
+        .setGroupUUID(groupReference.getUUID())
+        .setCreatedOn(TimeUtil.nowTs())
+        .build();
   }
 
   private SystemConfig initSystemConfig(ReviewDb db) throws OrmException {

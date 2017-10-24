@@ -211,6 +211,13 @@ public class GroupsUpdate {
     updateGroupInReviewDb(db, group, groupUpdate);
   }
 
+  public static AccountGroup createAccountGroup(
+      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate) {
+    AccountGroup group = createAccountGroup(groupCreation);
+    applyUpdate(group, groupUpdate);
+    return group;
+  }
+
   private static AccountGroup createAccountGroup(InternalGroupCreation groupCreation) {
     return new AccountGroup(
         groupCreation.getNameKey(),

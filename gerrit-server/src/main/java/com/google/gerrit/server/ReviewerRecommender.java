@@ -205,7 +205,7 @@ public class ReviewerRecommender {
           queryProvider
               .get()
               .setLimit(25)
-              .setRequestedFields(ImmutableSet.of(ChangeField.REVIEWER.getName()))
+              .setRequestedFields(ImmutableSet.of(ChangeField.APPROVAL.getName()))
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new HashMap<>();
       for (ChangeData cd : result) {

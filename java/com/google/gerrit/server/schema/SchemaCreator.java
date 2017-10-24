@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -26,7 +28,6 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -101,14 +102,21 @@ public class SchemaCreator {
   private void createDefaultGroups(ReviewDb db) throws OrmException, IOException {
     admin = newGroup(db, "Administrators");
     admin.setDescription("Gerrit Site Administrators");
-    GroupsUpdate.addNewGroup(db, admin);
+    createGroupInReviewDb(db, admin);
     index(InternalGroup.create(admin, ImmutableSet.of(), ImmutableSet.of()));
 
     batch = newGroup(db, "Non-Interactive Users");
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
-    GroupsUpdate.addNewGroup(db, batch);
+    createGroupInReviewDb(db, batch);
     index(InternalGroup.create(batch, ImmutableSet.of(), ImmutableSet.of()));
+  }
+
+  // TODO(aliceks): Add code for NoteDb.
+  private static void createGroupInReviewDb(ReviewDb db, AccountGroup group) throws OrmException {
+    AccountGroupName gn = new AccountGroupName(group);
+    db.accountGroupNames().insert(ImmutableList.of(gn));
+    db.accountGroups().insert(ImmutableList.of(group));
   }
 
   private void index(InternalGroup group) throws IOException {

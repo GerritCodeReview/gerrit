@@ -164,6 +164,10 @@
      * Context: Issue 7277
      */
     _scopedKeydownHandler(e) {
+      // Events may propagate to the keydown handler even if they've been
+      // cancelled via preventDefault() and stopPropagation() -- it is unclear
+      // why. Checking for an event being cancelled manually fixes this.
+      if (e.defaultPrevented) { return; }
       if (e.keyCode === 13) {
         // Enter.
         this._handleOKey(e);

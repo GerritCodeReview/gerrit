@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
@@ -55,7 +56,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-          ResourceNotFoundException, IOException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
@@ -95,7 +96,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(SubgroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, UnprocessableEntityException, OrmException,
-            ResourceNotFoundException, IOException {
+            ResourceNotFoundException, IOException, ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

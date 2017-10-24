@@ -150,18 +150,15 @@ public class GroupCacheImpl implements GroupCache {
 
   static class ByIdLoader extends CacheLoader<AccountGroup.Id, Optional<InternalGroup>> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Groups groups;
     private final BooleanSupplier hasGroupIndex;
     private final Provider<InternalGroupQuery> groupQueryProvider;
 
     @Inject
     ByIdLoader(
         SchemaFactory<ReviewDb> schema,
-        Groups groups,
         GroupIndexCollection groupIndexCollection,
         Provider<InternalGroupQuery> groupQueryProvider) {
       this.schema = schema;
-      this.groups = groups;
       hasGroupIndex = () -> groupIndexCollection.getSearchIndex() != null;
       this.groupQueryProvider = groupQueryProvider;
     }
@@ -173,7 +170,7 @@ public class GroupCacheImpl implements GroupCache {
       }
 
       try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, key);
+        return Groups.getGroupFromReviewDb(db, key);
       }
     }
   }

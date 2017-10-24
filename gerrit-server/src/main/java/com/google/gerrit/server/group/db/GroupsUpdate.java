@@ -49,7 +49,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -86,7 +85,6 @@ public class GroupsUpdate {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final Groups groups;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
@@ -101,7 +99,6 @@ public class GroupsUpdate {
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      Groups groups,
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
       AuditService auditService,
@@ -114,7 +111,6 @@ public class GroupsUpdate {
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.groups = groups;
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
@@ -227,13 +223,16 @@ public class GroupsUpdate {
     db.accountGroups().update(ImmutableList.of(group));
     ImmutableSet<Account.Id> modifiedMembers =
         updateMembersInReviewDb(db, group.getId(), groupUpdate);
+    ImmutableSet<AccountGroup.UUID> modifiedSubgroups =
+        updateSubgroupsInReviewDb(db, group.getId(), groupUpdate);
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
             .setGroupUuid(group.getGroupUUID())
             .setGroupId(group.getId())
             .setGroupName(group.getNameKey())
-            .setModifiedMembers(modifiedMembers);
+            .setModifiedMembers(modifiedMembers)
+            .setModifiedSubgroups(modifiedSubgroups);
     return resultBuilder.build();
   }
 
@@ -335,6 +334,58 @@ public class GroupsUpdate {
     db.accountGroupMembers().delete(membersToRemove);
   }
 
+  private ImmutableSet<AccountGroup.UUID> updateSubgroupsInReviewDb(
+      ReviewDb db, AccountGroup.Id groupId, InternalGroupUpdate groupUpdate) throws OrmException {
+    ImmutableSet<AccountGroup.UUID> originalSubgroups =
+        Groups.getSubgroupsFromReviewDb(db, groupId).collect(toImmutableSet());
+    ImmutableSet<AccountGroup.UUID> updatedSubgroups =
+        ImmutableSet.copyOf(groupUpdate.getSubgroupModification().apply(originalSubgroups));
+
+    Set<AccountGroup.UUID> addedSubgroups = Sets.difference(updatedSubgroups, originalSubgroups);
+    if (!addedSubgroups.isEmpty()) {
+      addSubgroupsInReviewDb(db, groupId, addedSubgroups);
+    }
+
+    Set<AccountGroup.UUID> removedSubgroups = Sets.difference(originalSubgroups, updatedSubgroups);
+    if (!removedSubgroups.isEmpty()) {
+      removeSubgroupsInReviewDb(db, groupId, removedSubgroups);
+    }
+
+    return Sets.union(addedSubgroups, removedSubgroups).immutableCopy();
+  }
+
+  private void addSubgroupsInReviewDb(
+      ReviewDb db, AccountGroup.Id parentGroupId, Set<AccountGroup.UUID> subgroupUuids)
+      throws OrmException {
+    Set<AccountGroupById> newSubgroups =
+        subgroupUuids
+            .stream()
+            .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
+            .map(AccountGroupById::new)
+            .collect(toImmutableSet());
+
+    if (currentUser != null) {
+      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups);
+    }
+    db.accountGroupById().insert(newSubgroups);
+  }
+
+  private void removeSubgroupsInReviewDb(
+      ReviewDb db, AccountGroup.Id parentGroupId, Set<AccountGroup.UUID> subgroupUuids)
+      throws OrmException {
+    Set<AccountGroupById> subgroupsToRemove =
+        subgroupUuids
+            .stream()
+            .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
+            .map(AccountGroupById::new)
+            .collect(toImmutableSet());
+
+    if (currentUser != null) {
+      auditService.dispatchDeleteGroupsFromGroup(currentUser.getAccountId(), subgroupsToRemove);
+    }
+    db.accountGroupById().delete(subgroupsToRemove);
+  }
+
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException {
@@ -358,7 +409,7 @@ public class GroupsUpdate {
       GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
     Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
 
-    groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail);
+    groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
     commit(groupConfig);
     InternalGroup updatedGroup =
         groupConfig
@@ -367,13 +418,15 @@ public class GroupsUpdate {
                 () -> new IllegalStateException("Updated group wasn't automatically loaded"));
 
     Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
+    Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
             .setGroupUuid(updatedGroup.getGroupUUID())
             .setGroupId(updatedGroup.getId())
             .setGroupName(updatedGroup.getNameKey())
-            .setModifiedMembers(modifiedMembers);
+            .setModifiedMembers(modifiedMembers)
+            .setModifiedSubgroups(modifiedSubgroups);
     return Optional.of(resultBuilder.build());
   }
 
@@ -383,6 +436,10 @@ public class GroupsUpdate {
         .map(AccountState::getAccount)
         .map(account -> account.getNameEmail(anonymousCowardName))
         .orElse(String.valueOf(accountId.get()));
+  }
+
+  private String getGroupName(AccountGroup.UUID groupUuid) {
+    return groupCache.get(groupUuid).map(InternalGroup::getName).orElse(groupUuid.get());
   }
 
   private void commit(GroupConfig groupConfig) throws IOException {
@@ -398,10 +455,20 @@ public class GroupsUpdate {
     return Sets.symmetricDifference(originalMembers, updatedGroup.getMembers());
   }
 
+  private static Set<AccountGroup.UUID> getModifiedSubgroups(
+      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
+    ImmutableSet<AccountGroup.UUID> originalSubgroups =
+        originalGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
+    return Sets.symmetricDifference(originalSubgroups, updatedGroup.getSubgroups());
+  }
+
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
     groupCache.evict(result.getGroupUuid(), result.getGroupId(), result.getGroupName());
     for (Account.Id modifiedMember : result.getModifiedMembers()) {
       accountCache.evict(modifiedMember);
+    }
+    for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
+      groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
     }
   }
 
@@ -496,37 +563,19 @@ public class GroupsUpdate {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param parentGroupUuid the UUID of the parent group
-   * @param subgroupUuids a set of IDs of the groups to add as subgroups
+   * @param newSubgroupUuids a set of IDs of the groups to add as subgroups
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws IOException if the parent group couldn't be indexed
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
   public void addSubgroups(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
-      throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
-    AccountGroup.Id parentGroupId = parentGroup.getId();
-    Set<AccountGroupById> newSubgroups = new HashSet<>();
-    for (AccountGroup.UUID includedGroupUuid : subgroupUuids) {
-      boolean isSubgroup = groups.isSubgroup(db, parentGroupUuid, includedGroupUuid);
-      if (!isSubgroup) {
-        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, includedGroupUuid);
-        newSubgroups.add(new AccountGroupById(key));
-      }
-    }
-
-    if (newSubgroups.isEmpty()) {
-      return;
-    }
-
-    if (currentUser != null) {
-      auditService.dispatchAddGroupsToGroup(currentUser.getAccountId(), newSubgroups);
-    }
-    db.accountGroupById().insert(newSubgroups);
-    groupCache.evict(parentGroup.getGroupUUID(), parentGroup.getId(), parentGroup.getNameKey());
-    for (AccountGroupById newIncludedGroup : newSubgroups) {
-      groupIncludeCache.evictParentGroupsOf(newIncludedGroup.getIncludeUUID());
-    }
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> newSubgroupUuids)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setSubgroupModification(subgroupUuids -> Sets.union(subgroupUuids, newSubgroupUuids))
+            .build();
+    updateGroup(db, parentGroupUuid, groupUpdate);
   }
 
   /**
@@ -538,37 +587,20 @@ public class GroupsUpdate {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param parentGroupUuid the UUID of the parent group
-   * @param subgroupUuids a set of IDs of the subgroups to remove from the parent group
+   * @param removedSubgroupUuids a set of IDs of the subgroups to remove from the parent group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws IOException if the parent group couldn't be indexed
    * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
   public void removeSubgroups(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> subgroupUuids)
-      throws OrmException, NoSuchGroupException, IOException {
-    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
-    AccountGroup.Id parentGroupId = parentGroup.getId();
-    Set<AccountGroupById> subgroupsToRemove = new HashSet<>();
-    for (AccountGroup.UUID subgroupUuid : subgroupUuids) {
-      boolean isSubgroup = groups.isSubgroup(db, parentGroupUuid, subgroupUuid);
-      if (isSubgroup) {
-        AccountGroupById.Key key = new AccountGroupById.Key(parentGroupId, subgroupUuid);
-        subgroupsToRemove.add(new AccountGroupById(key));
-      }
-    }
-
-    if (subgroupsToRemove.isEmpty()) {
-      return;
-    }
-
-    if (currentUser != null) {
-      auditService.dispatchDeleteGroupsFromGroup(currentUser.getAccountId(), subgroupsToRemove);
-    }
-    db.accountGroupById().delete(subgroupsToRemove);
-    groupCache.evict(parentGroup.getGroupUUID(), parentGroup.getId(), parentGroup.getNameKey());
-    for (AccountGroupById groupToRemove : subgroupsToRemove) {
-      groupIncludeCache.evictParentGroupsOf(groupToRemove.getIncludeUUID());
-    }
+      ReviewDb db, AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> removedSubgroupUuids)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setSubgroupModification(
+                subgroupUuids -> Sets.difference(subgroupUuids, removedSubgroupUuids))
+            .build();
+    updateGroup(db, parentGroupUuid, groupUpdate);
   }
 
   @FunctionalInterface
@@ -586,6 +618,8 @@ public class GroupsUpdate {
 
     abstract ImmutableSet<Account.Id> getModifiedMembers();
 
+    abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
+
     static Builder builder() {
       return new AutoValue_GroupsUpdate_UpdateResult.Builder();
     }
@@ -599,6 +633,8 @@ public class GroupsUpdate {
       abstract Builder setGroupName(AccountGroup.NameKey name);
 
       abstract Builder setModifiedMembers(Set<Account.Id> modifiedMembers);
+
+      abstract Builder setModifiedSubgroups(Set<AccountGroup.UUID> modifiedSubgroups);
 
       abstract UpdateResult build();
     }

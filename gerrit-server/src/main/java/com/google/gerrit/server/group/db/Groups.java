@@ -59,7 +59,7 @@ public class Groups {
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
    */
   public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.Id groupId)
-      throws OrmException, NoSuchGroupException {
+      throws OrmException {
     AccountGroup accountGroup = db.accountGroups().get(groupId);
     if (accountGroup == null) {
       return Optional.empty();
@@ -77,7 +77,7 @@ public class Groups {
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
    */
   public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException, NoSuchGroupException {
+      throws OrmException {
     Optional<AccountGroup> accountGroup = getGroupFromReviewDb(db, groupUuid);
     if (!accountGroup.isPresent()) {
       return Optional.empty();
@@ -86,11 +86,11 @@ public class Groups {
   }
 
   private static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)
-      throws OrmException, NoSuchGroupException {
+      throws OrmException {
     ImmutableSet<Account.Id> members =
         getMembersFromReviewDb(db, accountGroup.getId()).collect(toImmutableSet());
     ImmutableSet<AccountGroup.UUID> subgroups =
-        getSubgroups(db, accountGroup.getGroupUUID()).collect(toImmutableSet());
+        getSubgroupsFromReviewDb(db, accountGroup.getId()).collect(toImmutableSet());
     return InternalGroup.create(accountGroup, members, subgroups);
   }
 
@@ -144,33 +144,10 @@ public class Groups {
   private Optional<InternalGroup> getGroupIfPossible(ReviewDb db, AccountGroup.UUID groupUuid) {
     try {
       return getGroup(db, groupUuid);
-    } catch (OrmException | NoSuchGroupException e) {
+    } catch (OrmException e) {
       log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
     }
     return Optional.empty();
-  }
-
-  /**
-   * Indicates whether the specified group is a subgroup of the specified parent group.
-   *
-   * <p>The parent group must be an internal group whereas the subgroup may either be an internal or
-   * an external group.
-   *
-   * <p><strong>Note</strong>: This method doesn't check whether the subgroup exists!
-   *
-   * @param db the {@code ReviewDb} instance to use for lookups
-   * @param parentGroupUuid the UUID of the parent group
-   * @param subgroupUuid the UUID of the subgroup
-   * @return {@code true} if the group is a subgroup of the other group, or else {@code false}
-   * @throws OrmException if an error occurs while reading from ReviewDb
-   * @throws NoSuchGroupException if the specified parent group doesn't exist
-   */
-  public boolean isSubgroup(
-      ReviewDb db, AccountGroup.UUID parentGroupUuid, AccountGroup.UUID subgroupUuid)
-      throws OrmException, NoSuchGroupException {
-    AccountGroup parentGroup = getExistingGroupFromReviewDb(db, parentGroupUuid);
-    AccountGroupById.Key key = new AccountGroupById.Key(parentGroup.getId(), subgroupUuid);
-    return db.accountGroupById().get(key) != null;
   }
 
   /**
@@ -198,15 +175,13 @@ public class Groups {
    * <p><strong>Note</strong>: This method doesn't check whether the subgroups exist!
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupUuid the UUID of the parent group
+   * @param groupId the ID of the group
    * @return a stream of the UUIDs of the subgroups
    * @throws OrmException if an error occurs while reading from ReviewDb
-   * @throws NoSuchGroupException if the specified parent group doesn't exist
    */
-  public static Stream<AccountGroup.UUID> getSubgroups(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException, NoSuchGroupException {
-    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
-    ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(group.getId());
+  public static Stream<AccountGroup.UUID> getSubgroupsFromReviewDb(
+      ReviewDb db, AccountGroup.Id groupId) throws OrmException {
+    ResultSet<AccountGroupById> accountGroupByIds = db.accountGroupById().byGroup(groupId);
     return Streams.stream(accountGroupByIds).map(AccountGroupById::getIncludeUUID).distinct();
   }
 

@@ -94,7 +94,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V47 = schema(V46);
 
   // Rename of star label 'mute' to 'reviewed' requires reindexing
-  static final Schema<ChangeData> V48 = schema(V47);
+  @Deprecated static final Schema<ChangeData> V48 = schema(V47);
+
+  static final Schema<ChangeData> V49 = schema(V48);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

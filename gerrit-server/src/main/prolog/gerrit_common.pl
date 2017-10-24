@@ -92,55 +92,6 @@ index_commit_labels([_ | Rs]) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-%% check_user_label/3:
-%%
-%%   Check Who can set Label to Val.
-%%
-check_user_label(Label, Who, Val) :-
-  hash_get(commit_labels, '$fast_range', true), !,
-  atom(Label),
-  assume_range_from_label(Label, Who, Min, Max),
-  Min @=< Val, Val @=< Max.
-check_user_label(Label, Who, Val) :-
-  Who = user(_), !,
-  atom(Label),
-  current_user(Who, User),
-  '_check_user_label'(Label, User, Val).
-check_user_label(Label, test_user(Name), Val) :-
-  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _),
-  Min @=< Val, Val @=< Max
-  .
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% user_label_range/4:
-%%
-%%   Lookup the range allowed to be used.
-%%
-user_label_range(Label, Who, Min, Max) :-
-  hash_get(commit_labels, '$fast_range', true), !,
-  atom(Label),
-  assume_range_from_label(Label, Who, Min, Max).
-user_label_range(Label, Who, Min, Max) :-
-  Who = user(_), !,
-  atom(Label),
-  current_user(Who, User),
-  '_user_label_range'(Label, User, Min, Max).
-user_label_range(Label, test_user(Name), Min, Max) :-
-  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _)
-  .
-
-assume_range_from_label :-
-  hash_put(commit_labels, '$fast_range', true).
-
-assume_range_from_label(Label, Who, Min, Max) :-
-  commit_label(label(Label, Value), Who), !,
-  Min = Value, Max = Value.
-assume_range_from_label(_, _, 0, 0).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
 %% not_same/2:
 %%
 :- public not_same/2.
@@ -291,15 +242,6 @@ max_with_block(Label, Min, Max, need(Max)) :-
   true
   .
 
-%TODO Uncomment this clause when group suggesting is possible.
-%max_with_block(Label, Min, Max, need(Max, Group)) :-
-%  \+ check_label_range_permission(Label, Max, ok(_)),
-%  check_label_range_permission(Label, Max, ask(Group))
-%  .
-%max_with_block(Label, Min, Max, impossible(no_access)) :-
-%  \+ check_label_range_permission(Label, Max, ask(Group))
-%  .
-
 %% any_with_block:
 %%
 %% - The maximum is never used.
@@ -327,27 +269,6 @@ max_no_block(Label, Max, ok(Who)) :-
 max_no_block(Label, Max, need(Max)) :-
   true
   .
-%TODO Uncomment this clause when group suggesting is possible.
-%max_no_block(Label, Max, need(Max, Group)) :-
-%  check_label_range_permission(Label, Max, ask(Group))
-%  .
-%max_no_block(Label, Max, impossible(no_access)) :-
-%  \+ check_label_range_permission(Label, Max, ask(Group))
-%  .
-
-
-%% check_label_range_permission:
-%%
-check_label_range_permission(Label, ExpValue, ok(Who)) :-
-  commit_label(label(Label, ExpValue), Who),
-  check_user_label(Label, Who, ExpValue)
-  .
-%TODO Uncomment this clause when group suggesting is possible.
-%check_label_range_permission(Label, ExpValue, ask(Group)) :-
-%  grant_range(Label, Group, Min, Max),
-%  Min @=< ExpValue, ExpValue @=< Max
-%  .
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%

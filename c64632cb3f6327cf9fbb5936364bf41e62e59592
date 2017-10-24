@@ -34,6 +34,24 @@
       "revId": "c64632cb3f6327cf9fbb5936364bf41e62e59592",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92ac98ed_3a4c83e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-24T18:15:37Z",
+      "side": 1,
+      "message": "Smaller, more specific tests make it easy to:\n- understand what\u0027s the intended behavior\n- what is exactly breaking if the test fails\n- much easier to fix and debug\n\nWhile larger tests have following downsides:\n- not hermetic: easy to create dependencies between asserts and hard to get rid of it \n- more complex: have to go over the whole test if something breaks\n- cluttered: the actual behavior can\u0027t be easily figured out from the test\n\nI\u0027m pretty sure there are tons of talks on the subject, and I probably should find one. Or give one myself at some point.",
+      "parentUuid": "ce53fbb8_712251df",
+      "revId": "c64632cb3f6327cf9fbb5936364bf41e62e59592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -43,7 +43,9 @@ enum GroupConfigEntry {
 
     @Override
     void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
-      // TODO(aliceks): Implement renaming in NoteDb by merging the updated and rename code.
+      groupUpdate
+          .getName()
+          .ifPresent(name -> config.setString(SECTION_NAME, null, super.keyName, name.get()));
     }
   },
   DESCRIPTION("description") {

@@ -247,6 +247,7 @@ public class GroupConfig extends VersionedMetaData {
       Optional<ImmutableSet<Account.Id>> updatedMembers,
       ImmutableSet<AccountGroup.UUID> originalSubgroups,
       Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups) {
+    // TODO(aliceks): Use a special summary line for renames?
     String summaryLine = "Update group";
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");

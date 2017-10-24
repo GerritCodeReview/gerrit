@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -50,6 +49,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -191,6 +191,8 @@ public class GroupsUpdate {
    * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
    *     group
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
+   * @throws com.google.gwtorm.server.OrmDuplicateKeyException if the new name of the group is used
+   *     by another group
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
@@ -212,6 +214,7 @@ public class GroupsUpdate {
   }
 
   private static void applyUpdate(AccountGroup group, InternalGroupUpdate groupUpdate) {
+    groupUpdate.getName().ifPresent(group::setNameKey);
     groupUpdate.getDescription().ifPresent(d -> group.setDescription(Strings.emptyToNull(d)));
     groupUpdate.getOwnerGroupUUID().ifPresent(group::setOwnerGroupUUID);
     groupUpdate.getVisibleToAll().ifPresent(group::setVisibleToAll);
@@ -219,8 +222,12 @@ public class GroupsUpdate {
 
   private UpdateResult updateGroupInReviewDb(
       ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
+    AccountGroup.NameKey originalName = group.getNameKey();
     applyUpdate(group, groupUpdate);
+    AccountGroup.NameKey updatedName = group.getNameKey();
 
+    // The name must be inserted first so that we stop early for already used names.
+    updateNameInReviewDb(db, group.getId(), originalName, updatedName);
     db.accountGroups().update(ImmutableList.of(group));
     ImmutableSet<Account.Id> modifiedMembers =
         updateMembersInReviewDb(db, group.getId(), groupUpdate);
@@ -234,55 +241,32 @@ public class GroupsUpdate {
             .setGroupName(group.getNameKey())
             .setModifiedMembers(modifiedMembers)
             .setModifiedSubgroups(modifiedSubgroups);
+    if (!Objects.equals(originalName, updatedName)) {
+      resultBuilder.setPreviousGroupName(originalName);
+    }
     return resultBuilder.build();
   }
 
-  /**
-   * Renames the specified group.
-   *
-   * @param db the {@code ReviewDb} instance to update
-   * @param groupUuid the UUID of the group to rename
-   * @param newName the new name of the group
-   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws IOException if the cache entry for the group couldn't be invalidated
-   * @throws NoSuchGroupException if the specified group doesn't exist
-   * @throws NameAlreadyUsedException if another group has the name {@code newName}
-   */
-  public void renameGroup(ReviewDb db, AccountGroup.UUID groupUuid, AccountGroup.NameKey newName)
-      throws OrmException, IOException, NameAlreadyUsedException, NoSuchGroupException {
-    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
-    AccountGroup.NameKey oldName = group.getNameKey();
-
+  private static void updateNameInReviewDb(
+      ReviewDb db,
+      AccountGroup.Id groupId,
+      AccountGroup.NameKey originalName,
+      AccountGroup.NameKey updatedName)
+      throws OrmException {
     try {
-      AccountGroupName id = new AccountGroupName(newName, group.getId());
+      AccountGroupName id = new AccountGroupName(updatedName, groupId);
       db.accountGroupNames().insert(ImmutableList.of(id));
     } catch (OrmException e) {
-      AccountGroupName other = db.accountGroupNames().get(newName);
+      AccountGroupName other = db.accountGroupNames().get(updatedName);
       if (other != null) {
         // If we are using this identity, don't report the exception.
-        if (other.getId().equals(group.getId())) {
+        if (other.getId().equals(groupId)) {
           return;
         }
-
-        // Otherwise, someone else has this identity.
-        throw new NameAlreadyUsedException("group with name " + newName + " already exists");
       }
       throw e;
     }
-
-    group.setNameKey(newName);
-    db.accountGroups().update(ImmutableList.of(group));
-
-    db.accountGroupNames().deleteKeys(ImmutableList.of(oldName));
-
-    groupCache.evictAfterRename(oldName);
-    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
-
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        renameGroupOpFactory
-            .create(committerIdent, groupUuid, oldName.get(), newName.get())
-            .start(0, TimeUnit.MILLISECONDS);
+    db.accountGroupNames().deleteKeys(ImmutableList.of(originalName));
   }
 
   private ImmutableSet<Account.Id> updateMembersInReviewDb(
@@ -410,6 +394,7 @@ public class GroupsUpdate {
       GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
     Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
 
+    // TODO(aliceks): Find a way to ensure unique names with NoteDb.
     groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
     commit(groupConfig);
     InternalGroup updatedGroup =
@@ -420,6 +405,8 @@ public class GroupsUpdate {
 
     Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
     Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
+    Optional<AccountGroup.NameKey> previousName =
+        getPreviousNameIfModified(originalGroup, updatedGroup);
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
@@ -428,6 +415,7 @@ public class GroupsUpdate {
             .setGroupName(updatedGroup.getNameKey())
             .setModifiedMembers(modifiedMembers)
             .setModifiedSubgroups(modifiedSubgroups);
+    previousName.ifPresent(resultBuilder::setPreviousGroupName);
     return Optional.of(resultBuilder.build());
   }
 
@@ -463,7 +451,29 @@ public class GroupsUpdate {
     return Sets.symmetricDifference(originalSubgroups, updatedGroup.getSubgroups());
   }
 
+  private static Optional<AccountGroup.NameKey> getPreviousNameIfModified(
+      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
+    return originalGroup
+        .map(InternalGroup::getNameKey)
+        .filter(originalName -> !Objects.equals(originalName, updatedGroup.getNameKey()));
+  }
+
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
+    if (result.getPreviousGroupName().isPresent()) {
+      AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
+      groupCache.evictAfterRename(previousName);
+
+      // TODO(aliceks): After switching to NoteDb, consider to use a BatchRefUpdate.
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          renameGroupOpFactory
+              .create(
+                  committerIdent,
+                  result.getGroupUuid(),
+                  previousName.get(),
+                  result.getGroupName().get())
+              .start(0, TimeUnit.MILLISECONDS);
+    }
     groupCache.evict(result.getGroupUuid(), result.getGroupId(), result.getGroupName());
     for (Account.Id modifiedMember : result.getModifiedMembers()) {
       groupIncludeCache.evictGroupsWithMember(modifiedMember);
@@ -617,6 +627,8 @@ public class GroupsUpdate {
 
     abstract AccountGroup.NameKey getGroupName();
 
+    abstract Optional<AccountGroup.NameKey> getPreviousGroupName();
+
     abstract ImmutableSet<Account.Id> getModifiedMembers();
 
     abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
@@ -632,6 +644,8 @@ public class GroupsUpdate {
       abstract Builder setGroupId(AccountGroup.Id groupId);
 
       abstract Builder setGroupName(AccountGroup.NameKey name);
+
+      abstract Builder setPreviousGroupName(AccountGroup.NameKey previousName);
 
       abstract Builder setModifiedMembers(Set<Account.Id> modifiedMembers);
 

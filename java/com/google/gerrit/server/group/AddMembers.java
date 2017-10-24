@@ -15,8 +15,8 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
@@ -41,13 +41,13 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -174,11 +174,13 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  public void addMembers(AccountGroup.UUID groupUuid, Collection<Account.Id> newMemberIds)
+  public void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> newMemberIds)
       throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
-    groupsUpdateProvider
-        .get()
-        .addGroupMembers(db.get(), groupUuid, ImmutableSet.copyOf(newMemberIds));
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setMemberModification(memberIds -> Sets.union(memberIds, newMemberIds))
+            .build();
+    groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
   }
 
   private Account createAccountByLdap(String user) throws IOException {

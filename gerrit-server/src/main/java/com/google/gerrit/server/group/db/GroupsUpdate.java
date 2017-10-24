@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -145,41 +146,26 @@ public class GroupsUpdate {
   }
 
   /**
-   * Adds/Creates the specified group for the specified members (accounts).
+   * Creates the specified group for the specified members (accounts).
    *
    * @param db the {@code ReviewDb} instance to update
-   * @param group the group to add
-   * @param memberIds the IDs of the accounts which should be members of the created group
+   * @param groupCreation an {@code InternalGroupCreation} which specifies all mandatory properties
+   *     of the group
+   * @param groupUpdate an {@code InternalGroupUpdate} which specifies optional properties of the
+   *     group. If this {@code InternalGroupUpdate} updates a property which was already specified
+   *     by the {@code InternalGroupCreation}, the value of this {@code InternalGroupUpdate} wins.
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws IOException if the cache entry of one of the new members couldn't be invalidated, or
-   *     the new group couldn't be indexed
-   * @return the created group
+   * @throws OrmDuplicateKeyException if a group with the chosen name already exists
+   * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
+   * @return the created {@code InternalGroup}
    */
-  public InternalGroup addGroup(ReviewDb db, AccountGroup group, Set<Account.Id> memberIds)
-      throws OrmException, IOException {
-    addNewGroup(db, group);
-    addNewGroupMembers(db, group, memberIds);
-    groupCache.onCreateGroup(group.getGroupUUID());
-
-    return InternalGroup.create(group, ImmutableSet.copyOf(memberIds), ImmutableSet.of());
-  }
-
-  /**
-   * Adds the specified group.
-   *
-   * <p><strong>Note</strong>: This method doesn't update the index! It just adds the group to the
-   * database. Use this method with care.
-   *
-   * @param db the {@code ReviewDb} instance to update
-   * @param group the group to add
-   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   */
-  public static void addNewGroup(ReviewDb db, AccountGroup group) throws OrmException {
-    AccountGroupName gn = new AccountGroupName(group);
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
-    db.accountGroupNames().insert(ImmutableList.of(gn));
-    db.accountGroups().insert(ImmutableList.of(group));
+  public InternalGroup createGroup(
+      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws OrmException, IOException, ConfigInvalidException {
+    createGroupInReviewDb(db, groupCreation, groupUpdate);
+    InternalGroup createdGroup = createGroupInNoteDb(groupCreation, groupUpdate);
+    updateCachesOnGroupCreation(createdGroup);
+    return createdGroup;
   }
 
   /**
@@ -212,6 +198,27 @@ public class GroupsUpdate {
     return noteDbUpdateResult.orElse(reviewDbUpdateResult);
   }
 
+  private void createGroupInReviewDb(
+      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws OrmException {
+
+    AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
+    // first insert the group name to validate that the group name hasn't
+    // already been used to create another group
+    db.accountGroupNames().insert(ImmutableList.of(gn));
+
+    AccountGroup group = createAccountGroup(groupCreation);
+    updateGroupInReviewDb(db, group, groupUpdate);
+  }
+
+  private static AccountGroup createAccountGroup(InternalGroupCreation groupCreation) {
+    return new AccountGroup(
+        groupCreation.getNameKey(),
+        groupCreation.getId(),
+        groupCreation.getGroupUUID(),
+        groupCreation.getCreatedOn());
+  }
+
   private static void applyUpdate(AccountGroup group, InternalGroupUpdate groupUpdate) {
     groupUpdate.getName().ifPresent(group::setNameKey);
     groupUpdate.getDescription().ifPresent(group::setDescription);
@@ -227,7 +234,7 @@ public class GroupsUpdate {
 
     // The name must be inserted first so that we stop early for already used names.
     updateNameInReviewDb(db, group.getId(), originalName, updatedName);
-    db.accountGroups().update(ImmutableList.of(group));
+    db.accountGroups().upsert(ImmutableList.of(group));
     ImmutableSet<Account.Id> modifiedMembers =
         updateMembersInReviewDb(db, group.getId(), groupUpdate);
     ImmutableSet<AccountGroup.UUID> modifiedSubgroups =
@@ -370,6 +377,23 @@ public class GroupsUpdate {
     db.accountGroupById().delete(subgroupsToRemove);
   }
 
+  private InternalGroup createGroupInNoteDb(
+      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    GroupConfig groupConfig = createFor(groupCreation);
+    updateGroupInNoteDb(groupConfig, groupUpdate);
+    return groupConfig
+        .getLoadedGroup()
+        .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
+  }
+
+  private GroupConfig createFor(InternalGroupCreation groupCreation)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    try (Repository repository = repoManager.openRepository(allUsersName)) {
+      return GroupConfig.createForNewGroup(repository, groupCreation);
+    }
+  }
+
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException {
@@ -457,6 +481,16 @@ public class GroupsUpdate {
         .filter(originalName -> !Objects.equals(originalName, updatedGroup.getNameKey()));
   }
 
+  private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
+    groupCache.onCreateGroup(createdGroup.getGroupUUID());
+    for (Account.Id modifiedMember : createdGroup.getMembers()) {
+      accountCache.evict(modifiedMember);
+    }
+    for (AccountGroup.UUID modifiedSubgroup : createdGroup.getSubgroups()) {
+      groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
+    }
+  }
+
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
     if (result.getPreviousGroupName().isPresent()) {
       AccountGroup.NameKey previousName = result.getPreviousGroupName().get();
@@ -520,25 +554,6 @@ public class GroupsUpdate {
             .setMemberModification(memberIds -> Sets.union(memberIds, accountIds))
             .build();
     updateGroup(db, groupUuid, groupUpdate);
-  }
-
-  private void addNewGroupMembers(ReviewDb db, AccountGroup group, Set<Account.Id> newMemberIds)
-      throws OrmException, IOException {
-    Set<AccountGroupMember> newMembers =
-        newMemberIds
-            .stream()
-            .map(accountId -> new AccountGroupMember.Key(accountId, group.getId()))
-            .map(AccountGroupMember::new)
-            .collect(toImmutableSet());
-
-    if (currentUser != null) {
-      auditService.dispatchAddAccountsToGroup(currentUser.getAccountId(), newMembers);
-    }
-    db.accountGroupMembers().insert(newMembers);
-    groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
-    for (AccountGroupMember newMember : newMembers) {
-      accountCache.evict(newMember.getAccountId());
-    }
   }
 
   /**

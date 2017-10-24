@@ -26,6 +26,7 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 
 @CommandMetaData(name = "rename-group", description = "Rename an account group")
@@ -52,7 +53,7 @@ public class RenameGroupCommand extends SshCommand {
       NameInput input = new NameInput();
       input.name = newGroupName;
       putName.apply(rsrc, input);
-    } catch (RestApiException | OrmException | IOException e) {
+    } catch (RestApiException | OrmException | IOException | ConfigInvalidException e) {
       throw die(e);
     }
   }

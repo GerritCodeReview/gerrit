@@ -46,6 +46,7 @@
     listeners: {
       tap: '_handleAction',
       click: '_handleAction',
+      keydown: '_handleKeydown',
     },
 
     behaviors: [
@@ -56,10 +57,6 @@
     hostAttributes: {
       role: 'button',
       tabindex: '0',
-    },
-
-    keyBindings: {
-      'space enter': '_handleCommitKey',
     },
 
     _handleAction(e) {
@@ -76,9 +73,15 @@
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
     },
 
-    _handleCommitKey(e) {
-      e.preventDefault();
-      this.click();
+    _handleKeydown(e) {
+      if (this.modifierPressed(e)) { return; }
+      e = this.getKeyboardEvent(e);
+      // Handle `enter`, `space`.
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.click();
+      }
     },
   });
 })();

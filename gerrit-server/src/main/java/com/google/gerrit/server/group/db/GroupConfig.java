@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -52,6 +54,7 @@ public class GroupConfig extends VersionedMetaData {
   private final String ref;
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
+  private Optional<InternalGroupCreation> groupCreation = Optional.empty();
   private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
   private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
@@ -60,6 +63,15 @@ public class GroupConfig extends VersionedMetaData {
   private GroupConfig(AccountGroup.UUID groupUuid) {
     this.groupUuid = checkNotNull(groupUuid);
     ref = RefNames.refsGroups(groupUuid);
+  }
+
+  public static GroupConfig createForNewGroup(
+      Repository repository, InternalGroupCreation groupCreation)
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
+    groupConfig.load(repository);
+    groupConfig.setGroupCreation(groupCreation);
+    return groupConfig;
   }
 
   public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
@@ -72,6 +84,16 @@ public class GroupConfig extends VersionedMetaData {
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
     return loadedGroup;
+  }
+
+  private void setGroupCreation(InternalGroupCreation groupCreation)
+      throws OrmDuplicateKeyException {
+    checkLoaded();
+    if (loadedGroup.isPresent()) {
+      throw new OrmDuplicateKeyException(String.format("Group %s already exists", groupUuid.get()));
+    }
+
+    this.groupCreation = Optional.of(groupCreation);
   }
 
   public void setGroupUpdate(
@@ -124,15 +146,22 @@ public class GroupConfig extends VersionedMetaData {
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
-    if (!groupUpdate.isPresent()) {
-      // Group was not changed. -> A new commit isn't necessary.
+    if (!groupCreation.isPresent() && !groupUpdate.isPresent()) {
+      // Group was neither created nor changed. -> A new commit isn't necessary.
       return false;
     }
 
-    checkState(
-        loadedGroup.isPresent(),
-        String.format("Cannot update non-existent group %s", groupUuid.get()));
-    Timestamp createdOn = loadedGroup.get().getCreatedOn();
+    Timestamp createdOn;
+    if (groupCreation.isPresent()) {
+      createdOn = groupCreation.get().getCreatedOn();
+      commit.setAuthor(new PersonIdent(commit.getAuthor(), createdOn));
+      commit.setCommitter(new PersonIdent(commit.getCommitter(), createdOn));
+    } else {
+      checkState(
+          loadedGroup.isPresent(),
+          String.format("Cannot update non-existent group %s", groupUuid.get()));
+      createdOn = loadedGroup.get().getCreatedOn();
+    }
 
     Config config = updateGroupProperties();
 
@@ -156,6 +185,7 @@ public class GroupConfig extends VersionedMetaData {
                 updatedMembers.orElse(originalMembers),
                 updatedSubgroups.orElse(originalSubgroups),
                 createdOn));
+    groupCreation = Optional.empty();
 
     return true;
   }
@@ -166,6 +196,10 @@ public class GroupConfig extends VersionedMetaData {
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {
     Config config = readConfig(GROUP_CONFIG_FILE);
+    groupCreation.ifPresent(
+        internalGroupCreation ->
+            Arrays.stream(GroupConfigEntry.values())
+                .forEach(configEntry -> configEntry.initNewConfig(config, internalGroupCreation)));
     groupUpdate.ifPresent(
         internalGroupUpdate ->
             Arrays.stream(GroupConfigEntry.values())
@@ -248,7 +282,7 @@ public class GroupConfig extends VersionedMetaData {
       ImmutableSet<AccountGroup.UUID> originalSubgroups,
       Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups) {
     // TODO(aliceks): Use a special summary line for renames?
-    String summaryLine = "Update group";
+    String summaryLine = groupCreation.isPresent() ? "Create group" : "Update group";
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");

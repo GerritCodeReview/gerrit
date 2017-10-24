@@ -45,6 +45,54 @@
       "revId": "1839fa307daf427352cb9ad7c4ddb0d1c1de8c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34a7b3f6_b200a17c",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-24T00:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b85fa65a_fc395ccc",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 17
+      },
+      "revId": "1839fa307daf427352cb9ad7c4ddb0d1c1de8c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3313ac85_6f49047d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-24T00:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13cc0dfa_0cd9e59b",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "1839fa307daf427352cb9ad7c4ddb0d1c1de8c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

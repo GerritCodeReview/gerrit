@@ -390,6 +390,10 @@
 
     _handleSave(e) {
       e.preventDefault();
+
+      // Ignore saves started while already saving.
+      if (this.disabled) { return; }
+
       this.set('comment.__editing', false);
       this.save();
     },

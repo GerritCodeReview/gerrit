@@ -120,6 +120,7 @@ public class CommitValidators {
         throws IOException {
       NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+      // TODO(aliceks): Add a validator for commits modifying group refs and add tests for it.
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
@@ -144,6 +145,7 @@ public class CommitValidators {
         SshInfo sshInfo,
         RevWalk rw)
         throws IOException {
+      // TODO(aliceks): Add a validator for commits modifying group refs and add tests for it.
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),

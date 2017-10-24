@@ -139,6 +139,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
+    // TODO(aliceks): Filter group refs.
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;

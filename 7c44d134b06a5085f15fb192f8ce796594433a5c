@@ -22,6 +22,30 @@
       "revId": "7c44d134b06a5085f15fb192f8ce796594433a5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a383c5b_cf992f16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-24T13:22:39Z",
+      "side": 0,
+      "message": "No. The name \"assume_range_from_label\" is misleading--it implies that it is ok in some circumstances to _not_ assume the range from the label. We want to keep the functionality, i.e. it is only ok to vote within the configured range of the label, but we do not need a predicate called \"assume_range_from_label\" in order to implement that.",
+      "parentUuid": "cf7f2456_d8b50906",
+      "range": {
+        "startLine": 481,
+        "startChar": 6,
+        "endLine": 483,
+        "endChar": 7
+      },
+      "revId": "7c44d134b06a5085f15fb192f8ce796594433a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

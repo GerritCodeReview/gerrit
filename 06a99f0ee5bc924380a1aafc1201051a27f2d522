@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b47fdd08_4f10870c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-10-24T15:44:51Z",
+      "side": 1,
+      "message": "Should we shard the UUID?",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 34
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9b4b7b5_eb329499",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
         "patchSetId": 2

@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AddSubgroups implements RestModifyView<GroupResource, Input> {
@@ -88,7 +89,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
-          ResourceNotFoundException, IOException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
@@ -128,7 +129,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-            IOException {
+            IOException, ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id);
       try {

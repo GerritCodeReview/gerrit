@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -42,6 +44,7 @@ import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -179,7 +182,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {
-        groupsUpdate.get().addGroupMember(db, groupUuid, id);
+        addGroupMember(groupUuid, id);
       } catch (NoSuchGroupException e) {
         throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
       }
@@ -210,5 +213,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
     return groupUuids;
+  }
+
+  private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
+      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
+            .build();
+    groupsUpdate.get().updateGroup(db, groupUuid, groupUpdate);
   }
 }

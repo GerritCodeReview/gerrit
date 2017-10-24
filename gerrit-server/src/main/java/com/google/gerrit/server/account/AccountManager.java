@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -34,6 +36,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -277,14 +280,8 @@ public class AccountManager {
               .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
-      AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
-      // The user initiated this request by logging in. -> Attribute all modifications to that user.
-      GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
-      try {
-        groupsUpdate.addGroupMember(db, uuid, newId);
-      } catch (NoSuchGroupException e) {
-        throw new AccountException(String.format("Group %s not found", uuid));
-      }
+      AccountGroup.UUID adminGroupUuid = admin.getRules().get(0).getGroup().getUUID();
+      addGroupMember(db, adminGroupUuid, user);
     }
 
     if (who.getUserName() != null) {
@@ -316,6 +313,22 @@ public class AccountManager {
 
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.key(), true);
+  }
+
+  private void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, IdentifiedUser user)
+      throws OrmException, IOException, ConfigInvalidException, AccountException {
+    // The user initiated this request by logging in. -> Attribute all modifications to that user.
+    GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setMemberModification(
+                memberIds -> Sets.union(memberIds, ImmutableSet.of(user.getAccountId())))
+            .build();
+    try {
+      groupsUpdate.updateGroup(db, groupUuid, groupUpdate);
+    } catch (NoSuchGroupException e) {
+      throw new AccountException(String.format("Group %s not found", groupUuid));
+    }
   }
 
   /**

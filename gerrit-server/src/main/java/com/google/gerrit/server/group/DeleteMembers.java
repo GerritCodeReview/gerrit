@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -74,12 +76,21 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     }
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
     try {
-      groupsUpdateProvider.get().removeGroupMembers(db.get(), groupUuid, membersToRemove);
+      removeGroupMembers(groupUuid, membersToRemove);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
 
     return Response.none();
+  }
+
+  private void removeGroupMembers(AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
+      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setMemberModification(memberIds -> Sets.difference(memberIds, accountIds))
+            .build();
+    groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
   }
 
   @Singleton

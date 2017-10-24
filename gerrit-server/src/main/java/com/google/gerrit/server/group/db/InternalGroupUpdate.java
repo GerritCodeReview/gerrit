@@ -25,6 +25,8 @@ import java.util.function.Function;
 // TODO(aliceks): Add Javadoc descriptions to this file.
 @AutoValue
 public abstract class InternalGroupUpdate {
+  public abstract Optional<AccountGroup.NameKey> getName();
+
   // TODO(aliceks): Mention empty string (not null!) -> unset value in Javadoc.
   public abstract Optional<String> getDescription();
 
@@ -46,6 +48,8 @@ public abstract class InternalGroupUpdate {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder setName(AccountGroup.NameKey name);
+
     public abstract Builder setDescription(String description);
 
     public abstract Builder setOwnerGroupUUID(AccountGroup.UUID ownerGroupUUID);

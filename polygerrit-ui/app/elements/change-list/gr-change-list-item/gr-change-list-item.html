@@ -152,12 +152,12 @@ limitations under the License.
       <a href$="[[_computeProjectBranchURL(change)]]">
         [[change.branch]]
       </a>
-      <template is="dom-if" if="[[change.topic]]">
-        (<a href$="[[_computeTopicURL(change)]]"><!--
-       --><gr-limited-text limit="30" text="[[change.topic]]">
-          </gr-limited-text><!--
-     --></a>)
-      </template>
+    </td>
+    <td class="cell topic"
+        hidden$="[[isColumnHidden('Topic', visibleChangeTableColumns)]]">
+      <a href$="[[_computeTopicURL(change)]]">
+        <gr-limited-text limit="30" text="[[change.topic]]"></gr-limited-text>
+      </a>
     </td>
     <td class="cell updated"
         hidden$="[[isColumnHidden('Updated', visibleChangeTableColumns)]]">

@@ -366,6 +366,24 @@
     },
     {
       "key": {
+        "uuid": "691fdfb8_72be2626",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-25T21:05:12Z",
+      "side": 1,
+      "message": "Actually any hints on how to do the deleting one please?\n\nAs i can only find examples on the saving one.",
+      "parentUuid": "4ef4b691_1dc4ce77",
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1e9c04f_260aa4ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 16

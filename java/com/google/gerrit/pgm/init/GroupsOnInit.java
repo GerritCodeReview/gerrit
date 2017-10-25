@@ -14,17 +14,44 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
+import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.util.FS;
 
 /**
  * A database accessor for calls related to groups.
@@ -36,6 +63,17 @@ import java.util.List;
  * <p>All methods of this class refer to <em>internal</em> groups.
  */
 public class GroupsOnInit {
+
+  private final InitFlags flags;
+  private final SitePaths site;
+  private final String allUsers;
+
+  @Inject
+  public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+    this.flags = flags;
+    this.site = site;
+    this.allUsers = allUsers.get();
+  }
 
   /**
    * Returns the {@code AccountGroup} for the specified name.
@@ -70,11 +108,18 @@ public class GroupsOnInit {
    *
    * @param db the {@code ReviewDb} instance to update
    * @param groupUuid the UUID of the group
-   * @param accountId the ID of the account to add
+   * @param account the account to add
    * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
-  public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
+  public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account account)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+    addGroupMemberInReviewDb(db, groupUuid, account.getId());
+    addGroupMemberInNoteDb(groupUuid, account);
+  }
+
+  private static void addGroupMemberInReviewDb(
+      ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, NoSuchGroupException {
     AccountGroup group = getExistingGroup(db, groupUuid);
     AccountGroup.Id groupId = group.getId();
@@ -105,5 +150,67 @@ public class GroupsOnInit {
       throws OrmException {
     AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, groupId);
     return db.accountGroupMembers().get(key) != null;
+  }
+
+  private void addGroupMemberInNoteDb(AccountGroup.UUID groupUuid, Account account)
+      throws IOException, ConfigInvalidException, NoSuchGroupException {
+    File allUsersRepoPath = getPathToAllUsersRepository();
+    if (allUsersRepoPath != null) {
+      try (Repository repository = new FileRepository(allUsersRepoPath)) {
+        addGroupMemberInNoteDb(repository, groupUuid, account);
+      }
+    }
+  }
+
+  private void addGroupMemberInNoteDb(
+      Repository repository, AccountGroup.UUID groupUuid, Account account)
+      throws IOException, ConfigInvalidException, NoSuchGroupException {
+    GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
+    InternalGroup group =
+        groupConfig.getLoadedGroup().orElseThrow(() -> new NoSuchGroupException(groupUuid));
+
+    InternalGroupUpdate groupUpdate = getMemberAdditionUpdate(account);
+    groupConfig.setGroupUpdate(
+        groupUpdate, accountId -> getAccountNameEmail(account, accountId), AccountGroup.UUID::get);
+
+    commit(repository, groupConfig, group.getCreatedOn());
+  }
+
+  @Nullable
+  private File getPathToAllUsersRepository() {
+    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
+    checkArgument(basePath != null, "gerrit.basePath must be configured");
+    return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+  }
+
+  private static InternalGroupUpdate getMemberAdditionUpdate(Account account) {
+    return InternalGroupUpdate.builder()
+        .setMemberModification(members -> Sets.union(members, ImmutableSet.of(account.getId())))
+        .build();
+  }
+
+  private String getAccountNameEmail(Account knownAccount, Account.Id someAccountId) {
+    if (knownAccount.getId().equals(someAccountId)) {
+      String anonymousCowardName = new AnonymousCowardNameProvider(flags.cfg).get();
+      return knownAccount.getNameEmail(anonymousCowardName);
+    }
+    return String.valueOf(someAccountId);
+  }
+
+  private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)
+      throws IOException {
+    PersonIdent personIdent =
+        new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), groupCreatedOn);
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository, personIdent)) {
+      groupConfig.commit(metaDataUpdate);
+    }
+  }
+
+  private MetaDataUpdate createMetaDataUpdate(Repository repository, PersonIdent personIdent) {
+    MetaDataUpdate metaDataUpdate =
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, new Project.NameKey(allUsers), repository);
+    metaDataUpdate.getCommitBuilder().setAuthor(personIdent);
+    metaDataUpdate.getCommitBuilder().setCommitter(personIdent);
+    return metaDataUpdate;
   }
 }

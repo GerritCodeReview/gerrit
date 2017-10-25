@@ -41,26 +41,25 @@ public class CreateRefControl {
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final Provider<CurrentUser> user;
 
   @Inject
   CreateRefControl(
-      PermissionBackend permissionBackend, ProjectCache projectCache, Provider<CurrentUser> user) {
+      PermissionBackend permissionBackend, ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
-    this.user = user;
   }
 
   /**
    * Checks whether the {@link CurrentUser} can create a new Git ref.
    *
+   * @param user the user performing the operation
    * @param repo repository on which user want to create
    * @param branch the branch the new {@link RevObject} should be created on
    * @param object the object the user will start the reference with
    * @throws AuthException if creation is denied; the message explains the denial.
    * @throws PermissionBackendException on failure of permission checks.
    */
-  public void checkCreateRef(Repository repo, Branch.NameKey branch, RevObject object)
+  public void checkCreateRef(Provider<? extends CurrentUser> user, Repository repo, Branch.NameKey branch, RevObject object)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException {
     ProjectState ps = projectCache.checkedGet(branch.getParentKey());
     if (ps == null) {
@@ -73,7 +72,7 @@ public class CreateRefControl {
     PermissionBackend.ForRef perm = permissionBackend.user(user).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(repo, (RevCommit) object, ps, perm);
+      checkCreateCommit(user, repo, (RevCommit) object, ps, perm);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -93,9 +92,9 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(repo, (RevCommit) target, ps, perm);
+        checkCreateCommit(user, repo, (RevCommit) target, ps, perm);
       } else {
-        checkCreateRef(repo, branch, target);
+        checkCreateRef(user, repo, branch, target);
       }
 
       // If the tag has a PGP signature, allow a lower level of permission
@@ -116,7 +115,7 @@ public class CreateRefControl {
    * new commit to the repository.
    */
   private void checkCreateCommit(
-      Repository repo, RevCommit commit, ProjectState projectState, PermissionBackend.ForRef forRef)
+      Provider<? extends CurrentUser> user, Repository repo, RevCommit commit, ProjectState projectState, PermissionBackend.ForRef forRef)
       throws AuthException, PermissionBackendException {
     try {
       // If the user has update (push) permission, they can create the ref regardless

@@ -154,6 +154,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.util.Providers;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -1013,7 +1015,9 @@ class ReceiveCommits {
 
     Branch.NameKey branch = new Branch.NameKey(project.getName(), cmd.getRefName());
     try {
-      createRefControl.checkCreateRef(rp.getRepository(), branch, obj);
+      // Must pass explicit user instead of injecting a provider into CreateRefControl, since
+      // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
+      createRefControl.checkCreateRef(Providers.of(user), rp.getRepository(), branch, obj);
     } catch (AuthException denied) {
       reject(cmd, "prohibited by Gerrit: " + denied.getMessage());
       return;

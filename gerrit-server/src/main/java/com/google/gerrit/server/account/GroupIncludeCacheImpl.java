@@ -44,7 +44,6 @@ import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,21 +194,23 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     @Override
     public ImmutableSet<AccountGroup.UUID> load(Account.Id memberId)
         throws OrmException, NoSuchGroupException {
-
-      Stream<InternalGroup> internalGroupStream;
       GroupIndex groupIndex = groupIndexProvider.get();
       if (groupIndex != null && groupIndex.getSchema().hasField(GroupField.MEMBER)) {
-        internalGroupStream = groupQueryProvider.get().byMember(memberId).stream();
+        return groupQueryProvider
+            .get()
+            .byMember(memberId)
+            .stream()
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableSet());
       } else {
         try (ReviewDb db = schema.open()) {
-          internalGroupStream =
-              Groups.getGroupsWithMemberFromReviewDb(db, memberId)
-                  .map(groupCache::get)
-                  .flatMap(Streams::stream);
+          return Groups.getGroupsWithMemberFromReviewDb(db, memberId)
+              .map(groupCache::get)
+              .flatMap(Streams::stream)
+              .map(InternalGroup::getGroupUUID)
+              .collect(toImmutableSet());
         }
       }
-
-      return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableSet());
     }
   }
 
@@ -262,13 +263,14 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             .stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
-      }
-      try (ReviewDb db = schema.open()) {
-        return Groups.getParentGroupsFromReviewDb(db, key)
-            .map(groupCache::get)
-            .flatMap(Streams::stream)
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableList());
+      } else {
+        try (ReviewDb db = schema.open()) {
+          return Groups.getParentGroupsFromReviewDb(db, key)
+              .map(groupCache::get)
+              .flatMap(Streams::stream)
+              .map(InternalGroup::getGroupUUID)
+              .collect(toImmutableList());
+        }
       }
     }
   }

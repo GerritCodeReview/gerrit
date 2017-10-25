@@ -132,7 +132,7 @@ public class InitAdminUser implements InitStep {
 
           AccountGroup adminGroup =
               groupsOnInit.getExistingGroup(db, new AccountGroup.NameKey("Administrators"));
-          groupsOnInit.addGroupMember(db, adminGroup.getGroupUUID(), id);
+          groupsOnInit.addGroupMember(db, adminGroup.getGroupUUID(), a);
 
           if (sshKey != null) {
             VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();

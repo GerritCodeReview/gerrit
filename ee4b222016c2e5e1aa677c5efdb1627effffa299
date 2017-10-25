@@ -70,6 +70,30 @@
       "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16901dc7_910a24cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-25T22:28:00Z",
+      "side": 1,
+      "message": "done (minus the link... tooltips don\u0027t support that at this time). I also created a separate change to support bottom tooltips so that longer content won\u0027t get cut off since we\u0027re at the top of the page.",
+      "parentUuid": "4a4d90db_59488ca8",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 16
+      },
+      "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

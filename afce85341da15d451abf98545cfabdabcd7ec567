@@ -94,6 +94,30 @@
       "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a422e6_55450683",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-25T13:40:05Z",
+      "side": 1,
+      "message": "Whether a change is submittable is mainly controlled by the label function? revoking +2 will have effect before change [1]. But now, it should not?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/115110/9/gerrit-server/src/main/prolog/gerrit_common.pl",
+      "parentUuid": "6e72c470_2a3fdcb2",
+      "range": {
+        "startLine": 203,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 70
+      },
+      "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

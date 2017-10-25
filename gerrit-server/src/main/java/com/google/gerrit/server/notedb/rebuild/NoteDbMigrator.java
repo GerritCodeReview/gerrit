@@ -42,6 +42,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -125,6 +126,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final WorkQueue workQueue;
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
+    private final DynamicSet<NotesMigrationStateListener> listeners;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -148,7 +150,8 @@ public class NoteDbMigrator implements AutoCloseable {
         ChangeRebuilder rebuilder,
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
-        PrimaryStorageMigrator primaryStorageMigrator) {
+        PrimaryStorageMigrator primaryStorageMigrator,
+        DynamicSet<NotesMigrationStateListener> listeners) {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
@@ -163,6 +166,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.workQueue = workQueue;
       this.globalNotesMigration = globalNotesMigration;
       this.primaryStorageMigrator = primaryStorageMigrator;
+      this.listeners = listeners;
       this.trial = getTrialMode(cfg);
       this.autoMigrate = getAutoMigrate(cfg);
     }
@@ -320,6 +324,7 @@ public class NoteDbMigrator implements AutoCloseable {
           rebuilder,
           globalNotesMigration,
           primaryStorageMigrator,
+          listeners,
           threads > 1
               ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
               : MoreExecutors.newDirectExecutorService(),
@@ -344,6 +349,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ChangeRebuilder rebuilder;
   private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
+  private final DynamicSet<NotesMigrationStateListener> listeners;
 
   private final ListeningExecutorService executor;
   private final ImmutableList<Project.NameKey> projects;
@@ -365,6 +371,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ChangeRebuilder rebuilder,
       MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
+      DynamicSet<NotesMigrationStateListener> listeners,
       ListeningExecutorService executor,
       ImmutableList<Project.NameKey> projects,
       ImmutableList<Change.Id> changes,
@@ -390,6 +397,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.userFactory = userFactory;
     this.globalNotesMigration = globalNotesMigration;
     this.primaryStorageMigrator = primaryStorageMigrator;
+    this.listeners = listeners;
     this.executor = executor;
     this.projects = projects;
     this.changes = changes;
@@ -614,6 +622,9 @@ public class NoteDbMigrator implements AutoCloseable {
                     ? "But found this state:\n" + actualOldState.get().toText()
                     : "But could not parse the current state"));
       }
+
+      preStateChange(expectedOldState, newState);
+
       newState.setConfigValues(noteDbConfig);
       additionalUpdates.accept(noteDbConfig);
       noteDbConfig.save();
@@ -622,6 +633,13 @@ public class NoteDbMigrator implements AutoCloseable {
       globalNotesMigration.setFrom(newState);
 
       return newState;
+    }
+  }
+
+  private void preStateChange(NotesMigrationState oldState, NotesMigrationState newState)
+      throws IOException {
+    for (NotesMigrationStateListener listener : listeners) {
+      listener.preStateChange(oldState, newState);
     }
   }
 

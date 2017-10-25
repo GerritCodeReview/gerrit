@@ -70,6 +70,30 @@
       "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e72c470_2a3fdcb2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-25T13:35:23Z",
+      "side": 1,
+      "message": "I still don\u0027t understand why this is happening. If revoking CR+2 has no effect on whether the change is submittable, then what purpose was this prolog code serving? Was it dead code? Is it a bug? Did this work in 2.14? We need to figure out what\u0027s going on.",
+      "parentUuid": "42900fa7_b6bee500",
+      "range": {
+        "startLine": 203,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 70
+      },
+      "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -49,12 +49,27 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
       });
-      sandbox = sinon.sandbox.create();
       element = fixture('basic');
     });
 
-    teardown(() => {
-      sandbox.restore();
+    teardown(() => { sandbox.restore(); });
+
+    test('_getChangeOwner', () => {
+      const promises = [];
+      sandbox.stub(element.$.restAPI, 'getChange')
+          .returns(Promise.resolve({owner: {_account_id: 1}}));
+
+      // Undefined changeNum.
+      promises.push(element._getChangeOwner().then(owner => {
+        assert.notOk(owner);
+      }));
+
+      element.changeNum = '101';
+      promises.push(element._getChangeOwner().then(owner => {
+        assert.deepEqual(owner, {_account_id: 1});
+      }));
+
+      return Promise.all(promises);
     });
 
     test('comments are sorted correctly', () => {
@@ -176,10 +191,15 @@ limitations under the License.
 
   suite('comment action tests', () => {
     let element;
+    let sandbox;
+    let newReplySpy;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
+        getAccount() { return Promise.resolve(); },
+        getChange() { return Promise.resolve({}); },
         saveDiffDraft() {
           return Promise.resolve({
             ok: true,
@@ -209,10 +229,13 @@ limitations under the License.
         message: 'is this a crossover episode!?',
         updated: '2015-12-08 19:48:33.843000000',
       }];
+      newReplySpy = sandbox.spy(element, '_newReply');
       flushAsynchronousOperations();
     });
 
-    test('reply', done => {
+    teardown(() => { sandbox.restore(); });
+
+    test('reply', () => {
       const commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
@@ -220,16 +243,17 @@ limitations under the License.
       MockInteractions.tap(replyBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
-        return c.__draft == true;
+      return newReplySpy.lastCall.returnValue.then(() => {
+        const drafts = element._orderedComments.filter(c => {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.notOk(drafts[0].message, 'message should be empty');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       });
-      assert.equal(drafts.length, 1);
-      assert.notOk(drafts[0].message, 'message should be empty');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
     });
 
-    test('quote reply', done => {
+    test('quote reply', () => {
       const commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
 
@@ -237,16 +261,18 @@ limitations under the License.
       MockInteractions.tap(quoteBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
-        return c.__draft == true;
+      return newReplySpy.lastCall.returnValue.then(() => {
+        const drafts = element._orderedComments.filter(c => {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message,
+            '> is this a crossover episode!?\n\n');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       });
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
     });
 
-    test('quote reply multiline', done => {
+    test('quote reply multiline', () => {
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -266,17 +292,18 @@ limitations under the License.
       MockInteractions.tap(quoteBtn);
       flushAsynchronousOperations();
 
-      const drafts = element._orderedComments.filter(c => {
-        return c.__draft == true;
+      return newReplySpy.lastCall.returnValue.then(() => {
+        const drafts = element._orderedComments.filter(c => {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(drafts[0].message,
+            '> is this a crossover episode!?\n> It might be!\n\n');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       });
-      assert.equal(drafts.length, 1);
-      assert.equal(drafts[0].message,
-          '> is this a crossover episode!?\n> It might be!\n\n');
-      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
     });
 
-    test('ack', done => {
+    test('ack', () => {
       element.changeNum = '42';
       element.patchNum = '1';
 
@@ -285,7 +312,9 @@ limitations under the License.
 
       const ackBtn = element.$.ackBtn;
       MockInteractions.tap(ackBtn);
-      flush(() => {
+      flushAsynchronousOperations();
+
+      return newReplySpy.lastCall.returnValue.then(() => {
         const drafts = element.comments.filter(c => {
           return c.__draft == true;
         });
@@ -293,11 +322,10 @@ limitations under the License.
         assert.equal(drafts[0].message, 'Ack');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         assert.equal(drafts[0].unresolved, false);
-        done();
       });
     });
 
-    test('done', done => {
+    test('done', () => {
       element.changeNum = '42';
       element.patchNum = '1';
       const commentEl = element.$$('gr-diff-comment');
@@ -305,7 +333,9 @@ limitations under the License.
 
       const doneBtn = element.$.doneBtn;
       MockInteractions.tap(doneBtn);
-      flush(() => {
+      flushAsynchronousOperations();
+
+      return newReplySpy.lastCall.returnValue.then(() => {
         const drafts = element.comments.filter(c => {
           return c.__draft == true;
         });
@@ -313,51 +343,53 @@ limitations under the License.
         assert.equal(drafts[0].message, 'Done');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         assert.isFalse(drafts[0].unresolved);
-        done();
       });
     });
 
-    test('please fix', done => {
+    test('please fix', () => {
       element.changeNum = '42';
       element.patchNum = '1';
       const commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-fix-comment', () => {
-        const drafts = element._orderedComments.filter(c => {
+
+      commentEl.fire('create-fix-comment', {comment: commentEl.comment},
+          {bubbles: false});
+      flushAsynchronousOperations();
+
+      return newReplySpy.lastCall.returnValue.then(() => {
+        const drafts = element.comments.filter(c => {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
-        assert.equal(
-            drafts[0].message, '> is this a crossover episode!?\n\nPlease Fix');
+        assert.equal(drafts[0].message,
+            '> is this a crossover episode!?\n\nPlease Fix');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         assert.isTrue(drafts[0].unresolved);
-        done();
       });
-      commentEl.fire('create-fix-comment', {comment: commentEl.comment},
-          {bubbles: false});
     });
 
     test('discard', done => {
       element.changeNum = '42';
       element.patchNum = '1';
-      element.push('comments', element._newReply(
+      element._newReply(
           element.comments[0].id,
           element.comments[0].line,
           element.comments[0].path,
-          'it’s pronouced jiff, not giff'));
-      flushAsynchronousOperations();
-
-      const draftEl =
-          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
-      assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', () => {
-        const drafts = element.comments.filter(c => {
-          return c.__draft == true;
-        });
-        assert.equal(drafts.length, 0);
-        done();
-      });
-      draftEl.fire('comment-discard', null, {bubbles: false});
+          'it’s pronouced jiff, not giff').then(draft => {
+            element.push('comments', draft);
+            flushAsynchronousOperations();
+            const draftEl = Polymer.dom(element.root)
+                .querySelectorAll('gr-diff-comment')[1];
+            assert.ok(draftEl);
+            draftEl.addEventListener('comment-discard', () => {
+              const drafts = element.comments.filter(c => {
+                return c.__draft == true;
+              });
+              assert.equal(drafts.length, 0);
+              done();
+            });
+            draftEl.fire('comment-discard', null, {bubbles: false});
+          });
     });
 
     test('first editing comment does not add __otherEditing attribute', () => {
@@ -377,11 +409,13 @@ limitations under the License.
       MockInteractions.tap(replyBtn);
       flushAsynchronousOperations();
 
-      const editing = element._orderedComments.filter(c => {
-        return c.__editing == true;
+      return newReplySpy.lastCall.returnValue.then(() => {
+        const editing = element._orderedComments.filter(c => {
+          return c.__editing == true;
+        });
+        assert.equal(editing.length, 1);
+        assert.equal(!!editing[0].__otherEditing, false);
       });
-      assert.equal(editing.length, 1);
-      assert.equal(!!editing[0].__otherEditing, false);
     });
 
     test('When not editing other comments, local storage not set' +
@@ -423,7 +457,7 @@ limitations under the License.
         updated: '2015-12-08 19:48:33.843000000',
         __draft: true,
       }];
-      const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      const storageStub = sandbox.stub(element.$.storage, 'setDraftComment');
       flushAsynchronousOperations();
 
       const draftEl =
@@ -431,7 +465,6 @@ limitations under the License.
       assert.ok(draftEl);
       draftEl.addEventListener('comment-discard', () => {
         assert.isFalse(storageStub.called);
-        storageStub.restore();
         done();
       });
       draftEl.fire('comment-discard', null, {bubbles: false});
@@ -479,7 +512,7 @@ limitations under the License.
 
       test('keyboard shortcuts', () => {
         const expandCollapseStub =
-            sinon.stub(element, '_expandCollapseComments');
+            sandbox.stub(element, '_expandCollapseComments');
         MockInteractions.pressAndReleaseKeyOn(element, 69, null, 'e');
         assert.isTrue(expandCollapseStub.lastCall.calledWith(false));
 
@@ -490,15 +523,21 @@ limitations under the License.
       test('comment in_reply_to is either null or most recent comment', () => {
         element._createReplyComment(element.comments[3], 'dummy', true);
         flushAsynchronousOperations();
-        assert.equal(element._orderedComments.length, 5);
-        assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
+
+        return newReplySpy.lastCall.returnValue.then(() => {
+          assert.equal(element._orderedComments.length, 5);
+          assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
+        });
       });
 
       test('resolvable comments', () => {
         assert.isFalse(element._unresolved);
         element._createReplyComment(element.comments[3], 'dummy', true, true);
         flushAsynchronousOperations();
-        assert.isTrue(element._unresolved);
+
+        return newReplySpy.lastCall.returnValue.then(() => {
+          assert.isTrue(element._unresolved);
+        });
       });
 
       test('_setInitialExpandedState', () => {
@@ -521,38 +560,67 @@ limitations under the License.
     });
 
     test('addDraft sets unresolved state correctly', () => {
-      let unresolved = true;
-      element.comments = [];
-      element.addDraft(null, null, unresolved);
-      assert.equal(element.comments[0].unresolved, true);
+      const promises = [];
+      promises.push(element.addDraft(null, null, true).then(draft => {
+        assert.equal(draft.unresolved, true);
+      }));
+      promises.push(element.addDraft(null, null, false).then(draft => {
+        assert.equal(draft.unresolved, false);
+      }));
+      return Promise.all(promises);
+    });
 
-      unresolved = false; // comment should get added as actually resolved.
-      element.comments = [];
-      element.addDraft(null, null, unresolved);
-      assert.equal(element.comments[0].unresolved, false);
+    suite('unresolved computation based on change owner', () => {
+      setup(() => {
+        sandbox.stub(element, '_getChangeOwner')
+            .returns(Promise.resolve({_account_id: 3}));
+      });
 
-      element.comments = [];
-      element.addDraft();
-      assert.equal(element.comments[0].unresolved, true);
+      test('not change owner', () => {
+        sandbox.stub(element, '_getAccount')
+            .returns(Promise.resolve({_account_id: 2}));
+
+        return element.addDraft().then(draft => {
+          assert.equal(draft.unresolved, true);
+        });
+      });
+
+      test('change owner', () => {
+        sandbox.stub(element, '_getAccount')
+            .returns(Promise.resolve({_account_id: 3}));
+
+        return element.addDraft().then(draft => {
+          assert.equal(draft.unresolved, false);
+        });
+      });
     });
 
     test('_newDraft', () => {
       element.commentSide = 'left';
       element.patchNum = 3;
-      const draft = element._newDraft();
-      assert.equal(draft.__commentSide, 'left');
-      assert.equal(draft.patchNum, 3);
+      return element._newDraft().then(draft => {
+        assert.equal(draft.__commentSide, 'left');
+        assert.equal(draft.patchNum, 3);
+      });
     });
 
     test('new comment gets created', () => {
+      const addDraftSpy = sandbox.spy(element, 'addDraft');
       element.comments = [];
       element.addOrEditDraft(1);
-      assert.equal(element.comments.length, 1);
-      // Mock a submitted comment.
-      element.comments[0].id = element.comments[0].__draftID;
-      element.comments[0].__draft = false;
-      element.addOrEditDraft(1);
-      assert.equal(element.comments.length, 2);
+      flushAsynchronousOperations();
+
+      return addDraftSpy.lastCall.returnValue.then(() => {
+        assert.equal(element.comments.length, 1);
+        // Mock a submitted comment.
+        element.comments[0].id = element.comments[0].__draftID;
+        element.comments[0].__draft = false;
+        element.addOrEditDraft(1);
+        flushAsynchronousOperations();
+        return addDraftSpy.lastCall.returnValue.then(() => {
+          assert.equal(element.comments.length, 2);
+        });
+      });
     });
 
     test('unresolved label', () => {

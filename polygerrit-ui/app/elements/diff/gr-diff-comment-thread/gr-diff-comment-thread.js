@@ -95,16 +95,22 @@
       } else {
         const range = opt_range ? opt_range :
             lastComment ? lastComment.range : undefined;
-        const unresolved = lastComment ? lastComment.unresolved : undefined;
-        this.addDraft(opt_lineNum, range, unresolved);
+        this.addDraft(opt_lineNum, range);
       }
     },
 
+    /**
+     * @param {number=} opt_lineNum
+     * @param {!Object=} opt_range
+     * @param {boolean=} opt_unresolved
+     */
     addDraft(opt_lineNum, opt_range, opt_unresolved) {
-      const draft = this._newDraft(opt_lineNum, opt_range);
-      draft.__editing = true;
-      draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
-      this.push('comments', draft);
+      return this._newDraft(opt_lineNum, opt_range, opt_unresolved)
+          .then(draft => {
+            draft.__editing = true;
+            this.push('comments', draft);
+            return draft;
+          });
     },
 
     _getLoggedIn() {
@@ -176,37 +182,44 @@
       });
     },
 
-    _createReplyComment(parent, content, opt_isEditing,
-        opt_unresolved) {
-      const reply = this._newReply(
+    /**
+     *
+     * @param {Object} parent
+     * @param {string=} content
+     * @param {?boolean=} opt_isEditing
+     * @param {boolean=} opt_unresolved
+     */
+    _createReplyComment(parent, content, opt_isEditing, opt_unresolved) {
+      this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,
           content,
           opt_unresolved,
-          parent.range);
+          parent.range).then(reply => {
+            // If there is currently a comment in an editing state, add an
+            // attribute so that the gr-diff-comment knows not to populate the
+            // draft text.
+            for (let i = 0; i < this.comments.length; i++) {
+              if (this.comments[i].__editing) {
+                reply.__otherEditing = true;
+                break;
+              }
+            }
 
-      // If there is currently a comment in an editing state, add an attribute
-      // so that the gr-diff-comment knows not to populate the draft text.
-      for (let i = 0; i < this.comments.length; i++) {
-        if (this.comments[i].__editing) {
-          reply.__otherEditing = true;
-          break;
-        }
-      }
+            if (opt_isEditing) {
+              reply.__editing = true;
+            }
 
-      if (opt_isEditing) {
-        reply.__editing = true;
-      }
+            this.push('comments', reply);
 
-      this.push('comments', reply);
-
-      if (!opt_isEditing) {
-        // Allow the reply to render in the dom-repeat.
-        this.async(() => {
-          const commentEl = this._commentElWithDraftID(reply.__draftID);
-          commentEl.save();
-        }, 1);
-      }
+            if (!opt_isEditing) {
+              // Allow the reply to render in the dom-repeat.
+              this.async(() => {
+                const commentEl = this._commentElWithDraftID(reply.__draftID);
+                commentEl.save();
+              }, 1);
+            }
+          });
     },
 
     _isDraft(comment) {
@@ -223,7 +236,7 @@
         const msg = comment.message;
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
-      this._createReplyComment(comment, quoteStr, true, comment.unresolved);
+      this._createReplyComment(comment, quoteStr, true);
     },
 
     _handleCommentReply(e) {
@@ -262,25 +275,39 @@
       return null;
     },
 
+    /**
+     *
+     * @param {string} inReplyTo
+     * @param {number=} opt_lineNum
+     * @param {string=} opt_message
+     * @param {?Object=} opt_range
+     * @param {boolean=} opt_unresolved
+     * @return {Promise<Object>} the draft.
+     */
     _newReply(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
         opt_range) {
-      const d = this._newDraft(opt_lineNum);
-      d.in_reply_to = inReplyTo;
-      d.range = opt_range;
-      if (opt_message != null) {
-        d.message = opt_message;
-      }
-      if (opt_unresolved !== undefined) {
-        d.unresolved = opt_unresolved;
-      }
-      return d;
+      return this._newDraft(opt_lineNum, null, opt_unresolved)
+          .then(d => {
+            d.in_reply_to = inReplyTo;
+            d.range = opt_range;
+            if (opt_message != null) {
+              d.message = opt_message;
+            }
+            return d;
+          });
     },
 
     /**
      * @param {number=} opt_lineNum
-     * @param {!Object=} opt_range
+     * @param {?Object=} opt_range
+     * @param {boolean=} opt_unresolved
+     * @return {Promise<Object>} the draft.
      */
-    _newDraft(opt_lineNum, opt_range) {
+    _newDraft(opt_lineNum, opt_range, opt_unresolved) {
+      let promises = [];
+      if (opt_unresolved === undefined) {
+        promises = [this._getAccount(), this._getChangeOwner()];
+      }
       const d = {
         __draft: true,
         __draftID: Math.random().toString(36),
@@ -289,6 +316,7 @@
         patchNum: this.patchNum,
         side: this._getSide(this.isOnParent),
         __commentSide: this.commentSide,
+        unresolved: opt_unresolved,
       };
       if (opt_lineNum) {
         d.line = opt_lineNum;
@@ -301,7 +329,13 @@
           end_character: opt_range.endChar,
         };
       }
-      return d;
+      return Promise.all(promises).then(([account, owner]) => {
+        if (account && owner) {
+          d.unresolved = owner._account_id &&
+              owner._account_id !== account._account_id;
+        }
+        return d;
+      });
     },
 
     _getSide(isOnParent) {
@@ -373,6 +407,16 @@
       this.$.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
+    },
+
+    _getAccount() {
+      return this.$.restAPI.getAccount();
+    },
+
+    _getChangeOwner() {
+      if (!this.changeNum) { return Promise.resolve(); }
+      return this.$.restAPI.getChange(this.changeNum)
+          .then(change => change.owner);
     },
   });
 })();

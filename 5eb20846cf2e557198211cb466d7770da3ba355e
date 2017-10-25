@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "072898cf_69453348",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-25T05:49:42Z",
+      "side": 1,
+      "message": "To make it portable (on the other platform it is called python.exe), this should be:\n\n  ctx.which(\"python\")\n\nI know that it is used the same way in js.bzl, but this is wrong too.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

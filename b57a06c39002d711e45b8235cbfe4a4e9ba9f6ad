@@ -22,6 +22,30 @@
       "revId": "b57a06c39002d711e45b8235cbfe4a4e9ba9f6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7804352_5e2ec17d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-25T00:45:15Z",
+      "side": 1,
+      "message": "Nope, using brackets did not work.\n\ni first tested changing to brackets which when i went to the groups page, it just said loading and nothing else.\n\nI then changed params back to 0 from 1, that caused an undefined error.",
+      "parentUuid": "fc166147_268283bd",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "b57a06c39002d711e45b8235cbfe4a4e9ba9f6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

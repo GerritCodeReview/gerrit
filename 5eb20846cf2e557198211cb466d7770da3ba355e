@@ -142,6 +142,30 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf2e46e_bd4323d2",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-25T06:40:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure that I want to make such an invasive change on the stable branch.  Given that it works the same way for js.bzl I would prefer to keep it like this and do a proper fix on master.\n\nThe bazel-review link is still giving 404.  Is it a private change?",
+      "parentUuid": "4ab013be_1f54b5b1",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

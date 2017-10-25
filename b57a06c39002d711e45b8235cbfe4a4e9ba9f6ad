@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc166147_268283bd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-25T00:36:56Z",
+      "side": 1,
+      "message": "Can we use a non-capturing group (square brackets) instead of a capturing group for \"uuid-\" since we don\u0027t need to reference the group anywhere:\n\n(uuid-)? -\u003e [uuid-]?",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "b57a06c39002d711e45b8235cbfe4a4e9ba9f6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,7 +17,6 @@
   const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
   window.Gerrit = window.Gerrit || {};
-
   /** @polymerBehavior Gerrit.TooltipBehavior */
   Gerrit.TooltipBehavior = {
 
@@ -25,6 +24,11 @@
       hasTooltip: {
         type: Boolean,
         observer: '_setupTooltipListeners',
+      },
+      positionBottom: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
       },
 
       _isTouchDevice: {
@@ -73,6 +77,7 @@
       const tooltip = document.createElement('gr-tooltip');
       tooltip.text = this._titleText;
       tooltip.maxWidth = this.getAttribute('max-width');
+      tooltip.positionBottom = this.getAttribute('position-bottom');
 
       // Set visibility to hidden before appending to the DOM so that
       // calculations can be made based on the element’s size.
@@ -125,9 +130,14 @@
         });
       }
       tooltip.style.left = Math.max(0, left) + 'px';
-      tooltip.style.top = Math.max(0, top) + 'px';
-      tooltip.style.transform = 'translateY(calc(-100% - ' + BOTTOM_OFFSET +
-          'px))';
+
+      if (!this.positionBottom) {
+        tooltip.style.top = Math.max(0, top) + 'px';
+        tooltip.style.transform = 'translateY(calc(-100% - ' + BOTTOM_OFFSET +
+            'px))';
+      } else {
+        tooltip.style.top = top + rect.height + BOTTOM_OFFSET + 'px';
+      }
     },
   };
 })(window);

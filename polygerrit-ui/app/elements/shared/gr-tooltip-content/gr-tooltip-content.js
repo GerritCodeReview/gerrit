@@ -26,6 +26,11 @@
         type: String,
         reflectToAttribute: true,
       },
+      positionBottom: {
+        type: Boolean,
+        valye: false,
+        reflectToAttribute: true,
+      },
       showIcon: {
         type: Boolean,
         value: false,

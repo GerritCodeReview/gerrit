@@ -125,6 +125,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       }
     }
 
+    // The following implementation must match the GetAccess REST API endpoint.
+
     List<AccessSection> local = new ArrayList<>();
     Set<String> ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, Boolean> visibleGroups = new HashMap<>();

@@ -162,10 +162,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
       throw new ResourceNotFoundException(rsrc.getName());
     }
 
+    // The following implementation must match the ProjectAccessFactory JSON RPC endpoint.
+
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, GroupInfo> visibleGroups = new HashMap<>();
-    boolean canReadConfig = check(perm, ProjectPermission.READ_CONFIG);
+    boolean canReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
     boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
 
     for (AccessSection section : config.getAccessSections()) {

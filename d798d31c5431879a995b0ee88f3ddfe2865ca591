@@ -86,6 +86,24 @@
     },
     {
       "key": {
+        "uuid": "796ade65_e069816f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-25T13:33:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ff9883fc_bb12784c",
+      "revId": "d798d31c5431879a995b0ee88f3ddfe2865ca591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b66f7330_098189c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateMergePatchSet.java",
         "patchSetId": 1

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1508953273 -0400\nnonce ANEgCxepHa7btOy8gTUwCZs49ve3VIvZMbs/x0/qTlbO1+XuOciF+0jnaX3WLRZFO1eI6JJEGO7b\n\n0000000000000000000000000000000000000000 eadb6022375d6314af1538cacaf85a08e43668e5 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlnwzLkVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMptcQANolIgGr9kmwVH68MUFrzLywGmYb\nl+Z5WSSB+/IHppjQgkOxMhEr5DMoRcPXnhlAmTKlml+aB4/ECVTypj/bxnE04nFG\nxwZecL/TibeccadgF4yRt0tyQKj7uRtq/9ITNjs1rBDG2CL+nQjzcHA1vKXLuqlN\n5zzlUrwGtx672QGUgwF6a5CrAxKlX2vzBX84J70eX9GN8pEicKa33/poe86fmUv/\nxu9CEQi2R0tneNuucVQCkbyzWVU7sBi9IbNGAk420lGLQcyhargHfULCJzSqBNMN\nl3/D49WTDMzFpxbvTIWLyIRmfbaP8ZQmQzxZ5ckZDjoI9aiAJYKeMnMqcaNeswfT\n+q8crBFlfuQKhCGra39A1B79gj1QcDOm5TFq1MayMMMf6rC50uRAMQKHKwoK/4Xk\nQaHMd8ZQ9me5w4XRZ4PxwmjY5lKe5pqvMiZ2HFdzT25DIynytv3EA1SPsFFNW+aQ\n4HBE4mJm3AnxjFLuM7M28ExfXd9tfPu3FSnSsAA27orASxIq2no9qL5sbiIKzLnH\nLgclmeHSM9MlkJlZ2tDB4MycKngALS5OycLIAF/p2ZPYoF5zVKsiH2w4WJ1UzUBA\niL5U5X9gq/TQdvyA+h+euUeJxpGTkDSTEgd+e/hAXshyePWjwE0l1ySF7fZemRMw\n5XekTs+HRfbaIBCS\n\u003dIpOp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4d23dad_fb54c9a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-25T17:49:27Z",
+      "side": 1,
+      "message": "Do we have to do the same for tags?",
+      "revId": "eadb6022375d6314af1538cacaf85a08e43668e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

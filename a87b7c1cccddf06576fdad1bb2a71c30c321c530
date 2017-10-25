@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "d27ddd0e_f0ababbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-25T23:01:49Z",
+      "side": 1,
+      "message": "What would the race be? How does the fact that it\u0027s created dynamically affect the way it\u0027s initialized?",
+      "parentUuid": "4d427eb7_2bec6dbd",
+      "range": {
+        "startLine": 307,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 7
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4975eeaa_664d15c7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -101,6 +125,30 @@
       "side": 1,
       "message": "Uhh, you tell me...? I was under the impression that it did, but I don\u0027t really know what things do and do not use it. Didn\u0027t you mention that it was implicitly done by the browser?",
       "parentUuid": "4975eeaa_664d15c7",
+      "range": {
+        "startLine": 418,
+        "startChar": 28,
+        "endLine": 418,
+        "endChar": 37
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "441be3f2_9dae73b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-25T23:01:49Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like it\u0027s being cached, either by explicitly using the ETag cache, or implicitly by the browser (the ETag isn\u0027t included in the request, although there is one in the response).\n\nBut even if it were a cached request, we only ever call `getChange` when upgrading legacy URLs, so it\u0027s unlikely this call would have been in the cache anyway.",
+      "parentUuid": "be51d106_8a2c8481",
       "range": {
         "startLine": 418,
         "startChar": 28,

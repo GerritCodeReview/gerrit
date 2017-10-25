@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "4d427eb7_2bec6dbd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T18:06:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work as well as we think it would.\n\nThis element is the diff-comment-thread, which is (in some cases) dynamically created. This will almost certainly cause a race.",
+      "parentUuid": "f9c68330_7158583e",
+      "range": {
+        "startLine": 307,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 7
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4975eeaa_664d15c7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2017-10-25T17:43:25Z",
       "side": 1,
       "message": "The change detail does, but does this call use the ETag cache?",
+      "range": {
+        "startLine": 418,
+        "startChar": 28,
+        "endLine": 418,
+        "endChar": 37
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be51d106_8a2c8481",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T18:06:53Z",
+      "side": 1,
+      "message": "Uhh, you tell me...? I was under the impression that it did, but I don\u0027t really know what things do and do not use it. Didn\u0027t you mention that it was implicitly done by the browser?",
+      "parentUuid": "4975eeaa_664d15c7",
       "range": {
         "startLine": 418,
         "startChar": 28,

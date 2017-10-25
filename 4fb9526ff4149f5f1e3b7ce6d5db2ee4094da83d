@@ -16,6 +16,24 @@
       "revId": "4fb9526ff4149f5f1e3b7ce6d5db2ee4094da83d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f60e74e2_5b74273c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-25T19:17:54Z",
+      "side": 1,
+      "message": "since there is already a CHANGE_STATES map, and the keys for STATUS_CLASS_MAP would need to be the values of CHANGE_STATES...\n\nI just added a function that converts the status to a class name (lowercase, replace spaces with \u0027-\u0027.",
+      "parentUuid": "760e8dc5_0419676f",
+      "revId": "4fb9526ff4149f5f1e3b7ce6d5db2ee4094da83d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

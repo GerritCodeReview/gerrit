@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc1bf29_f6561a3e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "Alphabetize.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef01e53f_5a842e97",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "Delete this.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21f1fe6_cf7ebbd1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "I\u0027m confused by this function name -- this call is singular (id) but then gets assigned to a variable that is plural (_identities) -- what\u0027s going on here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "785442d9_a9fc2c0a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "This can be a ternary.",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525bd39b_908bb78c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "This can be a ternary.",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4dbdc56_c4be086e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "Put this on one line.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 13
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d84dbea_dd6a4c93",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "return !username",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96483cb3_9ed1d195",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "We need way more tests here.\n\nI\u0027d like to see:\n- Delete an item\n- Data is requested after an item is deleted\n- filterIdentities test",
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1e9c04f_260aa4ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "This function name seems grammatically incorrect. Maybe \"deleteAccountIdentity\"?",
+      "range": {
+        "startLine": 493,
+        "startChar": 4,
+        "endLine": 493,
+        "endChar": 27
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "652a957b_9e37c2e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": "Why do we need to pass null here?",
+      "range": {
+        "startLine": 495,
+        "startChar": 10,
+        "endLine": 495,
+        "endChar": 20
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bd11aaa_79b4ad6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T17:00:36Z",
+      "side": 1,
+      "message": ".then(response \u003d\u003e this.getResponseObject(response));",
+      "range": {
+        "startLine": 496,
+        "startChar": 10,
+        "endLine": 498,
+        "endChar": 13
+      },
+      "revId": "d224e98f0bd1d4ce3720ec6d85f89a825074a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

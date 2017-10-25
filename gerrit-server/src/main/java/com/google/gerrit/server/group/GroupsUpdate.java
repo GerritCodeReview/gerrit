@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.git.RenameGroupOp;
@@ -77,7 +76,6 @@ public class GroupsUpdate {
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final AuditService auditService;
-  private final AccountCache accountCache;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent committerIdent;
@@ -88,7 +86,6 @@ public class GroupsUpdate {
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
       AuditService auditService,
-      AccountCache accountCache,
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritPersonIdent PersonIdent serverIdent,
       @Assisted @Nullable IdentifiedUser currentUser) {
@@ -96,7 +93,6 @@ public class GroupsUpdate {
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.auditService = auditService;
-    this.accountCache = accountCache;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.currentUser = currentUser;
     committerIdent = getCommitterIdent(serverIdent, currentUser);
@@ -285,7 +281,7 @@ public class GroupsUpdate {
     db.accountGroupMembers().insert(newMembers);
     groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     for (AccountGroupMember newMember : newMembers) {
-      accountCache.evict(newMember.getAccountId());
+      groupIncludeCache.evictGroupsWithMember(newMember.getAccountId());
     }
   }
 
@@ -324,7 +320,7 @@ public class GroupsUpdate {
     db.accountGroupMembers().delete(membersToRemove);
     groupCache.evict(group.getGroupUUID(), group.getId(), group.getNameKey());
     for (AccountGroupMember member : membersToRemove) {
-      accountCache.evict(member.getAccountId());
+      groupIncludeCache.evictGroupsWithMember(member.getAccountId());
     }
   }
 

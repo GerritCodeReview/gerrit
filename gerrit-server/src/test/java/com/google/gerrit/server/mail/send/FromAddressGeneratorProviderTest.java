@@ -388,7 +388,6 @@ public class FromAddressGeneratorProviderTest {
         new AllUsersName(AllUsersNameProvider.DEFAULT),
         account,
         Collections.emptySet(),
-        Collections.emptySet(),
         new HashMap<>());
   }
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +55,7 @@ public class IncludingGroupMembership implements GroupMembership {
     this.groupCache = groupCache;
     this.includeCache = includeCache;
     this.user = user;
-
-    Set<AccountGroup.UUID> groups = user.state().getInternalGroups();
-    memberOf = new ConcurrentHashMap<>(groups.size());
-    for (AccountGroup.UUID g : groups) {
-      memberOf.put(g, true);
-    }
+    memberOf = new ConcurrentHashMap<>();
   }
 
   @Override
@@ -97,6 +93,10 @@ public class IncludingGroupMembership implements GroupMembership {
         if (!group.isPresent()) {
           continue;
         }
+        if (group.get().getMembers().contains(user.getAccountId())) {
+          memberOf.put(id, true);
+          return true;
+        }
         if (search(group.get().getSubgroups())) {
           memberOf.put(id, true);
           return true;
@@ -124,7 +124,8 @@ public class IncludingGroupMembership implements GroupMembership {
 
   private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
     GroupMembership membership = user.getEffectiveGroups();
-    Set<AccountGroup.UUID> direct = user.state().getInternalGroups();
+    Collection<AccountGroup.UUID> direct = includeCache.getGroupsWithMember(user.getAccountId());
+    direct.forEach(groupUuid -> memberOf.put(groupUuid, true));
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);
 

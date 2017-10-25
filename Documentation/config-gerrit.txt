@@ -767,13 +767,8 @@ If 0, disk storage for the cache is disabled.
 cache `"accounts"`::
 +
 Cache entries contain important details of an active user, including
-their display name, preferences, known email addresses, and group
-memberships.  Entry information is obtained from the following
-database tables:
-+
-* `accounts`
-+
-* `account_group_members`
+their display name, preferences, and known email addresses. Entry
+information is obtained from the `accounts` database table.
 
 +
 If direct updates are made to any of these database tables, this
@@ -849,16 +844,21 @@ cache `"groups"`::
 Caches the basic group information from the `account_groups` table,
 including the group owner, name, and description.
 +
-Gerrit group membership obtained from the `account_group_members`
-table is cached under the `"accounts"` cache, above.  External group
-membership obtained from LDAP is cached under `"ldap_groups"`.
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
 
-cache `"groups_byinclude"`::
+cache `"groups_bymember"`::
 +
-Caches group inclusions in other groups.  If direct updates are made
+Caches the groups which contain a specific member (account). If direct
+updates are made to the `account_group_members` table, this cache should
+be flushed.
+
+cache `"groups_bysubgroups"`::
++
+Caches the parent groups of a subgroup.  If direct updates are made
 to the `account_group_includes` table, this cache should be flushed.
 
-cache `"groups_members"`::
+cache `"groups_subgroups"`::
 +
 Caches subgroups.  If direct updates are made to the
 `account_group_includes` table, this cache should be flushed.

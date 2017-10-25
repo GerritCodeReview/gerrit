@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddec5f47_ed1d0960",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-25T18:39:53Z",
+      "side": 1,
+      "message": "This is definitely still grammatically incorrect.\n\nLet\u0027s call it `getExternalIds`.",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 49
+      },
+      "revId": "322a060c3a800db68cebcd72239b85b9641419f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

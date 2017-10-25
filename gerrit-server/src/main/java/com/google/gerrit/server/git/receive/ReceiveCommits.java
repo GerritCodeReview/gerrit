@@ -209,7 +209,8 @@ class ReceiveCommits {
     UPDATE(
         "You are not allowed to perform this operation.\n"
             + "To push into this reference you need 'Push' rights."),
-    DELETE("You need 'Delete Reference' rights or 'Push' rights with the \n"
+    DELETE(
+        "You need 'Delete Reference' rights or 'Push' rights with the \n"
             + "'Force Push' flag set to delete references."),
     DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
     CODE_REVIEW(

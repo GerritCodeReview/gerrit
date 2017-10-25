@@ -1434,6 +1434,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(ImmutableMap.of(1, ps1Rev));
   }
 
+  @Test
+  public void forcePushAbandonedChange() throws Exception {
+    grant(Permission.PUSH, project, "refs/*", true);
+    PushOneCommit push1 =
+        pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
+    PushOneCommit.Result r = push1.to("refs/for/master");
+    r.assertOkStatus();
+
+    //abandon the change
+    String changeId = r.getChangeId();
+    assertThat(info(changeId).status).isEqualTo(ChangeStatus.NEW);
+    gApi.changes().id(changeId).abandon();
+    ChangeInfo info = get(changeId);
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+
+    push1.setForce(true);
+    PushOneCommit.Result r1 = push1.to("refs/heads/master");
+    r1.assertOkStatus();
+    ChangeInfo result = Iterables.getOnlyElement(gApi.changes().query(r.getChangeId()).get());
+    assertThat(result.status).isEqualTo(ChangeStatus.MERGED);
+  }
+
   private Change.Id accidentallyPushNewPatchSetDirectlyToBranch() throws Exception {
     PushOneCommit.Result r = createChange();
     RevCommit ps1Commit = r.getCommit();

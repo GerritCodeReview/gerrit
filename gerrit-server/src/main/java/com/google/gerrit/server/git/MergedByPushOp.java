@@ -129,16 +129,12 @@ public class MergedByPushOp implements BatchUpdateOp {
     if (status == Change.Status.MERGED) {
       return true;
     }
-    if (status.isOpen()) {
-      change.setCurrentPatchSet(info);
-      change.setStatus(Change.Status.MERGED);
-
-      // we cannot reconstruct the submit records for when this change was
-      // submitted, this is why we must fix the status
-      update.fixStatus(Change.Status.MERGED);
-      update.setCurrentPatchSet();
-    }
-
+    change.setCurrentPatchSet(info);
+    change.setStatus(Change.Status.MERGED);
+    // we cannot reconstruct the submit records for when this change was
+    // submitted, this is why we must fix the status
+    update.fixStatus(Change.Status.MERGED);
+    update.setCurrentPatchSet();
     StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");
     if (!refName.equals(change.getDest().get())) {

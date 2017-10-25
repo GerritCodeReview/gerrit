@@ -22,6 +22,30 @@
       "revId": "70da68958dccaaf80f7f6feaebf623c2aa75e780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22d6876c_b1b64b6c",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-25T19:03:40Z",
+      "side": 1,
+      "message": "Maybe it\u0027s just a terminology issue- it seems like faviconURL probably isn\u0027t the full URL, so maybe it should just be renamed.",
+      "parentUuid": "a68abf36_da98925b",
+      "range": {
+        "startLine": 40,
+        "startChar": 47,
+        "endLine": 40,
+        "endChar": 63
+      },
+      "revId": "70da68958dccaaf80f7f6feaebf623c2aa75e780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -142,6 +142,30 @@
       "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "856ca571_cd7e74af",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-10-25T14:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "815ad824_73c7b741",
+      "range": {
+        "startLine": 203,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 70
+      },
+      "revId": "afce85341da15d451abf98545cfabdabcd7ec567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

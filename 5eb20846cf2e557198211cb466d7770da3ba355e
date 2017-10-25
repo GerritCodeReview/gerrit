@@ -22,6 +22,30 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f065f90e_d6411b8d",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-25T05:53:04Z",
+      "side": 1,
+      "message": "See this issue: [1] and the fix: [2] for more context.\n\n* [1] https://github.com/bazelbuild/bazel/issues/3477\n* [2] https://bazel-review.googlesource.com/c/bazel/+/14890/?polygerrit\u003d1",
+      "parentUuid": "072898cf_69453348",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38bfa3ef_4f56851e",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-25T08:50:10Z",
+      "side": 0,
+      "message": "First of all, ctx.action is deprecated. I replaced it with the new and shiny method ctx.actions.run_shell(). You are trying to fix it on stable, where this changed wasn\u0027t applied yet. On master it is:\n\n  ctx.actions.run_shell(\n      inputs \u003d [ctx.file._exe, ctx.file.src],\n      outputs \u003d [ctx.outputs.out],\n      command \u003d cmd,\n      progress_message \u003d \"Replacing macros in %s\" % ctx.file.src.short_path,\n  )",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "a2c3c2325829a000139632e9a2df444f6161f37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

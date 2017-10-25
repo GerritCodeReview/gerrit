@@ -23,6 +23,10 @@
         type: String,
         observer: '_updateWidth',
       },
+      positionBottom: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
     },
 
     _updateWidth(maxWidth) {

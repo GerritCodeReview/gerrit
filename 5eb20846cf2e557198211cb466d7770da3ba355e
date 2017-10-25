@@ -190,6 +190,30 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd7f86a5_52d926c7",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-25T06:54:24Z",
+      "side": 1,
+      "message": "\u003e Sorry, this is contra productive to my efforts to make Bazel build tool chain portable. Again, js.bzl is repository rule and thus not the same.\n\u003e  \n\nOK.  Then can you help to fix it?",
+      "parentUuid": "f5331bd9_333ef638",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

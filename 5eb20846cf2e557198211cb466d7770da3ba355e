@@ -166,6 +166,30 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5331bd9_333ef638",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-25T06:50:23Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure that I want to make such an invasive change on the\n \u003e stable branch.  Given that it works the same way for js.bzl I would\n \u003e prefer to keep it like this and do a proper fix on master.\n\nSorry, this is contra productive to my efforts to make Bazel build tool chain portable. Again, js.bzl is repository rule and thus not the same.\n \n \u003e The bazel-review link is still giving 404.  Is it a private change?\n\nIndeed. Marked is as non private.",
+      "parentUuid": "3cf2e46e_bd4323d2",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

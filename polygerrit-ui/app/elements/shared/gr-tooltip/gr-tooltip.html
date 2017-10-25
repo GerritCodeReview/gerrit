@@ -35,21 +35,35 @@ limitations under the License.
       :host .tooltip {
         padding: .5em .85em;
       }
+      :host .arrowPositionBelow,
+      :host([position-below]) .arrowPositionAbove  {
+        display: none;
+      }
+      :host([position-below]) .arrowPositionBelow {
+        display: initial;
+      }
       .arrow {
         border-left: var(--gr-tooltip-arrow-size) solid transparent;
         border-right: var(--gr-tooltip-arrow-size) solid transparent;
-        border-top: var(--gr-tooltip-arrow-size) solid #333;
-        bottom: -var(--gr-tooltip-arrow-size);
         height: 0;
         position: absolute;
         left: calc(50% - var(--gr-tooltip-arrow-size));
         margin-left: var(--gr-tooltip-arrow-center-offset);
         width: 0;
       }
+      .arrowPositionAbove {
+        border-top: var(--gr-tooltip-arrow-size) solid #333;
+        bottom: -var(--gr-tooltip-arrow-size);
+      }
+      .arrowPositionBelow {
+        border-bottom: var(--gr-tooltip-arrow-size) solid #333;
+        top: -var(--gr-tooltip-arrow-size);
+      }
     </style>
     <div class="tooltip">
+      <i class="arrowPositionBelow arrow"></i>
       [[text]]
-      <i class="arrow"></i>
+      <i class="arrowPositionAbove arrow"></i>
     </div>
   </template>
   <script src="gr-tooltip.js"></script>

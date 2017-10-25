@@ -35,6 +35,10 @@
       _change: Object,
       _changeEditDetail: Object,
       _changeNum: String,
+      _editorPluginLoaded: {
+        type: Boolean,
+        value: false,
+      },
       _loggedIn: Boolean,
       _path: String,
       _content: String,

@@ -53,6 +53,24 @@
       "revId": "eadb6022375d6314af1538cacaf85a08e43668e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "422d4d10_1f38f0e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-25T17:53:55Z",
+      "side": 1,
+      "message": "I changed the signature of checkCreateRef, so if I missed a usage, it would fail to compile.",
+      "parentUuid": "257ed332_089199a1",
+      "revId": "eadb6022375d6314af1538cacaf85a08e43668e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -606,6 +606,23 @@ limitations under the License.
       });
     });
 
+    test('draft prevent save when disabled', () => {
+      const saveStub = sandbox.stub(element, 'save');
+      element.draft = true;
+      MockInteractions.tap(element.$$('.edit'));
+      element._messageText = 'good news, everyone!';
+      element.flushDebouncer('fire-update');
+      element.flushDebouncer('store');
+
+      element.disabled = true;
+      MockInteractions.tap(element.$$('.save'));
+      assert.isFalse(saveStub.called);
+
+      element.disabled = false;
+      MockInteractions.tap(element.$$('.save'));
+      assert.isTrue(saveStub.calledOnce);
+    });
+
     test('clicking on date link does not trigger nav', () => {
       const showStub = sinon.stub(page, 'show');
       const dateEl = element.$$('.date');

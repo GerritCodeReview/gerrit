@@ -358,12 +358,12 @@ maven_jar(
     sha1 = "9ea96384ad2cb8118c22f493b529eb72c212691c",
 )
 
-MAIL_VERS = "1.5.6"
+MAIL_VERS = "1.6.0"
 
 maven_jar(
     name = "mail",
     artifact = "com.sun.mail:javax.mail:" + MAIL_VERS,
-    sha1 = "ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe",
+    sha1 = "a055c648842c4954c1f7db7254f45d9ad565e278",
 )
 
 MIME4J_VERS = "0.8.0"

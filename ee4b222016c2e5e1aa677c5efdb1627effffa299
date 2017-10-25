@@ -46,6 +46,30 @@
       "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4d90db_59488ca8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-25T19:40:17Z",
+      "side": 1,
+      "message": "For private:\n\nChange is only viewable to you and your reviewers (or anyone with View Private Changes permission).",
+      "parentUuid": "87b5dd6b_e1771be5",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 16
+      },
+      "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

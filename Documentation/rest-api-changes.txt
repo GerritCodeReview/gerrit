@@ -6446,7 +6446,10 @@ The new subject for the change, if not specified, will reuse the current patch
 set's subject
 |`inheritParent`      |optional, default to `false`|
 Use the current patch set's first parent as the merge tip when set to `true`.
-Otherwise, use the current branch tip of the destination branch.
+|`base_change`        |optional|
+A link:#change-id[\{change-id\}] that identifies a change. When `inheritParent`
+is `false`, the merge tip will be the current patch set of the `base_change` if
+it's set. Otherwise, the current branch tip of the destination branch will be used.
 |`merge`              ||
 The detail of the source commit for merge as a link:#merge-input[MergeInput]
 entity.

@@ -655,6 +655,10 @@ public abstract class AbstractDaemonTest {
     return push.to("refs/for/" + branch + "/" + name(topic));
   }
 
+  protected BranchApi createBranch(String branch) throws Exception {
+    return createBranch(new Branch.NameKey(project, branch));
+  }
+
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
     return gApi.projects()
         .name(branch.getParentKey().get())

@@ -22,6 +22,30 @@
       "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87b5dd6b_e1771be5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-25T19:38:28Z",
+      "side": 1,
+      "message": "For WIP, something like this (it\u0027s maybe too long):\n\nChange is not ready to be reviewed or submitted. Does not appear in dashboards, and email notifications are silenced until review is started.\n\nIdeally we\u0027d include a \"Learn more\" link to documentation.",
+      "parentUuid": "c7f7f87f_29392fc6",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 16
+      },
+      "revId": "ee4b222016c2e5e1aa677c5efdb1627effffa299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

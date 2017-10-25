@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "246cde3d_d10711c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-25T17:43:25Z",
+      "side": 1,
+      "message": "Nit: blank comment line.",
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9c68330_7158583e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-25T17:43:25Z",
+      "side": 1,
+      "message": "I wonder if there is a way to do this without promise-ifying this call stack, since that causes so many incidental modifications elsewhere in this file and tests.\n\nSpecifically, the results of `_getAccount` and `_getChangeOwner` don\u0027t appear to depend on anything specific to the new draft, so it\u0027s not clear to me why they need to be determined so late.\n\nEspecially since these calls are cached, what if we checked eagerly in `attached`?\n\nattached() {\n  this._resolveByDefault \u003d false;\n  Promise.all([this._getAccount(), this._getChangeOwner()])\n      .then((user, owner) \u003d\u003e {\n        this._resolveByDefault \u003d owner._account_id \u0026\u0026\n            owner.account_id \u003d\u003d\u003d user._account_id;\n      });\n  // ... the other stuff that\u0027s already in `attached` ...\n},\n\nThereafter, `this._resolveByDefault` can be used and the functions don\u0027t need to use promises.",
+      "range": {
+        "startLine": 307,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 7
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4975eeaa_664d15c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-25T17:43:25Z",
+      "side": 1,
+      "message": "The change detail does, but does this call use the ETag cache?",
+      "range": {
+        "startLine": 418,
+        "startChar": 28,
+        "endLine": 418,
+        "endChar": 37
+      },
+      "revId": "a87b7c1cccddf06576fdad1bb2a71c30c321c530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

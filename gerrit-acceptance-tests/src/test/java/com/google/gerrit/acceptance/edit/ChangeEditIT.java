@@ -16,6 +16,10 @@ package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.restapi.BinaryResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -166,7 +170,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     // The tag for the publish edit change message should vary according
     // to whether the change was WIP at the time of publishing.
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = get(changeId, MESSAGES);
     assertThat(info.messages).isNotEmpty();
     assertThat(Iterables.getLast(info.messages).tag)
         .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
@@ -176,7 +180,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId);
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));
     gApi.changes().id(changeId).edit().publish();
-    info = get(changeId);
+    info = get(changeId, MESSAGES);
     assertThat(info.messages).isNotEmpty();
     assertThat(Iterables.getLast(info.messages).tag)
         .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
@@ -415,7 +419,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     adminRestSession.get(urlEdit(changeId)).assertNoContent();
     createArbitraryEditFor(changeId);
     EditInfo editInfo = getEditInfo(changeId, false);
-    ChangeInfo changeInfo = get(changeId);
+    ChangeInfo changeInfo = get(changeId, CURRENT_REVISION, CURRENT_COMMIT);
     assertThat(editInfo.commit.commit).isNotEqualTo(changeInfo.currentRevision);
     assertThat(editInfo).commit().parents().hasSize(1);
     assertThat(editInfo).baseRevision().isEqualTo(changeInfo.currentRevision);
@@ -615,7 +619,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     publishInput.notify = NotifyHandling.NONE;
     gApi.changes().id(changeId).edit().publish(publishInput);
 
-    ChangeInfo info = get(changeId);
+    ChangeInfo info = get(changeId, DETAILED_LABELS);
     assertThat(info.subject).isEqualTo(newSubj);
     List<ApprovalInfo> approvals = info.labels.get(cr).all;
     assertThat(approvals).hasSize(1);
@@ -839,7 +843,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private void assertChangeMessages(String changeId, List<String> expectedMessages)
       throws Exception {
-    ChangeInfo ci = get(changeId);
+    ChangeInfo ci = get(changeId, MESSAGES);
     assertThat(ci.messages).isNotNull();
     assertThat(ci.messages).hasSize(expectedMessages.size());
     List<String> actualMessages =

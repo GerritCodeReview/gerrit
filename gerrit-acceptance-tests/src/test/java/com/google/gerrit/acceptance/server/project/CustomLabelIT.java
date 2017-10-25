@@ -17,8 +17,12 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.LabelFunction.ANY_WITH_BLOCK;
 import static com.google.gerrit.common.data.LabelFunction.MAX_NO_BLOCK;
+import static com.google.gerrit.common.data.LabelFunction.MAX_WITH_BLOCK;
 import static com.google.gerrit.common.data.LabelFunction.NO_BLOCK;
 import static com.google.gerrit.common.data.LabelFunction.NO_OP;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -30,7 +34,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -91,6 +94,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isNull();
   }
@@ -104,6 +110,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isNull();
   }
@@ -117,7 +126,30 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
+    assertThat(q.blocking).isNull();
+  }
+
+  @Test
+  public void customLabelMaxNoBlock_MaxVoteSubmittable() throws Exception {
+    label.setFunction(MAX_NO_BLOCK);
+    P.setFunction(NO_OP);
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    assertThat(info(r.getChangeId()).submittable).isNull();
+    revision(r).review(ReviewInput.approve().label(label.getName(), 1));
+
+    ChangeInfo c = getWithLabels(r);
+    assertThat(c.submittable).isTrue();
+    LabelInfo q = c.labels.get(label.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNotNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
+    assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
   }
 
@@ -130,6 +162,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isTrue();
@@ -151,6 +185,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(P.getName());
     assertThat(q.all).hasSize(2);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
@@ -159,15 +195,38 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
+    label.setFunction(MAX_WITH_BLOCK);
     saveLabelConfig();
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(label.getName(), -1));
     ChangeInfo c = getWithLabels(r);
     LabelInfo q = c.labels.get(label.getName());
     assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNull();
+    assertThat(q.recommended).isNull();
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isTrue();
+  }
+
+  @Test
+  public void customLabelMaxWithBlock_MaxVoteSubmittable() throws Exception {
+    label.setFunction(MAX_WITH_BLOCK);
+    P.setFunction(NO_OP);
+    saveLabelConfig();
+    PushOneCommit.Result r = createChange();
+    assertThat(info(r.getChangeId()).submittable).isNull();
+    revision(r).review(ReviewInput.approve().label(label.getName(), 1));
+
+    ChangeInfo c = getWithLabels(r);
+    assertThat(c.submittable).isTrue();
+    LabelInfo q = c.labels.get(label.getName());
+    assertThat(q.all).hasSize(1);
+    assertThat(q.approved).isNotNull();
+    assertThat(q.recommended).isNull();
+    assertThat(q.disliked).isNull();
+    assertThat(q.rejected).isNull();
+    assertThat(q.blocking).isNull();
   }
 
   @Test
@@ -205,6 +264,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   private ChangeInfo getWithLabels(PushOneCommit.Result r) throws Exception {
-    return get(r.getChangeId(), ListChangesOption.LABELS, ListChangesOption.DETAILED_LABELS);
+    return get(r.getChangeId(), LABELS, DETAILED_LABELS, SUBMITTABLE);
   }
 }

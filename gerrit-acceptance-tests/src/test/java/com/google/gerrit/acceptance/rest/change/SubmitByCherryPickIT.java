@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -111,7 +113,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
       handle.remove();
     }
     testRepo.git().fetch().setRemote("origin").call();
-    ChangeInfo info = get(change.getChangeId());
+    ChangeInfo info = get(change.getChangeId(), CURRENT_REVISION);
     RevCommit c = testRepo.getRevWalk().parseCommit(ObjectId.fromString(info.currentRevision));
     testRepo.getRevWalk().parseBody(c);
     assertThat(c.getFooterLines("Custom")).containsExactly("refs/heads/master");
@@ -374,7 +376,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertThat(getRemoteHead()).isEqualTo(headAfterFirstSubmit);
 
-    ChangeInfo info2 = get(change2.getChangeId());
+    ChangeInfo info2 = get(change2.getChangeId(), MESSAGES);
     assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(Iterables.getLast(info2.messages).message)
         .isEqualTo(CommitMergeStatus.SKIPPED_IDENTICAL_TREE.getMessage());

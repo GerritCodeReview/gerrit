@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -178,7 +179,7 @@ public class AssigneeIT extends AbstractDaemonTest {
 
   private Iterable<AccountInfo> getReviewers(PushOneCommit.Result r, ReviewerState state)
       throws Exception {
-    return get(r.getChangeId()).reviewers.get(state);
+    return get(r.getChangeId(), DETAILED_LABELS).reviewers.get(state);
   }
 
   private AccountInfo setAssignee(PushOneCommit.Result r, String identifieer) throws Exception {

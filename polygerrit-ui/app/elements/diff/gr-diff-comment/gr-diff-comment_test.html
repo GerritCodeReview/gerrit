@@ -493,6 +493,27 @@ limitations under the License.
       element._handleConfirmDiscard({preventDefault: sinon.stub()});
     });
 
+    test('storage is cleared only after save success', () => {
+      const eraseStub = sandbox.stub(element, '_eraseDraftComment');
+      sandbox.stub(element.$.restAPI, 'getResponseObject')
+          .returns(Promise.resolve({}));
+
+      sandbox.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));
+
+      const savePromise = element.save();
+      assert.isFalse(eraseStub.called);
+      return savePromise.then(() => {
+        assert.isFalse(eraseStub.called);
+
+        element._saveDraft.restore();
+        sandbox.stub(element, '_saveDraft')
+            .returns(Promise.resolve({ok: true}));
+        return element.save().then(() => {
+          assert.isTrue(eraseStub.called);
+        });
+      });
+    });
+
     suite('confirm discard', () => {
       let saveDisabled;
       let discardStub;
@@ -659,22 +680,22 @@ limitations under the License.
 
       test('_show{Start,End}Request', () => {
         const updateStub = sandbox.stub(element, '_updateRequestToast');
-        element._numPendingDiffRequests.number = 1;
+        element._numPendingDraftRequests.number = 1;
 
         element._showStartRequest();
         assert.isTrue(updateStub.calledOnce);
         assert.equal(updateStub.lastCall.args[0], 2);
-        assert.equal(element._numPendingDiffRequests.number, 2);
+        assert.equal(element._numPendingDraftRequests.number, 2);
 
         element._showEndRequest();
         assert.isTrue(updateStub.calledTwice);
         assert.equal(updateStub.lastCall.args[0], 1);
-        assert.equal(element._numPendingDiffRequests.number, 1);
+        assert.equal(element._numPendingDraftRequests.number, 1);
 
         element._showEndRequest();
         assert.isTrue(updateStub.calledThrice);
         assert.equal(updateStub.lastCall.args[0], 0);
-        assert.equal(element._numPendingDiffRequests.number, 0);
+        assert.equal(element._numPendingDraftRequests.number, 0);
       });
     });
   });

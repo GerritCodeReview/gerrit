@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97c41524_78317b16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-26T22:17:33Z",
+      "side": 1,
+      "message": "Was this intentionally added in PS4?",
+      "revId": "94bc306ef03b2f161b1f5346f124e6bfdcca2103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

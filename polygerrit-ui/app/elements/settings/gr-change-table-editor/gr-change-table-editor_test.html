@@ -42,7 +42,6 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
 
       columns = [
-        'Star',
         'Subject',
         'Status',
         'Owner',
@@ -148,7 +147,6 @@ limitations under the License.
       let checked = false;
       assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
           [
-            'Star',
             'Status',
             'Owner',
             'Assignee',
@@ -160,7 +158,6 @@ limitations under the License.
       checked = true;
       assert.deepEqual(element._updateDisplayedColumns(columns, name, checked),
           [
-            'Star',
             'Subject',
             'Status',
             'Owner',

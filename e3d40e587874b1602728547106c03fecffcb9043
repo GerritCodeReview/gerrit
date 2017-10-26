@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d90fe127_06e9923c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "21efffc1_6bb0a858",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 29
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be9d5fca_c581e858",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
         "patchSetId": 42
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-25T23:43:24Z",
       "side": 1,
       "message": "This should be encoded",
+      "range": {
+        "startLine": 110,
+        "startChar": 55,
+        "endLine": 110,
+        "endChar": 65
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42fc6b1_c4c8b26a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "be9d5fca_c581e858",
       "range": {
         "startLine": 110,
         "startChar": 55,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "52855a66_96a9273c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "35696abf_16c6b8f7",
+      "range": {
+        "startLine": 133,
+        "startChar": 47,
+        "endLine": 133,
+        "endChar": 57
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e120be3d_5271b122",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
         "patchSetId": 42
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-25T23:43:24Z",
       "side": 1,
       "message": "nit: can we call this res?",
+      "range": {
+        "startLine": 156,
+        "startChar": 58,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27c55795_709a5dc4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "e120be3d_5271b122",
       "range": {
         "startLine": 156,
         "startChar": 58,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e03b4e0e_24fdfa44",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Yep, thanks, done.",
+      "parentUuid": "d05f0ed1_9ccad5d4",
+      "range": {
+        "startLine": 167,
+        "startChar": 58,
+        "endLine": 167,
+        "endChar": 62
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba96f056_c97afc79",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
         "patchSetId": 42
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "3786b43f_c6c179f9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ba96f056_c97afc79",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 179,
+        "endChar": 7
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c6e388_94a88b20",
         "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
         "patchSetId": 42
@@ -151,6 +295,30 @@
       "writtenOn": "2017-10-25T23:43:24Z",
       "side": 1,
       "message": "this test is asynchronous, so I don\u0027t think it\u0027s getting executed as expected. There isn\u0027t a stub for _determineShowPluginSettings, so there\u0027s no way that showSettings should be true.\n\nThis test could be something like:\n\n      test(\u0027_getPlugins and _determineShowPluginSettings\u0027, (done) \u003d\u003e {\n        sandbox.stub(element, \u0027_determineShowPluginSettings\u0027).returns(\n            Promise.resolve(false));\n        element._determineShowPluginSettings.onCall(0).returns(\n            Promise.resolve(true));\n\n        element._getPlugins().then(() \u003d\u003e {\n          assert.equal(element._plugins[0].showSettings, true);\n          assert.equal(element._plugins[1].showSettings, false);\n          done();\n        });\n      });",
+      "range": {
+        "startLine": 194,
+        "startChar": 59,
+        "endLine": 194,
+        "endChar": 61
+      },
+      "revId": "e3d40e587874b1602728547106c03fecffcb9043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1ab821_01c99a74",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_test.html",
+        "patchSetId": 42
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T13:37:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "85c6e388_94a88b20",
       "range": {
         "startLine": 194,
         "startChar": 59,

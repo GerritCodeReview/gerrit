@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
@@ -24,6 +25,10 @@ import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WIT
 import static com.google.gerrit.server.notedb.NotesMigrationState.REVIEW_DB;
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -33,6 +38,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -45,12 +52,15 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.rebuild.MigrationException;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
+import com.google.gerrit.server.notedb.rebuild.NotesMigrationStateListener;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -62,6 +72,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,8 +97,10 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   @Inject private SitePaths sitePaths;
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   @Inject private Sequences sequences;
+  @Inject private DynamicSet<NotesMigrationStateListener> listeners;
 
   private FileBasedConfig noteDbConfig;
+  private List<RegistrationHandle> addedListeners;
 
   @Before
   public void setUp() throws Exception {
@@ -95,6 +108,15 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     // Unlike in the running server, for tests, we don't stack notedb.config on gerrit.config.
     noteDbConfig = new FileBasedConfig(sitePaths.notedb_config.toFile(), FS.detect());
     assertNotesMigrationState(REVIEW_DB, false, false);
+    addedListeners = new ArrayList<>();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    if (addedListeners != null) {
+      addedListeners.forEach(RegistrationHandle::remove);
+      addedListeners = null;
+    }
   }
 
   @Test
@@ -413,6 +435,50 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     assertNotesMigrationState(NOTE_DB, false, false);
   }
 
+  @Test
+  public void notesMigrationStateListener() throws Exception {
+    NotesMigrationStateListener listener = createStrictMock(NotesMigrationStateListener.class);
+    listener.preStateChange(REVIEW_DB, WRITE);
+    expectLastCall();
+    listener.preStateChange(WRITE, READ_WRITE_NO_SEQUENCE);
+    expectLastCall();
+    listener.preStateChange(READ_WRITE_NO_SEQUENCE, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
+    expectLastCall();
+    listener.preStateChange(
+        READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY, READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY);
+    listener.preStateChange(READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY, NOTE_DB);
+    expectLastCall();
+    replay(listener);
+    addListener(listener);
+
+    createChange();
+    migrate(b -> b);
+    assertNotesMigrationState(NOTE_DB, false, false);
+    verify(listener);
+  }
+
+  @Test
+  public void notesMigrationStateListenerFails() throws Exception {
+    NotesMigrationStateListener listener = createStrictMock(NotesMigrationStateListener.class);
+    listener.preStateChange(REVIEW_DB, WRITE);
+    expectLastCall();
+    listener.preStateChange(WRITE, READ_WRITE_NO_SEQUENCE);
+    IOException listenerException = new IOException("Listener failed");
+    expectLastCall().andThrow(listenerException);
+    replay(listener);
+    addListener(listener);
+
+    createChange();
+    try {
+      migrate(b -> b);
+      assert_().fail("expected IOException");
+    } catch (IOException e) {
+      assertThat(e).isSameAs(listenerException);
+    }
+    assertNotesMigrationState(WRITE, false, false);
+    verify(listener);
+  }
+
   private void assertNotesMigrationState(
       NotesMigrationState expected, boolean autoMigrate, boolean trialMode) throws Exception {
     assertThat(NotesMigrationState.forNotesMigration(notesMigration)).hasValue(expected);
@@ -460,5 +526,9 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     } catch (MigrationException e) {
       assertThat(e).hasMessageThat().contains(expectMessageContains);
     }
+  }
+
+  private void addListener(NotesMigrationStateListener listener) {
+    addedListeners.add(listeners.add(listener));
   }
 }

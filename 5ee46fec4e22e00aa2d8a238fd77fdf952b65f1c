@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c907a29c_72a2089d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T18:29:42Z",
+      "side": 1,
+      "message": "This change might be a good place to start writing tests, can be as simple as sanity checks that the group refs exist and contain the right data.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b847e1b3_7cdbf676",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T18:29:42Z",
+      "side": 1,
+      "message": "So it\u0027s valid to create and update a group in the same operation? I guess it\u0027s fine to allow that. Heck, maybe we should allow multiple ordered groupUpdates (analogous to BatchUpdate.Ops).",
+      "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b06e372f_5ffd189b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T18:29:42Z",
+      "side": 1,
+      "message": "It\u0027s no longer obvious from the signature how exactly you specify members. It\u0027s actually a little surprising that you can\u0027t specify members in an InternalGroupCreation, so maybe it\u0027s worth mentioning that the only way to add members is to provide an InternalGroupUpdate to do so.\n\nI also wouldn\u0027t be opposed to changing InternalGroupCreation to allow adding members, but I understand that that\u0027s more work.",
+      "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

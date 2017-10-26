@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f013f89_d6f5b63e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T17:51:28Z",
+      "side": 1,
+      "message": "Creating readers for a string seems excessive. How about:\n\n Streams.stream(\n         Splitter.on(\u0027\\n\u0027).trimResults().omitEmptyStrings().split(fileContent))\n    .map(fromStringFunction)\n    .collect(toImmutableSet())",
+      "revId": "bdc59fbf01a379db8085ede78e3120a565b91e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

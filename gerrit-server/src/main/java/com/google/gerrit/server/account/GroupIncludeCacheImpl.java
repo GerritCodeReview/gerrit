@@ -202,14 +202,13 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             .stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableSet());
-      } else {
-        try (ReviewDb db = schema.open()) {
-          return Groups.getGroupsWithMemberFromReviewDb(db, memberId)
-              .map(groupCache::get)
-              .flatMap(Streams::stream)
-              .map(InternalGroup::getGroupUUID)
-              .collect(toImmutableSet());
-        }
+      }
+      try (ReviewDb db = schema.open()) {
+        return Groups.getGroupsWithMemberFromReviewDb(db, memberId)
+            .map(groupCache::get)
+            .flatMap(Streams::stream)
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableSet());
       }
     }
   }
@@ -262,14 +261,13 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             .stream()
             .map(InternalGroup::getGroupUUID)
             .collect(toImmutableList());
-      } else {
-        try (ReviewDb db = schema.open()) {
-          return Groups.getParentGroupsFromReviewDb(db, key)
-              .map(groupCache::get)
-              .flatMap(Streams::stream)
-              .map(InternalGroup::getGroupUUID)
-              .collect(toImmutableList());
-        }
+      }
+      try (ReviewDb db = schema.open()) {
+        return Groups.getParentGroupsFromReviewDb(db, key)
+            .map(groupCache::get)
+            .flatMap(Streams::stream)
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableList());
       }
     }
   }

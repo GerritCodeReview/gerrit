@@ -34,7 +34,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -136,7 +135,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -814,7 +812,7 @@ public class AccountIT extends AbstractDaemonTest {
     // fetching user branch without READ permission fails
     try {
       fetch(allUsersRepo, userRefName + ":userRef");
-      Assert.fail("user branch is visible although no READ permission is granted");
+      fail("user branch is visible although no READ permission is granted");
     } catch (TransportException e) {
       // expected because no READ granted on user branch
     }

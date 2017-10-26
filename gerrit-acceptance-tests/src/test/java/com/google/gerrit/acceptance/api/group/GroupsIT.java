@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

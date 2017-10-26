@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
@@ -1401,5 +1402,13 @@ public abstract class AbstractDaemonTest {
     labelType.setFunction(func);
     cfg.getLabelSections().put(labelType.getName(), labelType);
     saveProjectConfig(project, cfg);
+  }
+
+  protected void fail(@Nullable String format, Object ... args) throws Exception {
+    assert_().fail(format, args);
+  }
+
+  protected void fail() throws Exception {
+    assert_().fail();
   }
 }

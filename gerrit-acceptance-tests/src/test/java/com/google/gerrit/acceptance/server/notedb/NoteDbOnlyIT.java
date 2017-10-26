@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
@@ -134,7 +133,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
           });
       try {
         bu.execute();
-        assert_().fail("expected ResourceConflictException");
+        fail("expected ResourceConflictException");
       } catch (ResourceConflictException e) {
         assertThat(e).hasMessageThat().isEqualTo(msg);
       }

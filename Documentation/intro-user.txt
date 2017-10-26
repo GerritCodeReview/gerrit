@@ -482,6 +482,38 @@ followed by `topic=...`.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
+[[wip]]
+== Work-in-Progress Changes
+
+Work-in-Progress changes are visible to anyone, but do not bother reviewers
+until the author says they are ready for review.
+
+Specifically, when a change is a work in progress:
+
+* Reviewers are not notified for most operations, including adding/removing
+  reviewers, posting comments, etc. The REST API documentation
+  contains link:rest-api-changes.html#set-review-notifications[tables] with
+  more details about when notifications are sent.
+* The change does not show up in reviewers' dashboards.
+
+WIP changes can be useful if:
+
+* You have implemented only part of a change, but want to push your change to
+  the server, and possibly have CI run tests on it, before getting feedback from
+  a human reviewer.
+* During review, you realize you need to substantially rework your change, and
+  want to stop spamming reviewers until you're ready for another round of
+  review.
+
+A change can be created as work-in-progress or toggled between the
+work-in-progress and ready-for-review states at any time. This can be done when
+pushing the change (using the `%wip` and `%ready` options), when creating a
+change in the UI, or in the UI from the change screen.
+
+In the new PolyGerrit UI, work-in-progress changes have a yellow header, and can
+be set ready by using the *Start Review* button in the reply dialog; clicking
+*Save* does not notify reviewers and does not set the change ready.
+
 [[private-changes]]
 == Private Changes
 

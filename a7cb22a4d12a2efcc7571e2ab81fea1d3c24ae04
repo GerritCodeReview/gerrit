@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509031894 -0400\nnonce ANEgCxeNkerJ2avnJH+4Hs/nyhLGOQCTbb07zq0TQZ+ACcVyA9iJCAT9ALjIJouik0Q7+f4RhQ5K\n\n0000000000000000000000000000000000000000 a7cb22a4d12a2efcc7571e2ab81fea1d3c24ae04 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlnx/9YVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMqdgP/R8RgrZqP3qdSsJP/MT3azerf3ft\nEuj2QB/Q8R5DERquI3AXdHCh9gkqMWhqOYlA5R/k6jX9S4zNQhLgrfruXcWTK0X5\nZhyhMnPYUdqzO2aj+G+WsSuxo9sUPbZBDGzQoLu4Yk9TyzaBPIysltHln0RLBLWp\nFGpw4ssoH4euop9knfGDzILwyF7lSFx9Xm3PL5DSyTzzdcYqvLKROUl3ZA0CotrZ\niO2PMmcxqP7NcMc+gdtY5mIWKHyPMIyK+7JFkvKtyRmiglvWu8Ozq5MgRc+hU3LX\nkv8ToJHF2NtMSY89eLv4CRr79bT1z+yIcjdATUF7DXFGnE4NxfHnNuHsaGtXYboO\nObD5pnG5YbxzRJodeoRsOKUgFO/eY3VwnjJ2Mz4OIWV1v0gQv+yjksWDi8YLxT6V\noOo6385ZW7F2nurA33nbKoNe1XB5Xs9fSHL/3+lb09NdJGwVCrX+IjVDAA847BTO\nQ/HgSyxp54PMmp1CUC1IXjni2cn/xtVrichMAKQWqJYg7z+thz3iqwWCDOxh/mlw\n7AjKKtJSTBpChlFNDPukx3QE2fBgqSXX3+VImJ5sRX7LSx2b6CtS5zMw3dKMP/IZ\ngR9SConz+K3wdm6pPgJ2CY9+BZwKFBTwnJc1cz0Z2LoLS8OwfW8o6zKl2Eh4iud/\nmei73oYONHN0iu8R\n\u003deXK8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4398e48_2224c459",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-10-26T16:51:16Z",
+      "side": 1,
+      "message": "Work-in-Progress (WIP) changes are visible to anyone, but do not notify or require an action from a reviewer.\n\nSpecifically, when you mark a change as Work-in-Progress:\n\n* Reviewers are not notified for most operations, such as adding or \n  removing, posting comments, and so on. See the REST API documentation\n  link:rest-api-changes.html#set-review-notifications[tables]\n  for more information.\n* The change does not show in reviewers\u0027 dashboards.\n\nWIP changes are useful when:\n\n* You have implemented only part of a change, but want to push your change\n  to the server to run tests or perform other actions before requesting\n  reviewer feedback.\n* During a review, you realize you need to rework your change, and you\n  want to stop notifying reviewers of the change until you finish your\n  update.\n\nTo set the status of a change to Work-in-Progress, you can use either\nthe command line or the user interface. To use the command line, append\n`%wip` to your push request.\n\n----\n  $ git push origin HEAD:refs/for/master%wip\n----\n\nAlternatively, click **WIP** from the Change screen.\n\nTo mark the change as ready for review, append `%ready` to your push\nrequest.\n\n----\n  $ git push origin HEAD:refs/for/master%ready\n----\n\nAlternatively, click **Ready** from the Change screen.\n\n[[polygerrit]]\nIn the new PolyGerrit UI, you can mark a change as WIP, by selecting *WIP*\nfrom the *More* menu. The Change screen updates with a yellow header, indicating that the change is in a Work-in-Progress state. To mark a change as ready for review, click *Start Review*.",
+      "revId": "a7cb22a4d12a2efcc7571e2ab81fea1d3c24ae04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

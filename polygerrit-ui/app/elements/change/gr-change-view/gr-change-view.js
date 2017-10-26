@@ -187,6 +187,10 @@
         type: String,
         computed: 'changeStatusString(_change)',
       },
+      _changeStatuses: {
+        type: String,
+        computed: '_computeChangeStatusChips(_change)',
+      },
       _commitCollapsed: {
         type: Boolean,
         value: true,
@@ -326,6 +330,10 @@
 
     _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
+    },
+
+    _computeChangeStatusChips(change) {
+      return this.changeStatuses(change);
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change) {

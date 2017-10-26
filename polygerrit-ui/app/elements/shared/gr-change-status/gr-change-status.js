@@ -57,7 +57,7 @@
     },
 
     _toClassName(str) {
-      return str.toLowerCase().replace(' ', '-');
+      return str.replace(/\s/g, '-');
     },
 
     _updateChipDetails(status) {

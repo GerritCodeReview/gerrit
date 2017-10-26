@@ -148,7 +148,7 @@ limitations under the License.
         element.$.replyDialog.fire('fullscreen-overlay-opened');
         assert.isTrue(element._handleHideBackgroundContent.called);
         assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
-        assert.equal(getComputedStyle(element.$.actions).display, 'block');
+        assert.equal(getComputedStyle(element.$.actions).display, 'flex');
       });
 
       test('fullscreen-overlay-closed shows content', () => {
@@ -257,6 +257,37 @@ limitations under the License.
         assert.equal(element._serverConfig.test, 'config');
         done();
       });
+    });
+
+    test('_changeStatuses', () => {
+      sandbox.stub(element, 'changeStatuses').returns(
+          ['Merged', 'WIP']);
+      element._loading = false;
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+        labels: {
+          test: {
+            all: [],
+            default_value: 0,
+            values: [],
+            approved: {},
+          },
+        },
+      };
+      expectedStatuses = ['Merged', 'WIP'];
+      assert.deepEqual(element._changeStatuses, expectedStatuses);
+      assert.equal(element._changeStatus, expectedStatuses.join(', '));
+      flushAsynchronousOperations();
+      const statusChips = Polymer.dom(element.root)
+          .querySelectorAll('gr-change-status');
+      assert.equal(statusChips.length, 2);
     });
 
     test('diff preferences open when open-diff-prefs is fired', () => {

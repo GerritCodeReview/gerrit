@@ -44,5 +44,17 @@ limitations under the License.
       element.maxWidth = '50px';
       assert.equal(getComputedStyle(element).width, '50px');
     });
+
+    test('the correct arrow is displayed', () => {
+      assert.equal(getComputedStyle(element.$$('.arrowPositionBelow')).display,
+          'none');
+      assert.notEqual(getComputedStyle(element.$$('.arrowPositionAbove'))
+          .display, 'none');
+      element.positionBelow = true;
+      assert.notEqual(getComputedStyle(element.$$('.arrowPositionBelow'))
+          .display, 'none');
+      assert.equal(getComputedStyle(element.$$('.arrowPositionAbove'))
+          .display, 'none');
+    });
   });
 </script>

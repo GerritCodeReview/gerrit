@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c04614fc_505a29f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T19:25:17Z",
+      "side": 1,
+      "message": "I think we decided in the initial implementation we can just reject pushes to these refs?",
+      "parentUuid": "20d8baff_ccaa0134",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 94
+      },
+      "revId": "b76aff3400d4e75c8df59d5dc090d1f738ca8df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c6fecb6_ef89a124",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 2

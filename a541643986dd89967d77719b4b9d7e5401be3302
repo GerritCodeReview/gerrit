@@ -22,6 +22,30 @@
       "revId": "a541643986dd89967d77719b4b9d7e5401be3302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ec8da8_d2123a60",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-26T00:27:20Z",
+      "side": 0,
+      "message": "With this change, the app params are refactored a little so that group params can be more specific to groups. With that change, `detailType` is not needed for groups.\n\nThe commit message has been updated to reflect this.",
+      "parentUuid": "b9bd9877_f6668496",
+      "range": {
+        "startLine": 772,
+        "startChar": 8,
+        "endLine": 772,
+        "endChar": 18
+      },
+      "revId": "a541643986dd89967d77719b4b9d7e5401be3302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

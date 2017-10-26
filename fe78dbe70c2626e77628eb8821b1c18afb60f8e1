@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509041474 -0400\nnonce ANEgCxe5NB4xrsQhk/Orvu7ZTqBCXneiBgle+kAfy/bWCzE30pisVKhzhozRO70AeKrMjIb0xWNS\n\n0000000000000000000000000000000000000000 fe78dbe70c2626e77628eb8821b1c18afb60f8e1 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlnyJUIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM4HUP/RQengnPNX8bzT26+3bJzMK65ACy\nnKIgd2ooIK5ivAkfYohvdKJV6uf1YT3c9baZXdGq7AARxI5DTYriYe9Oe5kpmSog\nLpDT47ssd1jYnWyVWqGhiCpaP8Oa0vnpiA44Fdu12UwDGT/yEEIo7HfO5enhlgP4\nGaceKsFQ13Z8gQQRt/oBsNzPSwkMCA8ovlqp0s/HavL8OS5R6UilYEWttLnomJts\nPF9H9BT8APfvHWHjdSSDLcsX3UB+3BZ1YDcGAq/Mj6bKk3msqf+FURpFMAsV34j7\n3m28g8H9j1MuNyp38ZZivAcxNp/AF+ZuKpiDRg8GZ7tOQ+btpqn5+rlgtmGwclP7\nCGBw6bU7fIS97zdHPUZwpduL0hpI4s1c9PwIlmlar90WuaNQyfoMZXfeepHZBXC9\nvkW56cLzUvMoPpYe2pOoKtJ0WyAr1w7QA4CC4JWzyLmvn1AGP5vlLqs5kNk/tm7Q\nSWfqy+2/LNiLU2S+j5KEGV+T1aySZ2Lx+nTwKnQSqh7FxvQGcOExQSRxhtwHH4Uo\nBuWvF2EwtlhBUAX6Tlqa/b66LdQzBwOyeXFH+BclSOqWyO8bXrVARuFZXJxWm8xU\nUvZF8amFc8A2xAKAOCSSm6/QJwWwNGcx00C29T9IXLT7D08gbxM4vslOANrjRGzc\nAlQfAb/vzvWjOCuV\n\u003d2jQe\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "00ea8e67_3243a29b",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-26T18:23:52Z",
+      "side": 1,
+      "message": "Technically this information is spread across all the individual API calls that are affected. There\u0027s no complete index of all the notification tweaks that WIP induces (but there probably should be). I don\u0027t think that should block this change, however.",
+      "revId": "fe78dbe70c2626e77628eb8821b1c18afb60f8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67bbeca6_2a628050",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-26T18:23:52Z",
+      "side": 1,
+      "message": "In previous paragraphs you use **Text**, in this one you use *Text*.",
+      "range": {
+        "startLine": 526,
+        "startChar": 69,
+        "endLine": 526,
+        "endChar": 74
+      },
+      "revId": "fe78dbe70c2626e77628eb8821b1c18afb60f8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

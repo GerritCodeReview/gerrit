@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
@@ -471,7 +470,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     createChange();
     try {
       migrate(b -> b);
-      assert_().fail("expected IOException");
+      fail("expected IOException");
     } catch (IOException e) {
       assertThat(e).isSameAs(listenerException);
     }

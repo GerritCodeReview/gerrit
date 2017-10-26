@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
@@ -26,7 +25,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1186,7 +1184,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     try {
       rebuilderWrapper.rebuild(db, id);
-      assert_().fail("expected rebuild to fail");
+      fail("expected rebuild to fail");
     } catch (OrmRuntimeException e) {
       assertThat(e.getMessage()).contains("read-only until");
     }

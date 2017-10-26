@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.formatTime;
@@ -267,7 +266,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(id.get()).get().topic).isNull();
     try {
       gApi.changes().id(id.get()).topic("a-topic");
-      assert_().fail("expected read-only exception");
+      fail("expected read-only exception");
     } catch (RestApiException e) {
       Optional<Throwable> oe =
           Throwables.getCausalChain(e)

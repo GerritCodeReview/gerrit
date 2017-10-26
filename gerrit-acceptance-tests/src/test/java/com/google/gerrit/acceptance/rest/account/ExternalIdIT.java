@@ -24,7 +24,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;

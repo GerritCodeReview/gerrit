@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be335ef9_535f8088",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-26T22:14:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d435a54b_f4f4a7e0",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "7d5604ff2f88a49847e000a9b35689eb6d747aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b2c40e8_546a61b3",
         "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
         "patchSetId": 4
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "dc0838a6_769b4cb3",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-26T22:14:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8961437c_b3a0e5af",
+      "revId": "7d5604ff2f88a49847e000a9b35689eb6d747aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39d626fc_c922a668",
         "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
         "patchSetId": 4
@@ -70,6 +112,30 @@
       "writtenOn": "2017-10-26T21:22:24Z",
       "side": 1,
       "message": "To avoid the `:not()`, this could be\n\n:host .arrowBottom {\n  display: none;\n}\n:host([position-bottom]) .arrowBottom {\n  display: initial;\n}",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 7
+      },
+      "revId": "7d5604ff2f88a49847e000a9b35689eb6d747aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff9f570_88f6ee3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-26T22:14:24Z",
+      "side": 1,
+      "message": "done, though I did need one additional selector: \n\n:host([position-bottom]) .arrowTop { display: none; }",
+      "parentUuid": "39d626fc_c922a668",
       "range": {
         "startLine": 38,
         "startChar": 6,

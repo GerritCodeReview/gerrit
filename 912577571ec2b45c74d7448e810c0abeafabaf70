@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14141b54_e1b83c4d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GroupsOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T19:49:37Z",
+      "side": 1,
+      "message": "This doesn\u0027t take into account repository.\u003cname\u003e.basePath. The simplest way to do this is just to inject a GitRepositoryManager; I\u0027m not clear on why that doesn\u0027t work here. It certainly works during some part of the init process, since that\u0027s what AllProjectsCreator does.\n\nOof. I think AccountsOnInit has this problem too.",
+      "revId": "912577571ec2b45c74d7448e810c0abeafabaf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a9f181f_c8a92dc3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T20:09:34Z",
+      "side": 1,
+      "message": "This is needed to remove mailto: :).\n\nGWTUI does it.",
+      "parentUuid": "a9e885d5_0ffef1a8",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "a888db175ace8df221958e1ecb356cd7c3a9465e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c684cf7a_be43f396",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
         "patchSetId": 27
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-26T20:05:56Z",
       "side": 1,
       "message": "This is still not a header.",
+      "range": {
+        "startLine": 62,
+        "startChar": 25,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "a888db175ace8df221958e1ecb356cd7c3a9465e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20aa2316_aaff9bdd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T20:09:34Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c684cf7a_be43f396",
       "range": {
         "startLine": 62,
         "startChar": 25,

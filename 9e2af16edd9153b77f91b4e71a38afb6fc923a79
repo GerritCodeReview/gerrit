@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aeabef17_f359a5d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-26T13:13:14Z",
+      "side": 1,
+      "message": "Add footer with reference to Issue 7365.",
+      "revId": "9e2af16edd9153b77f91b4e71a38afb6fc923a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68a0bbaa_4f608ca4",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1

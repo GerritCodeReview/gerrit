@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3643b6f1_6884941e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-26T17:01:15Z",
+      "side": 1,
+      "message": "Is there a bug to link here?",
+      "revId": "e8b7c2226f37de28ab636e1ec38b413aa0a4e2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bebdc01_570c9b03",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-26T17:01:15Z",
+      "side": 1,
+      "message": "Is this is a new configuration key? Can it be documented in Documentation/config-gerrit.html#gerrit ?\n\nAlso, this new key is called `favicon`, but the template param is called `faviconPath`. (Assuming it\u0027s new) should this one be called `faviconPath`?",
+      "revId": "e8b7c2226f37de28ab636e1ec38b413aa0a4e2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

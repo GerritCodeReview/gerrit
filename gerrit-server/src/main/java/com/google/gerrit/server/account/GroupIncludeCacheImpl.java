@@ -41,7 +41,6 @@ import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,18 +182,21 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(AccountGroup.UUID key) throws OrmException {
-      Stream<InternalGroup> internalGroupStream;
       if (groupIndexProvider.get().getSchema().hasField(GroupField.SUBGROUP)) {
-        internalGroupStream = groupQueryProvider.get().bySubgroup(key).stream();
-      } else {
-        try (ReviewDb db = schema.open()) {
-          internalGroupStream =
-              Groups.getParentGroupsFromReviewDb(db, key)
-                  .map(groupCache::get)
-                  .flatMap(Streams::stream);
-        }
+        return groupQueryProvider
+            .get()
+            .bySubgroup(key)
+            .stream()
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableList());
       }
-      return internalGroupStream.map(InternalGroup::getGroupUUID).collect(toImmutableList());
+      try (ReviewDb db = schema.open()) {
+        return Groups.getParentGroupsFromReviewDb(db, key)
+            .map(groupCache::get)
+            .flatMap(Streams::stream)
+            .map(InternalGroup::getGroupUUID)
+            .collect(toImmutableList());
+      }
     }
   }
 

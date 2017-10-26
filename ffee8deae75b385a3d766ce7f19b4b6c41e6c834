@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae9bed38_2d67be9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T18:12:56Z",
+      "side": 1,
+      "message": "Maybe leave it as \"Update group\" for renames, and encode the rename in a footer?",
+      "parentUuid": "8312c79c_2f26c82d",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 251,
+        "endChar": 0
+      },
+      "revId": "ffee8deae75b385a3d766ce7f19b4b6c41e6c834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84565c3a_9416deee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2

@@ -87,8 +87,10 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, '');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, []);
+      assert.equal(statusString, '');
     });
 
     test('Merge conflict', () => {
@@ -102,8 +104,10 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merge Conflict');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Merge Conflict']);
+      assert.equal(statusString, 'Merge Conflict');
     });
 
     test('mergeable prop undefined', () => {
@@ -116,8 +120,10 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, '');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, []);
+      assert.equal(statusString, '');
     });
 
     test('Merged status', () => {
@@ -130,8 +136,10 @@ limitations under the License.
         status: 'MERGED',
         labels: {},
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merged');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Merged']);
+      assert.equal(statusString, 'Merged');
     });
 
     test('Abandoned status', () => {
@@ -144,8 +152,10 @@ limitations under the License.
         status: 'ABANDONED',
         labels: {},
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Abandoned');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Abandoned']);
+      assert.equal(statusString, 'Abandoned');
     });
 
     test('Open status with private and wip', () => {
@@ -161,8 +171,10 @@ limitations under the License.
         labels: {},
         mergeable: true,
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'WIP, Private');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['WIP', 'Private']);
+      assert.equal(statusString, 'WIP, Private');
     });
 
     test('Merge conflict with private and wip', () => {
@@ -178,8 +190,10 @@ limitations under the License.
         labels: {},
         mergeable: false,
       };
-      const status = element.changeStatusString(change);
-      assert.equal(status, 'Merge Conflict, WIP, Private');
+      const statuses = element.changeStatuses(change);
+      const statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
+      assert.equal(statusString, 'Merge Conflict, WIP, Private');
     });
   });
 </script>

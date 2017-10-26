@@ -155,7 +155,15 @@ public class RefControl {
 
   /** @return true if the user can update the reference as a fast-forward. */
   private boolean canUpdate() {
+    System.err.println("canUpdate()");
+    System.err.println("RefNames.REFS_CONFIG.equals(refName) = " + RefNames.REFS_CONFIG.equals(refName));
+    System.err.println("projectControl.isOwner() = " + projectControl.isOwner());
+    System.err.println("projectControl.isOwner() = " + projectControl.isOwner());
+    System.err.println("projectControl.isAdmin() = " + projectControl.isAdmin());
+    System.err.println("isProjectStatePermittingWrite() = " + isProjectStatePermittingWrite());
+
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
+      System.err.println("Requires at least project owner");
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -166,9 +174,11 @@ public class RefControl {
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
       if (!(projectControl.getProjectState().isAllProjects() && projectControl.isAdmin())) {
+        System.err.println("Failed admin check");
         return false;
       }
     }
+    System.err.println("Falling back to canPerform");
     return canPerform(Permission.PUSH) && isProjectStatePermittingWrite();
   }
 
@@ -415,6 +425,12 @@ public class RefControl {
       blocks.remove(relevant.getRuleProps(rule));
     }
     blocks.removeAll(allows);
+    if (refName.equals("refs/meta/config") && permissionName.equals(Permission.PUSH)) {
+      System.err.println("access = " + access);
+      System.err.println("overridden = " + overridden);
+      System.err.println("allows = " + allows);
+      System.err.println("blocks = " + blocks);
+    }
     return blocks.isEmpty() && (!allows.isEmpty() || blockOnly);
   }
 

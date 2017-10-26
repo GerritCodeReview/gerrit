@@ -1035,10 +1035,13 @@ class ReceiveCommits {
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Updating {}", cmd);
     boolean ok;
+    System.err.format("parseUpdate for account %s: %s\n", user, cmd);
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.UPDATE);
       ok = true;
     } catch (AuthException err) {
+      System.err.println("AuthException in check(UPDATE)");
+      err.printStackTrace();
       ok = false;
     }
     if (ok) {

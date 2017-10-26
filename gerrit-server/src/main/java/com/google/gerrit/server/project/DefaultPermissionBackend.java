@@ -154,15 +154,24 @@ public class DefaultPermissionBackend extends PermissionBackend {
     private Boolean computeAdmin() {
       Boolean r = user.get(IS_ADMIN);
       if (r == null) {
-        if (user.getRealUser() != user) {
+        System.out.println("computeAdmin() for " + user);
+        if (user.isImpersonating()) {
+          System.out.println(user.getRealUser() + " is impersonating " + user);
           r = false;
         } else if (user instanceof PeerDaemonUser) {
+          System.out.println("PeerDaemonUser");
           r = true;
         } else {
+          System.out.println("Checking capabilities");
+          System.out.println(capabilities().administrateServer);
+          System.out.println(user.getEffectiveGroups());
           r = allow(capabilities().administrateServer);
         }
         user.put(IS_ADMIN, r);
+      } else {
+        System.err.format("Cached");
       }
+      System.err.format("computeAdmin() = " + r);
       return r;
     }
 

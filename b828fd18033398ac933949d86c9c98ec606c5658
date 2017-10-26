@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a83199f7_870b52fa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 0,
+      "message": "Sorry, why does this test go away in this change? I assume there is something in the NoteDb code that\u0027s broken it. Do we just not care about this condition anymore, since users will have already populated the group index in a prior release before they run this code?",
+      "revId": "b828fd18033398ac933949d86c9c98ec606c5658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bff402b_d4909d51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "I think you probably want a rw.reset() call here first. I don\u0027t think anything in VersionedMetaData marks or walks anything prior to calling onLoad, but nor do I think that\u0027s a guarantee.",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c4b1d61_6f8127fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "Is the idea that these are not currently stored in NoteDb, but will be in a future change in this series?",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a6d0a3_0a71f95f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "I have no objection at all to the way you\u0027ve written this and I think it\u0027s fine for this change.\n\nBut I can\u0027t help but notice we already have another general facility for parsing parts of a config file in NoteDb into a Java object: ConfigUtil#loadSection, which is used to load account preferences (TBH I\u0027m not a fan of all the reflection, but I digress). And then there is JGit\u0027s native SectionParser thing which for some reason we don\u0027t use much in Gerrit.\n\nI think in the long term it would be nice to come through and consolidate some of the common NoteDb Java \u003c-\u003e JGit Config code so we have fewer different implementations.\n\nBut not today.",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba322150_d653a512",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "Wow, I didn\u0027t even know this was valid syntax :)",
+      "range": {
+        "startLine": 27,
+        "startChar": 75,
+        "endLine": 27,
+        "endChar": 88
+      },
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1e92d2d_554a8e97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "Why a no-op instead of throwing?\n\nReading further, I think this is so that GroupConfig#updateGroupProperties can call updateConfigValue for each entry, is that right?\n\nThat makes sense in the context of that method, but this still feels a little wrong. Imagine if someone tried to implement an endpoint to change group IDs, and they called GroupConfigEntry.ID.updateConfigValue(...), expecting it to work. They might prefer \"IllegalStateException: updating ID not supported\" to being a silent no-op.\n\nBut I guess since this enum is package-private, it limits the surface. I could go either way.",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af55a11f_dae0e4e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "I see that in AccountsUpdate all the arguments are Consumer\u003cAccount\u003e rather than the declarative type you have here. I\u0027m not thrilled with the inconsistency, but I\u0027m guessing you\u0027d be in favor of producing an InternalAccountUpdate class as a later cleanup.",
+      "range": {
+        "startLine": 191,
+        "startChar": 68,
+        "endLine": 191,
+        "endChar": 99
+      },
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86c30a2f_5b3fc3b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "This method reopens the repository which was already opened by loadFor immediately beforehand. It feels like we should be able to open it only once, for example by pushing the openRepository into the top of updateGroupInNoteDb.\n\nIt might be that this would require more refactoring to the MetaDataUpdateFactory thing, in which case it might not be worth it. Opening repositories in the same thread is cheap.",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626d4226_0c512fe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T16:34:31Z",
+      "side": 1,
+      "message": "Optional: IMO, the additional boilerplate of an @AutoValue.Builder is only a win vs. a static create method when either:\n\n* some arguments are optional\n* there are multiple arguments of the same type that could be confusing as positional arguments\n\nNeither of these is the case here (at least within this class in this change).\n\nBut I don\u0027t feel too strongly, you can leave it like this if you prefer.",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

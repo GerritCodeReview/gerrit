@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ac99d093_387de391",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "69e829c6_b4f5f4ab",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1187a24f_1a03a0d0",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
         "patchSetId": 26
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-26T17:44:25Z",
       "side": 1,
       "message": "CSS properties are always alphabetized.",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efaf8ccc_97d110c1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1187a24f_1a03a0d0",
       "range": {
         "startLine": 36,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d9a2933e_a7c8f9d5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "the delete one does as im using it in the tests.",
+      "parentUuid": "edccb7e7_4623129b",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9575d18a_0f584ed2",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
         "patchSetId": 26
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-26T17:44:25Z",
       "side": 1,
       "message": "How about just...\n\n  return id \u0026\u0026 id.startsWith(\u0027mailto:\u0027) ? \u0027\u0027 : id;",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0318fbd_7897fb2a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9575d18a_0f584ed2",
       "range": {
         "startLine": 32,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "9dd13179_0b618f38",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dda098f3_2c5609c7",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 63,
+        "endChar": 23
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "511efd6f_b34f6742",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.html",
         "patchSetId": 26
@@ -128,6 +248,30 @@
       "writtenOn": "2017-10-26T17:44:25Z",
       "side": 1,
       "message": "Why is this in its own suite if it only has one test?",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 42
+      },
+      "revId": "4f0ad1aee0b3b9cc148fa762fd14f388ac7b3bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f57867_c3c7415b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-26T17:50:35Z",
+      "side": 1,
+      "message": "ah right, was following how the others did it. But moving it out of it\u0027s own suit :).\n\nthanks, done.",
+      "parentUuid": "511efd6f_b34f6742",
       "range": {
         "startLine": 117,
         "startChar": 4,

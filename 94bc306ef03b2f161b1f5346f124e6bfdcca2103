@@ -34,6 +34,24 @@
       "revId": "94bc306ef03b2f161b1f5346f124e6bfdcca2103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59c2cbe3_3a989dba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-26T22:45:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fbb07db6_c4754dde",
+      "revId": "94bc306ef03b2f161b1f5346f124e6bfdcca2103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

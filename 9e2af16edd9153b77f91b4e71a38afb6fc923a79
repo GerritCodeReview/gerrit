@@ -34,6 +34,23 @@
       "revId": "9e2af16edd9153b77f91b4e71a38afb6fc923a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eeeb8ee_e2df912b",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1041213
+      },
+      "writtenOn": "2017-10-26T15:24:35Z",
+      "side": 1,
+      "message": "Two items:\n\n1. What does \"set ready\" mean?\n2. When referring to a UI label (Save, Start Review, etc), use boldface instead of quotes. We do this for two reasons: it helps users find a visual cue to locate the UI element, and it helps us avoid using quotes, which are often overused.",
+      "revId": "9e2af16edd9153b77f91b4e71a38afb6fc923a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -287,7 +287,7 @@
         default:
           // For any normal keypress, return focus to the input to allow for
           // unbroken user input.
-          this.$.input.focus();
+          this.$.input.inputElement.focus();
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },

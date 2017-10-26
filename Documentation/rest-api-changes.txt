@@ -3818,6 +3818,7 @@ the `errors` field set containing details of why they failed.
   }
 ----
 
+[[set-review-notifications]]
 .Notifications
 
 An email will be sent using the "comment" template.

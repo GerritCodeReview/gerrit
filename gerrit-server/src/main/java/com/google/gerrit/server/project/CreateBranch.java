@@ -121,7 +121,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
       }
 
-      createRefControl.checkCreateRef(repo, name, object);
+      createRefControl.checkCreateRef(identifiedUser, repo, name, object);
 
       try {
         final RefUpdate u = repo.updateRef(ref);

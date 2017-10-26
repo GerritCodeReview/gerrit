@@ -154,6 +154,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -209,7 +210,8 @@ class ReceiveCommits {
     UPDATE(
         "You are not allowed to perform this operation.\n"
             + "To push into this reference you need 'Push' rights."),
-    DELETE("You need 'Delete Reference' rights or 'Push' rights with the \n"
+    DELETE(
+        "You need 'Delete Reference' rights or 'Push' rights with the \n"
             + "'Force Push' flag set to delete references."),
     DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
     CODE_REVIEW(
@@ -1017,7 +1019,9 @@ class ReceiveCommits {
 
     Branch.NameKey branch = new Branch.NameKey(project.getName(), cmd.getRefName());
     try {
-      createRefControl.checkCreateRef(rp.getRepository(), branch, obj);
+      // Must pass explicit user instead of injecting a provider into CreateRefControl, since
+      // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
+      createRefControl.checkCreateRef(Providers.of(user), rp.getRepository(), branch, obj);
     } catch (AuthException denied) {
       reject(cmd, "prohibited by Gerrit: " + denied.getMessage());
       return;

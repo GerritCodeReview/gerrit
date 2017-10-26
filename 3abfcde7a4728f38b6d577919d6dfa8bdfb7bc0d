@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b44cc48_ce501e0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T14:51:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this branch. At first glance, if the user doesn\u0027t have permission to see the group, then we show them the direct members of the group (and not the transitive members). But why should they be able to see the direct members if they can\u0027t see the group?\n\nReading further into getDirectMemberIds and GroupControl#canSeeMember, I *think* the answer is: getDirectMemberIds will filter out all the members the user can\u0027t see. In the case of a group the user can\u0027t see, that is all members, except possibly the user themselves if they are a member.\n\nIf my reading is correct, I think that\u0027s sane behavior, but it\u0027s still not obvious from reading this method. This could use a comment.",
+      "revId": "3abfcde7a4728f38b6d577919d6dfa8bdfb7bc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114ed486_b2a85d17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-26T14:51:36Z",
+      "side": 1,
+      "message": "Would it make sense to sanity check that group of \"group\" matches the group of \"groupControl\"?",
+      "revId": "3abfcde7a4728f38b6d577919d6dfa8bdfb7bc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

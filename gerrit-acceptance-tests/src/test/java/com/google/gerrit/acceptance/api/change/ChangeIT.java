@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
@@ -51,7 +52,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1253,7 +1253,7 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     try {
       gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
+      assert_().fail("Expected ResourceNotFoundException");
     } catch (ResourceNotFoundException e) {
       // Expected.
     }
@@ -1335,7 +1335,7 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     try {
       gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
+      assert_().fail("Expected ResourceNotFoundException");
     } catch (ResourceNotFoundException e) {
       // Expected.
     }
@@ -1371,7 +1371,7 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     try {
       gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
+      assert_().fail("Expected ResourceNotFoundException");
     } catch (ResourceNotFoundException e) {
       // Expected.
     }

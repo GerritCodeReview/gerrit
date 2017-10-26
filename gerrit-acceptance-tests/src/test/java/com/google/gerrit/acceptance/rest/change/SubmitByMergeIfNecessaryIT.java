@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -271,7 +271,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         // by AbstractDaemonTest, as then we'd stop early and not test the
         // actual submit.
 
-        fail("expected failure");
+        assert_().fail("expected failure");
       } catch (RestApiException e) {
         assertThat(e.getMessage()).isEqualTo(msg);
       }

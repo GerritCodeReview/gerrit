@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.api.plugin;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -113,7 +113,7 @@ public class PluginIT extends AbstractDaemonTest {
     setApiUser(user);
     try {
       gApi.plugins().name("plugin-a").disable();
-      fail("Expected AuthException");
+      assert_().fail("Expected AuthException");
     } catch (AuthException expected) {
       // Expected
     }
@@ -157,7 +157,7 @@ public class PluginIT extends AbstractDaemonTest {
   private void assertBadRequest(ListRequest req) throws Exception {
     try {
       req.get();
-      fail("Expected BadRequestException");
+      assert_().fail("Expected BadRequestException");
     } catch (BadRequestException e) {
       // Expected
     }

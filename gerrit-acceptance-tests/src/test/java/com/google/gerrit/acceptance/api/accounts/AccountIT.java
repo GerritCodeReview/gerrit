@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
@@ -34,7 +35,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -136,7 +136,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -403,7 +402,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id("user").getActive()).isFalse();
     try {
       gApi.accounts().id("user").setActive(false);
-      fail("Expected exception");
+      assert_().fail("Expected exception");
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage()).isEqualTo("account not active");
     }
@@ -618,7 +617,7 @@ public class AccountIT extends AbstractDaemonTest {
       EmailInput input = newEmailInput(email);
       try {
         gApi.accounts().self().addEmail(input);
-        fail("Expected BadRequestException for invalid email address: " + email);
+        assert_().fail("Expected BadRequestException for invalid email address: " + email);
       } catch (BadRequestException e) {
         assertThat(e).hasMessageThat().isEqualTo("invalid email address");
       }
@@ -814,7 +813,7 @@ public class AccountIT extends AbstractDaemonTest {
     // fetching user branch without READ permission fails
     try {
       fetch(allUsersRepo, userRefName + ":userRef");
-      Assert.fail("user branch is visible although no READ permission is granted");
+      assert_().fail("user branch is visible although no READ permission is granted");
     } catch (TransportException e) {
       // expected because no READ granted on user branch
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
@@ -29,7 +30,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -173,7 +173,7 @@ public class RevisionIT extends AbstractDaemonTest {
     // Reducing vote is not allowed.
     try {
       gApi.changes().id(changeId).current().review(ReviewInput.dislike());
-      fail("expected ResourceConflictException");
+      assert_().fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e)
           .hasMessageThat()
@@ -193,7 +193,7 @@ public class RevisionIT extends AbstractDaemonTest {
     // Decreasing to previous post-submit vote is still not allowed.
     try {
       gApi.changes().id(changeId).current().review(ReviewInput.dislike());
-      fail("expected ResourceConflictException");
+      assert_().fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e)
           .hasMessageThat()
@@ -513,7 +513,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.message = r1.getCommit().getFullMessage();
     try {
       gApi.changes().id(t1).current().cherryPick(in);
-      fail();
+      assert_().fail();
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage())
           .isEqualTo(

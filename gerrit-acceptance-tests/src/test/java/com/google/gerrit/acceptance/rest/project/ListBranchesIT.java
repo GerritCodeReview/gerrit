@@ -14,9 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -177,7 +177,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   private void assertBadRequest(ListRefsRequest<BranchInfo> req) throws Exception {
     try {
       req.get();
-      fail("Expected BadRequestException");
+      assert_().fail("Expected BadRequestException");
     } catch (BadRequestException e) {
       // Expected
     }

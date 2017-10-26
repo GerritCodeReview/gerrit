@@ -15,13 +15,13 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.extensions.client.SubmitType.CHERRY_PICK;
 import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_ALWAYS;
 import static com.google.gerrit.extensions.client.SubmitType.REBASE_IF_NECESSARY;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -240,7 +240,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
     try {
       gApi.changes().id(r2.getChangeId()).current().submit();
-      fail("Expected ResourceConflictException");
+      assert_().fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e)
           .hasMessageThat()

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
@@ -25,7 +26,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -257,7 +257,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           break;
         case CHERRY_PICK:
         default:
-          fail("Should not reach here.");
+          assert_().fail("Should not reach here.");
           break;
       }
 
@@ -1052,7 +1052,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     try {
       gApi.changes().id(changeId).current().submit(input);
       if (expectedExceptionType != null) {
-        fail("Expected exception of type " + expectedExceptionType.getSimpleName());
+        assert_().fail("Expected exception of type " + expectedExceptionType.getSimpleName());
       }
     } catch (RestApiException e) {
       if (expectedExceptionType == null) {

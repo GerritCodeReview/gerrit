@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -114,7 +114,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     gApi.changes().id(id).current().review(ReviewInput.approve());
     try {
       gApi.changes().id(id).current().submit();
-      fail("expected submit to fail");
+      assert_().fail("expected submit to fail");
     } catch (ResourceConflictException e) {
       int n = gApi.changes().id(id).info()._number;
       assertThat(e)

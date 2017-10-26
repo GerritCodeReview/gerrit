@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
@@ -24,7 +25,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.github.rholder.retry.Retryer;
@@ -259,7 +259,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     // refs/meta/external-ids is only visible to users with the 'Access Database' capability
     try {
       fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
-      fail("expected TransportException");
+      assert_().fail("expected TransportException");
     } catch (TransportException e) {
       assertThat(e.getMessage())
           .isEqualTo(
@@ -787,7 +787,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     assertThat(bgCounter.get()).isEqualTo(0);
     try {
       update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
-      fail("expected LockFailureException");
+      assert_().fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Ignore, expected
     }

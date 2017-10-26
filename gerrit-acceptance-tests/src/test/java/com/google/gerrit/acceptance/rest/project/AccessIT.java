@@ -14,9 +14,9 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
-import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -134,7 +134,7 @@ public class AccessIT extends AbstractDaemonTest {
     setApiUser(user);
     try {
       BranchInfo info = gApi.projects().name(newProjectName).branch("refs/heads/master").get();
-      fail("wanted failure, got " + newGson().toJson(info));
+      assert_().fail("wanted failure, got " + newGson().toJson(info));
     } catch (ResourceNotFoundException e) {
       // OK.
     }

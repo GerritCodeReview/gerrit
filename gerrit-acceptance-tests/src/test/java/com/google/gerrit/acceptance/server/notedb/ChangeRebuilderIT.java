@@ -26,7 +26,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -478,7 +477,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
           });
       try {
         bu.execute();
-        fail("expected update to fail");
+        assert_().fail("expected update to fail");
       } catch (UpdateException e) {
         assertThat(e.getMessage()).contains("cannot copy ChangeNotesState");
       }
@@ -929,7 +928,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     setNotesMigration(false, true);
     try {
       gApi.changes().id(id.get()).topic(name("a-topic"));
-      fail("Expected write to fail");
+      assert_().fail("Expected write to fail");
     } catch (RestApiException e) {
       assertChangesReadOnly(e);
     }
@@ -961,7 +960,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Attempting to write directly causes failure.
     try {
       gApi.changes().id(id.get()).topic(name("other-topic"));
-      fail("Expected write to fail");
+      assert_().fail("Expected write to fail");
     } catch (RestApiException e) {
       assertChangesReadOnly(e);
     }

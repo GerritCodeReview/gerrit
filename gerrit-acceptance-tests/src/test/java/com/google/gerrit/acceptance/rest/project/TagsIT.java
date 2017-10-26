@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -355,7 +355,7 @@ public class TagsIT extends AbstractDaemonTest {
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {
     try {
       req.get();
-      fail("Expected BadRequestException");
+      assert_().fail("Expected BadRequestException");
     } catch (BadRequestException e) {
       // Expected
     }

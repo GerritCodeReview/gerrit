@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcb0eff5_30576e65",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-26T22:29:50Z",
+      "side": 1,
+      "message": "Nit: should we create an enum with the possible group detail types?",
+      "range": {
+        "startLine": 192,
+        "startChar": 70,
+        "endLine": 192,
+        "endChar": 75
+      },
+      "revId": "c36f4996258edb9c62a322dc3d017f7234af78eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -38,30 +38,33 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        display: inline-block;
+        display: flex;
         font-family: var(--font-family);
       }
+      #mainContent,
       section {
-        display: inline-block;
+        display: flex;
       }
       gr-button,
       gr-dropdown {
-        margin-left: .5em;
+        /* px because don't have the same font size */
+        margin-left: 12px;
       }
       #actionLoadingMessage {
         color: #777;
       }
       @media screen and (max-width: 50em) {
-        :host,
+        #mainContent,
         section,
         gr-button,
         gr-dropdown {
           display: block;
+          flex: 1;
         }
         gr-button,
         gr-dropdown {
-          margin-bottom: .5em;
-          margin-left: 0;
+          /* px because don't have the same font size */
+          margin: 0 0 6px 0;
         }
         .confirmDialog {
           width: 90vw;

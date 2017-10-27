@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "885926fd_f599d4d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-10-27T23:12:35Z",
+      "side": 1,
+      "message": "I\u0027ve moved the space handling into the previous test (as it seems like the runtime on these tests is fairly expensive), and called attention to it with a comment.",
+      "parentUuid": "04dc6429_22a959df",
+      "range": {
+        "startLine": 729,
+        "startChar": 55,
+        "endLine": 729,
+        "endChar": 56
+      },
+      "revId": "1658f8732191f5a603496674c3af407587ee055c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e5d23ed_ca57086d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 5
@@ -83,6 +107,24 @@
       "writtenOn": "2017-10-17T18:31:59Z",
       "side": 1,
       "message": "Ughh java.net has the worst APIs. Catching Exception is usually a smell, but I see why you did it.\n\nI think a slightly safer thing would be:\n\n* wrap UnsupportedEncodingException in an IllegalStateException and rethrow (since UTF-8 not being found is a thing that Should Not Happen)\n* catch and ignore IllegalArgumentException\n\nThe only downside is URLDecoder\u0027s Javadoc does not explicitly say that IAE is the only thing that will be thrown on invalid input (although I just checked the implementation and it is).",
+      "revId": "1658f8732191f5a603496674c3af407587ee055c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddbb3b43_518ec5a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-10-27T23:12:35Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8e5d23ed_ca57086d",
       "revId": "1658f8732191f5a603496674c3af407587ee055c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

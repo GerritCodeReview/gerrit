@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "705bfd6b_5a10c7ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T18:40:45Z",
+      "side": 1,
+      "message": "I have altered the wording and added a pair of tooltips for the two versions of the [Send] button.\n\nInstead of explicitly saying \"email\" in the tooltip, I wrote a kind of vague reference to \"sending\". I had realized that whether or not emails will be sent for various actions is configurable, so, instead, my hope is that \"send\" communicates the idea of emails being sent (if enabled) as well as changes appearing on other\u0027s dashboards.\n\nMaybe, however, this is overly cautious or results in the wording coming across as stilted.",
+      "parentUuid": "6f444bc5_b6e0415d",
+      "range": {
+        "startLine": 277,
+        "startChar": 23,
+        "endLine": 277,
+        "endChar": 60
+      },
+      "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6803cb5_af0e61de",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8cf5a4e_28290819",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T18:40:45Z",
+      "side": 1,
+      "message": "The parent sets it as a property not (necessarily) as an attribute. I suspect the style used in gr-reply-dialog sets as both the prop and the attr, but would certainly not set the attribute if it used, for example ..\n\n tertiary\u003d\"[[_isButtonTertiary(foo, bar)]]\"\n\nSince an attribute is strictly what\u0027s selected in the CSS, I argue it\u0027s safer this way.",
+      "parentUuid": "d6803cb5_af0e61de",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

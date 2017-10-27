@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "903cd590_ee12f91a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:50:02Z",
+      "side": 1,
+      "message": "But the function is called \"Header\" right? You aren\u0027t computing a header in this \u003ctd\u003e.",
+      "parentUuid": "0a9f181f_c8a92dc3",
+      "range": {
+        "startLine": 61,
+        "startChar": 20,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "a888db175ace8df221958e1ecb356cd7c3a9465e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c684cf7a_be43f396",
         "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
         "patchSetId": 27

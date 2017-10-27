@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77856d47_4ec7266d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-27T20:11:35Z",
+      "side": 1,
+      "message": "I might be missing something, but aren\u0027t there two return statements in this function?",
+      "revId": "d563a713d68b58113d2e53e32e5b29d3014401fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

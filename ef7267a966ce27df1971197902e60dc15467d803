@@ -17,6 +17,25 @@
       "revId": "ef7267a966ce27df1971197902e60dc15467d803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0747a139_0823d8aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-27T22:49:11Z",
+      "side": 1,
+      "message": "I intentionally split it up to make the logic clearer (after screwing it up the first time).",
+      "parentUuid": "24b130cc_c1cc9a0a",
+      "tag": "mailMessageId\u003d\u003cCAD0k6qS1FXJJv1CgoCU\u003d\u003dh-X6oKtcJtYJBgS0UyN5bZ3iophHg@mail.gmail.com\u003e",
+      "revId": "ef7267a966ce27df1971197902e60dc15467d803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,12 +22,12 @@
     PRIVATE: 'Private',
   };
 
-  const WIP_TOOLTIP = 'Change is not ready to be reviewed or submitted. ' +
-      'Does not appear in dashboards, and email notifications are silenced ' +
-      'until review is started.';
+  const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
+      'It will not appear in dashboards, and email notifications will be ' +
+      'silenced until the review is started.';
 
-  const PRIVATE_TOOLTIP = 'Change is only viewable to you and your ' +
-      'reviewers (or anyone with View Private Changes permission).';
+  const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
+      'current reviewers (or anyone with "View Private Changes" permission).';
 
   Polymer({
     is: 'gr-change-status',

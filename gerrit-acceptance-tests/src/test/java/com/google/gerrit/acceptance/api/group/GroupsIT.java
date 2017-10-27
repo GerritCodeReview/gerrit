@@ -498,6 +498,56 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void usersSeeTheirDirectMembershipWhenListingMembersRecursively() throws Exception {
+    String group = createGroup("group");
+    gApi.groups().id(group).addMembers(user.username);
+
+    setApiUser(user);
+    assertMembers(gApi.groups().id(group).members(true), user.fullName);
+  }
+
+  @Test
+  public void usersDoNotSeeTheirIndirectMembershipWhenListingMembersRecursively() throws Exception {
+    String group1 = createGroup("group1");
+    String group2 = createGroup("group2");
+    gApi.groups().id(group1).addGroups(group2);
+    gApi.groups().id(group2).addMembers(user.username);
+
+    setApiUser(user);
+    List<AccountInfo> listedMembers = gApi.groups().id(group1).members(true);
+
+    assertMembers(listedMembers);
+  }
+
+  @Test
+  public void adminsSeeTheirIndirectMembershipWhenListingMembersRecursively() throws Exception {
+    String ownerGroup = createGroup("ownerGroup", null);
+    String group1 = createGroup("group1", ownerGroup);
+    String group2 = createGroup("group2", ownerGroup);
+    gApi.groups().id(group1).addGroups(group2);
+    gApi.groups().id(group2).addMembers(admin.username);
+
+    List<AccountInfo> listedMembers = gApi.groups().id(group1).members(true);
+
+    assertMembers(listedMembers, admin.fullName);
+  }
+
+  @Test
+  public void ownersSeeTheirIndirectMembershipWhenListingMembersRecursively() throws Exception {
+    String ownerGroup = createGroup("ownerGroup", null);
+    String group1 = createGroup("group1", ownerGroup);
+    String group2 = createGroup("group2", ownerGroup);
+    gApi.groups().id(group1).addGroups(group2);
+    gApi.groups().id(ownerGroup).addMembers(user.username);
+    gApi.groups().id(group2).addMembers(user.username);
+
+    setApiUser(user);
+    List<AccountInfo> listedMembers = gApi.groups().id(group1).members(true);
+
+    assertMembers(listedMembers, user.fullName);
+  }
+
+  @Test
   public void defaultGroupsCreated() throws Exception {
     Iterable<String> names = gApi.groups().list().getAsMap().keySet();
     assertThat(names).containsAllOf("Administrators", "Non-Interactive Users").inOrder();
@@ -575,20 +625,25 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void withSubstring() throws Exception {
-    Map<String, GroupInfo> groups = gApi.groups().list().withSubstring("dmin").getAsMap();
-    assertThat(groups).containsKey("Administrators");
+    String group = name("Abcdefghijklmnop");
+    gApi.groups().create(group);
+
+    // Choose a substring which isn't part of any group or test method within this class.
+    String substring = "efghijk";
+    Map<String, GroupInfo> groups = gApi.groups().list().withSubstring(substring).getAsMap();
+    assertThat(groups).containsKey(group);
     assertThat(groups).hasSize(1);
 
-    groups = gApi.groups().list().withSubstring("admin").getAsMap();
-    assertThat(groups).containsKey("Administrators");
+    groups = gApi.groups().list().withSubstring("abcdefghi").getAsMap();
+    assertThat(groups).containsKey(group);
     assertThat(groups).hasSize(1);
 
-    String other = name("Administrators");
-    gApi.groups().create(other);
-    groups = gApi.groups().list().withSubstring("dmin").getAsMap();
+    String otherGroup = name("Abcdefghijklmnop2");
+    gApi.groups().create(otherGroup);
+    groups = gApi.groups().list().withSubstring(substring).getAsMap();
     assertThat(groups).hasSize(2);
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).containsKey(other);
+    assertThat(groups).containsKey(group);
+    assertThat(groups).containsKey(otherGroup);
 
     groups = gApi.groups().list().withSubstring("foo").getAsMap();
     assertThat(groups).isEmpty();

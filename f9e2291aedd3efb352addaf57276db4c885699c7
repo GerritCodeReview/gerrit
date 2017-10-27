@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c75f9b3e_25679c8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-27T01:15:33Z",
+      "side": 1,
+      "message": "Can you give an example of projects where this is used?\n\nI\u0027ve seen \"Refs:\" used before, but it was a proprietary thing and I don\u0027t think it\u0027s necessary to support in the official commit-msg hook.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "f9e2291aedd3efb352addaf57276db4c885699c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

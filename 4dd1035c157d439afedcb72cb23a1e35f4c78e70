@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6286abf2_3edff252",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T20:00:23Z",
+      "side": 1,
+      "message": "From the usage in the Soy template, this looks like the full path (or suffix) rather than the prefix. Isn\u0027t this value expected to end in \".ico\"?",
+      "range": {
+        "startLine": 2180,
+        "startChar": 5,
+        "endLine": 2180,
+        "endChar": 11
+      },
+      "revId": "4dd1035c157d439afedcb72cb23a1e35f4c78e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

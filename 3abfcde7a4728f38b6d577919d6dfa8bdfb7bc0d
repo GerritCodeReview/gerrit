@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af1c428e_31ed5bc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-27T11:49:40Z",
+      "side": 1,
+      "message": "On further thought, is it correct to not expand indirect memberships in this case? I imagine the reason for canSeeMember() always returning true for the current user is so the user knows they are in a group if and only if they show up in the member list.\n\nSuppose I am in group A and B, B is a subgroup of A, and I am allowed to see neither group. I am (indirectly) a member of A, but since I can\u0027t see A, I will not show up in the member list, because of this short-circuit return. I would thus incorrectly conclude I am not in A.\n\nIn this instance, I think matching the old behavior is more important than fixing this bug now, so I\u0027m fine with the current behavior as long as there is a test case proving that it matches the old behavior. (Of course, if the old behavior is right and the new behavior is wrong, then you should fix the new behavior in this change :)",
+      "parentUuid": "5b44cc48_ce501e0c",
+      "revId": "3abfcde7a4728f38b6d577919d6dfa8bdfb7bc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "114ed486_b2a85d17",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
         "patchSetId": 4

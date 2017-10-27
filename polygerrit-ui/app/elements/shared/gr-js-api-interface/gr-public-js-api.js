@@ -32,6 +32,28 @@
     return _restAPI;
   };
 
+  // TODO (viktard): deprecate in favor of GrPluginRestApi.
+  function send(method, url, opt_callback, opt_payload) {
+    return getRestAPI().send(method, url, opt_payload).then(response => {
+      if (response.status < 200 || response.status >= 300) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(text);
+          } else {
+            return Promise.reject(response.status);
+          }
+        });
+      } else {
+        return getRestAPI().getResponseObject(response);
+      }
+    }).then(response => {
+      if (opt_callback) {
+        opt_callback(response);
+      }
+      return response;
+    });
+  }
+
   const API_VERSION = '0.1';
 
   /**
@@ -131,55 +153,27 @@
   };
 
   Plugin.prototype._send = function(method, url, opt_callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload).then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
-      } else {
-        return getRestAPI().getResponseObject(response);
-      }
-    }).then(response => {
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
+    return send(method, this.url(url), opt_callback, opt_payload);
   };
 
   Plugin.prototype.get = function(url, opt_callback) {
+    console.warn('.get() is deprecated! Use .restApi().get()');
     return this._send('GET', url, opt_callback);
-  },
+  };
 
   Plugin.prototype.post = function(url, payload, opt_callback) {
+    console.warn('.post() is deprecated! Use .restApi().post()');
     return this._send('POST', url, opt_callback, payload);
-  },
+  };
 
   Plugin.prototype.put = function(url, payload, opt_callback) {
+    console.warn('.put() is deprecated! Use .restApi().put()');
     return this._send('PUT', url, opt_callback, payload);
-  },
+  };
 
   Plugin.prototype.delete = function(url, opt_callback) {
-    return getRestAPI().send('DELETE', url).then(response => {
-      if (response.status !== 204) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(text);
-          } else {
-            return Promise.reject(response.status);
-          }
-        });
-      }
-      if (opt_callback) {
-        opt_callback(response);
-      }
-      return response;
-    });
-  },
+    return Gerrit.delete(this.url(url), opt_callback);
+  };
 
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
@@ -199,6 +193,21 @@
 
   Plugin.prototype.theme = function() {
     return new GrThemeApi(this);
+  };
+
+  Plugin.prototype.project = function() {
+    return new GrProjectApi(this);
+  };
+
+  /**
+   * To make REST requests for plugin-provided endpoints, use
+   * @example
+   * const pluginRestApi = plugin.restApi(plugin.url());
+   *
+   * @param {string} Base url for subsequent .get(), .post() etc requests.
+   */
+  Plugin.prototype.restApi = function(opt_prefix) {
+    return new GrPluginRestApi(opt_prefix);
   };
 
   Plugin.prototype.attributeHelper = function(element) {
@@ -263,7 +272,7 @@
 
   Gerrit.getPluginName = function() {
     console.warn('Gerrit.getPluginName is not supported in PolyGerrit.',
-        'Please use self.getPluginName() instead.');
+        'Please use plugin.getPluginName() instead.');
   };
 
   Gerrit.css = function(rulesStr) {
@@ -301,7 +310,43 @@
   };
 
   Gerrit.getLoggedIn = function() {
+    console.warn('Gerrit.getLoggedIn() is deprecated! ' +
+        'Use plugin.restApi().getLoggedIn()');
     return document.createElement('gr-rest-api-interface').getLoggedIn();
+  };
+
+  Gerrit.get = function(url, callback) {
+    console.warn('.get() is deprecated! Use plugin.restApi().get()');
+    send('GET', url, callback);
+  };
+
+  Gerrit.post = function(url, payload, callback) {
+    console.warn('.post() is deprecated! Use plugin.restApi().post()');
+    send('POST', url, callback, payload);
+  };
+
+  Gerrit.put = function(url, payload, callback) {
+    console.warn('.put() is deprecated! Use plugin.restApi().put()');
+    send('PUT', url, callback, payload);
+  };
+
+  Gerrit.delete = function(url, opt_callback) {
+    console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
+    return getRestAPI().send('DELETE', url).then(response => {
+      if (response.status !== 204) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(text);
+          } else {
+            return Promise.reject(response.status);
+          }
+        });
+      }
+      if (opt_callback) {
+        opt_callback(response);
+      }
+      return response;
+    });
   };
 
   /**

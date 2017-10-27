@@ -96,7 +96,8 @@ limitations under the License.
       const response = {foo: 'foo'};
       getResponseObjectStub.returns(Promise.resolve(response));
       return plugin.get('/url', r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
+        assert.isTrue(sendStub.calledWith(
+            'GET', 'http://test.com/plugins/testplugin/url'));
         assert.strictEqual(r, response);
       });
     });
@@ -105,7 +106,8 @@ limitations under the License.
       const response = {foo: 'foo'};
       getResponseObjectStub.returns(Promise.resolve(response));
       return plugin.get('/url', r => 'rubbish').then(r => {
-        assert.isTrue(sendStub.calledWith('GET', '/url'));
+        assert.isTrue(sendStub.calledWith(
+            'GET', 'http://test.com/plugins/testplugin/url'));
         assert.strictEqual(r, response);
       });
     });
@@ -115,7 +117,8 @@ limitations under the License.
       const response = {bar: 'bar'};
       getResponseObjectStub.returns(Promise.resolve(response));
       return plugin.post('/url', payload, r => {
-        assert.isTrue(sendStub.calledWith('POST', '/url', payload));
+        assert.isTrue(sendStub.calledWith(
+            'POST', 'http://test.com/plugins/testplugin/url', payload));
         assert.strictEqual(r, response);
       });
     });
@@ -125,7 +128,8 @@ limitations under the License.
       const response = {bar: 'bar'};
       getResponseObjectStub.returns(Promise.resolve(response));
       return plugin.put('/url', payload, r => {
-        assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
+        assert.isTrue(sendStub.calledWith(
+            'PUT', 'http://test.com/plugins/testplugin/url', payload));
         assert.strictEqual(r, response);
       });
     });
@@ -134,7 +138,8 @@ limitations under the License.
       const response = {status: 204};
       sendStub.returns(Promise.resolve(response));
       return plugin.delete('/url', r => {
-        assert.isTrue(sendStub.calledWithExactly('DELETE', '/url'));
+        assert.isTrue(sendStub.calledWithExactly(
+            'DELETE', 'http://test.com/plugins/testplugin/url'));
         assert.strictEqual(r, response);
       });
     });
@@ -145,7 +150,8 @@ limitations under the License.
       return plugin.delete('/url', r => {
         throw new Error('Should not resolve');
       }).catch(err => {
-        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+        assert.isTrue(sendStub.calledWith(
+            'DELETE', 'http://test.com/plugins/testplugin/url'));
         assert.equal('text', err);
       });
     });

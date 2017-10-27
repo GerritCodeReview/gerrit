@@ -1345,24 +1345,25 @@
         }
         options.body = opt_body;
       }
-      return this._auth.fetch(this.getBaseUrl() + url, options)
-          .then(response => {
-            if (!response.ok) {
-              if (opt_errFn) {
-                return opt_errFn.call(opt_ctx || null, response);
-              }
-              this.fire('server-error', {response});
-            }
-
-            return response;
-          }).catch(err => {
-            this.fire('network-error', {error: err});
-            if (opt_errFn) {
-              return opt_errFn.call(opt_ctx, null, err);
-            } else {
-              throw err;
-            }
-          });
+      if (!url.startsWith('http')) {
+        url = this.getBaseUrl() + url;
+      }
+      return this._auth.fetch(url, options).then(response => {
+        if (!response.ok) {
+          if (opt_errFn) {
+            return opt_errFn.call(opt_ctx || null, response);
+          }
+          this.fire('server-error', {response});
+        }
+        return response;
+      }).catch(err => {
+        this.fire('network-error', {error: err});
+        if (opt_errFn) {
+          return opt_errFn.call(opt_ctx, null, err);
+        } else {
+          throw err;
+        }
+      });
     },
 
     /**

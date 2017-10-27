@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfa4d815_0845dfb5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T21:41:04Z",
+      "side": 1,
+      "message": "Can this message easily include the name of the misconfigured plugin?",
+      "revId": "2f7f820d1f5bc13c5a64f3af245788063061dd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

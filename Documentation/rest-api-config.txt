@@ -195,10 +195,13 @@ is returned that contains detected consistency problems.
 
 
 [[confirm-email]]
-=== Confirm Email
+=== Confirm Email (deprecated)
 --
 'PUT /config/server/email.confirm'
 --
+
+This API is deprecated. Please use link:rest-api-accounts.html#confirm-email[
+Confirm Email in the accounts API] instead.
 
 Confirms that the user owns an email address.
 

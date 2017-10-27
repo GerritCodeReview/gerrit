@@ -663,6 +663,32 @@ link:#email-info[EmailInfo] entity.
   }
 ----
 
+[[confirm-email]]
+=== Confirm Email
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/email.confirm'
+--
+
+Confirms that the user owns an email address.
+
+The email token must be provided in the request body inside
+an link:#email-confirmation-input[EmailConfirmationInput] entity.
+
+.Request
+----
+  PUT /accounts/self/email.confirm HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "token": "Enim+QNbAo6TV8Hur8WwoUypI6apG7qBPvF+bw==$MTAwMDAwNDp0ZXN0QHRlc3QuZGU="
+  }
+----
+
+The response is "`204 No Content`".
+
+If the token is invalid or if it's the token of another user the
+request fails and the response is "`422 Unprocessable Entity`".
+
 [[delete-account-email]]
 === Delete Account Email
 --

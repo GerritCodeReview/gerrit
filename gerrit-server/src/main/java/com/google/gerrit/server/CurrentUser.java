@@ -63,6 +63,10 @@ public abstract class CurrentUser {
     return this;
   }
 
+  public boolean isImpersonating() {
+    return false;
+  }
+
   /**
    * If the {@link #getRealUser()} has an account ID associated with it, call the given setter with
    * that ID.

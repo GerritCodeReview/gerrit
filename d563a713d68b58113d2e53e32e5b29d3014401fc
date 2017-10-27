@@ -16,6 +16,24 @@
       "revId": "d563a713d68b58113d2e53e32e5b29d3014401fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc3dc30_12cb59f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T20:22:50Z",
+      "side": 1,
+      "message": "This specific function contains two: this `return` statement on l.188, and the guarded one above on l.185.\n\nThere is also the nested `return` in the `.then` callback on l.200 and the newly introduced one on l.207 for the parent scope, which formerly did not have any `return` statement.\n\nI don\u0027t immediately see anything amiss about this.",
+      "parentUuid": "77856d47_4ec7266d",
+      "revId": "d563a713d68b58113d2e53e32e5b29d3014401fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

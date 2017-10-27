@@ -41,6 +41,12 @@ public class Module extends RestApiModule {
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(CONFIG_KIND, "preferences.diff").to(SetDiffPreferences.class);
+
+    configureDeprecated();
+  }
+
+  @SuppressWarnings("deprecation")
+  private void configureDeprecated() {
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
   }
 }

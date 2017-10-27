@@ -76,6 +76,8 @@ public interface AccountApi {
 
   void addEmail(EmailInput input) throws RestApiException;
 
+  void confirmEmail(EmailConfirmationInput input) throws RestApiException;
+
   void deleteEmail(String email) throws RestApiException;
 
   void setStatus(String status) throws RestApiException;
@@ -211,6 +213,11 @@ public interface AccountApi {
 
     @Override
     public void addEmail(EmailInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void confirmEmail(EmailConfirmationInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

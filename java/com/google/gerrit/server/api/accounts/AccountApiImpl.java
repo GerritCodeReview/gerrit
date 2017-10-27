@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.EmailConfirmationInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
@@ -45,6 +46,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
+import com.google.gerrit.server.account.ConfirmEmail;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.DeleteActive;
 import com.google.gerrit.server.account.DeleteEmail;
@@ -107,6 +109,7 @@ public class AccountApiImpl implements AccountApi {
   private final Stars.Post starsPost;
   private final GetEmails getEmails;
   private final CreateEmail.Factory createEmailFactory;
+  private final ConfirmEmail confirmEmail;
   private final DeleteEmail deleteEmail;
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
@@ -145,6 +148,7 @@ public class AccountApiImpl implements AccountApi {
       Stars.Post starsPost,
       GetEmails getEmails,
       CreateEmail.Factory createEmailFactory,
+      ConfirmEmail confirmEmail,
       DeleteEmail deleteEmail,
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
@@ -182,6 +186,7 @@ public class AccountApiImpl implements AccountApi {
     this.starsPost = starsPost;
     this.getEmails = getEmails;
     this.createEmailFactory = createEmailFactory;
+    this.confirmEmail = confirmEmail;
     this.deleteEmail = deleteEmail;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
@@ -392,6 +397,15 @@ public class AccountApiImpl implements AccountApi {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot add email", e);
+    }
+  }
+
+  @Override
+  public void confirmEmail(EmailConfirmationInput input) throws RestApiException {
+    try {
+      confirmEmail.apply(account, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot confirm email", e);
     }
   }
 

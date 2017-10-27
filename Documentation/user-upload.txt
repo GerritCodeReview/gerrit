@@ -304,8 +304,16 @@ option:
 ----
 
 [NOTE]
-git push refs parameter does not allow spaces.  Use the '_' character instead,
-it will then be applied as "This is a rebase on master".
+git push refs parameter does not allow spaces.  Use the '_' or '+' character
+to represent spaces; it will then be applied as "This is a rebase on master".
+Percent-encoding may be used to represent other unsafe characters, including
+arbitrary UTF-8 sequences. To avoid confusion in parsing the git ref, at least
+the following characters (and space) should be percent-encoded: %^@.~-+_:/!
+
+Note that some of the reserved characters (like tilde) are not escaped
+in the standard URL encoding rules, so a language-provided function (e.g.
+encodeURIComponent() in javascript) might not suffice. You may find it
+easist to simply percent-encode all non-alphanumeric characters.
 
 [[publish-comments]]
 ==== Publish Draft Comments

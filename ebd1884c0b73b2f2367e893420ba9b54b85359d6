@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "935089a7_c5628145",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:57:54Z",
+      "side": 1,
+      "message": "This class is unnecessary.\n\nYou can apply this CSS to the whole column, since there exist only two values: Empty, or \"Untrusted\".",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "ebd1884c0b73b2f2367e893420ba9b54b85359d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77dd91bf_fbefa51a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:57:54Z",
+      "side": 1,
+      "message": "Let\u0027s get rid of these properties.",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "ebd1884c0b73b2f2367e893420ba9b54b85359d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b901341c_7ecc5705",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.html",
+        "patchSetId": 29
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:57:54Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 57,
+        "startChar": 38,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "ebd1884c0b73b2f2367e893420ba9b54b85359d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

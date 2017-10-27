@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.config;
+package com.google.gerrit.acceptance.rest.account;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.extensions.api.accounts.EmailConfirmationInput;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.gerrit.server.restapi.config.ConfirmEmail;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
@@ -35,29 +35,29 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
 
   @Test
   public void confirm() throws Exception {
-    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    EmailConfirmationInput in = new EmailConfirmationInput();
     in.token = emailTokenVerifier.encode(admin.getId(), "new.mail@example.com");
-    adminRestSession.put("/config/server/email.confirm", in).assertNoContent();
+    adminRestSession.put("/accounts/admin/email.confirm", in).assertNoContent();
   }
 
   @Test
   public void confirmForOtherUser_UnprocessableEntity() throws Exception {
-    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    EmailConfirmationInput in = new EmailConfirmationInput();
     in.token = emailTokenVerifier.encode(user.getId(), "new.mail@example.com");
-    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
+    adminRestSession.put("/accounts/admin/email.confirm", in).assertUnprocessableEntity();
   }
 
   @Test
   public void confirmInvalidToken_UnprocessableEntity() throws Exception {
-    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    EmailConfirmationInput in = new EmailConfirmationInput();
     in.token = "invalidToken";
-    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
+    adminRestSession.put("/accounts/admin/email.confirm", in).assertUnprocessableEntity();
   }
 
   @Test
   public void confirmAlreadyInUse_UnprocessableEntity() throws Exception {
-    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    EmailConfirmationInput in = new EmailConfirmationInput();
     in.token = emailTokenVerifier.encode(admin.getId(), user.email);
-    adminRestSession.put("/config/server/email.confirm", in).assertUnprocessableEntity();
+    adminRestSession.put("/accounts/admin/email.confirm", in).assertUnprocessableEntity();
   }
 }

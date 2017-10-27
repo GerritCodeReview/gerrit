@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.server.restapi.account;
 
+import com.google.gerrit.extensions.api.accounts.EmailConfirmationInput;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.gerrit.server.restapi.config.ConfirmEmail.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,13 +33,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-@Deprecated
 @Singleton
-public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
-  public static class Input {
-    @DefaultInput public String token;
-  }
-
+public class ConfirmEmail implements RestModifyView<AccountResource, EmailConfirmationInput> {
   private final Provider<CurrentUser> self;
   private final EmailTokenVerifier emailTokenVerifier;
   private final AccountManager accountManager;
@@ -55,16 +50,15 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ConfigResource rsrc, Input input)
-      throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
+  public Response<?> apply(AccountResource resource, EmailConfirmationInput input)
+      throws RestApiException, IOException, ConfigInvalidException, OrmException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
 
     if (input == null) {
-      input = new Input();
+      input = new EmailConfirmationInput();
     }
     if (input.token == null) {
       throw new UnprocessableEntityException("missing token");

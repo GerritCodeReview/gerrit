@@ -22,6 +22,30 @@
       "revId": "f9e2291aedd3efb352addaf57276db4c885699c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33bb6a35_562befef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-27T01:17:29Z",
+      "side": 1,
+      "message": "Wikimedia foundation use it.\n\nToday an operations team member (the team that makes sure wikipedia is up) found out that jenkins was erroring due to tests that make sure the commit msg is correct.\n\nWhen he did  Ref: locally and pushed, it went underneeth the change id.\n\nI told him it\u0027s because of commit-msg hook :).\n\nSo i submited this patch.",
+      "parentUuid": "c75f9b3e_25679c8f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "f9e2291aedd3efb352addaf57276db4c885699c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,53 @@
       "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f444bc5_b6e0415d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-27T04:02:13Z",
+      "side": 1,
+      "message": "I like having the tooltip.\n\nI think I like \"Save changes but do not send email notifications\" the most, because I think it helps to explain how the actions will differ.\n\nI wonder if we should add one on \"save\" also, explicitly stating to notify reviewers and send an email?",
+      "parentUuid": "a617f238_2baa8ccc",
+      "range": {
+        "startLine": 277,
+        "startChar": 23,
+        "endLine": 277,
+        "endChar": 60
+      },
+      "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6803cb5_af0e61de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-10-27T04:02:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this is actually needed? It\u0027s already an attribute since it gets set by a parent, and we don\u0027t need to pass this to the paper-button or utilize in any of the functions in this file.",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 8
+      },
+      "revId": "cd3ab2798488013af65b1d3cb221270ed02f7f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

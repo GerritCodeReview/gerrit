@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "98b52f9c_89f22479",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-27T19:57:42Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "3643b6f1_6884941e",
+      "revId": "e8b7c2226f37de28ab636e1ec38b413aa0a4e2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bebdc01_570c9b03",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "e8b7c2226f37de28ab636e1ec38b413aa0a4e2ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86c3faa_1adc8582",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-27T19:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bebdc01_570c9b03",
+      "revId": "e8b7c2226f37de28ab636e1ec38b413aa0a4e2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

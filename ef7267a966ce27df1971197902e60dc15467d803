@@ -36,6 +36,24 @@
       "revId": "ef7267a966ce27df1971197902e60dc15467d803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "669ecc9a_ba50e113",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-27T22:52:53Z",
+      "side": 1,
+      "message": "I find \"if\" cascades with \u0027return true\u0027 / \u0027return false\u0027 harder to read. E.g. it wasn\u0027t clear on first reading what the intended behavior is when I\u0027m impersonating a distinct identified user or an identical unidentified user (I realize the latter doesn\u0027t exist, but that hopefully explains my confusion).\n\nI agree about parens helping, though. If you don\u0027t like parens, this could be:\n\n if (realUser \u003d\u003d this) {\n   return false;\n }\n return !realUser.isIdentifiedUser() || !realUser.getAccountId().equals(getAccountId());",
+      "parentUuid": "0747a139_0823d8aa",
+      "revId": "ef7267a966ce27df1971197902e60dc15467d803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

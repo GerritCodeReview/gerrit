@@ -60,7 +60,10 @@
       return str.toLowerCase().replace(/\s/g, '-');
     },
 
-    _updateChipDetails(status) {
+    _updateChipDetails(status, previousStatus) {
+      if (previousStatus) {
+        this.classList.remove(this._toClassName(previousStatus));
+      }
       this.classList.add(this._toClassName(status));
 
       switch (status) {

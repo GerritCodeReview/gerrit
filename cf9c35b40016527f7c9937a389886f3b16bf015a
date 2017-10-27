@@ -22,6 +22,30 @@
       "revId": "cf9c35b40016527f7c9937a389886f3b16bf015a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26f10a87_390f0f24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T23:17:57Z",
+      "side": 1,
+      "message": "\u003e The definite article feels vague to me here. How about \"its owner and current reviewers\"?\n\nI see what you mean. Done.",
+      "parentUuid": "ecc113bc_5398e3ad",
+      "range": {
+        "startLine": 29,
+        "startChar": 58,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "cf9c35b40016527f7c9937a389886f3b16bf015a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

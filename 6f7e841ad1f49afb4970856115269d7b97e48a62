@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6910c32_9887ef87",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T19:08:26Z",
+      "side": 1,
+      "message": "Super-nit, but we may wanna reference the enum for these -- it\u0027s conceivable we end up changing the enum in the future.",
+      "range": {
+        "startLine": 210,
+        "startChar": 41,
+        "endLine": 210,
+        "endChar": 46
+      },
+      "revId": "6f7e841ad1f49afb4970856115269d7b97e48a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

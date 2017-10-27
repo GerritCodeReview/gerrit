@@ -30,15 +30,16 @@ limitations under the License.
 <link rel="import" href="../gr-create-pointer-dialog/gr-create-pointer-dialog.html">
 <link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
 
+
 <dom-module id="gr-project-detail-list">
   <template>
     <style include="gr-form-styles"></style>
     <style include="shared-styles">
-      td.revision {
+      td.revision:not(.branches) {
         width: 27em;
       }
-      td.message,
-      td.tagger {
+      td.message:not(.hideItem),
+      td.tagger:not(.hideItem) {
         max-width: 15em;
       }
       .editing .editItem {
@@ -98,7 +99,7 @@ limitations under the License.
           <template is="dom-repeat" items="[[_shownItems]]">
             <tr class="table">
               <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
-              <td class$="revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+              <td class$="revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]] [[detailType]]">
                 <span class="revisionNoEditing">
                   [[item.revision]]
                 </span>

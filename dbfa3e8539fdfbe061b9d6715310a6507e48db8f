@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6d78178_876eb3a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-27T21:58:36Z",
+      "side": 1,
+      "message": "What was the reason for this? It looks disconnected from this change and I suspect is the cause of issue 7586.",
+      "revId": "dbfa3e8539fdfbe061b9d6715310a6507e48db8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

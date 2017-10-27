@@ -62,6 +62,7 @@ public class Module extends RestApiModule {
     put(EMAIL_KIND).to(PutEmail.class);
     delete(EMAIL_KIND).to(DeleteEmail.class);
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
+    put(ACCOUNT_KIND, "email.confirm").to(ConfirmEmail.class);
     put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);

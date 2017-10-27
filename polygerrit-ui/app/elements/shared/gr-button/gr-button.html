@@ -48,7 +48,7 @@ limitations under the License.
       }
       paper-button[raised] {
         background-color: var(--gr-button-background, #fff);
-        color: var(--gr-button-color, --color-link);
+        color: var(--gr-button-color, var(--color-link));
       }
       :host([no-uppercase]) paper-button {
         text-transform: none;
@@ -68,13 +68,13 @@ limitations under the License.
       :host([link]) paper-button:focus,
       paper-button[raised]:hover,
       paper-button[raised]:focus  {
-        color: var(--gr-button-hover-color, --color-button-hover);
+        color: var(--gr-button-hover-color, var(--color-button-hover));
       }
       :host([primary]) paper-button[raised]:hover,
       :host([primary]) paper-button[raised]:focus,
       :host([secondary]) paper-button[raised]:hover,
       :host([secondary]) paper-button[raised]:focus {
-        background-color: var(--gr-button-hover-background-color, --color-button-hover);
+        background-color: var(--gr-button-hover-background-color, var(--color-button-hover));
         color: var(--gr-button-color, #fff);
       }
       paper-button,

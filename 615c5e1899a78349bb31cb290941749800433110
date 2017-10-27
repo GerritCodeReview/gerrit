@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d86c1116_722aa693",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:44:59Z",
+      "side": 1,
+      "message": "Super nit: seems counterintuitive to me to have blocks structured like this. Can we flip the order to be...\n\n            if (result.ok) {\n              this._showEndRequest();\n            } else {\n              this._handleFailedDraftRequest();\n            }\n\n...?",
+      "range": {
+        "startLine": 501,
+        "startChar": 12,
+        "endLine": 505,
+        "endChar": 13
+      },
+      "revId": "615c5e1899a78349bb31cb290941749800433110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b808d69_4fd99046",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T16:44:59Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "615c5e1899a78349bb31cb290941749800433110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

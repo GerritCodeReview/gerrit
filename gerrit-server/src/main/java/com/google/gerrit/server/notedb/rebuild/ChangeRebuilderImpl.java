@@ -299,6 +299,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (bundle.getPatchSets().isEmpty()) {
       throw new NoPatchSetsException(change.getId());
     }
+    if (change.getLastUpdatedOn().compareTo(change.getCreatedOn()) < 0) {
+      // A bug in data migration might set created_on (and a host of other timestamps) to the time
+      // the dump was imported. The correct timestamps were lost, but we can at least set it so
+      // created_on is not after last_updated_on.
+      // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7397
+      change.setCreatedOn(change.getLastUpdatedOn());
+    }
 
     // We will rebuild all events, except for draft comments, in buckets based on author and
     // timestamp.
@@ -428,9 +435,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     new EventSorter(events).sort();
 
     // Ensure the first event in the list creates the change, setting the author and any required
-    // footers.
+    // footers. Also force the creation time of the first patch set to match the creation time of
+    // the change.
     Event first = events.get(0);
     if (first instanceof PatchSetEvent && change.getOwner().equals(first.user)) {
+      first.when = change.getCreatedOn();
       ((PatchSetEvent) first).createChange = true;
     } else {
       events.add(0, new CreateChangeEvent(change, minPsNum));

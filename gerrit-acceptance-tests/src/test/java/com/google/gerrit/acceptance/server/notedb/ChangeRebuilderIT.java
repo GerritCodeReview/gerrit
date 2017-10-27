@@ -868,6 +868,45 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void allTimestampsExceptUpdatedAreEqualDueToBadMigration() throws Exception {
+    // https://bugs.chromium.org/p/gerrit/issues/detail?id=7397
+    PushOneCommit.Result r = createChange();
+    Change c = r.getChange().change();
+    Change.Id id = c.getId();
+    Timestamp ts = TimeUtil.nowTs();
+    Timestamp origUpdated = c.getLastUpdatedOn();
+
+    c.setCreatedOn(ts);
+    assertThat(c.getCreatedOn()).isGreaterThan(c.getLastUpdatedOn());
+    db.changes().update(Collections.singleton(c));
+
+    List<ChangeMessage> cm = db.changeMessages().byChange(id).toList();
+    cm.forEach(m -> m.setWrittenOn(ts));
+    db.changeMessages().update(cm);
+
+    List<PatchSet> ps = db.patchSets().byChange(id).toList();
+    ps.forEach(p -> p.setCreatedOn(ts));
+    db.patchSets().update(ps);
+
+    List<PatchSetApproval> psa = db.patchSetApprovals().byChange(id).toList();
+    psa.forEach(p -> p.setGranted(ts));
+    db.patchSetApprovals().update(psa);
+
+    List<PatchLineComment> plc = db.patchComments().byChange(id).toList();
+    plc.forEach(p -> p.setWrittenOn(ts));
+    db.patchComments().update(plc);
+
+    checker.rebuildAndCheckChanges(id);
+
+    setNotesMigration(true, true);
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getChange().getCreatedOn()).isEqualTo(origUpdated);
+    assertThat(notes.getChange().getLastUpdatedOn()).isAtLeast(origUpdated);
+    assertThat(notes.getPatchSets().get(new PatchSet.Id(id, 1)).getCreatedOn())
+        .isEqualTo(origUpdated);
+  }
+
+  @Test
   public void createWithAutoRebuildingDisabled() throws Exception {
     ReviewDb oldDb = db;
     setNotesMigration(true, true);

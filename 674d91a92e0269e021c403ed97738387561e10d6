@@ -16,6 +16,24 @@
       "revId": "674d91a92e0269e021c403ed97738387561e10d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ca8a6f_60cb9b39",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-27T17:56:12Z",
+      "side": 1,
+      "message": "Another idea I\u0027ve got is to create something like \"GrDefaultEditor\" to standardize properties and events, if any are required.",
+      "parentUuid": "b0f4dfb1_b0073da4",
+      "revId": "674d91a92e0269e021c403ed97738387561e10d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

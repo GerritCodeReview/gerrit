@@ -34,6 +34,24 @@
       "revId": "674d91a92e0269e021c403ed97738387561e10d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097a39ac_a870d47b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-27T18:46:27Z",
+      "side": 1,
+      "message": "\u003e gr-endpoint-decorator can wrap an element (see gr-main-header for example)\nIn such case, a plugin could replace default content with something it wants to insert.\nThis way you could drop dom-if and related property.\n\nAh, okay. So \u003cdiv class\u003d\"textareaWrapper\"\u003e and its contents should be inside the endpoint decorator instead? How would I use that with the \u003cgr-endpoint-param\u003e?\n\n\n\u003e Another idea I\u0027ve got is to create something like \"GrDefaultEditor\" to standardize properties and events, if any are required.\n\nI see your point, but I think I\u0027m going to do almost everything in this view and the corresponding script file instead for simplicity\u0027s sake. I intend for the vast majority of the logic to exist inside the plugin we provide, with the top level component handling only things like saving, cancelling, etc. For that reason, I don\u0027t see any purpose in nesting things further.",
+      "parentUuid": "b9ca8a6f_60cb9b39",
+      "revId": "674d91a92e0269e021c403ed97738387561e10d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

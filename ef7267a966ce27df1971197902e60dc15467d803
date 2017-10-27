@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509137242 -0400\nnonce ANEgCxfJ30wcG+fxxHA7QS2AmcR5PlcOROO+i87BM5LmR1HujnM66ID+SGJT/onNKQdokpzN6lGi\n\n0000000000000000000000000000000000000000 ef7267a966ce27df1971197902e60dc15467d803 refs/for/stable-2.15%r\u003dsop@google.com,r\u003ddpursehouse@collab.net\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlnzm1oVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMoksP/i3VcQwnK7+uWdMe1HNLn7ah9fos\n8za6/UinzqRw3AEVDG+get1CiCKjWy0Fgy385x6fy8NkB06G0h0OsILmWvF0haz0\nSnlkGATZBo2acMhk3Afp3xSBY46N0tG4hbyLF4f8FMQa8tsD4CdVklk6QLOaWJbG\nU/Y/lxSAVTxnIcohufkhN0a6bF+AlLU2JE0jeZMcCSWVOHCPpb4Mh3q1KdzIBqAp\n0m6ED4ov/1E4p0r97/oP0xBlFH8IIoqszvKyUwh0N6SG5ZH8KegZmzr4ZfUTXGWd\nMLysdmTXfss2qS1/+UPAABCeJVlfkDmabpWKRUgcGsonpg+iv0kZE9rmznT931mh\nz8xv/IQIEFujR3WpDnKFyShR3oZBsU4jU3tjMy+4WpNXsiqjqIZMflUwqCacIKS+\nlepRTf4qDt0wgb8/noV51/kBv3g7D5PFSet4I0ofqIFRSA2C0nbhiqA2d/Tycs1c\nI8SfTc2HrRlrEIcK/3X5D1QSH8OtbDT1aDWgBqPXywrGlh36xY69f9JYyuFLWstK\nUhVKj6MZy3wy9HcQnywqr9TySUBYdLHrT/7HlMXgGFSsvakGu+zuYLDQ/cSvhVIN\nqQowONjUCtd2ssizbOZaHTCKYi6gVXd28IdA7bpvboiKeu5TnsrZyNIYXH/ddNn3\nG2O/lQ3jkeFwcO5j\n\u003dpdqq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "24b130cc_c1cc9a0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-27T21:44:22Z",
+      "side": 1,
+      "message": "optional: a briefer way to write this is\n\n  return realUser !\u003d this \u0026\u0026\n    (!realUser.isIdentifiedUser() || !realUser.getAccountId().equals(getAccountId());",
+      "revId": "ef7267a966ce27df1971197902e60dc15467d803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

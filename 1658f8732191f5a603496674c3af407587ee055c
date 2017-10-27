@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd53ec3d_61cd2a9c",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-10-27T19:05:23Z",
+      "side": 1,
+      "message": "I\u0027m glad you caught this.\n\nAs it happens, the mapping of PLUS to SPACE is something that I wasn\u0027t fully intending, and actually didn\u0027t intend to introduce into a test. It snuck into the test case as a side effect of using Chrome\u0027s URL bar to percent-encode my test data. And the decoding came as a side effect of using the java.net URL decoder.\n\nHowever, I think sticking with the PLUS-TO-SPACE conversion probably makes sense, since it sticks closer to the URL standard.  I\u0027ll make it explicit.",
+      "parentUuid": "adc48d6e_b7be7dff",
+      "range": {
+        "startLine": 307,
+        "startChar": 56,
+        "endLine": 307,
+        "endChar": 59
+      },
+      "revId": "1658f8732191f5a603496674c3af407587ee055c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04dc6429_22a959df",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 5

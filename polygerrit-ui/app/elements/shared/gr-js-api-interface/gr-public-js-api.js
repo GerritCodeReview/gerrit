@@ -250,6 +250,11 @@
       }
       this.on('showchange', (change, revision) => {
         const details = this.changeActions().getActionDetails(action);
+        if (!details) {
+          console.warn(
+              `${this.getPluginName()} onAction error: ${action} not found!`);
+          return;
+        }
         this.changeActions().addTapListener(details.__key, () => {
           callback(new GrPluginActionContext(this, details, change, revision));
         });

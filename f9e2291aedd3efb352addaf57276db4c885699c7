@@ -46,6 +46,30 @@
       "revId": "f9e2291aedd3efb352addaf57276db4c885699c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb9ea96_0e20ce5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-27T01:28:26Z",
+      "side": 1,
+      "message": "It sounds more like the test needs to be more flexible. According to Gerrit the Change-Id needs to be in the last paragraph; there\u0027s nothing that says it needs to be on the last line.",
+      "parentUuid": "33bb6a35_562befef",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "f9e2291aedd3efb352addaf57276db4c885699c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

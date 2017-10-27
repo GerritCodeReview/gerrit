@@ -196,6 +196,7 @@ public class IdentifiedUser extends CurrentUser {
   private final String anonymousCowardName;
   private final Boolean disableReverseDnsLookup;
   private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
+  private final CurrentUser realUser; // Must be final since cached properties depend on it.
 
   private final Provider<SocketAddress> remotePeerProvider;
   private final Account.Id accountId;
@@ -204,7 +205,6 @@ public class IdentifiedUser extends CurrentUser {
   private boolean loadedAllEmails;
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
-  private CurrentUser realUser;
   private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(

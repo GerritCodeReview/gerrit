@@ -34,11 +34,19 @@ limitations under the License.
   <template>
     <style include="gr-form-styles"></style>
     <style include="shared-styles">
-      td.revision {
+      td.name {
+        min-width: 25em;
+      }
+      td.name,
+      td.revision,
+      td.message {
+        word-break: break-word;
+      }
+      td.revision:not(.branches) {
         width: 27em;
       }
-      td.message,
-      td.tagger {
+      td.message:not(.hideItem),
+      td.tagger:not(.hideItem) {
         max-width: 15em;
       }
       .editing .editItem {
@@ -101,7 +109,7 @@ limitations under the License.
           <template is="dom-repeat" items="[[_shownItems]]">
             <tr class="table">
               <td class="name">[[_stripRefs(item.ref, detailType)]]</td>
-              <td class$="revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]">
+              <td class$="revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]] [[detailType]]">
                 <span class="revisionNoEditing">
                   [[item.revision]]
                 </span>

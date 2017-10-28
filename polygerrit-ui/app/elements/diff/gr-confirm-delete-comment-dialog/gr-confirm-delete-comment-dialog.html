@@ -55,8 +55,8 @@ limitations under the License.
         confirm-label="Delete"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header">Delete Comment</div>
-      <div class="main">
+      <div class="header" slot="header">Delete Comment</div>
+      <div class="main" slot="main">
         <label for="messageInput">Enter comment delete reason</label>
         <iron-autogrow-textarea
             id="messageInput"

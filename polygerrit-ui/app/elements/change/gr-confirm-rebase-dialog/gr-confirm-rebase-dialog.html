@@ -52,8 +52,8 @@ limitations under the License.
         confirm-label="Rebase"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header">Confirm rebase</div>
-      <div class="main">
+      <div class="header" slot="header">Confirm rebase</div>
+      <div class="main" slot="main">
         <div id="rebaseOnParent" class="rebaseOption"
             hidden$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]">
           <input id="rebaseOnParentInput"

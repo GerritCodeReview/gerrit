@@ -76,10 +76,10 @@ limitations under the License.
           disabled="[[!_canCreate]]"
           on-confirm="_handleCreateChange"
           on-cancel="_handleCloseCreateChange">
-        <div class="header">
+        <div class="header" slot="header">
           Create Change
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           <gr-create-change-dialog
               id="createNewChangeModal"
               can-create="{{_canCreate}}"

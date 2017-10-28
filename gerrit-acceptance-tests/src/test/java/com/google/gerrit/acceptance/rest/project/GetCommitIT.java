@@ -126,10 +126,6 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
-    RestResponse r = userRestSession.get("/projects/" + project.get() + "/commits/" + id.name());
-    r.assertOK();
-    CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
-    r.consume();
-    return result;
+    return gApi.projects().name(project.get()).commit(id.name()).get();
   }
 }

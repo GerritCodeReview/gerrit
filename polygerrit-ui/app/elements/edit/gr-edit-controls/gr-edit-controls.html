@@ -85,8 +85,8 @@ limitations under the License.
           confirm-label="Edit"
           on-confirm="_handleEditConfirm"
           on-cancel="_handleDialogCancel">
-        <div class="header">Edit a file</div>
-        <div class="main">
+        <div class="header" slot="header">Edit a file</div>
+        <div class="main" slot="main">
           <gr-autocomplete
               placeholder="Enter an existing or new full file path."
               query="[[_query]]"
@@ -100,8 +100,8 @@ limitations under the License.
           confirm-label="Delete"
           on-confirm="_handleDeleteConfirm"
           on-cancel="_handleDialogCancel">
-        <div class="header">Delete a file</div>
-        <div class="main">
+        <div class="header" slot="header">Delete a file</div>
+        <div class="main" slot="main">
           <gr-autocomplete
               placeholder="Enter an existing full file path."
               query="[[_query]]"
@@ -115,8 +115,8 @@ limitations under the License.
           confirm-label="Rename"
           on-confirm="_handleRenameConfirm"
           on-cancel="_handleDialogCancel">
-        <div class="header">Rename a file</div>
-        <div class="main">
+        <div class="header" slot="header">Rename a file</div>
+        <div class="main" slot="main">
           <gr-autocomplete
               placeholder="Enter an existing full file path."
               query="[[_query]]"
@@ -134,8 +134,8 @@ limitations under the License.
           confirm-label="Restore"
           on-confirm="_handleRestoreConfirm"
           on-cancel="_handleDialogCancel">
-        <div class="header">Restore this file?</div>
-        <div class="main">
+        <div class="header" slot="header">Restore this file?</div>
+        <div class="main" slot="main">
           <input
               is="iron-input"
               disabled

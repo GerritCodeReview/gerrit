@@ -70,10 +70,10 @@ limitations under the License.
           confirm-label="Create"
           on-confirm="_handleCreateGroup"
           on-cancel="_handleCloseCreate">
-        <div class="header">
+        <div class="header" slot="header">
           Create Group
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           <gr-create-group-dialog
               has-new-group-name="{{_hasNewGroupName}}"
               params="[[params]]"

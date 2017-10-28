@@ -81,10 +81,10 @@ limitations under the License.
           confirm-label="Create"
           on-confirm="_handleCreateProject"
           on-cancel="_handleCloseCreate">
-        <div class="header">
+        <div class="header" slot="header">
           Create Project
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           <gr-create-project-dialog
               has-new-project-name="{{_hasNewProjectName}}"
               params="[[params]]"

@@ -30,8 +30,8 @@ limitations under the License.
         confirm-label="Delete [[_computeItemName(itemType)]]"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header">[[_computeItemName(itemType)]] Deletion</div>
-      <div class="main">
+      <div class="header" slot="header">[[_computeItemName(itemType)]] Deletion</div>
+      <div class="main" slot="main">
         <label for="branchInput">
           Do you really want to delete the following [[_computeItemName(itemType)]]?
         </label>

@@ -41,10 +41,10 @@ limitations under the License.
         --light-rebased-add-highlight-color: #edfffa;
         --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       }
-      :host(.no-left) .sideBySide ::content .left,
-      :host(.no-left) .sideBySide ::content .left + td,
-      :host(.no-left) .sideBySide ::content .right:not([data-value]),
-      :host(.no-left) .sideBySide ::content .right:not([data-value]) + td {
+      :host(.no-left) .sideBySide ::slotted(* .left),
+      :host(.no-left) .sideBySide ::slotted(* .left + td),
+      :host(.no-left) .sideBySide ::slotted(* .right:not([data-value])),
+      :host(.no-left) .sideBySide ::slotted(* .right:not([data-value]) + td) {
         display: none;
       }
       .diffContainer {

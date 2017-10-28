@@ -62,8 +62,10 @@ limitations under the License.
         confirm-label="Cherry Pick"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header">Cherry Pick Change to Another Branch</div>
-      <div class="main">
+      <div class="header" slot="header">
+        Cherry Pick Change to Another Branch
+      </div>
+      <div class="main" slot="main">
         <label for="branchInput">
           Cherry Pick to branch
         </label>

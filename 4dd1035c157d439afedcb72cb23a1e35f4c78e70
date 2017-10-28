@@ -22,6 +22,30 @@
       "revId": "4dd1035c157d439afedcb72cb23a1e35f4c78e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c36511_456ae699",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-28T03:20:40Z",
+      "side": 1,
+      "message": "tl;dr: It\u0027s complicated.\n\nWe\u0027re not doing the right thing here, so added more docs.\nhttps://sympli.io/blog/2017/02/15/heres-everything-you-need-to-know-about-favicons-in-2017/",
+      "parentUuid": "6286abf2_3edff252",
+      "range": {
+        "startLine": 2180,
+        "startChar": 5,
+        "endLine": 2180,
+        "endChar": 11
+      },
+      "revId": "4dd1035c157d439afedcb72cb23a1e35f4c78e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

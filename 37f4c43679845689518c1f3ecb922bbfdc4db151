@@ -22,6 +22,30 @@
       "revId": "37f4c43679845689518c1f3ecb922bbfdc4db151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbfa6a5e_b38d0761",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2017-10-28T02:37:40Z",
+      "side": 1,
+      "message": "I\u0027ll leave that up to ya\u0027ll.\n\nIn favor:\n  - it\u0027s just a two line change\n  - the previous syntax was (I think) invalid and ignored\n\nAgainst:\n  - this change is otherwise a noop until you start migrating to polymer 2.0",
+      "parentUuid": "eccbdb65_6b95c662",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "37f4c43679845689518c1f3ecb922bbfdc4db151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

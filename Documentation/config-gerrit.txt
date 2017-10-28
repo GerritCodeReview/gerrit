@@ -2247,6 +2247,14 @@ at a specific branch when `gitweb.type` is set to `custom`.
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
 
+[[gitweb.tag]]gitweb.tag::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at a specific tag when `gitweb.type` is set to `custom`.
++
+Valid replacements are `${project}` for the project name in Gerrit
+and `${tag}` for the name of the tag.
+
 [[gitweb.roottree]]gitweb.roottree::
 +
 Optional pattern to use for constructing the gitweb URL when pointing

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f014450a_93321f92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-10-29T18:17:37Z",
+      "side": 1,
+      "message": "I wonder why this is needed at all. Why is the change status not enough? If the change was ever a draft, does it mean that it should be private?",
+      "range": {
+        "startLine": 52,
+        "startChar": 86,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "167938343aecd73ee55833018d10c10262e9592b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -60,7 +60,7 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
       }
-      .actions gr-button {
+      .actions .right gr-button {
         margin-left: 1em;
       }
       .peopleContainer,
@@ -267,6 +267,16 @@ limitations under the License.
       </section>
       <section class="actions">
         <div class="left">
+          <template is="dom-if" if="[[canBeStarted]]">
+            <gr-button
+                link
+                tertiary
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                has-tooltip
+                title="[[_saveTooltip]]"
+                on-tap="_saveTapHandler">Save</gr-button>
+          </template>
           <span
               id="checkingStatusLabel"
               hidden$="[[!_isState(knownLatestState, 'checking')]]">
@@ -290,14 +300,9 @@ limitations under the License.
               primary
               disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
               class="action send"
+              has-tooltip
+              title$="[[_computeSendButtonTooltip(canBeStarted)]]"
               on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-          <template is="dom-if" if="[[canBeStarted]]">
-            <gr-button
-                link
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                on-tap="_saveTapHandler">Save</gr-button>
-          </template>
         </div>
       </section>
     </div>

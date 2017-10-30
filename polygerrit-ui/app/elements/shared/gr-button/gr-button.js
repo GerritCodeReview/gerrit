@@ -28,6 +28,11 @@
         value: false,
         reflectToAttribute: true,
       },
+      tertiary: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         observer: '_disabledChanged',

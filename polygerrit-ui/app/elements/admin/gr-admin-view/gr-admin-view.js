@@ -147,13 +147,13 @@
         if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
           linkCopy.subsection = {
             name: this._groupName,
-            view: 'gr-group',
+            view: Gerrit.Nav.View.GROUP,
             url: Gerrit.Nav.getUrlForGroup(this._groupId),
             children: [
               {
                 name: 'Members',
-                detailType: 'members',
-                view: 'gr-group-members',
+                detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
+                view: Gerrit.Nav.View.GROUP,
                 url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
               },
             ],
@@ -162,8 +162,8 @@
             linkCopy.subsection.children.push(
                 {
                   name: 'Audit Log',
-                  detailType: 'audit-log',
-                  view: 'gr-group-audit-log',
+                  detailType: Gerrit.Nav.GroupDetailView.LOG,
+                  view: Gerrit.Nav.View.GROUP,
                   url: Gerrit.Nav.getUrlForGroupLog(this._groupId),
                 }
             );
@@ -248,6 +248,16 @@
      * @param {string=} opt_detailType
      */
     _computeSelectedClass(itemView, params, opt_detailType) {
+      // Group params are structured differently from admin params. Compute
+      // selected differently for groups.
+      // TODO(wyatta): Simplify this when all routes work like group params.
+      if (params.view === Gerrit.Nav.View.GROUP &&
+          itemView === Gerrit.Nav.View.GROUP) {
+        if (!params.detail && !opt_detailType) { return 'selected'; }
+        if (params.detail === opt_detailType) { return 'selected'; }
+        return '';
+      }
+
       if (params.detailType && params.detailType !== opt_detailType) {
         return '';
       }

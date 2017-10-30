@@ -46,6 +46,30 @@
       "revId": "37f4c43679845689518c1f3ecb922bbfdc4db151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f69c0dc_26b03b81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-30T05:30:26Z",
+      "side": 1,
+      "message": "The commit that introduced the incorrect syntax (f3c0a367f50) is included in the stable-2.15 branch, so we might want to backport this fix to stable-2.15 but not the rest of the changes. Having it in a separate commit would make that easier.",
+      "parentUuid": "bbfa6a5e_b38d0761",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "37f4c43679845689518c1f3ecb922bbfdc4db151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

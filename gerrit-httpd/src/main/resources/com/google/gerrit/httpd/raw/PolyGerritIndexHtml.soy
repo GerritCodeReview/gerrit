@@ -19,6 +19,7 @@
 /**
  * @param canonicalPath
  * @param staticResourcePath
+ * @param? faviconPath
  * @param? versionInfo
  */
 {template .Index}
@@ -35,7 +36,11 @@
     </script>{\n}
   {/if}
 
-  <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+  {if $faviconPath}
+    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
+  {else}
+    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+  {/if}
 
   // RobotoMono fonts are used in styles/fonts.css
   // @see https://github.com/w3c/preload/issues/32 regarding crossorigin

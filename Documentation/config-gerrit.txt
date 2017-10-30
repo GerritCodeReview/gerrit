@@ -2170,6 +2170,11 @@ By default false.
 +
 Path prefix for PolyGerrit's static resources if using a CDN.
 
+[[gerrit.faviconPath]]gerrit.faviconPath::
++
+Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
+including icon name and extension (.ico should be used).
+
 [[gerrit.ui]]gerrit.ui::
 +
 Default UI when the user does not request a different preference via argument

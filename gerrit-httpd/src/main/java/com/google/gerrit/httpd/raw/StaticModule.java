@@ -255,7 +255,8 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
         throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
-      return new IndexServlet(canonicalUrl, cdnPath);
+      String faviconPath = cfg.getString("gerrit", null, "faviconPath");
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath);
     }
 
     @Provides

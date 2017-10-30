@@ -79,5 +79,15 @@ limitations under the License.
       assert.isDefined(element.tooltipText);
       assert.isTrue(element.classList.contains('private'));
     });
+
+    test('updating status removes the previous class', () => {
+      element.status = 'Private';
+      assert.isTrue(element.classList.contains('private'));
+      assert.isFalse(element.classList.contains('wip'));
+
+      element.status = 'WIP';
+      assert.isFalse(element.classList.contains('private'));
+      assert.isTrue(element.classList.contains('wip'));
+    });
   });
 </script>

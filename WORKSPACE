@@ -273,12 +273,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons_collections",
-    artifact = "commons-collections:commons-collections:3.2.2",
-    sha1 = "8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5",
-)
-
-maven_jar(
     name = "commons_compress",
     artifact = "org.apache.commons:commons-compress:1.13",
     sha1 = "15c5e9584200122924e50203ae210b57616b75ee",
@@ -312,12 +306,6 @@ maven_jar(
     name = "commons_net",
     artifact = "commons-net:commons-net:3.5",
     sha1 = "342fc284019f590e1308056990fdb24a08f06318",
-)
-
-maven_jar(
-    name = "commons_oro",
-    artifact = "oro:oro:2.0.8",
-    sha1 = "5592374f834645c4ae250f4c9fbb314c9369d698",
 )
 
 maven_jar(

@@ -47,6 +47,7 @@ def _replace_macros_impl(ctx):
     inputs = [ctx.file._exe, ctx.file.src],
     outputs = [ctx.outputs.out],
     command = cmd,
+    use_default_shell_env = True,
     progress_message = "Replacing macros in %s" % ctx.file.src.short_path,
   )
 

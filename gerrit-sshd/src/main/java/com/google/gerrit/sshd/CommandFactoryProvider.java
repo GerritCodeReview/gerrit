@@ -81,6 +81,10 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                 .build());
   }
 
+  ExecutorService getStartExecutor() {
+    return startExecutor;
+  }
+
   @Override
   public void start() {}
 

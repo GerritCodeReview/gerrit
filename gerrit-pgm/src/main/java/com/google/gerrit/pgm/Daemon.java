@@ -533,6 +533,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(
         new DefaultCommandModule(
+            sysInjector.getInstance(Key.get(Config.class, GerritServerConfig.class)),
             slave,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));

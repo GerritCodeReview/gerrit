@@ -20,15 +20,21 @@ import java.security.PublicKey;
 
 class SshKeyCacheEntry {
   private final AccountSshKey.Id id;
+  private final String keyStr;
   private final PublicKey publicKey;
 
-  SshKeyCacheEntry(AccountSshKey.Id i, PublicKey k) {
+  SshKeyCacheEntry(AccountSshKey.Id i, String s, PublicKey k) {
     id = i;
+    keyStr = s;
     publicKey = k;
   }
 
   Account.Id getAccount() {
     return id.getParentKey();
+  }
+
+  String getKey() {
+    return keyStr;
   }
 
   boolean match(PublicKey inkey) {

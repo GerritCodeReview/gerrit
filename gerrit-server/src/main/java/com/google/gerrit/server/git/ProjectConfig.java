@@ -210,10 +210,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return r;
   }
 
-  public Map<String, List<String>> getExtensionPanelSections() {
-    return extensionPanelSections;
-  }
-
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
@@ -265,6 +261,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public AccountsSection getAccountsSection() {
     return accountsSection;
+  }
+
+  public Map<String, List<String>> getExtensionPanelSections() {
+    return extensionPanelSections;
   }
 
   public AccessSection getAccessSection(String name) {

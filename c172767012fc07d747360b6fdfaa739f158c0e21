@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b698962_fb73f6a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-10-30T16:54:25Z",
+      "side": 1,
+      "message": "Need to add detailView here.",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 8
+      },
+      "revId": "c172767012fc07d747360b6fdfaa739f158c0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

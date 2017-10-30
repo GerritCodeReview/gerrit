@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "10f1d1c2_7ac91fad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T07:19:44Z",
+      "side": 1,
+      "message": "Why? Any draft patch set has a restricted visibility. If there is a draft patch set and the change is not set to private (or wip), then these draft patch sets get visible to everyone. So we would publish the draft patch sets without asking the change owner. If this is what you want, please explain the motivation here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "167938343aecd73ee55833018d10c10262e9592b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f014450a_93321f92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
         "patchSetId": 1

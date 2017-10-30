@@ -22,6 +22,30 @@
       "revId": "cf8ef313a97ab274d240ccaadce1630ce3fd2ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87a39a13_847a9fdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/project/ProjectIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-30T10:55:39Z",
+      "side": 1,
+      "message": "Done.  Previously (see comments on PS1) it looked like this wasn\u0027t possible because Eclipse wouldn\u0027t compile it, but it seems to work now.",
+      "parentUuid": "2f362b11_a0def845",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "cf8ef313a97ab274d240ccaadce1630ce3fd2ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

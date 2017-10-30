@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "1921dfd6_78c00af5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T14:33:30Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/137430",
+      "parentUuid": "0bde970e_a2454249",
+      "revId": "a155edc6f274dd61a793c7181d8aed1884dc3f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c4b1d61_6f8127fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 3

@@ -70,6 +70,24 @@
       "revId": "674d91a92e0269e021c403ed97738387561e10d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "012444e1_73c65a33",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-10-30T20:58:35Z",
+      "side": 1,
+      "message": "\u003e passing text content in and out needs to be ironed out\n\nYeah, but I think just creating some interface where the plugin can call \"save\" is good enough.\n\n\u003e would complicate defining plugin interface though\n\nThis is true. I guess what would make sense is to create some interface-type construct with the appropriate getters and setters, and implement that with the plugin.\n\nI should look into whether or not we can use ES6 classes yet.",
+      "parentUuid": "f3b95b23_aa054f6d",
+      "revId": "674d91a92e0269e021c403ed97738387561e10d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

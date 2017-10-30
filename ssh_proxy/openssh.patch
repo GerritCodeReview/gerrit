@@ -1,0 +1,95 @@
+From 9b2c266e8ccc42452e22f94e078ebd0681aab17a Mon Sep 17 00:00:00 2001
+From: Shawn Pearce <sop@google.com>
+Date: Sun, 29 Oct 2017 19:51:23 -0700
+Subject: [PATCH] RFC Support arbitrary user names
+
+auth.c:
+  Replace getpwnam() lookup during auth to forge struct passwd, using
+  the login name specified by the client and the current user's own
+  home directory. This allows users to connect even if they are not
+  declared in /etc/passwd.
+
+misc.c:
+  Allow AuthorizedKeysCommand to be owned by the same user running
+  the SSH daemon. This supports running as an unprivileged user
+  that manages its own software installation, avoiding the need for
+  root to install the command.
+
+  Stop checking directory ownership at the home directory of the
+  user running sshd. Checks higher in the filesystem may fail in
+  some environments.
+
+sshd.c:
+  Be paranoid and refuse to run as root, as this binary does not
+  honor /etc/passwd for user accounts.
+---
+ auth.c | 16 +++++++++++++++-
+ misc.c |  2 +-
+ sshd.c |  4 ++++
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/auth.c b/auth.c
+index a4490617..6a22f0cc 100644
+--- a/auth.c
++++ b/auth.c
+@@ -554,6 +554,7 @@ auth_openprincipals(const char *file, struct passwd *pw, int strict_modes)
+ struct passwd *
+ getpwnamallow(const char *user)
+ {
++	static struct passwd fake_user;
+ 	struct ssh *ssh = active_state; /* XXX */
+ #ifdef HAVE_LOGIN_CAP
+ 	extern login_cap_t *lc;
+@@ -573,7 +574,20 @@ getpwnamallow(const char *user)
+ 	aix_setauthdb(user);
+ #endif
+ 
+-	pw = getpwnam(user);
++	memset(&fake_user, 0, sizeof(fake_user));
++	fake_user.pw_name = user;
++	fake_user.pw_passwd = "";
++	fake_user.pw_uid = getuid();
++	fake_user.pw_gid = getgid();
++	fake_user.pw_dir = getenv("HOME");
++	fake_user.pw_shell = "/bin/sh";
++#ifdef HAVE_STRUCT_PASSWD_PW_GECOS
++	fake_user.pw_gecos = "";
++#endif
++#ifdef HAVE_STRUCT_PASSWD_PW_CLASS
++	fake_user.pw_class = "";
++#endif
++	pw = &fake_user;
+ 
+ #if defined(_AIX) && defined(HAVE_SETAUTHDB)
+ 	aix_restoreauthdb();
+diff --git a/misc.c b/misc.c
+index 2369361b..ef19221b 100644
+--- a/misc.c
++++ b/misc.c
+@@ -1783,7 +1783,7 @@ subprocess(const char *tag, struct passwd *pw, const char *command,
+ 		restore_uid();
+ 		return 0;
+ 	}
+-	if (safe_path(av[0], &st, NULL, 0, errmsg, sizeof(errmsg)) != 0) {
++	if (safe_path(av[0], &st, getenv("HOME"), getuid(), errmsg, sizeof(errmsg)) != 0) {
+ 		error("Unsafe %s \"%s\": %s", tag, av[0], errmsg);
+ 		restore_uid();
+ 		return 0;
+diff --git a/sshd.c b/sshd.c
+index 535cb97f..ca762030 100644
+--- a/sshd.c
++++ b/sshd.c
+@@ -1452,6 +1452,10 @@ main(int ac, char **av)
+ 	av = saved_argv;
+ #endif
+ 
++	if (getuid() == 0 || geteuid() == 0) {
++		fprintf(stderr, "fatal: refusing to run as root\n");
++		exit(1);
++	}
+ 	if (geteuid() == 0 && setgroups(0, NULL) == -1)
+ 		debug("setgroups(): %.200s", strerror(errno));
+ 
+-- 
+2.15.0.rc2.357.g7e34df9404-goog
+

@@ -23,6 +23,30 @@
       "revId": "0e0785178cdfa4908d07f915e6ba2e0359a93cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb9e442d_af2fff48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T14:23:18Z",
+      "side": 1,
+      "message": "Yes, it\u0027s easier if we require local disc, but since it\u0027s slow I tried to make it work with the in-memory server (this change). It seems to work, the implementation is not super-nice, but also not that ugly. Should we go for it?",
+      "parentUuid": "23207579_f2d1c57e",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "0e0785178cdfa4908d07f915e6ba2e0359a93cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

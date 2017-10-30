@@ -41,16 +41,19 @@ limitations under the License.
         display: flex;
         font-family: var(--font-family);
       }
+      #actionLoadingMessage,
       #mainContent,
       section {
         display: flex;
       }
+      #actionLoadingMessage,
       gr-button,
       gr-dropdown {
         /* px because don't have the same font size */
         margin-left: 12px;
       }
       #actionLoadingMessage {
+        align-items: center;
         color: #777;
       }
       @media screen and (max-width: 50em) {

@@ -154,7 +154,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     private Boolean computeAdmin() {
       Boolean r = user.get(IS_ADMIN);
       if (r == null) {
-        if (user.getRealUser() != user) {
+        if (user.isImpersonating()) {
           r = false;
         } else if (user instanceof PeerDaemonUser) {
           r = true;

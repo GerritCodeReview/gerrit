@@ -260,6 +260,20 @@ public class IdentifiedUser extends CurrentUser {
     return realUser;
   }
 
+  @Override
+  public boolean isImpersonating() {
+    if (realUser == this) {
+      return false;
+    }
+    if (realUser.isIdentifiedUser()) {
+      if (realUser.getAccountId().equals(getAccountId())) {
+        // Impersonating another copy of this user is allowed.
+        return false;
+      }
+    }
+    return true;
+  }
+
   public AccountState state() {
     if (state == null) {
       state = accountCache.get(getAccountId());

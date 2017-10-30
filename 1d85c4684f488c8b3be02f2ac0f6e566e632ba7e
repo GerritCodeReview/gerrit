@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45980b69_8b5cb108",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-30T20:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea696f29_fa9f990e",
+      "range": {
+        "startLine": 354,
+        "startChar": 25,
+        "endLine": 354,
+        "endChar": 29
+      },
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3130fdb4_b85a4bbc",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b492da4f_f5447e25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-30T20:25:47Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "3130fdb4_b85a4bbc",
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dedf54e1_ed9bb289",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "638d8523_9adc5d1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-10-30T20:25:47Z",
+      "side": 1,
+      "message": "Yes! This is more concise.",
+      "parentUuid": "dedf54e1_ed9bb289",
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

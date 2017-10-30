@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1508507032 +0200\nnonce ANEgCxdodN+V9ASQdGJEYocF1hMJrxG4Fz+wIJaokRo2nzJwO+Mz4b/57TAHCKeE8wgkt3pI4EJN\n\n0000000000000000000000000000000000000000 0e0785178cdfa4908d07f915e6ba2e0359a93cc9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ6f2YAAoJEFG1/Zeg0O9RABAH/i2qIQS0abZWN5Kj9k8MzHRy\nTgg284byVHI/aV97MFBrwl5hskHpwqht4y+WsUS8AshPEP+HyCOLCvTeUYQtCPpq\nry2d9By6IYc7F0qW8wmVvSa15bQTT14XLWFe0ingIDXO0V+iBqQqR8eBpFMMIFuu\n68DcsMjx1wfwOaFFb+sR0QgSc9FtW3ZHwVnpmIz0HJVS1KP64QS3lgHs5jnaTUZ1\noH6LXg+LAXiOJmgqTRJdxJreYr6uChRBNtL+npeTNxwzKHsafmemQk+CdLSZrF8b\nlPuSes7dAdOCFAOv5R4Gp+jiXOCWxdLt9dcjbjxmAUaECiBwNCbXhcUFyfkaSyY\u003d\n\u003dMW8x\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "23207579_f2d1c57e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-30T14:15:24Z",
+      "side": 1,
+      "message": "This is a little complicated.\n\nISTM the test setup could be much cleaner if we just required local disk. StandaloneSiteTest is already capable of starting a server multiple times pointing at the same test site, so in theory you could use this and just change the necessary config value in between runs.\n\nThe downside of StandaloneSiteTest is that it is *very* slow, taking like 3-5s for each gerrit.war invocation (of which there are several per test), compared with ~1s for starting an in-memory server. Honestly, I would prefer the faster implementation, even if it is a bit ugly and brittle.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "0e0785178cdfa4908d07f915e6ba2e0359a93cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "63b3305d_c8bf2655",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:43:19Z",
+      "side": 1,
+      "message": "I think it should be sharded.",
+      "parentUuid": "f88d5c48_32063ee2",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 34
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b9b4b7b5_eb329499",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
         "patchSetId": 2
@@ -98,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "bbfe1cdc_eb84d271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:43:19Z",
+      "side": 1,
+      "message": "\u003e I just realized that the design doesn\u0027t add this property but relies on the visibility of \n\u003e the ref. \n\nThe visibility of the ref? I thought it\u0027s rather the PUSH or OWNER permissions for this ref. If you are allowed to update the group ref, then you are effectively the group owner. \n\n\u003e Should I remove this property?\n\nYes, I think so. It would be confusing if we have 2 definitions of group owner that can contradict each other:\n1. group owner by having the PUSH/OWNER access right\n2. group owner by being member of the group that is set by the ownerGroupUuid property.\n\n\u003e If so, do you have a preference on whether I should adjust the code in this change or a \n\u003e follow-up one (which would be my preference, especially since it might be tricky to have a \n\u003e different handling of this property for ReviewDb and NoteDb)?\n\nI wouldn\u0027t introduce a property for which we already know that we want to remove it. Removing the property later means we must rewrite the history of the group refs which is unneeded migration work. Of course we could also let the property stay in old commits, but then the code must be able to ignore it and it might confuse users. I would prefer to keep the history of the group refs clean from the beginning.",
+      "parentUuid": "b97677b7_79b6cb86",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 38
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ad2d3cd_0207a177",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
         "patchSetId": 2
@@ -109,6 +157,30 @@
       "writtenOn": "2017-10-24T14:25:03Z",
       "side": 1,
       "message": "The same holds for this property. (see my comment on \u0027ownerGroupUuid\u0027 above)",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "06a99f0ee5bc924380a1aafc1201051a27f2d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c7b1ed9_04e6e3ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:43:19Z",
+      "side": 1,
+      "message": "This is the property that should be controlled by the visibility of the ref.\n\nSame here, I wouldn\u0027t introduce it if we already know that we don\u0027t want to keep it.",
+      "parentUuid": "3ad2d3cd_0207a177",
       "range": {
         "startLine": 82,
         "startChar": 2,

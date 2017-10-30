@@ -204,6 +204,11 @@ $change.shortSubject::
 +
 The subject limited to 72 characters, with an ellipsis if it exceeds that.
 
+$change.shortOriginalSubject::
++
+The original subject limited to 72 characters, with an ellipsis if it exceeds
+that.
+
 $change.ownerEmail::
 +
 The email address of the owner of the change.

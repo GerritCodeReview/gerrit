@@ -46,7 +46,13 @@ import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
+  public static enum DaemonType {
+    MINA,
+    EXTERNAL;
+  }
+
   private final Map<String, String> aliases;
+  private final DaemonType type;
 
   @Inject
   SshModule(@GerritServerConfig Config cfg) {
@@ -54,6 +60,7 @@ public class SshModule extends LifecycleModule {
     for (String name : cfg.getNames("ssh-alias", true)) {
       aliases.put(name, cfg.getString("ssh-alias", null, name));
     }
+    type = cfg.getEnum("sshd", null, "type", DaemonType.MINA);
   }
 
   @Override
@@ -67,7 +74,6 @@ public class SshModule extends LifecycleModule {
     configureAliases();
 
     bind(SshLog.class);
-    bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
     factory(QueryShell.Factory.class);
     factory(PeerDaemonUser.Factory.class);
@@ -83,8 +89,15 @@ public class SshModule extends LifecycleModule {
         .in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
-    bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
-    bind(PublickeyAuthenticator.class).to(CachingPublicKeyAuthenticator.class);
+    switch (type) {
+      case MINA:
+        configureMina();
+        break;
+
+      case EXTERNAL:
+        configureExternalDaemon();
+        break;
+    }
 
     bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
     bind(SshPluginStarterCallback.class);
@@ -100,8 +113,22 @@ public class SshModule extends LifecycleModule {
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);
-    listener().to(SshDaemon.class);
     listener().to(CommandFactoryProvider.class);
+  }
+
+  private void configureMina() {
+    bind(SshDaemon.class);
+    bind(SshInfo.class).to(SshDaemon.class);
+    bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
+    bind(PublickeyAuthenticator.class).to(CachingPublicKeyAuthenticator.class);
+    listener().to(SshDaemon.class);
+  }
+
+  private void configureExternalDaemon() {
+    bind(ExternalDaemon.class);
+    bind(SshInfo.class).to(ExternalDaemon.class);
+    factory(ExternalStream.Factory.class);
+    listener().to(ExternalDaemon.class);
   }
 
   private void configureAliases() {

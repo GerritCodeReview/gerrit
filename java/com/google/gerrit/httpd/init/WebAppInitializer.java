@@ -406,6 +406,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SshHostKeyModule());
     modules.add(
         new DefaultCommandModule(
+            sysInjector.getInstance(Key.get(Config.class, GerritServerConfig.class)),
             false,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));

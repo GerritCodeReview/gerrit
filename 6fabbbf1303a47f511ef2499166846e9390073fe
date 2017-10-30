@@ -70,6 +70,29 @@
       "revId": "6fabbbf1303a47f511ef2499166846e9390073fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68b95e8_69ef4a23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2017-10-30T16:04:14Z",
+      "side": 1,
+      "message": "please notice ^^^ it can work without this extra python",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "6fabbbf1303a47f511ef2499166846e9390073fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

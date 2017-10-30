@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.index.Index;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -64,15 +63,17 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @Override
   public void index(Account.Id id) throws IOException {
-    for (Index<Account.Id, AccountState> i : getWriteIndexes()) {
-      AccountState accountState = byIdCache.getOrNull(id);
-      if (accountState != null) {
+    AccountState accountState = byIdCache.getOrNull(id);
+    if (accountState != null) {
+      for (AccountIndex i : getWriteIndexes()) {
         i.replace(accountState);
-      } else {
+      }
+      fireAccountIndexedEvent(id.get());
+    } else {
+      for (AccountIndex i : getWriteIndexes()) {
         i.delete(id);
       }
     }
-    fireAccountIndexedEvent(id.get());
   }
 
   private void fireAccountIndexedEvent(int id) {

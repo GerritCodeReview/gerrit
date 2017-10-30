@@ -137,6 +137,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
+      rw.reset();
       rw.markStart(revision);
       rw.sort(RevSort.REVERSE);
       registeredOn = new Timestamp(rw.next().getCommitTime() * 1000L);

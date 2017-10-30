@@ -45,6 +45,30 @@
       "revId": "c172767012fc07d747360b6fdfaa739f158c0e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149d1f25_fa32114e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-30T20:27:16Z",
+      "side": 1,
+      "message": "That issue isn\u0027t here. The extra base URL is being added in `_computeURLHelper` of gr-admin-view. I\u0027ll follow up with a fix for this soon.",
+      "parentUuid": "87209c4b_9ce42526",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 208,
+        "endChar": 45
+      },
+      "revId": "c172767012fc07d747360b6fdfaa739f158c0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

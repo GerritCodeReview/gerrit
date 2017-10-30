@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509385461 -0400\nnonce ANEgCxfMhykOAP4D6azbEGlHWQ4rhAPCiQS65N9LNi53Zf952EWDXwSLUV/qqaYmEBzpmwuroSbn\n\n0000000000000000000000000000000000000000 8b7b810734d978ba25b75248c3f5e6079e8f8a40 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAln3ZPUVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMb6kP/005hmyiN8Iz06jU9WPCxUFvq6K/\n6/XwqBxBS/3upnorPAp58EEuGZEOCcNYPBC/cqYigWuXxdr/Ft4sUoSM4EulDQXm\nmpqYWQPHlFGYMFxgEJ7iUNAVcxPv3MME1pVtDUog1hzC3le6E8DOb128dyZ4t2JR\nsC96UVLNJz3ieYTDgEdngheCfZDcM+FJr+spr2flTTihXuyHoUYf2rafMgOWkjf9\nQ69l29te5+T3CpHpzSaHuzxRiIw23u4OB5MdCTeFu4CrlY3SUIiPw9J8ULc2bilk\n0BpZCsB087YE/3u9fzpxSblgRrmi90yt2v+FfiN1dOsLcXxbGTc+gpQFFw5ADK33\n8ViCAQcTziexkwpkG83WH84IXJBbMtEE4Zf4tQ6WfQvm06Xl9ZheqBRDsbtQLLkp\nTLwdjSSz5rtGKYVRUeb60nfKe/27/W1nOG5CLhzaAWomXra9FvYY5KGWuQwwVNjO\nSvVsc0v0docNxBZautwf6wHkQN6lirUvOlQA2BEech09wRITUL2okXOkMvZleA3S\nzy2LiPZ6S/rrYBrHesOUtlbwN2S+wp/y5FjGl+ha9k1KocJaYd+sMGWE46JRitmW\nrm3KnAK15xs5eQoDamoNwwOXktALJq6A9Do0yzBgupPtdVAs5p2iI3YPrIi4pS3u\n7EAVmWYnWAlZB/eA\n\u003dkmid\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c3cc499_78579557",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-10-30T17:55:25Z",
+      "side": 1,
+      "message": "I meant to remove this part completely. Only changed_on is corrupted.",
+      "range": {
+        "startLine": 303,
+        "startChar": 55,
+        "endLine": 303,
+        "endChar": 90
+      },
+      "revId": "8b7b810734d978ba25b75248c3f5e6079e8f8a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

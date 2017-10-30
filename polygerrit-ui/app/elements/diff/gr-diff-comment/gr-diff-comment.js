@@ -116,7 +116,7 @@
         observer: '_toggleResolved',
       },
 
-      _numPendingDiffRequests: {
+      _numPendingDraftRequests: {
         type: Object,
         value: {number: 0}, // Intentional to share the object across instances.
       },
@@ -180,12 +180,11 @@
 
       this.disabled = true;
 
-      this._eraseDraftComment();
-
       this._xhrPromise = this._saveDraft(this.comment).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
 
+        this._eraseDraftComment();
         return this.$.restAPI.getResponseObject(response).then(obj => {
           const comment = obj;
           comment.__draft = true;
@@ -204,6 +203,8 @@
         this.disabled = false;
         throw err;
       });
+
+      return this._xhrPromise;
     },
 
     _eraseDraftComment() {
@@ -467,13 +468,21 @@
     },
 
     _showStartRequest() {
-      const numPending = ++this._numPendingDiffRequests.number;
+      const numPending = ++this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
     },
 
     _showEndRequest() {
-      const numPending = --this._numPendingDiffRequests.number;
+      const numPending = --this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
+    },
+
+    _handleFailedDraftRequest() {
+      this._numPendingDraftRequests.number--;
+
+      // Cancel the debouncer so that error toasts from the error-manager will
+      // not be overridden.
+      this.cancelDebouncer('draft-toast');
     },
 
     _updateRequestToast(numPending) {
@@ -491,7 +500,11 @@
       this._showStartRequest();
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
-            this._showEndRequest();
+            if (result.ok) {
+              this._showEndRequest();
+            } else {
+              this._handleFailedDraftRequest();
+            }
             return result;
           });
     },
@@ -500,7 +513,11 @@
       this._showStartRequest();
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft).then(result => {
-            this._showEndRequest();
+            if (result.ok) {
+              this._showEndRequest();
+            } else {
+              this._handleFailedDraftRequest();
+            }
             return result;
           });
     },

@@ -27,6 +27,7 @@ import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -157,6 +158,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1274,8 +1277,19 @@ class ReceiveCommits {
       usage = "Comment message to apply to the review"
     )
     void addMessage(String token) {
-      // git push does not allow spaces in refs.
+      // Many characters have special meaning in the context of a git ref.
+      //
+      // Clients can use underscores to represent spaces.
       message = token.replace("_", " ");
+      try {
+        // Other characters can be represented using percent-encoding.
+        message = URLDecoder.decode(message, UTF_8.name());
+      } catch (IllegalArgumentException e) {
+        // Ignore decoding errors; leave message as percent-encoded.
+      } catch (UnsupportedEncodingException e) {
+        // This shouldn't happen; surely URLDecoder recognizes UTF-8.
+        throw new IllegalStateException(e);
+      }
     }
 
     @Option(

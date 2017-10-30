@@ -313,12 +313,20 @@ A comment message can be applied to the change by using the `message` (or `m`)
 option:
 
 ----
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master%21
 ----
 
 [NOTE]
-git push refs parameter does not allow spaces.  Use the '_' character instead,
-it will then be applied as "This is a rebase on master".
+git push refs parameter does not allow spaces. Use the '_' or '+' character
+to represent spaces, and percent-encoding to represent other special chars.
+The above example will thus be applied as "This is a rebase on master!"
+
+To avoid confusion in parsing the git ref, at least the following characters
+must be percent-encoded: " %^@.~-+_:/!". Note that some of the reserved
+characters (like tilde) are not escaped in the standard URL encoding rules,
+so a language-provided function (e.g. encodeURIComponent(), in javascript)
+might not suffice. To be safest, you might consider percent-encoding all
+non-alphanumeric characters (and all multibyte UTF-8 code points).
 
 [[publish-comments]]
 ==== Publish Draft Comments

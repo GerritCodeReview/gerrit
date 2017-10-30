@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b88c2f63_c1db8cea",
+        "filename": "plugins/download-commands",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-10-30T19:41:16Z",
+      "side": 1,
+      "message": "Is this normal? I\u0027m not sure what I did to cause this to have been edited.",
+      "revId": "5a422a7748977e0b1fc123bdbd99251adcc68fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

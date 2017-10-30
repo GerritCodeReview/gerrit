@@ -16,6 +16,24 @@
       "revId": "c70f729b0b921f1d9730ed619f7222972fcacbf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeee9c0d_268d2457",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/PutUsernameIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-30T11:33:51Z",
+      "side": 0,
+      "message": "This is not related.  It looks like a formatting error was introduced in I9cd2e83945f6cc5de6201aff42b5d3aa6ba6364b and when I ran gjf locally it fixed it.\n\nI\u0027ll fix this in a separate commit.",
+      "parentUuid": "d6d80a9f_92706040",
+      "revId": "c70f729b0b921f1d9730ed619f7222972fcacbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

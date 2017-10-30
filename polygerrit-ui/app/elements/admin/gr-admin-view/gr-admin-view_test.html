@@ -59,8 +59,14 @@ limitations under the License.
 
     test('link URLs', () => {
       assert.equal(
-          element._computeLinkURL({url: '/test'}),
+          element._computeLinkURL({url: '/test', noBaseUrl: true}),
           '//' + window.location.host + '/test');
+
+      sandbox.stub(element, 'getBaseUrl').returns('/foo');
+      assert.equal(
+          element._computeLinkURL({url: '/test', noBaseUrl: true}),
+          '//' + window.location.host + '/foo/test');
+      assert.equal(element._computeLinkURL({url: '/test'}), '/test');
       assert.equal(
           element._computeLinkURL({url: '/test', target: '_blank'}),
           '/test');

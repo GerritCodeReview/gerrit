@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "30d0b886_b41c13cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:00:57Z",
+      "side": 1,
+      "message": "As long as there is no special method to inform about an account deletion, triggering the indexed event on removing a document from the index seems fine to me. For me\n  fireAccountIndexedEvent(id.get())\nmeant that the index document for that ID was changed (either updated or deleted).\n\nSo far we didn\u0027t bother to handle the deletion separately since account deletion is not supported by Gerrit and hence should not happen.\n\nI\u0027m fine with extending the AccountIndexedListerner to make it consistent with ChangeIndexedListener if we care about this.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "af075dbf84964b5b833ccd19c4dac89741a28c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e23319b3_241a2e48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 1

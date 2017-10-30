@@ -231,6 +231,29 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbeca2fc_c622d1a4",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-30T10:06:19Z",
+      "side": 1,
+      "message": "Check this design document: [1]. Setting use_default_shell_env \u003d True, in combination with specifying PATH with --action-env\u003dPATH in one of the Bazel configuration files  (e.g.: $HOME/.bazel.rc) should fix it for you, without explicitly adding \"python\" on line 37 above?\n\nSo, just add this line to your $HOME/.bazel.rc file:\n\n  build --action_env\u003dPATH\n\nand revert the change on line 37 above.\n\n* [1] https://bazel.build/designs/2016/06/21/environment.html",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 33
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

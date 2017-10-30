@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be65d5a4_eab1e7ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-30T13:04:44Z",
+      "side": 1,
+      "message": "I\u0027ll focus on fixing it for projects first since that\u0027s a case where we know projects can legitimately be removed (by the delete project plugin).\n\nFor accounts, is it likely that we will support deletion later?\n\nWe currently don\u0027t support group deletion, but that is something that I need to add.  I will take care of fixing this for the group index at the same time.",
+      "parentUuid": "30d0b886_b41c13cb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "af075dbf84964b5b833ccd19c4dac89741a28c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e23319b3_241a2e48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 1

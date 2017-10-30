@@ -93,6 +93,30 @@
       "revId": "167938343aecd73ee55833018d10c10262e9592b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121dd5e4_9ec87c98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-30T08:02:31Z",
+      "side": 1,
+      "message": "This is because you are using PG and line seperator was changed there to \u0027#\u0027 compared to \u0027@\u0027 in the GWT UI. So on PG the link with line specification should be:\n\n* https://gerrit-review.googlesource.com/c/gerrit/+/97230/67/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java#48",
+      "parentUuid": "5022ae56_36170647",
+      "range": {
+        "startLine": 52,
+        "startChar": 86,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "167938343aecd73ee55833018d10c10262e9592b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

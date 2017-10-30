@@ -461,22 +461,18 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContextEmailData.put("includeDiff", getIncludeDiff());
 
     Map<String, String> changeData = new HashMap<>();
-    changeData.put("subject", change.getSubject());
-    changeData.put("originalSubject", change.getOriginalSubject());
+
+    String subject = change.getSubject();
+    String originalSubject = change.getOriginalSubject();
+    changeData.put("subject", subject);
+    changeData.put("originalSubject", originalSubject);
+    changeData.put("shortSubject", shortenSubject(subject));
+    changeData.put("shortOriginalSubject", shortenSubject(originalSubject));
+
     changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
     soyContext.put("change", changeData);
-
-    String subject = change.getSubject();
-    changeData.put("subject", subject);
-    // shortSubject is the subject limited to 63 characters, with an ellipsis if
-    // it exceeds that.
-    if (subject.length() < 73) {
-      changeData.put("shortSubject", subject);
-    } else {
-      changeData.put("shortSubject", subject.substring(0, 69) + "...");
-    }
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.getPatchSetId());
@@ -501,6 +497,18 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
       footers.add("Gerrit-CC: " + reviewer);
+    }
+  }
+
+  /**
+   * A shortened subject is the subject limited to 72 characters, with an ellipsis if it exceeds
+   * that limit.
+   */
+  private static String shortenSubject(String subject) {
+    if (subject.length() < 73) {
+      return subject;
+    } else {
+      return subject.substring(0, 69) + "...";
     }
   }
 

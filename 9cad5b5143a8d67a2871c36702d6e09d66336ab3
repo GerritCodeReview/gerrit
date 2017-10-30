@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ed73e5cd_3904c0d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-30T16:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c947ee0d_de5bfcb8",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "9cad5b5143a8d67a2871c36702d6e09d66336ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "579bea59_3909ef07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
         "patchSetId": 2
@@ -46,6 +70,30 @@
       "revId": "9cad5b5143a8d67a2871c36702d6e09d66336ab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4903dc84_81d446be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-10-30T16:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579bea59_3909ef07",
+      "range": {
+        "startLine": 303,
+        "startChar": 54,
+        "endLine": 304,
+        "endChar": 31
+      },
+      "revId": "9cad5b5143a8d67a2871c36702d6e09d66336ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

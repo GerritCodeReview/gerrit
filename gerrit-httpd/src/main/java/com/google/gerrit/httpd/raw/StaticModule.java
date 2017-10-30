@@ -256,7 +256,8 @@ public class StaticModule extends ServletModule {
         throws URISyntaxException {
       String cdnPath = cfg.getString("gerrit", null, "cdnPath");
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath);
+      String cspExpression = cfg.getString("gerrit", null, "cspExpression");
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, cspExpression);
     }
 
     @Provides

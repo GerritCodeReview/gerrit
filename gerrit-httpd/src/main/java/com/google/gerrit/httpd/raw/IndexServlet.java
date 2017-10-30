@@ -36,9 +36,11 @@ import javax.servlet.http.HttpServletResponse;
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   protected final byte[] indexSource;
+  protected final String cspExpression;
 
-  IndexServlet(String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath)
-      throws URISyntaxException {
+  IndexServlet(String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath,
+      @Nullable String cspExpression) throws URISyntaxException {
+    this.cspExpression = cspExpression;
     String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.add(Resources.getResource(resourcePath));
@@ -57,6 +59,9 @@ public class IndexServlet extends HttpServlet {
     rsp.setCharacterEncoding(UTF_8.name());
     rsp.setContentType("text/html");
     rsp.setStatus(SC_OK);
+    if (cspExpression != null) {
+      rsp.setHeader("content-security-policy-report-only", cspExpression);
+    }
     try (OutputStream w = rsp.getOutputStream()) {
       w.write(indexSource);
     }

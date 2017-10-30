@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea696f29_fa9f990e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-30T17:48:33Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 354,
+        "startChar": 25,
+        "endLine": 354,
+        "endChar": 29
+      },
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3130fdb4_b85a4bbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-30T17:48:33Z",
+      "side": 1,
+      "message": "optional: should this share code with plugin.prototype.delete?",
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dedf54e1_ed9bb289",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-30T17:48:33Z",
+      "side": 1,
+      "message": "optional: would url.startsWith(\u0027http\u0027) \u003chttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith\u003e work here?",
+      "revId": "1d85c4684f488c8b3be02f2ac0f6e566e632ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

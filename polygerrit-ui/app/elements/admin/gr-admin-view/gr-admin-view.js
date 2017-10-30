@@ -14,8 +14,11 @@
 (function() {
   'use strict';
 
+  // Note: noBaseUrl: true is set on entries where the URL is not yet supported
+  // by router abstraction.
   const ADMIN_LINKS = [{
     name: 'Projects',
+    noBaseUrl: true,
     url: '/admin/projects',
     view: 'gr-project-list',
     viewableToAll: true,
@@ -23,6 +26,7 @@
   }, {
     name: 'Groups',
     section: 'Groups',
+    noBaseUrl: true,
     url: '/admin/groups',
     view: 'gr-admin-group-list',
     children: [],
@@ -30,6 +34,7 @@
     name: 'Plugins',
     capability: 'viewPlugins',
     section: 'Plugins',
+    noBaseUrl: true,
     url: '/admin/plugins',
     view: 'gr-plugin-list',
   }];
@@ -113,11 +118,13 @@
           linkCopy.subsection = {
             name: this._projectName,
             view: 'gr-project',
+            noBaseUrl: true,
             url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
             children: [{
               name: 'Access',
               detailType: 'access',
               view: 'gr-project-access',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},access`,
             },
@@ -125,6 +132,7 @@
               name: 'Commands',
               detailType: 'commands',
               view: 'gr-project-commands',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},commands`,
             },
@@ -132,6 +140,7 @@
               name: 'Branches',
               detailType: 'branches',
               view: 'gr-project-detail-list',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},branches`,
             },
@@ -139,6 +148,7 @@
               name: 'Tags',
               detailType: 'tags',
               view: 'gr-project-detail-list',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},tags`,
             }],
@@ -236,7 +246,7 @@
 
     _computeLinkURL(link) {
       if (!link || typeof link.url === 'undefined') { return ''; }
-      if (link.target) {
+      if (link.target || !link.noBaseUrl) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);

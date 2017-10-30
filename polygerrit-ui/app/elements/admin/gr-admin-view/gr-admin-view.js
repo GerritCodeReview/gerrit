@@ -148,14 +148,13 @@
           linkCopy.subsection = {
             name: this._groupName,
             view: 'gr-group',
-            url: `/admin/groups/${this.encodeURL(this._groupId + '', true)}`,
+            url: Gerrit.Nav.getUrlForGroup(this._groupId),
             children: [
               {
                 name: 'Members',
                 detailType: 'members',
                 view: 'gr-group-members',
-                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
-                    ',members',
+                url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
               },
             ],
           };
@@ -165,8 +164,7 @@
                   name: 'Audit Log',
                   detailType: 'audit-log',
                   view: 'gr-group-audit-log',
-                  url: '/admin/groups/' +
-                      `${this.encodeURL(this._groupId + '', true)},audit-log`,
+                  url: Gerrit.Nav.getUrlForGroupLog(this._groupId),
                 }
             );
           }
@@ -187,19 +185,31 @@
     },
 
     _paramsChanged(params) {
-      this.set('_showGroup', params.adminView === 'gr-group');
-      this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
-      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
-      this.set('_showGroupMembers', params.adminView === 'gr-group-members');
-      this.set('_showProjectCommands',
+      const isGroupView = params.view === Gerrit.Nav.View.GROUP;
+      const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
+
+      this.set('_showGroup', isGroupView && !params.detail);
+      this.set('_showGroupAuditLog', isGroupView &&
+          params.detail === Gerrit.Nav.GroupDetailView.LOG);
+      this.set('_showGroupMembers', isGroupView &&
+          params.detail === Gerrit.Nav.GroupDetailView.MEMBERS);
+
+      this.set('_showGroupList', isAdminView &&
+          params.adminView === 'gr-admin-group-list');
+
+      this.set('_showProjectCommands', isAdminView &&
           params.adminView === 'gr-project-commands');
-      this.set('_showProjectMain', params.adminView === 'gr-project');
-      this.set('_showProjectList',
+      this.set('_showProjectMain', isAdminView &&
+          params.adminView === 'gr-project');
+      this.set('_showProjectList', isAdminView &&
           params.adminView === 'gr-project-list');
-      this.set('_showProjectDetailList',
+      this.set('_showProjectDetailList', isAdminView &&
           params.adminView === 'gr-project-detail-list');
-      this.set('_showPluginList', params.adminView === 'gr-plugin-list');
-      this.set('_showProjectAccess', params.adminView === 'gr-project-access');
+      this.set('_showPluginList', isAdminView &&
+          params.adminView === 'gr-plugin-list');
+      this.set('_showProjectAccess', isAdminView &&
+          params.adminView === 'gr-project-access');
+
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.

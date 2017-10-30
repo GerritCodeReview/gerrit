@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b278b15_b0b59345",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:09:09Z",
+      "side": 1,
+      "message": "Do the same check in getTransitiveMembers(GroupDescription.Internal, GroupControl)?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 96
+      },
+      "revId": "9b7160e4b943d0239ac5c386bc4273b181c6ca65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

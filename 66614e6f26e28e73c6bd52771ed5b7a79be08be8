@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd3b3c74_e249e22c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-10-30T20:48:58Z",
+      "side": 1,
+      "message": "can be static",
+      "revId": "66614e6f26e28e73c6bd52771ed5b7a79be08be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

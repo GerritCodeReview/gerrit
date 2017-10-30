@@ -26,6 +26,7 @@ import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WIT
 import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -56,12 +57,16 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
 import com.google.gerrit.server.notedb.NoteDbTable;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -74,8 +79,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -119,10 +126,12 @@ public class NoteDbMigrator implements AutoCloseable {
     private final SitePaths sitePaths;
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final GitRepositoryManager repoManager;
+    private final NoteDbUpdateManager.Factory updateManagerFactory;
+    private final ChangeBundleReader bundleReader;
     private final AllProjectsName allProjects;
     private final InternalUser.Factory userFactory;
     private final ThreadLocalRequestContext requestContext;
-    private final ChangeRebuilder rebuilder;
+    private final ChangeRebuilderImpl rebuilder;
     private final WorkQueue workQueue;
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
@@ -144,10 +153,12 @@ public class NoteDbMigrator implements AutoCloseable {
         SitePaths sitePaths,
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
+        NoteDbUpdateManager.Factory updateManagerFactory,
+        ChangeBundleReader bundleReader,
         AllProjectsName allProjects,
         ThreadLocalRequestContext requestContext,
         InternalUser.Factory userFactory,
-        ChangeRebuilder rebuilder,
+        ChangeRebuilderImpl rebuilder,
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator,
@@ -159,6 +170,8 @@ public class NoteDbMigrator implements AutoCloseable {
       this.sitePaths = sitePaths;
       this.schemaFactory = schemaFactory;
       this.repoManager = repoManager;
+      this.updateManagerFactory = updateManagerFactory;
+      this.bundleReader = bundleReader;
       this.allProjects = allProjects;
       this.requestContext = requestContext;
       this.userFactory = userFactory;
@@ -318,6 +331,8 @@ public class NoteDbMigrator implements AutoCloseable {
           sitePaths,
           schemaFactory,
           repoManager,
+          updateManagerFactory,
+          bundleReader,
           allProjects,
           requestContext,
           userFactory,
@@ -343,10 +358,12 @@ public class NoteDbMigrator implements AutoCloseable {
   private final FileBasedConfig noteDbConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final ChangeBundleReader bundleReader;
   private final AllProjectsName allProjects;
   private final ThreadLocalRequestContext requestContext;
   private final InternalUser.Factory userFactory;
-  private final ChangeRebuilder rebuilder;
+  private final ChangeRebuilderImpl rebuilder;
   private final MutableNotesMigration globalNotesMigration;
   private final PrimaryStorageMigrator primaryStorageMigrator;
   private final DynamicSet<NotesMigrationStateListener> listeners;
@@ -365,10 +382,12 @@ public class NoteDbMigrator implements AutoCloseable {
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
       GitRepositoryManager repoManager,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeBundleReader bundleReader,
       AllProjectsName allProjects,
       ThreadLocalRequestContext requestContext,
       InternalUser.Factory userFactory,
-      ChangeRebuilder rebuilder,
+      ChangeRebuilderImpl rebuilder,
       MutableNotesMigration globalNotesMigration,
       PrimaryStorageMigrator primaryStorageMigrator,
       DynamicSet<NotesMigrationStateListener> listeners,
@@ -392,6 +411,8 @@ public class NoteDbMigrator implements AutoCloseable {
     this.schemaFactory = schemaFactory;
     this.rebuilder = rebuilder;
     this.repoManager = repoManager;
+    this.updateManagerFactory = updateManagerFactory;
+    this.bundleReader = bundleReader;
     this.allProjects = allProjects;
     this.requestContext = requestContext;
     this.userFactory = userFactory;
@@ -729,41 +750,83 @@ public class NoteDbMigrator implements AutoCloseable {
     ProgressMonitor pm =
         new TextProgressMonitor(
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
-    pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
-    try {
+    try (NoteDbUpdateManager manager =
+        updateManagerFactory.create(project).setSaveObjects(false).setAtomicRefUpdates(false)) {
+      Set<Change.Id> skipExecute = new HashSet<>();
       Collection<Change.Id> changes = allChanges.get(project);
-      for (Change.Id changeId : changes) {
-        // Update one change at a time, which ends up creating one NoteDbUpdateManager per change as
-        // well. This turns out to be no more expensive than batching, since each NoteDb operation
-        // is only writing single loose ref updates and loose objects. Plus we have to do one
-        // ReviewDb transaction per change due to the AtomicUpdate, so if we somehow batched NoteDb
-        // operations, ReviewDb would become the bottleneck.
-        try {
-          rebuilder.rebuild(db, changeId);
-        } catch (NoPatchSetsException e) {
-          log.warn(e.getMessage());
-        } catch (RepositoryNotFoundException e) {
-          log.warn("Repository {} not found while rebuilding change {}", project, changeId);
-        } catch (ConflictingUpdateException e) {
-          log.warn(
-              "Rebuilding detected a conflicting ReviewDb update for change {};"
-                  + " will be auto-rebuilt at runtime",
-              changeId);
-        } catch (LockFailureException e) {
-          log.warn(
-              "Rebuilding detected a conflicting NoteDb update for change {};"
-                  + " will be auto-rebuilt at runtime",
-              changeId);
-        } catch (Throwable t) {
-          log.error("Failed to rebuild change " + changeId, t);
-          ok = false;
+      pm.beginTask(FormatUtil.elide("Rebuilding " + project.get(), 50), changes.size());
+      try {
+        for (Change.Id changeId : changes) {
+          boolean staged = false;
+          try {
+            stage(db, changeId, manager);
+            staged = true;
+          } catch (NoPatchSetsException e) {
+            log.warn(e.getMessage());
+          } catch (RepositoryNotFoundException e) {
+            log.warn("Repository {} not found while rebuilding change {}", project, changeId);
+          } catch (Throwable t) {
+            log.error("Failed to rebuild change " + changeId, t);
+            ok = false;
+          }
+          pm.update(1);
+          if (!staged) {
+            skipExecute.add(changeId);
+          }
         }
-        pm.update(1);
+      } finally {
+        pm.endTask();
       }
-    } finally {
-      pm.endTask();
+
+      pm.beginTask(
+          FormatUtil.elide("Saving " + project.get(), 50), changes.size() - skipExecute.size());
+      try {
+        for (Change.Id changeId : changes) {
+          if (skipExecute.contains(changeId)) {
+            continue;
+          }
+          try {
+            rebuilder.execute(db, changeId, manager, true, false);
+          } catch (ConflictingUpdateException e) {
+            log.warn(
+                "Rebuilding detected a conflicting ReviewDb update for change {};"
+                    + " will be auto-rebuilt at runtime",
+                changeId);
+          } catch (Throwable t) {
+            log.error("Failed to rebuild change " + changeId, t);
+            ok = false;
+          }
+          pm.update(1);
+        }
+      } finally {
+        pm.endTask();
+      }
+
+      try {
+        manager.execute();
+      } catch (LockFailureException e) {
+        log.warn(
+            "Rebuilding detected a conflicting NoteDb update for the following refs, which will"
+                + " be auto-rebuilt at runtime: {}",
+            e.getFailedRefs().stream().distinct().sorted().collect(joining(", ")));
+      } catch (OrmException | IOException e) {
+        log.error("Failed to save NoteDb state for " + project, e);
+      }
     }
     return ok;
+  }
+
+  private void stage(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws OrmException, IOException {
+    // Match ChangeRebuilderImpl#stage, but without calling manager.stage(), since that can only be
+    // called after building updates for all changes.
+    Change change =
+        ChangeRebuilderImpl.checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
+    if (change == null) {
+      // Could log here instead, but this matches the behavior of ChangeRebuilderImpl#stage.
+      throw new NoSuchChangeException(changeId);
+    }
+    rebuilder.buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
   }
 
   private static boolean futuresToBoolean(List<ListenableFuture<Boolean>> futures, String errMsg) {

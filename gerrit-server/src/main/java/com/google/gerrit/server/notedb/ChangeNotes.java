@@ -779,6 +779,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           rebuildResult = checkNotNull(r);
           checkNotNull(r.newState());
           checkNotNull(r.staged());
+          checkNotNull(r.staged().changeObjects());
           return LoadHandle.create(
               ChangeNotesCommit.newStagedRevWalk(repo, r.staged().changeObjects()),
               r.newState().getChangeMetaId());

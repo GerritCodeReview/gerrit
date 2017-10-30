@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "14dbca74_d11a067c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-10-30T13:11:34Z",
+      "side": 1,
+      "message": "\u003e For accounts, is it likely that we will support deletion later?\n\nNo, at least we don\u0027t have any intentions to support it.\nBut it still makes sense to me to have all the *IndexedListerner interfaces consistent.",
+      "parentUuid": "be65d5a4_eab1e7ed",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "af075dbf84964b5b833ccd19c4dac89741a28c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e23319b3_241a2e48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
         "patchSetId": 1

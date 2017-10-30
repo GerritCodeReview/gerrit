@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b508d61_88d1be2f",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-30T13:54:08Z",
+      "side": 0,
+      "message": "Is this unused now and can be removed from WORKSPACE and lib/commons/BUILD (as it only was needed as a transitive dependency for Velocity)?",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "ec734e1b59349ba9cbd9cc70902cb625d74658ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a927015_d39dad3e",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-30T13:54:08Z",
+      "side": 0,
+      "message": "Same here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "ec734e1b59349ba9cbd9cc70902cb625d74658ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

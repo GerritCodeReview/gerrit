@@ -1,0 +1,39 @@
+Protocol 2
+Port 29419
+ListenAddress 127.0.0.1
+PidFile @SITE_PATH@/tmp/sshd.pid
+
+HostKey @SITE_PATH@/etc/ssh_host_dsa_key
+HostKey @SITE_PATH@/etc/ssh_host_ecdsa_384_key
+HostKey @SITE_PATH@/etc/ssh_host_ecdsa_521_key
+HostKey @SITE_PATH@/etc/ssh_host_ecdsa_key
+HostKey @SITE_PATH@/etc/ssh_host_ed25519_key
+HostKey @SITE_PATH@/etc/ssh_host_rsa_key
+
+AllowAgentForwarding no
+AllowStreamLocalForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+PermitTunnel no
+PermitTTY no
+GatewayPorts no
+Compression no
+PermitRootLogin no
+PrintMotd no
+StrictModes no
+
+UseDNS no
+TCPKeepAlive yes
+
+AuthenticationMethods publickey
+AuthorizedKeysFile none
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+HostbasedAuthentication no
+IgnoreRhosts yes
+IgnoreUserKnownHosts yes
+
+AuthorizedKeysCommand @SITE_PATH@/bin/ssh_proxy @SITE_PATH@ keys %u
+AuthorizedKeysCommandUser @GERRIT_USER@
+
+ForceCommand @SITE_PATH@/bin/ssh_proxy exec

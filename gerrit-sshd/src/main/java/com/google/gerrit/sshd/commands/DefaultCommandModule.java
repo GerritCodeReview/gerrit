@@ -16,23 +16,31 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.DownloadConfig;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
+import com.google.gerrit.sshd.SshModule.DaemonType;
 import com.google.gerrit.sshd.SuExec;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import org.eclipse.jgit.lib.Config;
 
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
   private final DownloadConfig downloadConfig;
   private final LfsPluginAuthCommand.Module lfsPluginAuthModule;
+  private final DaemonType type;
 
   public DefaultCommandModule(
-      boolean slave, DownloadConfig downloadCfg, LfsPluginAuthCommand.Module module) {
+      @GerritServerConfig Config cfg,
+      boolean slave,
+      DownloadConfig downloadCfg,
+      LfsPluginAuthCommand.Module module) {
     slaveMode = slave;
     downloadConfig = downloadCfg;
     lfsPluginAuthModule = module;
+    type = cfg.getEnum("sshd", null, "type", DaemonType.MINA);
   }
 
   @Override
@@ -46,15 +54,19 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
     command(gerrit, BanCommitCommand.class);
-    command(gerrit, CloseConnection.class);
+    if (type == DaemonType.MINA) {
+      command(gerrit, CloseConnection.class);
+    }
     command(gerrit, FlushCaches.class);
     command(gerrit, ListProjectsCommand.class);
     command(gerrit, ListMembersCommand.class);
     command(gerrit, ListGroupsCommand.class);
     command(gerrit, LsUserRefs.class);
     command(gerrit, Query.class);
-    command(gerrit, ShowCaches.class);
-    command(gerrit, ShowConnections.class);
+    if (type == DaemonType.MINA) {
+      command(gerrit, ShowCaches.class);
+      command(gerrit, ShowConnections.class);
+    }
     command(gerrit, ShowQueue.class);
     command(gerrit, StreamEvents.class);
     command(gerrit, VersionCommand.class);

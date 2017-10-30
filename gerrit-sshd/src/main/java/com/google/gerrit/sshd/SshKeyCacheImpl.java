@@ -121,7 +121,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {
       try {
-        kl.add(new SshKeyCacheEntry(k.getKey(), SshUtil.parse(k)));
+        kl.add(new SshKeyCacheEntry(k.getKey(), k.getEncodedKey(), SshUtil.parse(k)));
       } catch (OutOfMemoryError e) {
         // This is the only case where we assume the problem has nothing
         // to do with the key object, and instead we must abort this load.

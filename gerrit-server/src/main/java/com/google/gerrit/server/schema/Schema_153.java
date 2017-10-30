@@ -34,7 +34,8 @@ public class Schema_153 extends SchemaVersion {
       // whether change is currently WIP. No migration is needed in NoteDb,
       // where the value of review_started is always derived from the history
       // of assignments to work_in_progress.
-      e.execute("UPDATE changes SET review_started = 'Y' WHERE work_in_progress = 'N'");
+      e.execute(
+          "UPDATE changes SET review_started = 'Y', created_on = created_on WHERE work_in_progress = 'N'");
     }
   }
 }

@@ -254,6 +254,30 @@
       "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1e1c487_818c3cd2",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-30T10:07:41Z",
+      "side": 1,
+      "message": "Typo: a user-specific file, located in ~/.bazelrc.",
+      "parentUuid": "bbeca2fc_c622d1a4",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 33
+      },
+      "revId": "5eb20846cf2e557198211cb466d7770da3ba355e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -69,6 +69,30 @@
       "revId": "167938343aecd73ee55833018d10c10262e9592b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5022ae56_36170647",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-10-30T07:35:48Z",
+      "side": 1,
+      "message": "^^ this leads to an empty diff for me.  Removing the @48 fixes it\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/97230/67/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+      "parentUuid": "b78bb073_e2d3ec8f",
+      "range": {
+        "startLine": 52,
+        "startChar": 86,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "167938343aecd73ee55833018d10c10262e9592b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

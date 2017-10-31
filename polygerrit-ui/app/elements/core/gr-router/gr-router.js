@@ -16,7 +16,10 @@
 
   const RoutePattern = {
     ROOT: '/',
-    DASHBOARD: '/dashboard/(.*)',
+
+    DASHBOARD: /^\/dashboard\/(.+)$/,
+    CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
+
     ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
@@ -521,6 +524,9 @@
 
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
+      this._mapRoute(RoutePattern.CUSTOM_DASHBOARD,
+          '_handleCustomDashboardRoute');
+
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
       this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
@@ -715,14 +721,38 @@
     },
 
     /**
-     * Handle dashboard routes. These may be user, custom, or project
-     * dashboards.
+     * Handle dashboard routes. These may be user, or project dashboards.
+     *
+     * @param {!Object} data The parsed route data.
+     */
+    _handleDashboardRoute(data) {
+      // User dashboard. We require viewing user to be logged in, else we
+      // redirect to login for self dashboard or simple owner search for
+      // other user dashboard.
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          if (data.params[0].toLowerCase() === 'self') {
+            this._redirectToLogin(data.canonicalPath);
+          } else {
+            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
+          }
+        } else {
+          this._setParams({
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          });
+        }
+      });
+    },
+
+    /**
+     * Handle custom dashboard routes.
      *
      * @param {!Object} data The parsed route data.
      * @param {string=} opt_qs Optional query string associated with the route.
      *     If not given, window.location.search is used. (Used by tests).
      */
-    _handleDashboardRoute(data, opt_qs) {
+    _handleCustomDashboardRoute(data, opt_qs) {
       // opt_qs may be provided by a test, and it may have a falsy value
       const qs = opt_qs !== undefined ? opt_qs : window.location.search;
       const queryParams = this._parseQueryString(qs);
@@ -745,36 +775,16 @@
         // Custom dashboard view.
         this._setParams({
           view: Gerrit.Nav.View.DASHBOARD,
-          user: data.params[0] || 'self',
+          user: 'self',
           sections,
           title,
         });
         return Promise.resolve();
       }
 
-      if (!data.params[0] && sections.length === 0) {
-        // Redirect /dashboard/ -> /dashboard/self.
-        this._redirect('/dashboard/self');
-        return Promise.resolve();
-      }
-
-      // User dashboard. We require viewing user to be logged in, else we
-      // redirect to login for self dashboard or simple owner search for
-      // other user dashboard.
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          if (data.params[0].toLowerCase() === 'self') {
-            this._redirectToLogin(data.canonicalPath);
-          } else {
-            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
-          }
-        } else {
-          this._setParams({
-            view: Gerrit.Nav.View.DASHBOARD,
-            user: data.params[0],
-          });
-        }
-      });
+      // Redirect /dashboard/ -> /dashboard/self.
+      this._redirect('/dashboard/self');
+      return Promise.resolve();
     },
 
     _handleGroupInfoRoute(data) {

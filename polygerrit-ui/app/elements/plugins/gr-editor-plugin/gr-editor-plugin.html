@@ -1,0 +1,51 @@
+<dom-module id="gr-editor-plugin">
+  <script>
+    Gerrit.install(plugin => {
+      plugin.registerCustomComponent(
+          'editor', 'gr-editor-plugin', {replace: true});
+    });
+  </script>
+</dom-module>
+<dom-module id="gr-editor-plugin">
+  <template>
+    <!-- Link codemirror deps -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.css" />
+    <div id="wrapper"></div>
+  </template>
+  <!-- Link codemirror script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.js"></script>
+  <script>
+    Polymer({
+      is: 'gr-editor-plugin',
+      properties: {
+        fileContent: String,
+        mirror: Object,
+        // TODO(kaspern): Fetch prefs in editor-view.
+        prefs: Object,
+      },
+
+      observers: [
+        '_refreshCodeMirror(mirror, fileContent)',
+      ],
+
+      attached() {
+        this.mirror = CodeMirror(this.$.wrapper);
+        this.async(() => { this.mirror.refresh(); }, 1);
+        this.addEventListeners();
+      },
+
+      _refreshCodeMirror(mirror, content) {
+        mirror.setValue(content);
+        mirror.refresh();
+        console.log('received new content', content);
+      },
+
+      addEventListeners() {
+        this.mirror.on('change', e => {
+          this.dispatchEvent(new CustomEvent('change',
+              {detail: {value: e.getValue()}, bubbles: true}));
+        });
+      },
+    });
+  </script>
+</dom-module>

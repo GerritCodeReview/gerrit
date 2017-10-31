@@ -43,7 +43,10 @@
         value: true,
         computed: '_computeSaveDisabled(_content, _newContent)',
       },
-      _prefs: Object,
+      _prefs: {
+        type: Object,
+        value: {},
+      },
     },
 
     behaviors: [
@@ -128,6 +131,10 @@
     _handleCancelTap() {
       // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
       this._viewEditInChangeView();
+    },
+
+    _changeHandler(e) {
+      this._newContent = e.detail.value;
     },
   });
 })();

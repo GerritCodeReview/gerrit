@@ -35,7 +35,6 @@
       _change: Object,
       _changeEditDetail: Object,
       _changeNum: String,
-      _loggedIn: Boolean,
       _path: String,
       _content: String,
       _newContent: String,
@@ -44,6 +43,7 @@
         value: true,
         computed: '_computeSaveDisabled(_content, _newContent)',
       },
+      _prefs: Object,
     },
 
     behaviors: [
@@ -53,11 +53,15 @@
     ],
 
     attached() {
-      this._getLoggedIn().then(loggedIn => { this._loggedIn = loggedIn; });
+      this._getEditPrefs().then(prefs => { this._prefs = prefs; });
     },
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
+    },
+
+    _getEditPrefs() {
+      return this.$.restAPI.getEditPrefs();
     },
 
     _paramsChanged(value) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04248939_c4a6ae75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-31T23:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d45f730_20796e91",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a49854d_effb690c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddcbcf2e_c37903bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-31T23:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a49854d_effb690c",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "48a93e7f_f25911b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-31T23:26:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283c1a8a_cc5af43c",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7f8e846_9bd9b5d2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -85,6 +157,24 @@
       "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e7a412f_6d4a4e1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-10-31T23:26:26Z",
+      "side": 1,
+      "message": "\u003e You should point out that you\u0027re solving the problem of CGI parameters applicable to any route will make what should be user dashboards mistakenly render as custom dashboards.\n\nDone.\n\n\u003e But we still have a bug with UI switcher round-tripping on custom dashboards, which would need to be fixed in a different way.\n\nIs this a separate bug from what\u0027s discussed here? Or do you mean the way it drops the whole query string?",
+      "parentUuid": "a7f8e846_9bd9b5d2",
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

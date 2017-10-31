@@ -30,6 +30,7 @@ limitations under the License.
 <link rel="import" href="../gr-account-info/gr-account-info.html">
 <link rel="import" href="../gr-agreements-list/gr-agreements-list.html">
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
+<link rel="import" href="../gr-gpg-editor/gr-gpg-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
 <link rel="import" href="../gr-http-password/gr-http-password.html">
 <link rel="import" href="../gr-identities/gr-identities.html">
@@ -70,6 +71,9 @@ limitations under the License.
           <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
           <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
             SSH Keys
+          </a></li>
+          <li hidden$="[[!_serverConfig.receive.enable_signed_push]]"><a href="#GPGKeys">
+            GPG Keys
           </a></li>
           <li><a href="#Groups">Groups</a></li>
           <li><a href="#Identities">Identities</a></li>
@@ -395,6 +399,14 @@ limitations under the License.
           <gr-ssh-editor
               id="sshEditor"
               has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
+        </div>
+        <div hidden$="[[!_serverConfig.receive.enable_signed_push]]">
+          <h2
+              id="GPGKeys"
+              class$="[[_computeHeaderClass(_gpgKeysChanged)]]">GPG keys</h2>
+          <gr-gpg-editor
+              id="gpgEditor"
+              has-unsaved-changes="{{_gpgKeysChanged}}"></gr-gpg-editor>
         </div>
         <h2 id="Groups">Groups</h2>
         <fieldset>

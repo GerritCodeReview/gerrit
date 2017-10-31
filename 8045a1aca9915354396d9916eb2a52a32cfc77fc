@@ -175,6 +175,24 @@
       "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0dfbac0_48b8d1ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-31T23:41:03Z",
+      "side": 1,
+      "message": "The reported problem being fixed here is a false routing to custom dashboard when user dashboard is intended. However, UI switching on custom dashboard views is currently broken in both directions (and actually for different reasons than our routing), and part of fixing that would involve something like a \"--\" parameter.",
+      "parentUuid": "2e7a412f_6d4a4e1c",
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

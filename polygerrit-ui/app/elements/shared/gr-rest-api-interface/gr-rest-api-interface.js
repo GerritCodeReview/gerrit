@@ -1330,6 +1330,10 @@
           '/edit:publish');
     },
 
+    getEditPrefs() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences.edit');
+    },
+
     putChangeCommitMessage(changeNum, message) {
       const p = {message};
       return this.getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);

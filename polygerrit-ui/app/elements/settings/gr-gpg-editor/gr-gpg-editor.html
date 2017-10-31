@@ -1,0 +1,137 @@
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-gpg-editor">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="gr-form-styles">
+      .statusHeader {
+        width: 4em;
+      }
+      .keyHeader {
+        width: 9em;
+      }
+      .userIdHeader {
+        width: 15em;
+      }
+      #viewKeyOverlay {
+        padding: 2em;
+        width: 50em;
+      }
+      .publicKey {
+        font-family: var(--monospace-font-family);
+        overflow-x: scroll;
+        overflow-wrap: break-word;
+        width: 30em;
+      }
+      .closeButton {
+        bottom: 2em;
+        position: absolute;
+        right: 2em;
+      }
+      #existing {
+        margin-bottom: 1em;
+      }
+      #existing .commentColumn {
+        min-width: 27em;
+        width: auto;
+      }
+    </style>
+    <div class="gr-form-styles">
+      <fieldset id="existing">
+        <table>
+          <thead>
+            <tr>
+              <th class="idColumn">ID</th>
+              <th class="fingerPrintColumn">Fingerprint</th>
+              <th class="userIdHeader">User IDS</th>
+              <th class="keyHeader">Public Key</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[_keys]]" as="key">
+              <tr>
+                <td class="idColumn">[[key.id]]</td>
+                <td class="fingerPrintColumn">[[key.fingerprint]]</td>
+                <td class="userIdHeader">
+                  <template is="dom-repeat" items="[[key.user_ids]]">
+                    [[item]]
+                  </template>
+                </td>
+                <td class="keyHeader">
+                  <gr-button
+                      on-tap="_showKey"
+                      data-index$="[[index]]"
+                      link>Click to View</gr-button>
+                </td>
+                <td>
+                  <gr-button
+                      data-index$="[[index]]"
+                      on-tap="_handleDeleteKey">Delete</gr-button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <gr-overlay id="viewKeyOverlay" with-backdrop>
+          <fieldset>
+            <section>
+              <span class="title">Status</span>
+              <span class="value">[[_keyToView.status]]</span>
+            </section>
+            <section>
+              <span class="title">Key</span>
+              <span class="value">[[_keyToView.key]]</span>
+            </section>
+          </fieldset>
+          <gr-button
+              class="closeButton"
+              on-tap="_closeOverlay">Close</gr-button>
+        </gr-overlay>
+        <gr-button
+            on-tap="save"
+            disabled$="[[!hasUnsavedChanges]]">Save changes</gr-button>
+      </fieldset>
+      <fieldset>
+        <section>
+          <span class="title">New GPG key</span>
+          <span class="value">
+            <iron-autogrow-textarea
+                id="newKey"
+                autocomplete="on"
+                bind-value="{{_newKey}}"
+                placeholder="New GPG Key"></iron-autogrow-textarea>
+          </span>
+        </section>
+        <gr-button
+            id="addButton"
+            disabled$="[[_computeAddButtonDisabled(_newKey)]]"
+            on-tap="_handleAddKey">Add new GPG key</gr-button>
+      </fieldset>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-gpg-editor.js"></script>
+</dom-module>

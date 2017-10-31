@@ -172,6 +172,7 @@ limitations under the License.
       // it performed for them.
       const selfAuthenticatingHandlers = [
         '_handleDashboardRoute',
+        '_handleCustomDashboardRoute',
         '_handleRootRoute',
       ];
 
@@ -738,16 +739,6 @@ limitations under the License.
           redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
         });
 
-        test('no user specified', () => {
-          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '').then(() => {
-            assert.isFalse(setParamsStub.called);
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isTrue(redirectStub.called);
-            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
-          });
-        });
-
         test('own dashboard but signed out redirects to login', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
@@ -785,28 +776,46 @@ limitations under the License.
             });
           });
         });
+      });
+
+      suite('_handleCustomDashboardRoute', () => {
+        let redirectToLoginStub;
+
+        setup(() => {
+          redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        });
+
+        test('no user specified', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data, '').then(() => {
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.called);
+            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+          });
+        });
 
         test('custom dashboard without title', () => {
           const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '?a=b&c&d=e').then(() => {
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(setParamsStub.calledOnce);
-            assert.deepEqual(setParamsStub.lastCall.args[0], {
-              view: Gerrit.Nav.View.DASHBOARD,
-              user: 'self',
-              sections: [
-                {name: 'a', query: 'b'},
-                {name: 'd', query: 'e'},
-              ],
-              title: 'Custom Dashboard',
-            });
-          });
+          return element._handleCustomDashboardRoute(data, '?a=b&c&d=e')
+              .then(() => {
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'b'},
+                    {name: 'd', query: 'e'},
+                  ],
+                  title: 'Custom Dashboard',
+                });
+              });
         });
 
         test('custom dashboard with title', () => {
           const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '?a=b&c&d=&=e&title=t')
+          return element._handleCustomDashboardRoute(data,
+              '?a=b&c&d=&=e&title=t')
               .then(() => {
                 assert.isFalse(redirectToLoginStub.called);
                 assert.isFalse(redirectStub.called);

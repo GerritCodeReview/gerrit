@@ -46,6 +46,30 @@
       "revId": "78345b85c47537c46e149470e294e4958e96680b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b663c3_a2ba469e",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-10-31T21:10:17Z",
+      "side": 1,
+      "message": "What does it do? (sorry, JS and polymer are alien to me)",
+      "parentUuid": "cf2f4ff3_4a197e91",
+      "range": {
+        "startLine": 55,
+        "startChar": 18,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "78345b85c47537c46e149470e294e4958e96680b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

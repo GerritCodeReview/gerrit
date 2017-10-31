@@ -516,6 +516,7 @@ public class SubmoduleOp {
       throws SubmoduleException {
     msgbuf.append("* Update " + s.getPath());
     msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
+    msgbuf.append(" to "+ newCommit.getName());
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {

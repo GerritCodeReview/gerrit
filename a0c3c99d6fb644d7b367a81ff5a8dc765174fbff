@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a8e497c_a2354c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_109.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-10-31T13:53:26Z",
+      "side": 1,
+      "message": "This is invalid SQL syntax. Coma is missing before the \"created_on\":\n\n  MariaDB [reviewdb]\u003e UPDATE changes SET status \u003d \u0027n\u0027 created_on \u003d created_on WHERE status \u003d \u0027s\u0027;\n  ERROR 1064 (42000): You have an error in your SQL syntax; \n  check the manual that corresponds to your MariaDB server version for the right syntax\n  to use near \u0027created_on \u003d created_on WHERE status \u003d \u0027s\u0027\u0027 at line 1\n\nThis should be:\n\n  \"UPDATE changes SET status \u003d \u0027n\u0027, created_on \u003d created_on WHERE status \u003d \u0027s\u0027\"\n\nHere is the syntax: [1]:\n\n  UPDATE table_name\n  SET column1 \u003d value1, column2 \u003d value2, ...\n  WHERE condition;\n\n* [1] https://www.w3schools.com/sql/sql_update.asp",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 92
+      },
+      "revId": "a0c3c99d6fb644d7b367a81ff5a8dc765174fbff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

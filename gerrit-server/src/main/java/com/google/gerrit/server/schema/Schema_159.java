@@ -49,12 +49,12 @@ public class Schema_159 extends SchemaVersion {
       // if they have any draft patch sets.
       e.execute(
           String.format(
-              "UPDATE changes SET %s = 'Y' WHERE status = 'd' OR "
+              "UPDATE changes SET %s = 'Y', created_on = created_on WHERE status = 'd' OR "
                   + "EXISTS (SELECT * FROM patch_sets WHERE "
                   + "patch_sets.change_id = changes.change_id AND patch_sets.draft = 'Y')",
               column));
       // Change change status from draft to new.
-      e.execute("UPDATE changes SET status = 'n' WHERE status = 'd'");
+      e.execute("UPDATE changes SET status = 'n', created_on = created_on WHERE status = 'd'");
     }
     ui.message("done");
   }

@@ -276,6 +276,7 @@
                 break;
               }
             }
+            Gerrit.Nav.navigateToChange(this.change);
           }).catch(err => {
             target.disabled = false;
             return;

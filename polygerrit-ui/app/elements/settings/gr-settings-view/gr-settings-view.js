@@ -102,6 +102,10 @@
         type: Boolean,
         value: false,
       },
+      _gpgKeysChanged: {
+        type: Boolean,
+        value: false,
+      },
       _newEmail: String,
       _addingEmail: {
         type: Boolean,
@@ -164,8 +168,14 @@
         this._serverConfig = config;
         const configPromises = [];
 
-        if (this._serverConfig.sshd) {
+        if (this._serverConfig && this._serverConfig.sshd) {
           configPromises.push(this.$.sshEditor.loadData());
+        }
+
+        if (this._serverConfig &&
+            this._serverConfig.receive &&
+            this._serverConfig.receive.enable_signed_push) {
+          configPromises.push(this.$.gpgEditor.loadData());
         }
 
         configPromises.push(

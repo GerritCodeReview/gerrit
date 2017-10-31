@@ -507,9 +507,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   private static String shortenSubject(String subject) {
     if (subject.length() < 73) {
       return subject;
-    } else {
-      return subject.substring(0, 69) + "...";
     }
+    return subject.substring(0, 69) + "...";
   }
 
   private Set<String> getEmailsByState(ReviewerStateInternal state) {

@@ -1823,6 +1823,28 @@
       return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
 
+    getAccountGPGKeys() {
+      return this._fetchSharedCacheURL('/accounts/self/gpgkeys');
+    },
+
+    addAccountGPGKey(key) {
+      return this.send('POST', '/accounts/self/gpgkeys', key)
+          .then(response => {
+            if (response.status < 200 && response.status >= 300) {
+              return Promise.reject();
+            }
+            return this.getResponseObject(response);
+          })
+          .then(obj => {
+            if (!obj) { return Promise.reject(); }
+            return obj;
+          });
+    },
+
+    deleteAccountGPGKey(id) {
+      return this.send('DELETE', '/accounts/self/gpgkeys/' + id);
+    },
+
     deleteVote(changeNum, account, label) {
       const e = `/reviewers/${account}/votes/${encodeURIComponent(label)}`;
       return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);

@@ -71,6 +71,9 @@ limitations under the License.
           <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
             SSH Keys
           </a></li>
+          <li hidden$="[[!_serverConfig.receive.enable_signed_push]]"><a href="#GPGKeys">
+            GPG Keys
+          </a></li>
           <li><a href="#Groups">Groups</a></li>
           <li><a href="#Identities">Identities</a></li>
           <template is="dom-if" if="[[_serverConfig.auth.use_contributor_agreements]]">
@@ -395,6 +398,14 @@ limitations under the License.
           <gr-ssh-editor
               id="sshEditor"
               has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
+        </div>
+        <div hidden$="[[!_serverConfig.receive.enable_signed_push]]">
+          <h2
+              id="GPGKeys"
+              class$="[[_computeHeaderClass(_gpgKeysChanged)]]">GPG keys</h2>
+          <gr-gpg-editor
+              id="gpgEditor"
+              has-unsaved-changes="{{_gpgKeysChanged}}"></gr-gpg-editor>
         </div>
         <h2 id="Groups">Groups</h2>
         <fieldset>

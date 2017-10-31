@@ -67,6 +67,7 @@ import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -89,9 +90,14 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.NullOutputStream;
@@ -741,6 +747,12 @@ public class NoteDbMigrator implements AutoCloseable {
     return ImmutableListMultimap.copyOf(out);
   }
 
+  private static ObjectInserter newPackInserter(Repository repo) {
+    return repo instanceof FileRepository
+        ? ((FileRepository) repo).getObjectDatabase().newPackInserter()
+        : repo.newObjectInserter();
+  }
+
   private boolean rebuildProject(
       ReviewDb db,
       ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
@@ -750,8 +762,26 @@ public class NoteDbMigrator implements AutoCloseable {
     ProgressMonitor pm =
         new TextProgressMonitor(
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
-    try (NoteDbUpdateManager manager =
-        updateManagerFactory.create(project).setSaveObjects(false).setAtomicRefUpdates(false)) {
+    try (Repository changeRepo = repoManager.openRepository(project);
+        ObjectInserter changeIns = newPackInserter(changeRepo);
+        ObjectReader changeReader = changeIns.newReader();
+        RevWalk changeRw = new RevWalk(changeReader);
+        NoteDbUpdateManager manager =
+            updateManagerFactory
+                .create(project)
+                .setSaveObjects(false)
+                .setAtomicRefUpdates(false)
+                // Only use a PackInserter for the change repo, not All-Users.
+                //
+                // It's not possible to share a single inserter for All-Users across all project
+                // tasks, and we don't want to add one pack per project to All-Users. Adding many
+                // loose objects is preferable to many packs.
+                //
+                // Anyway, the number of objects inserted into All-Users is proportional to the
+                // number of pending draft comments, which should not be high (relative to the total
+                // number of changes), so the number of loose objects shouldn't be too unreasonable.
+                .setChangeRepo(
+                    changeRepo, changeRw, changeIns, new ChainedReceiveCommands(changeRepo))) {
       Set<Change.Id> skipExecute = new HashSet<>();
       Collection<Change.Id> changes = allChanges.get(project);
       pm.beginTask(FormatUtil.elide("Rebuilding " + project.get(), 50), changes.size());
@@ -763,8 +793,6 @@ public class NoteDbMigrator implements AutoCloseable {
             staged = true;
           } catch (NoPatchSetsException e) {
             log.warn(e.getMessage());
-          } catch (RepositoryNotFoundException e) {
-            log.warn("Repository {} not found while rebuilding change {}", project, changeId);
           } catch (Throwable t) {
             log.error("Failed to rebuild change " + changeId, t);
             ok = false;
@@ -812,6 +840,10 @@ public class NoteDbMigrator implements AutoCloseable {
       } catch (OrmException | IOException e) {
         log.error("Failed to save NoteDb state for " + project, e);
       }
+    } catch (RepositoryNotFoundException e) {
+      log.warn("Repository {} not found", project);
+    } catch (IOException e) {
+      log.error("Failed to rebuild project " + project, e);
     }
     return ok;
   }

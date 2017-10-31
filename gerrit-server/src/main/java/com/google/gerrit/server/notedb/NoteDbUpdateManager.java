@@ -309,14 +309,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
-    changeRepo = new OpenRepo(repo, rw, ins, cmds, false, true);
+    changeRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
     return this;
   }
 
   public NoteDbUpdateManager setAllUsersRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(allUsersRepo == null, "All-Users repo already initialized");
-    allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false, true);
+    allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
     return this;
   }
 

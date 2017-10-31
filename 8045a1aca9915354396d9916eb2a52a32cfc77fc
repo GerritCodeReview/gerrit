@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d45f730_20796e91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-31T22:16:06Z",
+      "side": 1,
+      "message": "Try something like \"were being redirected\" instead, to be more explicit that you\u0027re referring to behavior that this commit is changing.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a49854d_effb690c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-31T22:16:06Z",
+      "side": 1,
+      "message": "This was confusing to me. A more concise way might be \"when presented with *any* query parameters.\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283c1a8a_cc5af43c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-31T22:16:06Z",
+      "side": 1,
+      "message": "Give the specific example instead of being vague. One query param we expect to see on any route is polygerrit\u003d1.",
+      "range": {
+        "startLine": 13,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f8e846_9bd9b5d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-10-31T22:16:06Z",
+      "side": 1,
+      "message": "You should point out that you\u0027re solving the problem of CGI parameters applicable to any route will make what should be user dashboards mistakenly render as custom dashboards. But we still have a bug with UI switcher round-tripping on custom dashboards, which would need to be fixed in a different way.",
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

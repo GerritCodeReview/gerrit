@@ -79,7 +79,7 @@ GWT_TRANSITIVE_DEPS = [
 ]
 
 DEPS = GWT_TRANSITIVE_DEPS + [
-    "//gerrit-gwtexpui:CSS",
+    "//java/com/google/gwtexpui/css",
     "//lib:gwtjsonrpc",
     "//lib/gwt:dev",
     "//lib/jgit/org.eclipse.jgit:jgit-source",
@@ -283,7 +283,7 @@ def gen_ui_module(name, suffix = ""):
     deps = [
       '//gerrit-gwtui-common:diffy_logo',
       '//gerrit-gwtui-common:client',
-      '//gerrit-gwtexpui:CSS',
+      '//java/com/google/gwtexpui/css',
       '//lib/codemirror:codemirror' + suffix,
       '//lib/gwt:user',
     ],

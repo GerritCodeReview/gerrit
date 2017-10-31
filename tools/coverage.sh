@@ -22,7 +22,7 @@ echo "Running 'bazel coverage'; this may take a while"
 
 # coverage is expensive to run; use --jobs=2 to avoid overloading the
 # machine.
-bazel coverage -k --jobs=${COVERAGE_CPUS:-2} -- ... -//gerrit-common:auto_value_tests
+bazel coverage -k --jobs=${COVERAGE_CPUS:-2} -- ... -//javatests/com/google/gerrit/common:auto_value_tests
 
 # The coverage data contains filenames relative to the Java root, and
 # genhtml has no logic to search these elsewhere. Workaround this

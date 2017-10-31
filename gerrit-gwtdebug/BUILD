@@ -3,10 +3,9 @@ java_library(
     srcs = glob(["src/main/java/**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
-        "//gerrit-pgm:daemon",
-        "//gerrit-pgm:pgm",
-        "//gerrit-pgm:util",
-        "//gerrit-util-cli:cli",
+        "//java/com/google/gerrit/pgm",
+        "//java/com/google/gerrit/pgm/util",
+        "//java/com/google/gerrit/util/cli",
         "//lib/gwt:dev",
         "//lib/jetty:server",
         "//lib/jetty:servlet",

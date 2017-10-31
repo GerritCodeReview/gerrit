@@ -32,6 +32,36 @@ limitations under the License.
 </test-fixture>
 
 <script>
+suite('not logged in', () => {
+  let sandbox;
+  let navStub;
+  let prefsStub;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    prefsStub = sandbox.stub();
+    navStub = sandbox.stub();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      getEditPrefs() { prefsStub(); },
+    });
+
+    stub('gr-navigation', {
+      _navigate() { navStub(); },
+    }),
+
+    fixture('basic');
+    flushAsynchronousOperations();
+  });
+
+  teardown(() => { sandbox.restore(); });
+
+  test('navs to change', () => {
+    assert.isTrue(navStub.called);
+    assert.isFalse(prefsStub.called);
+  });
+});
+
 suite('gr-editor-view tests', () => {
   let element;
   let sandbox;
@@ -47,6 +77,7 @@ suite('gr-editor-view tests', () => {
   setup(() => {
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
+      getEditPrefs() { return Promise.resolve({}); },
     });
     sandbox = sinon.sandbox.create();
     element = fixture('basic');

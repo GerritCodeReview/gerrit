@@ -44,6 +44,7 @@
         value: true,
         computed: '_computeSaveDisabled(_content, _newContent)',
       },
+      _prefs: Object,
     },
 
     behaviors: [
@@ -53,11 +54,22 @@
     ],
 
     attached() {
-      this._getLoggedIn().then(loggedIn => { this._loggedIn = loggedIn; });
+      this._getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          this._viewChange();
+          return;
+        }
+        this._loggedIn = loggedIn;
+        this._getEditPrefs().then(prefs => { this._prefs = prefs; });
+      });
     },
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
+    },
+
+    _getEditPrefs() {
+      return this.$.restAPI.getEditPrefs();
     },
 
     _paramsChanged(value) {
@@ -103,6 +115,10 @@
 
     _viewEditInChangeView() {
       Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
+    },
+
+    _viewChange() {
+      Gerrit.Nav.navigateToChange(this._change);
     },
 
     _getFileContent(changeNum, path) {

@@ -193,6 +193,24 @@
       "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e93b0151_1b5672e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T18:02:12Z",
+      "side": 1,
+      "message": "Can you please clarify?\n\nI don\u0027t want it to seem like I\u0027m dishonestly selling this change as a more general fix than it is, so I\u0027m definitely happy to change/add the wording here.\n\nAre you asking for additional notes to this effect being added to the commit message? Or do you mean this to explain the notes you added in PS4?",
+      "parentUuid": "f0dfbac0_48b8d1ed",
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

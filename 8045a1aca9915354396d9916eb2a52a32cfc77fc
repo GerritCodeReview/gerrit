@@ -211,6 +211,24 @@
       "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc8ae567_ceb1443c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-01T20:12:32Z",
+      "side": 1,
+      "message": "I was asking for additional notes in the commit message, and then went ahead and added them myself. :)",
+      "parentUuid": "e93b0151_1b5672e6",
+      "revId": "8045a1aca9915354396d9916eb2a52a32cfc77fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

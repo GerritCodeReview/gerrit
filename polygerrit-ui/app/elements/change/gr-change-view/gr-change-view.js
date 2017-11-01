@@ -1006,12 +1006,6 @@
           });
     },
 
-    _getComments() {
-      return this.$.restAPI.getDiffComments(this._changeNum).then(comments => {
-        this._comments = comments;
-      });
-    },
-
     _getEdit() {
       return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
@@ -1051,12 +1045,9 @@
           });
     },
 
-    _reloadDiffDrafts() {
-      this._diffDrafts = {};
-      this._getDiffDrafts().then(() => {
-        if (this.$.replyOverlay.opened) {
-          this.async(() => { this.$.replyOverlay.center(); }, 1);
-        }
+    _reloadComments(e) {
+      this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+        this._commentBundle = this.$.commentAPI._commentBundle;
       });
     },
 
@@ -1064,17 +1055,11 @@
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
-      this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return; }
-
-        this._reloadDiffDrafts();
-      });
-
       const detailCompletes = this._getChangeDetail().then(() => {
         this._loading = false;
         this._getProjectConfig();
       });
-      this._getComments();
+      this._reloadComments();
 
       if (this._patchRange.patchNum) {
         return Promise.all([

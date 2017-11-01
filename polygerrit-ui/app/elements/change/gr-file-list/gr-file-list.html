@@ -267,17 +267,17 @@ limitations under the License.
           </span>
           <div class="comments desktop">
             <span class="drafts">
-              [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]
+              [[_computeDraftsString(commentBundle.drafts, patchRange.patchNum, file.__path)]]
             </span>
-            [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
-            [[_computeUnresolvedString(comments, drafts, patchRange.patchNum, file.__path)]]
+            [[_computeCommentsString(commentBundle.comments, patchRange.patchNum, file.__path)]]
+            [[_computeUnresolvedString(commentBundle.comments, commentBundle.drafts, patchRange.patchNum, file.__path)]]
           </div>
           <div class="comments mobile">
             <span class="drafts">
-              [[_computeDraftsStringMobile(drafts, patchRange.patchNum,
+              [[_computeDraftsStringMobile(commentBundle.drafts, patchRange.patchNum,
                   file.__path)]]
             </span>
-            [[_computeCommentsStringMobile(comments, patchRange.patchNum,
+            [[_computeCommentsStringMobile(commentBundle.comments, patchRange.patchNum,
                 file.__path)]]
           </div>
           <div class$="[[_computeClass('stats', file.__path)]]">

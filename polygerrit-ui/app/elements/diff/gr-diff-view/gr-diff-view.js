@@ -750,9 +750,10 @@
 
     _loadComments() {
       return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
+        const changeComments = this.$.commentAPI._changeComments;
+        this._commentMap = changeComments.getPaths(this._patchRange);
 
-        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
+        this._commentsForDiff = changeComments.getCommentsForPath(this._path,
             this._patchRange, this._projectConfig);
       });
     },

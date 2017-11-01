@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509560923 -0400\nnonce AMT3iFiqYBTMrsJKA2+zGLGDr0lPN8kMU44W7UeE18SvVppzBg13K2Dfg9UXN0ryV/ECZD9FZaZE\n\n0000000000000000000000000000000000000000 145788e6349b730e88a0e68cda3d05c82fe47a66 refs/for/stable-2.15%topic\u003dnotedb-pack-inserter,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAln6ElsVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMZXwQANTfXgAvHtL644JD+qErc4IydT94\nDs28Z/Alfl2o/2PqWMzhkRju+UIWaLFr34ohJnO/wnTt5M0otC4ydGWhePgEZ5I2\nhVNJ89V4S2c3SssliQ4IBnb2rLrxOoCeoD24xmqJFLTY2LlXC41kKwtu42Bd+yRO\nqgfjBPr5dFURLSlVF4YrGLdJ/q0HtKf0kvr8t5tXF+zzBLAbVPILT+ohCSC6kSDn\ndpaiBk+1w9XUTRTtUObJGx77xTqlqDIVGSdoH+XsSsubO2SMhaIuZYOp7CLOqFRB\nJRgnU5yOO77DpxdosjqtcVbMpBDeNjWLUM29H6GLQvkEsueZ3UkJG+SH7s9B6KLC\nXOmUegM8mk2bz0/cUm9ICFz/UhX7CGNxrP1I3zvZHNUQLu13qLvCa/Y2teAMwgHV\n7UWAwcTAb072zfmjejpz/6QdTUadl8WGUExPqGeH+VYyvw4I6hJt7dxhOJUAk10W\n1W60584icZgd6HLN+FV79iCjdKgajX0dqC+PsY6aJvhPCPTrD+DqoqMD6mXJNb3z\nKndtUKQe/tYqkULwiWis3UIcWLQy7B5YGjbxeg29DNsN5VpbnVDJXiJifOB4S8FU\nOHL98SHCUDysL8hD9fmqLEEiggCLuVnQWT+/+T0bwPH4OpZkV4D/TXcpsRTLnEw6\ns0gE4yGkq9syOCSD\n\u003d5pCP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c2cd7fe_24552632",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/update/RefUpdateUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-01T23:20:26Z",
+      "side": 1,
+      "message": "Do we still need to include this in the exception message?",
+      "range": {
+        "startLine": 77,
+        "startChar": 83,
+        "endLine": 77,
+        "endChar": 92
+      },
+      "revId": "528b4d257b4f017ef003e92cba0b2fa53278304a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

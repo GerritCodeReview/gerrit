@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12ab0d36_511b98f4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-01T23:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63945010_d3a08ede",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e25619d_3514d58d",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3eedd7d9_74f9f6a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-01T23:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e25619d_3514d58d",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 25
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b021b9b_670aa514",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aaace96_7fe863bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-01T23:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b021b9b_670aa514",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

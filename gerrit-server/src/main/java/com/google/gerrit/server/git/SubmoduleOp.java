@@ -559,6 +559,7 @@ public class SubmoduleOp {
     msgbuf.append(" from branch '");
     msgbuf.append(s.getSubmodule().getShortName());
     msgbuf.append("'");
+    msgbuf.append("\n  to " + newCommit.getName());
 
     // newly created submodule gitlink, do not append whole history
     if (oldCommit == null) {

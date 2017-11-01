@@ -244,7 +244,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'");
+            + " from branch 'master'\n  to " + subHEAD.getName());
 
     // The next commit should generate only its commit message,
     // omitting previous commit logs
@@ -256,7 +256,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'"
+            + " from branch 'master'\n  to " + subHEAD.getName()
             + "\n  - "
             + subCommitMsg.getShortMessage());
   }
@@ -280,7 +280,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'");
+            + " from branch 'master'\n  to " + subHEAD.getName());
 
     // The next commit should generate only its commit message,
     // omitting previous commit logs
@@ -292,7 +292,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'"
+            + " from branch 'master'\n  to " + subHEAD.getName()
             + "\n  - "
             + subCommitMsg.getFullMessage().replace("\n", "\n    "));
   }

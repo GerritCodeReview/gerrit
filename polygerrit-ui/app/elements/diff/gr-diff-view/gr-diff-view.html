@@ -148,10 +148,12 @@ limitations under the License.
         overflow: auto;
       }
       #trigger {
-        -moz-user-select: text;
-        -ms-user-select: text;
-        -webkit-user-select: text;
-        user-select: text;
+        --gr-button: {
+          -moz-user-select: text;
+          -ms-user-select: text;
+          -webkit-user-select: text;
+          user-select: text;
+        }
       }
       .editLoaded .hideOnEdit {
         display: none;

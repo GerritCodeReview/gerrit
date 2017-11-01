@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63945010_d3a08ede",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T21:32:51Z",
+      "side": 1,
+      "message": "I know I came up with the term originally, but \u0027bundle\u0027 is so generic. Any class object or struct is arguably a \"bundle\".\n\nWhat about ..\n\n ChangeComments\n\n.. ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 11,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e25619d_3514d58d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T21:32:51Z",
+      "side": 1,
+      "message": "To reinforce immutability, IMO these should be private. If the list itself is needed, it can use a getter.",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 25
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b021b9b_670aa514",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T21:32:51Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a public method of the comment bundle thingy.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "7fdc92889564fc1a9f3933e47b8bf484f9c22afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

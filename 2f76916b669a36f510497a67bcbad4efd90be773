@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1a5e3a_60b6000f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T21:32:51Z",
+      "side": 0,
+      "message": "What if the handler for the reload-comments event called a function that appears on the detail when finished? Then, instead of\n\n return this.$.commentAPI.loadAll(this.changeNum)\n    .then(() \u003d\u003e { /* ... */\n\nthis could be\n\nreturn (new Promise(resolve \u003d\u003e {\n        this.fire(\u0027reload-comments\u0027, resolve);\n    }))\n    .then(() \u003d\u003e { /* ... */\n\nIt\u0027s still sort of hacky, but is it less hacky? Is it acceptably hacky? At least with a callback on the event, this can be documented in the event JSDoc.",
+      "range": {
+        "startLine": 878,
+        "startChar": 6,
+        "endLine": 878,
+        "endChar": 54
+      },
+      "revId": "2f76916b669a36f510497a67bcbad4efd90be773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

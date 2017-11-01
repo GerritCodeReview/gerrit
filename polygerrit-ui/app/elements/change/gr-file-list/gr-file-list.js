@@ -432,6 +432,9 @@
     },
 
     _getFiles() {
+      if (this.editLoaded) {
+        return this.$.restAPI.getFileListInChangeEdit(this.changeNum);
+      }
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
           this.changeNum, this.patchRange);
     },

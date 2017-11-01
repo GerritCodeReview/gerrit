@@ -959,6 +959,25 @@
       return files;
     },
 
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
+    _normalizeChangeEditFilesResponse(response) {
+      if (!response) { return []; }
+      const paths = Object.keys(response.files).sort(this.specialFilePathCompare);
+      const files = [];
+      for (let i = 0; i < paths.length; i++) {
+        const info = response.files[paths[i]];
+        info.__path = paths[i];
+        info.lines_inserted = info.lines_inserted || 0;
+        info.lines_deleted = info.lines_deleted || 0;
+        files.push(info);
+      }
+      return files;
+    },
+
     getChangeRevisionActions(changeNum, patchNum) {
       return this._getChangeURLAndFetch(changeNum, '/actions', patchNum)
           .then(revisionActions => {
@@ -1287,6 +1306,14 @@
             if (!res.ok) { return res; }
             return this.getResponseObject(res);
           });
+    },
+
+    getFileListInChangeEdit(changeNum) {
+      const e = '/edit/'
+      const headers = {Accept: 'application/json'};
+      return this.getChangeURLAndSend(
+          changeNum, 'GET', null, e, null, null, null, null, headers).then(
+            this._normalizeChangeEditFilesResponse.bind(this));
     },
 
     rebaseChangeEdit(changeNum) {

@@ -162,6 +162,8 @@
      * @param {!Event} e
      */
     _showDropdownTapHandler(e) {
+      e.preventDefault();
+      e.stopPropagation();
       this._open();
     },
 

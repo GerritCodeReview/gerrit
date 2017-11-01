@@ -37,11 +37,15 @@
       },
     },
 
-    _handleEditTap() {
+    _handleEditTap(e) {
+      e.preventDefault();
+      e.stopPropagation();
       this._dispatchFileAction(GrEditConstants.Actions.EDIT.id, this.filePath);
     },
 
     _handleActionTap(e) {
+      e.preventDefault();
+      e.stopPropagation();
       this._dispatchFileAction(e.detail.id, this.filePath);
     },
 

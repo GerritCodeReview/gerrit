@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4573ff48_c5c00aa8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-01T23:42:18Z",
+      "side": 1,
+      "message": "Is the this.url needed?\n\nWhat about just url?\n\nUsing this.url is breaking a plugin the  chromium project uses..\n\nAs it is adding the plugin path to the url.",
+      "range": {
+        "startLine": 156,
+        "startChar": 24,
+        "endLine": 156,
+        "endChar": 37
+      },
+      "revId": "e5a2f5c5cd0ff760ebed996c8fca16c38e7c2716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

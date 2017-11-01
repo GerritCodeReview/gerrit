@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f1dc0166_65617007",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-01T00:30:57Z",
+      "side": 1,
+      "message": "Looks like this is causing issue 7622 which is trying to reload the actions for a change using the wrong patch number. (i.e. the case where the changeNum has been updated but the patchNum has not, because it\u0027s determined from the change object.)\n\nYour answer to Kasper\u0027s question doesn\u0027t clarify this for me. In what way does the fact that plugin actions come from `_getRevisionActions` make it necessary to reload the element?",
+      "parentUuid": "42c1b6d6_ea39ca06",
+      "range": {
+        "startLine": 361,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 0
+      },
+      "revId": "441b75a6c214e63bba71e8d14390efd5ca4df307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7dfda4ff_072d6d0f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3

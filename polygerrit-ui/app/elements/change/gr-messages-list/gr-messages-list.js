@@ -35,7 +35,7 @@
         type: Array,
         value() { return []; },
       },
-      comments: Object,
+      changeComments: Object,
       projectName: String,
       showReplyButtons: {
         type: Boolean,
@@ -211,7 +211,8 @@
      * @param {!Object} message
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
-    _computeCommentsForMessage(comments, message) {
+    _computeCommentsForMessage(changeComments, message) {
+      const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];
       }

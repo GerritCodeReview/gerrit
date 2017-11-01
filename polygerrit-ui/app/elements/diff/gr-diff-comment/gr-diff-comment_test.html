@@ -351,7 +351,7 @@ limitations under the License.
 
       element.editing = true;
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
-      assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
+      assert.isFalse(isVisible(element.$$('.discard')), 'discard not visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');

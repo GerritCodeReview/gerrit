@@ -39,6 +39,8 @@
 
   const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
 
+  const TRAILING_WHITESPACE_REGEX = /\s+$/;
+
   Polymer({
     is: 'gr-change-view',
 
@@ -305,7 +307,10 @@
     },
 
     _handleCommitMessageSave(e) {
-      const message = e.detail.content;
+      // Trim trailing whitespace from each line.
+      const message = e.detail.content.split('\n')
+          .map(line => line.replace(TRAILING_WHITESPACE_REGEX, ''))
+          .join('\n');
 
       this.$.jsAPI.handleCommitMessage(this._change, message);
 

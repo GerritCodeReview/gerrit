@@ -118,7 +118,8 @@ public class LogFileCompressor implements Runnable {
     return name.endsWith("_log")
         || name.endsWith(".log")
         || name.endsWith(".run")
-        || name.endsWith(".pid");
+        || name.endsWith(".pid")
+        || name.endsWith(".json");
   }
 
   private boolean isCompressed(Path entry) {

@@ -244,7 +244,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'");
+            + " from branch 'master'\n  to " + subHEAD.getName());
 
     // The next commit should generate only its commit message,
     // omitting previous commit logs
@@ -256,7 +256,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'"
+            + " from branch 'master'\n  to " + subHEAD.getName()
             + "\n  - "
             + subCommitMsg.getShortMessage());
   }
@@ -280,7 +280,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'");
+            + " from branch 'master'\n  to " + subHEAD.getName());
 
     // The next commit should generate only its commit message,
     // omitting previous commit logs
@@ -292,7 +292,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "Update git submodules\n\n"
             + "* Update "
             + name("subscribed-to-project")
-            + " from branch 'master'"
+            + " from branch 'master'\n  to " + subHEAD.getName()
             + "\n  - "
             + subCommitMsg.getFullMessage().replace("\n", "\n    "));
   }
@@ -510,7 +510,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
-  @GerritConfig(name = "submodule.maxCombinedCommitMessageSize", value = "175")
+  @GerritConfig(name = "submodule.maxCombinedCommitMessageSize", value = "220")
   public void submoduleSubjectCommitMessageSizeLimit() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isFalse();
     testSubmoduleSubjectCommitMessageAndExpectTruncation();
@@ -535,7 +535,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         superRepo,
         "master",
         String.format(
-            "Update git submodules\n\n* Update %s from branch 'master'\n  - %s\n\n[...]",
-            name("subscribed-to-project"), subCommitMsg.getShortMessage()));
+            "Update git submodules\n\n* Update %s from branch 'master'\n  to %s\n  - %s\n\n[...]",
+            name("subscribed-to-project"), subHEAD.getName(), subCommitMsg.getShortMessage()));
   }
 }

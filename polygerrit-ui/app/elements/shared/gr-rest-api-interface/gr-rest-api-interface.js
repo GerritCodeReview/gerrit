@@ -915,6 +915,18 @@
 
     /**
      * @param {number|string} changeNum
+     * @param {!Promise<?Object>} patchRange
+     */
+    getChangeEditFiles(changeNum, patchRange) {
+      let endpoint = '/edit?list';
+      if (patchRange.basePatchNum !== 'PARENT') {
+        endpoint += '&base=' + encodeURIComponent(patchRange.basePatchNum);
+      }
+      return this._getChangeURLAndFetch(changeNum, endpoint);
+    },
+
+    /**
+     * @param {number|string} changeNum
      * @param {number|string} patchNum
      * @param {string} query
      * @return {!Promise<!Object>}
@@ -927,6 +939,11 @@
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    getChangeEditFilesAsSpeciallySortedArray(changeNum, patchRange) {
+      return this.getChangeEditFiles(changeNum, patchRange).then(
+          this._normalizeChangeEditFilesResponse.bind(this));
     },
 
     /**
@@ -951,6 +968,26 @@
       const files = [];
       for (let i = 0; i < paths.length; i++) {
         const info = response[paths[i]];
+        info.__path = paths[i];
+        info.lines_inserted = info.lines_inserted || 0;
+        info.lines_deleted = info.lines_deleted || 0;
+        files.push(info);
+      }
+      return files;
+    },
+
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
+    _normalizeChangeEditFilesResponse(response) {
+      console.log(response);
+      if (!response.files) { return []; }
+      const paths = Object.keys(response.files).sort(this.specialFilePathCompare);
+      const files = [];
+      for (let i = 0; i < paths.length; i++) {
+        const info = response.files[paths[i]];
         info.__path = paths[i];
         info.lines_inserted = info.lines_inserted || 0;
         info.lines_deleted = info.lines_deleted || 0;

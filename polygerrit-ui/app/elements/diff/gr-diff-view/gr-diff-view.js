@@ -750,9 +750,10 @@
 
     _loadComments() {
       return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
+        const commentBundle = this.$.commentAPI._commentBundle;
+        this._commentMap = commentBundle.getPaths(this._patchRange);
 
-        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
+        this._commentsForDiff = commentBundle.getCommentsForPath(this._path,
             this._patchRange, this._projectConfig);
       });
     },

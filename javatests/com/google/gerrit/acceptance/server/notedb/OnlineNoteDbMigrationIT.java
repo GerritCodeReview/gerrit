@@ -59,8 +59,17 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -373,10 +382,14 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     Change.Id id1 = r1.getChange().getId();
     Change.Id id2 = r2.getChange().getId();
 
-    migrate(b -> b.setThreads(threads));
-    assertNotesMigrationState(NOTE_DB, false, false);
+    Set<String> objectFiles = getObjectFiles(project);
+    assertThat(objectFiles).isNotEmpty();
 
+    migrate(b -> b.setThreads(threads));
+
+    assertNotesMigrationState(NOTE_DB, false, false);
     assertThat(sequences.nextChangeId()).isEqualTo(503);
+    assertThat(getObjectFiles(project)).containsExactlyElementsIn(objectFiles);
 
     ObjectId oldMetaId = null;
     int rowVersion = 0;
@@ -530,5 +543,24 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   private void addListener(NotesMigrationStateListener listener) {
     addedListeners.add(listeners.add(listener));
+  }
+
+  private SortedSet<String> getObjectFiles(Project.NameKey project) throws Exception {
+    SortedSet<String> files = new TreeSet<>();
+    try (Repository repo = repoManager.openRepository(project)) {
+      Files.walkFileTree(
+          ((FileRepository) repo).getObjectDatabase().getDirectory().toPath(),
+          new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+              String name = file.getFileName().toString();
+              if (!attrs.isDirectory() && !name.endsWith(".pack") && !name.endsWith(".idx")) {
+                files.add(name);
+              }
+              return FileVisitResult.CONTINUE;
+            }
+          });
+    }
+    return files;
   }
 }

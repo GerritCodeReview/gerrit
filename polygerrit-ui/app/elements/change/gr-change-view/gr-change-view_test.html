@@ -56,6 +56,7 @@ limitations under the License.
         _fetchSharedCacheURL() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
     });
 
     teardown(done => {
@@ -218,8 +219,6 @@ limitations under the License.
               labels: {},
               actions: {},
             };
-
-            sandbox.stub(element.$.actions, 'reload');
 
             navigateToChangeStub.restore();
             navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',

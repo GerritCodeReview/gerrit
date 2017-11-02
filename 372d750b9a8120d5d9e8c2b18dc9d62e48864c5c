@@ -46,6 +46,30 @@
       "revId": "372d750b9a8120d5d9e8c2b18dc9d62e48864c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2d228db_1db77ac8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-02T00:51:38Z",
+      "side": 1,
+      "message": "The old site will remain; this commit only removes the sources that we\u0027re not going to touch any more.\n\nThere is a link from the homepage releases index [1] back to the old site.\n\nWhen I migrated release notes to the homepage I only did it as far back as 2.12 because I didn\u0027t have time to do older ones and I didn\u0027t think it was worth the effort.  If you want to work on that, go ahead, but I don\u0027t consider it high priority.\n\n\n[1] https://www.gerritcodereview.com/releases/README.md#gerrit-code-review-releases",
+      "parentUuid": "46ef8492_33bd78aa",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "372d750b9a8120d5d9e8c2b18dc9d62e48864c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

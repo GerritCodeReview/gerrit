@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
@@ -29,6 +30,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -43,6 +46,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -69,6 +73,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -99,18 +104,21 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final ListeningExecutorService executor;
 
   @Inject
   ElasticChangeIndex(
       @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
+      @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       SitePaths sitePaths,
       JestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.executor = executor;
     mapping = new ChangeMapping(schema);
   }
 
@@ -175,6 +183,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   @Override
   protected String getId(ChangeData cd) {
     return cd.getId().toString();
+  }
+
+  @Override
+  public void stop() {
+    MoreExecutors.shutdownAndAwaitTermination(executor, Long.MAX_VALUE, TimeUnit.SECONDS);
   }
 
   private class QuerySource implements ChangeDataSource {

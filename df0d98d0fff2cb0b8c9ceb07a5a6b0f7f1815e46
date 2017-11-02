@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "3aa29196_5eb4ec5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-02T19:37:45Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b566db8f_c1e446b1",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c73d394d_0a0878e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -84,6 +102,24 @@
       "writtenOn": "2017-11-02T16:31:07Z",
       "side": 1,
       "message": "Where are your tests?\n\nEvery time you add a new codepath, you should test it.",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0729242_7c44d24e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-02T19:37:45Z",
+      "side": 1,
+      "message": "Im not sure how to do it for this one as getChangeFiles is not here either so not sure how to do it for edit\u0027s.",
+      "parentUuid": "c73d394d_0a0878e2",
       "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

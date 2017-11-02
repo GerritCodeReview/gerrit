@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1509636598 +0100\nnonce AMT3iFgj3NUboWSmY4LCfxAlhMtXR4VRAJzTyXUcMLDmVFjuVj7FUunzXEGSXMS2p/q7e+vk4DqF\n\n0000000000000000000000000000000000000000 892eefa83d7ac0f2799f009a371838520866d10b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ+zn2AAoJEHFVO370GiZWlDMIAKshqvuwY1Ntuu9R8TZn8LJ8\nmMFkwgVNE50kWflWPE0tcqwIlH9XXz6a2hoJPM+0W89m5hTx+YmnfDZVmyXG7MrD\nUbFZ9jGEd0ATlseslBvjZfd4lx8L0iv5Ue0e3J+OXAypS8gEnIRA706jAXMTzoao\nIDAxkl2nlEXNfAG/6pf1I9khiOvnlVFtbpSwRR6aw9lhd1ZuXamgE0JYzN86B/uc\nW5jcbLkiGhKQhB6Q7448rNyooiI6Z5Zu+3oyh5PMBfgNIkChTZdX7TXaJ5e6ttuw\nwVO8z9h9wLkp+a26P7P4AN5kqfRS/ux9DBh/p0qvzMgFNGYo6Nbj4MXBFSu83y8\u003d\n\u003dB8Cv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3841e52_e7090fb0",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-02T19:48:23Z",
+      "side": 1,
+      "message": "As a practical matter, you could address the issue with our multi-tenant setup by wrapping this in \"if (batchExecutor !\u003d null)\". Maybe it is also worth documenting and/or renaming the batchExecutor field to make it clearer that if we passed and executor into the constructor then its lifecycle should not be managed by this module.",
+      "revId": "892eefa83d7ac0f2799f009a371838520866d10b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

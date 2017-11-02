@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "411b1dcd_1f2e0de9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-02T17:01:42Z",
+      "side": 1,
+      "message": "_getFiles has two cases in it, right? That\u0027s testable behavior.",
+      "parentUuid": "183a3cd3_15841145",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c73d394d_0a0878e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4

@@ -323,7 +323,7 @@
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
           'editLoaded, editBasedOnCurrentPatchSet, change)',
-      '_changeOrPatchNumChanged(changeNum, patchNum)',
+      '_changeChanged(change)',
     ],
 
     listeners: {
@@ -354,7 +354,7 @@
       });
     },
 
-    _changeOrPatchNumChanged() {
+    _changeChanged() {
       this.reload();
     },
 

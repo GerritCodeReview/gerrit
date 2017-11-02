@@ -22,6 +22,30 @@
       "revId": "4da8badf01bfa26b436349e32d5dbaaa22d12669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffa433bd_59e1fa90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-02T07:07:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter how it\u0027s cased in the PG UI.  The css forces it to all upper case anyway.\n\n(And if we do fix that, it should be in a separate change).",
+      "parentUuid": "e1b4ef47_bd8cefd5",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "4da8badf01bfa26b436349e32d5dbaaa22d12669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

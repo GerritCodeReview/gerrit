@@ -1171,6 +1171,14 @@ limitations under the License.
       assert.isTrue(handler.called);
     });
 
+    test('changing changeNum or patchNum does not reload', () => {
+      const reloadStub = sandbox.stub(element, 'reload');
+      element.changeNum = 123;
+      assert.isFalse(reloadStub.called);
+      element.patchNum = 456;
+      assert.isFalse(reloadStub.called);
+    });
+
     suite('setActionOverflow', () => {
       test('move action from overflow', () => {
         assert.isNotOk(element.$$('[data-action-key="cherrypick"]'));

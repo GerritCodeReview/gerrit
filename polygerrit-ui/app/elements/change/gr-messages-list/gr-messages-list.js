@@ -35,7 +35,7 @@
         type: Array,
         value() { return []; },
       },
-      comments: Object,
+      changeComments: Object,
       projectName: String,
       showReplyButtons: {
         type: Boolean,
@@ -207,11 +207,14 @@
      * Computes message author's file comments for change's message.
      * Method uses this.messages to find next message and relies on messages
      * to be sorted by date field descending.
-     * @param {!Object} comments Hash of arrays of comments, filename as key.
+     * @param {!Object} changeComments changeComment object, which includes
+     *     a method to get all published comments (including robot comments),
+     *     which returns a Hash of arrays of comments, filename as key.
      * @param {!Object} message
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
-    _computeCommentsForMessage(comments, message) {
+    _computeCommentsForMessage(changeComments, message) {
+      const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];
       }

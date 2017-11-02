@@ -21,7 +21,6 @@ limitations under the License.
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
@@ -267,17 +266,17 @@ limitations under the License.
           </span>
           <div class="comments desktop">
             <span class="drafts">
-              [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]
+              [[_computeDraftsString(changeComments.drafts, patchRange.patchNum, file.__path)]]
             </span>
-            [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
-            [[_computeUnresolvedString(comments, drafts, patchRange.patchNum, file.__path)]]
+            [[_computeCommentsString(changeComments.comments, patchRange.patchNum, file.__path)]]
+            [[_computeUnresolvedString(changeComments.comments, changeComments.drafts, patchRange.patchNum, file.__path)]]
           </div>
           <div class="comments mobile">
             <span class="drafts">
-              [[_computeDraftsStringMobile(drafts, patchRange.patchNum,
+              [[_computeDraftsStringMobile(changeComments.drafts, patchRange.patchNum,
                   file.__path)]]
             </span>
-            [[_computeCommentsStringMobile(comments, patchRange.patchNum,
+            [[_computeCommentsStringMobile(changeComments.comments, patchRange.patchNum,
                 file.__path)]]
           </div>
           <div class$="[[_computeClass('stats', file.__path)]]">
@@ -402,7 +401,6 @@ limitations under the License.
         focus-on-move
         cursor-target-class="selected"></gr-cursor-manager>
     <gr-reporting id="reporting"></gr-reporting>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

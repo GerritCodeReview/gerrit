@@ -20,10 +20,17 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "elasticsearch_tests",
+ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i in [
+    "account",
+    "change",
+    "group",
+    "project",
+]}
+
+[junit_tests(
+    name = "elasticsearch_%ss_test" % name,
     size = "large",
-    srcs = glob(["**/*Test.java"]),
+    srcs = [src],
     tags = [
         "elastic",
     ],
@@ -33,9 +40,9 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//javatests/com/google/gerrit/server:query_tests_code",
+        "//javatests/com/google/gerrit/server:abstract_query_tests",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
     ],
-)
+) for name, src in ELASTICSEARCH_TESTS.items()]

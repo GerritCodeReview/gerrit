@@ -81,14 +81,21 @@ junit_tests(
     ],
 )
 
-QUERY_TESTS = glob(
-    ["query/**/*.java"],
+ABSTRACT_QUERY_TESTS = glob(
+    ["query/**/AbstractQuery*Test.java"],
 )
+
+LUCENE_QUERY_TESTS = {i: "query/" + i + "/LuceneQuery" + i.capitalize() + "sTest.java" for i in [
+    "account",
+    "change",
+    "group",
+    "project",
+]}
 
 java_library(
-    name = "query_tests_code",
+    name = "abstract_query_tests",
     testonly = 1,
-    srcs = QUERY_TESTS,
+    srcs = ABSTRACT_QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         "//java/com/google/gerrit/testing:gerrit-test-util",
@@ -96,23 +103,23 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "query_tests",
+[junit_tests(
+    name = "lucene_query_%ss_test" % name,
     size = "large",
-    srcs = QUERY_TESTS,
+    srcs = [src],
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        ":abstract_query_tests",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//prolog:gerrit-prolog-common",
     ],
-)
+) for name, src in LUCENE_QUERY_TESTS.items()]
 
 junit_tests(
     name = "server_tests",
     size = "large",
     srcs = glob(
         ["**/*.java"],
-        exclude = CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
+        exclude = CUSTOM_TRUTH_SUBJECTS + PROLOG_TESTS + PROLOG_TEST_CASE + ABSTRACT_QUERY_TESTS + LUCENE_QUERY_TESTS.values(),
     ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],

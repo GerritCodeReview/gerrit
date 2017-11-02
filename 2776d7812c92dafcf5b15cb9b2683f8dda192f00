@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92f66c99_725bad85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-02T17:50:09Z",
+      "side": 1,
+      "message": "For the sake of doing as minimal change as possible on stable branches, since the bug in 21.0 is fixed in 22.0, shouldn\u0027t we upgrade to 22.0?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "2776d7812c92dafcf5b15cb9b2683f8dda192f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

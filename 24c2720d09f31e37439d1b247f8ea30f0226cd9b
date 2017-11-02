@@ -17,6 +17,24 @@
       "revId": "24c2720d09f31e37439d1b247f8ea30f0226cd9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb3e410_a7e8454d",
+        "filename": "java/com/google/gerrit/index/IndexCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-02T13:59:48Z",
+      "side": 1,
+      "message": "Looks like initially we only called close() [1], then stop() was added but only for the write indexes [2]. I think this was just an oversight?\nLooking at the commit message of [2] makes me think that this should maybe be cherry-picked back to the stable branches.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/47325/9/gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/93479/2/gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+      "parentUuid": "63504cab_70ab71c9",
+      "revId": "24c2720d09f31e37439d1b247f8ea30f0226cd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

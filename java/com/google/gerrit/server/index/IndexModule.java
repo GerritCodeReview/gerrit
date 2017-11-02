@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.SchemaDefinitions;
@@ -58,6 +59,8 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -123,6 +126,8 @@ public class IndexModule extends LifecycleModule {
     bind(ProjectIndexCollection.class);
     listener().to(ProjectIndexCollection.class);
     factory(ProjectIndexerImpl.Factory.class);
+
+    listener().to(ShutdownBatchIndexExecutor.class);
 
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
   }
@@ -207,5 +212,23 @@ public class IndexModule extends LifecycleModule {
       threads = Runtime.getRuntime().availableProcessors();
     }
     return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch"));
+  }
+
+  @Singleton
+  private static class ShutdownBatchIndexExecutor implements LifecycleListener {
+    private final ListeningExecutorService executor;
+
+    @Inject
+    ShutdownBatchIndexExecutor(@IndexExecutor(BATCH) ListeningExecutorService executor) {
+      this.executor = executor;
+    }
+
+    @Override
+    public void start() {}
+
+    @Override
+    public void stop() {
+      MoreExecutors.shutdownAndAwaitTermination(executor, Long.MAX_VALUE, TimeUnit.SECONDS);
+    }
   }
 }

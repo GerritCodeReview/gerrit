@@ -39,6 +39,24 @@
       "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13af1485_90486c0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-02T19:08:51Z",
+      "side": 1,
+      "message": "Mostly because that wasn\u0027t in the bug report. Do you think we should add it?",
+      "parentUuid": "f4e9c93c_a0b80383",
+      "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

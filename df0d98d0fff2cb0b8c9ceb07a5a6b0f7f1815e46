@@ -170,6 +170,30 @@
       "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e7140c_c6c158a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-02T22:52:28Z",
+      "side": 1,
+      "message": "Ah woops, sorry forgot to say  i\u0027ve done this heh :).",
+      "parentUuid": "0747c679_e8ebfa2d",
+      "range": {
+        "startLine": 990,
+        "startChar": 8,
+        "endLine": 990,
+        "endChar": 46
+      },
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -32,12 +32,19 @@
   Polymer({
     is: 'gr-file-list',
 
+    /**
+     * Fired when a comment refresh should get triggered
+     *
+     * @event reload-comments
+     */
+
     properties: {
       /** @type {?} */
       patchRange: Object,
       patchNum: String,
       changeNum: String,
-      comments: Object,
+      /** @type {?} */
+      changeComments: Object,
       drafts: Object,
       // Already sorted by the change-view.
       revisions: Array,
@@ -193,9 +200,6 @@
         });
       }));
 
-      // Load all comments for the change.
-      promises.push(this.$.commentAPI.loadAll(this.changeNum));
-
       this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
@@ -272,11 +276,7 @@
       const timerName = 'Update ' + this._expandedFilePaths.length +
           ' diffs with new prefs';
       this._renderInOrder(this._expandedFilePaths, this.diffs,
-          this._expandedFilePaths.length)
-          .then(() => {
-            this.$.reporting.timeEnd(timerName);
-            this.$.diffCursor.handleDiffUpdate();
-          });
+          this._expandedFilePaths.length, timerName);
     },
 
     _forEachDiff(fn) {
@@ -853,11 +853,7 @@
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
-      this._renderInOrder(newPaths, this.diffs, newPaths.length)
-          .then(() => {
-            this.$.reporting.timeEnd(timerName);
-            this.$.diffCursor.handleDiffUpdate();
-          });
+      this._renderInOrder(newPaths, this.diffs, newPaths.length, timerName);
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
     },
@@ -870,30 +866,35 @@
      * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
      * @param  {number} initialCount The total number of paths in the pass. This
      *   is used to generate log messages.
+     * @param {string} timerName the timer to stop after the render has
+     *   completed
      * @return {!Promise}
      */
-    _renderInOrder(paths, diffElements, initialCount) {
+    _renderInOrder(paths, diffElements, initialCount, timerName) {
       let iter = 0;
 
-      return this.$.commentAPI.loadAll(this.changeNum)
-          .then(() => {
-            return this.asyncForeach(paths, path => {
-              iter++;
-              console.log('Expanding diff', iter, 'of', initialCount, ':',
-                  path);
-              const diffElem = this._findDiffByPath(path, diffElements);
-              diffElem.comments = this.$.commentAPI.getCommentsForPath(path,
-                  this.patchRange, this.projectConfig);
-              const promises = [diffElem.reload()];
-              if (this._isLoggedIn) {
-                promises.push(this._reviewFile(path));
-              }
-              return Promise.all(promises);
-            });
-          })
-          .then(() => {
-            console.log('Finished expanding', initialCount, 'diff(s)');
-          });
+      return (new Promise(resolve => {
+        this.fire('reload-comments', {resolve});
+      })).then(() => {
+        return this.asyncForeach(paths, path => {
+          iter++;
+          console.log('Expanding diff', iter, 'of', initialCount, ':',
+              path);
+          const diffElem = this._findDiffByPath(path, diffElements);
+          diffElem.comments = this.changeComments.getCommentsForPath(path,
+              this.patchRange, this.projectConfig);
+          const promises = [diffElem.reload()];
+          if (this._isLoggedIn) {
+            promises.push(this._reviewFile(path));
+          }
+          return Promise.all(promises);
+        }).then(() => {
+          this._nextRenderParams = null;
+          console.log('Finished expanding', initialCount, 'diff(s)');
+          this.$.reporting.timeEnd(timerName);
+          this.$.diffCursor.handleDiffUpdate();
+        });
+      });
     },
 
     /**

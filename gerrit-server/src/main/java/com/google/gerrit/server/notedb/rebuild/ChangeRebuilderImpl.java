@@ -187,7 +187,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     try (NoteDbUpdateManager manager = updateManagerFactory.create(change.getProject())) {
       buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
-      return execute(db, changeId, manager, checkReadOnly);
+      return execute(db, changeId, manager, checkReadOnly, true);
     }
   }
 
@@ -216,11 +216,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Override
   public Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
       throws OrmException, IOException {
-    return execute(db, changeId, manager, true);
+    return execute(db, changeId, manager, true, true);
   }
 
   public Result execute(
-      ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager, boolean checkReadOnly)
+      ReviewDb db,
+      Change.Id changeId,
+      NoteDbUpdateManager manager,
+      boolean checkReadOnly,
+      boolean executeManager)
       throws OrmException, IOException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change = checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
@@ -277,11 +281,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       // to the caller so they know to use the staged results instead of reading from the repo.
       throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
     }
-    manager.execute();
+    if (executeManager) {
+      manager.execute();
+    }
     return r;
   }
 
-  private static Change checkNoteDbState(Change c) throws OrmException {
+  static Change checkNoteDbState(Change c) throws OrmException {
     // Can only rebuild a change if its primary storage is ReviewDb.
     NoteDbChangeState s = NoteDbChangeState.parse(c);
     if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {

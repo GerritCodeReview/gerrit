@@ -98,13 +98,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
       ImmutableList<InsertedObject> changeObjects = ImmutableList.of();
       if (changeRepo != null) {
         changeCommands = changeRepo.getCommandsSnapshot();
-        changeObjects = changeRepo.tempIns.getInsertedObjects();
+        changeObjects = changeRepo.getInsertedObjects();
       }
       ImmutableList<ReceiveCommand> allUsersCommands = ImmutableList.of();
       ImmutableList<InsertedObject> allUsersObjects = ImmutableList.of();
       if (allUsersRepo != null) {
         allUsersCommands = allUsersRepo.getCommandsSnapshot();
-        allUsersObjects = allUsersRepo.tempIns.getInsertedObjects();
+        allUsersObjects = allUsersRepo.getInsertedObjects();
       }
       return new AutoValue_NoteDbUpdateManager_StagedResult(
           id, delta,
@@ -119,10 +119,32 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     public abstract ImmutableList<ReceiveCommand> changeCommands();
 
+    /**
+     * Objects inserted into the change repo for this change.
+     *
+     * <p>Includes all objects inserted for any change in this repo that may have been processed by
+     * the corresponding {@link NoteDbUpdateManager} instance, not just those objects that were
+     * inserted to handle this specific change's updates.
+     *
+     * @return inserted objects, or null if the corresponding {@link NoteDbUpdateManager} was
+     *     configured not to {@link NoteDbUpdateManager#setSaveObjects(boolean) save objects}.
+     */
+    @Nullable
     public abstract ImmutableList<InsertedObject> changeObjects();
 
     public abstract ImmutableList<ReceiveCommand> allUsersCommands();
 
+    /**
+     * Objects inserted into the All-Users repo for this change.
+     *
+     * <p>Includes all objects inserted into All-Users for any change that may have been processed
+     * by the corresponding {@link NoteDbUpdateManager} instance, not just those objects that were
+     * inserted to handle this specific change's updates.
+     *
+     * @return inserted objects, or null if the corresponding {@link NoteDbUpdateManager} was
+     *     configured not to {@link NoteDbUpdateManager#setSaveObjects(boolean) save objects}.
+     */
+    @Nullable
     public abstract ImmutableList<InsertedObject> allUsersObjects();
   }
 
@@ -144,17 +166,20 @@ public class NoteDbUpdateManager implements AutoCloseable {
     public final RevWalk rw;
     public final ChainedReceiveCommands cmds;
 
-    private final InMemoryInserter tempIns;
+    private final InMemoryInserter inMemIns;
+    private final ObjectInserter tempIns;
     @Nullable private final ObjectInserter finalIns;
 
     private final boolean close;
+    private final boolean saveObjects;
 
     private OpenRepo(
         Repository repo,
         RevWalk rw,
         @Nullable ObjectInserter ins,
         ChainedReceiveCommands cmds,
-        boolean close) {
+        boolean close,
+        boolean saveObjects) {
       ObjectReader reader = rw.getObjectReader();
       checkArgument(
           ins == null || reader.getCreatedFromInserter() == ins,
@@ -162,11 +187,21 @@ public class NoteDbUpdateManager implements AutoCloseable {
           ins,
           reader.getCreatedFromInserter());
       this.repo = checkNotNull(repo);
-      this.tempIns = new InMemoryInserter(rw.getObjectReader());
+
+      if (saveObjects) {
+        this.inMemIns = new InMemoryInserter(rw.getObjectReader());
+        this.tempIns = inMemIns;
+      } else {
+        checkArgument(ins != null);
+        this.inMemIns = null;
+        this.tempIns = ins;
+      }
+
       this.rw = new RevWalk(tempIns.newReader());
       this.finalIns = ins;
       this.cmds = checkNotNull(cmds);
       this.close = close;
+      this.saveObjects = saveObjects;
     }
 
     public Optional<ObjectId> getObjectId(String refName) throws IOException {
@@ -177,17 +212,25 @@ public class NoteDbUpdateManager implements AutoCloseable {
       return ImmutableList.copyOf(cmds.getCommands().values());
     }
 
+    @Nullable
+    ImmutableList<InsertedObject> getInsertedObjects() {
+      return saveObjects ? inMemIns.getInsertedObjects() : null;
+    }
+
     void flush() throws IOException {
       flushToFinalInserter();
       finalIns.flush();
     }
 
     void flushToFinalInserter() throws IOException {
+      if (!saveObjects) {
+        return;
+      }
       checkState(finalIns != null);
-      for (InsertedObject obj : tempIns.getInsertedObjects()) {
+      for (InsertedObject obj : inMemIns.getInsertedObjects()) {
         finalIns.insert(obj.type(), obj.data().toByteArray());
       }
-      tempIns.clear();
+      inMemIns.clear();
     }
 
     @Override
@@ -219,6 +262,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private OpenRepo allUsersRepo;
   private Map<Change.Id, StagedResult> staged;
   private boolean checkExpectedState = true;
+  private boolean saveObjects = true;
+  private boolean atomicRefUpdates = true;
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
@@ -264,19 +309,50 @@ public class NoteDbUpdateManager implements AutoCloseable {
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
-    changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
+    changeRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
     return this;
   }
 
   public NoteDbUpdateManager setAllUsersRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(allUsersRepo == null, "All-Users repo already initialized");
-    allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false);
+    allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false, saveObjects);
     return this;
   }
 
   public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
     this.checkExpectedState = checkExpectedState;
+    return this;
+  }
+
+  /**
+   * Set whether to save objects and make them available in {@link StagedResult}s.
+   *
+   * <p>If set, all objects inserted into all repos managed by this instance will be buffered in
+   * memory, and the {@link StagedResult}s will return non-null lists from {@link
+   * StagedResult#changeObjects()} and {@link StagedResult#allUsersObjects()}.
+   *
+   * <p>Not recommended if modifying a large number of changes with a single manager.
+   *
+   * @param saveObjects whether to save objects; defaults to true.
+   * @return this
+   */
+  public NoteDbUpdateManager setSaveObjects(boolean saveObjects) {
+    this.saveObjects = saveObjects;
+    return this;
+  }
+
+  /**
+   * Set whether to use atomic ref updates.
+   *
+   * <p>Can be set to false when the change updates represented by this manager aren't logically
+   * related, e.g. when the updater is only used to group objects together with a single inserter.
+   *
+   * @param atomicRefUpdates whether to use atomic ref updates; defaults to true.
+   * @return this
+   */
+  public NoteDbUpdateManager setAtomicRefUpdates(boolean atomicRefUpdates) {
+    this.atomicRefUpdates = atomicRefUpdates;
     return this;
   }
 
@@ -336,7 +412,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     ObjectInserter ins = repo.newObjectInserter(); // Closed by OpenRepo#close.
     ObjectReader reader = ins.newReader(); // Not closed by OpenRepo#close.
     try (RevWalk rw = new RevWalk(reader)) { // Doesn't escape OpenRepo constructor.
-      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true) {
+      return new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), true, saveObjects) {
         @Override
         public void close() {
           reader.close();
@@ -543,6 +619,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } else {
       // OpenRepo buffers objects separately; caller may assume that objects are available in the
       // inserter it previously passed via setChangeRepo.
+      checkState(saveObjects, "cannot use dryrun with saveObjects = false");
       or.flushToFinalInserter();
     }
 
@@ -554,6 +631,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       bru.setRefLogMessage(firstNonNull(guessRestApiHandler(), "Update NoteDb refs"), false);
     }
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
+    bru.setAtomic(atomicRefUpdates);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
 

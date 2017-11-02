@@ -95,6 +95,10 @@ public class InMemoryInserter extends ObjectInserter {
     return ImmutableList.copyOf(inserted.values());
   }
 
+  public int getInsertedObjectCount() {
+    return inserted.values().size();
+  }
+
   public void clear() {
     inserted.clear();
   }

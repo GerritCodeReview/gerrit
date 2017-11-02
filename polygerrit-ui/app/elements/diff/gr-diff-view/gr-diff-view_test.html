@@ -47,7 +47,7 @@ limitations under the License.
 
     const PARENT = 'PARENT';
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
@@ -56,10 +56,14 @@ limitations under the License.
         getDiffChangeDetail() { return Promise.resolve(null); },
         getChangeFiles() { return Promise.resolve({}); },
         saveFileReviewed() { return Promise.resolve(); },
+        getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve(); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      element._loadComments().then(() => {
+        done();
+      });
     });
 
     teardown(() => {
@@ -484,9 +488,6 @@ limitations under the License.
     });
 
     test('file review status', done => {
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-      });
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
       sandbox.stub(element.$.diff, 'reload');
@@ -529,9 +530,6 @@ limitations under the License.
     });
 
     test('hash is determined from params', done => {
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-      });
       sandbox.stub(element.$.diff, 'reload');
       sandbox.stub(element, '_initCursor');
 
@@ -679,11 +677,6 @@ limitations under the License.
 
     suite('_loadComments', () => {
       test('empty', done => {
-        stub('gr-comment-api', {
-          loadAll() { return Promise.resolve(); },
-          getPaths() { return {}; },
-          getCommentsForPath() { return {meta: {}}; },
-        });
         element._loadComments().then(() => {
           assert.equal(Object.keys(element._commentMap).length, 0);
           done();
@@ -691,16 +684,11 @@ limitations under the License.
       });
 
       test('has paths', done => {
-        stub('gr-comment-api', {
-          loadAll() { return Promise.resolve(); },
-          getPaths() {
-            return {
-              'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
-              'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
-            };
-          },
-          getCommentsForPath() { return {meta: {}}; },
+        sandbox.stub(element, '_getPaths').returns({
+          'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
+          'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
         });
+        sandbox.stub(element, '_getCommentsForPath').returns({meta: {}});
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '3',

@@ -1422,12 +1422,20 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_basePatchNum
+     * @param {number|string=} opt_patchNum
+     * @param {string=} opt_path
+     * @return {!Promise<!Object>}
+     */
     getDiffRobotComments(changeNum, basePatchNum, patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
           patchNum, opt_path);
@@ -1442,7 +1450,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
-     * @return {!Promise<?Object>}
+     * @return {!Promise<!Object>}
      */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this.getLoggedIn().then(loggedIn => {
@@ -1481,6 +1489,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {

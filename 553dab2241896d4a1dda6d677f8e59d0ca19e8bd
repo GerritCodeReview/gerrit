@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5e591fe_c6f07d70",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-02T18:58:28Z",
+      "side": 1,
+      "message": "Instead of doing the split-map-join, this can be defined as a global-multiline regex ..\n\n /\\s+$/gm\n\n.. and then it can be applied on the whole message like ..\n\n const message \u003d e.detai.content.replace(TRAILING_WHITESPACE_REGEX, \u0027\u0027);",
+      "range": {
+        "startLine": 42,
+        "startChar": 36,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e9c93c_a0b80383",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-02T18:58:28Z",
+      "side": 1,
+      "message": "Why are trailing newlines not trimmed?",
+      "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

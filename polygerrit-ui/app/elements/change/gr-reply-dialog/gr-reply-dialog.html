@@ -72,13 +72,16 @@ limitations under the License.
       }
       .peopleList {
         display: flex;
-        align-items: center;
         padding-top: .1em;
       }
       .peopleListLabel {
         color: #666;
+        margin-top: .2em;
         min-width: 7em;
         padding-right: .5em;
+      }
+      .ownerContainer {
+        margin: .2em 0;
       }
       gr-account-list {
         display: flex;
@@ -157,7 +160,9 @@ limitations under the License.
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          <div class="ownerContainer">
+            <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          </div>
         </div>
       </section>
       <section class="peopleContainer">

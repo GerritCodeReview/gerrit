@@ -840,7 +840,7 @@ public class ExternalIdsUpdate {
       case FORCED:
         break;
       case LOCK_FAILURE:
-        throw new LockFailureException("Updating external IDs failed with " + res);
+        throw new LockFailureException("Updating external IDs failed with " + res, u);
       case IO_FAILURE:
       case NOT_ATTEMPTED:
       case REJECTED:

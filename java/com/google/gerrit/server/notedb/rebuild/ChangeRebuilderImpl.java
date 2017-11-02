@@ -187,7 +187,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     try (NoteDbUpdateManager manager = updateManagerFactory.create(change.getProject())) {
       buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
-      return execute(db, changeId, manager, checkReadOnly);
+      return execute(db, changeId, manager, checkReadOnly, true);
     }
   }
 
@@ -216,11 +216,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Override
   public Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
       throws OrmException, IOException {
-    return execute(db, changeId, manager, true);
+    return execute(db, changeId, manager, true, true);
   }
 
   public Result execute(
-      ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager, boolean checkReadOnly)
+      ReviewDb db,
+      Change.Id changeId,
+      NoteDbUpdateManager manager,
+      boolean checkReadOnly,
+      boolean executeManager)
       throws OrmException, IOException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change = checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
@@ -277,11 +281,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       // to the caller so they know to use the staged results instead of reading from the repo.
       throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
     }
-    manager.execute();
+    if (executeManager) {
+      manager.execute();
+    }
     return r;
   }
 
-  private static Change checkNoteDbState(Change c) throws OrmException {
+  static Change checkNoteDbState(Change c) throws OrmException {
     // Can only rebuild a change if its primary storage is ReviewDb.
     NoteDbChangeState s = NoteDbChangeState.parse(c);
     if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
@@ -298,6 +304,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Change change = new Change(bundle.getChange());
     if (bundle.getPatchSets().isEmpty()) {
       throw new NoPatchSetsException(change.getId());
+    }
+    if (change.getLastUpdatedOn().compareTo(change.getCreatedOn()) < 0) {
+      // A bug in data migration might set created_on to the time of the migration. The
+      // correct timestamps were lost, but we can at least set it so created_on is not after
+      // last_updated_on.
+      // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7397
+      change.setCreatedOn(change.getLastUpdatedOn());
     }
 
     // We will rebuild all events, except for draft comments, in buckets based on author and
@@ -428,9 +441,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     new EventSorter(events).sort();
 
     // Ensure the first event in the list creates the change, setting the author and any required
-    // footers.
+    // footers. Also force the creation time of the first patch set to match the creation time of
+    // the change.
     Event first = events.get(0);
     if (first instanceof PatchSetEvent && change.getOwner().equals(first.user)) {
+      first.when = change.getCreatedOn();
       ((PatchSetEvent) first).createChange = true;
     } else {
       events.add(0, new CreateChangeEvent(change, minPsNum));

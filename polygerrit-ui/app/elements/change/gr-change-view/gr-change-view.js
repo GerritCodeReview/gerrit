@@ -96,6 +96,8 @@
         type: Object,
         value: {},
       },
+      /** @type {?} */
+      _changeComments: Object,
       _canStartReview: {
         type: Boolean,
         computed: '_computeCanStartReview(_loggedIn, _change, _account)',
@@ -1006,12 +1008,6 @@
           });
     },
 
-    _getComments() {
-      return this.$.restAPI.getDiffComments(this._changeNum).then(comments => {
-        this._comments = comments;
-      });
-    },
-
     _getEdit() {
       return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
@@ -1051,30 +1047,28 @@
           });
     },
 
-    _reloadDiffDrafts() {
-      this._diffDrafts = {};
-      this._getDiffDrafts().then(() => {
-        if (this.$.replyOverlay.opened) {
-          this.async(() => { this.$.replyOverlay.center(); }, 1);
-        }
+    _reloadCommentsWithCallback(e) {
+      return this._reloadComments().then(() => {
+        return e.detail.resolve();
       });
+    },
+
+    _reloadComments() {
+      return this.$.commentAPI.loadAll(this._changeNum)
+          .then(comments => {
+            this._changeComments = this.$.commentAPI._changeComments;
+          });
     },
 
     _reload() {
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
-      this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return; }
-
-        this._reloadDiffDrafts();
-      });
-
       const detailCompletes = this._getChangeDetail().then(() => {
         this._loading = false;
         this._getProjectConfig();
       });
-      this._getComments();
+      this._reloadComments();
 
       if (this._patchRange.patchNum) {
         return Promise.all([

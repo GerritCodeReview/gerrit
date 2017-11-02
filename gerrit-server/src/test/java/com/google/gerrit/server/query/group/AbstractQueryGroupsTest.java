@@ -121,6 +121,12 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     currentUserInfo = gApi.accounts().id(userId.get()).get();
   }
 
+  @After
+  public void cleanUp() {
+    lifecycle.stop();
+    db.close();
+  }
+
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser = userFactory.create(requestUserId);
     return new RequestContext() {

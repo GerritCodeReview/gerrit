@@ -71,6 +71,7 @@
        * }}
        */
       _change: Object,
+      _changeComments: Object,
       _changeNum: String,
       _diff: Object,
       _fileList: {
@@ -750,11 +751,21 @@
 
     _loadComments() {
       return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
+        this._changeComments = this.$.commentAPI._changeComments;
+        this._commentMap = this._getPaths(this._patchRange);
 
-        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
+        this._commentsForDiff = this._getCommentsForPath(this._path,
             this._patchRange, this._projectConfig);
       });
+    },
+
+    _getPaths(patchRange) {
+      return this._changeComments.getPaths(patchRange);
+    },
+
+    _getCommentsForPath(path, patchRange, projectConfig) {
+      return this._changeComments.getCommentsForPath(path, patchRange,
+          projectConfig);
     },
 
     _getDiffDrafts() {

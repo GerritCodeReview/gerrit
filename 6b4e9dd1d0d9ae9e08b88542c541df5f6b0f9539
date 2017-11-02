@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14588afb_77e27170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-02T18:13:23Z",
+      "side": 1,
+      "message": "May be in additional mention here that this dead lock issue is fixed: [1]?\n\n* [1] https://github.com/google/guava/issues/2743",
+      "revId": "6b4e9dd1d0d9ae9e08b88542c541df5f6b0f9539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

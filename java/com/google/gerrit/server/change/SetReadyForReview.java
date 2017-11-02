@@ -75,7 +75,7 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new Description()
-        .setLabel("Ready")
+        .setLabel("Start Review")
         .setTitle("Set Ready For Review")
         .setVisible(
             rsrc.isUserOwner()

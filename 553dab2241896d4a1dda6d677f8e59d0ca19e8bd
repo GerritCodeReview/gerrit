@@ -57,6 +57,24 @@
       "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4b2b03_574e4da1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-02T20:18:05Z",
+      "side": 1,
+      "message": "Now that you mention it, I guess this isn\u0027t really part of the problem. SGTM as is.",
+      "parentUuid": "13af1485_90486c0b",
+      "revId": "553dab2241896d4a1dda6d677f8e59d0ca19e8bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

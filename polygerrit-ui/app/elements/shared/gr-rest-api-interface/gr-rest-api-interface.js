@@ -1422,15 +1422,23 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
-    getDiffRobotComments(changeNum, basePatchNum, patchNum, opt_path) {
-      return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
-          patchNum, opt_path);
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_basePatchNum
+     * @param {number|string=} opt_patchNum
+     * @param {string=} opt_path
+     * @return {!Promise<!Object>}
+     */
+    getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+      return this._getDiffComments(changeNum, '/robotcomments',
+          opt_basePatchNum, opt_patchNum, opt_path);
     },
 
     /**
@@ -1442,7 +1450,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
-     * @return {!Promise<?Object>}
+     * @return {!Promise<!Object>}
      */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this.getLoggedIn().then(loggedIn => {
@@ -1481,6 +1489,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
@@ -1489,7 +1498,7 @@
        * Helper function to make promises more legible.
        *
        * @param {string|number=} opt_patchNum
-       * @return {!Object} Diff comments response.
+       * @return {!Promise<!Object>} Diff comments response.
        */
       const fetchComments = opt_patchNum => {
         return this._getChangeURLAndFetch(changeNum, endpoint, opt_patchNum);

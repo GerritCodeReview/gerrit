@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1b4ef47_bd8cefd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-02T06:54:31Z",
+      "side": 1,
+      "message": "I guess we ignore the case difference between the Uis for this button? in GWT UI, all buttons that have two words are capitalized. Or should we fix PG UI?",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "4da8badf01bfa26b436349e32d5dbaaa22d12669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

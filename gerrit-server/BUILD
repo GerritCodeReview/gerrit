@@ -176,14 +176,20 @@ junit_tests(
     ],
 )
 
-QUERY_TESTS = glob(
-    ["src/test/java/com/google/gerrit/server/query/**/*.java"],
+ABSTRACT_QUERY_TESTS = glob(
+    ["src/test/java/com/google/gerrit/server/**/AbstractQuery*Test.java"],
 )
+
+LUCENE_QUERY_TESTS = {i: "src/test/java/com/google/gerrit/server/query/" + i + "/LuceneQuery" + i.capitalize() + "sTest.java" for i in [
+    "account",
+    "change",
+    "group",
+]}
 
 java_library(
-    name = "query_tests_code",
+    name = "abstract_query_tests",
     testonly = 1,
-    srcs = QUERY_TESTS,
+    srcs = ABSTRACT_QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":testutil",
@@ -194,32 +200,34 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "query_tests",
+[junit_tests(
+    name = "lucene_query_%ss_test" % name,
     size = "large",
-    srcs = QUERY_TESTS,
+    srcs = [src],
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        ":abstract_query_tests",
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
         "//gerrit-server/src/main/prolog:common",
         "//lib/antlr:java_runtime",
     ],
-)
+) for name, src in LUCENE_QUERY_TESTS.items()]
 
 junit_tests(
     name = "server_tests",
     size = "large",
     srcs = glob(
         ["src/test/java/**/*.java"],
-        exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
+        exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + ABSTRACT_QUERY_TESTS + LUCENE_QUERY_TESTS.values(),
     ),
     resources = glob(["src/test/resources/com/google/gerrit/server/**/*"]),
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":testutil",
         "//gerrit-antlr:query_exception",
+        "//gerrit-antlr:query_parser",
         "//gerrit-patch-jgit:server",
         "//gerrit-server/src/main/prolog:common",
         "//gerrit-test-util:test_util",
@@ -229,6 +237,7 @@ junit_tests(
         "//lib:guava",
         "//lib:guava-retrying",
         "//lib:protobuf",
+        "//lib/antlr:java_runtime",
         "//lib/bouncycastle:bcprov",
         "//lib/bouncycastle:bcpkix",
         "//lib/dropwizard:dropwizard-core",

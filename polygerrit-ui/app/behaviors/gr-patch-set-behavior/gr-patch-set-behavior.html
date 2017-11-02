@@ -122,7 +122,7 @@ limitations under the License.
       const num = r => r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
           2 * editParent :
           2 * (r._number - 1) + 1;
-      return revisions.sort((a, b) => num(a) - num(b));
+      return revisions.sort((a, b) => num(b) - num(a));
     },
 
     /**
@@ -143,8 +143,7 @@ limitations under the License.
     computeAllPatchSets(change) {
       if (!change) { return []; }
       let patchNums = [];
-      if (change.revisions &&
-          Object.keys(change.revisions).length) {
+      if (change.revisions && Object.keys(change.revisions).length) {
         patchNums =
           Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
               .map(e => {

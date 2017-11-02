@@ -274,6 +274,7 @@ class LibraryDownloader {
     }
   }
 
+  @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
   private void verifyFileChecksum() {
     if (sha1 == null) {
       System.err.println();

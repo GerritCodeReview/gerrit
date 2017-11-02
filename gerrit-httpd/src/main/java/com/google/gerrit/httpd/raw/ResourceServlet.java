@@ -307,6 +307,7 @@ public abstract class ResourceServlet extends HttpServlet {
     final String etag;
     final byte[] raw;
 
+    @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
     Resource(FileTime lastModified, String contentType, byte[] raw) {
       this.lastModified = checkNotNull(lastModified, "lastModified");
       this.contentType = checkNotNull(contentType, "contentType");

@@ -235,6 +235,7 @@ public class FileContentUtil {
     }
   }
 
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   private static String randSuffix() {
     // Produce a random suffix that is difficult (or nearly impossible)
     // for an attacker to guess in advance. This reduces the risk that

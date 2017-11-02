@@ -46,6 +46,7 @@ public class RequestId {
 
   private final String str;
 
+  @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
   private RequestId(String resourceId) {
     Hasher h = Hashing.sha1().newHasher();
     h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);

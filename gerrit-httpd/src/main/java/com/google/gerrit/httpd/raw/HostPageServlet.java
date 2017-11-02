@@ -91,6 +91,7 @@ public class HostPageServlet extends HttpServlet {
   private volatile Page page;
 
   @Inject
+  @SuppressWarnings("deprecation") // Use Hashing.md5 for compatibility.
   HostPageServlet(
       Provider<CurrentUser> cu,
       SitePaths sp,

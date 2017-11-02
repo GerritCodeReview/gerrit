@@ -245,6 +245,15 @@ limitations under the License.
       });
     });
 
+    test('comments are reloaded when reload-comments fired', () => {
+      const reloadStub = sandbox.stub(element.$.commentAPI, 'loadAll')
+          .returns(Promise.resolve());
+      element.$.fileList.fire('reload-comments', {
+        resolve: () => { return Promise.resolve(); },
+      });
+      assert.isTrue(reloadStub.called);
+    });
+
     test('download tap calls _handleOpenDownloadDialog', () => {
       sandbox.stub(element, '_handleOpenDownloadDialog');
       element.$.actions.fire('download-tap');

@@ -20,7 +20,7 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
@@ -32,7 +32,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
@@ -69,9 +68,15 @@ public class ProjectCacheImpl implements ProjectCache {
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
-        bind(LifecycleListener.class)
-            .annotatedWith(UniqueAnnotations.create())
-            .to(ProjectCacheWarmer.class);
+
+        install(
+            new LifecycleModule() {
+              @Override
+              protected void configure() {
+                listener().to(ProjectCacheWarmer.class);
+                listener().to(ProjectCacheClock.class);
+              }
+            });
       }
     };
   }

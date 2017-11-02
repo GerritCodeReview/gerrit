@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2adf35f3_9f28cc70",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-02T16:31:07Z",
+      "side": 1,
+      "message": "Where are your tests?\n\nEvery time you add a new codepath, you should test it.",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73d394d_0a0878e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-02T16:31:07Z",
+      "side": 1,
+      "message": "Where are your tests?\n\nEvery time you add a new codepath, you should test it.",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be695eda_e65fd5c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-02T16:31:07Z",
+      "side": 1,
+      "message": "It looks like this line is the only different one from the above function. Perhaps we could do this a better way?",
+      "range": {
+        "startLine": 990,
+        "startChar": 8,
+        "endLine": 990,
+        "endChar": 46
+      },
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

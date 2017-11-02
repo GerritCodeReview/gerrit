@@ -201,7 +201,6 @@
       },
       /** @type {?number} */
       _updateCheckTimerHandle: Number,
-      _sortedRevisions: Array,
       _editLoaded: {
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
@@ -227,7 +226,6 @@
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
-      '_updateSortedRevisions(_change.revisions.*)',
     ],
 
     keyBindings: {
@@ -292,11 +290,6 @@
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
-    },
-
-    _updateSortedRevisions(revisionsRecord) {
-      const revisions = revisionsRecord.base;
-      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
     },
 
     _handleEditCommitMessage(e) {

@@ -67,10 +67,6 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', () => {
-      setup(() => {
-        sandbox.stub(element, '_updateSortedRevisions');
-      });
-
       test('S should toggle the CL star', () => {
         const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
         MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
@@ -447,7 +443,6 @@ limitations under the License.
     });
 
     test('change num change', () => {
-      sandbox.stub(element, '_updateSortedRevisions');
       element._changeNum = null;
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -885,7 +880,6 @@ limitations under the License.
     suite('reply dialog tests', () => {
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
-        sandbox.stub(element, '_updateSortedRevisions');
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
             () => { return Promise.resolve(true); });
         element._change = {labels: {}};

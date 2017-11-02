@@ -39,7 +39,6 @@
       changeNum: String,
       comments: Object,
       drafts: Object,
-      // Already sorted by the change-view.
       revisions: Array,
       projectConfig: Object,
       selectedIndex: {
@@ -119,7 +118,6 @@
         type: Boolean,
         observer: '_loadingChanged',
       },
-      _sortedRevisions: Array,
     },
 
     behaviors: [

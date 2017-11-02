@@ -96,31 +96,6 @@ limitations under the License.
           'Add patchset description');
     });
 
-    test('_computePatchSetDisabled', () => {
-      element.revisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
-      let basePatchNum = 'PARENT';
-      let patchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = 2;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = element.EDIT_NAME;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = '3';
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-    });
-
     test('_handleDescriptionChanged', () => {
       const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
           .returns(Promise.resolve({ok: true}));

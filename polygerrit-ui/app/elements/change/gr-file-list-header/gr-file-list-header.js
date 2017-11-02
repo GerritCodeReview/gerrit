@@ -41,7 +41,6 @@
       patchNum: String,
       basePatchNum: String,
       filesExpanded: String,
-      revisions: Array,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
       _maxFilesForBulkActions: {
@@ -144,11 +143,6 @@
           });
     },
 
-    _computeBasePatchDisabled(patchNum, currentPatchNum) {
-      return this.findSortedIndex(patchNum, this.revisions) >=
-          this.findSortedIndex(currentPatchNum, this.revisions);
-    },
-
     _computePrefsButtonHidden(prefs, loggedIn) {
       return !loggedIn || !prefs;
     },
@@ -156,20 +150,6 @@
 
     _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
       return shownFileCount <= maxFilesForBulkActions;
-    },
-
-    /**
-     * Determines if a patch number should be disabled based on value of the
-     * basePatchNum from gr-file-list.
-     * @param {number} patchNum Patch number available in dropdown
-     * @param {number|string} basePatchNum Base patch number from file list
-     * @return {boolean}
-     */
-    _computePatchSetDisabled(patchNum, basePatchNum) {
-      if (basePatchNum === 'PARENT') { return false; }
-
-      return this.findSortedIndex(patchNum, this.revisions) <=
-          this.findSortedIndex(basePatchNum, this.revisions);
     },
 
     _handlePatchChange(e) {

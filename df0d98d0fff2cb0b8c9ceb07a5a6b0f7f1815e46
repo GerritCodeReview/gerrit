@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "183a3cd3_15841145",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-02T16:50:22Z",
+      "side": 1,
+      "message": "Oh right, yep sorry. I just doin\u0027t know what to really test.",
+      "parentUuid": "2adf35f3_9f28cc70",
+      "revId": "df0d98d0fff2cb0b8c9ceb07a5a6b0f7f1815e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c73d394d_0a0878e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4

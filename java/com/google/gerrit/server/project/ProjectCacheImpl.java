@@ -74,6 +74,9 @@ public class ProjectCacheImpl implements ProjectCache {
         bind(LifecycleListener.class)
             .annotatedWith(UniqueAnnotations.create())
             .to(ProjectCacheWarmer.class);
+        bind(LifecycleListener.class)
+            .annotatedWith(UniqueAnnotations.create())
+            .to(ProjectCacheClock.class);
       }
     };
   }

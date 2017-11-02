@@ -204,6 +204,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     setUpDatabase();
   }
 
+  @After
+  public void cleanUp() {
+    lifecycle.stop();
+    db.close();
+  }
+
   protected void setUpDatabase() throws Exception {
     try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {
       schemaCreator.create(underlyingDb);

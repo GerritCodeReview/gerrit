@@ -22,7 +22,7 @@ limitations under the License.
 <link rel="import" href="gr-patch-set-behavior.html">
 
 <script>
-  suite('gr-path-list-behavior tests', () => {
+  suite('gr-patch-set-behavior tests', () => {
     test('getRevisionByPatchNum', () => {
       const get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
       const revisions = [
@@ -226,23 +226,23 @@ limitations under the License.
         {_number: 1},
       ];
       const sorted = [
-        {_number: 0},
-        {_number: 1},
         {_number: 2},
+        {_number: 1},
+        {_number: 0},
       ];
 
       assert.deepEqual(sort(revisions), sorted);
 
       // Edit patchset should follow directly after its basePatchNum.
       revisions.push({_number: 'edit', basePatchNum: 2});
-      sorted.push({_number: 'edit', basePatchNum: 2});
+      sorted.unshift({_number: 'edit', basePatchNum: 2});
       assert.deepEqual(sort(revisions), sorted);
 
-      revisions[3].basePatchNum = 0;
-      const edit = sorted.pop();
+      revisions[0].basePatchNum = 0;
+      const edit = sorted.shift();
       edit.basePatchNum = 0;
-      // Edit patchset should be at index 1.
-      sorted.splice(1, 0, edit);
+      // Edit patchset should be at index 2.
+      sorted.splice(2, 0, edit);
       assert.deepEqual(sort(revisions), sorted);
     });
   });

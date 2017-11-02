@@ -74,7 +74,7 @@ public class RefUpdateUtil {
     }
 
     if (lockFailure + aborted == bru.getCommands().size()) {
-      throw new LockFailureException("Update aborted with one or more lock failures: " + bru);
+      throw new LockFailureException("Update aborted with one or more lock failures: " + bru, bru);
     } else if (failure > 0) {
       throw new IOException("Update failed: " + bru);
     }

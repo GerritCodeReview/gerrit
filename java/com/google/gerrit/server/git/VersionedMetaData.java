@@ -395,7 +395,8 @@ public abstract class VersionedMetaData {
                     + " in "
                     + db.getDirectory()
                     + ": "
-                    + ru.getResult());
+                    + ru.getResult(),
+                ru);
           case FORCED:
           case IO_FAILURE:
           case NOT_ATTEMPTED:

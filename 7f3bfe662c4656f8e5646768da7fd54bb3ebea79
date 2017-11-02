@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f596215f_32627db9",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheClock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-02T14:29:08Z",
+      "side": 1,
+      "message": "Eh, Eclipse added the new start/stop methods to the end of the class...\n\nDone",
+      "parentUuid": "db82f20d_a0cbec95",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "7f3bfe662c4656f8e5646768da7fd54bb3ebea79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d067db4_f9a83206",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2

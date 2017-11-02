@@ -50,6 +50,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -83,6 +84,90 @@ public class CmdLineParser {
 
   public interface Factory {
     CmdLineParser create(Object bean);
+  }
+
+  /**
+   * This may be used by an option handler during parsing to "call" additional parameters simulating
+   * as if they had been passed from the command line originally.
+   *
+   * <p>To call additional parameters from within an option handler, instantiate this class with the
+   * parameters and then call callParameters() with the additional parameters to be parsed.
+   * OptionHandlers may optionally pass this class to other methods which may then both
+   * parse/consume more parameters and call additional parameters.
+   */
+  public static class Parameters implements org.kohsuke.args4j.spi.Parameters {
+    protected final String[] args;
+    protected MyParser parser;
+    protected int consumed = 0;
+
+    public Parameters(org.kohsuke.args4j.spi.Parameters args, MyParser parser)
+        throws CmdLineException {
+      this.args = new String[args.size()];
+      for (int i = 0; i < args.size(); i++) {
+        this.args[i] = args.getParameter(i);
+      }
+      this.parser = parser;
+    }
+
+    public Parameters(String[] args, MyParser parser) {
+      this.args = args;
+      this.parser = parser;
+    }
+
+    @Override
+    public String getParameter(int idx) throws CmdLineException {
+      return args[idx];
+    }
+
+    /**
+     * get and consume (consider parsed) a parameter
+     *
+     * @param name name
+     * @return the consumed parameter
+     */
+    public String consumeParameter() throws CmdLineException {
+      return getParameter(consumed++);
+    }
+
+    @Override
+    public int size() {
+      return args.length;
+    }
+
+    /**
+     * Add 'count' to the value of parsed parameters. May be called more than once.
+     *
+     * @param count How many parameters were just parsed.
+     */
+    public void consume(int count) {
+      consumed += count;
+    }
+
+    /**
+     * Reports handlers how many parameters were parsed
+     *
+     * @return the count of parsed parameters
+     */
+    public int getConsumed() {
+      return consumed;
+    }
+
+    /**
+     * Use during parsing to call additional parameters simulating as if they had been passed from
+     * the command line originally.
+     *
+     * @param String... args A variable amount of parameters to call immediately
+     *     <p>The parameters will be parsed immediately, before the remaining parameter will be
+     *     parsed.
+     *     <p>Note: Since this is done outside of the arg4j parsing loop, it will not match exactly
+     *     what would happen if they were actually passed from the command line, but it will be
+     *     pretty close. If this were moved to args4j, the interface could be the same and it could
+     *     match exactly the behavior as if passed from the command line originally.
+     */
+    public void callParameters(String... args) throws CmdLineException {
+      Parameters impl = new Parameters(Arrays.copyOfRange(args, 1, args.length), parser);
+      parser.findOptionByName(args[0]).parseArguments(impl);
+    }
   }
 
   private final OptionHandlers handlers;
@@ -404,7 +489,7 @@ public class CmdLineParser {
     }
   }
 
-  private class MyParser extends org.kohsuke.args4j.CmdLineParser {
+  public class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
 
@@ -478,6 +563,29 @@ public class CmdLineParser {
         return factory.create(this, option, setter);
       }
       return add(super.createOptionHandler(option, setter));
+    }
+
+    /**
+     * Finds a registered {@code OptionHandler} by its name or its alias.
+     *
+     * @param name name
+     * @return the {@code OptionHandler} or {@code null}
+     *     <p>Note: this is cut & pasted from the parent class in arg4j, it was private and it
+     *     needed to be exposed.
+     */
+    public OptionHandler findOptionByName(String name) {
+      for (OptionHandler h : optionsList) {
+        NamedOptionDef option = (NamedOptionDef) h.option;
+        if (name.equals(option.name())) {
+          return h;
+        }
+        for (String alias : option.aliases()) {
+          if (name.equals(alias)) {
+            return h;
+          }
+        }
+      }
+      return null;
     }
 
     @SuppressWarnings("rawtypes")

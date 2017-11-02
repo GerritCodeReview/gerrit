@@ -236,7 +236,7 @@ limitations under the License.
     });
 
     test('class is applied to file list on old patch set', () => {
-      const allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
+      const allPatchSets = [{num: 4}, {num: 2}, {num: 1}];
       assert.equal(element._computePatchInfoClass('1', allPatchSets),
           'patchInfoOldPatchSet');
       assert.equal(element._computePatchInfoClass('2', allPatchSets),

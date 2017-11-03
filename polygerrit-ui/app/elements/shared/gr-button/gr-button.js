@@ -18,8 +18,11 @@
     is: 'gr-button',
 
     properties: {
-      tooltip: String,
       downArrow: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
+      positionBelow: {
         type: Boolean,
         reflectToAttribute: true,
       },

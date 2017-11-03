@@ -38,6 +38,8 @@
         observer: '_resetCursorStops',
       },
       downArrow: Boolean,
+      positionBelow: Boolean,
+      tooltip: String,
       topContent: Object,
       horizontalAlign: {
         type: String,

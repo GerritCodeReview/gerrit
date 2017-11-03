@@ -10,6 +10,7 @@ load(
 )
 
 PLUGIN_DEPS = ["//plugins:plugin-lib"]
+
 PLUGIN_DEPS_NEVERLINK = ["//plugins:plugin-lib-neverlink"]
 
 PLUGIN_TEST_DEPS = [

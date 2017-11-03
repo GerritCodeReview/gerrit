@@ -17,6 +17,7 @@ package com.google.gerrit.common;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,20 +28,23 @@ import org.slf4j.LoggerFactory;
 @GwtIncompatible("Unemulated com.google.gerrit.common.Version")
 public class Version {
   private static final Logger log = LoggerFactory.getLogger(Version.class);
-  private static final String version;
+
+  @VisibleForTesting static final String DEV = "(dev)";
+
+  private static final String VERSION;
 
   public static String getVersion() {
-    return version;
+    return VERSION;
   }
 
   static {
-    version = loadVersion();
+    VERSION = loadVersion();
   }
 
   private static String loadVersion() {
     try (InputStream in = Version.class.getResourceAsStream("Version")) {
       if (in == null) {
-        return "(dev)";
+        return DEV;
       }
       try (BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8))) {
         String vs = r.readLine();

@@ -257,6 +257,7 @@ bower_component_bundle = rule(
         "version_json": "%{name}-versions.json",
     },
 )
+
 """Groups a set of bower components together in a zip file.
 
 Outputs:

@@ -17,7 +17,6 @@
 jar_filetype = FileType([".jar"])
 
 LIBS = [
-    "//java/com/google/gerrit/common:version",
     "//java/com/google/gerrit/httpd/init",
     "//lib:postgresql",
     "//lib/bouncycastle:bcpkix",
@@ -28,7 +27,7 @@ LIBS = [
 ]
 
 PGMLIBS = [
-    "//java/com/google/gerrit/pgm"
+    "//java/com/google/gerrit/pgm",
 ]
 
 def _add_context(in_file, output):

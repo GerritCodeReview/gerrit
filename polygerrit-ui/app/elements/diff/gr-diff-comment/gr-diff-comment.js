@@ -120,6 +120,8 @@
         type: Object,
         value: {number: 0}, // Intentional to share the object across instances.
       },
+
+      _savingMessage: String,
     },
 
     observers: [
@@ -433,6 +435,7 @@
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
+      this._savingMessage = 'Discarding draft...';
       this.editing = false;
       this.disabled = true;
       this._eraseDraftComment();
@@ -497,6 +500,7 @@
     },
 
     _saveDraft(draft) {
+      this._savingMessage = 'Saving draft...';
       this._showStartRequest();
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {

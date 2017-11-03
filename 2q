@@ -1,0 +1,20 @@
+Remove placeholder from admin view
+
+Since all routes are accounted for now, the placeholder is no longer
+needed. This addresses the bug of erroneously displaying the placeholder
+when navigating to /admin/
+
+Bug: Issue 7575
+Change-Id: Id5767351f49cc6569b6bcb8bb49804b9e690ee78
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Fri Nov 3 14:10:26 2017 -0700
+#
+# HEAD detached at 932bac46cc
+# Changes to be committed:
+#	modified:   polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html
+#	modified:   polygerrit-ui/app/elements/core/gr-router/gr-router.js
+#	modified:   polygerrit-ui/app/elements/core/gr-router/gr-router_test.html
+#

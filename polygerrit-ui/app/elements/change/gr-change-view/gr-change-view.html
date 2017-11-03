@@ -324,11 +324,6 @@ limitations under the License.
           </div>
         </div><!-- end header-title -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">
-          <gr-button
-              class="reply"
-              secondary
-              disabled="[[_replyDisabled]]"
-              on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
           <gr-change-actions id="actions"
               change="[[_change]]"
               has-parent="[[hasParent]]"
@@ -338,11 +333,14 @@ limitations under the License.
               change-status="[[_change.status]]"
               commit-num="[[_commitInfo.commit]]"
               patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+              reply-disabled="[[_replyDisabled]]"
+              reply-button-label="[[_replyButtonLabel]]"
               commit-message="[[_latestCommitMessage]]"
               edit-loaded="[[_editLoaded]]"
               edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
               on-reload-change="_handleReloadChange"
-              on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
+              on-download-tap="_handleOpenDownloadDialog"
+              on-reply-tap="_handleReplyTap"></gr-change-actions>
         </div><!-- end commit actions -->
       </div><!-- end header -->
       <section class="changeInfo">

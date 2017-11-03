@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b69932f_b87e60f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-03T17:11:52Z",
+      "side": 1,
+      "message": "This diff looks complex, but it\u0027s only embedding the content below the header in a div with class \"body\".",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 24
+      },
+      "revId": "2ec6df5dd251222f3dd79ff8d785b6636cbce889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7781f463_b5929e98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-03T12:48:12Z",
+      "side": 1,
+      "message": "Indeed, Great job! We should point to this commit message in our contribution documentation as example.",
+      "parentUuid": "35792acd_b8327758",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fc3934b_91b5f5d8",
         "filename": "java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 2

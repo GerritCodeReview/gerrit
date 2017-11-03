@@ -25,9 +25,12 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
@@ -41,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
@@ -292,6 +296,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setCurrentApprovals(Collections.emptyList());
       }
 
+      // Added & Deleted.
       JsonElement addedElement = source.get(ChangeField.ADDED.getName());
       JsonElement deletedElement = source.get(ChangeField.DELETED.getName());
       if (addedElement != null && deletedElement != null) {
@@ -332,6 +337,38 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewedBy(Collections.emptySet());
       }
 
+      // Hashtag.
+      if (source.get(ChangeField.HASHTAG.getName()) != null) {
+        JsonArray hashtagArray = source.get(ChangeField.HASHTAG.getName()).getAsJsonArray();
+        if (hashtagArray.size() > 0) {
+          Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtagArray.size());
+          for (int i = 0; i < hashtagArray.size(); i++) {
+            hashtags.add(hashtagArray.get(i).getAsString());
+          }
+          cd.setHashtags(hashtags);
+        }
+      } else if (fields.contains(ChangeField.HASHTAG.getName())) {
+        cd.setHashtags(Collections.emptySet());
+      }
+
+      // Star.
+      if (source.get(ChangeField.STAR.getName()) != null) {
+        JsonArray starArray = source.get(ChangeField.STAR.getName()).getAsJsonArray();
+        if (starArray.size() > 0) {
+          ListMultimap<Account.Id, String> stars =
+              MultimapBuilder.hashKeys().arrayListValues().build();
+          for (int i = 0; i < starArray.size(); i++) {
+            StarredChangesUtil.StarField starField =
+                StarredChangesUtil.StarField.parse(starArray.get(i).getAsString());
+            stars.put(starField.accountId(), starField.label());
+          }
+          cd.setStars(stars);
+        }
+      } else if (fields.contains(ChangeField.STAR.getName())) {
+        cd.setStars(ImmutableListMultimap.of());
+      }
+
+      // Reviewer.
       if (source.get(ChangeField.REVIEWER.getName()) != null) {
         cd.setReviewers(
             ChangeField.parseReviewerFieldValues(
@@ -341,6 +378,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewers(ReviewerSet.empty());
       }
 
+      // Reviewer-by-email.
       if (source.get(ChangeField.REVIEWER_BY_EMAIL.getName()) != null) {
         cd.setReviewersByEmail(
             ChangeField.parseReviewerByEmailFieldValues(
@@ -351,6 +389,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setReviewersByEmail(ReviewerByEmailSet.empty());
       }
 
+      // Pending-reviewer.
       if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
         cd.setPendingReviewers(
             ChangeField.parseReviewerFieldValues(
@@ -361,6 +400,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         cd.setPendingReviewers(ReviewerSet.empty());
       }
 
+      // Pending-reviewer-by-email.
       if (source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()) != null) {
         cd.setPendingReviewersByEmail(
             ChangeField.parseReviewerByEmailFieldValues(
@@ -372,24 +412,33 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       } else if (fields.contains(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())) {
         cd.setPendingReviewersByEmail(ReviewerByEmailSet.empty());
       }
+
+      // Stored-submit-record-strict.
       decodeSubmitRecords(
           source,
           ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
           ChangeField.SUBMIT_RULE_OPTIONS_STRICT,
           cd);
+
+      // Stored-submit-record-leniant.
       decodeSubmitRecords(
           source,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
           ChangeField.SUBMIT_RULE_OPTIONS_LENIENT,
           cd);
-      decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
 
+      // Ref-state.
       if (fields.contains(ChangeField.REF_STATE.getName())) {
         cd.setRefStates(getByteArray(source, ChangeField.REF_STATE.getName()));
       }
+
+      // Ref-state-pattern.
       if (fields.contains(ChangeField.REF_STATE_PATTERN.getName())) {
         cd.setRefStatePatterns(getByteArray(source, ChangeField.REF_STATE_PATTERN.getName()));
       }
+
+      // Unresolved-comment-count.
+      decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
 
       return cd;
     }

@@ -22,6 +22,30 @@
       "revId": "b083ee0a0ea4076ebc2d9946ec024400b53322f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad69ff2_9487dd90",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T19:21:20Z",
+      "side": 1,
+      "message": "I doin\u0027t think so though not sure.\n\nDoes the getAccounts function in the rest api do the encoding for us?",
+      "parentUuid": "cfaf78e8_8a0b8ac1",
+      "range": {
+        "startLine": 77,
+        "startChar": 7,
+        "endLine": 77,
+        "endChar": 34
+      },
+      "revId": "b083ee0a0ea4076ebc2d9946ec024400b53322f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

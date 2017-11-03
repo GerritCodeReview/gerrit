@@ -82,6 +82,9 @@
     ],
 
     keyBindings: {
+      '0': '_handleGotoOpenedChangesKey',
+      '1': '_handleGotoMergedChangesKey',
+      '2': '_handleGotoAbandonedChangesKey',
       '?': '_showKeyboardShortcuts',
     },
 
@@ -210,6 +213,21 @@
       } else {
         document.title = '';
       }
+    },
+
+    _handleGotoOpenedChangesKey(e) {
+      e.preventDefault();
+      page.show(`${this.getBaseUrl()}/q/status:open`);
+    },
+
+    _handleGotoMergedChangesKey(e) {
+      e.preventDefault();
+      page.show(`${this.getBaseUrl()}/q/status:merged`);
+    },
+
+    _handleGotoAbandonedChangesKey(e) {
+      e.preventDefault();
+      page.show(`${this.getBaseUrl()}/q/status:abandoned`);
     },
 
     _showKeyboardShortcuts(e) {

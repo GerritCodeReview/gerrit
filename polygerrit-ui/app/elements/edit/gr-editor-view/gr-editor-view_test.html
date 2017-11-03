@@ -46,7 +46,7 @@ suite('gr-editor-view tests', () => {
 
   setup(() => {
     stub('gr-rest-api-interface', {
-      getLoggedIn() { return Promise.resolve(true); },
+      getEditPrefs() { return Promise.resolve({}); },
     });
     sandbox = sinon.sandbox.create();
     element = fixture('basic');

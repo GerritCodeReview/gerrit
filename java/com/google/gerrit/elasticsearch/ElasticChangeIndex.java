@@ -285,6 +285,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           changeDataFactory.create(
               db.get(), CHANGE_CODEC.decode(Base64.decodeBase64(c.getAsString())));
 
+      // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
+
       // Patch sets.
       cd.setPatchSets(decodeProtos(source, ChangeField.PATCH_SET.getName(), PATCH_SET_CODEC));
 

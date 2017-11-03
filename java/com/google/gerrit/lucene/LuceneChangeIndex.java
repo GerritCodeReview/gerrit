@@ -423,6 +423,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(db.get(), new Project.NameKey(project.stringValue()), id);
     }
 
+    // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.
+
     if (fields.contains(PATCH_SET_FIELD)) {
       decodePatchSets(doc, cd);
     }

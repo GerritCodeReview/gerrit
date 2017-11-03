@@ -1,5 +1,4 @@
 # Keep following lines sorted according to `LC_COLLATE=C sort`
-*.asc
 *.eml
 *.iml
 *.pyc

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca8ad88f_56973c03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-03T22:39:34Z",
+      "side": 1,
+      "message": "Disabled raised buttons have a (light) grey background and (darker) grey text. There is no difference in the disabled styling whether the button is primary or not. \n\nUpdated commit message with this as well.",
+      "parentUuid": "d653319e_90f8f150",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "2a13f88e648e477f8de00ed15bcbfc93283bb306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a917a3a_da5f2ddf",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "2a13f88e648e477f8de00ed15bcbfc93283bb306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e021ba7_18c1bc3c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-03T22:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a917a3a_da5f2ddf",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "2a13f88e648e477f8de00ed15bcbfc93283bb306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

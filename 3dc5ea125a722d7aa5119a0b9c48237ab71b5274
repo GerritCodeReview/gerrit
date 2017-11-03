@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1509712144 +0100\nnonce AMT3iFjzNBNmAd5lxgZv+iRZQ6W5OWxMsWcXcvPPAqaosGZcEf+5HPmLdZSE8zZ8+ySwY7Jb2jKV\n\n0000000000000000000000000000000000000000 3dc5ea125a722d7aa5119a0b9c48237ab71b5274 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ/GEQAAoJEFG1/Zeg0O9RyH8H/233G/vQ5k8cWUVnkoKy/rZM\nzYaIiI1eyKR7tT/rD/31f1yw/fM8k1MmQbLZaINJlScrR+MdhSsDM+N1R2ViH+dN\nWhiFB+m1iby6VdUzR+WpljPGghCWU6NA9bV6yj/2c08q/9LBJ+gfQ3kLauhIG4Ce\nCTVW5P94qHuSeRGzWTE6UEHb1gqBbK5DaefyQ11Zcik9XtK5XxWpYudc0znbyX1l\niJqPiFfiJhzXSWV/lZ1aHLfYEzLyTD4CuE4y/wd+NCRk12ZiNHZ4Y8rroHNEq5Ll\nUykk+VQGJY2XtF0B7f3Euk2eTygU17SWb/ZEtI9G+66e8L5DbjqSPUO0j3OPh1M\u003d\n\u003doucv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "35792acd_b8327758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T12:37:57Z",
+      "side": 1,
+      "message": "Thank you, this is an excellent commit message.",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc3934b_91b5f5d8",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T12:37:57Z",
+      "side": 1,
+      "message": "Maybe this block needs to be moved to the top?\n\nThe *IndexCollection listeners are responsible for closing the Index instances. I think that means we want to drain and shutdown the executors before running those listeners.",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

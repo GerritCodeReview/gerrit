@@ -314,7 +314,7 @@
     },
 
     _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProject(project);
+      return Gerrit.Nav.getUrlForProjectChanges(project);
     },
 
     _computeBranchURL(project, branch) {

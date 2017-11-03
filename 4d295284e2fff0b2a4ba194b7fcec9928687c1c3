@@ -119,6 +119,30 @@
       "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d2259be_aaaaed03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T15:39:00Z",
+      "side": 1,
+      "message": "\u003e What is the effect in practice? This was a cause of thread leaks in tests, which we don\u0027t care \n\u003e about; what about a running server? The server does eventually shut down, it\u0027s not like \n\u003e there\u0027s a deadlock. Are we failing to write some index updates to disk?\n\nIt means that we don\u0027t wait for reindex requests that were already scheduled and hence they may be lost.",
+      "parentUuid": "024c3a43_e713e435",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

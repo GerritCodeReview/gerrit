@@ -23,6 +23,30 @@
       "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd293687_8b062894",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T15:32:28Z",
+      "side": 1,
+      "message": "Ah, you were faster than I could add my comment on this change.\nI agree that this is not urgently needed for 2.15. I only did the cherry-pick since this was proposed on the fixes when I did them on master,\n\n\u003e Which of these issues apply to the stable branch?\n\n1. Reindexes that are scheduled via the batch index executor may get lost on Gerrit shutdown.\n   The batch index executor is only used by the change index for reindexIfStale. So this \n   affects changes that got stale in the index due to an update race (see \n   autoReindexIfStale).\n   I guess this can only affect very few changes.\n\n2. I think this affects 2.15. If search and write index are the same instance than the \n   interactive index executor is not shutdown.\n\n3. Not important for 2.15\n\n4. Not important for 2.15\n\n5. Not important for 2.15, since ElasticSearch is not officially supported?\n\nAFAIK the OOM when running the query tests doesn\u0027t occur on stable-2.15.",
+      "parentUuid": "6dfce330_e4ceafae",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

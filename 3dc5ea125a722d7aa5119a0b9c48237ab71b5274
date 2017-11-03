@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "8d4d2542_0b62792f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T12:58:53Z",
+      "side": 1,
+      "message": "Thanks! You both helped a lot to collect all this information and pointers.",
+      "parentUuid": "7781f463_b5929e98",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fc3934b_91b5f5d8",
         "filename": "java/com/google/gerrit/server/index/IndexModule.java",
         "patchSetId": 2
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "Ah right of course. Clarifying the comment will help :)",
       "parentUuid": "69c244e1_81eae010",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00428a83_d1271539",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T12:58:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67f2acc2_c75d5fe1",
       "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

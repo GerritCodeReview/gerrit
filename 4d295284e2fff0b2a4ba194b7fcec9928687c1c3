@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1509722203 +0100\nnonce AMT3iFiPx5tLI9fzq/lmiW8Dwc4BZAhq7m82LssHGWrdvU1biMd0HymyfledQxsAS0ASVfX1ErCw\n\n0000000000000000000000000000000000000000 4d295284e2fff0b2a4ba194b7fcec9928687c1c3 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJZ/IhbAAoJEFG1/Zeg0O9R57wH/1k4CMinXJ9Tl3KucTEQKuYq\n5o+LyUAX6AAJYONTpEsBIgCm+3b6fe7L9wFWk+OF4RmOSjU6OS7DRG1OZMgumsFv\nF7jK5C37NkDn4rfXRVQSFOQ3wYW9uw+bTu9cPW479J8GRUrjQsA5Db7iP3HWXx4U\n66bfazLKfGGPS55Slw5J89PFlNqYVpka4CrrCZrb7GG6SsjIYkWVOdp2Lq+Nrxz3\n0XNqA/5RvtlvXnCDOh0jSB+m1k0BvGGLPobTJN3vrFMDa0mtu0ULu7ekVL+26L7I\nEuYstklBq2TeadKq23RD4IVwgWFy1eMovs25wvxZqWrWCMdL19xFBXMtBwM2ZM0\u003d\n\u003dGxNk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dfce330_e4ceafae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T15:19:21Z",
+      "side": 1,
+      "message": "Which of these issues apply to the stable branch? I am not particularly worried about leaking threads in tests, and it seems like the actual behavior of servers is not really a problem, with the possible exception of (1).",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

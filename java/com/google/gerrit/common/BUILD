@@ -35,6 +35,7 @@ java_library(
         ["**/*.java"],
         exclude = ANNOTATIONS,
     ),
+    resources = [":Version"],
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
@@ -51,20 +52,9 @@ java_library(
     ],
 )
 
-java_import(
-    name = "version",
-    jars = [":gen_version"],
-    visibility = ["//visibility:public"],
-)
-
-genrule2(
+genrule(
     name = "gen_version",
-    outs = ["gen_version.jar"],
-    cmd = " && ".join([
-        "cd $$TMP",
-        "mkdir -p com/google/gerrit/common",
-        "cat $$ROOT/$(location //:version.txt) >com/google/gerrit/common/Version",
-        "zip -9Dqr $$ROOT/$@ .",
-    ]),
-    tools = ["//:version.txt"],
+    srcs = ["//:version.txt"],
+    outs = ["Version"],
+    cmd = "cat $< > $@",
 )

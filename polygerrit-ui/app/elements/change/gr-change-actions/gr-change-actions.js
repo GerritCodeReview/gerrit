@@ -160,6 +160,12 @@
      * @event reload-change
      */
 
+     /**
+     * Fired when the reply button is tapped.
+     *
+     * @event reply-tap
+     */
+
     /**
      * Fired when an action is tapped.
      *
@@ -223,9 +229,14 @@
             'primaryActionKeys.*, _additionalActions.*, change, ' +
             '_actionPriorityOverrides.*)',
       },
-      _topLevelActions: {
+      _topLevelPrimaryActions: {
         type: Array,
-        computed: '_computeTopLevelActions(_allActionValues.*, ' +
+        computed: '_computePrimaryTopLevelActions(_allActionValues.*, ' +
+            '_hiddenActions.*, _overflowActions.*)',
+      },
+      _topLevelSecondaryActions: {
+        type: Array,
+        computed: '_computeSecondaryTopLevelActions(_allActionValues.*, ' +
             '_hiddenActions.*, _overflowActions.*)',
       },
       _menuActions: {
@@ -689,6 +700,11 @@
           this.commitMessage, this.change.current_revision);
       this.$.confirmRevertDialog.message = this._modifyRevertMsg();
       this._showActionDialog(this.$.confirmRevertDialog);
+    },
+
+    _handleReplyTap(e) {
+      e.preventDefault();
+      this.fire('reply-tap');
     },
 
     _handleActionTap(e) {
@@ -1162,6 +1178,20 @@
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
       });
+    },
+
+    _computePrimaryTopLevelActions(actionRecord, hiddenActionsRecord) {
+      return this._computeTopLevelActions(actionRecord, hiddenActionsRecord)
+          .filter(action => {
+            return action.__primary;
+          });
+    },
+
+    _computeSecondaryTopLevelActions(actionRecord, hiddenActionsRecord) {
+      return this._computeTopLevelActions(actionRecord, hiddenActionsRecord)
+          .filter(action => {
+            return !action.__primary;
+          });
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {

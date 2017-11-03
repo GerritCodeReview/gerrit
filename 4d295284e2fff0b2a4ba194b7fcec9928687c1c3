@@ -143,6 +143,30 @@
       "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31034c1e_6a81480e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T15:41:34Z",
+      "side": 1,
+      "message": "\u003e If this is the only thing we are worried about we could fix this more easily by cherry-picking https://gerrit-review.googlesource.com/c/gerrit/+/138411\n\nI think I would rather just pick this change, TBH. It\u0027s a lot of explanation and a lot of thinking, but not actually much code :)",
+      "parentUuid": "3d2259be_aaaaed03",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

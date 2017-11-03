@@ -698,5 +698,22 @@ limitations under the License.
         assert.equal(element._numPendingDraftRequests.number, 0);
       });
     });
+
+    suite('saving progress indicators', () => {
+      setup(() => {
+        sandbox.stub(element, '_deleteDraft').returns(Promise.resolve());
+        element._savingMessage = '';
+      });
+
+      test('saving', () => {
+        element._saveDraft();
+        assert.equal(element._savingMessage, 'Saving draft...');
+      });
+
+      test('discarding', () => {
+        element._discardDraft();
+        assert.equal(element._savingMessage, 'Discarding draft...');
+      });
+    });
   });
 </script>

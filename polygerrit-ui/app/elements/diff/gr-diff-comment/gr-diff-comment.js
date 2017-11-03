@@ -21,6 +21,8 @@
   const DRAFT_SINGULAR = 'draft...';
   const DRAFT_PLURAL = 'drafts...';
   const SAVED_MESSAGE = 'All changes saved';
+  const SAVING_PROGRESS_MESSAGE = 'Saving draft...';
+  const DiSCARDING_PROGRESS_MESSAGE = 'Discarding draft...';
 
   Polymer({
     is: 'gr-diff-comment',
@@ -120,6 +122,8 @@
         type: Object,
         value: {number: 0}, // Intentional to share the object across instances.
       },
+
+      _savingMessage: String,
     },
 
     observers: [
@@ -433,6 +437,7 @@
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
+      this._savingMessage = DiSCARDING_PROGRESS_MESSAGE;
       this.editing = false;
       this.disabled = true;
       this._eraseDraftComment();
@@ -497,6 +502,7 @@
     },
 
     _saveDraft(draft) {
+      this._savingMessage = SAVING_PROGRESS_MESSAGE;
       this._showStartRequest();
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {

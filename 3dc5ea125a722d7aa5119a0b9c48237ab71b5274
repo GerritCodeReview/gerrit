@@ -34,6 +34,24 @@
       "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69c244e1_81eae010",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T12:45:24Z",
+      "side": 1,
+      "message": "No. See commit message:\n\"... the LifecycleListener to stop the executors must be registered after the LifecycleListeners that close the indexes (on Gerrit start the LifecycleListeners are invoked in the order in which they are registered, on shutdown of Gerrit the order is reversed).\"\n\nI can add this as a comment here too.",
+      "parentUuid": "5fc3934b_91b5f5d8",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

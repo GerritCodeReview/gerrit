@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a954c64_82ba085a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-03T18:42:05Z",
+      "side": 1,
+      "message": "This is not needed.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "98ce50bdf76c79510b657ccad236ae87787422c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca876306_cac739a1",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 9
@@ -13,6 +36,30 @@
       "writtenOn": "2017-11-02T22:53:36Z",
       "side": 1,
       "message": "On line 941 it is using bind(this) do we have to do it here?\n\nIt seems to work without it but im wondering what will break? Will it work without it.",
+      "range": {
+        "startLine": 945,
+        "startChar": 6,
+        "endLine": 947,
+        "endChar": 9
+      },
+      "revId": "98ce50bdf76c79510b657ccad236ae87787422c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acf3c02d_4da30b49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-03T18:42:05Z",
+      "side": 1,
+      "message": "This can just be\n\n      return this.getChangeEditFiles(changeNum, patchRange).then(files \u003d\u003e\n        this._normalizeChangeFilesResponse(files.files));",
+      "parentUuid": "ca876306_cac739a1",
       "range": {
         "startLine": 945,
         "startChar": 6,

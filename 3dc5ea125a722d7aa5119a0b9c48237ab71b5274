@@ -52,6 +52,24 @@
       "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f2acc2_c75d5fe1",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T12:47:51Z",
+      "side": 1,
+      "message": "Ah right of course. Clarifying the comment will help :)",
+      "parentUuid": "69c244e1_81eae010",
+      "revId": "3dc5ea125a722d7aa5119a0b9c48237ab71b5274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

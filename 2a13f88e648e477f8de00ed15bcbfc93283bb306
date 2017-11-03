@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d653319e_90f8f150",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-03T21:33:18Z",
+      "side": 1,
+      "message": "Confusing sentence: are disabled buttons the light gray or the dark gray?",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "2a13f88e648e477f8de00ed15bcbfc93283bb306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a917a3a_da5f2ddf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-03T21:33:18Z",
+      "side": 1,
+      "message": "Nit: I think this should probably be\n\n /*",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "2a13f88e648e477f8de00ed15bcbfc93283bb306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

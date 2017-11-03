@@ -20,7 +20,6 @@
     DASHBOARD: /^\/dashboard\/(.+)$/,
     CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
 
-    ADMIN_PLACEHOLDER: '/admin/(.*)',
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
 
@@ -600,9 +599,6 @@
 
       this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
 
-      this._mapRoute(RoutePattern.ADMIN_PLACEHOLDER,
-          '_handleAdminPlaceholderRoute', true);
-
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
       this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
@@ -1001,12 +997,6 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-plugin-list',
       });
-    },
-
-    _handleAdminPlaceholderRoute(data) {
-      data.params.view = Gerrit.Nav.View.ADMIN;
-      data.params.placeholder = true;
-      this._setParams(data.params);
     },
 
     _handleQueryRoute(data) {

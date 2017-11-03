@@ -669,7 +669,7 @@ public final class GerritLauncher {
   }
 
   private static ClassLoader useDevClasspath() throws MalformedURLException, FileNotFoundException {
-    Path out = resolveInSourceRoot("eclipse-out");
+    Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
     dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();

@@ -96,6 +96,30 @@
       "revId": "a5176d7f01a07e0e84198fd73641488c6952e05d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff3ac793_7c206733",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-03T17:27:37Z",
+      "side": 1,
+      "message": "What I think I meant was that we don\u0027t need the redirection if `_getLoggedIn` fails. Maybe all we want is ..\n\n if (!loggedIn) { return; }\n\n.. to be safe.\n\nAlthough that may never happen either. Hmm.",
+      "parentUuid": "6c522d0c_feff2887",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 26
+      },
+      "revId": "a5176d7f01a07e0e84198fd73641488c6952e05d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

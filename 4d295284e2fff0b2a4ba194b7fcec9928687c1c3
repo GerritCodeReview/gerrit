@@ -95,6 +95,30 @@
       "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "024c3a43_e713e435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T15:36:38Z",
+      "side": 1,
+      "message": "\u003e 2. I think this affects 2.15. If search and write index are the same instance than the\n\u003e    interactive index executor is not shutdown.\n\nIf this is the only thing we are worried about we could fix this more easily by cherry-picking https://gerrit-review.googlesource.com/c/gerrit/+/138411",
+      "parentUuid": "cb95376e_1f307dec",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

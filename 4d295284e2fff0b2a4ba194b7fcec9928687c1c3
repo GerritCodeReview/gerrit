@@ -47,6 +47,30 @@
       "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb95376e_1f307dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-03T15:34:00Z",
+      "side": 1,
+      "message": "No need to say that changing how the executors are shutdown is more risky than normal bug-fixes, which is why we may not want this on stable-2.15.",
+      "parentUuid": "cd293687_8b062894",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 39
+      },
+      "revId": "4d295284e2fff0b2a4ba194b7fcec9928687c1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

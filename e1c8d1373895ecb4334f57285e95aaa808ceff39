@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a013c528_98de89bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "51613ca2_3150c74f",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 82
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72e9eddb_e3e1c05e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-03T18:15:35Z",
       "side": 1,
       "message": "I think this needs to be:\n\n::slotted(.range)\n\nfrom polymer docs:\n\n\u003cdom-module id\u003d\"slotted-el\"\u003e\n  \u003ctemplate\u003e\n    \u003cstyle\u003e\n      #container ::slotted(*) {\n        color: blue;\n      }\n      #container ::slotted(.warning) {\n        color: red;\n      }\n    \u003c/style\u003e\n    \u003cdiv id\u003d\"container\"\u003e\n      \u003cslot\u003e\u003c/slot\u003e\n    \u003c/div\u003e\n  \u003c/template\u003e\n\u003c/dom-module\u003e\n\n\u003c!-- usage --\u003e\n\u003cslotted-el\u003e\n  \u003cdiv\u003e\n    I\u0027m colored blue.\n  \u003c/div\u003e\n  \u003cdiv class\u003d\"warning\"\u003e\n    I\u0027m colored red.\n  \u003c/div\u003e\n  \u003cdiv\u003e\n    \u003cspan class\u003d\"warning\"\u003eSurprise! Not red.\u003c/span\u003e\n  \u003c/div\u003e\n\u003c/slotted-el\u003e",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d600788e_56a42e38",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "72e9eddb_e3e1c05e",
       "range": {
         "startLine": 27,
         "startChar": 22,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0bc00f44_3d01733f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ec9dab63_564b54d0",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86037318_13cd2122",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2017-11-03T18:15:35Z",
       "side": 1,
       "message": "need to be updated to ::slotted(...)",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4acdd43f_183e337f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86037318_13cd2122",
       "range": {
         "startLine": 22,
         "startChar": 7,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5dca0495_f0149efe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "I\u0027ve moved all of this into () not sure if i did it correct though?\n\nThanks, done.",
+      "parentUuid": "b82533fa_9c078dfc",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 71
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4881211a_62f864fd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 7
@@ -128,6 +248,30 @@
       "writtenOn": "2017-11-03T18:15:35Z",
       "side": 1,
       "message": "need to be updated to ::slotted(...)",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f056815c_043575de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-03T20:33:02Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4881211a_62f864fd",
       "range": {
         "startLine": 44,
         "startChar": 6,

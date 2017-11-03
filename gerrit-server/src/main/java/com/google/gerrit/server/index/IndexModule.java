@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -49,6 +51,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -78,11 +81,13 @@ public class IndexModule extends LifecycleModule {
   private final int threads;
   private final ListeningExecutorService interactiveExecutor;
   private final ListeningExecutorService batchExecutor;
+  private final boolean closeExecutorsOnShutdown;
 
   public IndexModule(int threads) {
     this.threads = threads;
     this.interactiveExecutor = null;
     this.batchExecutor = null;
+    this.closeExecutorsOnShutdown = true;
   }
 
   public IndexModule(
@@ -90,6 +95,7 @@ public class IndexModule extends LifecycleModule {
     this.threads = -1;
     this.interactiveExecutor = interactiveExecutor;
     this.batchExecutor = batchExecutor;
+    this.closeExecutorsOnShutdown = false;
   }
 
   @Override
@@ -108,6 +114,17 @@ public class IndexModule extends LifecycleModule {
     bind(GroupIndexCollection.class);
     listener().to(GroupIndexCollection.class);
     factory(GroupIndexerImpl.Factory.class);
+
+    if (closeExecutorsOnShutdown) {
+      // The executors must be shutdown _before_ closing the indexes.
+      // On Gerrit start the LifecycleListeners are invoked in the order in which they are
+      // registered, but on shutdown of Gerrit the order is reversed. This means the
+      // LifecycleListener to shutdown the executors must be registered _after_ the
+      // LifecycleListeners that close the indexes. The closing of the indexes is done by
+      // *IndexCollection which have been registered as LifecycleListener above. The
+      // registration of the ShutdownIndexExecutors LifecycleListener must happen afterwards.
+      listener().to(ShutdownIndexExecutors.class);
+    }
   }
 
   @Provides
@@ -180,5 +197,29 @@ public class IndexModule extends LifecycleModule {
       threads = Runtime.getRuntime().availableProcessors();
     }
     return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch"));
+  }
+
+  @Singleton
+  private static class ShutdownIndexExecutors implements LifecycleListener {
+    private final ListeningExecutorService interactiveExecutor;
+    private final ListeningExecutorService batchExecutor;
+
+    @Inject
+    ShutdownIndexExecutors(
+        @IndexExecutor(INTERACTIVE) ListeningExecutorService interactiveExecutor,
+        @IndexExecutor(BATCH) ListeningExecutorService batchExecutor) {
+      this.interactiveExecutor = interactiveExecutor;
+      this.batchExecutor = batchExecutor;
+    }
+
+    @Override
+    public void start() {}
+
+    @Override
+    public void stop() {
+      MoreExecutors.shutdownAndAwaitTermination(
+          interactiveExecutor, Long.MAX_VALUE, TimeUnit.SECONDS);
+      MoreExecutors.shutdownAndAwaitTermination(batchExecutor, Long.MAX_VALUE, TimeUnit.SECONDS);
+    }
   }
 }

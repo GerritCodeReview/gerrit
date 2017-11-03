@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a5249c_ebb7bad7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-03T15:44:58Z",
+      "side": 1,
+      "message": "I guess it\u0027s ok to safeguard, but this condition should never be met-- I don\u0027t think this is ever called on the row for PARENT (see l.84, PARENT is added manually, so the disabled prop is not calculated)",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "8e1d48b5f8612c0d6036b05f640c4108ce8dd701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9be885a7_9b46e709",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-03T15:44:58Z",
+      "side": 1,
+      "message": "nit: \u003d\u003d\u003d",
+      "revId": "8e1d48b5f8612c0d6036b05f640c4108ce8dd701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "265b4dd5_9634ea7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-03T15:44:58Z",
+      "side": 1,
+      "message": "I know this wasn\u0027t added here but for consistency \u003d\u003d\u003d",
+      "range": {
+        "startLine": 149,
+        "startChar": 22,
+        "endLine": 149,
+        "endChar": 25
+      },
+      "revId": "8e1d48b5f8612c0d6036b05f640c4108ce8dd701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

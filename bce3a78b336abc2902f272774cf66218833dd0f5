@@ -72,6 +72,24 @@
       "revId": "bce3a78b336abc2902f272774cf66218833dd0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62b1455f_ea8580d2",
+        "filename": "javatests/com/google/gerrit/common/VersionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-03T13:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be5cbcd_d873735d",
+      "revId": "bce3a78b336abc2902f272774cf66218833dd0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -28,6 +28,11 @@
         value: false,
         reflectToAttribute: true,
       },
+      loading: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       tertiary: {
         type: Boolean,
         value: false,
@@ -54,6 +59,10 @@
       keydown: '_handleKeydown',
     },
 
+    observers: [
+      '_computeDisabled(disabled, loading)',
+    ],
+
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.TooltipBehavior,
@@ -76,6 +85,10 @@
         this._enabledTabindex = this.getAttribute('tabindex');
       }
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
+    },
+
+    _computeDisabled(disabled, loading) {
+      return disabled || loading;
     },
 
     _handleKeydown(e) {

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1509715729 -0400\nnonce AMT3iFiUFsr0aAd+7FRisoYGmh3TKJUudsTWmFRZsIGngdqer38X1c0LvDFCn+n+QbjTjJXcGoyV\n\n0000000000000000000000000000000000000000 4743a0e67ef040e9a5dcc830c3e2424ebc5b467b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAln8bxEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM5AoP/As6V2Zuny2dzAWWL/pBi1bYHDAR\n32+Fn1dBUCUSdxHv2mb04s6TEC+/OOhvSkvr/sqg0qrY83/LfjOaC4pcPlLQoY1u\neaSFmFFxYbGuISOQYJTyokeut/h4JGaa1dB1HQ3fS8HGjFa9jhpvRx9p0VC10vXd\nK+73t+V4Lmzvg/QmcdziWKY+j21p82d42QCpI3ZIO0twLSHJ4g/4kKvQlYfeeStZ\nU903NjHcNSHlwp8Ua2aU3MkXkYJR1k2/TBsLHzzSvKMW5/Z49yPVsb2/u7eDXXaG\nc+ga/Ac0hbSu3ZcXeI7pIiqxiP6hCqfTGt62oTYeZyOGV90g4mQ2tu277ftHmPw0\nmQ8esMOAhb7JSuckpNQUE4YWWLZsZDwb8Gpcg3LRDPrC6euELkIkLywTBMkWSfNU\nWNaVeYVLbvzrRFKb0Wu9MPCI47Ns6dh0LEai5Is3MS6MDPRBIoGqs/crnMaqpG+D\nij9Xu7Su1XQN+NFIKTexlNzr8DnDruyI+CWDw1ks3ntNEyXp44kiJ8TnNt14IPRc\nlWQ5wjsKYUCB+MYbApHc+fqo1XsAn0rIUuinXxDC0y42NnDGzo6difRlO6f/W5rJ\nWTWqIOX9uXB3x1fNkWU/SaYqtsHn0LTqaflC1F6YwYk15WQeBQfxFoMzIyr0L9FR\nUrCQicasUQyQ5kAY\n\u003dPgql\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5714db2e_cfb9853b",
+        "filename": "javatests/com/google/gerrit/common/VersionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-03T13:45:35Z",
+      "side": 1,
+      "message": "Good idea to differentiate between tests ran in Elicpse and Bazel. Just wonder if it would make sense to extract this helper could to some general place?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 76
+      },
+      "revId": "4743a0e67ef040e9a5dcc830c3e2424ebc5b467b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05f97919_979bcde2",
+        "filename": "javatests/com/google/gerrit/common/VersionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-03T13:45:35Z",
+      "side": 1,
+      "message": "Assert one with \"dirty\"?",
+      "revId": "4743a0e67ef040e9a5dcc830c3e2424ebc5b467b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

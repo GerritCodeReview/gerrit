@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8b5eb68_284956b7",
+        "filename": "2q",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-04T00:26:28Z",
+      "side": 1,
+      "message": "Remove file please :)",
+      "revId": "94f1b484458e793a25a3b4a26dffa90c77b86516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

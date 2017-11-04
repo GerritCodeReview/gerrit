@@ -119,11 +119,257 @@ java_library(
 )
 
 java_library(
-    name = "pegdown",
-    data = ["//lib:LICENSE-Apache2.0"],
+    name = "flexmark",
+    data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@pegdown//jar"],
-    runtime_deps = [":grappa"],
+    exports = ["@flexmark//jar"],
+    runtime_deps = [
+        ":flexmark-ext-abbreviation",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-abbreviation",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-abbreviation//jar"],
+    runtime_deps = [
+        ":flexmark-ext-anchorlink",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-anchorlink",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-anchorlink//jar"],
+    runtime_deps = [
+        ":flexmark-ext-autolink",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-autolink",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-autolink//jar"],
+    runtime_deps = [
+        ":flexmark-ext-definition",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-definition",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-definition//jar"],
+    runtime_deps = [
+        ":flexmark-ext-emoji",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-emoji",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-emoji//jar"],
+    runtime_deps = [
+        ":flexmark-ext-escaped-character",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-escaped-character",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-escaped-character//jar"],
+    runtime_deps = [
+        ":flexmark-ext-footnotes",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-footnotes",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-footnotes//jar"],
+    runtime_deps = [
+        ":flexmark-ext-gfm-issues",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-gfm-issues",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-gfm-issues//jar"],
+    runtime_deps = [
+        ":flexmark-ext-gfm-strikethrough",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-gfm-strikethrough",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-gfm-strikethrough//jar"],
+    runtime_deps = [
+        ":flexmark-ext-gfm-tables",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-gfm-tables",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-gfm-tables//jar"],
+    runtime_deps = [
+        ":flexmark-ext-gfm-tasklist",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-gfm-tasklist",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-gfm-tasklist//jar"],
+    runtime_deps = [
+        ":flexmark-ext-gfm-users",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-gfm-users",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-gfm-users//jar"],
+    runtime_deps = [
+        ":flexmark-ext-ins",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-ins",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-ins//jar"],
+    runtime_deps = [
+        ":flexmark-ext-jekyll-front-matter",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-jekyll-front-matter",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-jekyll-front-matter//jar"],
+    runtime_deps = [
+        ":flexmark-ext-superscript",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-superscript",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-superscript//jar"],
+    runtime_deps = [
+        ":flexmark-ext-tables",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-tables",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-tables//jar"],
+    runtime_deps = [
+        ":flexmark-ext-toc",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-toc",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-toc//jar"],
+    runtime_deps = [
+        ":flexmark-ext-typographic",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-typographic",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-typographic//jar"],
+    runtime_deps = [
+        ":flexmark-ext-wikilink",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-wikilink",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-wikilink//jar"],
+    runtime_deps = [
+        ":flexmark-ext-yaml-front-matter",
+    ],
+)
+
+java_library(
+    name = "flexmark-ext-yaml-front-matter",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-ext-yaml-front-matter//jar"],
+    runtime_deps = [
+        ":flexmark-formatter",
+    ],
+)
+
+java_library(
+    name = "flexmark-formatter",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-formatter//jar"],
+    runtime_deps = [
+        ":flexmark-html-parser",
+    ],
+)
+
+java_library(
+    name = "flexmark-html-parser",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-html-parser//jar"],
+    runtime_deps = [
+        ":flexmark-profile-pegdown",
+    ],
+)
+
+java_library(
+    name = "flexmark-profile-pegdown",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-profile-pegdown//jar"],
+    runtime_deps = [
+        ":flexmark-util",
+    ],
+)
+
+java_library(
+    name = "flexmark-util",
+    data = ["//lib:LICENSE-flexmark"],
+    visibility = ["//visibility:public"],
+    exports = ["@flexmark-util//jar"],
+)
+
+java_library(
+    name = "autolink",
+    data = ["//lib:LICENSE-autolink"],
+    visibility = ["//visibility:public"],
+    exports = ["@autolink//jar"],
 )
 
 java_library(

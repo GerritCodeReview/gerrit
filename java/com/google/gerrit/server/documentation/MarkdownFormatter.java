@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,17 @@
 package com.google.gerrit.server.documentation;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.pegdown.Extensions.ALL;
-import static org.pegdown.Extensions.HARDWRAPS;
-import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.ALL;
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.HARDWRAPS;
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
+import com.vladsch.flexmark.ast.Node;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.profiles.pegdown.Extensions;
+import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
+import com.vladsch.flexmark.util.options.MutableDataHolder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,13 +36,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ToHtmlSerializer;
-import org.pegdown.ast.HeaderNode;
-import org.pegdown.ast.Node;
-import org.pegdown.ast.RootNode;
-import org.pegdown.ast.TextNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,8 +82,9 @@ public class MarkdownFormatter {
   }
 
   public byte[] markdownToDocHtml(String md, String charEnc) throws UnsupportedEncodingException {
-    RootNode root = parseMarkdown(md);
-    String title = findTitle(root);
+    String root = parseMarkdown(md);
+    //String title = findTitle(root);
+    String title = null;
 
     StringBuilder html = new StringBuilder();
     html.append("<html>");
@@ -101,17 +101,18 @@ public class MarkdownFormatter {
     html.append("\n</style>");
     html.append("</head>");
     html.append("<body>\n");
-    html.append(new ToHtmlSerializer(new LinkRenderer()).toHtml(root));
+    // html.append(new ToHtmlSerializer(new LinkRenderer()).toHtml(root));
+    html.append(root);
     html.append("\n</body></html>");
     return html.toString().getBytes(charEnc);
   }
 
-  public String extractTitleFromMarkdown(byte[] data, String charEnc) {
+  /* public String extractTitleFromMarkdown(byte[] data, String charEnc) {
     String md = RawParseUtils.decode(Charset.forName(charEnc), data);
     return findTitle(parseMarkdown(md));
-  }
+  } */
 
-  private String findTitle(Node root) {
+  /* private String findTitle(String root) {
     if (root instanceof HeaderNode) {
       HeaderNode h = (HeaderNode) root;
       if (h.getLevel() == 1 && h.getChildren() != null && !h.getChildren().isEmpty()) {
@@ -132,14 +133,20 @@ public class MarkdownFormatter {
       }
     }
     return null;
-  }
+  } */
 
-  private RootNode parseMarkdown(String md) {
+  private String parseMarkdown(String md) {
     int options = ALL & ~(HARDWRAPS);
     if (suppressHtml) {
       options |= SUPPRESS_ALL_HTML;
     }
-    return new PegDownProcessor(options).parseMarkdown(md.toCharArray());
+
+    MutableDataHolder optionsExt = PegdownOptionsAdapter.flexmarkOptions(options).toMutable();
+
+    Parser parser = Parser.builder(optionsExt).build();
+    Node document = parser.parse(md);
+    HtmlRenderer renderer = HtmlRenderer.builder(optionsExt).build();
+    return renderer.render(document);
   }
 
   private static String readPegdownCss(AtomicBoolean file) throws IOException {

@@ -2506,7 +2506,7 @@ prefix is configurable by setting the `Gerrit-HttpDocumentationPrefix`
 attribute.
 
 Documentation may be written in the Markdown flavor
-link:https://github.com/sirthias/pegdown[pegdown]
+link:https://github.com/vsch/flexmark-java[flexmark-java]
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 

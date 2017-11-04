@@ -8,6 +8,9 @@ load(
     "GWT_JVM_ARGS",
     "gwt_binary",
 )
+load("//tools/bzl:asciidoc.bzl", "documentation_attributes")
+load("//tools/bzl:asciidoc.bzl", "genasciidoc")
+load("//tools/bzl:asciidoc.bzl", "genasciidoc_zip")
 
 PLUGIN_DEPS = ["//plugins:plugin-lib"]
 
@@ -27,13 +30,58 @@ def gerrit_plugin(
     srcs = [],
     gwt_module = [],
     resources = [],
+    documentation = [],
+    doc_prefix = "Documentation",
     manifest_entries = [],
     target_suffix = "",
     **kwargs):
+  docs = []
+  docs2 = ''
+  if documentation:
+    native.genrule(
+        name = "index",
+        srcs = documentation,
+        outs = ["index__plugin.jar"],
+        cmd = "$(location //lib/asciidoctor:doc_indexer) " +
+              "-o $(OUTS) " +
+              "--prefix \"%s/\" " % doc_prefix +
+              "--in-ext \".txt\" " +
+              "--out-ext \".html\" " +
+              "$(SRCS)",
+        tools = ["//lib/asciidoctor:doc_indexer"],
+        visibility = ['//visibility:public'],
+    )
+    genasciidoc(
+        name = "Documentation",
+        srcs = documentation,
+        attributes = documentation_attributes(),
+        backend = "html5",
+        visibility = ["//visibility:public"],
+    )
+    genasciidoc_zip(
+        name = "html",
+        srcs = documentation,
+        attributes = documentation_attributes(),
+        backend = "html5",
+        directory = "Documentation",
+        visibility = ["//visibility:public"],
+    )
+    genasciidoc_zip(
+        name = "searchfree",
+        srcs = documentation,
+        attributes = documentation_attributes(),
+        backend = "html5",
+        directory = "Documentation",
+        searchbox = False,
+        visibility = ["//visibility:public"],
+    )
+    docs = [':index']
+    docs2 = ':html'
+
   native.java_library(
     name = name + '__plugin',
     srcs = srcs,
-    resources = resources,
+    resources = resources + docs,
     deps = provided_deps + deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
     visibility = ['//visibility:public'],
     **kwargs
@@ -95,7 +143,8 @@ def gerrit_plugin(
       "cd $$TMP",
       "unzip -q $$ROOT/$<",
       "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
-      "zip -qr $$ROOT/$@ ."]),
+      "zip -qr $$ROOT/$@ ."
+    ]),
     outs = ['%s%s.jar' % (name, target_suffix)],
     visibility = ['//visibility:public'],
   )

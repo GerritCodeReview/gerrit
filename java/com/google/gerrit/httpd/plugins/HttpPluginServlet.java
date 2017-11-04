@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -535,7 +535,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
 
   private static String extractTitleFromMarkdown(PluginContentScanner scanner, PluginEntry entry)
       throws IOException {
-    String charEnc = null;
+    /*String charEnc = null;
     Map<Object, String> atts = entry.getAttrs();
     if (atts != null) {
       charEnc = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
@@ -544,7 +544,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       charEnc = UTF_8.name();
     }
     return new MarkdownFormatter()
-        .extractTitleFromMarkdown(readWholeEntry(scanner, entry), charEnc);
+        .extractTitleFromMarkdown(readWholeEntry(scanner, entry), charEnc);*/
+    return null;
   }
 
   private static Optional<PluginEntry> findSource(PluginContentScanner scanner, String file)

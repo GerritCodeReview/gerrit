@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,29 +14,31 @@
 
 package com.google.gerrit.server.documentation;
 
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.ALL;
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.HARDWRAPS;
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.SUPPRESS_ALL_HTML;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.pegdown.Extensions.ALL;
-import static org.pegdown.Extensions.HARDWRAPS;
-import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
+import com.vladsch.flexmark.Extension;
+import com.vladsch.flexmark.ast.Heading;
+import com.vladsch.flexmark.ast.Node;
+import com.vladsch.flexmark.ast.util.TextCollectingVisitor;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
+import com.vladsch.flexmark.util.options.MutableDataHolder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ToHtmlSerializer;
-import org.pegdown.ast.HeaderNode;
-import org.pegdown.ast.Node;
-import org.pegdown.ast.RootNode;
-import org.pegdown.ast.TextNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,8 +84,25 @@ public class MarkdownFormatter {
     return this;
   }
 
+  private MutableDataHolder markDownOptions() {
+    int options = ALL & ~(HARDWRAPS);
+    if (suppressHtml) {
+      options |= SUPPRESS_ALL_HTML;
+    }
+
+    MutableDataHolder optionsExt = PegdownOptionsAdapter.flexmarkOptions(options).toMutable();
+
+    ArrayList<Extension> extensions = new ArrayList<Extension>();
+    for ( Extension extension : optionsExt.get( com.vladsch.flexmark.parser.Parser.EXTENSIONS ) ) {
+      extensions.add( extension );
+    }
+
+    return optionsExt;
+  }
+
   public byte[] markdownToDocHtml(String md, String charEnc) throws UnsupportedEncodingException {
-    RootNode root = parseMarkdown(md);
+    Node root = parseMarkdown(md);
+    HtmlRenderer renderer = HtmlRenderer.builder(markDownOptions()).build();
     String title = findTitle(root);
 
     StringBuilder html = new StringBuilder();
@@ -101,7 +120,7 @@ public class MarkdownFormatter {
     html.append("\n</style>");
     html.append("</head>");
     html.append("<body>\n");
-    html.append(new ToHtmlSerializer(new LinkRenderer()).toHtml(root));
+    html.append(renderer.render(root));
     html.append("\n</body></html>");
     return html.toString().getBytes(charEnc);
   }
@@ -112,14 +131,14 @@ public class MarkdownFormatter {
   }
 
   private String findTitle(Node root) {
-    if (root instanceof HeaderNode) {
-      HeaderNode h = (HeaderNode) root;
-      if (h.getLevel() == 1 && h.getChildren() != null && !h.getChildren().isEmpty()) {
+    if (root instanceof Heading) {
+      Heading h = (Heading) root;
+      if (h.getLevel() == 1 && h.getChildren() != null) {
         StringBuilder b = new StringBuilder();
         for (Node n : root.getChildren()) {
-          if (n instanceof TextNode) {
-            b.append(((TextNode) n).getText());
-          }
+          TextCollectingVisitor collectingVisitor = new TextCollectingVisitor();
+          String headingText = collectingVisitor.collectAndGetText( n );
+          b.append(headingText);
         }
         return b.toString();
       }
@@ -134,12 +153,10 @@ public class MarkdownFormatter {
     return null;
   }
 
-  private RootNode parseMarkdown(String md) {
-    int options = ALL & ~(HARDWRAPS);
-    if (suppressHtml) {
-      options |= SUPPRESS_ALL_HTML;
-    }
-    return new PegDownProcessor(options).parseMarkdown(md.toCharArray());
+  private Node parseMarkdown(String md) {
+    Parser parser = Parser.builder(markDownOptions()).build();
+    Node document = parser.parse(md);
+    return document;
   }
 
   private static String readPegdownCss(AtomicBoolean file) throws IOException {

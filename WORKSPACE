@@ -335,10 +335,162 @@ maven_jar(
     sha1 = "959a0c62f9a5c2309e0ad0b0589c74d69e101241",
 )
 
+FLEXMARK_VERS = "0.28.20"
+
 maven_jar(
-    name = "pegdown",
-    artifact = "org.pegdown:pegdown:1.6.0",
-    sha1 = "231ae49d913467deb2027d0b8a0b68b231deef4f",
+    name = "flexmark",
+    artifact = "com.vladsch.flexmark:flexmark:" + FLEXMARK_VERS,
+    sha1 = "9d0e0b0910414f889f95a3dbe399c2983e0c43f9",
+)
+
+maven_jar(
+    name = "flexmark-ext-abbreviation",
+    artifact = "com.vladsch.flexmark:flexmark-ext-abbreviation:" + FLEXMARK_VERS,
+    sha1 = "f701d34ed06ac15a64cf2b34f5509828badb887f",
+)
+
+maven_jar(
+    name = "flexmark-ext-anchorlink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-anchorlink:" + FLEXMARK_VERS,
+    sha1 = "9cf5461899bc899b7716f4dfe5b05ca12d5d3dfe",
+)
+
+maven_jar(
+    name = "flexmark-ext-autolink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-autolink:" + FLEXMARK_VERS,
+    sha1 = "9199e542d0d11b469764422c3b985e774e43deb1",
+)
+
+maven_jar(
+    name = "flexmark-ext-definition",
+    artifact = "com.vladsch.flexmark:flexmark-ext-definition:" + FLEXMARK_VERS,
+    sha1 = "05beaa8fe2f581684c925ef8b335a4858e602327",
+)
+
+maven_jar(
+    name = "flexmark-ext-emoji",
+    artifact = "com.vladsch.flexmark:flexmark-ext-emoji:" + FLEXMARK_VERS,
+    sha1 = "8e4915b28a93eae633454fe7680c45d5a1c4ebbe",
+)
+
+maven_jar(
+    name = "flexmark-ext-escaped-character",
+    artifact = "com.vladsch.flexmark:flexmark-ext-escaped-character:" + FLEXMARK_VERS,
+    sha1 = "06b0e633f7bc20848d66e6fbfd9ce3f9a939910c",
+)
+
+maven_jar(
+    name = "flexmark-ext-footnotes",
+    artifact = "com.vladsch.flexmark:flexmark-ext-footnotes:" + FLEXMARK_VERS,
+    sha1 = "1ebbe51e2271047a34ec3c0b38bccc9441fb8d88",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-issues",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-issues:" + FLEXMARK_VERS,
+    sha1 = "ff43f3e13f60f491f261063711d2d23ded6792a2",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-strikethrough",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:" + FLEXMARK_VERS,
+    sha1 = "859d9fec457837e8a991b988a9a06c0054e7ada5",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-tables",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tables:" + FLEXMARK_VERS,
+    sha1 = "3c57f17f2e3a1028a890e9a92a10237d045386b4",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-tasklist",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:" + FLEXMARK_VERS,
+    sha1 = "78faa9d69dac0798e6bd2223d91a91cc9704b9ee",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-users",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-users:" + FLEXMARK_VERS,
+    sha1 = "fe237e14a4a44ad7f435d52b73a62bb7624cea81",
+)
+
+maven_jar(
+    name = "flexmark-ext-ins",
+    artifact = "com.vladsch.flexmark:flexmark-ext-ins:" + FLEXMARK_VERS,
+    sha1 = "c9d328613daeb4bdefff4886c41c57e8b16a154a",
+)
+
+maven_jar(
+    name = "flexmark-ext-jekyll-front-matter",
+    artifact = "com.vladsch.flexmark:flexmark-ext-jekyll-front-matter:" + FLEXMARK_VERS,
+    sha1 = "94ccac106f3464029d0816b51c0c971597dbef52",
+)
+
+maven_jar(
+    name = "flexmark-ext-superscript",
+    artifact = "com.vladsch.flexmark:flexmark-ext-superscript:" + FLEXMARK_VERS,
+    sha1 = "40130bb97cea3c672dc589fa608b77e4cbaa65b8",
+)
+
+maven_jar(
+    name = "flexmark-ext-tables",
+    artifact = "com.vladsch.flexmark:flexmark-ext-tables:" + FLEXMARK_VERS,
+    sha1 = "c9f3436b76d7e2e7b73741e0b79aa30770398522",
+)
+
+maven_jar(
+    name = "flexmark-ext-toc",
+    artifact = "com.vladsch.flexmark:flexmark-ext-toc:" + FLEXMARK_VERS,
+    sha1 = "f90481da5e4a111e71f54b5d0bd9a35eb8f25752",
+)
+
+maven_jar(
+    name = "flexmark-ext-typographic",
+    artifact = "com.vladsch.flexmark:flexmark-ext-typographic:" + FLEXMARK_VERS,
+    sha1 = "6d035dd97b2b510cbda5af18dfaf6015bc9294a7",
+)
+
+maven_jar(
+    name = "flexmark-ext-wikilink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-wikilink:" + FLEXMARK_VERS,
+    sha1 = "c982433d7070b7503736963ff8e0fe2a1138206c",
+)
+
+maven_jar(
+    name = "flexmark-ext-yaml-front-matter",
+    artifact = "com.vladsch.flexmark:flexmark-ext-yaml-front-matter:" + FLEXMARK_VERS,
+    sha1 = "113321c981277c0fecd2f81f909f449da5db5d94",
+)
+
+maven_jar(
+    name = "flexmark-formatter",
+    artifact = "com.vladsch.flexmark:flexmark-formatter:" + FLEXMARK_VERS,
+    sha1 = "26275d6109a66959d2b55972f0b0e90bd45372bf",
+)
+
+maven_jar(
+    name = "flexmark-html-parser",
+    artifact = "com.vladsch.flexmark:flexmark-html-parser:" + FLEXMARK_VERS,
+    sha1 = "2f6f81ea3271b21e8fd16755e593c4816a121304",
+)
+
+maven_jar(
+    name = "flexmark-profile-pegdown",
+    artifact = "com.vladsch.flexmark:flexmark-profile-pegdown:" + FLEXMARK_VERS,
+    sha1 = "b84d7ee919fc7cbca658e5ee48fd0007c02bd560",
+)
+
+maven_jar(
+    name = "flexmark-util",
+    artifact = "com.vladsch.flexmark:flexmark-util:" + FLEXMARK_VERS,
+    sha1 = "25b7b7519b0a2b3bd0f6ba6fb64f316c364ea0e5",
+)
+
+maven_jar(
+    name = "autolink",
+    artifact = "org.nibor.autolink:autolink:0.7.0",
+    sha1 = "649f9f13422cf50c926febe6035662ae25dc89b2",
 )
 
 maven_jar(

@@ -634,6 +634,140 @@ limitations under the License.
       assert.notInclude(element._disabledMenuActions, 'cherrypick');
     });
 
+    suite('abandon change', () => {
+      let alertStub;
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
+        element.actions = {
+          abandon: {
+            method: 'POST',
+            label: 'Abandon',
+            title: 'Abandon the change',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      test('abandon change with message', done => {
+        const newAbandonMsg = 'Test Abandon Message';
+        element.$.confirmAbandonDialog.message = newAbandonMsg;
+        flush(() => {
+          const abandonButton =
+              element.$$('gr-button[data-action-key="abandon"]');
+          MockInteractions.tap(abandonButton);
+
+          assert.equal(element.$.confirmAbandonDialog.message, newAbandonMsg);
+          done();
+        });
+      });
+
+      test('abandon change with no message', done => {
+        flush(() => {
+          const abandonButton =
+              element.$$('gr-button[data-action-key="abandon"]');
+          MockInteractions.tap(abandonButton);
+
+          assert.isUndefined(element.$.confirmAbandonDialog.message);
+          done();
+        });
+      });
+
+      test('works', () => {
+        element.$.confirmAbandonDialog.message = 'original message';
+        const restoreButton = element.$$('gr-button[data-action-key="abandon"]');
+        MockInteractions.tap(restoreButton);
+
+        element.$.confirmAbandonDialog.message = 'foo message';
+        element._handleAbandonDialogConfirm();
+        assert.notOk(alertStub.called);
+
+        const action = {
+          __key: 'abandon',
+          __type: 'change',
+          __primary: false,
+          enabled: true,
+          label: 'Abandon',
+          method: 'POST',
+          title: 'Abandon the change',
+        };
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/abandon', action, false, {
+            message: 'foo message',
+          }]);
+      });
+    });
+
+    suite('restore change', () => {
+      let alertStub;
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
+        element.actions = {
+          restore: {
+            method: 'POST',
+            label: 'Restore',
+            title: 'Restore the change',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      test('restore change with message', done => {
+        const newRestoreMsg = 'Test Restore Message';
+        element.$.confirmRestoreDialog.message = newRestoreMsg;
+        flush(() => {
+          const restoreButton =
+              element.$$('gr-button[data-action-key="restore"]');
+          MockInteractions.tap(restoreButton);
+
+          assert.equal(element.$.confirmRestoreDialog.message, newRestoreMsg);
+          done();
+        });
+      });
+
+      test('restore change with no message', done => {
+        flush(() => {
+          const restoreButton =
+              element.$$('gr-button[data-action-key="restore"]');
+          MockInteractions.tap(restoreButton);
+
+          assert.isUndefined(element.$.confirmRestoreDialog.message);
+          done();
+        });
+      });
+
+      test('works', () => {
+        element.$.confirmRestoreDialog.message = 'original message';
+        const restoreButton = element.$$('gr-button[data-action-key="restore"]');
+        MockInteractions.tap(restoreButton);
+
+        element.$.confirmRestoreDialog.message = 'foo message';
+        element._handleRestoreDialogConfirm();
+        assert.notOk(alertStub.called);
+
+        const action = {
+          __key: 'restore',
+          __type: 'change',
+          __primary: false,
+          enabled: true,
+          label: 'Restore',
+          method: 'POST',
+          title: 'Restore the change',
+        };
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/restore', action, false, {
+            message: 'foo message',
+          }]);
+      });
+    });
+
     suite('revert change', () => {
       let alertStub;
       let fireActionStub;

@@ -674,10 +674,10 @@ limitations under the License.
 
     test('patch set from revisions', () => {
       const expected = [
-        {num: 1, desc: 'test'},
-        {num: 2, desc: 'test'},
-        {num: 3, desc: 'test'},
         {num: 4, desc: 'test'},
+        {num: 3, desc: 'test'},
+        {num: 2, desc: 'test'},
+        {num: 1, desc: 'test'},
       ];
       const patchNums = element.computeAllPatchSets({
         revisions: {

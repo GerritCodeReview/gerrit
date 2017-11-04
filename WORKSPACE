@@ -1,7 +1,6 @@
 workspace(name = "gerrit")
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
-load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
@@ -12,11 +11,12 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
 )
 
+# davido's fork with https://github.com/bazelbuild/rules_closure/pull/235 included
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "4dd84dd2bdd6c9f56cb5a475d504ea31d199c34309e202e9379501d01c3067e5",
-    strip_prefix = "rules_closure-3103a773820b59b76345f94c231cb213e0d404e2",
-    url = "https://github.com/bazelbuild/rules_closure/archive/3103a773820b59b76345f94c231cb213e0d404e2.tar.gz",
+    sha256 = "314e4eb701696e267cb911609e2e333e321fe641981a33144f460068ff4e1af3",
+    strip_prefix = "rules_closure-0.11.0",
+    url = "https://github.com/davido/rules_closure/archive/0.11.0.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -25,28 +25,26 @@ http_archive(
 http_file(
     name = "polymer_closure",
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
-    urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
+    url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
 )
 
 load("@bazel_skylib//:lib.bzl", "versions")
 
-versions.check(minimum_bazel_version = "0.14.0")
+versions.check(minimum_bazel_version = "0.7.0")
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
-# TODO(davido): Omit re-fetching ancient args4j version when these PRs are merged:
-# https://github.com/bazelbuild/rules_closure/pull/262
-# https://github.com/google/closure-templates/pull/155
 closure_repositories(
     omit_aopalliance = True,
+    omit_args4j = True,
     omit_javax_inject = True,
 )
 
 ANTLR_VERS = "3.5.2"
 
 maven_jar(
-    name = "java-runtime",
+    name = "java_runtime",
     artifact = "org.antlr:antlr-runtime:" + ANTLR_VERS,
     sha1 = "cd9cd41361c155f3af0f653009dcecb08d8b4afd",
 )
@@ -58,7 +56,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "org-antlr",
+    name = "org_antlr",
     artifact = "org.antlr:antlr:" + ANTLR_VERS,
     sha1 = "c4a65c950bfc3e7d04309c515b2177c00baf7764",
 )
@@ -73,19 +71,19 @@ maven_jar(
 GUICE_VERS = "4.2.0"
 
 maven_jar(
-    name = "guice-library",
+    name = "guice_library",
     artifact = "com.google.inject:guice:" + GUICE_VERS,
     sha1 = "25e1f4c1d528a1cffabcca0d432f634f3132f6c8",
 )
 
 maven_jar(
-    name = "guice-assistedinject",
+    name = "guice_assistedinject",
     artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
     sha1 = "e7270305960ad7db56f7e30cb9df6be9ff1cfb45",
 )
 
 maven_jar(
-    name = "guice-servlet",
+    name = "guice_servlet",
     artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
     sha1 = "f57581625c36c148f088d9f52a568d5bdf12c61d",
 )
@@ -103,7 +101,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "servlet-api-3_1",
+    name = "servlet_api_3_1",
     artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
 )
@@ -123,14 +121,14 @@ maven_jar(
 )
 
 maven_jar(
-    name = "javax-validation",
+    name = "javax_validation",
     artifact = "javax.validation:validation-api:1.0.0.GA",
     sha1 = "b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e",
     src_sha1 = "7a561191db2203550fbfa40d534d4997624cd369",
 )
 
 maven_jar(
-    name = "jsinterop-annotations",
+    name = "jsinterop_annotations",
     artifact = "com.google.jsinterop:jsinterop-annotations:1.0.2",
     sha1 = "abd7319f53d018e11108a88f599bd16492448dd2",
     src_sha1 = "33716f8aef043f2f02b78ab4a1acda6cd90a7602",
@@ -158,7 +156,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "w3c-css-sac",
+    name = "w3c_css_sac",
     artifact = "org.w3c.css:sac:1.3",
     sha1 = "cdb2dcb4e22b83d6b32b93095f644c3462739e82",
 )
@@ -174,26 +172,6 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
-FLOGGER_VERS = "0.2"
-
-maven_jar(
-    name = "flogger",
-    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "a22d04ed3b84bae8ecf8aa6d4430ad000bcdf7b4",
-)
-
-maven_jar(
-    name = "flogger-log4j-backend",
-    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "d5085e3996bddc4b105d53b886190cc9a8811a9e",
-)
-
-maven_jar(
-    name = "flogger-system-backend",
-    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-    sha1 = "b995c84b8443d6cfbd011a55719b63494b974c3a",
-)
-
 maven_jar(
     name = "gwtjsonrpc",
     artifact = "com.google.gerrit:gwtjsonrpc:1.11",
@@ -203,12 +181,12 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.4",
-    sha1 = "d0de1ca9b69e69d1d497ee3c6009d015f64dad57",
+    artifact = "com.google.code.gson:gson:2.8.2",
+    sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",
 )
 
 maven_jar(
-    name = "gwtorm-client",
+    name = "gwtorm_client",
     artifact = "com.google.gerrit:gwtorm:1.18",
     sha1 = "f326dec463439a92ccb32f05b38345e21d0b5ecf",
     src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
@@ -216,11 +194,11 @@ maven_jar(
 
 maven_jar(
     name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.5.1",
-    sha1 = "8c3492f7662fa1cbf8ca76a0f5eb1146f7725acd",
+    artifact = "com.google.protobuf:protobuf-java:3.4.0",
+    sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
 )
 
-load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
+load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
 
 maven_jar(
     name = "guava",
@@ -249,25 +227,25 @@ maven_jar(
 SLF4J_VERS = "1.7.7"
 
 maven_jar(
-    name = "log-api",
+    name = "log_api",
     artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
     sha1 = "2b8019b6249bb05d81d3a3094e468753e2b21311",
 )
 
 maven_jar(
-    name = "log-ext",
-    artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-    sha1 = "09a8f58c784c37525d2624062414358acf296717",
+    name = "log_nop",
+    artifact = "org.slf4j:slf4j-nop:" + SLF4J_VERS,
+    sha1 = "6cca9a3b999ff28b7a35ca762b3197cd7e4c2ad1",
 )
 
 maven_jar(
-    name = "impl-log4j",
+    name = "impl_log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
     sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
 )
 
 maven_jar(
-    name = "jcl-over-slf4j",
+    name = "jcl_over_slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
     sha1 = "56003dcd0a31deea6391b9e2ef2f2dc90b205a92",
 )
@@ -279,68 +257,68 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jsonevent-layout",
+    name = "jsonevent_layout",
     artifact = "net.logstash.log4j:jsonevent-layout:1.7",
     sha1 = "507713504f0ddb75ba512f62763519c43cf46fde",
 )
 
 maven_jar(
-    name = "json-smart",
+    name = "json_smart",
     artifact = "net.minidev:json-smart:1.1.1",
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
 )
 
 maven_jar(
-    name = "args4j-intern",
-    artifact = "args4j:args4j:2.0.29",
-    sha1 = "55ca4ddc4e906ffbaec043113b36bb410a3d909e",
+    name = "args4j",
+    artifact = "args4j:args4j:2.0.26",
+    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
 )
 
 maven_jar(
-    name = "commons-codec",
+    name = "commons_codec",
     artifact = "commons-codec:commons-codec:1.10",
     sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",
 )
 
 # When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
-    name = "commons-compress",
+    name = "commons_compress",
     artifact = "org.apache.commons:commons-compress:1.15",
     sha1 = "b686cd04abaef1ea7bc5e143c080563668eec17e",
 )
 
 maven_jar(
-    name = "commons-lang",
+    name = "commons_lang",
     artifact = "commons-lang:commons-lang:2.6",
     sha1 = "0ce1edb914c94ebc388f086c6827e8bdeec71ac2",
 )
 
 maven_jar(
-    name = "commons-lang3",
+    name = "commons_lang3",
     artifact = "org.apache.commons:commons-lang3:3.6",
     sha1 = "9d28a6b23650e8a7e9063c04588ace6cf7012c17",
 )
 
 maven_jar(
-    name = "commons-dbcp",
+    name = "commons_dbcp",
     artifact = "commons-dbcp:commons-dbcp:1.4",
     sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
 )
 
 maven_jar(
-    name = "commons-pool",
+    name = "commons_pool",
     artifact = "commons-pool:commons-pool:1.5.5",
     sha1 = "7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b",
 )
 
 maven_jar(
-    name = "commons-net",
+    name = "commons_net",
     artifact = "commons-net:commons-net:3.6",
     sha1 = "b71de00508dcb078d2b24b5fa7e538636de9b3da",
 )
 
 maven_jar(
-    name = "commons-validator",
+    name = "commons_validator",
     artifact = "commons-validator:commons-validator:1.6",
     sha1 = "e989d1e87cdd60575df0765ed5bac65c905d7908",
 )
@@ -351,22 +329,162 @@ maven_jar(
     sha1 = "959a0c62f9a5c2309e0ad0b0589c74d69e101241",
 )
 
+FLEXMARK_VERS = "0.32.4"
+
 maven_jar(
-    name = "pegdown",
-    artifact = "org.pegdown:pegdown:1.6.0",
-    sha1 = "231ae49d913467deb2027d0b8a0b68b231deef4f",
+    name = "flexmark",
+    artifact = "com.vladsch.flexmark:flexmark:" + FLEXMARK_VERS,
+    sha1 = "61323e756ebaf1936d143afdd70277251206005e",
 )
 
 maven_jar(
-    name = "grappa",
-    artifact = "com.github.parboiled1:grappa:1.0.4",
-    sha1 = "ad4b44b9c305dad7aa1e680d4b5c8eec9c4fd6f5",
+    name = "flexmark-ext-abbreviation",
+    artifact = "com.vladsch.flexmark:flexmark-ext-abbreviation:" + FLEXMARK_VERS,
+    sha1 = "726e5978edc68403286a88f9366f572af6a76506",
 )
 
 maven_jar(
-    name = "jitescript",
-    artifact = "me.qmx.jitescript:jitescript:0.4.0",
-    sha1 = "2e35862b0435c1b027a21f3d6eecbe50e6e08d54",
+    name = "flexmark-ext-anchorlink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-anchorlink:" + FLEXMARK_VERS,
+    sha1 = "ec3bcf718dae98eec2829e351eda59d63eeac94b",
+)
+
+maven_jar(
+    name = "flexmark-ext-autolink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-autolink:" + FLEXMARK_VERS,
+    sha1 = "2103b77836f266775d20e5fe2a6ba51d5c8b63c8",
+)
+
+maven_jar(
+    name = "flexmark-ext-definition",
+    artifact = "com.vladsch.flexmark:flexmark-ext-definition:" + FLEXMARK_VERS,
+    sha1 = "c896f2291ad2b9b253ee2949865598a1e9454c55",
+)
+
+maven_jar(
+    name = "flexmark-ext-emoji",
+    artifact = "com.vladsch.flexmark:flexmark-ext-emoji:" + FLEXMARK_VERS,
+    sha1 = "f167c3073b7bb5ced944c4837ae655b2e5ea7a1c",
+)
+
+maven_jar(
+    name = "flexmark-ext-escaped-character",
+    artifact = "com.vladsch.flexmark:flexmark-ext-escaped-character:" + FLEXMARK_VERS,
+    sha1 = "23004d741824f0c564de2c72e579ca67b01a4623",
+)
+
+maven_jar(
+    name = "flexmark-ext-footnotes",
+    artifact = "com.vladsch.flexmark:flexmark-ext-footnotes:" + FLEXMARK_VERS,
+    sha1 = "c9b98778b94fee2efd886e47317944f7fcb8a037",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-issues",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-issues:" + FLEXMARK_VERS,
+    sha1 = "0d543c46a6025c1b8342f0e99155208276c86966",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-strikethrough",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:" + FLEXMARK_VERS,
+    sha1 = "95414bb07c8429389374b66dd42a9da2e17c693b",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-tables",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tables:" + FLEXMARK_VERS,
+    sha1 = "1cbc2bc4de374b75d9dff812054d51aa84a61d5d",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-tasklist",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:" + FLEXMARK_VERS,
+    sha1 = "c93ed560ff2047a4c0cdbfe563a3873574404477",
+)
+
+maven_jar(
+    name = "flexmark-ext-gfm-users",
+    artifact = "com.vladsch.flexmark:flexmark-ext-gfm-users:" + FLEXMARK_VERS,
+    sha1 = "c58c74ba4a51c2376760f2c011a6bbf21c39455d",
+)
+
+maven_jar(
+    name = "flexmark-ext-ins",
+    artifact = "com.vladsch.flexmark:flexmark-ext-ins:" + FLEXMARK_VERS,
+    sha1 = "76d712a244df71f875f66244407d3c51596712ae",
+)
+
+maven_jar(
+    name = "flexmark-ext-jekyll-front-matter",
+    artifact = "com.vladsch.flexmark:flexmark-ext-jekyll-front-matter:" + FLEXMARK_VERS,
+    sha1 = "8603af459c0215c58f0a6debd903201941f7d9e9",
+)
+
+maven_jar(
+    name = "flexmark-ext-superscript",
+    artifact = "com.vladsch.flexmark:flexmark-ext-superscript:" + FLEXMARK_VERS,
+    sha1 = "9ad131c9f6bec18e357c9238e78211d88a4474b9",
+)
+
+maven_jar(
+    name = "flexmark-ext-tables",
+    artifact = "com.vladsch.flexmark:flexmark-ext-tables:" + FLEXMARK_VERS,
+    sha1 = "4410446d9e77761331e474f7b920d975342cd9a1",
+)
+
+maven_jar(
+    name = "flexmark-ext-toc",
+    artifact = "com.vladsch.flexmark:flexmark-ext-toc:" + FLEXMARK_VERS,
+    sha1 = "3ad7c7ec4f7a5cce181a710ba5f689eeec8a3e52",
+)
+
+maven_jar(
+    name = "flexmark-ext-typographic",
+    artifact = "com.vladsch.flexmark:flexmark-ext-typographic:" + FLEXMARK_VERS,
+    sha1 = "c9df5e7631471120e67bd3cde827af1770d583c7",
+)
+
+maven_jar(
+    name = "flexmark-ext-wikilink",
+    artifact = "com.vladsch.flexmark:flexmark-ext-wikilink:" + FLEXMARK_VERS,
+    sha1 = "dc3a988dcd9055c226845cd332f8838096aed32b",
+)
+
+maven_jar(
+    name = "flexmark-ext-yaml-front-matter",
+    artifact = "com.vladsch.flexmark:flexmark-ext-yaml-front-matter:" + FLEXMARK_VERS,
+    sha1 = "588c6233cb11fa1395ab58fec8034bfa9893a3d9",
+)
+
+maven_jar(
+    name = "flexmark-formatter",
+    artifact = "com.vladsch.flexmark:flexmark-formatter:" + FLEXMARK_VERS,
+    sha1 = "6c0869ee52ab22202c52dd1674da821e6a579a65",
+)
+
+maven_jar(
+    name = "flexmark-html-parser",
+    artifact = "com.vladsch.flexmark:flexmark-html-parser:" + FLEXMARK_VERS,
+    sha1 = "95a3a8a68e536f916df8a7a4988ef4aacf9a573f",
+)
+
+maven_jar(
+    name = "flexmark-profile-pegdown",
+    artifact = "com.vladsch.flexmark:flexmark-profile-pegdown:" + FLEXMARK_VERS,
+    sha1 = "a760923a1f03780b2e947a4e8e9b50785e0204e5",
+)
+
+maven_jar(
+    name = "flexmark-util",
+    artifact = "com.vladsch.flexmark:flexmark-util:" + FLEXMARK_VERS,
+    sha1 = "1f6fce06245c0e1660c56db2af0a1ec0b023a164",
+)
+
+maven_jar(
+    name = "autolink",
+    artifact = "org.nibor.autolink:autolink:0.7.0",
+    sha1 = "649f9f13422cf50c926febe6035662ae25dc89b2",
 )
 
 GREENMAIL_VERS = "1.5.5"
@@ -388,13 +506,13 @@ maven_jar(
 MIME4J_VERS = "0.8.1"
 
 maven_jar(
-    name = "mime4j-core",
+    name = "mime4j_core",
     artifact = "org.apache.james:apache-mime4j-core:" + MIME4J_VERS,
     sha1 = "c62dfe18a3b827a2c626ade0ffba44562ddf3f61",
 )
 
 maven_jar(
-    name = "mime4j-dom",
+    name = "mime4j_dom",
     artifact = "org.apache.james:apache-mime4j-dom:" + MIME4J_VERS,
     sha1 = "f2d653c617004193f3350330d907f77b60c88c56",
 )
@@ -408,90 +526,127 @@ maven_jar(
 OW2_VERS = "6.0"
 
 maven_jar(
-    name = "ow2-asm",
+    name = "ow2_asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
     sha1 = "bc6fa6b19424bb9592fe43bbc20178f92d403105",
 )
 
 maven_jar(
-    name = "ow2-asm-analysis",
+    name = "ow2_asm_analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
     sha1 = "dd1cc1381a970800268160203aae2d3784da779b",
 )
 
 maven_jar(
-    name = "ow2-asm-commons",
+    name = "ow2_asm_commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
     sha1 = "f256fd215d8dd5a4fa2ab3201bf653de266ed4ec",
 )
 
 maven_jar(
-    name = "ow2-asm-tree",
+    name = "ow2_asm_tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
     sha1 = "a624f1a6e4e428dcd680a01bab2d4c56b35b18f0",
 )
 
 maven_jar(
-    name = "ow2-asm-util",
+    name = "ow2_asm_util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
     sha1 = "430b2fc839b5de1f3643b528853d5cf26096c1de",
 )
 
-AUTO_VALUE_VERSION = "1.6.2"
+AUTO_VALUE_VERSION = "1.6"
 
 maven_jar(
-    name = "auto-value",
+    name = "auto_value",
     artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-    sha1 = "e7eae562942315a983eea3e191b72d755c153620",
+    sha1 = "a3b1b1404f8acaa88594a017185e013cd342c9a8",
 )
 
 maven_jar(
-    name = "auto-value-annotations",
+    name = "auto_value_annotations",
     artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-    sha1 = "ed193d86e0af90cc2342aedbe73c5d86b03fa09b",
+    sha1 = "da725083ee79fdcd86d9f3d8a76e38174a01892a",
 )
 
 # Transitive dependency of commons-compress
 maven_jar(
-    name = "tukaani-xz",
+    name = "tukaani_xz",
     artifact = "org.tukaani:xz:1.6",
     sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
+# When upgrading Lucene, make sure it's compatible with Elasticsearch
 LUCENE_VERS = "5.5.4"
 
 maven_jar(
-    name = "lucene-core",
+    name = "lucene_core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
     sha1 = "ab9c77e75cf142aa6e284b310c8395617bd9b19b",
 )
 
 maven_jar(
-    name = "lucene-analyzers-common",
+    name = "lucene_analyzers_common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
     sha1 = "08ce9d34c8124c80e176e8332ee947480bbb9576",
 )
 
 maven_jar(
-    name = "backward-codecs",
+    name = "backward_codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
     sha1 = "a933f42e758c54c43083398127ea7342b54d8212",
 )
 
 maven_jar(
-    name = "lucene-misc",
+    name = "lucene_misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
     sha1 = "a74388857f73614e528ae44d742c60187cb55a5a",
 )
 
 maven_jar(
-    name = "lucene-queryparser",
+    name = "lucene_queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
     sha1 = "8a06fad4675473d98d93b61fea529e3f464bf69e",
 )
 
 maven_jar(
-    name = "mime-util",
+    name = "lucene_highlighter",
+    artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
+    sha1 = "433f53f03f1b14337c08d54e507a5410905376fa",
+)
+
+maven_jar(
+    name = "lucene_join",
+    artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
+    sha1 = "23f9a909a244ed3b28b37c5bb21a6e33e6c0a339",
+)
+
+maven_jar(
+    name = "lucene_memory",
+    artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
+    sha1 = "4dbdc2e1a24837722294762a9edb479f79092ab9",
+)
+
+maven_jar(
+    name = "lucene_spatial",
+    artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
+    sha1 = "0217d302dc0ef4d9b8b475ffe327d83c1e0ceba5",
+)
+
+maven_jar(
+    name = "lucene_suggest",
+    artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
+    sha1 = "0f46dbb3229eed62dff10d008172c885e0e028c8",
+)
+
+maven_jar(
+    name = "lucene_queries",
+    artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
+    sha1 = "f915357b8b4b43742ab48f1401dedcaa12dfa37a",
+)
+
+maven_jar(
+    name = "mime_util",
     artifact = "eu.medsea.mimeutil:mime-util:2.1.3",
     attach_source = False,
     sha1 = "0c9cfae15c74f62491d4f28def0dff1dabe52a47",
@@ -502,7 +657,7 @@ PROLOG_VERS = "1.4.3"
 PROLOG_REPO = GERRIT
 
 maven_jar(
-    name = "prolog-runtime",
+    name = "prolog_runtime",
     artifact = "com.googlecode.prolog-cafe:prolog-runtime:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -510,7 +665,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "prolog-compiler",
+    name = "prolog_compiler",
     artifact = "com.googlecode.prolog-cafe:prolog-compiler:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -518,7 +673,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "prolog-io",
+    name = "prolog_io",
     artifact = "com.googlecode.prolog-cafe:prolog-io:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -534,7 +689,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "guava-retrying",
+    name = "guava_retrying",
     artifact = "com.github.rholder:guava-retrying:2.0.0",
     sha1 = "974bc0a04a11cc4806f7c20a34703bd23c34e7f4",
 )
@@ -546,7 +701,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "blame-cache",
+    name = "blame_cache",
     artifact = "com/google/gitiles:blame-cache:0.2-6",
     attach_source = False,
     repository = GERRIT,
@@ -561,7 +716,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "html-types",
+    name = "html_types",
     artifact = "com.google.common.html.types:types:1.0.4",
     sha1 = "2adf4c8bfccc0ff7346f9186ac5aa57d829ad065",
 )
@@ -573,39 +728,39 @@ maven_jar(
 )
 
 maven_jar(
-    name = "dropwizard-core",
-    artifact = "io.dropwizard.metrics:metrics-core:4.0.3",
-    sha1 = "bb562ee73f740bb6b2bf7955f97be6b870d9e9f0",
+    name = "dropwizard_core",
+    artifact = "io.dropwizard.metrics:metrics-core:4.0.2",
+    sha1 = "ec9878842d510cabd6bd6a9da1bebae1ae0cd199",
 )
 
 # When updading Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.60"
+BC_VERS = "1.57"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "bd47ad3bd14b8e82595c7adaa143501e60842a84",
+    sha1 = "f66a135611d42c992e5745788c3f94eb06464537",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "13c7a199c484127daad298996e95818478431a2c",
+    sha1 = "7b2d587f5e3780b79e1d35af3e84d00634e9420b",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "d0c46320fbc07be3a24eb13a56cee4e3d38e0c75",
+    sha1 = "5c96e34bc9bd4cd6870e6d193a99438f1e274ca7",
 )
 
 # TODO(davido): Remove exlusion of file system provider, when this issue is fixed:
 # https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:1.7.0",
+    artifact = "org.apache.sshd:sshd-core:1.6.0",
     exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
-    sha1 = "2e8b14f6d841b098e46bf407b6fdccab4c19fa41",
+    sha1 = "548e2da643e88cda9d313efb2564a74f9943e491",
 )
 
 maven_jar(
@@ -615,7 +770,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "mina-core",
+    name = "mina_core",
     artifact = "org.apache.mina:mina-core:2.0.16",
     sha1 = "f720f17643eaa7b0fec07c1d7f6272972c02bba4",
 )
@@ -632,7 +787,7 @@ maven_jar(
 HTTPCOMP_VERS = "4.4.1"
 
 maven_jar(
-    name = "fluent-hc",
+    name = "fluent_hc",
     artifact = "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
     sha1 = "96fb842b68a44cc640c661186828b60590c71261",
 )
@@ -670,48 +825,30 @@ maven_jar(
 )
 
 maven_jar(
-    name = "hamcrest-core",
+    name = "hamcrest_core",
     artifact = "org.hamcrest:hamcrest-core:1.3",
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
 )
 
 # Only needed when jgit is built from the development tree
 maven_jar(
-    name = "hamcrest-library",
+    name = "hamcrest_library",
     artifact = "org.hamcrest:hamcrest-library:1.3",
     sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
 )
 
-TRUTH_VERS = "0.42"
+TRUTH_VERS = "0.40"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "b5768f644b114e6cf5c3962c2ebcb072f788dcbb",
+    sha1 = "0d74e716afec045cc4a178dbbfde2a8314ae5574",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "4d01dfa5b3780632a3d109e14e101f01d10cce2c",
-)
-
-maven_jar(
-    name = "truth-liteproto-extension",
-    artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-    sha1 = "c231e6735aa6c133c7e411ae1c1c90b124900a8b",
-)
-
-maven_jar(
-    name = "truth-proto-extension",
-    artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-    sha1 = "c41d22e8b4a61b4171e57c44a2959ebee0091a14",
-)
-
-maven_jar(
-    name = "diffutils",
-    artifact = "com.googlecode.java-diff-utils:diffutils:1.3.0",
-    sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
+    sha1 = "636e49d675bc28e0b3ae0edd077d6acbbb159166",
 )
 
 # When bumping the easymock version number, make sure to also move powermock to a compatible version
@@ -722,7 +859,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "cglib-3_2",
+    name = "cglib_3_2",
     artifact = "cglib:cglib-nodep:3.2.0",
     sha1 = "cf1ca207c15b04ace918270b6cb3f5601160cdfd",
 )
@@ -736,37 +873,37 @@ maven_jar(
 POWERM_VERS = "1.6.1"
 
 maven_jar(
-    name = "powermock-module-junit4",
+    name = "powermock_module_junit4",
     artifact = "org.powermock:powermock-module-junit4:" + POWERM_VERS,
     sha1 = "ea8530b2848542624f110a393513af397b37b9cf",
 )
 
 maven_jar(
-    name = "powermock-module-junit4-common",
+    name = "powermock_module_junit4_common",
     artifact = "org.powermock:powermock-module-junit4-common:" + POWERM_VERS,
     sha1 = "7222ced54dabc310895d02e45c5428ca05193cda",
 )
 
 maven_jar(
-    name = "powermock-reflect",
+    name = "powermock_reflect",
     artifact = "org.powermock:powermock-reflect:" + POWERM_VERS,
     sha1 = "97d25eda8275c11161bcddda6ef8beabd534c878",
 )
 
 maven_jar(
-    name = "powermock-api-easymock",
+    name = "powermock_api_easymock",
     artifact = "org.powermock:powermock-api-easymock:" + POWERM_VERS,
     sha1 = "aa740ecf89a2f64d410b3d93ef8cd6833009ef00",
 )
 
 maven_jar(
-    name = "powermock-api-support",
+    name = "powermock_api_support",
     artifact = "org.powermock:powermock-api-support:" + POWERM_VERS,
     sha1 = "592ee6d929c324109d3469501222e0c76ccf0869",
 )
 
 maven_jar(
-    name = "powermock-core",
+    name = "powermock_core",
     artifact = "org.powermock:powermock-core:" + POWERM_VERS,
     sha1 = "5afc1efce8d44ed76b30af939657bd598e45d962",
 )
@@ -787,61 +924,61 @@ maven_jar(
 JETTY_VERS = "9.3.18.v20170406"
 
 maven_jar(
-    name = "jetty-servlet",
+    name = "jetty_servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
     sha1 = "534e7fa0e4fb6e08f89eb3f6a8c48b4f81ff5738",
 )
 
 maven_jar(
-    name = "jetty-security",
+    name = "jetty_security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
     sha1 = "16b900e91b04511f42b706c925c8af6023d2c05e",
 )
 
 maven_jar(
-    name = "jetty-servlets",
+    name = "jetty_servlets",
     artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
     sha1 = "f9311d1d8e6124d2792f4db5b29514d0ecf46812",
 )
 
 maven_jar(
-    name = "jetty-server",
+    name = "jetty_server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
     sha1 = "0a32feea88cba2d43951d22b60861c643454bb3f",
 )
 
 maven_jar(
-    name = "jetty-jmx",
+    name = "jetty_jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
     sha1 = "f988136dc5aa634afed6c5a35d910ee9599c6c23",
 )
 
 maven_jar(
-    name = "jetty-continuation",
+    name = "jetty_continuation",
     artifact = "org.eclipse.jetty:jetty-continuation:" + JETTY_VERS,
     sha1 = "3c5d89c8204d4a48a360087f95e4cbd4520b5de0",
 )
 
 maven_jar(
-    name = "jetty-http",
+    name = "jetty_http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
     sha1 = "30ece6d732d276442d513b94d914de6fa1075fae",
 )
 
 maven_jar(
-    name = "jetty-io",
+    name = "jetty_io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
     sha1 = "36cb411ee89be1b527b0c10747aa3153267fc3ec",
 )
 
 maven_jar(
-    name = "jetty-util",
+    name = "jetty_util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
     sha1 = "8600b7d028a38cb462eff338de91390b3ff5040e",
 )
 
 maven_jar(
-    name = "openid-consumer",
+    name = "openid_consumer",
     artifact = "org.openid4java:openid4java:0.9.8",
     sha1 = "de4f1b33d3b0f0b2ab1d32834ec1190b39db4160",
 )
@@ -866,28 +1003,28 @@ maven_jar(
 )
 
 maven_jar(
-    name = "codemirror-minified-gwt",
+    name = "codemirror_minified",
     artifact = "org.webjars.npm:codemirror-minified:" + CM_VERSION,
-    sha1 = "36558ea3b8e30782e1e09c0e7bd781e09614f139",
+    sha1 = "f84c178b11a188f416b4380bfb2b24f126453d28",
 )
 
 maven_jar(
-    name = "codemirror-original-gwt",
+    name = "codemirror_original",
     artifact = "org.webjars.npm:codemirror:" + CM_VERSION,
-    sha1 = "f1f8fbbc3e2d224fdccc43d2f4180658a92320f9",
+    sha1 = "5a1f6c10d5aef0b9d2ce513dcc1e2657e4af730d",
 )
 
 maven_jar(
-    name = "diff-match-patch",
+    name = "diff_match_patch",
     artifact = "org.webjars:google-diff-match-patch:" + DIFF_MATCH_PATCH_VERSION,
     attach_source = False,
     sha1 = "0cf1782dbcb8359d95070da9176059a5a9d37709",
 )
 
 maven_jar(
-    name = "commons-io",
-    artifact = "commons-io:commons-io:2.2",
-    sha1 = "83b5b8a7ba1c08f9e8c8ff2373724e33d3c1e22a",
+    name = "commons_io",
+    artifact = "commons-io:commons-io:1.4",
+    sha1 = "a8762d07e76cfde2395257a5da47ba7c1dbd3dce",
 )
 
 maven_jar(
@@ -902,18 +1039,88 @@ maven_jar(
     sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
 )
 
+# When upgrading Elasticsearch, make sure it's compatible with Lucene
 maven_jar(
-    name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:6.3.2",
-    sha1 = "2077ea5f00fdd2d6af85223b730ba8047303297f",
+    name = "elasticsearch",
+    artifact = "org.elasticsearch:elasticsearch:2.4.6",
+    sha1 = "d2954e1173a608a9711f132d1768a676a8b1fb81",
+)
+
+# Java REST client for Elasticsearch.
+JEST_VERSION = "2.4.0"
+
+maven_jar(
+    name = "jest_common",
+    artifact = "io.searchbox:jest-common:" + JEST_VERSION,
+    sha1 = "ea779ebe7c438a53dce431f85b0d4e1d8faee2ac",
+)
+
+maven_jar(
+    name = "jest",
+    artifact = "io.searchbox:jest:" + JEST_VERSION,
+    sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
+)
+
+maven_jar(
+    name = "joda_time",
+    artifact = "joda-time:joda-time:2.9.9",
+    sha1 = "f7b520c458572890807d143670c9b24f4de90897",
+)
+
+maven_jar(
+    name = "joda_convert",
+    artifact = "org.joda:joda-convert:1.8.1",
+    sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
+)
+
+maven_jar(
+    name = "compress_lzf",
+    artifact = "com.ning:compress-lzf:1.0.2",
+    sha1 = "62896e6fca184c79cc01a14d143f3ae2b4f4b4ae",
+)
+
+maven_jar(
+    name = "hppc",
+    artifact = "com.carrotsearch:hppc:0.7.1",
+    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
+)
+
+maven_jar(
+    name = "jsr166e",
+    artifact = "com.twitter:jsr166e:1.1.0",
+    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
+)
+
+maven_jar(
+    name = "netty",
+    artifact = "io.netty:netty:3.10.0.Final",
+    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
+)
+
+maven_jar(
+    name = "t_digest",
+    artifact = "com.tdunning:t-digest:3.0",
+    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
 )
 
 JACKSON_VERSION = "2.8.9"
 
 maven_jar(
-    name = "jackson-core",
+    name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
+)
+
+maven_jar(
+    name = "jackson_dataformat_cbor",
+    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
+    sha1 = "93242092324cad33d777e06c0515e40a6b862659",
+)
+
+maven_jar(
+    name = "jackson_dataformat_smile",
+    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
+    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
 )
 
 maven_jar(
@@ -923,47 +1130,19 @@ maven_jar(
 )
 
 maven_jar(
-    name = "httpcore-nio",
+    name = "httpcore_nio",
     artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
-maven_jar(
-    name = "testcontainers",
-    artifact = "org.testcontainers:testcontainers:1.8.0",
-    sha1 = "bc413912f7044f9f12aa0782853aef0a067ee52a",
-)
+load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
-maven_jar(
-    name = "duct-tape",
-    artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
-    sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
-)
-
-maven_jar(
-    name = "visible-assertions",
-    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
-    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
-)
-
-maven_jar(
-    name = "jna",
-    artifact = "net.java.dev.jna:jna:4.5.1",
-    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
-)
-
-load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
-
-# NPM binaries bundled along with their dependencies.
-#
-# For full instructions on adding new binaries to the build, see
-# http://gerrit-review.googlesource.com/Documentation/dev-bazel.html#npm-binary
 npm_binary(
     name = "bower",
 )
 
 npm_binary(
-    name = "polymer-bundler",
+    name = "vulcanize",
     repository = GERRIT,
 )
 

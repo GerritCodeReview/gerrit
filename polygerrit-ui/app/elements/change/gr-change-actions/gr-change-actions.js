@@ -815,6 +815,9 @@
     _handleChangeAction(key) {
       let action;
       switch (key) {
+        case ChangeActions.RESTORE:
+          this._showActionDialog(this.$.confirmRestoreDialog);
+          break;
         case ChangeActions.REVERT:
           this.showRevertDialog();
           break;
@@ -974,6 +977,14 @@
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
+          {message: el.message});
+    },
+
+    _handleRestoreDialogConfirm() {
+      const el = this.$.confirmRestoreDialog;
+      this.$.overlay.close();
+      el.hidden = true;
+      this._fireAction('/restore', this.actions.restore, false,
           {message: el.message});
     },
 
@@ -1140,6 +1151,10 @@
 
     _handleAbandonTap() {
       this._showActionDialog(this.$.confirmAbandonDialog);
+    },
+
+    _handleRestoreTap() {
+      this._showActionDialog(this.$.confirmRestoreDialog);
     },
 
     _handleCherrypickTap() {

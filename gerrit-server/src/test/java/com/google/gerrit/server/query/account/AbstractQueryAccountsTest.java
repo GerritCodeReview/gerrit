@@ -129,6 +129,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     setUpDatabase();
   }
 
+  @After
+  public void cleanUp() {
+    lifecycle.stop();
+    db.close();
+  }
+
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
     schemaCreator.create(db);

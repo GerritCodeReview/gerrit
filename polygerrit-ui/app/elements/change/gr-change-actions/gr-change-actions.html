@@ -32,6 +32,7 @@ limitations under the License.
 <link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
 <link rel="import" href="../gr-confirm-move-dialog/gr-confirm-move-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
+<link rel="import" href="../gr-confirm-restore-dialog/gr-confirm-restore-dialog.html">
 <link rel="import" href="../gr-confirm-revert-dialog/gr-confirm-revert-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -187,6 +188,11 @@ limitations under the License.
               private-by-default="[[privateByDefault]]"></gr-create-change-dialog>
         </div>
       </gr-confirm-dialog>
+      <gr-confirm-restore-dialog id="confirmRestoreDialog"
+          class="confirmDialog"
+          on-confirm="_handleRestoreDialogConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          hidden></gr-confirm-restore-dialog>
       <gr-confirm-dialog
           id="confirmDeleteDialog"
           class="confirmDialog"

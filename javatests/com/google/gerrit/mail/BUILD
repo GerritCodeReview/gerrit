@@ -22,7 +22,6 @@ junit_tests(
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/org/eclipse/jgit:server",
-        "//lib:grappa",
         "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",

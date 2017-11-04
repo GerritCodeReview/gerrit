@@ -703,6 +703,73 @@ limitations under the License.
       });
     });
 
+    suite('restore change', () => {
+      let alertStub;
+      let fireActionStub;
+
+      setup(() => {
+        fireActionStub = sandbox.stub(element, '_fireAction');
+        alertStub = sandbox.stub(window, 'alert');
+        element.actions = {
+          restore: {
+            method: 'POST',
+            label: 'Restore',
+            title: 'Restore the change',
+            enabled: true,
+          },
+        };
+        return element.reload();
+      });
+
+      test('restore change with message', done => {
+        const newRestoreMsg = 'Test Restore Message';
+        element.$.confirmRestoreDialog.message = newRestoreMsg;
+        flush(() => {
+          const restoreButton =
+              element.$$('gr-button[data-action-key="restore"]');
+          MockInteractions.tap(restoreButton);
+
+          assert.equal(element.$.confirmRestoreDialog.message, newRestoreMsg);
+          done();
+        });
+      });
+
+      test('restore change with no message', done => {
+        flush(() => {
+          const restoreButton =
+              element.$$('gr-button[data-action-key="restore"]');
+          MockInteractions.tap(restoreButton);
+
+          assert.isUndefined(element.$.confirmRestoreDialog.message);
+          done();
+        });
+      });
+
+      test('works', () => {
+        element.$.confirmRestoreDialog.message = 'original message';
+        const restoreButton = element.$$('gr-button[data-action-key="restore"]');
+        MockInteractions.tap(restoreButton);
+
+        element.$.confirmRestoreDialog.message = 'foo message';
+        element._handleRestoreDialogConfirm();
+        assert.notOk(alertStub.called);
+
+        const action = {
+          __key: 'restore',
+          __type: 'change',
+          __primary: false,
+          enabled: true,
+          label: 'Restore',
+          method: 'POST',
+          title: 'Restore the change',
+        };
+        assert.deepEqual(fireActionStub.lastCall.args, [
+          '/restore', action, false, {
+            message: 'foo message',
+          }]);
+      });
+    });
+
     suite('revert change', () => {
       let alertStub;
       let fireActionStub;

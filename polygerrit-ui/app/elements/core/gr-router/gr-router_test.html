@@ -123,7 +123,6 @@ limitations under the License.
       actualDoesNotRequireAuth.sort();
 
       const shouldRequireAutoAuth = [
-        '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
         '_handleCreateGroupRoute',
         '_handleCreateProjectRoute',
@@ -520,13 +519,6 @@ limitations under the License.
       setup(() => {
         redirectStub = sandbox.stub(element, '_redirect');
         setParamsStub = sandbox.stub(element, '_setParams');
-      });
-
-      test('_handleAdminPlaceholderRoute', () => {
-        element._handleAdminPlaceholderRoute({params: {}});
-        assert.equal(setParamsStub.lastCall.args[0].view,
-            Gerrit.Nav.View.ADMIN);
-        assert.isTrue(setParamsStub.lastCall.args[0].placeholder);
       });
 
       test('_handleAgreementsRoute', () => {

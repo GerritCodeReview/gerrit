@@ -77,7 +77,7 @@ to `localhost`. This change helps prevent outside connections from contacting
 the instance.
 
 ....
-git config --file gerrit_testsite/etc/gerrit.config httpd.listenUrl 'http://localhost:8080'
+git config --file ~/gerrit_testsite/etc/gerrit.config httpd.listenUrl 'http://localhost:8080'
 ....
 
 == Restart the Gerrit service

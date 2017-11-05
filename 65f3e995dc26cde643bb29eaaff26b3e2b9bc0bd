@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a555f39d_fb305504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-05T23:54:13Z",
+      "side": 1,
+      "message": "It would be better to do this as a separate change independent of the library switch.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 68
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3729ad8_756b54b5",
+        "filename": "java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-05T23:54:13Z",
+      "side": 1,
+      "message": "Unnecessary change.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c906871c_14c078c8",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-05T23:54:13Z",
+      "side": 1,
+      "message": "Run buildifier on this file locally.",
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42edb2e_5f67d93e",
+        "filename": "java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-05T23:54:13Z",
+      "side": 1,
+      "message": "Unnecessary change",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c5bb49_b10360c9",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-05T23:54:13Z",
+      "side": 1,
+      "message": "If this, and all the ones added below, are transient deps for flexmark, do they need to be publicly visible?",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

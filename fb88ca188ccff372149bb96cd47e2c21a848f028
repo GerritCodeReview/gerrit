@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ca70c40_a2cccd34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-05T22:16:08Z",
+      "side": 0,
+      "message": "I agree, that the if is wrong here, but may be use assert instead?\n\n  checkNotNull(state);",
+      "range": {
+        "startLine": 267,
+        "startChar": 6,
+        "endLine": 267,
+        "endChar": 23
+      },
+      "revId": "fb88ca188ccff372149bb96cd47e2c21a848f028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

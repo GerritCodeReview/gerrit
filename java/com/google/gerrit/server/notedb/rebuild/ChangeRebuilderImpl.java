@@ -263,8 +263,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       // rebuild had executed before the other thread.
       throw new ConflictingUpdateException(e);
     } catch (AbortUpdateException e) {
-      if (NoteDbChangeState.parse(changeId, newNoteDbState)
-          .isUpToDate(
+      NoteDbChangeState state = NoteDbChangeState.parse(changeId, newNoteDbState);
+      if (state != null
+          && state.isUpToDate(
               manager.getChangeRepo().cmds.getRepoRefCache(),
               manager.getAllUsersRepo().cmds.getRepoRefCache())) {
         // If the state in ReviewDb matches NoteDb at this point, it means another thread

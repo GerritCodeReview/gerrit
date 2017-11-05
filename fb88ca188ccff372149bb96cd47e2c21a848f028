@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8c39f5d7_b75e5e0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-05T15:08:12Z",
+      "side": 1,
+      "message": "I imagine this is due to https://gerrit-review.googlesource.com/c/gerrit/+/138152 changing the structure of the Result. Not sure yet why it would be null.",
+      "parentUuid": "7e74a6d6_1fbd7ec7",
+      "revId": "fb88ca188ccff372149bb96cd47e2c21a848f028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "038d78d0_a6aa94d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
         "patchSetId": 1

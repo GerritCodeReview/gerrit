@@ -707,7 +707,6 @@ public class CommitValidators {
     }
   }
 
-  /** Rejects updates to 'account.config' in user branches. */
   public static class AccountCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
     private final AccountValidator accountValidator;

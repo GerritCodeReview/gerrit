@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c791027_a2a39635",
+        "filename": "java/com/google/gerrit/server/project/SetAccessUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T15:50:21Z",
+      "side": 1,
+      "message": "Should we only reject those for All-Users and All-Projects?",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "a4a5530d23e56b263c6e616d4faad948916f3081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

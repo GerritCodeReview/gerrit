@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b37e423d_c2717132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T15:51:39Z",
+      "side": 1,
+      "message": "We also much check on direct pushes to refs/meta/config and when submitting changes for refs/meta/config.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "a4a5530d23e56b263c6e616d4faad948916f3081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c791027_a2a39635",
         "filename": "java/com/google/gerrit/server/project/SetAccessUtil.java",
         "patchSetId": 1

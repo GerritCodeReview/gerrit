@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a00f81dc_55b960ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T18:52:54Z",
+      "side": 1,
+      "message": "This whole file has been updated to px to match redlines.",
+      "revId": "59f2d2ca9fb3478b6296520227c146241219d57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78c703b_ac356f4c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T18:52:54Z",
+      "side": 1,
+      "message": "Since there are not redlines for the main header, did not update ems to px, other than for consistency with the gr-button padding.",
+      "revId": "59f2d2ca9fb3478b6296520227c146241219d57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40c3269_023688a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T18:52:54Z",
+      "side": 1,
+      "message": "Only updated button padding to px, as don\u0027t have redlines for the button.",
+      "revId": "59f2d2ca9fb3478b6296520227c146241219d57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

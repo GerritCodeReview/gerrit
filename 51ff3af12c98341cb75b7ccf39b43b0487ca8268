@@ -35,6 +35,24 @@
       "revId": "51ff3af12c98341cb75b7ccf39b43b0487ca8268",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd795ab4_c02b9a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T11:46:11Z",
+      "side": 1,
+      "message": "Issue 7652 is about 2.14.5.1, but this version already contains this fix, hence it\u0027s not a fix for issue 7652.",
+      "parentUuid": "cce949fb_ebd475f8",
+      "revId": "51ff3af12c98341cb75b7ccf39b43b0487ca8268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

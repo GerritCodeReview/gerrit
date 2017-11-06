@@ -96,6 +96,29 @@
     },
     {
       "key": {
+        "uuid": "69e6109f_a804bb33",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-06T06:54:10Z",
+      "side": 1,
+      "message": "Is we really do need to have each of these separately rather than using flexmark-all, this version number should be a constant.",
+      "range": {
+        "startLine": 325,
+        "startChar": 46,
+        "endLine": 325,
+        "endChar": 52
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3729ad8_756b54b5",
         "filename": "java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
         "patchSetId": 7
@@ -260,6 +283,30 @@
       "side": 1,
       "message": "This need\u0027s to be visable as it is used in  java/com/google/gerrit/server/BUILD\n\nAlso yep i have to do it for each one in  java/com/google/gerrit/server/BUILD as it was failing to build otherwise.",
       "parentUuid": "85c5bb49_b10360c9",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad0a0d1_c8de5092",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-06T06:54:10Z",
+      "side": 1,
+      "message": "OK.  Then let\u0027s see if we really need to include all of these libs individually.\n\nIn issue 7531 you mentioned there is a flexmark-all but there is no source jar for it.  I don\u0027t think it\u0027s necessarily a problem to not have sources. Let\u0027s try that.",
+      "parentUuid": "2db18cf4_075e93e8",
       "range": {
         "startLine": 126,
         "startChar": 4,

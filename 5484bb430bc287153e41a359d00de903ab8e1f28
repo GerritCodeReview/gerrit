@@ -23,6 +23,23 @@
       "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f02ca5a3_e7088bc0",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-06T14:58:22Z",
+      "side": 1,
+      "message": "Is there a reason these aren\u0027t sharded? Are we worried about performance of a local filesystem backend when there are thousands or tens of thousands of loose group refs in a single directory?",
+      "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

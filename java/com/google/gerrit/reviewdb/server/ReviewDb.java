@@ -109,8 +109,11 @@ public interface ReviewDb extends Schema {
   @Deprecated
   int nextAccountId() throws OrmException;
 
+  int FIRST_GROUP_ID = 1;
+
   /** Next unique id for a {@link AccountGroup}. */
-  @Sequence
+  @Sequence(startWith = FIRST_GROUP_ID)
+  @Deprecated
   int nextAccountGroupId() throws OrmException;
 
   int FIRST_CHANGE_ID = 1;

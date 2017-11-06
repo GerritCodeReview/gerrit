@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1509973813 +0100\nnonce AMT3iFimiJ/G5e7cX8M/AQoFzsq/WZ/iGrk3U0MOzxJJhWfIAM1G4ae85Nkx6p7sLNPjAqSuuBAT\n\n0000000000000000000000000000000000000000 9d8eaa6f0f64b8d1fbd753781dafcc78db7df342 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaAF81AAoJEFG1/Zeg0O9Rv2gIAIBfuQVdHf4iV7ikECud6MJu\nJugBEhDGgT0RU+qrI7jL+7Qas1LZBF8wTdPuOxFSPakzFYcqG79fMxjf5KPnFT+Z\nZrr46HFCHq6rlNgOV9Gr/tv8ASSGd4I4lVFmCQppIYavBpnhdgujcvskhQPQthHF\nHuFJAHscFNNtG5wMwtqbsJJB/UUBByQrEJRXz7HWPK4VohVeuwL1TUbW/x0tl4+S\nUtfc3kfMDQDSk0XfaFk8gllYbcsbvrdswkK26seUPO2OSbGAtXIMMVNzS/gFbacl\nquP4GDJngZku/FFtcLMPjb16j92P5Y7kSQb74J8W2WxRw5GqMU3C5tK7LkmR+HU\u003d\n\u003dq4V7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd390e0_9ca7306b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-06T13:18:19Z",
+      "side": 1,
+      "message": "optional: Leave a comment that refs/groups lives inside All-Users. It took me a short while to figure out why this check is needed.",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "862c66da_e8c6c0d3",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-06T13:18:19Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e562f0e7_9eda15aa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-06T13:18:19Z",
+      "side": 1,
+      "message": "optional: Should we add a test that push is only rejected on All-Users?",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

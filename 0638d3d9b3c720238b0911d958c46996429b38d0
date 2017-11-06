@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1a8e8f4_7bf9d9f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 128
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T21:21:44Z",
+      "side": 1,
+      "message": "would like to get @wyatta\u0027s opinion on this (and below)",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 6
+      },
+      "revId": "0638d3d9b3c720238b0911d958c46996429b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b47ee1_3ccd97bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 128
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T21:21:44Z",
+      "side": 1,
+      "message": "I think that we should know if this succeeds or not, and show something to the user that the agreement has been submitted",
+      "range": {
+        "startLine": 623,
+        "startChar": 10,
+        "endLine": 623,
+        "endChar": 14
+      },
+      "revId": "0638d3d9b3c720238b0911d958c46996429b38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

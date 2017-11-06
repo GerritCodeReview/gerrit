@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e6a4c6a5_8ab472d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T21:20:59Z",
+      "side": 1,
+      "message": "I\u0027m concerned about making [Reply] and [Submit] look so similar. Is there any way to distinguish them better, such as some other color?\n\n* https://imgur.com/a/9NLa5\n\nI don\u0027t want to try to reply to a change with some problem that needs fixing but instead I end up merging it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc4c69c_55d15a55",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4

@@ -48,4 +48,18 @@ public class SequencesOnInit {
             1);
     return accountSeq.next();
   }
+
+  public int nextGroupId(ReviewDb db) throws OrmException {
+    @SuppressWarnings("deprecation")
+    RepoSequence.Seed groupSeed = () -> db.nextAccountGroupId();
+    RepoSequence groupSeq =
+        new RepoSequence(
+            repoManager,
+            GitReferenceUpdated.DISABLED,
+            new Project.NameKey(allUsersName.get()),
+            Sequences.NAME_GROUPS,
+            groupSeed,
+            1);
+    return groupSeq.next();
+  }
 }

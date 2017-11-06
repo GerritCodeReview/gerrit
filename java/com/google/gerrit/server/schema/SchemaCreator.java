@@ -17,11 +17,13 @@ package com.google.gerrit.server.schema;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -48,6 +50,7 @@ public class SchemaCreator {
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
+  private final SequencesOnInit sequences;
 
   private AccountGroup admin;
   private AccountGroup batch;
@@ -59,8 +62,10 @@ public class SchemaCreator {
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
-      GroupIndexCollection ic) {
-    this(site.site_path, ap, auc, au, dst, ic);
+      GroupIndexCollection ic,
+      SequencesOnInit sequences
+      ) {
+    this(site.site_path, ap, auc, au, dst, ic, sequences);
   }
 
   public SchemaCreator(
@@ -69,13 +74,15 @@ public class SchemaCreator {
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
-      GroupIndexCollection ic) {
+      GroupIndexCollection ic,
+      SequencesOnInit sequences) {
     site_path = site;
     allProjectsCreator = ap;
     allUsersCreator = auc;
     serverUser = au;
     dataSourceType = dst;
     indexCollection = ic;
+    this.sequences = sequences;
   }
 
   public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
@@ -88,13 +95,21 @@ public class SchemaCreator {
     sVer.versionNbr = SchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
-    createDefaultGroups(db);
+
     initSystemConfig(db);
+
+    // All-Users is necessary to create groups.
+    allUsersCreator.create();
+
+    createDefaultGroups(db);
     allProjectsCreator
         .setAdministrators(GroupReference.forGroup(admin))
         .setBatchUsers(GroupReference.forGroup(batch))
         .create();
+
+    // This should be idempotent for creation.
     allUsersCreator.setAdministrators(GroupReference.forGroup(admin)).create();
+
     dataSourceType.getIndexScript().run(db);
   }
 
@@ -121,7 +136,7 @@ public class SchemaCreator {
     AccountGroup.UUID uuid = GroupUUID.make(name, serverUser);
     return new AccountGroup( //
         new AccountGroup.NameKey(name), //
-        new AccountGroup.Id(c.nextAccountGroupId()), //
+        new AccountGroup.Id(sequences.nextGroupId(c)),
         uuid,
         TimeUtil.nowTs());
   }

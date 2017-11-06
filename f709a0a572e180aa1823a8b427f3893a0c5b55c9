@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bec3503_0a8b1bd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-06T00:00:19Z",
+      "side": 1,
+      "message": "Mention the reason for doing this, i.e. to make the plugin documentation style consistent with core documentation style.\n\nAlso add a link to issue 7531 in the footer.",
+      "revId": "f709a0a572e180aa1823a8b427f3893a0c5b55c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

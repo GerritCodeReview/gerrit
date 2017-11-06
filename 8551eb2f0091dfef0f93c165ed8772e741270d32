@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eaa9f8e_62d5fcd1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:36:30Z",
+      "side": 0,
+      "message": "This whole thing can have a div wrapped around it that hides everything !item.tagger(but please make a class instead). Then you can also remove the separate $hidden attributes.",
+      "range": {
+        "startLine": 138,
+        "startChar": 16,
+        "endLine": 146,
+        "endChar": 37
+      },
+      "revId": "8551eb2f0091dfef0f93c165ed8772e741270d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

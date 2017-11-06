@@ -16,6 +16,24 @@
       "revId": "50e68ab48b8be372d9379e093ee896ce4ece17aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3160b1c1_7fe6679d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T23:31:55Z",
+      "side": 1,
+      "message": "I actually did that initially, but this is still used to determine _shouldHideActions. Also, I think it\u0027s simpler if there\u0027s only one property with the observer, the the others just filter off of this.",
+      "parentUuid": "10614238_1878501e",
+      "revId": "50e68ab48b8be372d9379e093ee896ce4ece17aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

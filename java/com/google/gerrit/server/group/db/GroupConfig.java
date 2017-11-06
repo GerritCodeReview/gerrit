@@ -217,7 +217,7 @@ public class GroupConfig extends VersionedMetaData {
             .map(InternalGroupUpdate::getMemberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
             .map(ImmutableSet::copyOf);
-    if (updatedMembers.isPresent()) {
+    if (updatedMembers.isPresent() && !updatedMembers.get().equals(originalMembers)) {
       saveMembers(updatedMembers.get());
     }
     return updatedMembers;
@@ -230,7 +230,7 @@ public class GroupConfig extends VersionedMetaData {
             .map(InternalGroupUpdate::getSubgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
             .map(ImmutableSet::copyOf);
-    if (updatedSubgroups.isPresent()) {
+    if (updatedSubgroups.isPresent() && !updatedSubgroups.get().equals(originalSubgroups)) {
       saveSubgroups(updatedSubgroups.get());
     }
     return updatedSubgroups;

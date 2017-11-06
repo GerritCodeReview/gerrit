@@ -55,6 +55,20 @@ public class GroupConfig extends VersionedMetaData {
   private static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
+  enum UpdateOwnerPermissionsStrategy {
+    /** Automatically update permissions in {@code refs/meta/config} when group owner changes. */
+    UPDATE,
+
+    /**
+     * Attempting to change group owner permissions results in {@link
+     * UnsupportedOperationException}.
+     */
+    DISALLOW,
+
+    /** Permissions are not automatically updated; caller is responsible for updating them. */
+    SKIP;
+  }
+
   private final GroupOwnerPermissions groupOwnerPermissions;
   private final AccountGroup.UUID groupUuid;
   private final String ref;
@@ -65,6 +79,8 @@ public class GroupConfig extends VersionedMetaData {
   private Function<Account.Id, String> accountNameEmailRetriever = Account.Id::toString;
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
+  private UpdateOwnerPermissionsStrategy updateOwnerPermissionsStrategy =
+      UpdateOwnerPermissionsStrategy.UPDATE;
 
   private GroupConfig(GroupOwnerPermissions groupOwnerPermissions, AccountGroup.UUID groupUuid) {
     this.groupOwnerPermissions = checkNotNull(groupOwnerPermissions);
@@ -93,6 +109,7 @@ public class GroupConfig extends VersionedMetaData {
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig =
         new GroupConfig(new GroupOwnerPermissions(allUsersName, repository, null), groupUuid);
+    groupConfig.setUpdateOwnerPermissionsStrategy(UpdateOwnerPermissionsStrategy.DISALLOW);
     groupConfig.load(repository);
     return groupConfig;
   }
@@ -116,14 +133,17 @@ public class GroupConfig extends VersionedMetaData {
     return loadedGroup;
   }
 
-  private void setGroupCreation(InternalGroupCreation groupCreation)
-      throws OrmDuplicateKeyException {
+  void setGroupCreation(InternalGroupCreation groupCreation) throws OrmDuplicateKeyException {
     checkLoaded();
     if (loadedGroup.isPresent()) {
       throw new OrmDuplicateKeyException(String.format("Group %s already exists", groupUuid.get()));
     }
 
     this.groupCreation = Optional.of(groupCreation);
+  }
+
+  void setUpdateOwnerPermissionsStrategy(UpdateOwnerPermissionsStrategy strategy) {
+    updateOwnerPermissionsStrategy = strategy;
   }
 
   public void setGroupUpdate(
@@ -228,6 +248,7 @@ public class GroupConfig extends VersionedMetaData {
                 updatedSubgroups.orElse(originalSubgroups),
                 createdOn));
     groupCreation = Optional.empty();
+    updateOwnerPermissionsStrategy = UpdateOwnerPermissionsStrategy.UPDATE;
 
     return true;
   }
@@ -270,8 +291,18 @@ public class GroupConfig extends VersionedMetaData {
       return oldOwnerGroupReference.getUUID();
     }
 
-    groupOwnerPermissions.updateOwnerPermissions(
-        groupUuid, oldOwnerGroupReference, newOwnerGroupReference);
+    switch (updateOwnerPermissionsStrategy) {
+      case UPDATE:
+        groupOwnerPermissions.updateOwnerPermissions(
+            groupUuid, oldOwnerGroupReference, newOwnerGroupReference);
+        break;
+      case SKIP:
+        break;
+      case DISALLOW:
+      default:
+        throw new UnsupportedOperationException(
+            "cannot update owner permissions from this GroupConfig");
+    }
     return newOwnerGroupReference.getUUID();
   }
 

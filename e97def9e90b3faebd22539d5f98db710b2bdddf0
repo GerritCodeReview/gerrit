@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9efeb76_718df0dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-06T16:40:40Z",
+      "side": 1,
+      "message": "I would have preferred to keep the old key sequences but if we have no choice in the new UI, I prefer having different ones that not having any.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "e97def9e90b3faebd22539d5f98db710b2bdddf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

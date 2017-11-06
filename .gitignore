@@ -11,6 +11,7 @@
 *.eml
 *.sublime-*
 /gerrit-package-plugins
+/.bazel_path
 /.buckconfig.local
 /.buckjavaargs
 /.buckd

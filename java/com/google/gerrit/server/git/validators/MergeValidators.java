@@ -58,6 +58,7 @@ public class MergeValidators {
   private final DynamicSet<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
   private final AccountMergeValidator.Factory accountValidatorFactory;
+  private final GroupMergeValidator.Factory groupValidatorFactory;
 
   public interface Factory {
     MergeValidators create();
@@ -67,10 +68,12 @@ public class MergeValidators {
   MergeValidators(
       DynamicSet<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory,
-      AccountMergeValidator.Factory accountValidatorFactory) {
+      AccountMergeValidator.Factory accountValidatorFactory,
+      GroupMergeValidator.Factory groupValidatorFactory) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
     this.accountValidatorFactory = accountValidatorFactory;
+    this.groupValidatorFactory = groupValidatorFactory;
   }
 
   public void validatePreMerge(
@@ -85,7 +88,8 @@ public class MergeValidators {
         ImmutableList.of(
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),
-            accountValidatorFactory.create());
+            accountValidatorFactory.create(),
+            groupValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
       validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
@@ -282,6 +286,36 @@ public class MergeValidators {
         log.error("Cannot validate account update", e);
         throw new MergeValidationException("account validation unavailable");
       }
+    }
+  }
+
+  public static class GroupMergeValidator implements MergeValidationListener {
+    public interface Factory {
+      GroupMergeValidator create();
+    }
+
+    private final AllUsersName allUsersName;
+
+    @Inject
+    public GroupMergeValidator(AllUsersName allUsersName) {
+      this.allUsersName = allUsersName;
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        Branch.NameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      if (!allUsersName.equals(destProject.getNameKey())
+          || !destBranch.get().startsWith(RefNames.REFS_GROUPS)) {
+        return;
+      }
+
+      throw new MergeValidationException("group update not allowed");
     }
   }
 }

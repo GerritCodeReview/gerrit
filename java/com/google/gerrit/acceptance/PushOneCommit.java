@@ -313,16 +313,18 @@ public class PushOneCommit {
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
   }
 
-  public void setParents(List<RevCommit> parents) throws Exception {
+  public PushOneCommit setParents(List<RevCommit> parents) throws Exception {
     commitBuilder.noParents();
     for (RevCommit p : parents) {
       commitBuilder.parent(p);
     }
+    return this;
   }
 
-  public void setParent(RevCommit parent) throws Exception {
+  public PushOneCommit setParent(RevCommit parent) throws Exception {
     commitBuilder.noParents();
     commitBuilder.parent(parent);
+    return this;
   }
 
   public Result to(String ref) throws Exception {

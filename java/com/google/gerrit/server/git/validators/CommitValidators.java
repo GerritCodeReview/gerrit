@@ -133,7 +133,8 @@ public class CommitValidators {
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator)));
+              new AccountCommitValidator(allUsers, accountValidator),
+              new GroupCommitValidator(allUsers)));
     }
 
     public CommitValidators forGerritCommits(
@@ -158,7 +159,8 @@ public class CommitValidators {
               new ConfigValidator(branch, user, rw, allUsers),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(allUsers, accountValidator)));
+              new AccountCommitValidator(allUsers, accountValidator),
+              new GroupCommitValidator(allUsers)));
     }
 
     public CommitValidators forMergedCommits(PermissionBackend.ForRef perm, IdentifiedUser user) {
@@ -753,6 +755,34 @@ public class CommitValidators {
         String m = String.format("Validating update for account %s failed", accountId.get());
         log.error(m, e);
         throw new CommitValidationException(m, e);
+      }
+      return Collections.emptyList();
+    }
+  }
+
+  /** Rejects updates to group branches. */
+  public static class GroupCommitValidator implements CommitValidationListener {
+    private final AllUsersName allUsers;
+
+    public GroupCommitValidator(AllUsersName allUsers) {
+      this.allUsers = allUsers;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+        return Collections.emptyList();
+      }
+
+      if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
+        // no validation on push for review, will be checked on submit by
+        // MergeValidators.GroupMergeValidator
+        return Collections.emptyList();
+      }
+
+      if (receiveEvent.command.getRefName().startsWith(RefNames.REFS_GROUPS)) {
+        throw new CommitValidationException("group update not allowed");
       }
       return Collections.emptyList();
     }

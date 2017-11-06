@@ -82,6 +82,9 @@ public class RefNames {
   /** Preference settings for a user {@code refs/users} */
   public static final String REFS_USERS = "refs/users/";
 
+  /** NoteDb ref for a group {@code refs/groups} */
+  public static final String REFS_GROUPS = "refs/groups/";
+
   /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
 

@@ -65,7 +65,11 @@ public abstract class InternalGroupUpdate {
 
     public abstract Builder setMemberModification(MemberModification memberModification);
 
+    abstract MemberModification getMemberModification();
+
     public abstract Builder setSubgroupModification(SubgroupModification subgroupModification);
+
+    abstract SubgroupModification getSubgroupModification();
 
     public abstract InternalGroupUpdate build();
   }

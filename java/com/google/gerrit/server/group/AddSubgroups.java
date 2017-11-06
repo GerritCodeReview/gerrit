@@ -39,7 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -102,7 +102,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     }
 
     List<GroupInfo> result = new ArrayList<>();
-    Set<AccountGroup.UUID> subgroupUuids = new HashSet<>();
+    Set<AccountGroup.UUID> subgroupUuids = new LinkedHashSet<>();
     for (String subgroupIdentifier : input.groups) {
       GroupDescription.Basic subgroup = groupsCollection.parse(subgroupIdentifier);
       subgroupUuids.add(subgroup.getGroupUUID());

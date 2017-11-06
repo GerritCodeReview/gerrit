@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -116,7 +117,7 @@ public class SetAccessUtil {
 
   /**
    * Checks that the removals and additions are logically valid, but doesn't check current user's
-   * permission.
+   * permission. In addition, checks that no Gerrit-managed permissions are added or removed.
    */
   void validateChanges(
       ProjectConfig config, List<AccessSection> removals, List<AccessSection> additions)
@@ -129,6 +130,12 @@ public class SetAccessUtil {
           throw new BadRequestException(
               "Cannot edit global capabilities for projects other than " + allProjects.get());
         }
+      }
+      if (section.getName().startsWith(RefNames.REFS_GROUPS)) {
+        throw new BadRequestException(
+            String.format(
+                "Permissions on %s is managed by Gerrit and cannot be modified",
+                RefNames.REFS_GROUPS));
       }
     }
 

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d091c4_6872cc54",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T18:47:46Z",
+      "side": 1,
+      "message": "Nit: add timerName to the JSDoc signature.",
+      "range": {
+        "startLine": 871,
+        "startChar": 54,
+        "endLine": 871,
+        "endChar": 63
+      },
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2383f8f0_38301fe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T18:47:46Z",
+      "side": 1,
+      "message": "This is the weird part of this change that I\u0027d be curious to see what other reviewers think of.",
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80b2638a_5f1e952c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T18:47:46Z",
+      "side": 1,
+      "message": "Since this is the only place it\u0027s used, why not just inline the JS here instead of the separate file?",
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a859819_cfe6d4c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T18:47:46Z",
+      "side": 1,
+      "message": "Cool.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

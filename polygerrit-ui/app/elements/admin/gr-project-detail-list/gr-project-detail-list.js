@@ -255,5 +255,9 @@
 
       return '';
     },
+
+    _computeHideTagger(tagger) {
+      return tagger ? '' : 'hide';
+    },
   });
 })();

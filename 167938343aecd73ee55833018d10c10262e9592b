@@ -117,6 +117,30 @@
       "revId": "167938343aecd73ee55833018d10c10262e9592b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "573c513d_f40de8d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_159.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-06T06:54:58Z",
+      "side": 1,
+      "message": "Well, this is really annoying: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7671",
+      "parentUuid": "5022ae56_36170647",
+      "range": {
+        "startLine": 52,
+        "startChar": 86,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "167938343aecd73ee55833018d10c10262e9592b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

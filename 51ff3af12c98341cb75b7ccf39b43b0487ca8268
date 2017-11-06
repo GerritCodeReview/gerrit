@@ -17,6 +17,24 @@
       "revId": "51ff3af12c98341cb75b7ccf39b43b0487ca8268",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce949fb_ebd475f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-06T11:38:19Z",
+      "side": 1,
+      "message": "The version in that issue reports it as 2.14.5.1.",
+      "parentUuid": "8ea65e2c_57819f97",
+      "revId": "51ff3af12c98341cb75b7ccf39b43b0487ca8268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -27,5 +27,6 @@
 /gwt-unitCache
 /infer-out
 /local.properties
+/plugins/cookbook-plugin/
 /test_site
 /tools/format

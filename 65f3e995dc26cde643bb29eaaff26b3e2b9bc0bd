@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "18d5e25d_fc65715d",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-06T11:53:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "04dfe465_4ae18673",
+      "range": {
+        "startLine": 325,
+        "startChar": 46,
+        "endLine": 325,
+        "endChar": 52
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3729ad8_756b54b5",
         "filename": "java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
         "patchSetId": 7
@@ -427,6 +451,30 @@
       "side": 1,
       "message": "Ok i will try that after trying something else unrelated to this but fixes another issue i found which :).",
       "parentUuid": "aa6f585b_3c74e4fa",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07505094_b337677b",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-06T11:53:21Z",
+      "side": 1,
+      "message": "Trying this and it fails with\n\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:23: error: cannot find symbol\nimport com.vladsch.flexmark.Extension;\n                           ^\n  symbol:   class Extension\n  location: package com.vladsch.flexmark\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:24: error: package com.vladsch.flexmark.ast does not exist\nimport com.vladsch.flexmark.ast.Block;\n                               ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:25: error: package com.vladsch.flexmark.ast does not exist\nimport com.vladsch.flexmark.ast.Heading;\n                               ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:26: error: package com.vladsch.flexmark.ast does not exist\nimport com.vladsch.flexmark.ast.Node;\n                               ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:27: error: package com.vladsch.flexmark.ast.util does not exist\nimport com.vladsch.flexmark.ast.util.TextCollectingVisitor;\n                                    ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:28: error: package com.vladsch.flexmark.html does not exist\nimport com.vladsch.flexmark.html.HtmlRenderer;\n                                ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:29: error: package com.vladsch.flexmark.parser does not exist\nimport com.vladsch.flexmark.parser.Parser;\n                                  ^\njava/com/google/gerrit/server/documentation/MarkdownFormatter.java:31: error: package com.vladsch.flexmark.util.options does not exist\nimport com.vladsch.flexmark.util.options.MutableDataHolder;\n\n+ alot more errors then that, somehow it is not bringing in the deps from that plugin. Guess that\u0027s expected with bazel as it\u0027s not maven :).",
+      "parentUuid": "b7017ac8_46aafb5d",
       "range": {
         "startLine": 126,
         "startChar": 4,

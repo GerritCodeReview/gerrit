@@ -497,7 +497,11 @@ public class GroupsUpdate {
     return resultBuilder.build();
   }
 
-  private String getAccountNameEmail(Account.Id accountId) {
+  static String getAccountNameEmail(
+      AccountCache accountCache,
+      String anonymousCowardName,
+      Account.Id accountId,
+      String serverId) {
     AccountState accountState = accountCache.getOrNull(accountId);
     String accountName =
         Optional.ofNullable(accountState)
@@ -511,12 +515,20 @@ public class GroupsUpdate {
     return accountId.get() + "@" + serverId;
   }
 
-  private String getGroupName(AccountGroup.UUID groupUuid) {
+  private String getAccountNameEmail(Account.Id accountId) {
+    return getAccountNameEmail(accountCache, anonymousCowardName, accountId, serverId);
+  }
+
+  static String getGroupName(GroupCache groupCache, AccountGroup.UUID groupUuid) {
     return groupCache
         .get(groupUuid)
         .map(InternalGroup::getName)
         .map(name -> formatNameEmail(name, groupUuid.get()))
         .orElse(groupUuid.get());
+  }
+
+  private String getGroupName(AccountGroup.UUID groupUuid) {
+    return getGroupName(groupCache, groupUuid);
   }
 
   private static String formatNameEmail(String name, String email) {

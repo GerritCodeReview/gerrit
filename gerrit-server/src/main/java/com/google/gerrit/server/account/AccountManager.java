@@ -149,19 +149,6 @@ public class AccountManager {
 
   private AccountExternalId getAccountExternalId(ReviewDb db,
       AccountExternalId.Key key) throws OrmException {
-    if (accountIndexes.getSearchIndex() != null) {
-      AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(key.get());
-      if (accountState != null) {
-        for (AccountExternalId extId : accountState.getExternalIds()) {
-          if (extId.getKey().equals(key)) {
-            return extId;
-          }
-        }
-      }
-      return null;
-    }
-
     // We don't have at the moment an account_by_external_id cache
     // but by using the accounts cache we get the list of external_ids
     // without having to query the DB every time

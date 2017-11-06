@@ -15,18 +15,24 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
@@ -45,14 +51,19 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +71,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -67,6 +88,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
+  @Inject private AllUsersName allUsers;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -735,6 +757,113 @@ public class GroupsIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to index group");
     gApi.groups().id(group.id).index();
+  }
+
+  @Test
+  public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
+    pushToGroupBranch(allUsers, "group update not allowed");
+  }
+
+  @Test
+  public void pushToGroupBranchForNonAllUsersRepo() throws Exception {
+    pushToGroupBranch(project, null);
+  }
+
+  private void pushToGroupBranch(Project.NameKey project, String expectedError) throws Exception {
+    grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(project);
+
+    // create new branch
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
+            .setParents(ImmutableList.of())
+            .to(RefNames.REFS_GROUPS + name("foo"));
+    if (expectedError != null) {
+      r.assertErrorStatus(expectedError);
+    } else {
+      r.assertOkStatus();
+    }
+
+    // update existing branch
+    String groupRefName = RefNames.REFS_GROUPS + name("bar");
+    createGroupBranch(project, groupRefName);
+    fetch(repo, groupRefName + ":groupRef");
+    repo.reset("groupRef");
+    r =
+        pushFactory
+            .create(
+                db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
+            .to(groupRefName);
+    if (expectedError != null) {
+      r.assertErrorStatus(expectedError);
+    } else {
+      r.assertOkStatus();
+    }
+  }
+
+  @Test
+  public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Exception {
+    pushToGroupBranchForReviewAndSubmit(allUsers, "group update not allowed");
+  }
+
+  @Test
+  public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Exception {
+    pushToGroupBranchForReviewAndSubmit(project, null);
+  }
+
+  private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)
+      throws Exception {
+    grantLabel(
+        "Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", false, REGISTERED_USERS, false);
+    grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
+
+    String groupRefName = RefNames.REFS_GROUPS + name("foo");
+    createGroupBranch(project, groupRefName);
+    TestRepository<InMemoryRepository> repo = cloneProject(project);
+    fetch(repo, groupRefName + ":groupRef");
+    repo.reset("groupRef");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
+            .to(MagicBranch.NEW_CHANGE + groupRefName);
+    r.assertOkStatus();
+    assertThat(r.getChange().change().getDest().get()).isEqualTo(groupRefName);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+    if (expectedError != null) {
+      exception.expect(ResourceConflictException.class);
+      exception.expectMessage("group update not allowed");
+    }
+    gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  private void createGroupBranch(Project.NameKey project, String ref) throws IOException {
+    try (Repository r = repoManager.openRepository(project);
+        ObjectInserter oi = r.newObjectInserter();
+        RevWalk rw = new RevWalk(r)) {
+      ObjectId emptyTree = oi.insert(Constants.OBJ_TREE, new byte[] {});
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(emptyTree);
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage("Create group");
+      ObjectId emptyCommit = oi.insert(cb);
+
+      oi.flush();
+
+      RefUpdate updateRef = r.updateRef(ref);
+      updateRef.setExpectedOldObjectId(ObjectId.zeroId());
+      updateRef.setNewObjectId(emptyCommit);
+      assertThat(updateRef.update(rw)).isEqualTo(RefUpdate.Result.NEW);
+    }
   }
 
   private void assertAuditEvent(

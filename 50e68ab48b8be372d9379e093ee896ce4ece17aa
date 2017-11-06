@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10614238_1878501e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-06T22:57:54Z",
+      "side": 1,
+      "message": "What is this array used for now?\n\nCould we make it an object, with two properties (primary and secondary) that are both arrays, and bind to those in the template?\n\nI\u0027m just looking for a way to make this a bit simpler, it feels verbose to me right now. Thoughts?",
+      "revId": "50e68ab48b8be372d9379e093ee896ce4ece17aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

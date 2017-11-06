@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "a164b192_f66d30fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-06T22:57:54Z",
+      "side": 1,
+      "message": "Gotcha. Now that I think about it, Chromium has more than one primary action (CQ dry run), so this definitely needs supporting.\n\nI still think we maybe ought to reconsider the name -- I feel like we\u0027re introducing unnecessary complexity by being overly specific (i.e. if I read this, I\u0027d start looking for primary actions that weren\u0027t in the top level), but that\u0027s a pretty nitty gritty nit, so dont let me block this :)",
+      "parentUuid": "237097ff_5da5f689",
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7d209ff_dd6ebc0c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4

@@ -107,8 +107,14 @@
     // eslint-disable-next-line max-len
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/edit\/(.+),edit$/,
 
-    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
+    // Matches non-project-relative
+    // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+
+    // Matches diff routes using @\d+ to specify a file name (whether or not
+    // the project name is included).
+    // eslint-disable-next-line max-len
+    DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
@@ -136,6 +142,11 @@
    * Pattern to recognize leading '?' in window.location.search, for stripping.
    */
   const QUESTION_PATTERN = /^\?*/;
+
+  /**
+   * GWT UI would use @\d+ at the end of a path to indicate linenum.
+   */
+  const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
 
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
@@ -601,6 +612,8 @@
 
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
+      this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
+
       this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
           '_handleChangeNumberLegacyRoute');
 
@@ -1048,15 +1061,11 @@
       this._normalizeLegacyRouteParams(params);
     },
 
-    _handleDiffLegacyRoute(ctx) {
-      // Check if path has an '@' which indicates it was using GWT style line
-      // numbers. Even if the filename had an '@' in it, it would have already
-      // been URI encoded. Redirect to hash version of path.
-      if (ctx.path.includes('@')) {
-        this._redirect(ctx.path.replace('@', '#'));
-        return;
-      }
+    _handleLegacyLinenum(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
+    },
 
+    _handleDiffLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

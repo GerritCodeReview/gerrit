@@ -180,9 +180,7 @@ limitations under the License.
         });
         assert.equal(deleteItems.length, 1);
         assert.notEqual(deleteItems[0].name);
-        assert.isTrue(
-            deleteItems[0].name === 'Delete Change'
-        );
+        assert.equal(deleteItems[0].name, 'Delete change');
         done();
       });
     });
@@ -350,7 +348,7 @@ limitations under the License.
       let fireActionStub;
       const deleteEditAction = {
         enabled: true,
-        label: 'Delete Edit',
+        label: 'Delete edit',
         title: 'Delete change edit',
         __key: 'deleteEdit',
         __primary: false,
@@ -359,7 +357,7 @@ limitations under the License.
       };
       const publishEditAction = {
         enabled: true,
-        label: 'Publish Edit',
+        label: 'Publish edit',
         title: 'Publish change edit',
         __key: 'publishEdit',
         __primary: false,
@@ -368,7 +366,7 @@ limitations under the License.
       };
       const rebaseEditAction = {
         enabled: true,
-        label: 'Rebase Edit',
+        label: 'Rebase edit',
         title: 'Rebase change edit',
         __key: 'rebaseEdit',
         __primary: false,
@@ -492,7 +490,7 @@ limitations under the License.
           __type: 'revision',
           __primary: false,
           enabled: true,
-          label: 'Cherry Pick',
+          label: 'Cherry pick',
           method: 'POST',
           title: 'Cherry pick change to a different branch',
         };
@@ -599,7 +597,7 @@ limitations under the License.
       const key = 'cherrypick';
       const type = 'revision';
       const cleanup = element._setLoadingOnButtonWithKey(type, key);
-      assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
+      assert.equal(element._actionLoadingMessage, 'Cherry-picking...');
       assert.include(element._disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);
 
@@ -1156,6 +1154,14 @@ limitations under the License.
       assert.isFalse(reloadStub.called);
       element.patchNum = 456;
       assert.isFalse(reloadStub.called);
+    });
+
+    test('_toSentenceCase', () => {
+      assert.equal(element._toSentenceCase('blah blah'), 'Blah blah');
+      assert.equal(element._toSentenceCase('BLAH BLAH'), 'Blah blah');
+      assert.equal(element._toSentenceCase('b'), 'B');
+      assert.equal(element._toSentenceCase(''), '');
+      assert.equal(element._toSentenceCase('!@#$%^&*()'), '!@#$%^&*()');
     });
 
     suite('setActionOverflow', () => {

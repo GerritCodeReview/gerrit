@@ -76,7 +76,7 @@
 
   const ActionLoadingLabels = {
     abandon: 'Abandoning...',
-    cherrypick: 'Cherry-Picking...',
+    cherrypick: 'Cherry-picking...',
     delete: 'Deleting...',
     move: 'Moving..',
     rebase: 'Rebasing...',
@@ -97,7 +97,7 @@
     __type: 'change',
     enabled: true,
     key: 'review',
-    label: 'Quick Approve',
+    label: 'Quick approve',
     method: 'POST',
   };
 
@@ -120,7 +120,7 @@
 
   const REBASE_EDIT = {
     enabled: true,
-    label: 'Rebase Edit',
+    label: 'Rebase edit',
     title: 'Rebase change edit',
     __key: 'rebaseEdit',
     __primary: false,
@@ -130,7 +130,7 @@
 
   const PUBLISH_EDIT = {
     enabled: true,
-    label: 'Publish Edit',
+    label: 'Publish edit',
     title: 'Publish change edit',
     __key: 'publishEdit',
     __primary: false,
@@ -140,7 +140,7 @@
 
   const DELETE_EDIT = {
     enabled: true,
-    label: 'Delete Edit',
+    label: 'Delete edit',
     title: 'Delete change edit',
     __key: 'deleteEdit',
     __primary: false,
@@ -638,13 +638,8 @@
         } else if (!values.includes(a)) {
           continue;
         }
-        if (actions[a].label === 'Delete') {
-          // This label is common within change and revision actions. Make it
-          // more explicit to the user.
-          if (type === ActionType.CHANGE) {
-            actions[a].label += ' Change';
-          }
-        }
+        actions[a].label = this._getActionLabel(actions[a], type);
+
         // Triggers a re-render by ensuring object inequality.
         result.push(Object.assign({}, actions[a]));
       }
@@ -659,6 +654,32 @@
         return Object.assign({}, a);
       });
       return result.concat(additionalActions).concat(pluginActions);
+    },
+
+    /**
+     * Given a change action, return a display label that uses the appropriate
+     * casing or includes explanatory details.
+     */
+    _getActionLabel(action, type) {
+      if (action.label === 'Delete' && type === ActionType.CHANGE) {
+        // This label is common within change and revision actions. Make it more
+        // explicit to the user.
+        return 'Delete change';
+      } else if (action.label === 'WIP' && type === ActionType.CHANGE) {
+        return 'Mark as work in progress';
+      }
+      // Otherwise, just map the anme to sentence case.
+      return this._toSentenceCase(action.label);
+    },
+
+    /**
+     * Capitalize the first letter and lowecase all others.
+     * @param {string} s
+     * @return {string}
+     */
+    _toSentenceCase(s) {
+      if (!s.length) { return ''; }
+      return s[0].toUpperCase() + s.slice(1).toLowerCase();
     },
 
     _computeLoadingLabel(action) {

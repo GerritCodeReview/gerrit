@@ -139,11 +139,7 @@ limitations under the License.
                     account="[[item.tagger]]"
                     hidden$="[[!item.tagger]]">
                 </gr-account-link>
-                (<gr-date-formatter
-                    has-tooltip
-                    date-str="[[item.tagger.date]]"
-                    hidden$="[[!item.tagger]]">
-                </gr-date-formatter>)
+                [[_computeDate(item)]]
               </td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"

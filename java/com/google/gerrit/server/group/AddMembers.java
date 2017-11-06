@@ -48,7 +48,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -122,7 +122,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       throw new AuthException("Cannot add members to group " + internalGroup.getName());
     }
 
-    Set<Account.Id> newMemberIds = new HashSet<>();
+    Set<Account.Id> newMemberIds = new LinkedHashSet<>();
     for (String nameOrEmailOrId : input.members) {
       Account a = findAccount(nameOrEmailOrId);
       if (!a.isActive()) {

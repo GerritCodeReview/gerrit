@@ -121,6 +121,29 @@
       "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d87a988b_f8b8c22e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-06T21:34:26Z",
+      "side": 1,
+      "message": "Can this be...\n\n    loadAll(changeNum) {\n      const promises \u003d [];\n      promises.push(this.$.restAPI.getDiffComments(changeNum));\n      promises.push(this.$.restAPI.getDiffRobotComments(changeNum));\n      promises.push(this.$.restAPI.getDiffDrafts(changeNum));\n\n      return Promise.all(promises).then([comments, robotComments, drafts] \u003d\u003e {\n        this._changeComments \u003d new ChangeComments(comments,\n          robotComments, drafts, changeNum);\n      });\n\n...?",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 9
+      },
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class Sequences {
   public static final String NAME_ACCOUNTS = "accounts";
+  public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {
@@ -50,13 +51,16 @@ public class Sequences {
 
   private enum SequenceType {
     ACCOUNTS,
-    CHANGES;
+    CHANGES,
+    GROUPS;
   }
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
+  private final boolean readGroupSeqFromNoteDb;
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
+  private final RepoSequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
@@ -72,6 +76,9 @@ public class Sequences {
     this.db = db;
     this.migration = migration;
 
+    readGroupSeqFromNoteDb =
+        cfg.getBoolean("noteDb", "groups", "readSequenceFromNoteDb", false);
+
     int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
     accountSeq =
         new RepoSequence(
@@ -81,6 +88,19 @@ public class Sequences {
             NAME_ACCOUNTS,
             () -> ReviewDb.FIRST_ACCOUNT_ID,
             accountBatchSize);
+
+    @SuppressWarnings("deprecation")
+    RepoSequence.Seed groupSeed = () -> db.get().nextAccountGroupId();
+
+    int groupBatchSize = cfg.getInt("noteDb", "groups", "sequenceBatchSize", 1);
+    groupSeq =
+        new RepoSequence(
+            repoManager,
+            gitRefUpdated,
+            allUsers,
+            NAME_GROUPS,
+            groupSeed,
+            groupBatchSize);
 
     int gap = getChangeSequenceGap(cfg);
     @SuppressWarnings("deprecation")
@@ -104,6 +124,20 @@ public class Sequences {
     try (Timer2.Context timer = nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
       return accountSeq.next();
     }
+  }
+
+  public int nextGroupId() throws OrmException {
+    if (readGroupSeqFromNoteDb) {
+
+      try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
+        return groupSeq.next();
+      }
+    }
+    int groupId = nextGroupId(db.get());
+
+//    groupSeq.increaseTo(groupId + 1); // NoteDb stores next available account ID.
+
+    return groupId;
   }
 
   public int nextChangeId() throws OrmException {
@@ -142,5 +176,10 @@ public class Sequences {
   @SuppressWarnings("deprecation")
   private static int nextChangeId(ReviewDb db) throws OrmException {
     return db.nextChangeId();
+  }
+
+  @SuppressWarnings("deprecation")
+  private static int nextGroupId(ReviewDb db) throws OrmException {
+    return db.nextAccountGroupId();
   }
 }

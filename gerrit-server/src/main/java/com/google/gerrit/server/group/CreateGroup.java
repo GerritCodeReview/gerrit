@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
@@ -79,6 +80,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final SystemGroupBackend systemGroupBackend;
   private final boolean defaultVisibleToAll;
   private final String name;
+  private final Sequences seq;
 
   @Inject
   CreateGroup(
@@ -93,7 +95,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       AddMembers addMembers,
       SystemGroupBackend systemGroupBackend,
       @GerritServerConfig Config cfg,
-      @Assisted String name) {
+      @Assisted String name,
+      Sequences seq) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.db = db;
@@ -106,6 +109,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.systemGroupBackend = systemGroupBackend;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
+    this.seq = seq;
   }
 
   public CreateGroup addOption(ListGroupsOption o) {
@@ -190,7 +194,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       }
     }
 
-    AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
+    AccountGroup.Id groupId = new AccountGroup.Id(seq.nextGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
             createGroupArgs.getGroupName(),

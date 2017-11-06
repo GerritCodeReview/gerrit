@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "04dfe465_4ae18673",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-06T11:21:02Z",
+      "side": 1,
+      "message": "Yes, see for example how ANTLR_VERS is defined.",
+      "parentUuid": "e803b17b_b647b816",
+      "range": {
+        "startLine": 325,
+        "startChar": 46,
+        "endLine": 325,
+        "endChar": 52
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3729ad8_756b54b5",
         "filename": "java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
         "patchSetId": 7
@@ -355,6 +379,30 @@
       "side": 1,
       "message": "I tried flexmark-all but bazel fails to build because there is no source jar.\n\nAlso flexmark-all is for lazily loafing and not recommended for prod to use. See https://github.com/vsch/flexmark-java/issues/171",
       "parentUuid": "aad0a0d1_c8de5092",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa6f585b_3c74e4fa",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-06T11:21:02Z",
+      "side": 1,
+      "message": "OK, what about using \"flexmark-profile-pegdown\" as mentioned in that link?\n\nBTW, it should be possible to use a library without source jar by passing \"attach_source\u003dFalse\" to maven_jar.",
+      "parentUuid": "f0b48908_27504b4e",
       "range": {
         "startLine": 126,
         "startChar": 4,

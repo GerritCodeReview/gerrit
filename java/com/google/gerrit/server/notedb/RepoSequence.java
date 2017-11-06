@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -207,6 +208,27 @@ public class RepoSequence {
     }
   }
 
+  public void increaseTo(int val) throws OrmException {
+    counterLock.lock();
+    try {
+      try (Repository repo = repoManager.openRepository(projectName);
+          RevWalk rw = new RevWalk(repo)) {
+        TryIncreaseTo attempt = new TryIncreaseTo(repo, rw, val);
+        checkResult(retryer.call(attempt));
+        counter = limit;
+      } catch (ExecutionException | RetryException e) {
+        if (e.getCause() != null) {
+          Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
+        }
+        throw new OrmException(e);
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    } finally {
+      counterLock.unlock();
+    }
+  }
+
   private void acquire(int count) throws OrmException {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
@@ -226,7 +248,7 @@ public class RepoSequence {
   }
 
   private void checkResult(RefUpdate.Result result) throws OrmException {
-    if (!refUpdated(result)) {
+    if (!refUpdated(result) && result != Result.NO_CHANGE) {
       throw new OrmException("failed to update " + refName + ": " + result);
     }
   }
@@ -258,25 +280,55 @@ public class RepoSequence {
         next = seed.get();
       } else {
         oldId = ref.getObjectId();
-        next = parse(oldId);
+        next = parse(rw, oldId);
       }
       return store(repo, rw, oldId, next + count);
     }
+  }
 
-    private int parse(ObjectId id) throws IOException, OrmException {
-      ObjectLoader ol = rw.getObjectReader().open(id, OBJ_BLOB);
-      if (ol.getType() != OBJ_BLOB) {
-        // In theory this should be thrown by open but not all implementations
-        // may do it properly (certainly InMemoryRepository doesn't).
-        throw new IncorrectObjectTypeException(id, OBJ_BLOB);
-      }
-      String str = CharMatcher.whitespace().trimFrom(new String(ol.getCachedBytes(), UTF_8));
-      Integer val = Ints.tryParse(str);
-      if (val == null) {
-        throw new OrmException("invalid value in " + refName + " blob at " + id.name());
-      }
-      return val;
+  private class TryIncreaseTo implements Callable<RefUpdate.Result> {
+    private final Repository repo;
+    private final RevWalk rw;
+    private final int value;
+
+    private TryIncreaseTo(Repository repo, RevWalk rw, int value) {
+      this.repo = repo;
+      this.rw = rw;
+      this.value = value;
     }
+
+    @Override
+    public RefUpdate.Result call() throws Exception {
+      Ref ref = repo.exactRef(refName);
+      afterReadRef.run();
+      ObjectId oldId;
+      if (ref == null) {
+        oldId = ObjectId.zeroId();
+      } else {
+        oldId = ref.getObjectId();
+        int next = parse(rw, oldId);
+        if (next >= value) {
+          // a concurrent write updated the ref already to this or a higher value
+          return RefUpdate.Result.NO_CHANGE;
+        }
+      }
+      return store(repo, rw, oldId, value);
+    }
+  }
+
+  private int parse(RevWalk rw, ObjectId id) throws IOException, OrmException {
+    ObjectLoader ol = rw.getObjectReader().open(id, OBJ_BLOB);
+    if (ol.getType() != OBJ_BLOB) {
+      // In theory this should be thrown by open but not all implementations
+      // may do it properly (certainly InMemoryRepository doesn't).
+      throw new IncorrectObjectTypeException(id, OBJ_BLOB);
+    }
+    String str = CharMatcher.whitespace().trimFrom(new String(ol.getCachedBytes(), UTF_8));
+    Integer val = Ints.tryParse(str);
+    if (val == null) {
+      throw new OrmException("invalid value in " + refName + " blob at " + id.name());
+    }
+    return val;
   }
 
   private RefUpdate.Result store(Repository repo, RevWalk rw, @Nullable ObjectId oldId, int val)

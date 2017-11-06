@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c5397f_5e1df404",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T23:29:00Z",
+      "side": 1,
+      "message": "nit:\n\nreturn tagger ? \u0027\u0027 : \u0027hide\u0027;",
+      "range": {
+        "startLine": 260,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 6
+      },
+      "revId": "fda4a06d3295af3d7f17feb646a3e4bf74c32ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

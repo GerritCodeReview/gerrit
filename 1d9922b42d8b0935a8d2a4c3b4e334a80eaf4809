@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9f913834_4fa4188f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-06T18:52:23Z",
+      "side": 1,
+      "message": "Updated the commit message to make this clear.",
+      "parentUuid": "7cb408c5_6af95675",
+      "revId": "1d9922b42d8b0935a8d2a4c3b4e334a80eaf4809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99ec6eb2_3bd6d4e9",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 4

@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.AddSubgroups.Input;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AddSubgroups implements RestModifyView<GroupResource, Input> {
@@ -88,7 +91,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, UnprocessableEntityException, OrmException,
-          ResourceNotFoundException, IOException {
+          ResourceNotFoundException, IOException, ConfigInvalidException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     input = Input.init(input);
@@ -108,11 +111,21 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
 
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     try {
-      groupsUpdateProvider.get().addSubgroups(db.get(), groupUuid, subgroupUuids);
+      addSubgroups(groupUuid, subgroupUuids);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
     }
     return result;
+  }
+
+  private void addSubgroups(
+      AccountGroup.UUID parentGroupUuid, Set<AccountGroup.UUID> newSubgroupUuids)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder()
+            .setSubgroupModification(subgroupUuids -> Sets.union(subgroupUuids, newSubgroupUuids))
+            .build();
+    groupsUpdateProvider.get().updateGroup(db.get(), parentGroupUuid, groupUpdate);
   }
 
   static class PutSubgroup implements RestModifyView<GroupResource, Input> {
@@ -128,7 +141,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-            IOException {
+            IOException, ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id);
       try {

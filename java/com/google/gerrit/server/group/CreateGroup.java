@@ -43,6 +43,8 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupCreation;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -174,7 +176,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private InternalGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException, IOException {
+      throws OrmException, ResourceConflictException, IOException, ConfigInvalidException {
 
     String nameLower = createGroupArgs.getGroupName().toLowerCase(Locale.US);
 
@@ -195,20 +197,26 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
         GroupUUID.make(
             createGroupArgs.getGroupName(),
             self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
-    AccountGroup group =
-        new AccountGroup(createGroupArgs.getGroup(), groupId, uuid, TimeUtil.nowTs());
-    group.setVisibleToAll(createGroupArgs.visibleToAll);
+    InternalGroupCreation groupCreation =
+        InternalGroupCreation.builder()
+            .setGroupUUID(uuid)
+            .setNameKey(createGroupArgs.getGroup())
+            .setId(groupId)
+            .setCreatedOn(TimeUtil.nowTs())
+            .build();
+    InternalGroupUpdate.Builder groupUpdateBuilder =
+        InternalGroupUpdate.builder().setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupId != null) {
       Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
-      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(group::setOwnerGroupUUID);
+      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupUpdateBuilder::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {
-      group.setDescription(createGroupArgs.groupDescription);
+      groupUpdateBuilder.setDescription(createGroupArgs.groupDescription);
     }
+    groupUpdateBuilder.setMemberModification(
+        members -> ImmutableSet.copyOf(createGroupArgs.initialMembers));
     try {
-      return groupsUpdateProvider
-          .get()
-          .addGroup(db, group, ImmutableSet.copyOf(createGroupArgs.initialMembers));
+      return groupsUpdateProvider.get().createGroup(db, groupCreation, groupUpdateBuilder.build());
     } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "535799b4_66e28b92",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T19:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d091c4_6872cc54",
+      "range": {
+        "startLine": 871,
+        "startChar": 54,
+        "endLine": 871,
+        "endChar": 63
+      },
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2383f8f0_38301fe3",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 16
@@ -56,6 +80,24 @@
       "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3dbc38_5be6b5b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T19:01:39Z",
+      "side": 1,
+      "message": "It\u0027s used in the next change in the relation chain as well.",
+      "parentUuid": "80b2638a_5f1e952c",
+      "revId": "2f00fc9ad23c1bc554b62dbd5722ab6603a792cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

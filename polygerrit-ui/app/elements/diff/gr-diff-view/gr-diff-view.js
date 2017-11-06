@@ -71,6 +71,7 @@
        * }}
        */
       _change: Object,
+      /** @type {?} */
       _changeComments: Object,
       _changeNum: String,
       _diff: Object,

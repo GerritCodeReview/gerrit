@@ -44,6 +44,12 @@
         type: Object,
         observer: '_accountChanged',
       },
+
+      _isGKeyPressed: {
+        type: Boolean,
+        value: false,
+      },
+
       /**
        * @type {{ plugin: Object }}
        */
@@ -83,6 +89,9 @@
 
     keyBindings: {
       '?': '_showKeyboardShortcuts',
+      'g:keydown': '_gKeyDown',
+      'g:keyup': '_gKeyUp',
+      'a m o': '_jumpKeyPressed',
     },
 
     ready() {
@@ -235,6 +244,32 @@
 
     _computeShadowClass(isShadowDom) {
       return isShadowDom ? 'shadow' : '';
+    },
+
+    _gKeyDown() {
+      this._isGKeyPressed = true;
+    },
+
+    _gKeyUp() {
+      this._isGKeyPressed = false;
+    },
+
+    _jumpKeyPressed(e) {
+      if (!this._isGKeyPressed ||
+          this.shouldSuppressKeyboardShortcut(e)) { return; }
+      e.preventDefault();
+
+      let status = null;
+      if (e.detail.key === 'a') {
+        status = 'abandoned';
+      } else if (e.detail.key === 'm') {
+        status = 'merged';
+      } else if (e.detail.key === 'o') {
+        status = 'open';
+      }
+      if (status !== null) {
+        Gerrit.Nav.navigateToStatusSearch(status);
+      }
     },
   });
 })();

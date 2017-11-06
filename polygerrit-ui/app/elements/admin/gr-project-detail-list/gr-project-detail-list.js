@@ -255,5 +255,20 @@
 
       return '';
     },
+
+    _computeDate(item) {
+      const elem = document.createElement('gr-date-formatter');
+      if (item && item.tagger.date) {
+        elem.setAttribute('has-tooltip', true);
+        elem.setAttribute('date-str', item.tagger.date);
+        return '(' + elem + ')';
+      }
+
+      if (item && item.tagger) {
+        elem.setAttribute('hidden', item.tagger);
+      }
+
+      return elem;
+    },
   });
 })();

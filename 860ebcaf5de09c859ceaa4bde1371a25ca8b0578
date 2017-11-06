@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5485f032_bc9e5aa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:22:34Z",
+      "side": 1,
+      "message": "+1 to Kasper\u0027s comment. Basically what Arnab was certain about was the position of the buttons - primaries on the left, more menu on far right. The next step is figuring out what to do with the colors, which were left unchanged in this CL.",
+      "parentUuid": "64689971_a1a86b4b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc4c69c_55d15a55",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4
@@ -60,6 +84,24 @@
       "writtenOn": "2017-11-06T21:14:33Z",
       "side": 1,
       "message": "Nit: out of curiosity, how often are we planning on having multiple _topLevelPrimaryActions? Could this be a single action?\n\nAlso, are there \"_overflowPrimaryActions\"? Or could we simplify this name to just \"_primaryActions\"?",
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "237097ff_5da5f689",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:22:34Z",
+      "side": 1,
+      "message": "This is an array based on https://gerrit-review.googlesource.com/c/gerrit/+/138812/4/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js#192\n\nI\u0027m not sure if/when that will ever have more than one item, but I wanted to make sure that nothing is lost.",
+      "parentUuid": "bcc4c69c_55d15a55",
       "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "6f48866f_5bb083cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7d209ff_dd6ebc0c",
+      "range": {
+        "startLine": 707,
+        "startChar": 6,
+        "endLine": 707,
+        "endChar": 29
+      },
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ae16570_7cb23626",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "6ba3ed6a_e37d29a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ae16570_7cb23626",
+      "range": {
+        "startLine": 1184,
+        "startChar": 61,
+        "endLine": 1186,
+        "endChar": 9
+      },
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60b99149_86215b81",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 4
@@ -132,6 +222,30 @@
       "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d122c5_61ebef2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-06T22:22:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b99149_86215b81",
+      "range": {
+        "startLine": 1187,
+        "startChar": 63,
+        "endLine": 1189,
+        "endChar": 7
+      },
+      "revId": "860ebcaf5de09c859ceaa4bde1371a25ca8b0578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

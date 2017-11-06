@@ -55,6 +55,7 @@
 
       _timeFormat: String, // No default value to prevent flickering.
       _relative: Boolean, // No default value to prevent flickering.
+      useBraces: Boolean,
     },
 
     behaviors: [
@@ -166,6 +167,15 @@
       let format = TimeFormats.MONTH_DAY_YEAR + ', ';
       format += this._timeToSecondsFormat(timeFormat);
       return date.format(format) + this._getUtcOffsetString();
+    },
+
+    _computeDate(useBraces, dateStr, _timeFormat, _relative) {
+      if (useBraces) {
+        return '('
+          + this._computeDateStr(dateStr, _timeFormat, _relative) + ')';
+      }
+
+      return this._computeDateStr(dateStr, _timeFormat, _relative);
     },
   });
 })();

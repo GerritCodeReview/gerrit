@@ -412,6 +412,30 @@
       "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7017ac8_46aafb5d",
+        "filename": "lib/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-06T11:23:19Z",
+      "side": 1,
+      "message": "Ok i will try that after trying something else unrelated to this but fixes another issue i found which :).",
+      "parentUuid": "aa6f585b_3c74e4fa",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 41
+      },
+      "revId": "65f3e995dc26cde643bb29eaaff26b3e2b9bc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

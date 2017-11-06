@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7974e17e_868e71c6",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T15:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffd390e0_9ca7306b",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "862c66da_e8c6c0d3",
         "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d6bab1ec_5ee66d86",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T15:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "862c66da_e8c6c0d3",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e562f0e7_9eda15aa",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 1
@@ -51,6 +87,24 @@
       "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d82ca52_604902b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-06T15:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e562f0e7_9eda15aa",
+      "revId": "9d8eaa6f0f64b8d1fbd753781dafcc78db7df342",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

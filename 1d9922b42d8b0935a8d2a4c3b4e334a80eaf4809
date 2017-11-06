@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cb408c5_6af95675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-06T18:34:30Z",
+      "side": 1,
+      "message": "Other shortcuts mentioned in this issue will be implemented later?",
+      "revId": "1d9922b42d8b0935a8d2a4c3b4e334a80eaf4809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99ec6eb2_3bd6d4e9",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-06T18:34:30Z",
+      "side": 1,
+      "message": "Nice idea, to figure out, that \u0027g\u0027 was pressed.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "1d9922b42d8b0935a8d2a4c3b4e334a80eaf4809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

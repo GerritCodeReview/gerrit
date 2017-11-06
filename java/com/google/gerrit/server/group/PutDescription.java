@@ -26,12 +26,14 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Objects;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, DescriptionInput> {
@@ -48,7 +50,7 @@ public class PutDescription implements RestModifyView<GroupResource, Description
   @Override
   public Response<String> apply(GroupResource resource, DescriptionInput input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-          IOException {
+          IOException, ConfigInvalidException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }
@@ -59,13 +61,14 @@ public class PutDescription implements RestModifyView<GroupResource, Description
       throw new AuthException("Not group owner");
     }
 
-    String newDescription = Strings.emptyToNull(input.description);
-    if (!Objects.equals(internalGroup.getDescription(), newDescription)) {
+    String currentDescription = Strings.nullToEmpty(internalGroup.getDescription());
+    String newDescription = Strings.nullToEmpty(input.description);
+    if (!Objects.equals(currentDescription, newDescription)) {
       AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
+      InternalGroupUpdate groupUpdate =
+          InternalGroupUpdate.builder().setDescription(newDescription).build();
       try {
-        groupsUpdateProvider
-            .get()
-            .updateGroup(db.get(), groupUuid, group -> group.setDescription(newDescription));
+        groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
       }

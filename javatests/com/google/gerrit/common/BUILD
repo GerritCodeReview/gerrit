@@ -1,15 +1,12 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-SERVER_TEST_SRCS = [
-    "AutoValueTest.java",
-    "VersionTest.java",
-]
+AUTO_VALUE_TEST_SRCS = ["AutoValueTest.java"]
 
 junit_tests(
     name = "client_tests",
     srcs = glob(
         ["**/*.java"],
-        exclude = SERVER_TEST_SRCS,
+        exclude = AUTO_VALUE_TEST_SRCS,
     ),
     deps = [
         "//java/com/google/gerrit/common:client",
@@ -20,12 +17,9 @@ junit_tests(
 )
 
 junit_tests(
-    name = "server_tests",
-    srcs = SERVER_TEST_SRCS,
+    name = "auto_value_tests",
+    srcs = AUTO_VALUE_TEST_SRCS,
     deps = [
-        "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/launcher",
-        "//lib:guava",
         "//lib:truth",
         "//lib/auto:auto-value",
     ],

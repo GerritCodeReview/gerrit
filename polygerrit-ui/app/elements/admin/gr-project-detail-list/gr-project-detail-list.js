@@ -255,5 +255,13 @@
 
       return '';
     },
+
+    _computeHideTagger(tagger) {
+      if (tagger) {
+        return '';
+      }
+
+      return 'hide';
+    },
   });
 })();

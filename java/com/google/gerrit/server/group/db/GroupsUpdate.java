@@ -471,7 +471,8 @@ public class GroupsUpdate {
     return Optional.of(resultBuilder.build());
   }
 
-  private String getAccountNameEmail(Account.Id accountId) {
+  static String getAccountNameEmail(
+      AccountCache accountCache, String anonymousCowardName, Account.Id accountId) {
     AccountState accountState = accountCache.getOrNull(accountId);
     return Optional.ofNullable(accountState)
         .map(AccountState::getAccount)
@@ -479,8 +480,16 @@ public class GroupsUpdate {
         .orElse(String.valueOf(accountId.get()));
   }
 
-  private String getGroupName(AccountGroup.UUID groupUuid) {
+  private String getAccountNameEmail(Account.Id accountId) {
+    return getAccountNameEmail(accountCache, anonymousCowardName, accountId);
+  }
+
+  static String getGroupName(GroupCache groupCache, AccountGroup.UUID groupUuid) {
     return groupCache.get(groupUuid).map(InternalGroup::getName).orElse(groupUuid.get());
+  }
+
+  private String getGroupName(AccountGroup.UUID groupUuid) {
+    return getGroupName(groupCache, groupUuid);
   }
 
   private void commit(GroupConfig groupConfig) throws IOException {

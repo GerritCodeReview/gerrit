@@ -217,7 +217,7 @@ public class GroupConfig extends VersionedMetaData {
             .map(InternalGroupUpdate::getMemberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
             .map(ImmutableSet::copyOf);
-    if (updatedMembers.isPresent()) {
+    if (updatedMembers.isPresent() && !updatedMembers.get().equals(originalMembers)) {
       saveMembers(updatedMembers.get());
     }
     return updatedMembers;
@@ -230,7 +230,7 @@ public class GroupConfig extends VersionedMetaData {
             .map(InternalGroupUpdate::getSubgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
             .map(ImmutableSet::copyOf);
-    if (updatedSubgroups.isPresent()) {
+    if (updatedSubgroups.isPresent() && !updatedSubgroups.get().equals(originalSubgroups)) {
       saveSubgroups(updatedSubgroups.get());
     }
     return updatedSubgroups;
@@ -297,13 +297,20 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private Optional<String> getCommitFooterForRename() {
-    return loadedGroup
-        .map(InternalGroup::getName)
-        .flatMap(
-            originalName ->
-                groupUpdate
-                    .map(InternalGroupUpdate::getName)
-                    .map(newName -> "Rename from " + originalName + " to " + newName));
+    // TODO(dborowitz): Squash in https://gerrit-review.googlesource.com/c/gerrit/+/136054 or
+    // otherwise fix.
+    if (!loadedGroup.isPresent()
+        || !groupUpdate.isPresent()
+        || !groupUpdate.get().getName().isPresent()) {
+      return Optional.empty();
+    }
+
+    String originalName = loadedGroup.get().getName();
+    String newName = groupUpdate.get().getName().get().get();
+    if (originalName.equals(newName)) {
+      return Optional.empty();
+    }
+    return Optional.of("Rename from " + originalName + " to " + newName);
   }
 
   private String getCommitFooterForMemberModifications(

@@ -68,17 +68,12 @@ public abstract class Handler<T> implements Callable<T> {
       callback.onFailure(new NoSuchEntityException());
 
     } catch (OrmException e) {
-      if (e.getCause() instanceof BaseServiceImplementation.Failure) {
-        callback.onFailure(e.getCause().getCause());
-
-      } else if (e.getCause() instanceof NoSuchEntityException) {
+      if (e.getCause() instanceof NoSuchEntityException) {
         callback.onFailure(e.getCause());
 
       } else {
         callback.onFailure(e);
       }
-    } catch (BaseServiceImplementation.Failure e) {
-      callback.onFailure(e.getCause());
     } catch (Exception e) {
       callback.onFailure(e);
     }

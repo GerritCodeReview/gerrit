@@ -46,6 +46,30 @@
       "revId": "b9def466c6b4f8b662cd59261e3b4fa43cb4d291",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efd785a_fe36cb1d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project-detail-list/gr-project-detail-list_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-07T21:29:38Z",
+      "side": 1,
+      "message": "Actually tagger is an object, and returns false if the tagger dosen\u0027t exist. This is what we rely on in html template.",
+      "parentUuid": "d15a6492_689e9a68",
+      "range": {
+        "startLine": 398,
+        "startChar": 48,
+        "endLine": 398,
+        "endChar": 52
+      },
+      "revId": "b9def466c6b4f8b662cd59261e3b4fa43cb4d291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

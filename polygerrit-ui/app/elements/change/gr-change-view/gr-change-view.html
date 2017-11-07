@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
 <link rel="import" href="../../edit/gr-edit-constants.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
@@ -431,7 +432,7 @@ limitations under the License.
             all-patch-sets="[[_allPatchSets]]"
             change="[[_change]]"
             change-num="[[_changeNum]]"
-            comments="[[_comments]]"
+            comments="[[_changeComments.comments]]"
             commit-info="[[_commitInfo]]"
             change-url="[[_computeChangeUrl(_change)]]"
             edit-loaded="[[_editLoaded]]"
@@ -453,7 +454,7 @@ limitations under the License.
             change="[[_change]]"
             change-num="[[_changeNum]]"
             patch-range="{{_patchRange}}"
-            comments="[[_comments]]"
+            change-comments="[[_changeComments]]"
             drafts="[[_diffDrafts]]"
             revisions="[[_change.revisions]]"
             project-config="[[_projectConfig]]"
@@ -464,7 +465,8 @@ limitations under the License.
             files-expanded="{{_filesExpanded}}"
             file-list-increment="{{_numFilesShown}}"
             on-files-shown-changed="_setShownFiles"
-            on-file-action-tap="_handleFileActionTap"></gr-file-list>
+            on-file-action-tap="_handleFileActionTap"
+            on-reload-comments="_reloadCommentsWithCallback"></gr-file-list>
       </section>
       <gr-endpoint-decorator name="change-view-integration">
       </gr-endpoint-decorator>
@@ -473,7 +475,7 @@ limitations under the License.
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           reviewer-updates="[[_change.reviewer_updates]]"
-          comments="[[_comments]]"
+          comments="[[_changeComments.comments]]"
           project-name="[[_change.project]]"
           show-reply-buttons="[[_loggedIn]]"
           on-reply="_handleMessageReply"></gr-messages-list>
@@ -508,6 +510,7 @@ limitations under the License.
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
   <script src="gr-change-view.js"></script>
 </dom-module>

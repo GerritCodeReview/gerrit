@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -80,45 +81,6 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      .dropdown-trigger {
-        cursor: pointer;
-        padding: 0;
-      }
-      iron-dropdown {
-        position: absolute;
-      }
-      .dropdown-content {
-        background-color: #fff;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
-        max-height: 70vh;
-      }
-      .dropdown-content a {
-        cursor: pointer;
-        display: block;
-        font-weight: normal;
-        padding: .3em .5em;
-      }
-      .dropdown-content a:before {
-        color: #ccc;
-        content: attr(data-key-nav);
-        display: inline-block;
-        margin-right: .5em;
-        width: .3em;
-      }
-      .dropdown-content a:hover {
-        background-color: var(--color-link);
-        color: #fff;
-      }
-      .dropdown-content a[selected] {
-        color: #000;
-        font-family: var(--font-family-bold);
-        pointer-events: none;
-        text-decoration: none;
-      }
-      .dropdown-content a[selected]:hover {
-        background-color: #fff;
-        color: #000;
-      }
       gr-button {
         padding: .3em 0;
         text-decoration: none;
@@ -147,14 +109,6 @@ limitations under the License.
         display: block;
         overflow: auto;
       }
-      #trigger {
-        --gr-button: {
-          -moz-user-select: text;
-          -ms-user-select: text;
-          -webkit-user-select: text;
-          user-select: text;
-        }
-      }
       .editLoaded .hideOnEdit {
         display: none;
       }
@@ -163,6 +117,11 @@ limitations under the License.
       }
       .blameLoader.show {
         display: inline;
+      }
+      gr-dropdown-list {
+        --trigger-style: {
+          text-transform: none;
+        }
       }
       @media screen and (max-width: 50em) {
         header {
@@ -192,13 +151,6 @@ limitations under the License.
         .reviewed {
           vertical-align: -.1em;
         }
-        .mobileJumpToFileContainer {
-          display: block;
-          width: 100%;
-        }
-        .mobileJumpToFileContainer select {
-          width: 100%;
-        }
         .mobileNavLink {
           color: #000;
           font-size: 1.5em;
@@ -207,6 +159,20 @@ limitations under the License.
         }
         .mobileNavLink:not([href]) {
           color: #bbb;
+        }
+        .jumpToFileContainer {
+          display: block;
+          width: 100%;
+        }
+        gr-dropdown-list {
+          width: 100%;
+          --gr-select-style: {
+            display: block;
+            width: 100%;
+          }
+          --native-select-style: {
+            width: 100%;
+          }
         }
       }
     </style>
@@ -226,45 +192,14 @@ limitations under the License.
               type="checkbox"
               on-change="_handleReviewedChange"
               hidden$="[[!_loggedIn]]" hidden>
-          <div class="jumpToFileContainer desktop">
-            <gr-button
-                down-arrow
-                no-uppercase
-                link
-                class="dropdown-trigger"
-                id="trigger"
-                on-tap="_showDropdownTapHandler">
-              <span>[[computeDisplayPath(_path)]]</span>
-            </gr-button>
-            <!-- *-align="" to disable iron-dropdown's element positioning. -->
-            <iron-dropdown id="dropdown"
-                allow-outside-scroll
-                vertical-align=""
-                horizontal-align="">
-              <div class="dropdown-content" slot="dropdown-content">
-                <template
-                    is="dom-repeat"
-                    items="[[_fileList]]"
-                    as="path"
-                    initial-count="75">
-                  <a href$="[[_computeDiffURL(_change, _patchRange.*, path)]]"
-                    selected$="[[_computeFileSelected(path, _path)]]"
-                    data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                    on-tap="_handleFileTap">[[computeDisplayPath(path)]]</a>
-                </template>
-              </div>
-            </iron-dropdown>
-          </div>
-          <div class="mobileJumpToFileContainer mobile">
-            <select on-change="_handleMobileSelectChange">
-              <template is="dom-repeat" items="[[_fileList]]" as="path">
-                <option
-                    value$="[[path]]"
-                    selected$="[[_computeFileSelected(path, _path)]]">
-                  [[computeTruncatedPath(path)]]
-                </option>
-              </template>
-            </select>
+          <div class="jumpToFileContainer">
+            <gr-dropdown-list
+                id="dropdown"
+                value="[[computeDisplayPath(_path)]]"
+                on-value-change="_handleFileChange"
+                items="[[_formattedFiles]]"
+                initial-count="75">
+           </gr-dropdown-list>
           </div>
         </h3>
         <div class="navLinks desktop">

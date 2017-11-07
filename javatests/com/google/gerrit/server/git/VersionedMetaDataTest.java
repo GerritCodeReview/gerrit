@@ -23,6 +23,7 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
 import java.util.Arrays;
@@ -117,6 +118,42 @@ public class VersionedMetaDataTest {
     d.setIncrement(2);
     d.commit(newMetaDataUpdate());
     assertMyMetaData(3, "Increment conf.value by 1", "Increment conf.value by 2");
+  }
+
+  @Test
+  public void multipleUpdatesInBatchWithSameObject() throws Exception {
+    MyMetaData d = load(0);
+    d.setIncrement(1);
+    try (BatchMetaDataUpdate batch = d.openUpdate(newMetaDataUpdate())) {
+      batch.write(d, newMetaDataUpdate().getCommitBuilder());
+      assertMyMetaData(0); // Batch not yet committed.
+
+      d.setIncrement(2);
+      batch.write(d, newMetaDataUpdate().getCommitBuilder());
+      batch.commit();
+    }
+
+    assertMyMetaData(3, "Increment conf.value by 1", "Increment conf.value by 2");
+  }
+
+  @Test
+  public void multipleUpdatesSomeNoOps() throws Exception {
+    MyMetaData d = load(0);
+    d.setIncrement(1);
+    try (BatchMetaDataUpdate batch = d.openUpdate(newMetaDataUpdate())) {
+      batch.write(d, newMetaDataUpdate().getCommitBuilder());
+      assertMyMetaData(0); // Batch not yet committed.
+
+      d.setIncrement(0);
+      batch.write(d, newMetaDataUpdate().getCommitBuilder());
+      assertMyMetaData(0); // Batch not yet committed.
+
+      d.setIncrement(3);
+      batch.write(d, newMetaDataUpdate().getCommitBuilder());
+      batch.commit();
+    }
+
+    assertMyMetaData(4, "Increment conf.value by 1", "Increment conf.value by 3");
   }
 
   private MyMetaData load(int expectedValue) throws Exception {

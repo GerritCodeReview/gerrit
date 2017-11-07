@@ -108,11 +108,32 @@ limitations under the License.
       assert.isFalse(element._shouldHideActions({base: ['test']}, false));
     });
 
-    test('plugin actions', () => {
+    test('plugin revision actions', () => {
+      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
+          Promise.resolve('the-url'));
       element.revisionActions = {
         'plugin~action': {},
       };
       assert.isOk(element.revisionActions['plugin~action']);
+      flush(() => {
+        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
+            element.changeNum, element.patchNum, '/plugin~action'));
+        assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
+      });
+    });
+
+    test('plugin change actions', () => {
+      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
+          Promise.resolve('the-url'));
+      element.actions = {
+        'plugin~action': {},
+      };
+      assert.isOk(element.actions['plugin~action']);
+      flush(() => {
+        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
+            element.changeNum, null, '/plugin~action'));
+        assert.equal(element.revisionActions['plugin~action'].__url, 'the-url');
+      });
     });
 
     test('not supported actions are filtered out', () => {

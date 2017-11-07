@@ -120,7 +120,6 @@ public class VersionedMetaDataTest {
     assertMyMetaData(3, "Increment conf.value by 1", "Increment conf.value by 2");
   }
 
-  // DO NOT SUBMIT: This doesn't pass until https://gerrit-review.googlesource.com/c/gerrit/+/139231
   @Test
   public void multipleUpdatesInBatchWithSameObject() throws Exception {
     MyMetaData d = load(0);
@@ -137,7 +136,6 @@ public class VersionedMetaDataTest {
     assertMyMetaData(3, "Increment conf.value by 1", "Increment conf.value by 2");
   }
 
-  // DO NOT SUBMIT: This doesn't pass until https://gerrit-review.googlesource.com/c/gerrit/+/139231
   @Test
   public void multipleUpdatesSomeNoOps() throws Exception {
     MyMetaData d = load(0);

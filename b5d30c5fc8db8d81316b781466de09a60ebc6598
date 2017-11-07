@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d57599_1d8715a6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-07T21:41:52Z",
+      "side": 1,
+      "message": "Needs another ) here.",
+      "range": {
+        "startLine": 161,
+        "startChar": 62,
+        "endLine": 161,
+        "endChar": 63
+      },
+      "revId": "b5d30c5fc8db8d81316b781466de09a60ebc6598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

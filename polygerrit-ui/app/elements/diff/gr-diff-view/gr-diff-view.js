@@ -75,6 +75,10 @@
       _changeComments: Object,
       _changeNum: String,
       _diff: Object,
+      _formattedFiles: {
+        type: Array,
+        computed: '_computeFiles(_fileList)',
+      },
       _fileList: {
         type: Array,
         value() { return []; },
@@ -586,10 +590,6 @@
           patchRange.basePatchNum);
     },
 
-    _computeDiffURL(change, patchRangeRecord, path) {
-      return this._getDiffUrl(change, patchRangeRecord.base, path);
-    },
-
     _patchRangeStr(patchRange) {
       let patchStr = patchRange.patchNum;
       if (patchRange.basePatchNum != null &&
@@ -638,23 +638,32 @@
       return this._getChangePath(change, patchRangeRecord.base, revisions);
     },
 
-    _computeFileSelected(path, currentPath) {
-      return path == currentPath;
+    _computeFiles(fileList) {
+      if (!fileList) { return; }
+      const dropdownContent = [];
+      for (const path of fileList) {
+        dropdownContent.push({
+          text: this.computeDisplayPath(path),
+          mobileText: this.computeTruncatedPath(path),
+          value: this.computeDisplayPath(path),
+        });
+      }
+      return dropdownContent;
     },
 
     _computePrefsButtonHidden(prefs, loggedIn) {
       return !loggedIn || !prefs;
     },
 
-    _computeKeyNav(path, selectedPath, fileList) {
-      const selectedIndex = fileList.indexOf(selectedPath);
-      if (fileList.indexOf(path) == selectedIndex - 1) {
-        return '[';
+    _handleFileChange(e) {
+      // This is when it gets set initially.
+      const path = e.detail.value;
+      if (path === this._path) {
+        return;
       }
-      if (fileList.indexOf(path) == selectedIndex + 1) {
-        return ']';
-      }
-      return '';
+
+      Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
+          this._patchRange.basePatchNum);
     },
 
     _handleFileTap(e) {
@@ -669,10 +678,6 @@
       const path = Polymer.dom(e).rootTarget.value;
       Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
           this._patchRange.basePatchNum);
-    },
-
-    _showDropdownTapHandler(e) {
-      this.$.dropdown.open();
     },
 
     _handlePatchChange(e) {

@@ -54,6 +54,7 @@
      */
 
     properties: {
+      initialCount: Number,
       /** @type {!Array<!Defs.item>} */
       items: Object,
       text: String,

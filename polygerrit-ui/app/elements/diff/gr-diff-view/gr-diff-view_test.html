@@ -325,7 +325,7 @@ limitations under the License.
         });
       });
 
-      test('jump to file dropdown', () => {
+      test('_formattedFiles', () => {
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: PARENT,
@@ -334,45 +334,24 @@ limitations under the License.
         element._change = {_number: 42};
         element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
         element._path = 'glados.txt';
-        flushAsynchronousOperations();
-        const linkEls =
-            Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
-        assert.equal(linkEls.length, 3);
-        assert.isFalse(linkEls[0].hasAttribute('selected'));
-        assert.isTrue(linkEls[1].hasAttribute('selected'));
-        assert.isFalse(linkEls[2].hasAttribute('selected'));
-        assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
-        assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
-        assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
-        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
-        assert.equal(linkEls[1].getAttribute('href'),
-            '42-glados.txt-10-PARENT');
-        assert.equal(linkEls[2].getAttribute('href'),
-            '42-wheatley.md-10-PARENT');
-      });
+        const expectedFormattedFiles = [
+          {
+            text: 'chell.go',
+            mobileText: 'chell.go',
+            value: 'chell.go',
+          }, {
+            text: 'glados.txt',
+            mobileText: 'glados.txt',
+            value: 'glados.txt',
+          }, {
+            text: 'wheatley.md',
+            mobileText: 'wheatley.md',
+            value: 'wheatley.md',
+          },
+        ];
 
-      test('jump to file dropdown with patch range', () => {
-        element._changeNum = '42';
-        element._patchRange = {
-          basePatchNum: '5',
-          patchNum: '10',
-        };
-        element._change = {_number: 42};
-        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-        element._path = 'glados.txt';
-        flushAsynchronousOperations();
-        const linkEls =
-            Polymer.dom(element.root).querySelectorAll('.dropdown-content > a');
-        assert.equal(linkEls.length, 3);
-        assert.isFalse(linkEls[0].hasAttribute('selected'));
-        assert.isTrue(linkEls[1].hasAttribute('selected'));
-        assert.isFalse(linkEls[2].hasAttribute('selected'));
-        assert.equal(linkEls[0].getAttribute('data-key-nav'), '[');
-        assert.equal(linkEls[1].getAttribute('data-key-nav'), '');
-        assert.equal(linkEls[2].getAttribute('data-key-nav'), ']');
-        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
-        assert.equal(linkEls[1].getAttribute('href'), '42-glados.txt-10-5');
-        assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
+        assert.deepEqual(element._formattedFiles, expectedFormattedFiles);
+        assert.equal(element._formattedFiles[1].value, element._path);
       });
 
       test('prev/up/next links', () => {

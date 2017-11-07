@@ -31,9 +31,9 @@ sudo npm install -g \
   eslint \
   eslint-config-google \
   eslint-plugin-html \
+  typescript \
   fried-twinkie \
   polylint \
-  typescript \
   web-component-tester
 ```
 

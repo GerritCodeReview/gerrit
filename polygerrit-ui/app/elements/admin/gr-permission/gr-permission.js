@@ -95,6 +95,10 @@
       if (!permission.value.label) { return; }
 
       const labelName = permission.value.label;
+
+      // It is possible to have a label name that is not included in the
+      // 'labels' object. In this case, treat it like anything else.
+      if (!labels[labelName]) { return; }
       const label = {
         name: labelName,
         values: this._computeLabelValues(labels[labelName].values),

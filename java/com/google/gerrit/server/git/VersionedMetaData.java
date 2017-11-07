@@ -237,13 +237,13 @@ public abstract class VersionedMetaData {
   public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
     final Repository db = update.getRepository();
 
-    reader = db.newObjectReader();
     inserter = db.newObjectInserter();
+    reader = inserter.newReader();
     final RevWalk rw = new RevWalk(reader);
     final RevTree tree = revision != null ? rw.parseTree(revision) : null;
     newTree = readTree(tree);
     return new BatchMetaDataUpdate() {
-      AnyObjectId src = revision;
+      RevCommit src = revision;
       AnyObjectId srcTree = tree;
 
       @Override
@@ -255,10 +255,12 @@ public abstract class VersionedMetaData {
         DirCache nt = config.newTree;
         ObjectReader r = config.reader;
         ObjectInserter i = config.inserter;
+        RevCommit c = config.revision;
         try {
           config.newTree = newTree;
           config.reader = reader;
           config.inserter = inserter;
+          config.revision = src;
           return config.onSave(commit);
         } catch (ConfigInvalidException e) {
           throw new IOException(
@@ -268,6 +270,7 @@ public abstract class VersionedMetaData {
           config.newTree = nt;
           config.reader = r;
           config.inserter = i;
+          config.revision = c;
         }
       }
 
@@ -312,7 +315,7 @@ public abstract class VersionedMetaData {
           commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
         }
 
-        src = inserter.insert(commit);
+        src = rw.parseCommit(inserter.insert(commit));
         srcTree = res;
       }
 

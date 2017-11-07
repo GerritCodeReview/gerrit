@@ -49,15 +49,14 @@
     ],
 
     /**
-     * @param {string} project
+   * @param {string} project
      * @return {!Promise}
      */
     _projectChanged(project) {
       if (!project) { return Promise.resolve(); }
       const promises = [];
-      if (!this._sections) {
-        this._sections = [];
-      }
+      // Always reset sections when a project changesf
+      this._sections = [];
       promises.push(this.$.restAPI.getProjectAccessRights(project).then(res => {
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;

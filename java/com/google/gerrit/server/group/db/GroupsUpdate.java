@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -96,6 +96,7 @@ public class GroupsUpdate {
   private final AccountCache accountCache;
   private final String anonymousCowardName;
   private final RenameGroupOp.Factory renameGroupOpFactory;
+  private final ProjectCache projectCache;
   private final String serverId;
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent authorIdent;
@@ -112,6 +113,7 @@ public class GroupsUpdate {
       AccountCache accountCache,
       @AnonymousCowardName String anonymousCowardName,
       RenameGroupOp.Factory renameGroupOpFactory,
+      ProjectCache projectCache,
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.User metaDataUpdateUserFactory,
@@ -126,6 +128,7 @@ public class GroupsUpdate {
     this.accountCache = accountCache;
     this.anonymousCowardName = anonymousCowardName;
     this.renameGroupOpFactory = renameGroupOpFactory;
+    this.projectCache = projectCache;
     this.serverId = serverId;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
@@ -281,7 +284,7 @@ public class GroupsUpdate {
   private static void applyUpdate(AccountGroup group, InternalGroupUpdate groupUpdate) {
     groupUpdate.getName().ifPresent(group::setNameKey);
     groupUpdate.getDescription().ifPresent(d -> group.setDescription(Strings.emptyToNull(d)));
-    groupUpdate.getOwnerGroupUUID().ifPresent(group::setOwnerGroupUUID);
+    groupUpdate.getOwnerGroupReference().ifPresent(r -> group.setOwnerGroupUUID(r.getUUID()));
     groupUpdate.getVisibleToAll().ifPresent(group::setVisibleToAll);
   }
 
@@ -438,7 +441,7 @@ public class GroupsUpdate {
 
   private InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, OrmException {
     GroupConfig groupConfig = createFor(groupCreation);
     updateGroupInNoteDb(groupConfig, groupUpdate);
     return groupConfig
@@ -449,7 +452,8 @@ public class GroupsUpdate {
   private GroupConfig createFor(InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.createForNewGroup(repository, groupCreation);
+      return GroupConfig.createForNewGroup(
+          allUsersName, repository, groupCreation, metaDataUpdateFactory);
     }
   }
 
@@ -468,7 +472,7 @@ public class GroupsUpdate {
   private GroupConfig loadFor(AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
     try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.loadForGroup(repository, groupUuid);
+      return GroupConfig.loadForGroup(allUsersName, repository, groupUuid, metaDataUpdateFactory);
     }
   }
 
@@ -489,6 +493,10 @@ public class GroupsUpdate {
     Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
     Optional<AccountGroup.NameKey> previousName =
         getPreviousNameIfModified(originalGroup, updatedGroup);
+
+    // updating the group in NoteDb may update the owner permissions which are cached in
+    // ProjectState
+    projectCache.evict(allUsersName);
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
@@ -590,11 +598,6 @@ public class GroupsUpdate {
     for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
     }
-  }
-
-  @FunctionalInterface
-  private interface MetaDataUpdateFactory {
-    MetaDataUpdate create(Project.NameKey projectName) throws IOException;
   }
 
   @AutoValue

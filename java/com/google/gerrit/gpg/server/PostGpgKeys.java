@@ -66,6 +66,7 @@ import org.bouncycastle.bcpg.ArmoredInputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPRuntimeOperationException;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -179,6 +180,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
               "Cannot both add and delete key: " + keyToString(keyRing.getPublicKey()));
         }
         keyRings.add(keyRing);
+      } catch (PGPRuntimeOperationException e) {
+        throw new BadRequestException("Failed to parse GPG keys", e);
       }
     }
     return keyRings;

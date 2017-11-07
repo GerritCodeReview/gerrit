@@ -182,12 +182,9 @@ public abstract class VersionedMetaData {
    *     requested or if it failed because of a concurrent update to the same reference
    */
   public RevCommit commit(MetaDataUpdate update) throws IOException {
-    BatchMetaDataUpdate batch = openUpdate(update);
-    try {
+    try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
       return batch.commit();
-    } finally {
-      batch.close();
     }
   }
 
@@ -201,16 +198,13 @@ public abstract class VersionedMetaData {
    *     requested or if it failed because of a concurrent update to the same reference
    */
   public RevCommit commitToNewRef(MetaDataUpdate update, String refName) throws IOException {
-    BatchMetaDataUpdate batch = openUpdate(update);
-    try {
+    try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
       return batch.createRef(refName);
-    } finally {
-      batch.close();
     }
   }
 
-  public interface BatchMetaDataUpdate {
+  public interface BatchMetaDataUpdate extends AutoCloseable {
     void write(CommitBuilder commit) throws IOException;
 
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
@@ -221,6 +215,7 @@ public abstract class VersionedMetaData {
 
     RevCommit commitAt(ObjectId revision) throws IOException;
 
+    @Override
     void close();
   }
 

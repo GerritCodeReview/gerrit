@@ -139,6 +139,24 @@
       "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c46f7c5b_df724491",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-07T17:46:17Z",
+      "side": 1,
+      "message": "I\u0027ll adjust it tomorrow.",
+      "parentUuid": "44733fa4_7a8c8262",
+      "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

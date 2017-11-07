@@ -45,9 +45,9 @@ limitations under the License.
         background-color: #fff;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
         max-height: 70vh;
-        margin-top: 1.5em;
+        margin-top: 2em;
         min-width: 266px;
-        max-width: 300px;
+        @apply --dropdown-content-style
       }
       paper-listbox {
         --paper-listbox: {
@@ -114,13 +114,14 @@ limitations under the License.
       @media only screen and (max-width: 50em) {
         gr-select {
           display: inline;
+          @apply --gr-select-style;
         }
         gr-button,
         iron-dropdown {
           display: none;
         }
         select {
-          max-width: 5.25em;
+          @apply --native-select-style;
         }
       }
     </style>
@@ -144,24 +145,26 @@ limitations under the License.
           attr-for-selected="value"
           selected="{{value}}"
           on-tap="_handleDropdownTap">
-        <template is="dom-repeat" items="[[items]]">
-            <paper-item
-                disabled="[[item.disabled]]"
-                value="[[item.value]]">
-              <div class="topContent">
-                <div>[[item.text]]</div>
-                <template is="dom-if" if="[[item.date]]">
-                    <gr-date-formatter
-                        date-str="[[item.date]]"></gr-date-formatter>
-                </template>
-              </div>
-              <template is="dom-if" if="[[item.bottomText]]">
-                <div class="bottomContent">
-                  <div>[[item.bottomText]]</div>
-                </div>
+        <template is="dom-repeat"
+            items="[[items]]"
+            initial-count="[[initialCount]]">
+          <paper-item
+              disabled="[[item.disabled]]"
+              value="[[item.value]]">
+            <div class="topContent">
+              <div>[[item.text]]</div>
+              <template is="dom-if" if="[[item.date]]">
+                  <gr-date-formatter
+                      date-str="[[item.date]]"></gr-date-formatter>
               </template>
+            </div>
+            <template is="dom-if" if="[[item.bottomText]]">
+              <div class="bottomContent">
+                <div>[[item.bottomText]]</div>
+              </div>
+            </template>
           </paper-item>
-          </template>
+        </template>
       </paper-listbox>
     </iron-dropdown>
     <gr-select bind-value="{{value}}">

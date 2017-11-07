@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b33eb34d_aca8b037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "MergeValidators#ProjectConfigValidator also needs to do the check, otherwise you can push a change for refs/meta/config for review and then submit.",
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2752415e_bff51b17",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "Should this rather be done by setParent.get().validateParentUpdate(...) which is invoked below?",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 182,
+        "endChar": 9
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614c3d14_1ef89d40",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "Can this be done inside of ProjectConfig? ProjectConfig should generate a validation error for this so that the config is rejected as invalid above in l. 401.",
+      "range": {
+        "startLine": 430,
+        "startChar": 10,
+        "endLine": 437,
+        "endChar": 11
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f53de8_129a1ea3",
+        "filename": "java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "This check shouldn\u0027t be needed here if it is done in SetParent#validateParentUpdate(...) as suggested in [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/138863/1/java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 7
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae3749de_bb23086b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "ProjectConfig.PROJECT_CONFIG",
+      "range": {
+        "startLine": 923,
+        "startChar": 18,
+        "endLine": 923,
+        "endChar": 34
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6843d186_d2623abc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "ProjectConfig.PROJECT_CONFIG",
+      "range": {
+        "startLine": 933,
+        "startChar": 59,
+        "endLine": 933,
+        "endChar": 75
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c663c387_31005f09",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "Get AllUsersName and AllProjectsName injected instead of hard-coding the names.",
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb87fb8_4aa89085",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T14:02:02Z",
+      "side": 1,
+      "message": "Get AllUsersName and AllProjectsName injected instead of hard-coding the names.",
+      "range": {
+        "startLine": 548,
+        "startChar": 4,
+        "endLine": 549,
+        "endChar": 58
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

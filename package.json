@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "fried-twinkie": "0.0.14",
+    "typescript": "2.3.4"
+  },
+  "dependencies": {}
+}

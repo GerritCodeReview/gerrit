@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c110f93b_e0567049",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T15:18:33Z",
+      "side": 1,
+      "message": "There\u0027s a logic bug somewhere in this Optional mapping, I am seeing commit messages saying \"Rename from a to Optional.empty\"",
+      "revId": "e61964b11b57c9faf3c2ee85ceb0a0ac23344976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

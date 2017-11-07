@@ -16,6 +16,24 @@
       "revId": "e61964b11b57c9faf3c2ee85ceb0a0ac23344976",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b65b383_f957256f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T15:28:21Z",
+      "side": 1,
+      "message": "I\u0027ve spent 5 minutes staring at this and I still don\u0027t understand it. I certainly need more coffee, but I also think this particular instance is probably an overuse of Java 8isms and a more declarative style would be more readable.",
+      "parentUuid": "c110f93b_e0567049",
+      "revId": "e61964b11b57c9faf3c2ee85ceb0a0ac23344976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

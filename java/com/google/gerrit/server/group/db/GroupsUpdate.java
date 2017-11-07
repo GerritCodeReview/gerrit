@@ -24,6 +24,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,11 +35,13 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.audit.AuditService;
@@ -45,8 +51,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -96,6 +104,8 @@ public class GroupsUpdate {
   private final AccountCache accountCache;
   private final String anonymousCowardName;
   private final RenameGroupOp.Factory renameGroupOpFactory;
+  private final GroupBackend groupBackend;
+  private final ProjectCache projectCache;
   private final String serverId;
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent authorIdent;
@@ -112,6 +122,8 @@ public class GroupsUpdate {
       AccountCache accountCache,
       @AnonymousCowardName String anonymousCowardName,
       RenameGroupOp.Factory renameGroupOpFactory,
+      GroupBackend groupBackend,
+      ProjectCache projectCache,
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.User metaDataUpdateUserFactory,
@@ -126,6 +138,8 @@ public class GroupsUpdate {
     this.accountCache = accountCache;
     this.anonymousCowardName = anonymousCowardName;
     this.renameGroupOpFactory = renameGroupOpFactory;
+    this.groupBackend = groupBackend;
+    this.projectCache = projectCache;
     this.serverId = serverId;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
@@ -438,7 +452,7 @@ public class GroupsUpdate {
 
   private InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, OrmException {
     GroupConfig groupConfig = createFor(groupCreation);
     updateGroupInNoteDb(groupConfig, groupUpdate);
     return groupConfig
@@ -455,7 +469,7 @@ public class GroupsUpdate {
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException, OrmException {
     GroupConfig groupConfig = loadFor(groupUuid);
     if (!groupConfig.getLoadedGroup().isPresent()) {
       // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
@@ -473,7 +487,7 @@ public class GroupsUpdate {
   }
 
   private Optional<UpdateResult> updateGroupInNoteDb(
-      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
+      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException, OrmException {
     Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
 
     // TODO(aliceks): Find a way to ensure unique names with NoteDb.
@@ -484,6 +498,9 @@ public class GroupsUpdate {
             .getLoadedGroup()
             .orElseThrow(
                 () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+
+    updateOwnerPermissions(
+        updatedGroup, originalGroup.isPresent() ? originalGroup.get().getOwnerGroupUUID() : null);
 
     Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
     Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
@@ -499,6 +516,48 @@ public class GroupsUpdate {
             .setModifiedSubgroups(modifiedSubgroups);
     previousName.ifPresent(resultBuilder::setPreviousGroupName);
     return Optional.of(resultBuilder.build());
+  }
+
+  private void updateOwnerPermissions(
+      InternalGroup updatedInternalGroup, @Nullable AccountGroup.UUID oldOwnerGroupUuid)
+      throws IOException, OrmException {
+    if (updatedInternalGroup.getOwnerGroupUUID().equals(oldOwnerGroupUuid)) {
+      return;
+    }
+
+    String ref = RefNames.refsGroups(updatedInternalGroup.getGroupUUID());
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName)) {
+      ProjectConfig config = ProjectConfig.read(md);
+
+      if (oldOwnerGroupUuid != null) {
+        GroupReference oldOwnerGroupReference =
+            GroupReference.forGroup(groupBackend.get(oldOwnerGroupUuid));
+        config.remove(
+            config.getAccessSection(ref),
+            new Permission(Permission.READ),
+            new PermissionRule(oldOwnerGroupReference));
+        config.remove(
+            config.getAccessSection(ref),
+            new Permission(Permission.PUSH),
+            new PermissionRule(oldOwnerGroupReference));
+      }
+
+      GroupReference ownerGroupReference =
+          GroupReference.forGroup(groupBackend.get(updatedInternalGroup.getOwnerGroupUUID()));
+      AccessSection accessSection = config.getAccessSection(ref, true);
+      accessSection
+          .getPermission(Permission.READ, true)
+          .add(new PermissionRule(ownerGroupReference));
+      accessSection
+          .getPermission(Permission.PUSH, true)
+          .add(new PermissionRule(ownerGroupReference));
+
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    } catch (ConfigInvalidException e) {
+      throw new OrmException("Failed to update group owner permissions");
+    }
   }
 
   private String getAccountNameEmail(Account.Id accountId) {

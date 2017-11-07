@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd7e00c3_be98731b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:35:12Z",
+      "side": 1,
+      "message": "Tiny nitpick: there\u0027s room for \"checking\" to appear on the previous line.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "7bd84a737ecb286643a89929df56eb6dc3fe988f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84564b06_66957842",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:35:12Z",
+      "side": 1,
+      "message": "Nit: since the close paren terminates the stub call, it should appear at the end of the previous line.\n\nconst stub \u003d sandbox.stub(element, \u0027_fetchSharedCacheURL\u0027,\n    () \u003d\u003e Promise.resolve());\n\nOr at least, it shouldn\u0027t be so far to the left.",
+      "range": {
+        "startLine": 504,
+        "startChar": 10,
+        "endLine": 506,
+        "endChar": 8
+      },
+      "revId": "7bd84a737ecb286643a89929df56eb6dc3fe988f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "230b54b8_cf22a45b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:35:12Z",
+      "side": 1,
+      "message": "Nit: this line is longer than 80 characters.\n\nMaybe just shorten the test name, like ..\n\n getAccount does not add to cache on 403\n\n.. ?",
+      "revId": "7bd84a737ecb286643a89929df56eb6dc3fe988f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f75c6f_2c03a22e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:35:12Z",
+      "side": 1,
+      "message": "Nit: this close paren can move to the end of the previous line.",
+      "range": {
+        "startLine": 523,
+        "startChar": 10,
+        "endLine": 523,
+        "endChar": 12
+      },
+      "revId": "7bd84a737ecb286643a89929df56eb6dc3fe988f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d029bb_1b7f370c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:35:12Z",
+      "side": 1,
+      "message": "Nit: here too.",
+      "revId": "7bd84a737ecb286643a89929df56eb6dc3fe988f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

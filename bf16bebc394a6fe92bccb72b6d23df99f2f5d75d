@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec675e53_aa96c646",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T07:38:44Z",
+      "side": 1,
+      "message": "I think you need to allow result \u003d\u003d RefUpdate.Result.NO_CHANGE here.",
+      "revId": "bf16bebc394a6fe92bccb72b6d23df99f2f5d75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

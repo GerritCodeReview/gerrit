@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "044b6427_d9b11cbc",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-07T21:20:27Z",
+      "side": 0,
+      "message": "I\u0027m not sure how to get an updated version of this to work. Fried twinkie and typescript would no longer be installed globally. If this could get run in the local \u0027/gerrit\u0027 directory, them we could remove the -g flag: \n\n(npm list| grep -c fried-twinkie)\n\nHowever, I don\u0027t think that bazel has access to this directory?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "5295b645e67a0137aa28fc4ddcc95f1d376d5d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ec48d143_6360c0aa",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T15:06:50Z",
+      "side": 1,
+      "message": "\u003e If I use \"Preferred Name \u003caccountId@serverId\u003e\" for the author here, should I use the same identity for updates of the project config after renames?\n\nYou mean updating the groups file in refs/meta/config? I think I would prefer to use \"Preferred Name \u003cpreferredemail@example.com\u003e\" for those, to match the other commits in that particular ref\u0027s history. The difference between this graph and NoteDb graphs is that refs/meta/config is exposed to and intended to be edited directly by normal human users.\n\nrefs/meta/config is also not really an audit log, just a normal git log. I guess my point here is that we are intending to make a distinction between a \"real audit log\" and a git log.",
+      "parentUuid": "a41c0dc5_259faac3",
+      "revId": "fcbf4c1d40c0632fdd291a478bba8b7df56a4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c58bfe8_8160c08d",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 7

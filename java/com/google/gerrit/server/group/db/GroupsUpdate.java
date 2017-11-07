@@ -21,16 +21,25 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo.Action;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -46,6 +55,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.SetAccess;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -98,6 +110,8 @@ public class GroupsUpdate {
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent committerIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
+  private final ProjectsCollection projects;
+  private final SetAccess setAccess;
   private final boolean writeGroupsToNoteDb;
 
   @Inject
@@ -113,6 +127,8 @@ public class GroupsUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.User metaDataUpdateUserFactory,
       MetaDataUpdate.Server metaDataUpdateServerFactory,
+      ProjectsCollection projects,
+      SetAccess setAccess,
       @GerritServerConfig Config config,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
@@ -127,6 +143,8 @@ public class GroupsUpdate {
     this.metaDataUpdateFactory =
         getMetaDataUpdateFactory(
             currentUser, metaDataUpdateUserFactory, metaDataUpdateServerFactory);
+    this.projects = projects;
+    this.setAccess = setAccess;
     committerIdent = getCommitterIdent(serverIdent, currentUser);
     // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
     // have been addressed.
@@ -401,7 +419,7 @@ public class GroupsUpdate {
 
   private InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, OrmException {
     GroupConfig groupConfig = createFor(groupCreation);
     updateGroupInNoteDb(groupConfig, groupUpdate);
     return groupConfig
@@ -418,7 +436,7 @@ public class GroupsUpdate {
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException, OrmException {
     GroupConfig groupConfig = loadFor(groupUuid);
     if (!groupConfig.getLoadedGroup().isPresent()) {
       // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
@@ -436,7 +454,7 @@ public class GroupsUpdate {
   }
 
   private Optional<UpdateResult> updateGroupInNoteDb(
-      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
+      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException, OrmException {
     Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
 
     // TODO(aliceks): Find a way to ensure unique names with NoteDb.
@@ -447,6 +465,9 @@ public class GroupsUpdate {
             .getLoadedGroup()
             .orElseThrow(
                 () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+
+    updateOwnerPermissions(
+        updatedGroup, originalGroup.isPresent() ? originalGroup.get().getOwnerGroupUUID() : null);
 
     Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
     Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
@@ -462,6 +483,43 @@ public class GroupsUpdate {
             .setModifiedSubgroups(modifiedSubgroups);
     previousName.ifPresent(resultBuilder::setPreviousGroupName);
     return Optional.of(resultBuilder.build());
+  }
+
+  private void updateOwnerPermissions(
+      InternalGroup updatedInternalGroup, @Nullable AccountGroup.UUID oldOwnerGroupUuid)
+      throws IOException, OrmException {
+    if (updatedInternalGroup.getOwnerGroupUUID().equals(oldOwnerGroupUuid)) {
+      return;
+    }
+
+    try {
+      String ref = RefNames.refsGroups(updatedInternalGroup.getGroupUUID());
+
+      ProjectAccessInput input = new ProjectAccessInput();
+
+      if (oldOwnerGroupUuid != null) {
+        PermissionInfo oldPermissionInfo = new PermissionInfo(null, false);
+        oldPermissionInfo.rules =
+            ImmutableMap.of(oldOwnerGroupUuid.get(), new PermissionRuleInfo(Action.ALLOW, false));
+        AccessSectionInfo remove = new AccessSectionInfo();
+        remove.permissions =
+            ImmutableMap.of(Permission.READ, oldPermissionInfo, Permission.PUSH, oldPermissionInfo);
+        input.remove = ImmutableMap.of(ref, remove);
+      }
+
+      PermissionInfo newPermissionInfo = new PermissionInfo(null, false);
+      newPermissionInfo.rules =
+          ImmutableMap.of(
+              updatedInternalGroup.getOwnerGroupUUID().get(),
+              new PermissionRuleInfo(Action.ALLOW, false));
+      AccessSectionInfo add = new AccessSectionInfo();
+      add.permissions =
+          ImmutableMap.of(Permission.READ, newPermissionInfo, Permission.PUSH, newPermissionInfo);
+      input.add = ImmutableMap.of(ref, add);
+      setAccess.apply(projects.parse(allUsersName.get(), false), input);
+    } catch (RestApiException | PermissionBackendException e) {
+      throw new OrmException("Failed to update owner permissions");
+    }
   }
 
   private String getAccountNameEmail(Account.Id accountId) {

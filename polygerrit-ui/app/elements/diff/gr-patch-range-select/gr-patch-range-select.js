@@ -34,12 +34,12 @@
       _baseDropdownContent: {
         type: Object,
         computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
-            '_sortedRevisions, revisions, comments)',
+            '_sortedRevisions, comments)',
       },
       _patchDropdownContent: {
         type: Object,
         computed: '_computePatchDropdownContent(availablePatches,' +
-            'basePatchNum, _sortedRevisions, revisions, comments)',
+            'basePatchNum, _sortedRevisions, comments)',
       },
       changeNum: String,
       // In the case of a patch range select (like diff view) comments should
@@ -64,7 +64,7 @@
     behaviors: [Gerrit.PatchSetBehavior],
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
-        revisions, comments) {
+        comments) {
       const dropdownContent = [];
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
@@ -75,9 +75,9 @@
           text: `Patchset ${basePatchNum}` +
               this._computePatchSetCommentsString(this.comments, basePatchNum),
           mobileText: this._computeMobileText(basePatchNum, comments,
-              revisions),
+              _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
-              revisions, basePatchNum)}`,
+              _sortedRevisions, basePatchNum)}`,
           value: basePatch.num,
         });
       }
@@ -95,7 +95,7 @@
     },
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
-        _sortedRevisions, revisions, comments) {
+        _sortedRevisions, comments) {
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;
@@ -107,9 +107,10 @@
           text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
               `${this._computePatchSetCommentsString(
                   this.comments, patchNum)}`,
-          mobileText: this._computeMobileText(patchNum, comments, revisions),
+          mobileText: this._computeMobileText(patchNum, comments,
+              _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
-              revisions, patchNum)}`,
+              _sortedRevisions, patchNum)}`,
           value: patchNum,
         });
       }

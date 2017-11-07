@@ -101,7 +101,7 @@ limitations under the License.
       const sortedRevisions = [
         {_number: 3},
         {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 2},
+        {_number: 2, description: 'description'},
         {_number: 1},
       ];
       const expectedResult = [
@@ -259,21 +259,11 @@ limitations under the License.
         {num: 2},
         {num: 1},
       ];
-      const revisions = [
-        {
-          commit: {},
-          _number: 2,
-          description: 'description',
-        },
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-      ];
       const basePatchNum = 1;
       const sortedRevisions = [
         {_number: 3},
         {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 2},
+        {_number: 2, description: 'description'},
         {_number: 1},
       ];
 
@@ -313,7 +303,7 @@ limitations under the License.
       ];
 
       assert.deepEqual(element._computePatchDropdownContent(availablePatches,
-          basePatchNum, sortedRevisions, revisions, comments), expectedResult);
+          basePatchNum, sortedRevisions, comments), expectedResult);
     });
 
     test('filesWeblinks', () => {

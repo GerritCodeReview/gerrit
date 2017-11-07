@@ -22,6 +22,30 @@
       "revId": "965f57865e0a3a9dc1f35a20dbc1a11f89517d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faf376eb_88543271",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-11-07T18:42:22Z",
+      "side": 1,
+      "message": "I imagine the cache should be deleted if resp is null.",
+      "parentUuid": "d2fc8b96_d6ef1228",
+      "range": {
+        "startLine": 483,
+        "startChar": 12,
+        "endLine": 483,
+        "endChar": 40
+      },
+      "revId": "965f57865e0a3a9dc1f35a20dbc1a11f89517d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

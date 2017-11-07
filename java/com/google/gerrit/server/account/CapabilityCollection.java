@@ -49,6 +49,7 @@ public class CapabilityCollection {
   public final ImmutableList<PermissionRule> emailReviewers;
   public final ImmutableList<PermissionRule> priority;
   public final ImmutableList<PermissionRule> queryLimit;
+  public final ImmutableList<PermissionRule> createGroup;
 
   @Inject
   CapabilityCollection(
@@ -97,6 +98,7 @@ public class CapabilityCollection {
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
+    createGroup = getPermission(GlobalCapability.CREATE_GROUP);
   }
 
   private static List<PermissionRule> mergeAdmin(

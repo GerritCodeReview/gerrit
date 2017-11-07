@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f81635_3340b356",
+        "filename": "java/com/google/gerrit/testing/InMemoryDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-07T14:01:22Z",
+      "side": 1,
+      "message": "Please format with the Java formatter to sort imports.",
+      "revId": "7ebc7d63064d773d17bae221d10ca3025f57c52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

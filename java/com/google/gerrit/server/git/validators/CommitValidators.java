@@ -21,9 +21,11 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -57,7 +60,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -84,6 +89,7 @@ public class CommitValidators {
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
+    private final AllProjectsName allProjects;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
     private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
@@ -96,6 +102,7 @@ public class CommitValidators {
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
         AllUsersName allUsers,
+        AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
         ProjectCache projectCache) {
@@ -103,6 +110,7 @@ public class CommitValidators {
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
+      this.allProjects = allProjects;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
       this.accountValidator = accountValidator;
       this.installCommitMsgHookCommand =
@@ -129,7 +137,7 @@ public class CommitValidators {
               new SignedOffByValidator(user, perm, projectState),
               new ChangeIdValidator(
                   projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
-              new ConfigValidator(branch, user, rw, allUsers),
+              new ConfigValidator(branch, user, rw, allUsers, allProjects, projectState),
               new BannedCommitsValidator(rejectCommits),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
@@ -142,7 +150,8 @@ public class CommitValidators {
         Branch.NameKey branch,
         IdentifiedUser user,
         SshInfo sshInfo,
-        RevWalk rw)
+        RevWalk rw,
+        ProjectState projectState)
         throws IOException {
       return new CommitValidators(
           ImmutableList.of(
@@ -156,7 +165,7 @@ public class CommitValidators {
                   canonicalWebUrl,
                   installCommitMsgHookCommand,
                   sshInfo),
-              new ConfigValidator(branch, user, rw, allUsers),
+              new ConfigValidator(branch, user, rw, allUsers, allProjects, projectState),
               new PluginCommitValidationListener(pluginValidators),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(allUsers, accountValidator),
@@ -361,13 +370,22 @@ public class CommitValidators {
     private final IdentifiedUser user;
     private final RevWalk rw;
     private final AllUsersName allUsers;
+    private final AllProjectsName allProjects;
+    private final ProjectState projectState;
 
     public ConfigValidator(
-        Branch.NameKey branch, IdentifiedUser user, RevWalk rw, AllUsersName allUsers) {
+        Branch.NameKey branch,
+        IdentifiedUser user,
+        RevWalk rw,
+        AllUsersName allUsers,
+        AllProjectsName allProjects,
+        ProjectState projectState) {
       this.branch = branch;
       this.user = user;
       this.rw = rw;
       this.allUsers = allUsers;
+      this.allProjects = allProjects;
+      this.projectState = projectState;
     }
 
     @Override
@@ -385,6 +403,29 @@ public class CommitValidators {
               addError("  " + err.getMessage(), messages);
             }
             throw new ConfigInvalidException("invalid project configuration");
+          }
+          if (allUsers.equals(receiveEvent.project.getNameKey())
+              || allProjects.equals(receiveEvent.project.getNameKey())) {
+            // Check if the new config modifies any access sections for refs/groups/. These are
+            // managed by Gerrit and modifications are not allowed.
+            Set<AccessSection> diff =
+                Sets.symmetricDifference(
+                    new HashSet<>(projectState.getConfig().getAccessSections()),
+                    new HashSet<>(cfg.getAccessSections()));
+            boolean modifiesGroupsAccessSection =
+                diff.stream()
+                    .filter(as -> as.getName().startsWith(RefNames.REFS_GROUPS))
+                    .findAny()
+                    .isPresent();
+            if (modifiesGroupsAccessSection) {
+              addError("Invalid project configuration:", messages);
+              addError(
+                  String.format(
+                      "  Permissions on %s are managed by Gerrit and cannot be modified",
+                      RefNames.REFS_GROUPS),
+                  messages);
+              throw new ConfigInvalidException("invalid project configuration");
+            }
           }
         } catch (ConfigInvalidException | IOException e) {
           log.error(

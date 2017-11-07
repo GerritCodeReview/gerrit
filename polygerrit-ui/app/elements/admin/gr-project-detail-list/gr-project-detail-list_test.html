@@ -393,6 +393,15 @@ limitations under the License.
       test('_shownItems', () => {
         assert.equal(element._shownItems.length, 25);
       });
+
+      test('_computeHideTagger', () => {
+        const testObject1 = {
+          tagger: 'test',
+        };
+        assert.equal(element._computeHideTagger(testObject1), '');
+
+        assert.equal(element._computeHideTagger(undefined), 'hide');
+      });
     });
 
     suite('list with less then 25 tags', () => {

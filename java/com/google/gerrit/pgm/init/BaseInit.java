@@ -42,7 +42,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.ReviewDbFactory;
-import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreClassName;

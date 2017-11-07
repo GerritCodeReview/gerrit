@@ -47,7 +47,7 @@ import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;

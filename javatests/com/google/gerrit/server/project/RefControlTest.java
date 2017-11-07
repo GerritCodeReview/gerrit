@@ -60,7 +60,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.RulesCache;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.InMemoryDatabase;

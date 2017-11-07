@@ -99,7 +99,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;

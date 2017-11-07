@@ -98,6 +98,7 @@ java_library(
     srcs = ABSTRACT_QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//prolog:gerrit-prolog-common",
     ],

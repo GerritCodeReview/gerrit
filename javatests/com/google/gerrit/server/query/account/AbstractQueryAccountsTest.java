@@ -46,7 +46,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;

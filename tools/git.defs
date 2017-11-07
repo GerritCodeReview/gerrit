@@ -13,7 +13,8 @@
 # limitations under the License.
 
 def git_describe(directory = None):
-  import subprocess
+  with allow_unsafe_import():
+    import subprocess
   cmd = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
   if not directory:
     p = subprocess.Popen(cmd, stdout = subprocess.PIPE)

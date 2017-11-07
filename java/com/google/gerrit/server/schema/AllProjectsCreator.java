@@ -25,6 +25,7 @@ import static com.google.gerrit.server.schema.AclUtil.rule;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -71,11 +72,14 @@ public class AllProjectsCreator {
   private String message;
   private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
 
+  @Nullable
   private GroupReference admin;
+
+  @Nullable
   private GroupReference batch;
-  private GroupReference anonymous;
-  private GroupReference registered;
-  private GroupReference owners;
+  private final GroupReference anonymous;
+  private final GroupReference registered;
+  private final GroupReference owners;
 
   @Inject
   AllProjectsCreator(
@@ -94,11 +98,13 @@ public class AllProjectsCreator {
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
+  /** If called, grant default permissions to this admin group */
   public AllProjectsCreator setAdministrators(GroupReference admin) {
     this.admin = admin;
     return this;
   }
 
+  /** If called, grant stream-events permission and set appropriate priority for this group */
   public AllProjectsCreator setBatchUsers(GroupReference batch) {
     this.batch = batch;
     return this;
@@ -176,6 +182,7 @@ public class AllProjectsCreator {
 
       LabelType cr = initCodeReviewLabel(config);
       grant(config, heads, cr, -1, 1, registered);
+
       grant(config, heads, cr, -2, 2, admin, owners);
       grant(config, heads, Permission.CREATE, admin, owners);
       grant(config, heads, Permission.PUSH, admin, owners);

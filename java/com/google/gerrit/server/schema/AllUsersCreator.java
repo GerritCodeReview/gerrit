@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
@@ -46,7 +47,7 @@ public class AllUsersCreator {
   private final PersonIdent serverUser;
   private final GroupReference registered;
 
-  private GroupReference admin;
+  @Nullable private GroupReference admin;
 
   @Inject
   AllUsersCreator(
@@ -60,6 +61,10 @@ public class AllUsersCreator {
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
   }
 
+  /**
+   * If setAdministrators() is called, grant the given administrator group permissions on the
+   * default user.
+   */
   public AllUsersCreator setAdministrators(GroupReference admin) {
     this.admin = admin;
     return this;
@@ -97,13 +102,15 @@ public class AllUsersCreator {
       grant(config, users, Permission.SUBMIT, false, true, registered);
       grant(config, users, cr, -2, 2, registered);
 
-      AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
-      defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
-      grant(config, defaults, Permission.READ, admin);
-      defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
-      grant(config, defaults, Permission.PUSH, admin);
-      defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
-      grant(config, defaults, Permission.CREATE, admin);
+      if (admin != null) {
+        AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
+        defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
+        grant(config, defaults, Permission.READ, admin);
+        defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
+        grant(config, defaults, Permission.PUSH, admin);
+        defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
+        grant(config, defaults, Permission.CREATE, admin);
+      }
 
       config.commit(md);
     }

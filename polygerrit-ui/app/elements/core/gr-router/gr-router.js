@@ -90,6 +90,13 @@
     QUERY: '/q/:query',
     QUERY_OFFSET: '/q/:query,:offset',
 
+    /**
+     * Support vestigial params from GWT UI.
+     * @see Issue 7673.
+     * @type {!RegExp}
+     */
+    QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
+
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
     CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
@@ -106,8 +113,14 @@
     // eslint-disable-next-line max-len
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/edit\/(.+),edit$/,
 
-    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
+    // Matches non-project-relative
+    // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+
+    // Matches diff routes using @\d+ to specify a file name (whether or not
+    // the project name is included).
+    // eslint-disable-next-line max-len
+    DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
@@ -125,6 +138,13 @@
    * @type {RegExp}
    */
   const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
+
+  /**
+   * GWT UI would use @\d+ at the end of a path to indicate linenum.
+   */
+  const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
+
+  const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
@@ -514,11 +534,16 @@
 
       this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
 
+      this._mapRoute(RoutePattern.QUERY_LEGACY_SUFFIX,
+          '_handleQueryLegacySuffixRoute');
+
       this._mapRoute(RoutePattern.ADMIN_PLACEHOLDER,
           '_handleAdminPlaceholderRoute', true);
 
       this._mapRoute(RoutePattern.QUERY_OFFSET, '_handleQueryRoute');
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
+
+      this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
 
       this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
           '_handleChangeNumberLegacyRoute');
@@ -846,6 +871,10 @@
       this._setParams(data.params);
     },
 
+    _handleQueryLegacySuffixRoute(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
+    },
+
     _handleChangeNumberLegacyRoute(ctx) {
       this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
     },
@@ -886,15 +915,11 @@
       this._normalizeLegacyRouteParams(params);
     },
 
-    _handleDiffLegacyRoute(ctx) {
-      // Check if path has an '@' which indicates it was using GWT style line
-      // numbers. Even if the filename had an '@' in it, it would have already
-      // been URI encoded. Redirect to hash version of path.
-      if (ctx.path.includes('@')) {
-        this._redirect(ctx.path.replace('@', '#'));
-        return;
-      }
+    _handleLegacyLinenum(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
+    },
 
+    _handleDiffLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

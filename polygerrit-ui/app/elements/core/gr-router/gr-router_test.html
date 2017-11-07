@@ -154,6 +154,7 @@ limitations under the License.
         '_handleDefaultRoute',
         '_handleChangeLegacyRoute',
         '_handleDiffLegacyRoute',
+        '_handleLegacyLinenum',
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
         '_handleProjectAccessRoute',
@@ -161,6 +162,7 @@ limitations under the License.
         '_handleProjectListFilterRoute',
         '_handleProjectListOffsetRoute',
         '_handleProjectRoute',
+        '_handleQueryLegacySuffixRoute',
         '_handleQueryRoute',
         '_handleRegisterRoute',
         '_handleTagListFilterOffsetRoute',
@@ -476,6 +478,12 @@ limitations under the License.
         assert.equal(
             redirectStub.lastCall.args[0],
             '/c/test/+/42#foo');
+      });
+
+      test('_handleQueryLegacySuffixRoute', () => {
+        element._handleQueryLegacySuffixRoute({path: '/q/foo+bar,n,z'});
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
       });
 
       suite('_handleRegisterRoute', () => {
@@ -1060,12 +1068,17 @@ limitations under the License.
           });
         });
 
-        test('_handleDiffLegacyRoute w/ @', () => {
-          const normalizeRouteStub = sandbox.stub(element,
-              '_normalizeLegacyRouteParams');
+        test('_handleLegacyLinenum w/ @321', () => {
+          const ctx = {path: '/c/1234/3..8/foo/bar@321'};
+          element._handleLegacyLinenum(ctx);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.isTrue(redirectStub.calledWithExactly(
+              '/c/1234/3..8/foo/bar#321'));
+        });
+
+        test('_handleLegacyLinenum w/ @b123', () => {
           const ctx = {path: '/c/1234/3..8/foo/bar@b123'};
-          element._handleDiffLegacyRoute(ctx);
-          assert.isFalse(normalizeRouteStub.called);
+          element._handleLegacyLinenum(ctx);
           assert.isTrue(redirectStub.calledOnce);
           assert.isTrue(redirectStub.calledWithExactly(
               '/c/1234/3..8/foo/bar#b123'));

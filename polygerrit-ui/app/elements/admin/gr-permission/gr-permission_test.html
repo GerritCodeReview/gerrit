@@ -101,7 +101,7 @@ limitations under the License.
             },
           },
         };
-        const permission = {
+        let permission = {
           id: 'label-Code-Review',
           value: {
             label: 'Code-Review',
@@ -140,6 +140,25 @@ limitations under the License.
 
         assert.deepEqual(element._computeLabel(permission, labels),
             expectedLabel);
+
+        permission = {
+          id: 'label-reviewDB',
+          value: {
+            label: 'reviewDB',
+            rules: {
+              'global:Project-Owners': {
+                action: 'ALLOW',
+                force: false,
+              },
+              '4c97682e6ce6b7247f3381b6f1789356666de7f': {
+                action: 'ALLOW',
+                force: false,
+              },
+            },
+          },
+        };
+
+        assert.isNotOk(element._computeLabel(permission, labels));
       });
 
       test('_computeSectionClass', () => {

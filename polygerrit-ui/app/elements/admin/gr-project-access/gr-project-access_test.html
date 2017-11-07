@@ -58,14 +58,33 @@ limitations under the License.
           id: 'accessDatabase',
           name: 'Access Database',
         },
+        createAccount: {
+          id: 'createAccount',
+          name: 'Create Account',
+        },
       };
       const accessRes = {
+        local: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  234: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      const accessRes2 = {
         local: {
           GLOBAL_CAPABILITIES: {
             permissions: {
               accessDatabase: {
                 rules: {
-                  123: {},
+                  group1: {
+                    action: 'ALLOW',
+                  },
                 },
               },
             },
@@ -78,9 +97,15 @@ limitations under the License.
         },
       };
       const accessStub = sandbox.stub(element.$.restAPI,
-          'getProjectAccessRights').returns(Promise.resolve(accessRes));
+          'getProjectAccessRights');
+
+
+      accessStub.withArgs('New Project').returns(Promise.resolve(accessRes));
+      accessStub.withArgs('Another New Project')
+          .returns(Promise.resolve(accessRes2));
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
-          'getCapabilities').returns(Promise.resolve(capabilitiesRes));
+          'getCapabilities');
+      capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
       const projectStub = sandbox.stub(element.$.restAPI, 'getProject').returns(
           Promise.resolve(projectRes));
       const adminStub = sandbox.stub(element.$.restAPI, 'getIsAdmin').returns(
@@ -96,8 +121,13 @@ limitations under the License.
         assert.deepEqual(element._sections,
             element.toSortedArray(accessRes.local));
         assert.deepEqual(element._labels, projectRes.labels);
-        done();
-      });
+        return element._projectChanged('Another New Project');
+      })
+          .then(() => {
+            assert.deepEqual(element._sections,
+                element.toSortedArray(accessRes2.local));
+            done();
+          });
     });
 
     test('_projectChanged when project changes to undefined returns', done => {

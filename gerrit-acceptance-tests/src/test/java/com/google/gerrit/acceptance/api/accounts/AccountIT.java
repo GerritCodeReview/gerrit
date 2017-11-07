@@ -788,6 +788,14 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addMalformedGpgKey() throws Exception {
+    String key = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\ntest\n-----END PGP PUBLIC KEY BLOCK-----";
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Failed to parse GPG keys");
+    addGpgKey(key);
+  }
+
+  @Test
   @UseSsh
   public void sshKeys() throws Exception {
     //

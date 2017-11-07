@@ -91,6 +91,13 @@
 
     QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
+    /**
+     * Support vestigial params from GWT UI.
+     * @see Issue 7673.
+     * @type {!RegExp}
+     */
+    QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
+
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
     CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
@@ -147,6 +154,8 @@
    * GWT UI would use @\d+ at the end of a path to indicate linenum.
    */
   const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
+
+  const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
@@ -610,6 +619,9 @@
 
       this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
 
+      this._mapRoute(RoutePattern.QUERY_LEGACY_SUFFIX,
+          '_handleQueryLegacySuffixRoute');
+
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
       this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
@@ -1018,6 +1030,10 @@
         query: data.params[0],
         offset: data.params[2],
       });
+    },
+
+    _handleQueryLegacySuffixRoute(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
     },
 
     _handleChangeNumberLegacyRoute(ctx) {

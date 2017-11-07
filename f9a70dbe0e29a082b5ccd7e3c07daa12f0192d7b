@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "152b7231_3eea8716",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T14:42:11Z",
+      "side": 1,
+      "message": "This produces some slightly inconsistent results for members vs. subgroups. Here are some example commit messages from tests I wrote:\n\n \"Update group\\n\\nAdd: Account 1 \u003c1@example.com\u003e\\nAdd: Account 2 \u003c2@example.com\u003e\\nAdd: group Group x\\nAdd: group Group y\"\n \"Update group\\n\\nAdd: Account 2 \u003c2@example.com\u003e\\n\"\n \"Update group\\n\\n\\nAdd: group Group x\"\n\nNote that in the group case there is an extra newline after the subject, and no trailing newline. (It\u0027s arguably ok for commit messages to not end with newlines, but probably it should be consistent.)",
+      "revId": "f9a70dbe0e29a082b5ccd7e3c07daa12f0192d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

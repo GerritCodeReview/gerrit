@@ -162,6 +162,7 @@ limitations under the License.
         '_handleProjectListFilterRoute',
         '_handleProjectListOffsetRoute',
         '_handleProjectRoute',
+        '_handleQueryLegacySuffixRoute',
         '_handleQueryRoute',
         '_handleRegisterRoute',
         '_handleTagListFilterOffsetRoute',
@@ -477,6 +478,12 @@ limitations under the License.
         assert.equal(
             redirectStub.lastCall.args[0],
             '/c/test/+/42#foo');
+      });
+
+      test('_handleQueryLegacySuffixRoute', () => {
+        element._handleQueryLegacySuffixRoute({path: '/q/foo+bar,n,z'});
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
       });
 
       suite('_handleRegisterRoute', () => {

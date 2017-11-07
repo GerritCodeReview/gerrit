@@ -55,9 +55,8 @@
     _projectChanged(project) {
       if (!project) { return Promise.resolve(); }
       const promises = [];
-      if (!this._sections) {
-        this._sections = [];
-      }
+      // Always reset sections when a project changes.
+      this._sections = [];
       promises.push(this.$.restAPI.getProjectAccessRights(project).then(res => {
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;
@@ -77,15 +76,10 @@
         this._isAdmin = isAdmin;
       }));
 
-      return Promise.all(promises).then(value => {
-        this._capabilities = value[1];
-        this._labels = value[2];
-
-        // Use splice instead of setting _sections directly so that dom-repeat
-        // renders new sections properly. Otherwise, gr-access-section is not
-        // aware that the section has updated.
-        this.splice(...['_sections', 0, this._sections.length]
-            .concat(value[0]));
+      return Promise.all(promises).then(([sections, capabilities, labels]) => {
+        this._capabilities = capabilities;
+        this._labels = labels;
+        this._sections = sections;
       });
     },
 

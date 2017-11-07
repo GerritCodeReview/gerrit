@@ -98,6 +98,7 @@ java_library(
     srcs = ABSTRACT_QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
+        "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//prolog:gerrit-prolog-common",
     ],
@@ -128,6 +129,7 @@ junit_tests(
         ":custom-truth-subjects",
         "//java/com/google/gerrit/extensions/client/testing:client-test-util",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/org/eclipse/jgit:server",

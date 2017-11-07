@@ -42,7 +42,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.LabelNormalizer.Result;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.testing.InMemoryDatabase;

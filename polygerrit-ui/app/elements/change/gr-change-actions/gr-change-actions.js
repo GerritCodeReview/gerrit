@@ -629,6 +629,9 @@
         // Plugin actions always contain ~ in the key.
         if (a.indexOf('~') !== -1) {
           pluginActions.push(actions[a]);
+          const patchNum = type === ActionType.REVISION ? this.patchNum : null;
+          this.$.restAPI.getChangeActionURL(this.changeNum, patchNum, '/' + a)
+              .then(url => actions[a].__url = url);
           // Add server-side provided plugin actions to overflow menu.
           this._overflowActions.push({
             type,

@@ -16,6 +16,24 @@
       "revId": "bf16bebc394a6fe92bccb72b6d23df99f2f5d75d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbfa25c_660bb0b7",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-07T10:48:35Z",
+      "side": 1,
+      "message": "ok. Should I leave l.256 alone?",
+      "parentUuid": "ec675e53_aa96c646",
+      "revId": "bf16bebc394a6fe92bccb72b6d23df99f2f5d75d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

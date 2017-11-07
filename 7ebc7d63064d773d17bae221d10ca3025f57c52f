@@ -16,6 +16,24 @@
       "revId": "7ebc7d63064d773d17bae221d10ca3025f57c52f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b5397e_9e2172e6",
+        "filename": "java/com/google/gerrit/testing/InMemoryDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-07T14:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f81635_3340b356",
+      "revId": "7ebc7d63064d773d17bae221d10ca3025f57c52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

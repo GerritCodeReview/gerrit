@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "498ce443_6e1ac01d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-07T23:59:40Z",
+      "side": 1,
+      "message": "To verify, this Docker file can be used: [1].\n\n* [1] https://github.com/davido/bazel-build-gerrit/blob/master/Dockerfile",
+      "revId": "fae295cfc7ffe50c2f0792265bde2978e0c858c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

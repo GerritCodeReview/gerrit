@@ -123,6 +123,24 @@
       "revId": "7054b6287bacb1f44a4e5eab2d9b20e2bcb1fe74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c1a030_df4fd343",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-07T13:50:50Z",
+      "side": 1,
+      "message": "Any extra change in behavior (even if it is a bugfix) is more likely to cause extra work, and I would rather postpone that extra work until somebody files a bugreport.\n\nI think it would only trigger if somebody upgraded from 2.9 to beyond release that introduced this code (v2.11?), so the failure case seems unlikely.",
+      "parentUuid": "c159d990_4aa95f4d",
+      "revId": "7054b6287bacb1f44a4e5eab2d9b20e2bcb1fe74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

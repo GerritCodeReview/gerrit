@@ -30,8 +30,10 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -55,6 +57,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -74,6 +77,7 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -813,6 +817,99 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Exception {
     pushToGroupBranchForReviewAndSubmit(project, null);
+  }
+
+  @Test
+  public void pushGroupsAccessSectionChangeToAllUsersFails() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
+
+    String config =
+        gApi.projects()
+            .name(allUsers.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("access", RefNames.REFS_GROUPS + "foo", "push", "group Registered Users");
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage("permissions on refs/groups/ is managed by gerrit and cannot be modified");
+  }
+
+  @Test
+  public void pushNonGroupsAccessSectionChangeToAllUsersSucceeds() throws Exception {
+    // Add an access section for refs/groups manually to see that mutation other data does not
+    // trigger a validation error.
+    ProjectConfig projectConfig = projectCache.checkedGet(allUsers).getConfig();
+    AccessSection as = new AccessSection(RefNames.REFS_GROUPS + "foo");
+    Permission perm = new Permission("push");
+    perm.add(new PermissionRule(systemGroupBackend.getGroup(ANONYMOUS_USERS)));
+    as.addPermission(perm);
+    projectConfig.replace(as);
+    saveProjectConfig(allUsers, projectConfig);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
+
+    String config =
+        gApi.projects()
+            .name(allUsers.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+    assertThat(config).contains("[access \"refs/groups/foo\"]");
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("access", RefNames.REFS_CHANGES + "foo", "push", "group Registered Users");
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertOkStatus();
+  }
+
+  @Test
+  public void pushGroupsAccessSectionChangeToCustomProjectSucceeds() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(project, RefNames.REFS_CONFIG);
+
+    String config =
+        gApi.projects()
+            .name(project.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("access", RefNames.REFS_GROUPS + "foo", "push", "group Registered Users");
+    config = cfg.toText();
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                repo,
+                "Subject",
+                "groups",
+                "global:Registered-Users\tRegistered Users")
+            .to(RefNames.REFS_CONFIG);
+    r1.assertOkStatus();
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(db, admin.getIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r2.assertOkStatus();
   }
 
   private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)

@@ -115,13 +115,17 @@ limitations under the License.
       instance.action = {
         method: 'METHOD',
         __key: 'key',
+        __url: '/changes/1/revisions/2/foo~bar',
       };
-      sandbox.stub(plugin, '_send');
+      const sendStub = sandbox.stub().returns(Promise.resolve());
+      sandbox.stub(plugin, 'restApi').returns({
+        send: sendStub,
+      });
       const payload = {foo: 'foo'};
       const successStub = sandbox.stub();
       instance.call(payload, successStub);
-      assert.isTrue(
-          plugin._send.calledWith('METHOD', '/key', successStub, payload));
+      assert.isTrue(sendStub.calledWith(
+          'METHOD', '/changes/1/revisions/2/foo~bar', payload));
     });
   });
 </script>

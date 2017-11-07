@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510062220 +0100\nnonce AMT3iFi8rq8iRT+JeCbkmm6QBuMCsUVkRE4KaXpyjOQn1OMiXodyqJEv4UfmvMZS8srzRszFAOX8\n\n0000000000000000000000000000000000000000 c2156bff1eff0fe38a6e7765c30b377afe2ed079 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaAbiMAAoJEFG1/Zeg0O9RJi8H/3Rzz7PyDRSg8V8cCmXcKmLa\niuK+dmSg2n6fwi74spAQMYfxDIF5CYNdopkPHkrnXy58M+9XP+DKx5He/rTQQ129\nnj6q3KIyl/MWOmx5AL4e7HZ36e1rktxUAuUNyU1u+pGuJLPvapxGLVS8qYD4x7L2\nHSCpETQW6rpH7ZJ7ouDMIq9waSMO/bmpsg1V6wx3rZH7V4XiqNQGl6duQuERWq9L\nN1hbsXf96A8LyT/tw40IrX0JG2QfG8892Rw9n+hmyeLQx1x4rDICZeb8W5j6Ns62\n3GCmPlR1LzOXE2bLPv9uFDU1u/kQmmuzKidZwvspGlh+QdCGGlOxWDmVLkCX134\u003d\n\u003djcWz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a99b3a71_2faf61d3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-07T13:59:42Z",
+      "side": 1,
+      "message": "SetAccess enforces that changes to [access \"refs/groups/*\"] can\u0027t be made, so you have to go through MetaDataUpdate using a server ident instead:\n\n     try (MetaDataUpdate md \u003d metaDataUpdateFactory.get().create(allUsers)) {\n      ProjectConfig config \u003d ProjectConfig.read(md);\n\n      // tweak access sections (e.g. using replace(...)\n\n      config.commit(md);\n      projectCache.evict(config.getProject());\n    }",
+      "revId": "c2156bff1eff0fe38a6e7765c30b377afe2ed079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

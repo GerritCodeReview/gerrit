@@ -20,9 +20,11 @@ include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 include_defs('//tools/git.defs')
 import copy
-import traceback
 import os
-from multiprocessing import cpu_count
+
+with allow_unsafe_import():
+  import traceback
+  from multiprocessing import cpu_count
 
 # Set defaults on java rules:
 #  - Add AutoValue annotation processing support.

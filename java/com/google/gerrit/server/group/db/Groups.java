@@ -115,10 +115,11 @@ public class Groups {
     return Optional.of(asInternalGroup(db, accountGroup.get()));
   }
 
-  private static Optional<InternalGroup> getGroupFromNoteDb(
+  private Optional<InternalGroup> getGroupFromNoteDb(
       Repository allUsersRepository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepository, groupUuid);
+    GroupConfig groupConfig =
+        GroupConfig.loadForGroupNoOwnerUpdate(allUsersName, allUsersRepository, groupUuid);
     return groupConfig.getLoadedGroup();
   }
 

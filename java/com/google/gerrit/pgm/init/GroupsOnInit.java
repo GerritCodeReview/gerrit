@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -175,7 +176,8 @@ public class GroupsOnInit {
   private void addGroupMemberInNoteDb(
       Repository repository, AccountGroup.UUID groupUuid, Account account)
       throws IOException, ConfigInvalidException, NoSuchGroupException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(repository, groupUuid);
+    GroupConfig groupConfig =
+        GroupConfig.loadForGroupNoOwnerUpdate(new AllUsersName(allUsers), repository, groupUuid);
     InternalGroup group =
         groupConfig.getLoadedGroup().orElseThrow(() -> new NoSuchGroupException(groupUuid));
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.groups.OwnerInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -74,7 +75,9 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
     if (!internalGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
       InternalGroupUpdate groupUpdate =
-          InternalGroupUpdate.builder().setOwnerGroupUUID(owner.getGroupUUID()).build();
+          InternalGroupUpdate.builder()
+              .setOwnerGroupReference(new GroupReference(owner.getGroupUUID(), owner.getName()))
+              .build();
       try {
         groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "210ab208_644e0eee",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T15:37:52Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 150,
+        "startChar": 39,
+        "endLine": 150,
+        "endChar": 41
+      },
+      "revId": "71c8e0595bf6895bce5d9c92c32a6751f0787af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d08d68_f2c848b2",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T15:37:52Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 160,
+        "startChar": 37,
+        "endLine": 160,
+        "endChar": 39
+      },
+      "revId": "71c8e0595bf6895bce5d9c92c32a6751f0787af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

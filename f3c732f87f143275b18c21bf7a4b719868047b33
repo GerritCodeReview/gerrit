@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8ed730d7_9827deda",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T15:38:17Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 424,
+        "startChar": 43,
+        "endLine": 424,
+        "endChar": 45
+      },
+      "revId": "f3c732f87f143275b18c21bf7a4b719868047b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18f1bfe8_ced74a97",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 1

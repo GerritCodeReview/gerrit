@@ -79,9 +79,18 @@
     return this.div(checkbox, this.msg(title));
   };
 
+  GrPluginActionContext.prototype.prependLabel = function(title, checkbox) {
+    return this.label(checkbox, title);
+  };
+
   GrPluginActionContext.prototype.call = function(payload, onSuccess) {
-    this.plugin._send(
-        this.action.method, '/' + this.action.__key, onSuccess, payload);
+    if (!this.action.__url) {
+      console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
+      return;
+    }
+    this.plugin.restApi()
+        .send(this.action.method, this.action.__url, payload)
+        .then(onSuccess);
   };
 
   window.GrPluginActionContext = GrPluginActionContext;

@@ -214,15 +214,19 @@ limitations under the License.
       <section class="topic">
         <span class="title">Topic</span>
         <span class="value">
-          <template is="dom-if" if="[[change.topic]]">
+          <template
+              is="dom-if"
+              if="[[_showTopicChip(change.*, _settingTopic)]]">
             <gr-linked-chip
                 text="[[change.topic]]"
                 limit="40"
-                href="[[_computeTopicURL(change.topic)]]"
+                href="[[_computeTopicURL(change.*)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>
-          <template is="dom-if" if="[[!change.topic]]">
+          <template
+              is="dom-if"
+              if="[[_showAddTopic(change.*, _settingTopic)]]">
             <gr-editable-label
                 uppercase
                 label-text="Add a topic"

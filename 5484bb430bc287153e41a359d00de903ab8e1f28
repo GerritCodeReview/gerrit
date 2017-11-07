@@ -102,6 +102,24 @@
       "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e4edcf9_83d7e407",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T17:38:46Z",
+      "side": 1,
+      "message": "\u003e Which format should I use?\n\u003e \n\u003e Let\u0027s say we have the UUID ABCDEFGHIJKL. Should we use refs/groups/AB/ABCDEFGHIJKL or refs/groups/KL/ABCDEFGHIJKL?\n\nI very slightly prefer AB/ABCD.... UUIDs look vaguely ObjectId-ish to me, and this is consistent with how SHA-1s are sharded in the objects directory and in notes trees.\n\nBut like I said, my preference is slight, and I would be fine with KL/ABCD... for consistency with other sharded ref names.\n\n\u003e Should we also check if the UUID consists of at least two characters (even though internal UUIDs created by GroupUUID should be)?\n\nYes, I think that\u0027s a fine restriction to add directly in the AccountGroup.UUID constructor.",
+      "parentUuid": "f83c6468_d853812f",
+      "revId": "5484bb430bc287153e41a359d00de903ab8e1f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

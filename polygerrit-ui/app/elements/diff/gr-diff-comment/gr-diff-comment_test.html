@@ -353,7 +353,7 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.$$('.discard')), 'discard not visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
-      assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
+      assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));

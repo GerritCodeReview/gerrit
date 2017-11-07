@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26cf19ce_dd402ab8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:15:58Z",
+      "side": 1,
+      "message": "They are necessary to return a boolean. Otherwise it returns either null or a boolean.",
+      "parentUuid": "931a9d44_7df3b7a6",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 67
+      },
+      "revId": "710590cf122687db042ee661bae9270662729a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "317ffada_97140801",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "710590cf122687db042ee661bae9270662729a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e15bc49_4cca69bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-07T22:15:58Z",
+      "side": 1,
+      "message": "Commented above.",
+      "parentUuid": "317ffada_97140801",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 67
+      },
+      "revId": "710590cf122687db042ee661bae9270662729a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -841,7 +841,7 @@ public class GroupsIT extends AbstractDaemonTest {
             .create(db, admin.getIdent(), repo, "Subject", ProjectConfig.PROJECT_CONFIG, config)
             .to(RefNames.REFS_CONFIG);
     r.assertErrorStatus("invalid project configuration");
-    r.assertMessage("permissions on refs/groups/ is managed by gerrit and cannot be modified");
+    r.assertMessage("permissions on refs/groups/ are managed by gerrit and cannot be modified");
   }
 
   @Test

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "98b0d5f3_c1178e13",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-07T14:00:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "137f42b9_0bb1bb16",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "7054b6287bacb1f44a4e5eab2d9b20e2bcb1fe74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e2eeaca_7771b376",
         "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
         "patchSetId": 1
@@ -156,6 +180,24 @@
       "side": 1,
       "message": "I\u0027ll update AllProjectsCreator too.",
       "parentUuid": "f7c1a030_df4fd343",
+      "revId": "7054b6287bacb1f44a4e5eab2d9b20e2bcb1fe74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "925e0c28_da666a9c",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-07T14:00:10Z",
+      "side": 1,
+      "message": "we cannot do \n\n  if( group !\u003d null) \n\nbecause the calls are mixed, but I added some notes.",
+      "parentUuid": "008ea493_40cb1783",
       "revId": "7054b6287bacb1f44a4e5eab2d9b20e2bcb1fe74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

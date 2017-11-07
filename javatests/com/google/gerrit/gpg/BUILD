@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/gpg/testing:gpg-test-util",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
+        "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/h2",

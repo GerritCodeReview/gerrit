@@ -32,14 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Parses an SQL script from a resource file and later runs it. */
-class ScriptRunner {
+public class ScriptRunner {
   private final String name;
   private final List<String> commands;
 
   static final ScriptRunner NOOP =
       new ScriptRunner(null, null) {
         @Override
-        void run(ReviewDb db) {}
+        public void run(ReviewDb db) {}
       };
 
   ScriptRunner(String scriptName, InputStream script) {
@@ -51,7 +51,7 @@ class ScriptRunner {
     }
   }
 
-  void run(ReviewDb db) throws OrmException {
+  public void run(ReviewDb db) throws OrmException {
     try {
       final JdbcSchema schema = (JdbcSchema) db;
       final Connection c = schema.getConnection();

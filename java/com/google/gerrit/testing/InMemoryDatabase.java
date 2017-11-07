@@ -17,13 +17,13 @@ package com.google.gerrit.testing;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.init.SchemaCreator;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;

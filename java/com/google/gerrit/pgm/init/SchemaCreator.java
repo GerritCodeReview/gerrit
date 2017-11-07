@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
@@ -29,6 +29,10 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.schema.AllProjectsCreator;
+import com.google.gerrit.server.schema.AllUsersCreator;
+import com.google.gerrit.server.schema.DataSourceType;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;

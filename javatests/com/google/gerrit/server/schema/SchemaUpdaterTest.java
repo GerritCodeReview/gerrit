@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.init.SchemaUpdater;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;

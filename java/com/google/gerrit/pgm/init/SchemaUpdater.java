@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.pgm.init;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
@@ -27,6 +27,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.schema.AllUsersCreator;
+import com.google.gerrit.server.schema.ReviewDbFactory;
+import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;

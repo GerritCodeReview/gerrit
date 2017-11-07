@@ -34,6 +34,24 @@
       "revId": "e61964b11b57c9faf3c2ee85ceb0a0ac23344976",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41f811e3_293a2f61",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-07T15:33:36Z",
+      "side": 1,
+      "message": "I meant \"imperative\", of course.\n\nHere\u0027s my attempt, which is a bit more typing but the logic is more transparent:\n\n    if (!loadedGroup.isPresent()\n        || !groupUpdate.isPresent()\n        || !groupUpdate.get().getName().isPresent()) {\n      return Optional.empty();\n    }\n\n    String originalName \u003d loadedGroup.get().getName();\n    String newName \u003d groupUpdate.get().getName().get().get();\n    if (originalName.equals(newName)) {\n      return Optional.empty();\n    }\n    return Optional.of(\"Rename from \" + originalName + \" to \" + newName);",
+      "parentUuid": "9b65b383_f957256f",
+      "revId": "e61964b11b57c9faf3c2ee85ceb0a0ac23344976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -23,6 +23,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -32,6 +33,10 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo.Action;
+import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -47,6 +52,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -215,9 +221,22 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void createGroup() throws Exception {
+    testCreateGroup(false);
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void createGroupWithWriteToNoteDb() throws Exception {
+    testCreateGroup(true);
+  }
+
+  private void testCreateGroup(boolean writeGroupsToNoteDb) throws Exception {
     String newGroupName = name("newGroup");
     GroupInfo g = gApi.groups().create(newGroupName).get();
     assertGroupInfo(getFromCache(newGroupName), g);
+    if (writeGroupsToNoteDb) {
+      assertGroupOwnerPermissions(g.id, g.id);
+    }
   }
 
   @Test
@@ -273,6 +292,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void createGroupWithProperties() throws Exception {
+    testCreateGroupWithProperties(false);
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void createGroupWithPropertiesWithWriteToNoteDb() throws Exception {
+    testCreateGroupWithProperties(true);
+  }
+
+  private void testCreateGroupWithProperties(boolean writeGroupsToNoteDb) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name("newGroup");
     in.description = "Test description";
@@ -282,6 +311,9 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(g.description).isEqualTo(in.description);
     assertThat(g.options.visibleToAll).isEqualTo(in.visibleToAll);
     assertThat(g.ownerId).isEqualTo(in.ownerId);
+    if (writeGroupsToNoteDb) {
+      assertGroupOwnerPermissions(g.id, in.ownerId);
+    }
   }
 
   @Test
@@ -415,6 +447,16 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void groupOwner() throws Exception {
+    testGroupOwner(false);
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void groupOwnerWithWriteToNoteDb() throws Exception {
+    testGroupOwner(true);
+  }
+
+  private void testGroupOwner(boolean writeGroupsToNoteDb) throws Exception {
     String name = name("group");
     GroupInfo info = gApi.groups().create(name).get();
     String adminUUID = getFromCache("Administrators").getGroupUUID().get();
@@ -426,10 +468,16 @@ public class GroupsIT extends AbstractDaemonTest {
     // set owner by name
     gApi.groups().id(name).owner("Registered Users");
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(registeredUUID);
+    if (writeGroupsToNoteDb) {
+      assertGroupOwnerPermissions(info.id, registeredUUID);
+    }
 
     // set owner by UUID
     gApi.groups().id(name).owner(adminUUID);
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
+    if (writeGroupsToNoteDb) {
+      assertGroupOwnerPermissions(info.id, adminUUID);
+    }
 
     // set non existing owner
     exception.expect(UnprocessableEntityException.class);
@@ -929,5 +977,18 @@ public class GroupsIT extends AbstractDaemonTest {
     } catch (BadRequestException e) {
       // Expected
     }
+  }
+
+  private void assertGroupOwnerPermissions(String groupUuid, String expectedOwnerUuid)
+      throws RestApiException {
+    PermissionInfo newPermissionInfo = new PermissionInfo(null, null);
+    newPermissionInfo.rules =
+        ImmutableMap.of(expectedOwnerUuid, new PermissionRuleInfo(Action.ALLOW, false));
+
+    ProjectAccessInfo access = gApi.projects().name(allUsers.get()).access();
+    String groupRef = RefNames.refsGroups(AccountGroup.UUID.parse(groupUuid));
+    assertThat(access.local).containsKey(groupRef);
+    assertThat(access.local.get(groupRef).permissions)
+        .containsExactly(Permission.PUSH, newPermissionInfo, Permission.READ, newPermissionInfo);
   }
 }

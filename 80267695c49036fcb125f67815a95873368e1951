@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2636f10_a2b3e787",
+        "filename": "package-lock.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-07T21:41:26Z",
+      "side": 1,
+      "message": "Unnecessary?",
+      "revId": "80267695c49036fcb125f67815a95873368e1951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

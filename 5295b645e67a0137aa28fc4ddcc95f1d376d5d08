@@ -22,6 +22,53 @@
       "revId": "5295b645e67a0137aa28fc4ddcc95f1d376d5d08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028b0580_8a085f93",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-07T21:41:26Z",
+      "side": 0,
+      "message": "Yah -- this is a bit hacky, but since this is just a shell script you can put a bunch of ls/pwd calls and go in to investigate.\n\nIn any case, this script definitely executes in some subdirectory of /gerrit/.",
+      "parentUuid": "044b6427_d9b11cbc",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "5295b645e67a0137aa28fc4ddcc95f1d376d5d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36512943_55e8bf8b",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-07T21:41:26Z",
+      "side": 0,
+      "message": "Nice.\n\nWe probably need to do something else here, as opposed to just removing it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "5295b645e67a0137aa28fc4ddcc95f1d376d5d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

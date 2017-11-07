@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18f1bfe8_ced74a97",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T15:32:54Z",
+      "side": 1,
+      "message": "ProjectConfig.PROJECT_CONFIG, here and below",
+      "range": {
+        "startLine": 830,
+        "startChar": 18,
+        "endLine": 830,
+        "endChar": 34
+      },
+      "revId": "f3c732f87f143275b18c21bf7a4b719868047b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d19232bf_29444f76",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-07T15:32:54Z",
+      "side": 1,
+      "message": "Better do a single push here.\n\nYou can use the factory method that allows to specify multiple files:\n\nPushOneCommit create(\n        ReviewDb db,\n        PersonIdent i,\n        TestRepository\u003c?\u003e testRepo,\n        @Assisted String subject,\n        @Assisted Map\u003cString, String\u003e files);",
+      "range": {
+        "startLine": 896,
+        "startChar": 4,
+        "endLine": 912,
+        "endChar": 24
+      },
+      "revId": "f3c732f87f143275b18c21bf7a4b719868047b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

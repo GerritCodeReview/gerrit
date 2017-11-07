@@ -160,6 +160,12 @@
      * @event reload-change
      */
 
+     /**
+     * Fired when the reply button is tapped.
+     *
+     * @event reply-tap
+     */
+
     /**
      * Fired when an action is tapped.
      *
@@ -208,6 +214,8 @@
         type: Object,
         value() { return {}; },
       },
+      replyButtonLabel: String,
+      replyDisabled: Boolean,
 
       _loading: {
         type: Boolean,
@@ -227,7 +235,10 @@
         type: Array,
         computed: '_computeTopLevelActions(_allActionValues.*, ' +
             '_hiddenActions.*, _overflowActions.*)',
+        observer: '_filterPrimaryActions',
       },
+      _topLevelPrimaryActions: Array,
+      _topLevelSecondaryActions: Array,
       _menuActions: {
         type: Array,
         computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*, ' +
@@ -712,6 +723,11 @@
       this._showActionDialog(this.$.confirmRevertDialog);
     },
 
+    _handleReplyTap(e) {
+      e.preventDefault();
+      this.dispatchEvent(new CustomEvent('reply-tap'));
+    },
+
     _handleActionTap(e) {
       e.preventDefault();
       const el = Polymer.dom(e).localTarget;
@@ -1183,6 +1199,13 @@
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
       });
+    },
+
+    _filterPrimaryActions(_topLevelActions) {
+      this._topLevelPrimaryActions = _topLevelActions.filter(action =>
+          action.__primary);
+      this._topLevelSecondaryActions = _topLevelActions.filter(action =>
+          !action.__primary);
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {

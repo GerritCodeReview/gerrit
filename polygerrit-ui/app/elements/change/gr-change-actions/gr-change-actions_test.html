@@ -102,6 +102,12 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('primary and secondary actions split properly', () => {
+      assert.equal(element._topLevelPrimaryActions.length, 1);
+      assert.equal(element._topLevelPrimaryActions[0].label, 'Submit');
+      assert.equal(element._topLevelSecondaryActions.length, 1);
+    });
+
     test('_shouldHideActions', () => {
       assert.isTrue(element._shouldHideActions(undefined, true));
       assert.isTrue(element._shouldHideActions({base: {}}, false));
@@ -167,7 +173,7 @@ limitations under the License.
         const buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
         const menuItems = element.$.moreActions.items;
-        assert.equal(buttonEls.length + menuItems.length, 6);
+        assert.equal(buttonEls.length + menuItems.length, 7);
         assert.isFalse(element.hidden);
         done();
       });
@@ -999,8 +1005,9 @@ limitations under the License.
         assert.isNotNull(approveButton);
       });
 
-      test('is first in list of actions', () => {
-        const approveButton = element.$$('gr-button');
+      test('is first in list of secondary actions', () => {
+        const approveButton = element.$.secondaryActions
+            .querySelector('gr-button');
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 

@@ -427,6 +427,14 @@ public class CommitValidators {
               throw new ConfigInvalidException("invalid project configuration");
             }
           }
+          if (allUsers.equals(receiveEvent.project.getNameKey())
+              && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
+            addError("Invalid project configuration:", messages);
+            addError(
+                String.format("  %s must inherit from %s", allUsers.get(), allProjects.get()),
+                messages);
+            throw new ConfigInvalidException("invalid project configuration");
+          }
         } catch (ConfigInvalidException | IOException e) {
           log.error(
               "User "

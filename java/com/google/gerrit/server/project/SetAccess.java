@@ -29,6 +29,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -52,6 +54,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
+  private final AllProjectsName allProjects;
+  private final AllUsersName allUsers;
 
   @Inject
   private SetAccess(
@@ -61,7 +65,9 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       ProjectCache projectCache,
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
-      SetAccessUtil accessUtil) {
+      SetAccessUtil accessUtil,
+      AllProjectsName allProjects,
+      AllUsersName allUsers) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -69,6 +75,8 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
+    this.allProjects = allProjects;
+    this.allUsers = allUsers;
   }
 
   @Override
@@ -105,6 +113,11 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
       accessUtil.validateChanges(config, removals, additions);
       accessUtil.applyChanges(config, removals, additions);
+
+      if (rsrc.getNameKey().equals(allUsers) && !allProjects.get().equals(input.parent)) {
+        throw new BadRequestException(
+            String.format("%s must inherit from %s", allUsers.get(), allProjects.get()));
+      }
 
       accessUtil.setParentName(
           identifiedUser.get(),

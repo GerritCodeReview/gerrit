@@ -175,6 +175,12 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       if (!config.getProject().getNameKey().equals(allProjects)
           && !config.getProject().getParent(allProjects).equals(parentProjectName)) {
         parentProjectUpdate = true;
+        if (projectName.equals(allUsers)
+            && !allProjects.equals(MoreObjects.firstNonNull(parentProjectName, allProjects))) {
+          throw new ConfigInvalidException(
+              String.format("%s must inherit from %s", allUsers.get(), allProjects.get()));
+        }
+
         try {
           setParent
               .get()

@@ -540,6 +540,15 @@ public class AccessIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).access(accessInput);
   }
 
+  @Test
+  public void allUsersCanOnlyInheritFromAllProjects() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    accessInput.parent = project.get();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("All-Users must inherit from All-Projects");
+    gApi.projects().name("All-Users").access(accessInput);
+  }
+
   private ProjectAccessInput newProjectAccessInput() {
     ProjectAccessInput p = new ProjectAccessInput();
     p.add = new HashMap<>();

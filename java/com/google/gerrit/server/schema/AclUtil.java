@@ -21,6 +21,10 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.server.git.ProjectConfig;
 
+/**
+ * Contains functions to modify permissions. For all these functions, any of the groups may be null
+ * in which case it is ignored.
+ */
 public class AclUtil {
   public static void grant(
       ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {

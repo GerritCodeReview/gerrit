@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
@@ -35,7 +37,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,14 +122,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     accountLoader.fill();
 
     // sort by date in reverse order so that the newest audit event comes first
-    Collections.sort(
-        auditEvents,
-        new Comparator<GroupAuditEventInfo>() {
-          @Override
-          public int compare(GroupAuditEventInfo e1, GroupAuditEventInfo e2) {
-            return e2.date.compareTo(e1.date);
-          }
-        });
+    Collections.sort(auditEvents, comparing((GroupAuditEventInfo a) -> a.date).reversed());
 
     return auditEvents;
   }

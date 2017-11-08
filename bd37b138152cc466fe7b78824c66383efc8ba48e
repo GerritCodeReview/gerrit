@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bad666a_5efdc004",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:09:29Z",
+      "side": 1,
+      "message": "Can we move this check to the AccountGroup.UUID constructor? If we don\u0027t, then it allows callers to create 1-char UUIDs in ReviewDb that can\u0027t be migrated to NoteDb. Which, um, is already possible for past groups, but in general we should probably introduce the restriction sooner rather than later, right?\n\n(I\u0027m assuming we won\u0027t actually encounter any of these during the migration, and if we do, it will be feasible to fix them manually.)",
+      "revId": "bd37b138152cc466fe7b78824c66383efc8ba48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

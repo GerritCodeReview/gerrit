@@ -31,6 +31,7 @@ public class GroupAssert {
     assertWithMessage("unexpected groups: " + actual).that(actual).isEmpty();
   }
 
+  @SuppressWarnings("deprecation")
   public static void assertGroupInfo(InternalGroup group, GroupInfo info) {
     if (info.name != null) {
       // 'name' is not set if returned in a map

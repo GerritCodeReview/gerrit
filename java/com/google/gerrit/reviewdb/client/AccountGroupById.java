@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
+import java.util.Objects;
 
 /** Membership of an {@link AccountGroup} in an {@link AccountGroup}. */
 public final class AccountGroupById {
@@ -76,5 +77,15 @@ public final class AccountGroupById {
 
   public AccountGroup.UUID getIncludeUUID() {
     return key.includeUUID;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return (o instanceof AccountGroupById) && Objects.equals(key, ((AccountGroupById) o).key);
+  }
+
+  @Override
+  public int hashCode() {
+    return key.hashCode();
   }
 }

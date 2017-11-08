@@ -23,6 +23,30 @@
       "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e4cc10_e1f9210e",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroupById.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-08T06:45:59Z",
+      "side": 1,
+      "message": "Possible, but indeed unlikely. Especially since the key column doesn\u0027t allow null. Maybe we should add checkNotNull to the constructor?\n\nI guess the same applies to other classes like AccountGroupByIdAud.",
+      "parentUuid": "9a25a8a6_2f032c50",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

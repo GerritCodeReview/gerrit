@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -158,18 +157,14 @@ public class ChangeNoteUtil {
 
   public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
       throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
-      if (host.equals(serverId)) {
-        Integer id = Ints.tryParse(email.substring(0, at));
-        if (id != null) {
-          return new Account.Id(id);
-        }
-      }
-    }
-    throw parseException(changeId, "invalid identity, expected <id>@%s: %s", serverId, email);
+    return NoteDbUtil.parseIdent(ident, serverId)
+        .orElseThrow(
+            () ->
+                parseException(
+                    changeId,
+                    "invalid identity, expected <id>@%s: %s",
+                    serverId,
+                    ident.getEmailAddress()));
   }
 
   private static boolean match(byte[] note, MutableInteger p, byte[] expected) {

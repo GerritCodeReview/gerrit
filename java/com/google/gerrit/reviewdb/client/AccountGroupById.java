@@ -77,4 +77,14 @@ public final class AccountGroupById {
   public AccountGroup.UUID getIncludeUUID() {
     return key.includeUUID;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return (o instanceof AccountGroupById) && ((AccountGroupById) o).key.equals(key);
+  }
+
+  @Override
+  public int hashCode() {
+    return key.hashCode();
+  }
 }

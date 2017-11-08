@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
@@ -176,6 +177,16 @@ public final class AccountGroup {
     this.createdOn = createdOn;
   }
 
+  public AccountGroup(AccountGroup other) {
+    name = other.name;
+    groupId = other.groupId;
+    description = other.description;
+    visibleToAll = other.visibleToAll;
+    groupUUID = other.groupUUID;
+    ownerGroupUUID = other.groupUUID;
+    createdOn = other.createdOn;
+  }
+
   public AccountGroup.Id getId() {
     return groupId;
   }
@@ -230,5 +241,26 @@ public final class AccountGroup {
 
   public void setCreatedOn(Timestamp createdOn) {
     this.createdOn = createdOn;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof AccountGroup)) {
+      return false;
+    }
+    AccountGroup g = (AccountGroup) o;
+    return name.equals(g.name)
+        && groupId.equals(g.groupId)
+        && Objects.equals(description, g.description)
+        && visibleToAll == g.visibleToAll
+        && groupUUID.equals(g.groupUUID)
+        && ownerGroupUUID.equals(g.ownerGroupUUID)
+        && Objects.equals(createdOn, g.createdOn);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        name, groupId, description, visibleToAll, groupUUID, ownerGroupUUID, createdOn);
   }
 }

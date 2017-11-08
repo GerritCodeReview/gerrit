@@ -73,4 +73,14 @@ public final class AccountGroupMember {
   public AccountGroup.Id getAccountGroupId() {
     return key.groupId;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return (o instanceof AccountGroupMember) && ((AccountGroupMember) o).key.equals(key);
+  }
+
+  @Override
+  public int hashCode() {
+    return key.hashCode();
+  }
 }

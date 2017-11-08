@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
 public final class AccountGroupByIdAud {
@@ -83,6 +84,11 @@ public final class AccountGroupByIdAud {
     addedBy = adder;
   }
 
+  public AccountGroupByIdAud(AccountGroupByIdAud.Key key, Account.Id adder) {
+    this.key = key;
+    addedBy = adder;
+  }
+
   public AccountGroupByIdAud.Key getKey() {
     return key;
   }
@@ -106,5 +112,22 @@ public final class AccountGroupByIdAud {
 
   public Timestamp getRemovedOn() {
     return removedOn;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof AccountGroupByIdAud)) {
+      return false;
+    }
+    AccountGroupByIdAud a = (AccountGroupByIdAud) o;
+    return key.equals(a.key)
+        && addedBy.equals(a.addedBy)
+        && Objects.equals(removedBy, a.removedBy)
+        && Objects.equals(removedOn, a.removedOn);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key, addedBy, removedBy, removedOn);
   }
 }

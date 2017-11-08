@@ -16,6 +16,24 @@
       "revId": "e5c3b3d7a784184dff70c583f91a787f1b3c503f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54038f7d_cc0ec4d3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T19:12:16Z",
+      "side": 1,
+      "message": "It gets worse. If we use () (or really anything) instead of \u003c\u003e for groups, we still have a problem with this input:\n\n group Something \u003cemail.in@group.name\u003e (uuid)\n\nRawParseUtils.parsePersonIdent ignores everything after the first \u003cemail\u003e, so it will return new PersonIdent(\"group Something\", \"\u003cemail.in@group.name\u003e\", 0, 0).\n\nOf course we can work around this by having Gerrit reject it if there is garbage after \u003cemail\u003e. But at this point I think we should just use a different footer.",
+      "parentUuid": "74152ea9_97010a1a",
+      "revId": "e5c3b3d7a784184dff70c583f91a787f1b3c503f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

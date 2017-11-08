@@ -508,14 +508,7 @@ public class GroupsUpdate {
             .map(AccountState::getAccount)
             .map(account -> account.getName(anonymousCowardName))
             .orElse(anonymousCowardName);
-    String email = getEmailForAuditLog(accountId, serverId);
-
-    StringBuilder formattedResult = new StringBuilder();
-    PersonIdent.appendSanitized(formattedResult, accountName);
-    formattedResult.append(" <");
-    PersonIdent.appendSanitized(formattedResult, email);
-    formattedResult.append(">");
-    return formattedResult.toString();
+    return formatNameEmail(accountName, getEmailForAuditLog(accountId, serverId));
   }
 
   private static String getEmailForAuditLog(Account.Id accountId, String serverId) {
@@ -526,8 +519,17 @@ public class GroupsUpdate {
     return groupCache
         .get(groupUuid)
         .map(InternalGroup::getName)
-        .map(name -> String.format("%s <%s>", name, groupUuid))
+        .map(name -> formatNameEmail(name, groupUuid.get()))
         .orElse(groupUuid.get());
+  }
+
+  private static String formatNameEmail(String name, String email) {
+    StringBuilder formattedResult = new StringBuilder();
+    PersonIdent.appendSanitized(formattedResult, name);
+    formattedResult.append(" <");
+    PersonIdent.appendSanitized(formattedResult, email);
+    formattedResult.append(">");
+    return formattedResult.toString();
   }
 
   private void commit(GroupConfig groupConfig) throws IOException {

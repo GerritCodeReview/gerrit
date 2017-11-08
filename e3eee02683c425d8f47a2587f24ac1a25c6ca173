@@ -119,6 +119,30 @@
       "revId": "e3eee02683c425d8f47a2587f24ac1a25c6ca173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86546fce_35b28dbf",
+        "filename": "java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-08T14:33:27Z",
+      "side": 1,
+      "message": "Group creation was always done here even before we had an All-Users repository.\nI agree that once groups are in NoteDb only it makes more sense to do the group creation as part of AllUsersCreator.",
+      "parentUuid": "188cc5b2_507b0166",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 5
+      },
+      "revId": "e3eee02683c425d8f47a2587f24ac1a25c6ca173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

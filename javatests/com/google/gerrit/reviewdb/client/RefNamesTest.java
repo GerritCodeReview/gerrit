@@ -20,9 +20,13 @@ import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.skipShardedRefPart;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class RefNamesTest {
+  @Rule public ExpectedException expectedException = ExpectedException.none();
+
   private final Account.Id accountId = new Account.Id(1011123);
   private final Change.Id changeId = new Change.Id(67473);
   private final PatchSet.Id psId = new PatchSet.Id(changeId, 42);
@@ -45,6 +49,20 @@ public class RefNamesTest {
     String robotCommentsRef = RefNames.robotCommentsRef(changeId);
     assertThat(robotCommentsRef).isEqualTo("refs/changes/73/67473/robot-comments");
     assertThat(RefNames.isNoteDbMetaRef(robotCommentsRef)).isTrue();
+  }
+
+  @Test
+  public void refForGroupIsSharded() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("ABCDEFG");
+    String groupRef = RefNames.refsGroups(groupUuid);
+    assertThat(groupRef).isEqualTo("refs/groups/AB/ABCDEFG");
+  }
+
+  @Test
+  public void refForGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("A");
+    expectedException.expect(IllegalArgumentException.class);
+    RefNames.refsGroups(groupUuid);
   }
 
   @Test

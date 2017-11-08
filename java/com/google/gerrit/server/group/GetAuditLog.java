@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import static java.util.Comparator.comparing;
-
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
@@ -36,10 +34,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class GetAuditLog implements RestReadView<GroupResource> {
@@ -68,7 +68,8 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
-      throws AuthException, MethodNotAllowedException, OrmException {
+      throws AuthException, MethodNotAllowedException, OrmException, IOException,
+          ConfigInvalidException {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(MethodNotAllowedException::new);
     if (!rsrc.getControl().isOwner()) {
@@ -123,8 +124,8 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
     accountLoader.fill();
 
-    // sort by date in reverse order so that the newest audit event comes first
-    Collections.sort(auditEvents, comparing((GroupAuditEventInfo a) -> a.date).reversed());
+    // Use reverse order so that the newest audit event comes first
+    Collections.reverse(auditEvents);
 
     return auditEvents;
   }

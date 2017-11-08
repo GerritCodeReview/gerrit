@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -38,6 +39,7 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -64,15 +66,18 @@ public class Groups {
   private final boolean readFromNoteDb;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final AuditLogReader auditLogReader;
 
   @Inject
   public Groups(
       @GerritServerConfig Config config,
       GitRepositoryManager repoManager,
-      AllUsersName allUsersName) {
+      AllUsersName allUsersName,
+      AuditLogReader auditLogReader) {
     readFromNoteDb = config.getBoolean("user", null, "readGroupsFromNoteDb", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.auditLogReader = auditLogReader;
   }
 
   /**
@@ -290,18 +295,23 @@ public class Groups {
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
   public List<AccountGroupMemberAudit> getMembersAudit(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     if (readFromNoteDb) {
-      // TODO(dborowitz): Implement.
-      throw new OrmException("Audit logs not yet implemented in NoteDb");
+      return auditLogReader.getMembersAudit(groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {
       return ImmutableList.of();
     }
-    return db.accountGroupMembersAudit().byGroup(group.get().getId()).toList();
+
+    List<AccountGroupMemberAudit> audits =
+        db.accountGroupMembersAudit().byGroup(group.get().getId()).toList();
+    Collections.sort(audits, comparing((AccountGroupMemberAudit a) -> a.getAddedOn()));
+    return audits;
   }
 
   /**
@@ -311,17 +321,22 @@ public class Groups {
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
   public List<AccountGroupByIdAud> getSubgroupsAudit(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     if (readFromNoteDb) {
-      // TODO(dborowitz): Implement.
-      throw new OrmException("Audit logs not yet implemented in NoteDb");
+      return auditLogReader.getSubgroupsAudit(groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {
       return ImmutableList.of();
     }
-    return db.accountGroupByIdAud().byGroup(group.get().getId()).toList();
+
+    List<AccountGroupByIdAud> audits =
+        db.accountGroupByIdAud().byGroup(group.get().getId()).toList();
+    Collections.sort(audits, comparing((AccountGroupByIdAud a) -> a.getAddedOn()));
+    return audits;
   }
 }

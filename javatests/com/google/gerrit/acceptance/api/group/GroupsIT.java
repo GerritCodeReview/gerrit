@@ -726,7 +726,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getAuditLog() throws Exception {
-    assume().that(cfg.getBoolean("user", null, "readGroupsFromNoteDb", false)).isFalse();
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);
@@ -757,7 +756,7 @@ public class GroupsIT extends AbstractDaemonTest {
     Timestamp lastDate = null;
     for (GroupAuditEventInfo auditEvent : auditEvents) {
       if (lastDate != null) {
-        assertThat(lastDate).isGreaterThan(auditEvent.date);
+        assertThat(lastDate).isAtLeast(auditEvent.date);
       }
       lastDate = auditEvent.date;
     }

@@ -33,9 +33,9 @@
     is: 'gr-file-list',
 
     /**
-     * Fired when a comment refresh should get triggered
+     * Fired when a draft refresh should get triggered
      *
-     * @event reload-comments
+     * @event reload-drafts
      */
 
     properties: {
@@ -876,7 +876,7 @@
       let iter = 0;
 
       return (new Promise(resolve => {
-        this.fire('reload-comments', {resolve});
+        this.fire('reload-drafts', {resolve});
       })).then(() => {
         return this.asyncForeach(paths, path => {
           iter++;

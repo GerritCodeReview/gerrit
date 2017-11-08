@@ -412,14 +412,8 @@
 
       // Diffing a patch against itself is invalid, so if the base and revision
       // patches are equal clear the base.
-      // NOTE: while selecting numbered parents of a merge is not yet
-      // implemented, normalize parent base patches to be un-selected parents in
-      // the same way.
-      // TODO(issue 4760): Remove the isMergeParent check when PG supports
-      // diffing against numbered parents of a merge.
       if (hasBasePatchNum &&
-          (this.patchNumEquals(params.basePatchNum, params.patchNum) ||
-              this.isMergeParent(params.basePatchNum))) {
+          this.patchNumEquals(params.basePatchNum, params.patchNum)) {
         needsRedirect = true;
         params.basePatchNum = null;
       } else if (hasBasePatchNum && !hasPatchNum) {

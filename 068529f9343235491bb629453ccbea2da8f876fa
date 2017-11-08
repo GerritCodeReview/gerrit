@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6c3c726_46682c86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-08T12:35:47Z",
+      "side": 1,
+      "message": "nit: \"an\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "068529f9343235491bb629453ccbea2da8f876fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "778b6cf4_de108dda",
+        "filename": "java/com/google/gerrit/extensions/common/GroupInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-08T12:35:47Z",
+      "side": 1,
+      "message": "Why is the position of the elements moved? This is now inconsistent with the order in the documentation, and will also cause the order of data in example REST responses to not match with the actual output any more.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 36
+      },
+      "revId": "068529f9343235491bb629453ccbea2da8f876fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

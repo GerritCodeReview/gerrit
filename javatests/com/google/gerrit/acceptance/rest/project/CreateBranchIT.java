@@ -44,7 +44,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranch_Forbidden() throws Exception {
     setApiUser(user);
-    assertCreateFails(AuthException.class);
+    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
   }
 
   @Test
@@ -68,7 +68,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranchByAdminCreateReferenceBlocked_Forbidden() throws Exception {
     blockCreateReference();
-    assertCreateFails(AuthException.class);
+    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
   }
 
   @Test
@@ -76,7 +76,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     grantOwner();
     blockCreateReference();
     setApiUser(user);
-    assertCreateFails(AuthException.class);
+    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
   }
 
   private void blockCreateReference() throws Exception {
@@ -96,8 +96,16 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertThat(created.ref).isEqualTo(Constants.R_HEADS + branch.getShortName());
   }
 
-  private void assertCreateFails(Class<? extends RestApiException> errType) throws Exception {
+  private void assertCreateFails(Class<? extends RestApiException> errType, String errMsg)
+      throws Exception {
     exception.expect(errType);
+    if (errMsg != null) {
+      exception.expectMessage(errMsg);
+    }
     branch().create(new BranchInput());
+  }
+
+  private void assertCreateFails(Class<? extends RestApiException> errType) throws Exception {
+    assertCreateFails(errType, null);
   }
 }

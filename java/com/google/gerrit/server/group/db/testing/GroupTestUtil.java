@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.CommitUtil;
+import java.io.IOException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
@@ -55,7 +56,16 @@ public class GroupTestUtil {
       if (ref != null) {
         rw.sort(RevSort.REVERSE);
         rw.markStart(rw.parseCommit(ref.getObjectId()));
-        return Streams.stream(rw).map(CommitUtil::toCommitInfo).collect(toImmutableList());
+        return Streams.stream(rw)
+            .map(
+                c -> {
+                  try {
+                    return CommitUtil.toCommitInfo(c);
+                  } catch (IOException e) {
+                    return null;
+                  }
+                })
+            .collect(toImmutableList());
       }
     }
     return ImmutableList.of();

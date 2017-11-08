@@ -226,7 +226,7 @@ limitations under the License.
               change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
               _number: 42,
               revisions: {
-                rev1: {_number: 1},
+                rev1: {_number: 1, commit: {parents: []}},
               },
               current_revision: 'rev1',
               status: 'NEW',
@@ -408,10 +408,10 @@ limitations under the License.
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
-          rev2: {_number: 2},
-          rev1: {_number: 1},
-          rev13: {_number: 13},
-          rev3: {_number: 3},
+          rev2: {_number: 2, commit: {parents: []}},
+          rev1: {_number: 1, commit: {parents: []}},
+          rev13: {_number: 13, commit: {parents: []}},
+          rev3: {_number: 3, commit: {parents: []}},
         },
         current_revision: 'rev3',
         status: 'NEW',
@@ -914,8 +914,8 @@ limitations under the License.
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
         revisions: {
-          rev1: {_number: 1},
-          rev2: {_number: 2},
+          rev1: {_number: 1, commit: {parents: []}},
+          rev2: {_number: 2, commit: {parents: []}},
         },
         current_revision: 'rev1',
         status: element.ChangeStatus.MERGED,

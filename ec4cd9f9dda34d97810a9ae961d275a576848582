@@ -16,6 +16,24 @@
       "revId": "ec4cd9f9dda34d97810a9ae961d275a576848582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e30c5d_27a50c0e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-08T12:43:51Z",
+      "side": 1,
+      "message": "It should be resolved now. I also removed those newlines from your tests and they succeeded.",
+      "parentUuid": "356f9638_e0c3f7de",
+      "revId": "ec4cd9f9dda34d97810a9ae961d275a576848582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

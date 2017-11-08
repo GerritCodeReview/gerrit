@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="gr-patch-range-select.html">
 
 <script>void(0);</script>
@@ -37,6 +38,14 @@ limitations under the License.
   suite('gr-patch-range-select tests', () => {
     let element;
     let sandbox;
+
+    function getInfo(revisions) {
+      const revisionObj = {};
+      for (let i = 0; i < revisions.length; i++) {
+        revisionObj[i] = revisions[i];
+      }
+      return new Gerrit.RevisionInfo({revisions: revisionObj});
+    }
 
     setup(() => {
       element = fixture('basic');
@@ -89,14 +98,15 @@ limitations under the License.
       ];
       const revisions = [
         {
-          commit: {},
+          commit: {parents: []},
           _number: 2,
           description: 'description',
         },
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(revisions);
       const patchNum = 1;
       const sortedRevisions = [
         {_number: 3},
@@ -148,11 +158,12 @@ limitations under the License.
 
     test('_computeBaseDropdownContent called when patchNum updates', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},
@@ -172,11 +183,12 @@ limitations under the License.
 
     test('_computeBaseDropdownContent called when comments update', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 'edit'},
         {num: 3},
@@ -201,11 +213,12 @@ limitations under the License.
 
     test('_computePatchDropdownContent called when basePatchNum updates', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},
@@ -224,11 +237,12 @@ limitations under the License.
 
     test('_computePatchDropdownContent called when comments update', () => {
       element.revisions = [
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
+        {commit: {parents: []}},
       ];
+      element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
         {num: 1},
         {num: 2},

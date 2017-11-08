@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf2671b3_904ec5d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:35:44Z",
+      "side": 1,
+      "message": "Meh, tests are coming.",
+      "parentUuid": "c907a29c_72a2089d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b847e1b3_7cdbf676",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
         "patchSetId": 3
@@ -94,6 +118,24 @@
       "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1591fcf_c96863f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:35:44Z",
+      "side": 1,
+      "message": "I think the optional/required property split makes sense, it just needs to be documented in this method javadoc.",
+      "parentUuid": "94f29865_0ec984f2",
+      "revId": "5ee46fec4e22e00aa2d8a238fd77fdf952b65f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

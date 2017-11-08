@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "356f9638_e0c3f7de",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:35:44Z",
+      "side": 1,
+      "message": "This results in a commit message like \"Create group\\n\\n\\n\" when combining a groupCreation and a groupUpdate in a single GroupConfig\n\n(This was an accidentally unsent draft from yesterday. I think this is resolved now?)",
+      "revId": "ec4cd9f9dda34d97810a9ae961d275a576848582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

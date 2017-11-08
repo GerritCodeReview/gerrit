@@ -480,7 +480,7 @@
 
     getAccount() {
       return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
-        if (resp.status === 403) {
+        if (!resp || resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;
         }
       });

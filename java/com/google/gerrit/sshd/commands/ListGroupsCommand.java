@@ -62,6 +62,7 @@ public class ListGroupsCommand extends SshCommand {
     for (GroupInfo info : listGroups.get()) {
       formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));
       if (verboseOutput) {
+        @SuppressWarnings("deprecation")
         Optional<InternalGroup> group =
             info.ownerId != null
                 ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))

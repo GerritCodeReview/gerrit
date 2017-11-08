@@ -266,6 +266,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create("anonymous users");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void createGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();

@@ -1516,8 +1516,8 @@ permits users to apply to join the group, or manage their membership.
 |`options`     ||link:#group-options-info[Options of the group]
 |`description` |only for internal groups|The description of the group.
 |`group_id`    |only for internal groups|The numeric ID of the group.
-|`owner`       |only for internal groups|The name of the owner group.
-|`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`owner`       |deprecated, only for internal groups|The name of the owner group.
+|`owner_id`    |deprecated, only for internal groups|The URL encoded UUID of the owner group.
 |`created_on`  |only for internal groups|The
 link:rest-api.html#timestamp[timestamp] of when the group was created.
 |`_more_groups`|optional, only for internal groups, not set if `false`|

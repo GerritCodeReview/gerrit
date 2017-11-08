@@ -224,6 +224,7 @@
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
           robotComments, drafts, changeNum);
+        return this._changeComments;
       });
     },
   });

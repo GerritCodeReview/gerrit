@@ -962,6 +962,7 @@
             if (!change) {
               return '';
             }
+
             this._processEdit(change, edit);
             // Issue 4190: Coalesce missing topics to null.
             if (!change.topic) { change.topic = null; }

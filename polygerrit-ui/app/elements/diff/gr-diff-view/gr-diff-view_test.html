@@ -85,7 +85,7 @@ limitations under the License.
       element._change = {
         _number: 42,
         revisions: {
-          a: {_number: 10},
+          a: {_number: 10, commit: {parents: []}},
         },
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -170,8 +170,8 @@ limitations under the License.
       element._change = {
         _number: 42,
         revisions: {
-          a: {_number: 10},
-          b: {_number: 5},
+          a: {_number: 10, commit: {parents: []}},
+          b: {_number: 5, commit: {parents: []}},
         },
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -234,8 +234,8 @@ limitations under the License.
       element._change = {
         _number: 42,
         revisions: {
-          a: {_number: 1},
-          b: {_number: 2},
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
         },
       };
       element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -407,7 +407,7 @@ limitations under the License.
         element._change = {
           _number: 42,
           revisions: {
-            a: {_number: 10},
+            a: {_number: 10, commit: {parents: []}},
           },
         };
         element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
@@ -448,8 +448,8 @@ limitations under the License.
         element._change = {
           _number: 42,
           revisions: {
-            a: {_number: 5},
-            b: {_number: 10},
+            a: {_number: 5, commit: {parents: []}},
+            b: {_number: 10, commit: {parents: []}},
           },
         };
         element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];

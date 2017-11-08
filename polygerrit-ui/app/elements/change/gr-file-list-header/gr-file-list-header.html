@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="../gr-file-list-constants.html">
 
 <dom-module id="gr-file-list-header">
@@ -155,6 +156,7 @@ limitations under the License.
               base-patch-num="[[basePatchNum]]"
               available-patches="[[allPatchSets]]"
               revisions="[[change.revisions]]"
+              revision-info="[[_revisionInfo]]"
               on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="separator"></span>

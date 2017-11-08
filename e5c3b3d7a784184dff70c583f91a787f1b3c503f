@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74152ea9_97010a1a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T17:45:45Z",
+      "side": 1,
+      "message": "Hmm. Unfortunately, \"group Foo \u003cuuid\u003e\" looks a lot like \"A Name \u003cemail\u003e\" where the first name is \"group\".\n\nIn fact, since the UUID may be any UUID from any external group system, if you have a group system whose UUIDs look like \"\u003cgoogle/repo-discuss@googlegroups.com\u003e\", then the only way to distinguish between a member footer and a subgroup footer is by trying to parse the footer as \u003cid@serverId\u003e. We could do that, but that seems a little brittle.\n\nOther options, in decreasing order of preference:\n\n* Don\u0027t put the UUID in angle brackets; go back to parens.\n* Use a different footer.\n* Instead of \"group \", use a prefix that cannot be parsed as a valid name. I think in practice with JGit\u0027s parsing library, this means the prefix would need to contain \u0027\u003c\u0027, which would be ugly.",
+      "revId": "e5c3b3d7a784184dff70c583f91a787f1b3c503f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

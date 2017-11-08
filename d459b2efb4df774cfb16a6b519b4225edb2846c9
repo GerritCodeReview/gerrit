@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510106000 -0500\nnonce AMT3iFi3Oo2+z52Xb46Bl0rp9ZB8pJSPVyud7pbMkurXc+qIlYLfEBlwIstBnnRuVAcjFYHUixOw\n\n0000000000000000000000000000000000000000 d459b2efb4df774cfb16a6b519b4225edb2846c9 refs/for/master%r\u003dekempin@google.com,r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloCY5AVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMDN4P/068n1NvV4rODuhRNA4h6AX3Hvap\nGkX32734rAh8RaU4w8B2duzv/UCtxSAt1EupHZ5kvcPBitqaZK51JA7Xp3ZsDFKr\nMH6XzBXflL8OmIg0Ngt6dYYHa2RQKQITf50z/UDHW63in+Y0lPAyA4tULkNwHA4b\nHnnAZ1SP73BTKVzMpRL/MwWL1eG0pu73VSfdi3rrsh3RNmcT9P0aUThM/YgxnaH5\nyG5fJJ7hL7xIBAO9Q+ecjxj3H6kdtzNPq3+bFpbknJfYl+jEseLSHx/QV28EanzK\niLMfw/KLQVf9n5IljPuP4h4RtrvSYt9KbM4E0YRl54jrOLPPhLQOw1w/cqBr7l2W\nJa6lI924+gZNMbT4VsPBPlFZMnuVRStKixiyjo9egBFhu0N8VUCRNZ6ggfyrk7ey\n45lSL02VyGkTaiSskNdJnm2zs3iQyj2qUuhRllNMk3a7NNr5D7aHHwM2vFWHCEpe\nkUwfkLUUctBbBjDeE3Js6AigSQQB5rNJ/i1rkbgMwMhyoLPzZHMM+TRd+dx8plhM\nJaMQPmybOinZHJLv7qmpO+H4cpwYA+e3rLqo1Lgj0ZsWaTxxUeOjT4McwKizBrKp\nm+0DHiTDuvSMy4iVXGZJ0zMKbIqPHVbgpebiKLan7+NnMr00VNT2HboCY3cDqlJq\nSPDf1QcBZVfz0R3j\n\u003dxYil\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a25a8a6_2f032c50",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroupById.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-08T02:24:08Z",
+      "side": 1,
+      "message": "Possible NPE here?  It looks like AccountGroupById instance can be created with a null key using the constructor at L65, but how likely is that to happen?",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

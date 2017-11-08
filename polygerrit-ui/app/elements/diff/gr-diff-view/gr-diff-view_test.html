@@ -47,7 +47,7 @@ limitations under the License.
 
     const PARENT = 'PARENT';
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
@@ -56,10 +56,14 @@ limitations under the License.
         getDiffChangeDetail() { return Promise.resolve(null); },
         getChangeFiles() { return Promise.resolve({}); },
         saveFileReviewed() { return Promise.resolve(); },
+        getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve(); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      element._loadComments().then(() => {
+        done();
+      });
     });
 
     teardown(() => {
@@ -100,23 +104,27 @@ limitations under the License.
           '10', PARENT), 'Should navigate to /c/42/10/wheatley.md');
       element._path = 'wheatley.md';
       assert.equal(element.changeViewState.selectedFileIndex, 2);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWith(element._change, 'glados.txt',
           '10', PARENT), 'Should navigate to /c/42/10/glados.txt');
       element._path = 'glados.txt';
       assert.equal(element.changeViewState.selectedFileIndex, 1);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWith(element._change, 'chell.go', '10',
           PARENT), 'Should navigate to /c/42/10/chell.go');
       element._path = 'chell.go';
       assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(changeNavStub.lastCall.calledWith(element._change),
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
+      assert.isTrue(element._loading);
 
       const showPrefsStub =
           sandbox.stub(element.$.diffPreferences.$.prefsOverlay, 'open',
@@ -190,24 +198,28 @@ limitations under the License.
           '5'), 'Should navigate to /c/42/5..10');
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'wheatley.md', '10', '5'),
           'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'glados.txt', '10', '5'),
           'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
           '10', '5'),
           'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      assert.isTrue(element._loading);
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
           '5'),
           'Should navigate to /c/42/5..10');
@@ -448,11 +460,13 @@ limitations under the License.
         patchNum: '3',
       };
 
-      assert.equal(element._basePatchNum, element._patchRange.basePatchNum);
-      assert.equal(element._patchNum, element._patchRange.patchNum);
+      const detail = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
 
-      element._patchNum = '1';
-
+      element.$.rangeSelect.dispatchEvent(
+          new CustomEvent('patch-range-change', {detail, bubbles: false}));
 
       assert(navigateStub.lastCall.calledWithExactly(element._change,
           element._path, '1', 'PARENT'));
@@ -474,9 +488,6 @@ limitations under the License.
     });
 
     test('file review status', done => {
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-      });
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
       sandbox.stub(element.$.diff, 'reload');
@@ -519,9 +530,6 @@ limitations under the License.
     });
 
     test('hash is determined from params', done => {
-      stub('gr-rest-api-interface', {
-        getDiffComments() { return Promise.resolve({}); },
-      });
       sandbox.stub(element.$.diff, 'reload');
       sandbox.stub(element, '_initCursor');
 
@@ -669,11 +677,6 @@ limitations under the License.
 
     suite('_loadComments', () => {
       test('empty', done => {
-        stub('gr-comment-api', {
-          loadAll() { return Promise.resolve(); },
-          getPaths() { return {}; },
-          getCommentsForPath() { return {meta: {}}; },
-        });
         element._loadComments().then(() => {
           assert.equal(Object.keys(element._commentMap).length, 0);
           done();
@@ -681,16 +684,11 @@ limitations under the License.
       });
 
       test('has paths', done => {
-        stub('gr-comment-api', {
-          loadAll() { return Promise.resolve(); },
-          getPaths() {
-            return {
-              'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
-              'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
-            };
-          },
-          getCommentsForPath() { return {meta: {}}; },
+        sandbox.stub(element, '_getPaths').returns({
+          'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
+          'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
         });
+        sandbox.stub(element, '_getCommentsForPath').returns({meta: {}});
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: '3',

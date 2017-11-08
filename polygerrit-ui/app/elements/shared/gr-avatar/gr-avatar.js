@@ -60,6 +60,11 @@
       }
     },
 
+    _getAccounts(account) {
+      return account._account_id || account.email || account.username ||
+          account.name;
+    },
+
     _buildAvatarURL(account) {
       if (!account) { return ''; }
       const avatars = account.avatars || [];
@@ -69,7 +74,8 @@
         }
       }
       return this.getBaseUrl() + '/accounts/' +
-        account._account_id + '/avatar?s=' + this.imageSize;
+        encodeURIComponent(this._getAccounts(account)) +
+        '/avatar?s=' + this.imageSize;
     },
   });
 })();

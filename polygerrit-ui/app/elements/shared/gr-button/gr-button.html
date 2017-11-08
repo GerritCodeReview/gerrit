@@ -24,6 +24,7 @@ limitations under the License.
 <dom-module id="gr-button">
   <template strip-whitespace>
     <style include="shared-styles">
+      /* general styles for all buttons */
       :host {
         display: inline-block;
         font-family: var(--font-family-bold);
@@ -33,66 +34,31 @@ limitations under the License.
       :host([hidden]) {
         display: none;
       }
-      :host([link]) {
-        background-color: transparent;
-        border: none;
-        color: var(--color-link);
-        font-size: inherit;
-        font-family: var(--font-family-bold);
-        text-transform: none;
-      }
-      :host([link]) paper-button {
-        margin: 0;
-        padding: 0;
-        @apply --gr-button;
-      }
-      paper-button[raised] {
-        background-color: var(--gr-button-background, #fff);
-        color: var(--gr-button-color, --color-link);
-      }
       :host([no-uppercase]) paper-button {
         text-transform: none;
       }
-      /* todo (beckysiegel) switch all secondary to primary as there is no color
-        distinction anymore. */
-      :host([primary]) paper-button[raised],
-      :host([secondary]) paper-button[raised] {
-        background-color: var(--color-link);
-        color: #fff;
-      }
-      :host([primary][disabled]) paper-button[raised],
-      :host([disabled]) paper-button {
-        opacity: .5;
-      }
-      :host([link]) paper-button:hover,
-      :host([link]) paper-button:focus,
-      paper-button[raised]:hover,
-      paper-button[raised]:focus  {
-        color: var(--gr-button-hover-color, --color-button-hover);
-      }
-      :host([primary]) paper-button[raised]:hover,
-      :host([primary]) paper-button[raised]:focus,
-      :host([secondary]) paper-button[raised]:hover,
-      :host([secondary]) paper-button[raised]:focus {
-        background-color: var(--gr-button-hover-background-color, --color-button-hover);
-        color: var(--gr-button-color, #fff);
-      }
-      paper-button,
-      paper-button[raised],
-      paper-button[link] {
+      paper-button {
+        /* Some of these are overridden for link style buttons since buttons
+         without the link attribute are raised */
+        background-color: var(--gr-button-background, #fff);
+        color: var(--gr-button-color, var(--color-link));
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0;
         min-width: 0;
-        padding: .4em .85em;
+        padding: 5px 10px;
         @apply --gr-button;
       }
-      :host([link]) paper-button {
-        --paper-button: {
-          padding: 0;
-        }
+      paper-button:hover,
+      paper-button:focus {
+        color: var(--gr-button-hover-color, var(--color-button-hover));
       }
+      :host([disabled]) paper-button {
+        color: #a8a8a8;
+        cursor: wait;
+      }
+      /* styles for the optional down arrow */
       :host:not([down-arrow]) .downArrow {display: none; }
       :host([down-arrow]) .downArrow {
         border-top: .36em solid var(--gr-button-arrow-color, #ccc);
@@ -105,18 +71,54 @@ limitations under the License.
       :host([down-arrow]) paper-button:hover .downArrow {
         border-top-color: var(--gr-button-arrow-hover-color, #666);
       }
-      :host([loading]) paper-button,
-      :host([disabled]) paper-button {
-        color: #aaa;
+
+      /* styles for raised buttons specifically*/
+      :host([primary]) paper-button[raised],
+      :host([secondary]) paper-button[raised] {
+        background-color: var(--color-link);
+        color: #fff;
       }
-      :host([loading]) paper-button,
-      :host([loading][disabled]) paper-button {
-        cursor: wait;
-        background-color: #efefef;
-        color: #aaa;
+      :host([primary]) paper-button[raised]:hover,
+      :host([primary]) paper-button[raised]:focus,
+      :host([secondary]) paper-button[raised]:hover,
+      :host([secondary]) paper-button[raised]:focus {
+        background-color: var(--gr-button-hover-background-color, var(--color-button-hover));
+        color: var(--gr-button-color, #fff);
+      }
+      :host([disabled]) paper-button[raised] {
+        background-color: #eaeaea;
+        color: #a8a8a8;
+      }
+      /* styles for link buttons specifically */
+      :host([link]) {
+        background-color: transparent;
+        border: none;
+        color: var(--color-link);
+        font-size: inherit;
+        font-family: var(--font-family-bold);
+        text-transform: none;
+      }
+      :host([link][tertiary]) paper-button {
+        color: var(--color-link-tertiary);
+      }
+      :host([link]) paper-button {
+        background-color: transparent;
+        margin: 0;
+        padding: 5px 4px;
+        @apply --gr-button;
+      }
+      :host([disabled][link]) paper-button {
+        background-color: transparent;
+      }
+      :host([link]) paper-button:hover,
+      :host([link]) paper-button:focus {
+        color: var(--gr-button-hover-color, var(--color-button-hover));
       }
     </style>
-    <paper-button raised="[[!link]]" disabled="[[disabled]]" tabindex="-1">
+    <paper-button
+        raised="[[!link]]"
+        disabled="[[_computeDisabled(disabled, loading)]]"
+        tabindex="-1">
       <content></content>
       <i class="downArrow"></i>
     </paper-button>

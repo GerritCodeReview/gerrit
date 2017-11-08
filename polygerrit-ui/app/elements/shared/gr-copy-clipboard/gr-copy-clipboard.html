@@ -24,6 +24,7 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       .text {
+        align-items: center;
         display: flex;
         flex-wrap: wrap;
         margin-bottom: .5em;
@@ -53,6 +54,7 @@ limitations under the License.
             on-tap="_handleInputTap"
             readonly>
         <gr-button id="button"
+            link
             class="copyToClipboard"
             on-tap="_copyToClipboard">
           copy

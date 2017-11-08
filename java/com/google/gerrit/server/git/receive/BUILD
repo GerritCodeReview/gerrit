@@ -1,0 +1,21 @@
+java_library(
+    name = "receive",
+    srcs = glob(["**/*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/util/cli",
+        "//lib:args4j",
+        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib/auto:auto-value",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
+    ],
+)

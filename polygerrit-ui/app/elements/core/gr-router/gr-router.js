@@ -16,8 +16,10 @@
 
   const RoutePattern = {
     ROOT: '/',
-    DASHBOARD: '/dashboard/(.*)',
-    ADMIN_PLACEHOLDER: '/admin/(.*)',
+
+    DASHBOARD: /^\/dashboard\/(.+)$/,
+    CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
+
     AGREEMENTS: /^\/settings\/(agreements|new-agreement)/,
     REGISTER: /^\/register(\/.*)?$/,
 
@@ -28,18 +30,18 @@
     // Pattern for a catchall route when no other pattern is matched.
     DEFAULT: /.*/,
 
-    // Matches /admin/groups/<group>
-    GROUP: /^\/admin\/groups\/([^,]+)$/,
+    // Matches /admin/groups/[uuid-]<group>
+    GROUP: /^\/admin\/groups\/(?:uuid-)?([^,]+)$/,
 
-    // Matches /admin/groups/<group>,info (backwords compat with gwtui)
-    // Redirects to /admin/groups/<group>
-    GROUP_INFO: /^\/admin\/groups\/(.+),info$/,
+    // Matches /admin/groups/[uuid-]<group>,info (backwords compat with gwtui)
+    // Redirects to /admin/groups/[uuid-]<group>
+    GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
 
     // Matches /admin/groups/<group>,audit-log
-    GROUP_AUDIT_LOG: /^\/admin\/groups\/(.+),audit-log$/,
+    GROUP_AUDIT_LOG: /^\/admin\/groups\/(?:uuid-)?(.+),audit-log$/,
 
-    // Matches /admin/groups/<group>,members
-    GROUP_MEMBERS: /^\/admin\/groups\/(.+),members$/,
+    // Matches /admin/groups/[uuid-]<group>,members
+    GROUP_MEMBERS: /^\/admin\/groups\/(?:uuid-)?(.+),members$/,
 
     // Matches /admin/groups[,<offset>][/].
     GROUP_LIST_OFFSET: /^\/admin\/groups(,(\d+))?(\/)?$/,
@@ -89,6 +91,13 @@
 
     QUERY: /^\/q\/([^,]+)(,(\d+))?$/,
 
+    /**
+     * Support vestigial params from GWT UI.
+     * @see Issue 7673.
+     * @type {!RegExp}
+     */
+    QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
+
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
     CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
@@ -105,8 +114,14 @@
     // eslint-disable-next-line max-len
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/edit\/(.+),edit$/,
 
-    // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
+    // Matches non-project-relative
+    // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
     DIFF_LEGACY: /^\/c\/(\d+)\/((-?\d+|edit)(\.\.(\d+|edit))?)\/(.+)/,
+
+    // Matches diff routes using @\d+ to specify a file name (whether or not
+    // the project name is included).
+    // eslint-disable-next-line max-len
+    DIFF_LEGACY_LINENUM: /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
     SETTINGS: /^\/settings\/?/,
     SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
@@ -134,6 +149,13 @@
    * Pattern to recognize leading '?' in window.location.search, for stripping.
    */
   const QUESTION_PATTERN = /^\?*/;
+
+  /**
+   * GWT UI would use @\d+ at the end of a path to indicate linenum.
+   */
+  const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
+
+  const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
@@ -187,94 +209,146 @@
       page.redirect(url);
     },
 
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
     _generateUrl(params) {
       const base = this.getBaseUrl();
       let url = '';
       const Views = Gerrit.Nav.View;
 
       if (params.view === Views.SEARCH) {
-        const operators = [];
-        if (params.owner) {
-          operators.push('owner:' + this.encodeURL(params.owner, false));
-        }
-        if (params.project) {
-          operators.push('project:' + this.encodeURL(params.project, false));
-        }
-        if (params.branch) {
-          operators.push('branch:' + this.encodeURL(params.branch, false));
-        }
-        if (params.topic) {
-          operators.push('topic:"' + this.encodeURL(params.topic, false) + '"');
-        }
-        if (params.hashtag) {
-          operators.push('hashtag:"' +
-              this.encodeURL(params.hashtag.toLowerCase(), false) + '"');
-        }
-        if (params.statuses) {
-          if (params.statuses.length === 1) {
-            operators.push(
-                'status:' + this.encodeURL(params.statuses[0], false));
-          } else if (params.statuses.length > 1) {
-            operators.push(
-                '(' +
-                params.statuses.map(s => `status:${this.encodeURL(s, false)}`)
-                    .join(' OR ') +
-                ')');
-          }
-        }
-        url = '/q/' + operators.join('+');
+        url = this._generateSearchUrl(params);
       } else if (params.view === Views.CHANGE) {
-        let range = this._getPatchRangeExpression(params);
-        if (range.length) { range = '/' + range; }
-        let suffix = `${range}`;
-        if (params.querystring) {
-          suffix += '?' + params.querystring;
-        }
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
-        } else {
-          url = `/c/${params.changeNum}${suffix}`;
-        }
+        url = this._generateChangeUrl(params);
       } else if (params.view === Views.DASHBOARD) {
-        if (params.sections) {
-          // Custom dashboard.
-          const queryParams = params.sections.map(section => {
-            return encodeURIComponent(section.name) + '=' +
-                encodeURIComponent(section.query);
-          });
-          if (params.title) {
-            queryParams.push('title=' + encodeURIComponent(params.title));
-          }
-          const user = params.user ? params.user : '';
-          url = `/dashboard/${user}?${queryParams.join('&')}`;
-        } else {
-          // User dashboard.
-          url = `/dashboard/${params.user || 'self'}`;
-        }
+        url = this._generateDashboardUrl(params);
       } else if (params.view === Views.DIFF || params.view === Views.EDIT) {
-        let range = this._getPatchRangeExpression(params);
-        if (range.length) { range = '/' + range; }
-
-        let suffix = `${range}/${this.encodeURL(params.path, true)}`;
-
-        if (params.view === Views.EDIT) { suffix += ',edit'; }
-
-        if (params.lineNum) {
-          suffix += '#';
-          if (params.leftSide) { suffix += 'b'; }
-          suffix += params.lineNum;
-        }
-
-        if (params.project) {
-          url = `/c/${params.project}/+/${params.changeNum}${suffix}`;
-        } else {
-          url = `/c/${params.changeNum}${suffix}`;
-        }
+        url = this._generateDiffOrEditUrl(params);
+      } else if (params.view === Views.GROUP) {
+        url = this._generateGroupUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
 
       return base + url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateSearchUrl(params) {
+      const operators = [];
+      if (params.owner) {
+        operators.push('owner:' + this.encodeURL(params.owner, false));
+      }
+      if (params.project) {
+        operators.push('project:' + this.encodeURL(params.project, false));
+      }
+      if (params.branch) {
+        operators.push('branch:' + this.encodeURL(params.branch, false));
+      }
+      if (params.topic) {
+        operators.push('topic:"' + this.encodeURL(params.topic, false) + '"');
+      }
+      if (params.hashtag) {
+        operators.push('hashtag:"' +
+            this.encodeURL(params.hashtag.toLowerCase(), false) + '"');
+      }
+      if (params.statuses) {
+        if (params.statuses.length === 1) {
+          operators.push(
+              'status:' + this.encodeURL(params.statuses[0], false));
+        } else if (params.statuses.length > 1) {
+          operators.push(
+              '(' +
+              params.statuses.map(s => `status:${this.encodeURL(s, false)}`)
+                  .join(' OR ') +
+              ')');
+        }
+      }
+      return '/q/' + operators.join('+');
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateChangeUrl(params) {
+      let range = this._getPatchRangeExpression(params);
+      if (range.length) { range = '/' + range; }
+      let suffix = `${range}`;
+      if (params.querystring) {
+        suffix += '?' + params.querystring;
+      }
+      if (params.project) {
+        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+      } else {
+        return `/c/${params.changeNum}${suffix}`;
+      }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateDashboardUrl(params) {
+      if (params.sections) {
+        // Custom dashboard.
+        const queryParams = params.sections.map(section => {
+          return encodeURIComponent(section.name) + '=' +
+              encodeURIComponent(section.query);
+        });
+        if (params.title) {
+          queryParams.push('title=' + encodeURIComponent(params.title));
+        }
+        const user = params.user ? params.user : '';
+        return `/dashboard/${user}?${queryParams.join('&')}`;
+      } else {
+        // User dashboard.
+        return `/dashboard/${params.user || 'self'}`;
+      }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateDiffOrEditUrl(params) {
+      let range = this._getPatchRangeExpression(params);
+      if (range.length) { range = '/' + range; }
+
+      let suffix = `${range}/${this.encodeURL(params.path, true)}`;
+
+      if (params.view === Gerrit.Nav.View.EDIT) { suffix += ',edit'; }
+
+      if (params.lineNum) {
+        suffix += '#';
+        if (params.leftSide) { suffix += 'b'; }
+        suffix += params.lineNum;
+      }
+
+      if (params.project) {
+        return `/c/${params.project}/+/${params.changeNum}${suffix}`;
+      } else {
+        return `/c/${params.changeNum}${suffix}`;
+      }
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateGroupUrl(params) {
+      let url = `/admin/groups/${this.encodeURL(params.groupId + '', true)}`;
+      if (params.detail === Gerrit.Nav.GroupDetailView.MEMBERS) {
+        url += ',members';
+      } else if (params.detail === Gerrit.Nav.GroupDetailView.LOG) {
+        url += ',audit-log';
+      }
+      return url;
     },
 
     /**
@@ -469,6 +543,9 @@
 
       this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
 
+      this._mapRoute(RoutePattern.CUSTOM_DASHBOARD,
+          '_handleCustomDashboardRoute');
+
       this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
       this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
@@ -542,10 +619,12 @@
 
       this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
 
-      this._mapRoute(RoutePattern.ADMIN_PLACEHOLDER,
-          '_handleAdminPlaceholderRoute', true);
+      this._mapRoute(RoutePattern.QUERY_LEGACY_SUFFIX,
+          '_handleQueryLegacySuffixRoute');
 
       this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
+
+      this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
 
       this._mapRoute(RoutePattern.CHANGE_NUMBER_LEGACY,
           '_handleChangeNumberLegacyRoute');
@@ -663,14 +742,38 @@
     },
 
     /**
-     * Handle dashboard routes. These may be user, custom, or project
-     * dashboards.
+     * Handle dashboard routes. These may be user, or project dashboards.
+     *
+     * @param {!Object} data The parsed route data.
+     */
+    _handleDashboardRoute(data) {
+      // User dashboard. We require viewing user to be logged in, else we
+      // redirect to login for self dashboard or simple owner search for
+      // other user dashboard.
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (!loggedIn) {
+          if (data.params[0].toLowerCase() === 'self') {
+            this._redirectToLogin(data.canonicalPath);
+          } else {
+            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
+          }
+        } else {
+          this._setParams({
+            view: Gerrit.Nav.View.DASHBOARD,
+            user: data.params[0],
+          });
+        }
+      });
+    },
+
+    /**
+     * Handle custom dashboard routes.
      *
      * @param {!Object} data The parsed route data.
      * @param {string=} opt_qs Optional query string associated with the route.
      *     If not given, window.location.search is used. (Used by tests).
      */
-    _handleDashboardRoute(data, opt_qs) {
+    _handleCustomDashboardRoute(data, opt_qs) {
       // opt_qs may be provided by a test, and it may have a falsy value
       const qs = opt_qs !== undefined ? opt_qs : window.location.search;
       const queryParams = this._parseQueryString(qs);
@@ -693,56 +796,41 @@
         // Custom dashboard view.
         this._setParams({
           view: Gerrit.Nav.View.DASHBOARD,
-          user: data.params[0] || 'self',
+          user: 'self',
           sections,
           title,
         });
         return Promise.resolve();
       }
 
-      if (!data.params[0] && sections.length === 0) {
-        // Redirect /dashboard/ -> /dashboard/self.
-        this._redirect('/dashboard/self');
-        return Promise.resolve();
-      }
-
-      // User dashboard. We require viewing user to be logged in, else we
-      // redirect to login for self dashboard or simple owner search for
-      // other user dashboard.
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
-        if (!loggedIn) {
-          if (data.params[0].toLowerCase() === 'self') {
-            this._redirectToLogin(data.canonicalPath);
-          } else {
-            this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
-          }
-        } else {
-          this._setParams({
-            view: Gerrit.Nav.View.DASHBOARD,
-            user: data.params[0],
-          });
-        }
-      });
+      // Redirect /dashboard/ -> /dashboard/self.
+      this._redirect('/dashboard/self');
+      return Promise.resolve();
     },
 
     _handleGroupInfoRoute(data) {
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
     },
 
+    _handleGroupRoute(data) {
+      this._setParams({
+        view: Gerrit.Nav.View.GROUP,
+        groupId: data.params[0],
+      });
+    },
+
     _handleGroupAuditLogRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-audit-log',
-        detailType: 'audit-log',
+        view: Gerrit.Nav.View.GROUP,
+        detail: Gerrit.Nav.GroupDetailView.LOG,
         groupId: data.params[0],
       });
     },
 
     _handleGroupMembersRoute(data) {
       this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group-members',
-        detailType: 'members',
+        view: Gerrit.Nav.View.GROUP,
+        detail: Gerrit.Nav.GroupDetailView.MEMBERS,
         groupId: data.params[0],
       });
     },
@@ -771,14 +859,6 @@
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-admin-group-list',
         filter: data.params.filter || null,
-      });
-    },
-
-    _handleGroupRoute(data) {
-      this._setParams({
-        view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-group',
-        groupId: data.params[0],
       });
     },
 
@@ -944,18 +1024,16 @@
       });
     },
 
-    _handleAdminPlaceholderRoute(data) {
-      data.params.view = Gerrit.Nav.View.ADMIN;
-      data.params.placeholder = true;
-      this._setParams(data.params);
-    },
-
     _handleQueryRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.SEARCH,
         query: data.params[0],
         offset: data.params[2],
       });
+    },
+
+    _handleQueryLegacySuffixRoute(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
     },
 
     _handleChangeNumberLegacyRoute(ctx) {
@@ -999,15 +1077,11 @@
       this._normalizeLegacyRouteParams(params);
     },
 
-    _handleDiffLegacyRoute(ctx) {
-      // Check if path has an '@' which indicates it was using GWT style line
-      // numbers. Even if the filename had an '@' in it, it would have already
-      // been URI encoded. Redirect to hash version of path.
-      if (ctx.path.includes('@')) {
-        this._redirect(ctx.path.replace('@', '#'));
-        return;
-      }
+    _handleLegacyLinenum(ctx) {
+      this._redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
+    },
 
+    _handleDiffLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
       const params = {
         changeNum: ctx.params[0],

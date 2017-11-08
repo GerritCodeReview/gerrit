@@ -39,6 +39,12 @@
     SEND: 'Send',
   };
 
+  const ButtonTooltips = {
+    SAVE: 'Save reply but do not send',
+    START_REVIEW: 'Mark as ready for review and send reply',
+    SEND: 'Send reply',
+  };
+
   // TODO(logan): Remove once the fix for issue 6841 is stable on
   // googlesource.com.
   const START_REVIEW_MESSAGE = 'This change is ready for review.';
@@ -187,6 +193,11 @@
       _labelsChanged: {
         type: Boolean,
         value: false,
+      },
+      _saveTooltip: {
+        type: String,
+        value: ButtonTooltips.SAVE,
+        readOnly: true,
       },
     },
 
@@ -777,10 +788,7 @@
     },
 
     _handleHeightChanged(e) {
-      // If the textarea resizes, we need to re-fit the overlay.
-      this.debounce('autogrow', () => {
-        this.fire('autogrow');
-      });
+      this.fire('autogrow');
     },
 
     _handleLabelsChanged() {
@@ -799,6 +807,10 @@
 
     _computeSendButtonLabel(canBeStarted) {
       return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
+    },
+
+    _computeSendButtonTooltip(canBeStarted) {
+      return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
     },
 
     _computeCCsEnabled(serverConfig) {

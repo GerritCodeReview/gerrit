@@ -48,9 +48,6 @@ limitations under the License.
         width: 2em;
         vertical-align: middle;
       }
-      gr-button[link] {
-        padding: 0.5em;
-      }
       gr-button[link]:focus {
         outline: 5px auto -webkit-focus-ring-color;
       }
@@ -65,6 +62,9 @@ limitations under the License.
         cursor: pointer;
         display: block;
         padding: .85em 1em;
+      }
+      li .itemAction {
+        @apply --gr-dropdown-item;
       }
       li .itemAction.disabled {
         color: #ccc;

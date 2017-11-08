@@ -44,6 +44,12 @@
         type: Object,
         observer: '_accountChanged',
       },
+
+      _isGKeyPressed: {
+        type: Boolean,
+        value: false,
+      },
+
       /**
        * @type {{ plugin: Object }}
        */
@@ -83,6 +89,9 @@
 
     keyBindings: {
       '?': '_showKeyboardShortcuts',
+      'g:keydown': '_gKeyDown',
+      'g:keyup': '_gKeyUp',
+      'a m o': '_jumpKeyPressed',
     },
 
     ready() {
@@ -138,7 +147,8 @@
       this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
       this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
       this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
-      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN);
+      this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN ||
+          view === Gerrit.Nav.View.GROUP);
       this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
       this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
       if (this.params.justRegistered) {
@@ -234,6 +244,32 @@
 
     _computeShadowClass(isShadowDom) {
       return isShadowDom ? 'shadow' : '';
+    },
+
+    _gKeyDown() {
+      this._isGKeyPressed = true;
+    },
+
+    _gKeyUp() {
+      this._isGKeyPressed = false;
+    },
+
+    _jumpKeyPressed(e) {
+      if (!this._isGKeyPressed ||
+          this.shouldSuppressKeyboardShortcut(e)) { return; }
+      e.preventDefault();
+
+      let status = null;
+      if (e.detail.key === 'a') {
+        status = 'abandoned';
+      } else if (e.detail.key === 'm') {
+        status = 'merged';
+      } else if (e.detail.key === 'o') {
+        status = 'open';
+      }
+      if (status !== null) {
+        Gerrit.Nav.navigateToStatusSearch(status);
+      }
     },
   });
 })();

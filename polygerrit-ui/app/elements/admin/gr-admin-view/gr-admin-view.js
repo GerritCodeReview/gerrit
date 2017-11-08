@@ -14,8 +14,11 @@
 (function() {
   'use strict';
 
+  // Note: noBaseUrl: true is set on entries where the URL is not yet supported
+  // by router abstraction.
   const ADMIN_LINKS = [{
     name: 'Projects',
+    noBaseUrl: true,
     url: '/admin/projects',
     view: 'gr-project-list',
     viewableToAll: true,
@@ -23,6 +26,7 @@
   }, {
     name: 'Groups',
     section: 'Groups',
+    noBaseUrl: true,
     url: '/admin/groups',
     view: 'gr-admin-group-list',
     children: [],
@@ -30,6 +34,7 @@
     name: 'Plugins',
     capability: 'viewPlugins',
     section: 'Plugins',
+    noBaseUrl: true,
     url: '/admin/plugins',
     view: 'gr-plugin-list',
   }];
@@ -113,11 +118,13 @@
           linkCopy.subsection = {
             name: this._projectName,
             view: 'gr-project',
+            noBaseUrl: true,
             url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
             children: [{
               name: 'Access',
               detailType: 'access',
               view: 'gr-project-access',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},access`,
             },
@@ -125,6 +132,7 @@
               name: 'Commands',
               detailType: 'commands',
               view: 'gr-project-commands',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},commands`,
             },
@@ -132,6 +140,7 @@
               name: 'Branches',
               detailType: 'branches',
               view: 'gr-project-detail-list',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},branches`,
             },
@@ -139,6 +148,7 @@
               name: 'Tags',
               detailType: 'tags',
               view: 'gr-project-detail-list',
+              noBaseUrl: true,
               url: `/admin/projects/` +
                   `${this.encodeURL(this._projectName, true)},tags`,
             }],
@@ -147,15 +157,14 @@
         if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
           linkCopy.subsection = {
             name: this._groupName,
-            view: 'gr-group',
-            url: `/admin/groups/${this.encodeURL(this._groupId + '', true)}`,
+            view: Gerrit.Nav.View.GROUP,
+            url: Gerrit.Nav.getUrlForGroup(this._groupId),
             children: [
               {
                 name: 'Members',
-                detailType: 'members',
-                view: 'gr-group-members',
-                url: `/admin/groups/${this.encodeURL(this._groupId, true)}` +
-                    ',members',
+                detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
+                view: Gerrit.Nav.View.GROUP,
+                url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
               },
             ],
           };
@@ -163,10 +172,9 @@
             linkCopy.subsection.children.push(
                 {
                   name: 'Audit Log',
-                  detailType: 'audit-log',
-                  view: 'gr-group-audit-log',
-                  url: '/admin/groups/' +
-                      `${this.encodeURL(this._groupId + '', true)},audit-log`,
+                  detailType: Gerrit.Nav.GroupDetailView.LOG,
+                  view: Gerrit.Nav.View.GROUP,
+                  url: Gerrit.Nav.getUrlForGroupLog(this._groupId),
                 }
             );
           }
@@ -187,19 +195,31 @@
     },
 
     _paramsChanged(params) {
-      this.set('_showGroup', params.adminView === 'gr-group');
-      this.set('_showGroupAuditLog', params.adminView === 'gr-group-audit-log');
-      this.set('_showGroupList', params.adminView === 'gr-admin-group-list');
-      this.set('_showGroupMembers', params.adminView === 'gr-group-members');
-      this.set('_showProjectCommands',
+      const isGroupView = params.view === Gerrit.Nav.View.GROUP;
+      const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
+
+      this.set('_showGroup', isGroupView && !params.detail);
+      this.set('_showGroupAuditLog', isGroupView &&
+          params.detail === Gerrit.Nav.GroupDetailView.LOG);
+      this.set('_showGroupMembers', isGroupView &&
+          params.detail === Gerrit.Nav.GroupDetailView.MEMBERS);
+
+      this.set('_showGroupList', isAdminView &&
+          params.adminView === 'gr-admin-group-list');
+
+      this.set('_showProjectCommands', isAdminView &&
           params.adminView === 'gr-project-commands');
-      this.set('_showProjectMain', params.adminView === 'gr-project');
-      this.set('_showProjectList',
+      this.set('_showProjectMain', isAdminView &&
+          params.adminView === 'gr-project');
+      this.set('_showProjectList', isAdminView &&
           params.adminView === 'gr-project-list');
-      this.set('_showProjectDetailList',
+      this.set('_showProjectDetailList', isAdminView &&
           params.adminView === 'gr-project-detail-list');
-      this.set('_showPluginList', params.adminView === 'gr-plugin-list');
-      this.set('_showProjectAccess', params.adminView === 'gr-project-access');
+      this.set('_showPluginList', isAdminView &&
+          params.adminView === 'gr-plugin-list');
+      this.set('_showProjectAccess', isAdminView &&
+          params.adminView === 'gr-project-access');
+
       if (params.project !== this._projectName) {
         this._projectName = params.project || '';
         // Reloads the admin menu.
@@ -226,7 +246,7 @@
 
     _computeLinkURL(link) {
       if (!link || typeof link.url === 'undefined') { return ''; }
-      if (link.target) {
+      if (link.target || !link.noBaseUrl) {
         return link.url;
       }
       return this._computeRelativeURL(link.url);
@@ -238,6 +258,16 @@
      * @param {string=} opt_detailType
      */
     _computeSelectedClass(itemView, params, opt_detailType) {
+      // Group params are structured differently from admin params. Compute
+      // selected differently for groups.
+      // TODO(wyatta): Simplify this when all routes work like group params.
+      if (params.view === Gerrit.Nav.View.GROUP &&
+          itemView === Gerrit.Nav.View.GROUP) {
+        if (!params.detail && !opt_detailType) { return 'selected'; }
+        if (params.detail === opt_detailType) { return 'selected'; }
+        return '';
+      }
+
       if (params.detailType && params.detailType !== opt_detailType) {
         return '';
       }

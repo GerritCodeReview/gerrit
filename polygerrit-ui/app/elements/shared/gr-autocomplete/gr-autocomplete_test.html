@@ -283,11 +283,25 @@ limitations under the License.
     test('_focused flag properly triggered', done => {
       flush(() => {
         assert.isFalse(element._focused);
-        const input = element.$$('input');
+        const input = element.$$('paper-input').inputElement;
         MockInteractions.focus(input);
         assert.isTrue(element._focused);
         done();
       });
+    });
+
+    test('search icon shows with showSearchIcon property', () => {
+      assert.equal(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
+      element.showSearchIcon = true;
+      assert.notEqual(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
+    });
+
+    test('vertical offset overridden by param if it exists', () => {
+      assert.equal(element.$.suggestions.verticalOffset, 20);
+      element.verticalOffset = 30;
+      assert.equal(element.$.suggestions.verticalOffset, 30);
     });
 
     test('_focused flag shows/hides the suggestions', () => {
@@ -303,28 +317,35 @@ limitations under the License.
       assert.isTrue(openStub.calledOnce);
     });
 
-    test('changing input sets _textChangedSinceCommit', () => {
-      element._textChangedSinceCommit = false;
-      element.text = 'foo bar baz';
-      assert.isTrue(element._textChangedSinceCommit);
-    });
-
-    test('_handleInputCommit with no change does nothing', () => {
+    test('_handleInputCommit with autocomplete hidden does nothing without' +
+          'without allowNonSuggestedValues', () => {
       const commitStub = sandbox.stub(element, '_commit');
-      element._textChangedSinceCommit = false;
+      element.$.suggestions.isHidden = true;
       element._handleInputCommit();
       assert.isFalse(commitStub.called);
     });
 
-    test('_textChangedSinceCommit reset after commit', () => {
-      element._textChangedSinceCommit = true;
-      element._commit();
-      assert.isFalse(element._textChangedSinceCommit);
+    test('_handleInputCommit with autocomplete hidden with' +
+          'allowNonSuggestedValues', () => {
+      const commitStub = sandbox.stub(element, '_commit');
+      element.allowNonSuggestedValues = true;
+      element.$.suggestions.isHidden = true;
+      element._handleInputCommit();
+      assert.isTrue(commitStub.called);
     });
 
-    test('_handleInputCommit with change to text', () => {
+    test('_handleInputCommit with autocomplete open calls commit', () => {
       const commitStub = sandbox.stub(element, '_commit');
-      element._textChangedSinceCommit = true;
+      element.$.suggestions.isHidden = false;
+      element._handleInputCommit();
+      assert.isTrue(commitStub.calledOnce);
+    });
+
+    test('_handleInputCommit with autocomplete open calls commit' +
+          'with allowNonSuggestedValues', () => {
+      const commitStub = sandbox.stub(element, '_commit');
+      element.allowNonSuggestedValues = true;
+      element.$.suggestions.isHidden = false;
       element._handleInputCommit();
       assert.isTrue(commitStub.calledOnce);
     });
@@ -440,24 +461,34 @@ limitations under the License.
       test('enabled', () => {
         element.warnUncommitted = true;
         element.text = 'blah blah blah';
+        element._focused = true;
         MockInteractions.blur(element.$.input);
         assert.isTrue(inputClassList.contains('warnUncommitted'));
+        assert.isFalse(element._focused);
+        assert.equal(getComputedStyle(element.$.input.inputElement).color,
+            'rgb(255, 0, 0)');
         MockInteractions.focus(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
+        assert.notEqual(getComputedStyle(element.$.input.inputElement).color,
+            'rgb(255, 0, 0)ed');
       });
 
       test('disabled', () => {
         element.warnUncommitted = false;
+        element._focused = true;
         element.text = 'blah blah blah';
         MockInteractions.blur(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
+        assert.isFalse(element._focused);
       });
 
       test('no text', () => {
         element.warnUncommitted = true;
+        element._focused = true;
         element.text = '';
         MockInteractions.blur(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
+        assert.isFalse(element._focused);
       });
     });
   });

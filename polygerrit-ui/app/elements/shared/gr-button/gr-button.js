@@ -18,11 +18,22 @@
     is: 'gr-button',
 
     properties: {
+      tooltip: String,
       downArrow: {
         type: Boolean,
         reflectToAttribute: true,
       },
       link: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
+      loading: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
+      tertiary: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
@@ -45,7 +56,12 @@
     listeners: {
       tap: '_handleAction',
       click: '_handleAction',
+      keydown: '_handleKeydown',
     },
+
+    observers: [
+      '_computeDisabled(disabled, loading)',
+    ],
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
@@ -55,10 +71,6 @@
     hostAttributes: {
       role: 'button',
       tabindex: '0',
-    },
-
-    keyBindings: {
-      'space enter': '_handleCommitKey',
     },
 
     _handleAction(e) {
@@ -75,9 +87,19 @@
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
     },
 
-    _handleCommitKey(e) {
-      e.preventDefault();
-      this.click();
+    _computeDisabled(disabled, loading) {
+      return disabled || loading;
+    },
+
+    _handleKeydown(e) {
+      if (this.modifierPressed(e)) { return; }
+      e = this.getKeyboardEvent(e);
+      // Handle `enter`, `space`.
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.click();
+      }
     },
   });
 })();

@@ -34,8 +34,10 @@ limitations under the License.
 <script>
   suite('gr-confirm-cherrypick-dialog tests', () => {
     let element;
+    let sandbox;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getProjectBranches(input) {
           if (input.startsWith('test')) {
@@ -54,6 +56,8 @@ limitations under the License.
       element = fixture('basic');
       element.project = 'test-project';
     });
+
+    teardown(() => { sandbox.restore(); });
 
     test('with merged change', () => {
       element.changeStatus = 'MERGED';
@@ -91,6 +95,12 @@ limitations under the License.
         assert.equal(branches.length, 0);
         done();
       });
+    });
+
+    test('resetFocus', () => {
+      const focusStub = sandbox.stub(element.$.branchInput, 'focus');
+      element.resetFocus();
+      assert.isTrue(focusStub.called);
     });
 
     test('_getProjectBranchesSuggestions non-empty', done => {

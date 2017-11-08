@@ -99,7 +99,8 @@
     },
 
     _handleRemoveProject(e) {
-      const index = parseInt(e.target.getAttribute('data-index'), 10);
+      const el = Polymer.dom(e).localTarget;
+      const index = parseInt(el.getAttribute('data-index'), 10);
       const project = this._projects[index];
       this.splice('_projects', index, 1);
       this.push('_projectsToRemove', project);
@@ -154,9 +155,10 @@
     },
 
     _handleCheckboxChange(e) {
-      const index = parseInt(e.target.getAttribute('data-index'), 10);
-      const key = e.target.getAttribute('data-key');
-      const checked = e.target.checked;
+      const el = Polymer.dom(e).localTarget;
+      const index = parseInt(el.getAttribute('data-index'), 10);
+      const key = el.getAttribute('data-key');
+      const checked = el.checked;
       this.set(['_projects', index, key], !!checked);
       this.hasUnsavedChanges = true;
     },

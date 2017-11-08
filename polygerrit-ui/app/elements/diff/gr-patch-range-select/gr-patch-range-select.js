@@ -34,15 +34,21 @@
       _baseDropdownContent: {
         type: Object,
         computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
-            '_sortedRevisions, revisions)',
+            '_sortedRevisions, comments)',
       },
       _patchDropdownContent: {
         type: Object,
         computed: '_computePatchDropdownContent(availablePatches,' +
-            'basePatchNum, _sortedRevisions, revisions)',
+            'basePatchNum, _sortedRevisions, comments)',
       },
       changeNum: String,
-      comments: Array,
+      // In the case of a patch range select (like diff view) comments should
+      // be an empty array, so that the patch and base content computed values
+      // get triggered.
+      comments: {
+        type: Object,
+        value: () => { return {}; },
+      },
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
       patchNum: String,
@@ -58,12 +64,8 @@
     behaviors: [Gerrit.PatchSetBehavior],
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
-        revisions) {
+        comments) {
       const dropdownContent = [];
-      dropdownContent.push({
-        text: 'Base',
-        value: 'PARENT',
-      });
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
         dropdownContent.push({
@@ -72,13 +74,17 @@
           triggerText: `Patchset ${basePatchNum}`,
           text: `Patchset ${basePatchNum}` +
               this._computePatchSetCommentsString(this.comments, basePatchNum),
-          mobileText: this._computeMobileText(basePatchNum, this.comments,
-              revisions),
+          mobileText: this._computeMobileText(basePatchNum, comments,
+              _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
-              revisions, basePatchNum)}`,
+              _sortedRevisions, basePatchNum)}`,
           value: basePatch.num,
         });
       }
+      dropdownContent.push({
+        text: 'Base',
+        value: 'PARENT',
+      });
       return dropdownContent;
     },
 
@@ -89,22 +95,22 @@
     },
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
-        _sortedRevisions, revisions) {
+        _sortedRevisions, comments) {
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;
         dropdownContent.push({
-          disabled: this._computeRightDisabled(patchNum, basePatchNum,
+          disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
           triggerText: `${patchNum === 'edit' ? '': 'Patchset '}` +
               patchNum,
           text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
               `${this._computePatchSetCommentsString(
                   this.comments, patchNum)}`,
-          mobileText: this._computeMobileText(patchNum, this.comments,
-              revisions),
+          mobileText: this._computeMobileText(patchNum, comments,
+              _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
-              revisions, patchNum)}`,
+              _sortedRevisions, patchNum)}`,
           value: patchNum,
         });
       }
@@ -116,16 +122,33 @@
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
     },
 
+    /**
+     * The basePatchNum should always be <= patchNum -- because sortedRevisions
+     * is sorted in reverse order (higher patchset nums first), invalid base
+     * patch nums have an index greater than the index of patchNum.
+     * @param {number|string} basePatchNum The possible base patch num.
+     * @param {number|string} patchNum The current selected patch num.
+     * @param {!Array} sortedRevisions
+     */
     _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
-      return this.findSortedIndex(basePatchNum, sortedRevisions) >=
+      return this.findSortedIndex(basePatchNum, sortedRevisions) <=
           this.findSortedIndex(patchNum, sortedRevisions);
     },
 
-    _computeRightDisabled(patchNum, basePatchNum, sortedRevisions) {
-      if (basePatchNum == 'PARENT') { return false; }
-
-      return this.findSortedIndex(patchNum, sortedRevisions) <=
-          this.findSortedIndex(basePatchNum, sortedRevisions);
+    /**
+     * The basePatchNum should always be <= patchNum -- because sortedRevisions
+     * is sorted in reverse order (higher patchset nums first), invalid patch
+     * nums have an index greater than the index of basePatchNum.
+     * In addition, if the current basePatchNum is 'PARENT', all patchNums are
+     * valid.
+     * @param {number|string} basePatchNum The current selected base patch num.
+     * @param {number|string} patchNum The possible patch num.
+     * @param {!Array} sortedRevisions
+     */
+    _computeRightDisabled(basePatchNum, patchNum, sortedRevisions) {
+      if (basePatchNum === 'PARENT') { return false; }
+      return this.findSortedIndex(basePatchNum, sortedRevisions) <=
+          this.findSortedIndex(patchNum, sortedRevisions);
     },
 
     // Copied from gr-file-list

@@ -23,9 +23,11 @@ same repository as code changes.
 
 == Current Status
 
-- Storing change metadata is fully implemented in the 2.15 release. Admins may
-  use an link:#offline-migration[offline] or link:#online-migration[online] tool
-  to migrate change data from ReviewDb.
+- Storing change metadata is fully implemented in the 2.15 release, and is the
+  default for new sites.
+- Admins may use an link:#offline-migration[offline] or
+  link:#online-migration[online] tool to migrate change data in an existing
+  site from ReviewDb.
 - Storing link:config-accounts.html[account data] is fully implemented in the
   2.15 release. Account data is migrated automatically during the upgrade
   process by running `gerrit.war init`.

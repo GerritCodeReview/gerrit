@@ -79,19 +79,19 @@ the `gerrit-security-fixes` project be taken over into the public
 Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
 file must be updated, e.g. change it from `$version-SNAPSHOT` to `$version`.
 
-In addition the version must be updated in a number of pom.xml files.
+In addition the version must be updated in a number of `*_pom.xml` files.
 
 To do this run the `./tools/version.py` script and provide the new
 version as parameter, e.g.:
 
 ----
-  ./tools/version.py 2.5
+  version=2.15
+  ./tools/version.py $version
 ----
 
 Commit the changes and create a signed release tag on the new commit:
 
 ----
-  version=2.15
   git tag -s -m "v$version" "v$version"
 ----
 
@@ -137,7 +137,7 @@ link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
 configuration] for deploying to Maven Central
 
 * Make sure that the version is updated in the `version.bzl` file and in
-the `pom.xml` files as described in the link:#update-versions[Update
+the `*_pom.xml` files as described in the link:#update-versions[Update
 Versions and Create Release Tag] section.
 
 * Push the WAR to Maven Central:
@@ -192,7 +192,7 @@ section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029
 +
 Use this URL for further testing of the artifacts in this repository,
 e.g. to try building a plugin against the plugin API in this repository
-update the version in the `pom.xml` and configure the repository:
+update the version in the `*_pom.xml` and configure the repository:
 +
 ----
   <repositories>

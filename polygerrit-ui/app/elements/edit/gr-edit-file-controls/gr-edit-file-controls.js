@@ -18,17 +18,50 @@
     is: 'gr-edit-file-controls',
 
     /**
-     * Fired when the edit button is pressed.
+     * Fired when an action in the overflow menu is tapped.
      *
-     * @event edit-tap
+     * @event file-action-tap
      */
 
     properties: {
       filePath: String,
+      // Edit action not needed in the overflow.
+      _allFileActions: {
+        type: Array,
+        value: () => Object.values(GrEditConstants.Actions)
+            .filter(action => action !== GrEditConstants.Actions.EDIT),
+      },
+      _fileActions: {
+        type: Array,
+        computed: '_computeFileActions(_allFileActions)',
+      },
     },
 
-    _handleEditTap() {
-      this.fire('edit-tap', {path: this.filePath});
+    _handleEditTap(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this._dispatchFileAction(GrEditConstants.Actions.EDIT.id, this.filePath);
+    },
+
+    _handleActionTap(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this._dispatchFileAction(e.detail.id, this.filePath);
+    },
+
+    _dispatchFileAction(action, path) {
+      this.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action, path}, bubbles: true}));
+    },
+
+    _computeFileActions(actions) {
+      // TODO(kaspern): conditionally disable some actions based on file status.
+      return actions.map(action => {
+        return {
+          name: action.label,
+          id: action.id,
+        };
+      });
     },
   });
 })();

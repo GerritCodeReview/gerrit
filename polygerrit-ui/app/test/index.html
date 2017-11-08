@@ -26,6 +26,7 @@ limitations under the License.
   const behaviorsPath = '../behaviors/';
 
   // Elements tests.
+  /* eslint-disable max-len */
   const elements = [
     // This seemed to be flakey when it was farther down the list. Keep at the
     // beginning.
@@ -119,6 +120,7 @@ limitations under the License.
     'settings/gr-email-editor/gr-email-editor_test.html',
     'settings/gr-group-list/gr-group-list_test.html',
     'settings/gr-http-password/gr-http-password_test.html',
+    'settings/gr-identities/gr-identities_test.html',
     'settings/gr-menu-editor/gr-menu-editor_test.html',
     'settings/gr-registration-dialog/gr-registration-dialog_test.html',
     'settings/gr-settings-view/gr-settings-view_test.html',
@@ -132,6 +134,7 @@ limitations under the License.
     'shared/gr-avatar/gr-avatar_test.html',
     'shared/gr-button/gr-button_test.html',
     'shared/gr-change-star/gr-change-star_test.html',
+    'shared/gr-change-status/gr-change-status_test.html',
     'shared/gr-confirm-dialog/gr-confirm-dialog_test.html',
     'shared/gr-copy-clipboard/gr-copy-clipboard_test.html',
     'shared/gr-cursor-manager/gr-cursor-manager_test.html',
@@ -144,6 +147,7 @@ limitations under the License.
     'shared/gr-js-api-interface/gr-change-actions-js-api_test.html',
     'shared/gr-js-api-interface/gr-change-reply-js-api_test.html',
     'shared/gr-js-api-interface/gr-js-api-interface_test.html',
+    'shared/gr-js-api-interface/gr-plugin-rest-api_test.html',
     'shared/gr-limited-text/gr-limited-text_test.html',
     'shared/gr-linked-chip/gr-linked-chip_test.html',
     'shared/gr-linked-text/gr-linked-text_test.html',
@@ -158,6 +162,7 @@ limitations under the License.
     'shared/gr-tooltip-content/gr-tooltip-content_test.html',
     'shared/gr-tooltip/gr-tooltip_test.html',
   ];
+  /* eslint-enable max-len */
   for (let file of elements) {
     file = elementsPath + file;
     testFiles.push(file);
@@ -165,6 +170,7 @@ limitations under the License.
   }
 
   // Behaviors tests.
+  /* eslint-disable max-len */
   const behaviors = [
     'async-foreach-behavior/async-foreach-behavior_test.html',
     'base-url-behavior/base-url-behavior_test.html',
@@ -178,6 +184,7 @@ limitations under the License.
     'gr-path-list-behavior/gr-path-list-behavior_test.html',
     'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
   ];
+  /* eslint-enable max-len */
   for (let file of behaviors) {
     // Behaviors do not utilize the DOM, so no shadow DOM test is necessary.
     file = behaviorsPath + file;

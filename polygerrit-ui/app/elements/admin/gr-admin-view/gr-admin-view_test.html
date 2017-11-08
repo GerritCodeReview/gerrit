@@ -59,8 +59,14 @@ limitations under the License.
 
     test('link URLs', () => {
       assert.equal(
-          element._computeLinkURL({url: '/test'}),
+          element._computeLinkURL({url: '/test', noBaseUrl: true}),
           '//' + window.location.host + '/test');
+
+      sandbox.stub(element, 'getBaseUrl').returns('/foo');
+      assert.equal(
+          element._computeLinkURL({url: '/test', noBaseUrl: true}),
+          '//' + window.location.host + '/foo/test');
+      assert.equal(element._computeLinkURL({url: '/test'}), '/test');
       assert.equal(
           element._computeLinkURL({url: '/test', target: '_blank'}),
           '/test');
@@ -75,6 +81,7 @@ limitations under the License.
       }];
 
       element.params = {
+        view: 'admin',
         adminView: 'gr-project-list',
       };
 
@@ -206,10 +213,149 @@ limitations under the License.
         assert.isTrue(element.reload.called);
         done();
       });
-      element.params = {group: 1, adminView: 'gr-group'};
+      element.params = {group: 1, view: Gerrit.Nav.View.GROUP};
       element._groupName = 'oldName';
       flushAsynchronousOperations();
       element.$$('gr-group').fire('name-changed', {name: newName});
+    });
+
+    suite('_computeSelectedClass', () => {
+      setup(() => {
+        sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
+        sandbox.stub(element.$.restAPI, 'getAccount', () => {
+          return Promise.resolve({_id: 1});
+        });
+
+        return element.reload();
+      });
+
+      suite('projects', () => {
+        setup(() => {
+          stub('gr-project-access', {
+            _projectChanged: () => {},
+          });
+        });
+
+        test('project list', done => {
+          element.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project-list',
+            openCreateModal: false,
+          };
+          flush(() => {
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'Projects');
+            done();
+          });
+        });
+
+        test('project', done => {
+          element.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            project: 'foo',
+            adminView: 'gr-project',
+          };
+          element._projectName = 'foo';
+          element.reload().then(() => {
+            flush(() => {
+              const selected = element.$$('gr-page-nav .selected');
+              assert.isOk(selected);
+              assert.equal(selected.textContent.trim(), 'foo');
+              done();
+            });
+          });
+        });
+
+        test('project access', done => {
+          element.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-project-access',
+            detailType: 'access',
+            project: 'foo',
+          };
+          element._projectName = 'foo';
+          element.reload().then(() => {
+            flush(() => {
+              const selected = element.$$('gr-page-nav .selected');
+              assert.isOk(selected);
+              assert.equal(selected.textContent.trim(), 'Access');
+              done();
+            });
+          });
+        });
+      });
+
+      suite('groups', () => {
+        setup(() => {
+          stub('gr-group', {
+            _loadGroup: () => Promise.resolve({}),
+          });
+          stub('gr-group-members', {
+            _loadGroupDetails: () => {},
+          });
+
+          sandbox.stub(element.$.restAPI, 'getGroupConfig')
+              .returns(Promise.resolve({
+                name: 'foo',
+              }));
+          sandbox.stub(element.$.restAPI, 'getIsGroupOwner')
+              .returns(Promise.resolve(true));
+        });
+
+        test('group list', done => {
+          element.params = {
+            view: Gerrit.Nav.View.ADMIN,
+            adminView: 'gr-admin-group-list',
+            openCreateModal: false,
+          };
+          flush(() => {
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'Groups');
+            done();
+          });
+        });
+
+        test('group', done => {
+          element.params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+          };
+          element._groupName = 'foo';
+          element.reload().then(() => {
+            flush(() => {
+              const selected = element.$$('gr-page-nav .selected');
+              assert.isOk(selected);
+              assert.equal(selected.textContent.trim(), 'foo');
+              done();
+            });
+          });
+        });
+
+        test('group members', done => {
+          element.params = {
+            view: Gerrit.Nav.View.GROUP,
+            detail: Gerrit.Nav.GroupDetailView.MEMBERS,
+            groupId: 1234,
+          };
+          element._groupName = 'foo';
+          element.reload().then(() => {
+            flush(() => {
+              const selected = element.$$('gr-page-nav .selected');
+              assert.isOk(selected);
+              assert.equal(selected.textContent.trim(), 'Members');
+              done();
+            });
+          });
+        });
+      });
     });
   });
 </script>

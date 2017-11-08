@@ -56,6 +56,13 @@ limitations under the License.
           url: `https://git.example.org/tag/test;refs/tags/test${counter}`,
         },
       ],
+      message: 'Annotated tag',
+      tagger: {
+        name: 'Test User',
+        email: 'test.user@gmail.com',
+        date: '2017-09-19 14:54:00.000000000',
+        tz: 540,
+      },
     };
   };
 
@@ -347,6 +354,26 @@ limitations under the License.
         });
       });
 
+      test('test for tag message in the list', done => {
+        flush(() => {
+          assert.equal(element._items[1].message, 'Annotated tag');
+          done();
+        });
+      });
+
+      test('test for tagger in the tag list', done => {
+        const tagger = {
+          name: 'Test User',
+          email: 'test.user@gmail.com',
+          date: '2017-09-19 14:54:00.000000000',
+          tz: 540,
+        };
+        flush(() => {
+          assert.deepEqual(element._items[1].tagger, tagger);
+          done();
+        });
+      });
+
       test('test for web links in the tags list', done => {
         flush(() => {
           assert.equal(element._items[1].web_links[0].url,
@@ -365,6 +392,15 @@ limitations under the License.
 
       test('_shownItems', () => {
         assert.equal(element._shownItems.length, 25);
+      });
+
+      test('_computeHideTagger', () => {
+        const testObject1 = {
+          tagger: 'test',
+        };
+        assert.equal(element._computeHideTagger(testObject1), '');
+
+        assert.equal(element._computeHideTagger(undefined), 'hide');
       });
     });
 

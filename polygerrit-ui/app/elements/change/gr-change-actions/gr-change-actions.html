@@ -38,30 +38,36 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        display: inline-block;
+        display: flex;
         font-family: var(--font-family);
       }
+      #actionLoadingMessage,
+      #mainContent,
       section {
-        display: inline-block;
+        display: flex;
       }
+      #actionLoadingMessage,
       gr-button,
       gr-dropdown {
-        margin-left: .5em;
+        /* px because don't have the same font size */
+        margin-left: 12px;
       }
       #actionLoadingMessage {
+        align-items: center;
         color: #777;
       }
       @media screen and (max-width: 50em) {
-        :host,
+        #mainContent,
         section,
         gr-button,
         gr-dropdown {
           display: block;
+          flex: 1;
         }
         gr-button,
         gr-dropdown {
-          margin-bottom: .5em;
-          margin-left: 0;
+          /* px because don't have the same font size */
+          margin: 0 0 6px 0;
         }
         .confirmDialog {
           width: 90vw;
@@ -81,6 +87,42 @@ limitations under the License.
           id="actionLoadingMessage"
           hidden$="[[!_actionLoadingMessage]]">
         [[_actionLoadingMessage]]</span>
+        <section id="primaryActions"
+            hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]">
+          <template
+              is="dom-repeat"
+              items="[[_topLevelPrimaryActions]]"
+              as="action">
+            <gr-button title$="[[action.title]]"
+                primary$="[[action.__primary]]"
+                data-action-key$="[[action.__key]]"
+                data-action-type$="[[action.__type]]"
+                data-label$="[[action.label]]"
+                disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
+                on-tap="_handleActionTap">[[action.label]]</gr-button>
+          </template>
+        </section>
+        <gr-button
+            class="reply"
+            secondary
+            disabled="[[replyDisabled]]"
+            on-tap="_handleReplyTap">[[replyButtonLabel]]</gr-button>
+        <section id="secondaryActions"
+            hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]">
+          <template
+              is="dom-repeat"
+              items="[[_topLevelSecondaryActions]]"
+              as="action">
+            <gr-button title$="[[action.title]]"
+                primary$="[[action.__primary]]"
+                data-action-key$="[[action.__key]]"
+                data-action-type$="[[action.__type]]"
+                data-label$="[[action.label]]"
+                disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
+                on-tap="_handleActionTap">[[action.label]]</gr-button>
+          </template>
+        </section>
+      <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
       <gr-dropdown
           id="moreActions"
           tabindex="0"
@@ -91,21 +133,6 @@ limitations under the License.
           hidden$="[[_shouldHideActions(_menuActions.*, _loading)]]"
           disabled-ids="[[_disabledMenuActions]]"
           items="[[_menuActions]]">More</gr-dropdown>
-      <section hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]">
-        <template
-            is="dom-repeat"
-            items="[[_topLevelActions]]"
-            as="action">
-          <gr-button title$="[[action.title]]"
-              primary$="[[action.__primary]]"
-              data-action-key$="[[action.__key]]"
-              data-action-type$="[[action.__type]]"
-              data-label$="[[action.label]]"
-              disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-              on-tap="_handleActionTap">[[action.label]]</gr-button>
-        </template>
-      </section>
-      <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"

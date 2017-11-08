@@ -114,15 +114,11 @@ public class RelativeDateFormatter {
 
     // up to 5 years use "year, months" rounded to months
     if (ageMillis < 5 * YEAR_IN_MILLIS) {
-      long years = ageMillis / YEAR_IN_MILLIS;
+      long years = round(ageMillis, MONTH_IN_MILLIS) / 12;
       String yearLabel = (years > 1) ? c().years() : c().year();
-      long months = round(ageMillis % YEAR_IN_MILLIS, MONTH_IN_MILLIS);
+      long months = round(ageMillis - years * YEAR_IN_MILLIS, MONTH_IN_MILLIS);
       String monthLabel = (months > 1) ? c().months() : (months == 1 ? c().month() : "");
       if (months == 0) {
-        return m().years0MonthsAgo(years, yearLabel);
-      }
-      if (months == 12) {
-        years++;
         return m().years0MonthsAgo(years, yearLabel);
       }
       return m().yearsMonthsAgo(years, yearLabel, months, monthLabel);

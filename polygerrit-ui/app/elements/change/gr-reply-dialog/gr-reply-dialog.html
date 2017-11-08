@@ -52,15 +52,15 @@ limitations under the License.
         max-height: 90vh;
       }
       section {
-        border-top: 1px solid #ddd;
-        padding: .5em .75em;
+        border-top: 1px solid #cdcdcd;
+        padding: .5em 1.5em;
         width: 100%;
       }
       .actions {
         display: flex;
         justify-content: space-between;
       }
-      .actions gr-button {
+      .actions .right gr-button {
         margin-left: 1em;
       }
       .peopleContainer,
@@ -76,13 +76,18 @@ limitations under the License.
       }
       .peopleListLabel {
         color: #666;
+        margin-top: .2em;
         min-width: 7em;
         padding-right: .5em;
+      }
+      .ownerContainer {
+        margin: .2em 0;
       }
       gr-account-list {
         display: flex;
         flex-wrap: wrap;
         flex: 1;
+        min-height: 1.8em;
         --account-list-style: {
           max-height: 12em;
           overflow-y: auto;
@@ -151,11 +156,13 @@ limitations under the License.
         }
       }
     </style>
-    <div class="container">
+    <div class="container" tabindex="-1">
       <section class="peopleContainer">
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
-          <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          <div class="ownerContainer">
+            <gr-account-chip account="[[_owner]]"></gr-account-chip>
+          </div>
         </div>
       </section>
       <section class="peopleContainer">
@@ -265,6 +272,16 @@ limitations under the License.
       </section>
       <section class="actions">
         <div class="left">
+          <template is="dom-if" if="[[canBeStarted]]">
+            <gr-button
+                link
+                tertiary
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                has-tooltip
+                title="[[_saveTooltip]]"
+                on-tap="_saveTapHandler">Save</gr-button>
+          </template>
           <span
               id="checkingStatusLabel"
               hidden$="[[!_isState(knownLatestState, 'checking')]]">
@@ -288,14 +305,9 @@ limitations under the License.
               primary
               disabled="[[_computeSendButtonDisabled(knownLatestState, _sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
               class="action send"
+              has-tooltip
+              title$="[[_computeSendButtonTooltip(canBeStarted)]]"
               on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
-          <template is="dom-if" if="[[canBeStarted]]">
-            <gr-button
-                link
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                on-tap="_saveTapHandler">Save</gr-button>
-          </template>
         </div>
       </section>
     </div>

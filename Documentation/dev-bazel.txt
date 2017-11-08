@@ -193,13 +193,13 @@ Debugging tests:
 Debug test example:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change:api_change
+  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //javatests/com/google/gerrit/acceptance/api/change:api_change
 ----
 
 To run a specific test group, e.g. the rest-account test group:
 
 ----
-  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest_account
+  bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
 To run the tests against NoteDb backend with write
@@ -358,25 +358,48 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[clean-cache]]
+[[clean-download-cache]]
 === Cleaning The download cache
 
-The cache for the Gerrit Code Review project is located in
-`~/.gerritcodereview/buck-cache/locally-built-artifacts`.
+The cache for downloaded artifacts is located in
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`.
 
-If you really do need to clean the cache manually, then:
+If you really do need to clean the download cache manually, then:
 
 ----
- rm -rf ~/.gerritcodereview/buck-cache/locally-built-artifacts
+ rm -rf ~/.gerritcodereview/buck-cache/downloaded-artifacts
 ----
-
-Note that the root `buck-cache` folder should not be deleted as it also contains
-the `downloaded-artifacts` directory, which holds the artifacts that got
-downloaded (not built locally).
 
 [NOTE] When building with Bazel the artifacts are still cached in
-`~/.gerritcodereview/buck-cache/`. This allows Bazel to make use of
-libraries that were previously downloaded by Buck.
+`~/.gerritcodereview/buck-cache/downloaded-artifacts`. This allows Bazel to
+make use of libraries that were previously downloaded by Buck.
+
+[[local-action-cache]]
+
+To accelerate builds, local action cache can be activated. Note, that this
+experimental feature is not activated per default and only available since
+Bazel version 0.7.
+
+To activate the local action cache, create accessible cache directory:
+
+----
+ mkdir -p ~/.gerritcodereview/bazel-cache/cas
+----
+
+and add these lines to your `~/.bazelrc` file:
+
+----
+build --experimental_local_disk_cache_path=/home/<user>/.gerritcodereview/bazel-cache/cas
+build --experimental_local_disk_cache
+build --experimental_strict_action_env
+test --experimental_local_disk_cache_path=/home/user>/.gerritcodereview/bazel-cache/cas
+test --experimental_local_disk_cache
+test --experimental_strict_action_env
+----
+
+[NOTE] `experimental_local_disk_cache_path` must be absolute path. Expansion of `~` is
+unfortunately not supported yet. This is also the reason why we can't activate this
+feature by default yet (by adjusting tools/bazel.rc file).
 
 GERRIT
 ------

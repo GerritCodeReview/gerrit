@@ -68,8 +68,19 @@
         value: 1,
       },
 
+      allowNonSuggestedValues: Boolean,
       borderless: Boolean,
       disabled: Boolean,
+      showSearchIcon: {
+        type: Boolean,
+        value: false,
+      },
+      // Vertical offset needed for a 1em font-size with no vertical padding.
+      // Inputs with additional padding will need to increase vertical offset.
+      verticalOffset: {
+        type: Number,
+        value: 20,
+      },
 
       text: {
         type: String,
@@ -138,21 +149,11 @@
 
       /** The DOM element of the selected suggestion. */
       _selected: Object,
-
-      _textChangedSinceCommit: {
-        type: Boolean,
-        value: false,
-      },
     },
 
     observers: [
-      '_textChanged(text)',
       '_maybeOpenDropdown(_suggestions, _focused)',
     ],
-
-    _textChanged() {
-      this._textChangedSinceCommit = true;
-    },
 
     attached() {
       this.listen(document.body, 'tap', '_handleBodyTap');
@@ -171,7 +172,8 @@
     },
 
     selectAll() {
-      this.$.input.setSelectionRange(0, this.$.input.value.length);
+      const nativeInputElement = this.$.input.inputElement;
+      nativeInputElement.setSelectionRange(0, this.$.input.value.length);
     },
 
     clear() {
@@ -203,11 +205,16 @@
       this._focused = true;
       this._updateSuggestions();
       this.$.input.classList.remove('warnUncommitted');
+      // Needed so that --paper-input-container-input updated style is applied.
+      this.updateStyles();
     },
 
     _onInputBlur() {
+      this._focused = false;
       this.$.input.classList.toggle('warnUncommitted',
           this.warnUncommitted && this.text.length && !this._focused);
+      // Needed so that --paper-input-container-input updated style is applied.
+      this.updateStyles();
     },
 
     _updateSuggestions() {
@@ -281,7 +288,7 @@
         default:
           // For any normal keypress, return focus to the input to allow for
           // unbroken user input.
-          this.$.input.focus();
+          this.$.input.inputElement.focus();
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },
@@ -298,8 +305,9 @@
      * @param {boolean=} opt_tabComplete
      */
     _handleInputCommit(opt_tabComplete) {
-      // Nothing to do if new input hasn't been entered.
-      if (!this._textChangedSinceCommit) { return; }
+      // Nothing to do if the dropdown is not open.
+      if (!this.allowNonSuggestedValues
+          && this.$.suggestions.isHidden) { return; }
 
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);
@@ -369,6 +377,10 @@
       }
 
       this._textChangedSinceCommit = false;
+    },
+
+    _computeShowSearchIconClass(showSearchIcon) {
+      return showSearchIcon ? 'showSearchIcon' : '';
     },
   });
 })();

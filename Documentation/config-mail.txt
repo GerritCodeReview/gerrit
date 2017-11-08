@@ -7,8 +7,9 @@ These defaults are also provided as examples so that administrators may copy
 them and easily modify them to tweak their contents.
 
 *Compatibility Note:* previously, Velocity Template Language (VTL) was used as
-the template language for Gerrit emails. VTL has now been deprecated in favor of
-Soy, but Velocity templates that modify text emails remain supported for now.
+the template language for Gerrit emails. Support for VTL has now been removed
+in favor of Soy, and Velocity templates that modify text emails are no longer
+supported.
 
 == Template Locations and Extensions:
 
@@ -203,6 +204,11 @@ $change.shortSubject::
 +
 The subject limited to 72 characters, with an ellipsis if it exceeds that.
 
+$change.shortOriginalSubject::
++
+The original subject limited to 72 characters, with an ellipsis if it exceeds
+that.
+
 $change.ownerEmail::
 +
 The email address of the owner of the change.
@@ -230,6 +236,14 @@ The current patch set number.
 $patchSet.refname::
 +
 The refname of the patch set.
+
+$patchSetInfo.authorName::
++
+The name of the author of the patch set.
+
+$patchSetInfo.authorEmail::
++
+The email address of the author of the patch set.
 
 GERRIT
 ------

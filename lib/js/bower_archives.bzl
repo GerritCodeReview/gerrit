@@ -39,7 +39,7 @@ def load_bower_archives():
     sha1 = "f58358ee652c67e6e721364ba50fb77a2ece1465")
   bower_archive(
     name = "iron-behaviors",
-    package = "polymerelements/iron-behaviors",
+    package = "PolymerElements/iron-behaviors",
     version = "1.0.18",
     sha1 = "e231a1a02b090f5183db917639fdb96cdd0dca18")
   bower_archive(
@@ -54,7 +54,7 @@ def load_bower_archives():
     sha1 = "01c485fbf898307029bbb72ac7e132db1570a842")
   bower_archive(
     name = "iron-flex-layout",
-    package = "polymerelements/iron-flex-layout",
+    package = "PolymerElements/iron-flex-layout",
     version = "1.3.7",
     sha1 = "4d4cf3232cf750a17a7df0a37476117f831ac633")
   bower_archive(
@@ -120,8 +120,8 @@ def load_bower_archives():
   bower_archive(
     name = "sinon-chai",
     package = "sinon-chai",
-    version = "2.13.0",
-    sha1 = "ea4325b243d5a0b55bfd764e1575d51e2a191c16")
+    version = "2.14.0",
+    sha1 = "78f0dc184efe47012a2b1b9a16a4289acf8300dc")
   bower_archive(
     name = "sinonjs",
     package = "sinonjs",
@@ -139,6 +139,6 @@ def load_bower_archives():
     sha1 = "2ba5548d36188fe54555eaad0a576de4b027661e")
   bower_archive(
     name = "webcomponentsjs",
-    package = "webcomponentsjs",
+    package = "webcomponents/webcomponentsjs",
     version = "0.7.24",
     sha1 = "559227f8ee9db9bfbd81989f24510cc0c1bfc65c")

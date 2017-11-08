@@ -21,6 +21,8 @@
   const DRAFT_SINGULAR = 'draft...';
   const DRAFT_PLURAL = 'drafts...';
   const SAVED_MESSAGE = 'All changes saved';
+  const SAVING_PROGRESS_MESSAGE = 'Saving draft...';
+  const DiSCARDING_PROGRESS_MESSAGE = 'Discarding draft...';
 
   Polymer({
     is: 'gr-diff-comment',
@@ -116,10 +118,12 @@
         observer: '_toggleResolved',
       },
 
-      _numPendingDiffRequests: {
+      _numPendingDraftRequests: {
         type: Object,
         value: {number: 0}, // Intentional to share the object across instances.
       },
+
+      _savingMessage: String,
     },
 
     observers: [
@@ -180,12 +184,11 @@
 
       this.disabled = true;
 
-      this._eraseDraftComment();
-
       this._xhrPromise = this._saveDraft(this.comment).then(response => {
         this.disabled = false;
         if (!response.ok) { return response; }
 
+        this._eraseDraftComment();
         return this.$.restAPI.getResponseObject(response).then(obj => {
           const comment = obj;
           comment.__draft = true;
@@ -204,6 +207,8 @@
         this.disabled = false;
         throw err;
       });
+
+      return this._xhrPromise;
     },
 
     _eraseDraftComment() {
@@ -390,6 +395,10 @@
 
     _handleSave(e) {
       e.preventDefault();
+
+      // Ignore saves started while already saving.
+      if (this.disabled) { return; }
+
       this.set('comment.__editing', false);
       this.save();
     },
@@ -411,9 +420,24 @@
 
     _handleDiscard(e) {
       e.preventDefault();
+      if (this._computeSaveDisabled(this._messageText)) {
+        this._discardDraft();
+        return;
+      }
+      this._openOverlay(this.$.confirmDiscardOverlay);
+    },
+
+    _handleConfirmDiscard(e) {
+      e.preventDefault();
+      this._closeConfirmDiscardOverlay();
+      this._discardDraft();
+    },
+
+    _discardDraft() {
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
+      this._savingMessage = DiSCARDING_PROGRESS_MESSAGE;
       this.editing = false;
       this.disabled = true;
       this._eraseDraftComment();
@@ -435,6 +459,10 @@
       });
     },
 
+    _closeConfirmDiscardOverlay() {
+      this._closeOverlay(this.$.confirmDiscardOverlay);
+    },
+
     _getSavingMessage(numPending) {
       if (numPending === 0) { return SAVED_MESSAGE; }
       return [
@@ -445,13 +473,21 @@
     },
 
     _showStartRequest() {
-      const numPending = ++this._numPendingDiffRequests.number;
+      const numPending = ++this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
     },
 
     _showEndRequest() {
-      const numPending = --this._numPendingDiffRequests.number;
+      const numPending = --this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
+    },
+
+    _handleFailedDraftRequest() {
+      this._numPendingDraftRequests.number--;
+
+      // Cancel the debouncer so that error toasts from the error-manager will
+      // not be overridden.
+      this.cancelDebouncer('draft-toast');
     },
 
     _updateRequestToast(numPending) {
@@ -466,10 +502,15 @@
     },
 
     _saveDraft(draft) {
+      this._savingMessage = SAVING_PROGRESS_MESSAGE;
       this._showStartRequest();
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
-            this._showEndRequest();
+            if (result.ok) {
+              this._showEndRequest();
+            } else {
+              this._handleFailedDraftRequest();
+            }
             return result;
           });
     },
@@ -478,7 +519,11 @@
       this._showStartRequest();
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft).then(result => {
-            this._showEndRequest();
+            if (result.ok) {
+              this._showEndRequest();
+            } else {
+              this._handleFailedDraftRequest();
+            }
             return result;
           });
     },
@@ -529,15 +574,23 @@
     },
 
     _handleCommentDelete() {
-      Polymer.dom(Gerrit.getRootElement()).appendChild(this.$.overlay);
-      this.async(() => {
-        this.$.overlay.open();
-      }, 1);
+      this._openOverlay(this.$.confirmDeleteOverlay);
     },
 
     _handleCancelDeleteComment() {
-      Polymer.dom(Gerrit.getRootElement()).removeChild(this.$.overlay);
-      this.$.overlay.close();
+      this._closeOverlay(this.$.confirmDeleteOverlay);
+    },
+
+    _openOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
+      this.async(() => {
+        overlay.open();
+      }, 1);
+    },
+
+    _closeOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
+      overlay.close();
     },
 
     _handleConfirmDeleteComment() {

@@ -124,6 +124,40 @@ client so they are generally disabled by default. Optional fields are:
 * `MEMBERS`: include list of direct group members.
 --
 
+==== Find groups that are owned by another group
+
+By setting `ownedBy` and specifying the link:#group-id[\{group-id\}] of another
+group, it is possible to find all the groups for which the owning group is the
+given group.
+
+.Request
+----
+  GET /groups/?ownedBy=7ca042f4d5847936fcb90ca91057673157fd06fc HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "MyProject-Committers": {
+      "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "options": {
+        "visible_to_all": true
+      },
+      "description":"contains all committers for MyProject",
+      "group_id": 551,
+      "owner": "MyProject-Owners",
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+      "created_on": "2013-02-01 09:59:32.126000000"
+    }
+  }
+----
+
 ==== Check if a group is owned by the calling user
 By setting the option `owned` and specifying a group to inspect with
 the option `group`/`g`, it is possible to find out if this group is
@@ -1482,8 +1516,8 @@ permits users to apply to join the group, or manage their membership.
 |`options`     ||link:#group-options-info[Options of the group]
 |`description` |only for internal groups|The description of the group.
 |`group_id`    |only for internal groups|The numeric ID of the group.
-|`owner`       |only for internal groups|The name of the owner group.
-|`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`owner`       |deprecated, only for internal groups|The name of the owner group.
+|`owner_id`    |deprecated, only for internal groups|The URL encoded UUID of the owner group.
 |`created_on`  |only for internal groups|The
 link:rest-api.html#timestamp[timestamp] of when the group was created.
 |`_more_groups`|optional, only for internal groups, not set if `false`|

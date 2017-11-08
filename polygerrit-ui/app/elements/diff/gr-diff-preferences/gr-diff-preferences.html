@@ -66,11 +66,14 @@ limitations under the License.
       .actions {
         border-top: 1px solid #ddd;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
       }
       .beta {
         font-family: var(--font-family-bold);
         color: #888;
+      }
+      gr-button {
+        margin-left: 1em;
       }
     </style>
 
@@ -140,8 +143,10 @@ limitations under the License.
         </div>
       </div>
       <div class="actions">
-        <gr-button id="saveButton" primary on-tap="_handleSave">Save</gr-button>
-        <gr-button id="cancelButton" on-tap="_handleCancel">Cancel</gr-button>
+        <gr-button id="cancelButton" link on-tap="_handleCancel">
+            Cancel</gr-button>
+        <gr-button id="saveButton" link primary on-tap="_handleSave">
+            Save</gr-button>
       </div>
     </overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

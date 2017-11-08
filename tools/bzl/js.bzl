@@ -2,17 +2,7 @@ NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"
 
-NPM_VERSIONS = {
-    "bower": "1.8.0",
-    "crisper": "2.0.2",
-    "vulcanize": "1.14.8",
-}
-
-NPM_SHA1S = {
-    "bower": "55dbebef0ad9155382d9e9d3e497c1372345b44a",
-    "crisper": "7183c58cea33632fb036c91cefd1b43e390d22a2",
-    "vulcanize": "679107f251c19ab7539529b1e3fdd40829e6fc63",
-}
+load("//lib/js:npm.bzl", "NPM_VERSIONS", "NPM_SHA1S")
 
 def _npm_tarball(name):
   return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
@@ -21,7 +11,7 @@ def _npm_binary_impl(ctx):
   """rule to download a NPM archive."""
   name = ctx.name
   version= NPM_VERSIONS[name]
-  sha1 = NPM_VERSIONS[name]
+  sha1 = NPM_SHA1S[name]
 
   dir = '%s-%s' % (name, version)
   filename = '%s.tgz' % dir
@@ -38,7 +28,6 @@ def _npm_binary_impl(ctx):
   python = ctx.which("python")
   script = ctx.path(ctx.attr._download_script)
 
-  sha1 = NPM_SHA1S[name]
   args = [python, script, "-o", dest, "-u", url, "-v", sha1]
   out = ctx.execute(args)
   if out.return_code:
@@ -268,6 +257,7 @@ bower_component_bundle = rule(
         "version_json": "%{name}-versions.json",
     },
 )
+
 """Groups a set of bower components together in a zip file.
 
 Outputs:

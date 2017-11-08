@@ -96,31 +96,6 @@ limitations under the License.
           'Add patchset description');
     });
 
-    test('_computePatchSetDisabled', () => {
-      element.revisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
-        {_number: 3},
-      ];
-      let basePatchNum = 'PARENT';
-      let patchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = 1;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = 2;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-      basePatchNum = element.EDIT_NAME;
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          true);
-      patchNum = '3';
-      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
-          false);
-    });
-
     test('_handleDescriptionChanged', () => {
       const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
           .returns(Promise.resolve({ok: true}));
@@ -191,14 +166,51 @@ limitations under the License.
     });
 
     test('diff mode selector is set correctly', () => {
-      const select = element.$.modeSelect;
+      const sideBySideBtn = element.$.sideBySideBtn;
+      const unifiedBtn = element.$.unifiedBtn;
       element.diffViewMode = 'SIDE_BY_SIDE';
       flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'SIDE_BY_SIDE');
-
+      assert.isTrue(sideBySideBtn.classList.contains('selected'));
+      assert.isFalse(unifiedBtn.classList.contains('selected'));
       element.diffViewMode = 'UNIFIED_DIFF';
       flushAsynchronousOperations();
-      assert.equal(select.nativeSelect.value, 'UNIFIED_DIFF');
+      assert.isFalse(sideBySideBtn.classList.contains('selected'));
+      assert.isTrue(unifiedBtn.classList.contains('selected'));
+    });
+
+    test('fileViewActions are properly hidden', () => {
+      const actions = element.$$('.fileViewActions');
+      assert.equal(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.ALL;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(actions).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.NONE;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(actions).display, 'none');
+    });
+
+    test('expand/collapse buttons are toggled correctly', () => {
+      element.shownFileCount = 10;
+      flushAsynchronousOperations();
+      const expandBtn = element.$$('#expandBtn');
+      const collapseBtn = element.$$('#collapseBtn');
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.ALL;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(expandBtn).display, 'none');
+      assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
+      element.filesExpanded = GrFileListConstants.FilesExpandedState.NONE;
+      flushAsynchronousOperations();
+      assert.notEqual(getComputedStyle(expandBtn).display, 'none');
+      assert.equal(getComputedStyle(collapseBtn).display, 'none');
     });
 
     test('navigateToChange called when range select changes', () => {
@@ -224,7 +236,7 @@ limitations under the License.
     });
 
     test('class is applied to file list on old patch set', () => {
-      const allPatchSets = [{num: 1}, {num: 2}, {num: 4}];
+      const allPatchSets = [{num: 4}, {num: 2}, {num: 1}];
       assert.equal(element._computePatchInfoClass('1', allPatchSets),
           'patchInfoOldPatchSet');
       assert.equal(element._computePatchInfoClass('2', allPatchSets),
@@ -256,6 +268,16 @@ limitations under the License.
 
         assert.isTrue(isVisible(element.$$('.descriptionContainer')));
         assert.isTrue(isVisible(element.$.diffPrefsContainer));
+      });
+
+      test('edit-controls visibility', () => {
+        element.editLoaded = true;
+        flushAsynchronousOperations();
+        assert.isTrue(isVisible(element.$.editControls.parentElement));
+
+        element.editLoaded = false;
+        flushAsynchronousOperations();
+        assert.isFalse(isVisible(element.$.editControls.parentElement));
       });
     });
   });

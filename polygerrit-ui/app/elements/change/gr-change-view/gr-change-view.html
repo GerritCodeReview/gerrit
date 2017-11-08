@@ -14,32 +14,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../diff/gr-diff-preferences/gr-diff-preferences.html">
+<link rel="import" href="../../edit/gr-edit-constants.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
+<link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
-<link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-file-list-header/gr-file-list-header.html">
+<link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
-<link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-view">
   <template>
@@ -53,9 +57,10 @@ limitations under the License.
       }
       .header {
         align-items: center;
-        background-color: var(--view-background-color);
+        background-color: #fafafa;
+        border-bottom: 1px solid #ddd;
         display: flex;
-        padding: .65em var(--default-horizontal-margin);
+        padding: .55em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header .download {
@@ -69,12 +74,13 @@ limitations under the License.
         transition: box-shadow 250ms linear;
         width: 100%;
       }
-      .header.wip {
-        background-color: #fcfad6;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: .5em;
+      gr-change-status {
+        display: initial;
+        margin: .1em .5em .1em 0;
       }
       .header-title {
+        align-items: center;
+        display: flex;
         flex: 1;
         font-size: 1.2em;
         font-family: var(--font-family-bold);
@@ -93,7 +99,7 @@ limitations under the License.
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
         display: flex;
-        padding: 0 var(--default-horizontal-margin);
+        padding: 1em var(--default-horizontal-margin);
       }
       .changeId {
         color: #666;
@@ -126,15 +132,13 @@ limitations under the License.
       .editCommitMessage {
         margin-top: 1em;
       }
+      .changeStatuses,
       .commitActions {
-        border-bottom: 1px solid #ddd;
+        align-items: center;
         display: flex;
-        justify-content: space-between;
-        margin-bottom: .5em;
-        padding-bottom: .5em;
       }
-      .reply {
-        margin-right: .5em;
+      .changeStatuses {
+        flex-wrap: wrap;
       }
       .mainChangeInfo {
         display: flex;
@@ -203,6 +207,9 @@ limitations under the License.
       .scrollable {
         overflow: auto;
       }
+      .text {
+        white-space: pre;
+      }
       @media screen and (min-width: 80em) {
         .commitMessage {
           max-width: var(--commit-message-max-width, 100ch);
@@ -219,9 +226,6 @@ limitations under the License.
           min-width: 0;
         }
       }
-      .patchInfo {
-        margin-top: 1em;
-      }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_SMALL in the JS */
       @media screen and (max-width: 50em) {
@@ -231,12 +235,14 @@ limitations under the License.
         .header {
           align-items: flex-start;
           flex-direction: column;
+          flex: 1;
           padding: .5em var(--default-horizontal-margin);
         }
         gr-change-star {
           vertical-align: middle;
         }
         .header-title {
+          flex-wrap: wrap;
           font-size: 1.1em;
         }
         gr-reply-dialog {
@@ -249,7 +255,8 @@ limitations under the License.
         .reply {
           display: block;
           margin-right: 0;
-          margin-bottom: .5em;
+          /* px because don't have the same font size */
+          margin-bottom: 6px;
         }
         .changeInfo-column:not(:last-of-type) {
           margin-right: 0;
@@ -271,7 +278,9 @@ limitations under the License.
           max-width: none;
         }
         .commitActions {
-          flex-direction: column;
+          display: block;
+          margin-top: 1em;
+          width: 100%;
         }
         .commitMessage {
           flex: initial;
@@ -289,33 +298,52 @@ limitations under the License.
         id="mainContent"
         class="container"
         hidden$="{{_loading}}">
-      <div class$="hideOnMobileOverlay [[_computeHeaderClass(_change)]]">
-        <span class="header-title">
+      <div class$="[[_computeHeaderClass(_change)]]">
+        <div class="header-title">
           <gr-change-star
               id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-          <a
-              aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
-              href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
-       --><template is="dom-if" if="[[_changeStatus]]"><!--
-         --> (<!--
-         --><span
-                aria-label$="Change status: [[_changeStatus]]"
-                tabindex="0">[[_changeStatus]]</span><!--
-         --><template
+          <div class="changeStatuses">
+            <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
+              <gr-change-status
+                  max-width="100"
+                  status="[[status]]"></gr-change-status>
+            </template>
+          </div>
+          <div class="changeText">
+            <span>[[_change._number]]</span>
+            <template
                 is="dom-if"
                 if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
-              as
-              <gr-commit-info
-                  change="[[_change]]"
-                  commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                  server-config="[[_serverConfig]]"></gr-commit-info><!--
-         --></template><!--
-         -->)<!--
-       --></template><!--
-       -->: [[_change.subject]]
-        </span>
-      </div>
+              <span class="text"> ([[_changeStatus]] as </span>
+                <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                    server-config="[[_serverConfig]]"></gr-commit-info>)
+            </template>
+            <span class="text">: </span><span>[[_change.subject]]</span>
+          </div>
+        </div><!-- end header-title -->
+        <div class="commitActions" hidden$="[[!_loggedIn]]">
+          <gr-change-actions id="actions"
+              change="[[_change]]"
+              has-parent="[[hasParent]]"
+              actions="[[_change.actions]]"
+              revision-actions="[[_currentRevisionActions]]"
+              change-num="[[_changeNum]]"
+              change-status="[[_change.status]]"
+              commit-num="[[_commitInfo.commit]]"
+              patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+              reply-disabled="[[_replyDisabled]]"
+              reply-button-label="[[_replyButtonLabel]]"
+              commit-message="[[_latestCommitMessage]]"
+              edit-loaded="[[_editLoaded]]"
+              edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
+              on-reload-change="_handleReloadChange"
+              on-download-tap="_handleOpenDownloadDialog"
+              on-reply-tap="_handleReplyTap"></gr-change-actions>
+        </div><!-- end commit actions -->
+      </div><!-- end header -->
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
@@ -331,27 +359,6 @@ limitations under the License.
           <div id="change_plugins"></div>
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
-          <div class="commitActions" hidden$="[[!_loggedIn]]">
-            <gr-button
-                class="reply"
-                secondary
-                disabled="[[_replyDisabled]]"
-                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-            <gr-change-actions id="actions"
-                change="[[_change]]"
-                has-parent="[[hasParent]]"
-                actions="[[_change.actions]]"
-                revision-actions="[[_currentRevisionActions]]"
-                change-num="[[_changeNum]]"
-                change-status="[[_change.status]]"
-                commit-num="[[_commitInfo.commit]]"
-                patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
-                commit-message="[[_latestCommitMessage]]"
-                edit-loaded="[[_editLoaded]]"
-                edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
-                on-reload-change="_handleReloadChange"
-                on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
-          </div>
           <hr class="mobile">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
@@ -425,7 +432,7 @@ limitations under the License.
             all-patch-sets="[[_allPatchSets]]"
             change="[[_change]]"
             change-num="[[_changeNum]]"
-            comments="[[_comments]]"
+            comments="[[_changeComments.comments]]"
             commit-info="[[_commitInfo]]"
             change-url="[[_computeChangeUrl(_change)]]"
             edit-loaded="[[_editLoaded]]"
@@ -436,7 +443,7 @@ limitations under the License.
             diff-view-mode="{{viewState.diffMode}}"
             patch-num="{{_patchRange.patchNum}}"
             base-patch-num="{{_patchRange.basePatchNum}}"
-            revisions="[[_sortedRevisions]]"
+            files-expanded="[[_filesExpanded]]"
             on-open-diff-prefs="_handleOpenDiffPrefs"
             on-open-download-dialog="_handleOpenDownloadDialog"
             on-expand-diffs="_expandAllDiffs"
@@ -447,23 +454,28 @@ limitations under the License.
             change="[[_change]]"
             change-num="[[_changeNum]]"
             patch-range="{{_patchRange}}"
-            comments="[[_comments]]"
+            change-comments="[[_changeComments]]"
             drafts="[[_diffDrafts]]"
-            revisions="[[_sortedRevisions]]"
+            revisions="[[_change.revisions]]"
             project-config="[[_projectConfig]]"
             selected-index="{{viewState.selectedFileIndex}}"
             diff-view-mode="[[viewState.diffMode]]"
             edit-loaded="[[_editLoaded]]"
             num-files-shown="{{_numFilesShown}}"
+            files-expanded="{{_filesExpanded}}"
             file-list-increment="{{_numFilesShown}}"
-            on-files-shown-changed="_setShownFiles"></gr-file-list>
+            on-files-shown-changed="_setShownFiles"
+            on-file-action-tap="_handleFileActionTap"
+            on-reload-comments="_reloadCommentsWithCallback"></gr-file-list>
       </section>
+      <gr-endpoint-decorator name="change-view-integration">
+      </gr-endpoint-decorator>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
           reviewer-updates="[[_change.reviewer_updates]]"
-          comments="[[_comments]]"
+          change-comments="[[_changeComments]]"
           project-name="[[_change.project]]"
           show-reply-buttons="[[_loggedIn]]"
           on-reply="_handleMessageReply"></gr-messages-list>
@@ -498,6 +510,7 @@ limitations under the License.
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
   <script src="gr-change-view.js"></script>
 </dom-module>

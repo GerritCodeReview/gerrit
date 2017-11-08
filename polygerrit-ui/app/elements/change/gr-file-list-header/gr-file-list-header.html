@@ -24,7 +24,8 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../gr-file-list-constants.html">
 
 <dom-module id="gr-file-list-header">
   <template>
@@ -43,11 +44,9 @@ limitations under the License.
       }
       .patchInfo-header {
         background-color: #fafafa;
-        border-bottom: 1px solid #ddd;
         border-top: 1px solid #ddd;
         display: flex;
-        min-height: 3.2em;
-        padding: .5em var(--default-horizontal-margin);
+        padding: 6px var(--default-horizontal-margin);
       }
       .patchInfo-header-wrapper {
         align-items: center;
@@ -74,64 +73,65 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      #diffPrefsContainer,
-      #editControlsContainer,
-      .rightControls {
-        align-self: flex-end;
-        margin: auto 0 auto auto;
-      }
-      .showOnEdit {
-        display: none;
-      }
-      .editLoaded .hideOnEdit {
-        display: none;
-      }
-      .editLoaded .showOnEdit {
-        display: initial;
-      }
       .patchInfo-header-wrapper .container {
         align-items: center;
         display: flex;
       }
-      #modeSelect {
-        margin-left: .1em;
-      }
-      .fileList-header {
-        align-items: center;
-        display: flex;
-        font-weight: bold;
-        height: 2.25em;
-        margin: 0 calc(var(--default-horizontal-margin) / 2);
-        padding: 0 .25em;
+      .downloadContainer {
+        margin-right: 16px;
       }
       .rightControls {
+        align-self: flex-end;
+        margin: auto 0 auto auto;
         align-items: center;
         display: flex;
         flex-wrap: wrap;
         font-weight: normal;
         justify-content: flex-end;
       }
+      #collapseBtn,
+      .expanded #expandBtn,
+      .fileViewActions{
+        display: none;
+      }
+      .expanded #expandBtn {
+        display: none;
+      }
+      gr-button.selected iron-icon {
+        color: var(--color-link);
+      }
+      .expanded #collapseBtn,
+      .openFile .fileViewActions {
+        align-items: center;
+        display: flex;
+      }
+      .fileViewActions > *:not(:last-child) {
+        margin-right: 5px;
+      }
       .separator {
         background-color: rgba(0, 0, 0, .3);
-        height: 1.5em;
-        margin: 0 .6em;
+        height: 20px;
+        margin: 0 8px;
         width: 1px;
       }
       .separator.transparent {
         background-color: transparent;
       }
-      .expandInline {
-        padding-right: .25em;
-      }
       .editLoaded .hideOnEdit {
+        display: none;
+      }
+      .showOnEdit {
         display: none;
       }
       .editLoaded .showOnEdit {
         display: initial;
       }
+      .editLoaded .showOnEdit.flexContainer {
+        display: flex;
+      }
       .label {
         font-family: var(--font-family-bold);
-        margin-right: 1em;
+        margin-right: 24px;
       }
       @media screen and (max-width: 50em) {
         .patchInfo-header .desktop {
@@ -162,12 +162,6 @@ limitations under the License.
             <span class="separator"></span>
             <a href$="[[changeUrl]]">Go to latest patch set</a>
           </span>
-          <span class="container downloadContainer desktop">
-            <span class="separator"></span>
-            <gr-button link
-                class="download"
-                on-tap="_handleDownloadTap">Download</gr-button>
-          </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
             <gr-editable-label
@@ -180,48 +174,63 @@ limitations under the License.
                 on-changed="_handleDescriptionChanged"></gr-editable-label>
           </span>
         </div>
-        <span id="diffPrefsContainer"
-            class="hideOnEdit"
-            hidden$="[[_computePrefsButtonHidden(diffPrefs, loggedIn)]]"
-            hidden>
-          <gr-button link
-              class="prefsButton desktop"
-              on-tap="_handlePrefsTap">Diff Preferences</gr-button>
-        </span>
-        <span id="editControlsContainer" class="showOnEdit">
-          <gr-edit-controls change="[[change]]"></gr-edit-controls>
-        </span>
-      </div>
-    </div>
-    <div class="fileList-header">
-      <div class="rightControls">
-        <template is="dom-if"
-            if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
-          <gr-button
-              id="expandBtn"
-              link
-              on-tap="_expandAllDiffs">Show diffs</gr-button>
-          <span class="separator"></span>
-          <gr-button
-              id="collapseBtn"
-              link
-              on-tap="_collapseAllDiffs">Hide diffs</gr-button>
-        </template>
-        <template is="dom-if"
-            if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
-          <div class="warning">
-            Bulk actions disabled because there are too many files.
+        <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
+          <span class="showOnEdit flexContainer">
+            <gr-edit-controls id="editControls" change="[[change]]"></gr-edit-controls>
+            <span class="separator"></span>
+          </span>
+          <span class="downloadContainer desktop">
+            <gr-button link
+                class="download"
+                on-tap="_handleDownloadTap">Download</gr-button>
+          </span>
+          <template is="dom-if"
+              if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+            <gr-button
+                id="expandBtn"
+                link
+                on-tap="_expandAllDiffs">Expand All</gr-button>
+            <gr-button
+                id="collapseBtn"
+                link
+                on-tap="_collapseAllDiffs">Collapse All</gr-button>
+          </template>
+          <template is="dom-if"
+              if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
+            <div class="warning">
+              Bulk actions disabled because there are too many files.
+            </div>
+          </template>
+          <div class="fileViewActions">
+            <span class="separator"></span>
+            <span>Diff Views:</span>
+            <gr-button
+                id="sideBySideBtn"
+                link
+                has-tooltip
+                title="Side-by-side diff"
+                class$="[[_computeSelectedClass(diffViewMode, _VIEW_MODES.SIDE_BY_SIDE)]]"
+                on-tap="_handleSideBySideTap"><iron-icon icon="gr-icons:side-by-side"></iron-icon></gr-button>
+            <gr-button
+                id="unifiedBtn"
+                link
+                has-tooltip
+                title="Unified dff"
+                class$="[[_computeSelectedClass(diffViewMode, _VIEW_MODES.UNIFIED)]]"
+                on-tap="_handleUnifiedTap"><iron-icon icon="gr-icons:unified"></iron-icon></gr-button>
+            <span id="diffPrefsContainer"
+                class="hideOnEdit"
+                hidden$="[[_computePrefsButtonHidden(diffPrefs, loggedIn)]]"
+                hidden>
+              <gr-button
+                  link
+                  has-tooltip
+                  title="Diff preferences"
+                  class="prefsButton desktop"
+                  on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+            </span>
           </div>
-        </template>
-        <span class="separator"></span>
-        <gr-select
-            id="modeSelect"
-            bind-value="{{diffViewMode}}">
-          <select>
-            <option value="SIDE_BY_SIDE">Side By Side</option>
-            <option value="UNIFIED_DIFF">Unified</option>
-          </select>
-        </gr-select>
+        </div>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

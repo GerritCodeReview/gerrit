@@ -57,6 +57,7 @@ limitations under the License.
       }
       ul {
         list-style: none;
+        padding-left: 1em;
       }
       .links > li {
         cursor: default;
@@ -88,11 +89,13 @@ limitations under the License.
         margin-left: .5em;
         max-width: 500px;
       }
-      gr-dropdown {
-        padding: 0.5em;
+      gr-dropdown,
+      .browse {
+        padding: .6em .5em;
       }
       .browse {
-        padding: 1em;
+        /* Same as gr-button */
+        margin: 5px 4px;
         text-decoration: none;
       }
       .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
@@ -104,7 +107,7 @@ limitations under the License.
       .accountContainer {
         align-items: center;
         display: flex;
-        margin: 0 -0.5em 0 0.5em;
+        margin: 0 -.5em 0 .5em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

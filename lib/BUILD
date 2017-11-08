@@ -83,18 +83,6 @@ java_library(
 )
 
 java_library(
-    name = "velocity",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@velocity//jar"],
-    runtime_deps = [
-        "//lib/commons:collections",
-        "//lib/commons:lang",
-        "//lib/commons:oro",
-    ],
-)
-
-java_library(
     name = "jsch",
     data = ["//lib:LICENSE-jsch"],
     visibility = ["//visibility:public"],
@@ -176,6 +164,7 @@ java_library(
 java_library(
     name = "jsr305",
     data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
     exports = ["@jsr305//jar"],
 )
 

@@ -145,6 +145,7 @@
         this.$.watchedProjectsEditor.loadData(),
         this.$.groupList.loadData(),
         this.$.httpPass.loadData(),
+        this.$.identities.loadData(),
       ];
 
       promises.push(this.$.restAPI.getPreferences().then(prefs => {

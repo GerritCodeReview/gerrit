@@ -19,7 +19,6 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -39,26 +38,22 @@ limitations under the License.
         flex: 1;
         font: inherit;
         outline: none;
-        padding: 0 .25em 0 .25em;
-      }
-      gr-button {
-        background-color: #f1f2f3;
-        border-radius: 0 2px 2px 0;
-        border-left-width: 0;
+        padding: .25em;
       }
     </style>
     <form>
       <gr-autocomplete
+          show-search-icon
           id="searchInput"
           text="{{_inputVal}}"
           query="[[query]]"
           on-commit="_handleInputCommit"
-          allowNonSuggestedValues
+          allow-non-suggested-values
           multi
           borderless
           threshold="[[_threshold]]"
-          tab-complete></gr-autocomplete>
-      <gr-button id="searchButton">Search</gr-button>
+          tab-complete
+          vertical-offset="30"></gr-autocomplete>
       <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     </form>
   </template>

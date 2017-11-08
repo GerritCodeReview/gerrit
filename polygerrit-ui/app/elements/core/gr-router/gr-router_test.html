@@ -123,7 +123,6 @@ limitations under the License.
       actualDoesNotRequireAuth.sort();
 
       const shouldRequireAutoAuth = [
-        '_handleAdminPlaceholderRoute',
         '_handleAgreementsRoute',
         '_handleCreateGroupRoute',
         '_handleCreateProjectRoute',
@@ -154,6 +153,7 @@ limitations under the License.
         '_handleDefaultRoute',
         '_handleChangeLegacyRoute',
         '_handleDiffLegacyRoute',
+        '_handleLegacyLinenum',
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
         '_handleProjectAccessRoute',
@@ -161,6 +161,7 @@ limitations under the License.
         '_handleProjectListFilterRoute',
         '_handleProjectListOffsetRoute',
         '_handleProjectRoute',
+        '_handleQueryLegacySuffixRoute',
         '_handleQueryRoute',
         '_handleRegisterRoute',
         '_handleTagListFilterOffsetRoute',
@@ -172,6 +173,7 @@ limitations under the License.
       // it performed for them.
       const selfAuthenticatingHandlers = [
         '_handleDashboardRoute',
+        '_handleCustomDashboardRoute',
         '_handleRootRoute',
       ];
 
@@ -365,6 +367,36 @@ limitations under the License.
               '/dashboard/user?name=query&title=custom%20dashboard');
         });
       });
+
+      suite('groups', () => {
+        test('group info', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+          };
+          assert.equal(element._generateUrl(params), '/admin/groups/1234');
+        });
+
+        test('group members', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'members',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,members');
+        });
+
+        test('group audit log', () => {
+          const params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+            detail: 'log',
+          };
+          assert.equal(element._generateUrl(params),
+              '/admin/groups/1234,audit-log');
+        });
+      });
     });
 
     suite('param normalization', () => {
@@ -491,13 +523,6 @@ limitations under the License.
         setParamsStub = sandbox.stub(element, '_setParams');
       });
 
-      test('_handleAdminPlaceholderRoute', () => {
-        element._handleAdminPlaceholderRoute({params: {}});
-        assert.equal(setParamsStub.lastCall.args[0].view,
-            Gerrit.Nav.View.ADMIN);
-        assert.isTrue(setParamsStub.lastCall.args[0].placeholder);
-      });
-
       test('_handleAgreementsRoute', () => {
         element._handleAgreementsRoute({params: {}});
         assert.isTrue(setParamsStub.calledOnce);
@@ -560,6 +585,12 @@ limitations under the License.
           query: 'project:foo/bar/baz',
           offset: '123',
         });
+      });
+
+      test('_handleQueryLegacySuffixRoute', () => {
+        element._handleQueryLegacySuffixRoute({path: '/q/foo+bar,n,z'});
+        assert.isTrue(redirectStub.calledOnce);
+        assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
       });
 
       suite('_handleRegisterRoute', () => {
@@ -708,16 +739,6 @@ limitations under the License.
           redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
         });
 
-        test('no user specified', () => {
-          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '').then(() => {
-            assert.isFalse(setParamsStub.called);
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isTrue(redirectStub.called);
-            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
-          });
-        });
-
         test('own dashboard but signed out redirects to login', () => {
           sandbox.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(false));
@@ -755,28 +776,46 @@ limitations under the License.
             });
           });
         });
+      });
+
+      suite('_handleCustomDashboardRoute', () => {
+        let redirectToLoginStub;
+
+        setup(() => {
+          redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        });
+
+        test('no user specified', () => {
+          const data = {canonicalPath: '/dashboard/', params: {0: ''}};
+          return element._handleCustomDashboardRoute(data, '').then(() => {
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.called);
+            assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
+          });
+        });
 
         test('custom dashboard without title', () => {
           const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '?a=b&c&d=e').then(() => {
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(setParamsStub.calledOnce);
-            assert.deepEqual(setParamsStub.lastCall.args[0], {
-              view: Gerrit.Nav.View.DASHBOARD,
-              user: 'self',
-              sections: [
-                {name: 'a', query: 'b'},
-                {name: 'd', query: 'e'},
-              ],
-              title: 'Custom Dashboard',
-            });
-          });
+          return element._handleCustomDashboardRoute(data, '?a=b&c&d=e')
+              .then(() => {
+                assert.isFalse(redirectStub.called);
+                assert.isTrue(setParamsStub.calledOnce);
+                assert.deepEqual(setParamsStub.lastCall.args[0], {
+                  view: Gerrit.Nav.View.DASHBOARD,
+                  user: 'self',
+                  sections: [
+                    {name: 'a', query: 'b'},
+                    {name: 'd', query: 'e'},
+                  ],
+                  title: 'Custom Dashboard',
+                });
+              });
         });
 
         test('custom dashboard with title', () => {
           const data = {canonicalPath: '/dashboard/', params: {0: ''}};
-          return element._handleDashboardRoute(data, '?a=b&c&d=&=e&title=t')
+          return element._handleCustomDashboardRoute(data,
+              '?a=b&c&d=&=e&title=t')
               .then(() => {
                 assert.isFalse(redirectToLoginStub.called);
                 assert.isFalse(redirectStub.called);
@@ -804,9 +843,8 @@ limitations under the License.
         test('_handleGroupAuditLogRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupAuditLogRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-audit-log',
-            detailType: 'audit-log',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'log',
             groupId: 1234,
           });
         });
@@ -814,9 +852,8 @@ limitations under the License.
         test('_handleGroupMembersRoute', () => {
           const data = {params: {0: 1234}};
           assertDataToParams(data, '_handleGroupMembersRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group-members',
-            detailType: 'members',
+            view: Gerrit.Nav.View.GROUP,
+            detail: 'members',
             groupId: 1234,
           });
         });
@@ -872,8 +909,7 @@ limitations under the License.
         test('_handleGroupRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleGroupRoute', {
-            view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-group',
+            view: Gerrit.Nav.View.GROUP,
             groupId: 4321,
           });
         });
@@ -1176,12 +1212,17 @@ limitations under the License.
           });
         });
 
-        test('_handleDiffLegacyRoute w/ @', () => {
-          const normalizeRouteStub = sandbox.stub(element,
-              '_normalizeLegacyRouteParams');
+        test('_handleLegacyLinenum w/ @321', () => {
+          const ctx = {path: '/c/1234/3..8/foo/bar@321'};
+          element._handleLegacyLinenum(ctx);
+          assert.isTrue(redirectStub.calledOnce);
+          assert.isTrue(redirectStub.calledWithExactly(
+              '/c/1234/3..8/foo/bar#321'));
+        });
+
+        test('_handleLegacyLinenum w/ @b123', () => {
           const ctx = {path: '/c/1234/3..8/foo/bar@b123'};
-          element._handleDiffLegacyRoute(ctx);
-          assert.isFalse(normalizeRouteStub.called);
+          element._handleLegacyLinenum(ctx);
           assert.isTrue(redirectStub.calledOnce);
           assert.isTrue(redirectStub.calledWithExactly(
               '/c/1234/3..8/foo/bar#b123'));

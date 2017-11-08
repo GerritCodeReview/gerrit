@@ -71,6 +71,9 @@ def _main():
                       action='store_true',
                       help='enable dry-run mode: show stale changes but do '
                            'not abandon them')
+    parser.add_option('-t', '--test', dest='testmode', action='store_true',
+                      help='test mode: query changes with the `test-abandon` '
+                           'topic and ignore age option')
     parser.add_option('-a', '--age', dest='age',
                       metavar='AGE',
                       default="6months",
@@ -114,13 +117,16 @@ def _main():
         logging.error("Gerrit URL is required")
         return 1
 
-    pattern = re.compile(r"^([\d]+)(month[s]?|year[s]?|week[s]?)")
-    match = pattern.match(options.age)
-    if not match:
-        logging.error("Invalid age: %s", options.age)
-        return 1
-    message = "Abandoning after %s %s or more of inactivity." % \
-        (match.group(1), match.group(2))
+    if options.testmode:
+        message = "Abandoning in test mode"
+    else:
+        pattern = re.compile(r"^([\d]+)(month[s]?|year[s]?|week[s]?)")
+        match = pattern.match(options.age)
+        if not match:
+            logging.error("Invalid age: %s", options.age)
+            return 1
+        message = "Abandoning after %s %s or more of inactivity." % \
+            (match.group(1), match.group(2))
 
     if options.digest_auth:
         auth_type = HTTPDigestAuthFromNetrc
@@ -139,7 +145,10 @@ def _main():
         stale_changes = []
         offset = 0
         step = 500
-        query_terms = ["status:new", "age:%s" % options.age]
+        if options.testmode:
+            query_terms = ["status:new", "owner:self", "topic:test-abandon"]
+        else:
+            query_terms = ["status:new", "age:%s" % options.age]
         if options.branches:
             query_terms += ["branch:%s" % b for b in options.branches]
         elif options.exclude_branches:
@@ -148,7 +157,7 @@ def _main():
             query_terms += ["project:%s" % p for p in options.projects]
         elif options.exclude_projects:
             query_terms = ["-project:%s" % p for p in options.exclude_projects]
-        if options.owner:
+        if options.owner and not options.testmode:
             query_terms += ["owner:%s" % options.owner]
         query = "%20".join(query_terms)
         while True:
@@ -191,7 +200,7 @@ def _main():
 
         try:
             gerrit.post("/changes/" + change_id + "/abandon",
-                        json={"message" : "%s" % abandon_message})
+                        json={"message": "%s" % abandon_message})
             abandoned += 1
         except Exception as e:
             errors += 1
@@ -199,6 +208,7 @@ def _main():
     logging.info("Total %d stale open changes", len(stale_changes))
     if not options.dry_run:
         logging.info("Abandoned %d changes. %d errors.", abandoned, errors)
+
 
 if __name__ == "__main__":
     sys.exit(_main())

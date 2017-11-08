@@ -7,7 +7,7 @@ Documentation:
 http://gerrit-documentation.storage.googleapis.com/Documentation/{{ data.version }}/index.html
 {% if data.previous %}
 Log of changes since {{ data.previous }}:
-https://gerrit.googlesource.com/gerrit/+log/v{{ data.previous }}..v{{ data.version }}
+https://gerrit.googlesource.com/gerrit/+log/v{{ data.previous }}..v{{ data.version }}?no-merges
 {% endif %}
 Download:
 https://gerrit-releases.storage.googleapis.com/gerrit-{{ data.version }}.war

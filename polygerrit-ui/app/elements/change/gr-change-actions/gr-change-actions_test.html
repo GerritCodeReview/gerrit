@@ -102,10 +102,42 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('primary and secondary actions split properly', () => {
+      assert.equal(element._topLevelPrimaryActions.length, 1);
+      assert.equal(element._topLevelPrimaryActions[0].label, 'Submit');
+      assert.equal(element._topLevelSecondaryActions.length, 1);
+    });
+
     test('_shouldHideActions', () => {
       assert.isTrue(element._shouldHideActions(undefined, true));
       assert.isTrue(element._shouldHideActions({base: {}}, false));
       assert.isFalse(element._shouldHideActions({base: ['test']}, false));
+    });
+
+    test('plugin actions', () => {
+      element.revisionActions = {
+        'plugin~action': {},
+      };
+      assert.isOk(element.revisionActions['plugin~action']);
+    });
+
+    test('not supported actions are filtered out', () => {
+      element.revisionActions = {
+        followup: {
+        },
+      };
+      assert.equal(element.querySelectorAll('section gr-button').length, 0);
+    });
+
+    test('getActionDetails', () => {
+      element.revisionActions = Object.assign({
+        'plugin~action': {},
+      }, element.revisionActions);
+      assert.isUndefined(element.getActionDetails('rubbish'));
+      assert.strictEqual(element.revisionActions['plugin~action'],
+          element.getActionDetails('plugin~action'));
+      assert.strictEqual(element.revisionActions['rebase'],
+          element.getActionDetails('rebase'));
     });
 
     test('hide revision action', done => {
@@ -141,7 +173,7 @@ limitations under the License.
         const buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
         const menuItems = element.$.moreActions.items;
-        assert.equal(buttonEls.length + menuItems.length, 6);
+        assert.equal(buttonEls.length + menuItems.length, 7);
         assert.isFalse(element.hidden);
         done();
       });
@@ -154,9 +186,7 @@ limitations under the License.
         });
         assert.equal(deleteItems.length, 1);
         assert.notEqual(deleteItems[0].name);
-        assert.isTrue(
-            deleteItems[0].name === 'Delete Change'
-        );
+        assert.equal(deleteItems[0].name, 'Delete change');
         done();
       });
     });
@@ -324,7 +354,7 @@ limitations under the License.
       let fireActionStub;
       const deleteEditAction = {
         enabled: true,
-        label: 'Delete Edit',
+        label: 'Delete edit',
         title: 'Delete change edit',
         __key: 'deleteEdit',
         __primary: false,
@@ -333,7 +363,7 @@ limitations under the License.
       };
       const publishEditAction = {
         enabled: true,
-        label: 'Publish Edit',
+        label: 'Publish edit',
         title: 'Publish change edit',
         __key: 'publishEdit',
         __primary: false,
@@ -342,7 +372,7 @@ limitations under the License.
       };
       const rebaseEditAction = {
         enabled: true,
-        label: 'Rebase Edit',
+        label: 'Rebase edit',
         title: 'Rebase change edit',
         __key: 'rebaseEdit',
         __primary: false,
@@ -466,7 +496,7 @@ limitations under the License.
           __type: 'revision',
           __primary: false,
           enabled: true,
-          label: 'Cherry Pick',
+          label: 'Cherry pick',
           method: 'POST',
           title: 'Cherry pick change to a different branch',
         };
@@ -573,7 +603,7 @@ limitations under the License.
       const key = 'cherrypick';
       const type = 'revision';
       const cleanup = element._setLoadingOnButtonWithKey(type, key);
-      assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
+      assert.equal(element._actionLoadingMessage, 'Cherry-picking...');
       assert.include(element._disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);
 
@@ -975,8 +1005,9 @@ limitations under the License.
         assert.isNotNull(approveButton);
       });
 
-      test('is first in list of actions', () => {
-        const approveButton = element.$$('gr-button');
+      test('is first in list of secondary actions', () => {
+        const approveButton = element.$.secondaryActions
+            .querySelector('gr-button');
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 
@@ -1122,6 +1153,22 @@ limitations under the License.
       flushAsynchronousOperations();
 
       assert.isTrue(handler.called);
+    });
+
+    test('changing changeNum or patchNum does not reload', () => {
+      const reloadStub = sandbox.stub(element, 'reload');
+      element.changeNum = 123;
+      assert.isFalse(reloadStub.called);
+      element.patchNum = 456;
+      assert.isFalse(reloadStub.called);
+    });
+
+    test('_toSentenceCase', () => {
+      assert.equal(element._toSentenceCase('blah blah'), 'Blah blah');
+      assert.equal(element._toSentenceCase('BLAH BLAH'), 'Blah blah');
+      assert.equal(element._toSentenceCase('b'), 'B');
+      assert.equal(element._toSentenceCase(''), '');
+      assert.equal(element._toSentenceCase('!@#$%^&*()'), '!@#$%^&*()');
     });
 
     suite('setActionOverflow', () => {

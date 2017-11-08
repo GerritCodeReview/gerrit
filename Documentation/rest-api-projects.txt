@@ -2365,6 +2365,8 @@ The content is returned as base64 encoded string.
 
 Cherry-picks a commit of a project to a destination branch.
 
+To cherry pick a change revision, see link:rest-api-changes.html#cherry-pick[CherryPick].
+
 The destination branch must be provided in the request body inside a
 link:rest-api-changes.html#cherrypick-input[CherryPickInput] entity.
 If the commit message is not set, the commit message of the source

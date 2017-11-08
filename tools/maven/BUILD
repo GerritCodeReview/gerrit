@@ -7,21 +7,21 @@ URL = "https://oss.sonatype.org/content/repositories/snapshots" if GERRIT_VERSIO
 
 maven_package(
     src = {
-        "gerrit-acceptance-framework": "//gerrit-acceptance-framework:liblib-src.jar",
-        "gerrit-extension-api": "//gerrit-extension-api:libapi-src.jar",
-        "gerrit-plugin-api": "//gerrit-plugin-api:plugin-api-sources_deploy.jar",
+        "gerrit-acceptance-framework": "//java/com/google/gerrit/acceptance:libframework-lib-src.jar",
+        "gerrit-extension-api": "//java/com/google/gerrit/extensions:libapi-src.jar",
+        "gerrit-plugin-api": "//plugins:plugin-api-sources_deploy.jar",
         "gerrit-plugin-gwtui": "//gerrit-plugin-gwtui:gwtui-api-source_deploy.jar",
     },
     doc = {
-        "gerrit-acceptance-framework": "//gerrit-acceptance-framework:acceptance-framework-javadoc",
-        "gerrit-extension-api": "//gerrit-extension-api:extension-api-javadoc",
-        "gerrit-plugin-api": "//gerrit-plugin-api:plugin-api-javadoc",
+        "gerrit-acceptance-framework": "//java/com/google/gerrit/acceptance:framework-javadoc",
+        "gerrit-extension-api": "//java/com/google/gerrit/extensions:extension-api-javadoc",
+        "gerrit-plugin-api": "//plugins:plugin-api-javadoc",
         "gerrit-plugin-gwtui": "//gerrit-plugin-gwtui:gwtui-api-javadoc",
     },
     jar = {
-        "gerrit-acceptance-framework": "//gerrit-acceptance-framework:acceptance-framework_deploy.jar",
-        "gerrit-extension-api": "//gerrit-extension-api:extension-api_deploy.jar",
-        "gerrit-plugin-api": "//gerrit-plugin-api:plugin-api_deploy.jar",
+        "gerrit-acceptance-framework": "//java/com/google/gerrit/acceptance:framework_deploy.jar",
+        "gerrit-extension-api": "//java/com/google/gerrit/extensions:extension-api_deploy.jar",
+        "gerrit-plugin-api": "//plugins:plugin-api_deploy.jar",
         "gerrit-plugin-gwtui": "//gerrit-plugin-gwtui:gwtui-api_deploy.jar",
     },
     repository = MAVEN_REPOSITORY,

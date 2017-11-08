@@ -37,6 +37,10 @@
 
   const SMALL_RELATED_HEIGHT = 400;
 
+  const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
+
+  const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
+
   Polymer({
     is: 'gr-change-view',
 
@@ -94,6 +98,8 @@
         type: Object,
         value: {},
       },
+      /** @type {?} */
+      _changeComments: Object,
       _canStartReview: {
         type: Boolean,
         computed: '_computeCanStartReview(_loggedIn, _change, _account)',
@@ -146,6 +152,7 @@
       // new patches. This is just the initial setting from the change view vs.
       // an update coming from the two way data binding.
       _patchNum: String,
+      _filesExpanded: String,
       _basePatchNum: String,
       _relatedChangesLoading: {
         type: Boolean,
@@ -184,6 +191,10 @@
         type: String,
         computed: 'changeStatusString(_change)',
       },
+      _changeStatuses: {
+        type: String,
+        computed: '_computeChangeStatusChips(_change)',
+      },
       _commitCollapsed: {
         type: Boolean,
         value: true,
@@ -194,7 +205,6 @@
       },
       /** @type {?number} */
       _updateCheckTimerHandle: Number,
-      _sortedRevisions: Array,
       _editLoaded: {
         type: Boolean,
         computed: '_computeEditLoaded(_patchRange.*)',
@@ -220,7 +230,6 @@
     observers: [
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
-      '_updateSortedRevisions(_change.revisions.*)',
     ],
 
     keyBindings: {
@@ -287,18 +296,14 @@
       });
     },
 
-    _updateSortedRevisions(revisionsRecord) {
-      const revisions = revisionsRecord.base;
-      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
-
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
     },
 
     _handleCommitMessageSave(e) {
-      const message = e.detail.content;
+      // Trim trailing whitespace from each line.
+      const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
       this.$.jsAPI.handleCommitMessage(this._change, message);
 
@@ -323,6 +328,10 @@
 
     _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
+    },
+
+    _computeChangeStatusChips(change) {
+      return this.changeStatuses(change);
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change) {
@@ -458,7 +467,10 @@
     },
 
     _handleReplyAutogrow(e) {
-      this.$.replyOverlay.refit();
+      // If the textarea resizes, we need to re-fit the overlay.
+      this.debounce('reply-overlay-refit', () => {
+        this.$.replyOverlay.refit();
+      }, REPLY_REFIT_DEBOUNCE_INTERVAL_MS);
     },
 
     _handleShowReplyDialog(e) {
@@ -790,7 +802,8 @@
     },
 
     _handleUKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._determinePageBack();
@@ -991,12 +1004,6 @@
           });
     },
 
-    _getComments() {
-      return this.$.restAPI.getDiffComments(this._changeNum).then(comments => {
-        this._comments = comments;
-      });
-    },
-
     _getEdit() {
       return this.$.restAPI.getChangeEdit(this._changeNum, true);
     },
@@ -1036,30 +1043,28 @@
           });
     },
 
-    _reloadDiffDrafts() {
-      this._diffDrafts = {};
-      this._getDiffDrafts().then(() => {
-        if (this.$.replyOverlay.opened) {
-          this.async(() => { this.$.replyOverlay.center(); }, 1);
-        }
+    _reloadCommentsWithCallback(e) {
+      return this._reloadComments().then(() => {
+        return e.detail.resolve();
       });
+    },
+
+    _reloadComments() {
+      return this.$.commentAPI.loadAll(this._changeNum)
+          .then(comments => {
+            this._changeComments = this.$.commentAPI._changeComments;
+          });
     },
 
     _reload() {
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
-      this._getLoggedIn().then(loggedIn => {
-        if (!loggedIn) { return; }
-
-        this._reloadDiffDrafts();
-      });
-
       const detailCompletes = this._getChangeDetail().then(() => {
         this._loading = false;
         this._getProjectConfig();
       });
-      this._getComments();
+      this._reloadComments();
 
       if (this._patchRange.patchNum) {
         return Promise.all([
@@ -1280,6 +1285,27 @@
     _computeEditLoaded(patchRangeRecord) {
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    },
+
+    _handleFileActionTap(e) {
+      e.preventDefault();
+      const controls = this.$.fileListHeader.$.editControls;
+      const path = e.detail.path;
+      switch (e.detail.action) {
+        case GrEditConstants.Actions.DELETE.id:
+          controls.openDeleteDialog(path);
+          break;
+        case GrEditConstants.Actions.EDIT.id:
+          Gerrit.Nav.navigateToRelativeUrl(
+              Gerrit.Nav.getEditUrlForDiff(this._change, path));
+          break;
+        case GrEditConstants.Actions.RENAME.id:
+          controls.openRenameDialog(path);
+          break;
+        case GrEditConstants.Actions.RESTORE.id:
+          controls.openRestoreDialog(path);
+          break;
+      }
     },
   });
 })();

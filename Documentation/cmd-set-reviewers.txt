@@ -20,7 +20,7 @@ notifications when changes are made.
 
 Changes can be specified in the
 link:rest-api-changes.html#change-id[same format] supported by the REST
-API.
+API, as well as with the commit SHA-1 (at least the 7 first characters).
 
 == OPTIONS
 
@@ -75,6 +75,13 @@ Add all project owners as reviewers to change Iac6b2ac2.
 	$ ssh -p 29418 review.example.com gerrit set-reviewers \
 	  -a "'Project Owners'" \
 	  Iac6b2ac2
+----
+
+Add all project owners as reviewers to commit 13dff08acca571b22542ebd2e31acf4572ea0b86.
+----
+	$ ssh -p 29418 review.example.com gerrit set-reviewers \
+	  -a "'Project Owners'" \
+	  13dff08acca571b22542ebd2e31acf4572ea0b86
 ----
 
 GERRIT

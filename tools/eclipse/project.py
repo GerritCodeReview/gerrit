@@ -154,7 +154,7 @@ def gen_classpath(ext):
       src.add(m.group(1))
       # Exceptions: both source and lib
       if p.endswith('libquery_parser.jar') or \
-         p.endswith('libprolog-common.jar'):
+         p.endswith('libgerrit-prolog-common.jar'):
         lib.add(p)
       # JGit dependency from external repository
       if 'gerrit-' not in p and 'jgit' in p:
@@ -173,6 +173,9 @@ def gen_classpath(ext):
     if m:
       gwt_src.add(m.group(1))
 
+  classpathentry('src', 'java')
+  classpathentry('src', 'javatests', out='eclipse-out/test')
+  classpathentry('src', 'resources')
   for s in sorted(src):
     out = None
 
@@ -274,7 +277,7 @@ try:
     makedirs(path.join(ROOT, gwt_working_dir))
 
   try:
-    check_call(['bazel', 'build', MAIN, GWT, '//gerrit-patch-jgit:libEdit-src.jar'])
+    check_call(['bazel', 'build', MAIN, GWT, '//java/org/eclipse/jgit:libEdit-src.jar'])
   except CalledProcessError:
     exit(1)
 except KeyboardInterrupt:

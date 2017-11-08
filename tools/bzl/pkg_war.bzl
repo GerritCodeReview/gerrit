@@ -17,18 +17,17 @@
 jar_filetype = FileType([".jar"])
 
 LIBS = [
-    "//gerrit-war:init",
-    "//gerrit-war:log4j-config",
-    "//gerrit-war:version",
+    "//java/com/google/gerrit/httpd/init",
     "//lib:postgresql",
     "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
     "//lib/bouncycastle:bcpg",
     "//lib/log:impl_log4j",
+    "//resources:log4j-config",
 ]
 
 PGMLIBS = [
-    "//gerrit-pgm:pgm",
+    "//java/com/google/gerrit/pgm",
 ]
 
 def _add_context(in_file, output):
@@ -45,7 +44,8 @@ def _add_file(in_file, output):
 
   if short_path.startswith('gerrit-'):
     n = short_path.split('/')[0] + '-' + n
-
+  elif short_path.startswith('java/'):
+    n = short_path[5:].replace('/', '_')
   output_path += n
   return [
     'test -L %s || ln -s $(pwd)/%s %s' % (output_path, input_path, output_path)
@@ -147,8 +147,8 @@ def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):
     libs = LIBS + doc_lib,
     pgmlibs = PGMLIBS,
     context = doc_ctx + context + ui_deps + [
-      '//gerrit-main:main_bin_deploy.jar',
-      '//gerrit-war:webapp_assets',
+      '//java:gerrit-main-class_deploy.jar',
+      '//webapp:assets',
     ],
     **kwargs
   )

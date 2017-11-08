@@ -22,6 +22,7 @@ limitations under the License.
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
@@ -29,24 +30,39 @@ limitations under the License.
 
 <script>void(0);</script>
 
+<dom-module id="comment-api-mock">
+  <template>
+    <gr-file-list id="fileList"
+        change-comments="[[_changeComments]]"
+        on-reload-comments="_reloadCommentsWithCallback"></gr-file-list>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
+  </template>
+  <script src="../../diff/gr-comment-api/gr-comment-api-mock.js"></script>
+</dom-module>
+
 <test-fixture id="basic">
   <template>
-    <gr-file-list></gr-file-list>
+    <comment-api-mock></comment-api-mock>
   </template>
 </test-fixture>
 
 <script>
   suite('gr-file-list tests', () => {
     let element;
+    let commentApiWrapper;
     let sandbox;
     let saveStub;
+    let loadCommentSpy;
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
         fetchJSON() { return Promise.resolve({}); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
@@ -54,13 +70,22 @@ limitations under the License.
       stub('gr-diff', {
         reload() { return Promise.resolve(); },
       });
-      stub('gr-comment-api', {
-        loadAll() { return Promise.resolve(); },
-        getPaths() { return {}; },
-        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
+
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.fileList;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
+      commentApiWrapper.loadComments().then(() => {
+        sandbox.stub(element.changeComments, 'getPaths').returns({});
+        sandbox.stub(element.changeComments, 'getCommentsForPath')
+            .returns({meta: {}, left: [], right: []});
+        done();
       });
 
-      element = fixture('basic');
       element.numFilesShown = 200;
       saveStub = sandbox.stub(element, '_saveReviewedState',
           () => { return Promise.resolve(); });
@@ -110,6 +135,48 @@ limitations under the License.
         });
 
         getChangeFilesStub.restore();
+        done();
+      });
+    });
+
+    test('get file list with change edit', done => {
+      element.editLoaded = true;
+
+      sandbox.stub(element.$.restAPI,
+          'getChangeEditFiles', () => {
+            return Promise.resolve({
+              commit: {},
+              files: {
+                '/COMMIT_MSG': {
+                  lines_inserted: 9,
+                },
+                'tags.html': {
+                  lines_deleted: 123,
+                },
+                'about.txt': {},
+              },
+            });
+          });
+
+      element._getFiles().then(files => {
+        const filenames = files.map(f => { return f.__path; });
+        assert.deepEqual(filenames, ['/COMMIT_MSG', 'about.txt', 'tags.html']);
+        assert.deepEqual(files[0], {
+          lines_inserted: 9,
+          lines_deleted: 0,
+          __path: '/COMMIT_MSG',
+        });
+        assert.deepEqual(files[1], {
+          lines_inserted: 0,
+          lines_deleted: 0,
+          __path: 'about.txt',
+        });
+        assert.deepEqual(files[2], {
+          lines_inserted: 0,
+          lines_deleted: 123,
+          __path: 'tags.html',
+        });
+
         done();
       });
     });
@@ -580,10 +647,6 @@ limitations under the License.
       assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
       assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
           'clazz invisible');
-      assert.equal(element._computeExpandInlineClass(
-          {expand_inline_diffs: true}), 'expandInline');
-      assert.equal(element._computeExpandInlineClass(
-        {expand_inline_diffs: false}), '');
     });
 
     test('file review status', () => {
@@ -618,23 +681,26 @@ limitations under the License.
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
+      const tapSpy = sandbox.spy(element, '_handleFileListTap');
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
+      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
 
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
     });
 
     test('patch set from revisions', () => {
       const expected = [
-        {num: 1, desc: 'test'},
-        {num: 2, desc: 'test'},
-        {num: 3, desc: 'test'},
         {num: 4, desc: 'test'},
+        {num: 3, desc: 'test'},
+        {num: 2, desc: 'test'},
+        {num: 1, desc: 'test'},
       ];
       const patchNums = element.computeAllPatchSets({
         revisions: {
@@ -700,7 +766,6 @@ limitations under the License.
       assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
       assert.isTrue(element._updateDiffPreferences.called);
     });
-
 
     test('expanded attribute not set on path when not expanded', () => {
       element._files = [
@@ -792,6 +857,29 @@ limitations under the License.
       element.push('_expandedFilePaths', path);
     });
 
+    test('filesExpanded value updates to correct enum', () => {
+      element._files = [{__path: 'foo.bar'}, {__path: 'baz.bar'}];
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.NONE);
+      element.push('_expandedFilePaths', 'baz.bar');
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.SOME);
+      element.push('_expandedFilePaths', 'foo.bar');
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.ALL);
+      element.collapseAllDiffs();
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.NONE);
+      element.expandAllDiffs();
+      flushAsynchronousOperations();
+      assert.equal(element.filesExpanded,
+          GrFileListConstants.FilesExpandedState.ALL);
+    });
+
     suite('_handleFileListTap', () => {
       function testForModifier(modifier) {
         const e = {preventDefault() {}};
@@ -852,6 +940,7 @@ limitations under the License.
       element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
           .then(() => {
             assert.isFalse(reviewStub.called);
+            assert.isTrue(loadCommentSpy.called);
             done();
           });
     });
@@ -974,11 +1063,14 @@ limitations under the License.
       return diffs;
     };
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
@@ -986,12 +1078,21 @@ limitations under the License.
       stub('gr-diff', {
         reload() { return Promise.resolve(); },
       });
-      stub('gr-comment-api', {
-        loadAll() { return Promise.resolve(); },
-        getPaths() { return {}; },
-        getCommentsForPath() { return {meta: {}, left: [], right: []}; },
+
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.fileList;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
+      commentApiWrapper.loadComments().then(() => {
+        sandbox.stub(element.changeComments, 'getPaths').returns({});
+        sandbox.stub(element.changeComments, 'getCommentsForPath')
+            .returns({meta: {}, left: [], right: []});
+        done();
       });
-      element = fixture('basic');
       element.numFilesShown = 75;
       element.selectedIndex = 0;
       element._files = [
@@ -1241,16 +1342,12 @@ limitations under the License.
 
     test('editing actions', () => {
       element.editLoaded = true;
-      element.change = {_number: '42', project: 'test'};
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
       const editControls =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)')
             .map(row => row.querySelector('gr-edit-file-controls'));
 
       // Commit message should not have edit controls.
       assert.isTrue(editControls[0].classList.contains('invisible'));
-      MockInteractions.tap(editControls[1].$.edit);
-      assert.isTrue(navStub.called);
     });
   });
   a11ySuite('basic');

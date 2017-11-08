@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
 
+<link rel="import" href="../gr-edit-constants.html">
 <link rel="import" href="gr-edit-file-controls.html">
 
 <script>void(0);</script>
@@ -35,22 +36,66 @@ limitations under the License.
 suite('gr-edit-file-controls tests', () => {
   let element;
   let sandbox;
+  let fileActionHandler;
 
   setup(() => {
     sandbox = sinon.sandbox.create();
     element = fixture('basic');
+    fileActionHandler = sandbox.stub();
+    element.addEventListener('file-action-tap', fileActionHandler);
   });
 
   teardown(() => { sandbox.restore(); });
 
   test('edit tap emits event', () => {
-    const handler = sandbox.stub();
-    element.addEventListener('edit-tap', handler);
     element.filePath = 'foo';
 
     MockInteractions.tap(element.$.edit);
-    assert.isTrue(handler.called);
-    assert.equal(handler.lastCall.args[0].detail.path, 'foo');
+    assert.isTrue(fileActionHandler.called);
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+        {action: GrEditConstants.Actions.EDIT.id, path: 'foo'});
+  });
+
+  test('delete tap emits event', () => {
+    const more = element.$.more;
+    element.filePath = 'foo';
+    more._open();
+    flushAsynchronousOperations();
+
+    MockInteractions.tap(more.$$('li [data-id="delete"]'));
+    assert.isTrue(fileActionHandler.called);
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+        {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
+  });
+
+  test('restore tap emits event', () => {
+    const more = element.$.more;
+    element.filePath = 'foo';
+    more._open();
+    flushAsynchronousOperations();
+
+    MockInteractions.tap(more.$$('li [data-id="restore"]'));
+    assert.isTrue(fileActionHandler.called);
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+        {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
+  });
+
+  test('rename tap emits event', () => {
+    const more = element.$.more;
+    element.filePath = 'foo';
+    more._open();
+    flushAsynchronousOperations();
+
+    MockInteractions.tap(more.$$('li [data-id="rename"]'));
+    assert.isTrue(fileActionHandler.called);
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
+        {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});
+  });
+
+  test('computed properties', () => {
+    assert.equal(element._allFileActions.length, 3);
+    assert.notOk(element._allFileActions
+        .find(action => action.id === GrEditConstants.Actions.EDIT.id));
   });
 });
 </script>

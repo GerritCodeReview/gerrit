@@ -56,6 +56,8 @@ limitations under the License.
       assert.isTrue(element._computeHideStrategy({status: 'ABANDONED'}));
       assert.equal(element._computeStrategy({submit_type: 'CHERRY_PICK'}),
           'Cherry Pick');
+      assert.equal(element._computeStrategy({submit_type: 'REBASE_ALWAYS'}),
+          'Rebase Always');
     });
 
     test('show strategy for open change', () => {
@@ -299,6 +301,22 @@ limitations under the License.
       change.labels.abcd = {};
       actual = element._computeValueTooltip(change, score, labelName);
       assert.equal(actual, '');
+    });
+
+    test('_showAddTopic', () => {
+      assert.isTrue(element._showAddTopic(null, false));
+      assert.isTrue(element._showAddTopic({base: {topic: null}}, false));
+      assert.isFalse(element._showAddTopic({base: {topic: null}}, true));
+      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, true));
+      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, false));
+    });
+
+    test('_showTopicChip', () => {
+      assert.isFalse(element._showTopicChip(null, false));
+      assert.isFalse(element._showTopicChip({base: {topic: null}}, false));
+      assert.isFalse(element._showTopicChip({base: {topic: null}}, true));
+      assert.isFalse(element._showTopicChip({base: {topic: 'foo'}}, true));
+      assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
     });
 
     suite('Topic removal', () => {

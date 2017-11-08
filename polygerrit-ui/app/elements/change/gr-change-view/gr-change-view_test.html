@@ -23,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../../../test/common-test-setup.html"/>
 <script src="../../../bower_components/page/page.js"></script>
 
+<link rel="import" href="../../edit/gr-edit-constants.html">
 <link rel="import" href="gr-change-view.html">
 
 <script>void(0);</script>
@@ -55,6 +56,7 @@ limitations under the License.
         _fetchSharedCacheURL() { return Promise.resolve({}); },
       });
       element = fixture('basic');
+      sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
     });
 
     teardown(done => {
@@ -65,10 +67,6 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', () => {
-      setup(() => {
-        sandbox.stub(element, '_updateSortedRevisions');
-      });
-
       test('S should toggle the CL star', () => {
         const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
         MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
@@ -147,7 +145,7 @@ limitations under the License.
         element.$.replyDialog.fire('fullscreen-overlay-opened');
         assert.isTrue(element._handleHideBackgroundContent.called);
         assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
-        assert.equal(getComputedStyle(element.$.actions).display, 'block');
+        assert.equal(getComputedStyle(element.$.actions).display, 'flex');
       });
 
       test('fullscreen-overlay-closed shows content', () => {
@@ -218,8 +216,6 @@ limitations under the License.
               actions: {},
             };
 
-            sandbox.stub(element.$.actions, 'reload');
-
             navigateToChangeStub.restore();
             navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',
                 (change, patchNum, basePatchNum) => {
@@ -245,6 +241,15 @@ limitations under the License.
       });
     });
 
+    test('comments are reloaded when reload-comments fired', () => {
+      const reloadStub = sandbox.stub(element.$.commentAPI, 'loadAll')
+          .returns(Promise.resolve());
+      element.$.fileList.fire('reload-comments', {
+        resolve: () => { return Promise.resolve(); },
+      });
+      assert.isTrue(reloadStub.called);
+    });
+
     test('download tap calls _handleOpenDownloadDialog', () => {
       sandbox.stub(element, '_handleOpenDownloadDialog');
       element.$.actions.fire('download-tap');
@@ -256,6 +261,37 @@ limitations under the License.
         assert.equal(element._serverConfig.test, 'config');
         done();
       });
+    });
+
+    test('_changeStatuses', () => {
+      sandbox.stub(element, 'changeStatuses').returns(
+          ['Merged', 'WIP']);
+      element._loading = false;
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        revisions: {
+          rev2: {_number: 2},
+          rev1: {_number: 1},
+          rev13: {_number: 13},
+          rev3: {_number: 3},
+        },
+        current_revision: 'rev3',
+        labels: {
+          test: {
+            all: [],
+            default_value: 0,
+            values: [],
+            approved: {},
+          },
+        },
+      };
+      expectedStatuses = ['Merged', 'WIP'];
+      assert.deepEqual(element._changeStatuses, expectedStatuses);
+      assert.equal(element._changeStatus, expectedStatuses.join(', '));
+      flushAsynchronousOperations();
+      const statusChips = Polymer.dom(element.root)
+          .querySelectorAll('gr-change-status');
+      assert.equal(statusChips.length, 2);
     });
 
     test('diff preferences open when open-diff-prefs is fired', () => {
@@ -416,7 +452,6 @@ limitations under the License.
     });
 
     test('change num change', () => {
-      sandbox.stub(element, '_updateSortedRevisions');
       element._changeNum = null;
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -610,6 +645,22 @@ limitations under the License.
       assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
       assert.isTrue(element._computeHideEditCommitMessage(true, false,
           _change));
+    });
+
+    test('_handleCommitMessageSave trims trailing whitespace', () => {
+      const putStub = sandbox.stub(element.$.restAPI, 'putChangeCommitMessage')
+          .returns(Promise.resolve({}));
+
+      const mockEvent = content => { return {detail: {content}}; };
+
+      element._handleCommitMessageSave(mockEvent('test \n  test '));
+      assert.equal(putStub.lastCall.args[1], 'test\n  test');
+
+      element._handleCommitMessageSave(mockEvent('  test\ntest'));
+      assert.equal(putStub.lastCall.args[1], '  test\ntest');
+
+      element._handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
+      assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
     });
 
     test('_computeChangeIdCommitMessageError', () => {
@@ -854,7 +905,6 @@ limitations under the License.
     suite('reply dialog tests', () => {
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
-        sandbox.stub(element, '_updateSortedRevisions');
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
             () => { return Promise.resolve(true); });
         element._change = {labels: {}};
@@ -1185,6 +1235,50 @@ limitations under the License.
       element.set('_patchRange.patchNum', 1);
 
       assert.isFalse(element._editLoaded);
+    });
+
+    test('file-action-tap handling', () => {
+      const fileList = element.$.fileList;
+      const Actions = GrEditConstants.Actions;
+      const controls = element.$.fileListHeader.$.editControls;
+      sandbox.stub(controls, 'openDeleteDialog');
+      sandbox.stub(controls, 'openRenameDialog');
+      sandbox.stub(controls, 'openRestoreDialog');
+      sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+
+      // Delete
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.DELETE.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openDeleteDialog.called);
+      assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
+
+      // Restore
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.RESTORE.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openRestoreDialog.called);
+      assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
+
+      // Rename
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.RENAME.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(controls.openRenameDialog.called);
+      assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
+
+      // Edit
+      fileList.dispatchEvent(new CustomEvent('file-action-tap',
+          {detail: {action: Actions.EDIT.id, path: 'foo'}, bubbles: true}));
+      flushAsynchronousOperations();
+
+      assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
+      assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
+      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
     });
   });
 </script>

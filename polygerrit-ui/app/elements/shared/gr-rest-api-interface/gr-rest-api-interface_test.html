@@ -498,6 +498,51 @@ limitations under the License.
       assert.notOk(element._cache[cacheKey]);
     });
 
+    test('getAccount when resp is null does not add anything to the cache',
+        done => {
+          const cacheKey = '/accounts/self/detail';
+          const stub = sandbox.stub(element, '_fetchSharedCacheURL',
+              () => Promise.resolve());
+
+          element.getAccount().then(() => {
+            assert.isTrue(element._fetchSharedCacheURL.called);
+            assert.isNull(element._cache[cacheKey]);
+            done();
+          });
+
+          element._cache[cacheKey] = 'fake cache';
+          stub.callArg(1);
+        });
+
+    test('getAccount does not add to the cache when resp.status is 403',
+        done => {
+          const cacheKey = '/accounts/self/detail';
+          const stub = sandbox.stub(element, '_fetchSharedCacheURL',
+              () => Promise.resolve());
+
+          element.getAccount().then(() => {
+            assert.isTrue(element._fetchSharedCacheURL.called);
+            assert.isNull(element._cache[cacheKey]);
+            done();
+          });
+          element._cache[cacheKey] = 'fake cache';
+          stub.callArgWith(1, {status: 403});
+        });
+
+    test('getAccount when resp is successful', done => {
+      const cacheKey = '/accounts/self/detail';
+      const stub = sandbox.stub(element, '_fetchSharedCacheURL',
+          () => Promise.resolve());
+
+      element.getAccount().then(response => {
+        assert.isTrue(element._fetchSharedCacheURL.called);
+        assert.equal(element._cache[cacheKey], 'fake cache');
+        done();
+      });
+      element._cache[cacheKey] = 'fake cache';
+      stub.callArg(1, {});
+    });
+
     const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
       sandbox.stub(element, 'getLoggedIn', () => {
         return Promise.resolve(loggedIn);
@@ -699,6 +744,15 @@ limitations under the License.
       const sendStub = sandbox.stub(element, 'send');
       element.createProject({name: 'x/y'});
       assert.equal(sendStub.lastCall.args[1], '/projects/x%2Fy');
+    });
+
+    test('queryChangeFiles', () => {
+      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+          .returns(Promise.resolve());
+      return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
+        assert.deepEqual(fetchStub.lastCall.args,
+            ['42', '/files?q=test%2Fpath.js', 'edit']);
+      });
     });
 
     test('getProjects', () => {

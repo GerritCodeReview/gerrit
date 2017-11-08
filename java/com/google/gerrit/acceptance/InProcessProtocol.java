@@ -1,0 +1,369 @@
+// Copyright (C) 2015 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance;
+
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Lists;
+import com.google.gerrit.acceptance.InProcessProtocol.Context;
+import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
+import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
+import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
+import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Key;
+import com.google.inject.Module;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
+import com.google.inject.Provides;
+import com.google.inject.Scope;
+import com.google.inject.servlet.RequestScoped;
+import com.google.inject.util.Providers;
+import java.io.IOException;
+import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.PostReceiveHookChain;
+import org.eclipse.jgit.transport.PreUploadHook;
+import org.eclipse.jgit.transport.PreUploadHookChain;
+import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.TestProtocol;
+import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.UploadPackFactory;
+
+class InProcessProtocol extends TestProtocol<Context> {
+  static Module module() {
+    return new AbstractModule() {
+      @Override
+      public void configure() {
+        install(new GerritRequestModule());
+        bind(RequestScopePropagator.class).to(Propagator.class);
+        bindScope(RequestScoped.class, InProcessProtocol.REQUEST);
+      }
+
+      @Provides
+      @RemotePeer
+      SocketAddress getSocketAddress() {
+        // TODO(dborowitz): Could potentially fake this with thread ID or
+        // something.
+        throw new OutOfScopeException("No remote peer in acceptance tests");
+      }
+    };
+  }
+
+  private static final Scope REQUEST =
+      new Scope() {
+        @Override
+        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
+          return new Provider<T>() {
+            @Override
+            public T get() {
+              Context ctx = current.get();
+              if (ctx == null) {
+                throw new OutOfScopeException("Not in TestProtocol scope");
+              }
+              return ctx.get(key, creator);
+            }
+
+            @Override
+            public String toString() {
+              return String.format("%s[%s]", creator, REQUEST);
+            }
+          };
+        }
+
+        @Override
+        public String toString() {
+          return "InProcessProtocol.REQUEST";
+        }
+      };
+
+  private static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
+    @Inject
+    Propagator(
+        ThreadLocalRequestContext local,
+        Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
+      super(REQUEST, current, local, dbProviderProvider);
+    }
+
+    @Override
+    protected Context continuingContext(Context ctx) {
+      return ctx.newContinuingContext();
+    }
+  }
+
+  private static final ThreadLocal<Context> current = new ThreadLocal<>();
+
+  // TODO(dborowitz): Merge this with AcceptanceTestRequestScope.
+  /**
+   * Multi-purpose session/context object.
+   *
+   * <p>Confusingly, Gerrit has two ideas of what a "context" object is: one for Guice {@link
+   * RequestScoped}, and one for its own simplified version of request scoping using {@link
+   * ThreadLocalRequestContext}. This class provides both, in essence just delegating the {@code
+   * ThreadLocalRequestContext} scoping to the Guice scoping mechanism.
+   *
+   * <p>It is also used as the session type for {@code UploadPackFactory} and {@code
+   * ReceivePackFactory}, since, after all, it encapsulates all the information about a single
+   * request.
+   */
+  static class Context implements RequestContext {
+    private static final Key<RequestScopedReviewDbProvider> DB_KEY =
+        Key.get(RequestScopedReviewDbProvider.class);
+    private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
+    private static final Key<CurrentUser> USER_KEY = Key.get(CurrentUser.class);
+
+    private final SchemaFactory<ReviewDb> schemaFactory;
+    private final IdentifiedUser.GenericFactory userFactory;
+    private final Account.Id accountId;
+    private final Project.NameKey project;
+    private final RequestCleanup cleanup;
+    private final Map<Key<?>, Object> map;
+
+    Context(
+        SchemaFactory<ReviewDb> schemaFactory,
+        IdentifiedUser.GenericFactory userFactory,
+        Account.Id accountId,
+        Project.NameKey project) {
+      this.schemaFactory = schemaFactory;
+      this.userFactory = userFactory;
+      this.accountId = accountId;
+      this.project = project;
+      map = new HashMap<>();
+      cleanup = new RequestCleanup();
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory, Providers.of(cleanup)));
+      map.put(RC_KEY, cleanup);
+
+      IdentifiedUser user = userFactory.create(accountId);
+      user.setAccessPath(AccessPath.GIT);
+      map.put(USER_KEY, user);
+    }
+
+    private Context newContinuingContext() {
+      return new Context(schemaFactory, userFactory, accountId, project);
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return get(USER_KEY, null);
+    }
+
+    @Override
+    public Provider<ReviewDb> getReviewDbProvider() {
+      return get(DB_KEY, null);
+    }
+
+    private synchronized <T> T get(Key<T> key, Provider<T> creator) {
+      @SuppressWarnings("unchecked")
+      T t = (T) map.get(key);
+      if (t == null) {
+        t = creator.get();
+        map.put(key, t);
+      }
+      return t;
+    }
+  }
+
+  private static class Upload implements UploadPackFactory<Context> {
+    private final Provider<CurrentUser> userProvider;
+    private final VisibleRefFilter.Factory refFilterFactory;
+    private final TransferConfig transferConfig;
+    private final DynamicSet<UploadPackInitializer> uploadPackInitializers;
+    private final DynamicSet<PreUploadHook> preUploadHooks;
+    private final UploadValidators.Factory uploadValidatorsFactory;
+    private final ThreadLocalRequestContext threadContext;
+    private final ProjectCache projectCache;
+    private final PermissionBackend permissionBackend;
+
+    @Inject
+    Upload(
+        Provider<CurrentUser> userProvider,
+        VisibleRefFilter.Factory refFilterFactory,
+        TransferConfig transferConfig,
+        DynamicSet<UploadPackInitializer> uploadPackInitializers,
+        DynamicSet<PreUploadHook> preUploadHooks,
+        UploadValidators.Factory uploadValidatorsFactory,
+        ThreadLocalRequestContext threadContext,
+        ProjectCache projectCache,
+        PermissionBackend permissionBackend) {
+      this.userProvider = userProvider;
+      this.refFilterFactory = refFilterFactory;
+      this.transferConfig = transferConfig;
+      this.uploadPackInitializers = uploadPackInitializers;
+      this.preUploadHooks = preUploadHooks;
+      this.uploadValidatorsFactory = uploadValidatorsFactory;
+      this.threadContext = threadContext;
+      this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
+    }
+
+    @Override
+    public UploadPack create(Context req, Repository repo) throws ServiceNotAuthorizedException {
+      // Set the request context, but don't bother unsetting, since we don't
+      // have an easy way to run code when this instance is done being used.
+      // Each operation is run in its own thread, so we don't need to recover
+      // its original context anyway.
+      threadContext.setContext(req);
+      current.set(req);
+
+      try {
+        permissionBackend
+            .user(userProvider)
+            .project(req.project)
+            .check(ProjectPermission.RUN_UPLOAD_PACK);
+      } catch (AuthException e) {
+        throw new ServiceNotAuthorizedException();
+      } catch (PermissionBackendException e) {
+        throw new RuntimeException(e);
+      }
+
+      ProjectState projectState;
+      try {
+        projectState = projectCache.checkedGet(req.project);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (projectState == null) {
+        throw new RuntimeException("can't load project state for " + req.project.get());
+      }
+      UploadPack up = new UploadPack(repo);
+      up.setPackConfig(transferConfig.getPackConfig());
+      up.setTimeout(transferConfig.getTimeout());
+      up.setAdvertiseRefsHook(refFilterFactory.create(projectState, repo));
+      List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
+      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
+      up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
+      for (UploadPackInitializer initializer : uploadPackInitializers) {
+        initializer.init(req.project, up);
+      }
+      return up;
+    }
+  }
+
+  private static class Receive implements ReceivePackFactory<Context> {
+    private final Provider<CurrentUser> userProvider;
+    private final ProjectCache projectCache;
+    private final AsyncReceiveCommits.Factory factory;
+    private final TransferConfig config;
+    private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
+    private final DynamicSet<PostReceiveHook> postReceiveHooks;
+    private final ThreadLocalRequestContext threadContext;
+    private final PermissionBackend permissionBackend;
+
+    @Inject
+    Receive(
+        Provider<CurrentUser> userProvider,
+        ProjectCache projectCache,
+        AsyncReceiveCommits.Factory factory,
+        TransferConfig config,
+        DynamicSet<ReceivePackInitializer> receivePackInitializers,
+        DynamicSet<PostReceiveHook> postReceiveHooks,
+        ThreadLocalRequestContext threadContext,
+        PermissionBackend permissionBackend) {
+      this.userProvider = userProvider;
+      this.projectCache = projectCache;
+      this.factory = factory;
+      this.config = config;
+      this.receivePackInitializers = receivePackInitializers;
+      this.postReceiveHooks = postReceiveHooks;
+      this.threadContext = threadContext;
+      this.permissionBackend = permissionBackend;
+    }
+
+    @Override
+    public ReceivePack create(Context req, Repository db) throws ServiceNotAuthorizedException {
+      // Set the request context, but don't bother unsetting, since we don't
+      // have an easy way to run code when this instance is done being used.
+      // Each operation is run in its own thread, so we don't need to recover
+      // its original context anyway.
+      threadContext.setContext(req);
+      current.set(req);
+      try {
+        permissionBackend
+            .user(userProvider)
+            .project(req.project)
+            .check(ProjectPermission.RUN_RECEIVE_PACK);
+      } catch (AuthException e) {
+        throw new ServiceNotAuthorizedException();
+      } catch (PermissionBackendException e) {
+        throw new RuntimeException(e);
+      }
+      try {
+        IdentifiedUser identifiedUser = userProvider.get().asIdentifiedUser();
+        ProjectState projectState = projectCache.checkedGet(req.project);
+        if (projectState == null) {
+          throw new RuntimeException(String.format("project %s not found", req.project));
+        }
+
+        AsyncReceiveCommits arc =
+            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
+        ReceivePack rp = arc.getReceivePack();
+
+        Capable r = arc.canUpload();
+        if (r != Capable.OK) {
+          throw new ServiceNotAuthorizedException();
+        }
+
+        rp.setRefLogIdent(identifiedUser.newRefLogIdent());
+        rp.setTimeout(config.getTimeout());
+        rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
+
+        for (ReceivePackInitializer initializer : receivePackInitializers) {
+          initializer.init(projectState.getNameKey(), rp);
+        }
+
+        rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
+        return rp;
+      } catch (IOException | PermissionBackendException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  @Inject
+  InProcessProtocol(Upload uploadPackFactory, Receive receivePackFactory) {
+    super(uploadPackFactory, receivePackFactory);
+  }
+}

@@ -21,6 +21,7 @@
     MERGE_IF_NECESSARY: 'Merge if Necessary',
     REBASE_IF_NECESSARY: 'Rebase if Necessary',
     MERGE_ALWAYS: 'Always Merge',
+    REBASE_ALWAYS: 'Rebase Always',
     CHERRY_PICK: 'Cherry Pick',
   };
 
@@ -65,6 +66,11 @@
         computed: '_computeIsWip(change)',
       },
       _newHashtag: String,
+
+      _settingTopic: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -168,8 +174,10 @@
     _handleTopicChanged(e, topic) {
       const lastTopic = this.change.topic;
       if (!topic.length) { topic = null; }
+      this._settingTopic = true;
       this.$.restAPI.setChangeTopic(this.change._number, topic)
           .then(newTopic => {
+            this._settingTopic = false;
             this.set(['change', 'topic'], newTopic);
             if (newTopic !== lastTopic) {
               this.dispatchEvent(
@@ -178,17 +186,28 @@
           });
     },
 
+    _showAddTopic(changeRecord, settingTopic) {
+      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      return !hasTopic && !settingTopic;
+    },
+
+    _showTopicChip(changeRecord, settingTopic) {
+      const hasTopic = !!changeRecord && !!changeRecord.base.topic;
+      return hasTopic && !settingTopic;
+    },
+
     _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
+      const newHashtag = this._newHashtag;
+      this._newHashtag = '';
       this.$.restAPI.setChangeHashtag(
-          this.change._number, {add: [this._newHashtag]}).then(newHashtag => {
+          this.change._number, {add: [newHashtag]}).then(newHashtag => {
             this.set(['change', 'hashtags'], newHashtag);
             if (newHashtag !== lastHashtag) {
               this.dispatchEvent(
                   new CustomEvent('hashtag-changed', {bubbles: true}));
             }
-            this._newHashtag = '';
           });
     },
 
@@ -313,7 +332,7 @@
     },
 
     _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProject(project);
+      return Gerrit.Nav.getUrlForProjectChanges(project);
     },
 
     _computeBranchURL(project, branch) {

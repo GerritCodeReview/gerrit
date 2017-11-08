@@ -18,9 +18,9 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/async-foreach-behavior/async-foreach-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../edit/gr-edit-file-controls/gr-edit-file-controls.html">
@@ -30,7 +30,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../gr-file-list-constants.html">
 
 <dom-module id="gr-file-list">
   <template>
@@ -42,8 +42,8 @@ limitations under the License.
         align-items: center;
         border-top: 1px solid #ddd;
         display: flex;
-        height: 2.25em;
-        padding: 0 var(--default-horizontal-margin);
+        min-height: 2.25em;
+        padding: .2em var(--default-horizontal-margin);
       }
       :host(.loading) .row {
         opacity: .5;
@@ -97,7 +97,7 @@ limitations under the License.
         text-align: right;
       }
       .comments {
-        min-width: 10em;
+        padding-left: 2em;
       }
       .stats {
         min-width: 7em;
@@ -158,9 +158,6 @@ limitations under the License.
       .mobile {
         display: none;
       }
-      .expandInline {
-        padding-right: .25em;
-      }
       .reviewed {
         margin-left: 2em;
         width: 15em;
@@ -193,7 +190,7 @@ limitations under the License.
       }
       .editFileControls {
         margin-left: 1em;
-        width: 4em;
+        width: 10em;
       }
       @media screen and (max-width: 50em) {
         .desktop {
@@ -269,17 +266,17 @@ limitations under the License.
           </span>
           <div class="comments desktop">
             <span class="drafts">
-              [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]
+              [[_computeDraftsString(changeComments.drafts, patchRange.patchNum, file.__path)]]
             </span>
-            [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
-            [[_computeUnresolvedString(comments, drafts, patchRange.patchNum, file.__path)]]
+            [[_computeCommentsString(changeComments.comments, patchRange.patchNum, file.__path)]]
+            [[_computeUnresolvedString(changeComments.comments, changeComments.drafts, patchRange.patchNum, file.__path)]]
           </div>
           <div class="comments mobile">
             <span class="drafts">
-              [[_computeDraftsStringMobile(drafts, patchRange.patchNum,
+              [[_computeDraftsStringMobile(changeComments.drafts, patchRange.patchNum,
                   file.__path)]]
             </span>
-            [[_computeCommentsStringMobile(comments, patchRange.patchNum,
+            [[_computeCommentsStringMobile(changeComments.comments, patchRange.patchNum,
                 file.__path)]]
           </div>
           <div class$="[[_computeClass('stats', file.__path)]]">
@@ -313,8 +310,7 @@ limitations under the License.
           <div class="editFileControls showOnEdit">
             <gr-edit-file-controls
                 class$="[[_computeClass('', file.__path)]]"
-                file-path="[[file.__path]]"
-                on-edit-tap="_handleEditTap"></gr-edit-file-controls>
+                file-path="[[file.__path]]"></gr-edit-file-controls>
           </div>
         </div>
         <template is="dom-if"
@@ -337,7 +333,7 @@ limitations under the License.
       </template>
     </div>
     <div
-        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        class="row totalChanges"
         hidden$="[[_hideChangeTotals]]">
       <div class="total-stats">
         <span
@@ -358,7 +354,7 @@ limitations under the License.
       <div class="editFileControls showOnEdit"></div>
     </div>
     <div
-        class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]"
+        class="row totalChanges"
         hidden$="[[_hideBinaryChangeTotals]]">
       <div class="total-stats">
         <span class="added" aria-label="Total lines added">
@@ -405,7 +401,6 @@ limitations under the License.
         focus-on-move
         cursor-target-class="selected"></gr-cursor-manager>
     <gr-reporting id="reporting"></gr-reporting>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

@@ -428,7 +428,7 @@
           return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
         }
         // These defaults should match the defaults in
-        // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
+        // jcg/gerrit/extensions/client/DiffPreferencesInfo.java
         // NOTE: There are some settings that don't apply to PolyGerrit
         // (Render mode being at least one of them).
         return Promise.resolve({
@@ -480,10 +480,19 @@
 
     getAccount() {
       return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
-        if (resp.status === 403) {
+        if (!resp || resp.status === 403) {
           this._cache['/accounts/self/detail'] = null;
         }
       });
+    },
+
+    getExternalIds() {
+      return this.fetchJSON('/accounts/self/external.ids');
+    },
+
+    deleteAccountIdentity(id) {
+      return this.send('POST', '/accounts/self/external.ids:delete', id)
+          .then(response => this.getResponseObject(response));
     },
 
     /**
@@ -904,9 +913,37 @@
           patchRange.patchNum);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {!Promise<?Object>} patchRange
+     */
+    getChangeEditFiles(changeNum, patchRange) {
+      let endpoint = '/edit?list';
+      if (patchRange.basePatchNum !== 'PARENT') {
+        endpoint += '&base=' + encodeURIComponent(patchRange.basePatchNum);
+      }
+      return this._getChangeURLAndFetch(changeNum, endpoint);
+    },
+
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string} patchNum
+     * @param {string} query
+     * @return {!Promise<!Object>}
+     */
+    queryChangeFiles(changeNum, patchNum, query) {
+      return this._getChangeURLAndFetch(changeNum,
+          `/files?q=${encodeURIComponent(query)}`, patchNum);
+    },
+
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
+    },
+
+    getChangeEditFilesAsSpeciallySortedArray(changeNum, patchRange) {
+      return this.getChangeEditFiles(changeNum, patchRange).then(files =>
+            this._normalizeChangeFilesResponse(files.files));
     },
 
     /**
@@ -1258,20 +1295,14 @@
      * Gets a file in a change edit.
      * @param {number|string} changeNum
      * @param {string} path
-     * @param {boolean=} opt_base If specified, file contents come from change
-     *     edit's base patchset.
      */
-    getFileInChangeEdit(changeNum, path, opt_base) {
+    getFileInChangeEdit(changeNum, path) {
       const e = '/edit/' + encodeURIComponent(path);
-      let payload = null;
-      if (opt_base) { payload = {base: true}; }
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e, payload)
-          .then(res => {
+      const headers = {Accept: 'application/json'};
+      return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
+          null, null, headers).then(res => {
             if (!res.ok) { return res; }
-            return res.text().then(text => {
-              res.text = atob(text);
-              return res;
-            });
+            return this.getResponseObject(res);
           });
     },
 
@@ -1316,6 +1347,10 @@
           '/edit:publish');
     },
 
+    getEditPrefs() {
+      return this._fetchSharedCacheURL('/accounts/self/preferences.edit');
+    },
+
     putChangeCommitMessage(changeNum, message) {
       const p = {message};
       return this.getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);
@@ -1337,8 +1372,10 @@
      *    passed as null sometimes.
      * @param {?=} opt_ctx
      * @param {?string=} opt_contentType
+     * @param {Object=} opt_headers
      */
-    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType) {
+    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType,
+        opt_headers) {
       const options = {method};
       if (opt_body) {
         options.headers = new Headers();
@@ -1349,24 +1386,32 @@
         }
         options.body = opt_body;
       }
-      return this._auth.fetch(this.getBaseUrl() + url, options)
-          .then(response => {
-            if (!response.ok) {
-              if (opt_errFn) {
-                return opt_errFn.call(opt_ctx || null, response);
-              }
-              this.fire('server-error', {response});
-            }
-
-            return response;
-          }).catch(err => {
-            this.fire('network-error', {error: err});
-            if (opt_errFn) {
-              return opt_errFn.call(opt_ctx, null, err);
-            } else {
-              throw err;
-            }
-          });
+      if (opt_headers) {
+        if (!options.headers) { options.headers = new Headers(); }
+        for (const header in opt_headers) {
+          if (!opt_headers.hasOwnProperty(header)) { continue; }
+          options.headers.set(header, opt_headers[header]);
+        }
+      }
+      if (!url.startsWith('http')) {
+        url = this.getBaseUrl() + url;
+      }
+      return this._auth.fetch(url, options).then(response => {
+        if (!response.ok) {
+          if (opt_errFn) {
+            return opt_errFn.call(opt_ctx || null, response);
+          }
+          this.fire('server-error', {response});
+        }
+        return response;
+      }).catch(err => {
+        this.fire('network-error', {error: err});
+        if (opt_errFn) {
+          return opt_errFn.call(opt_ctx, null, err);
+        } else {
+          throw err;
+        }
+      });
     },
 
     /**
@@ -1398,15 +1443,23 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
     },
 
-    getDiffRobotComments(changeNum, basePatchNum, patchNum, opt_path) {
-      return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
-          patchNum, opt_path);
+    /**
+     * @param {number|string} changeNum
+     * @param {number|string=} opt_basePatchNum
+     * @param {number|string=} opt_patchNum
+     * @param {string=} opt_path
+     * @return {!Promise<!Object>}
+     */
+    getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+      return this._getDiffComments(changeNum, '/robotcomments',
+          opt_basePatchNum, opt_patchNum, opt_path);
     },
 
     /**
@@ -1418,7 +1471,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
-     * @return {!Promise<?Object>}
+     * @return {!Promise<!Object>}
      */
     getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this.getLoggedIn().then(loggedIn => {
@@ -1457,6 +1510,7 @@
      * @param {number|string=} opt_basePatchNum
      * @param {number|string=} opt_patchNum
      * @param {string=} opt_path
+     * @return {!Promise<!Object>}
      */
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
@@ -1465,7 +1519,7 @@
        * Helper function to make promises more legible.
        *
        * @param {string|number=} opt_patchNum
-       * @return {!Object} Diff comments response.
+       * @return {!Promise<!Object>} Diff comments response.
        */
       const fetchComments = opt_patchNum => {
         return this._getChangeURLAndFetch(changeNum, endpoint, opt_patchNum);
@@ -1870,13 +1924,14 @@
      * @param {?function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      * @param {?=} opt_contentType
+     * @param {Object=} opt_headers
      * @return {!Promise<!Object>}
      */
     getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
-        opt_errFn, opt_ctx, opt_contentType) {
+        opt_errFn, opt_ctx, opt_contentType, opt_headers) {
       return this._changeBaseURL(changeNum, patchNum).then(url => {
         return this.send(method, url + endpoint, opt_payload, opt_errFn,
-            opt_ctx, opt_contentType);
+            opt_ctx, opt_contentType, opt_headers);
       });
     },
 

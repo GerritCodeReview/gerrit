@@ -58,7 +58,8 @@
     },
 
     _showKey(e) {
-      const index = parseInt(e.target.getAttribute('data-index'), 10);
+      const el = Polymer.dom(e).localTarget;
+      const index = parseInt(el.getAttribute('data-index'), 10);
       this._keyToView = this._keys[index];
       this.$.viewKeyOverlay.open();
     },
@@ -68,7 +69,8 @@
     },
 
     _handleDeleteKey(e) {
-      const index = parseInt(e.target.getAttribute('data-index'), 10);
+      const el = Polymer.dom(e).localTarget;
+      const index = parseInt(el.getAttribute('data-index'), 10);
       this.push('_keysToRemove', this._keys[index]);
       this.splice('_keys', index, 1);
       this.hasUnsavedChanges = true;

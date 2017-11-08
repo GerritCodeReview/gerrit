@@ -74,20 +74,24 @@ limitations under the License.
     <div class="header">
       <h3>Messages</h3>
       <div class="messageListControls container">
-        <gr-button id="collapse-messages" link
-            on-tap="_handleExpandCollapseTap">
-          [[_computeExpandCollapseMessage(_expanded)]]
-        </gr-button>
         <span
             id="automatedMessageToggleContainer"
             class="container"
             hidden$="[[!_hasAutomatedMessages(messages)]]">
-          <span class="transparent separator"></span>
-          <gr-button id="automatedMessageToggle" link
+          <gr-button
+              id="automatedMessageToggle"
+              link
               on-tap="_handleAutomatedMessageToggleTap">
             [[_computeAutomatedToggleText(_hideAutomated)]]
           </gr-button>
+          <span class="transparent separator"></span>
         </span>
+        <gr-button
+            id="collapse-messages"
+            link
+            on-tap="_handleExpandCollapseTap">
+          [[_computeExpandCollapseMessage(_expanded)]]
+        </gr-button>
       </div>
     </div>
     <span
@@ -113,7 +117,7 @@ limitations under the License.
       <gr-message
           change-num="[[changeNum]]"
           message="[[message]]"
-          comments="[[_computeCommentsForMessage(comments, message)]]"
+          comments="[[_computeCommentsForMessage(changeComments, message)]]"
           hide-automated="[[_hideAutomated]]"
           project-name="[[projectName]]"
           show-reply-button="[[showReplyButtons]]"

@@ -262,7 +262,7 @@ limitations under the License.
     test('delete comment', done => {
       sandbox.stub(
           element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
-      sandbox.spy(element.$.overlay, 'open');
+      sandbox.spy(element.$.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
       element._isAdmin = true;
@@ -270,7 +270,7 @@ limitations under the License.
           .classList.contains('showDeleteButtons'));
       MockInteractions.tap(element.$$('.action.delete'));
       flush(() => {
-        element.$.overlay.open.lastCall.returnValue.then(() => {
+        element.$.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
           element.$.confirmDeleteComment.message = 'removal reason';
           element._handleConfirmDeleteComment();
           assert.isTrue(element.$.restAPI.deleteComment.calledWith(
@@ -351,9 +351,9 @@ limitations under the License.
 
       element.editing = true;
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
-      assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
+      assert.isFalse(isVisible(element.$$('.discard')), 'discard not visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
-      assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
+      assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
@@ -484,12 +484,62 @@ limitations under the License.
     test('draft discard removes message from storage', done => {
       element._messageText = '';
       const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      sandbox.stub(element, '_closeConfirmDiscardOverlay');
 
       element.addEventListener('comment-discard', e => {
         assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
-      MockInteractions.tap(element.$$('.discard'));
+      element._handleConfirmDiscard({preventDefault: sinon.stub()});
+    });
+
+    test('storage is cleared only after save success', () => {
+      const eraseStub = sandbox.stub(element, '_eraseDraftComment');
+      sandbox.stub(element.$.restAPI, 'getResponseObject')
+          .returns(Promise.resolve({}));
+
+      sandbox.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));
+
+      const savePromise = element.save();
+      assert.isFalse(eraseStub.called);
+      return savePromise.then(() => {
+        assert.isFalse(eraseStub.called);
+
+        element._saveDraft.restore();
+        sandbox.stub(element, '_saveDraft')
+            .returns(Promise.resolve({ok: true}));
+        return element.save().then(() => {
+          assert.isTrue(eraseStub.called);
+        });
+      });
+    });
+
+    suite('confirm discard', () => {
+      let saveDisabled;
+      let discardStub;
+      let overlayStub;
+      let mockEvent;
+
+      setup(() => {
+        sandbox.stub(element, '_computeSaveDisabled', () => saveDisabled);
+        discardStub = sandbox.stub(element, '_discardDraft');
+        overlayStub = sandbox.stub(element, '_openOverlay');
+        mockEvent = {preventDefault: sinon.stub()};
+      });
+
+      test('confirms discard of comments that can be saved', () => {
+        saveDisabled = false;
+        element._handleDiscard(mockEvent);
+        assert.isTrue(overlayStub.calledWith(element.$.confirmDiscardOverlay));
+        assert.isFalse(discardStub.called);
+      });
+
+      test('no confirmation for comments that cannot be saved', () => {
+        saveDisabled = true;
+        element._handleDiscard(mockEvent);
+        assert.isFalse(overlayStub.called);
+        assert.isTrue(discardStub.calledOnce);
+      });
     });
 
     test('ctrl+s saves comment', done => {
@@ -577,6 +627,23 @@ limitations under the License.
       });
     });
 
+    test('draft prevent save when disabled', () => {
+      const saveStub = sandbox.stub(element, 'save');
+      element.draft = true;
+      MockInteractions.tap(element.$$('.edit'));
+      element._messageText = 'good news, everyone!';
+      element.flushDebouncer('fire-update');
+      element.flushDebouncer('store');
+
+      element.disabled = true;
+      MockInteractions.tap(element.$$('.save'));
+      assert.isFalse(saveStub.called);
+
+      element.disabled = false;
+      MockInteractions.tap(element.$$('.save'));
+      assert.isTrue(saveStub.calledOnce);
+    });
+
     test('clicking on date link does not trigger nav', () => {
       const showStub = sinon.stub(page, 'show');
       const dateEl = element.$$('.date');
@@ -613,22 +680,39 @@ limitations under the License.
 
       test('_show{Start,End}Request', () => {
         const updateStub = sandbox.stub(element, '_updateRequestToast');
-        element._numPendingDiffRequests.number = 1;
+        element._numPendingDraftRequests.number = 1;
 
         element._showStartRequest();
         assert.isTrue(updateStub.calledOnce);
         assert.equal(updateStub.lastCall.args[0], 2);
-        assert.equal(element._numPendingDiffRequests.number, 2);
+        assert.equal(element._numPendingDraftRequests.number, 2);
 
         element._showEndRequest();
         assert.isTrue(updateStub.calledTwice);
         assert.equal(updateStub.lastCall.args[0], 1);
-        assert.equal(element._numPendingDiffRequests.number, 1);
+        assert.equal(element._numPendingDraftRequests.number, 1);
 
         element._showEndRequest();
         assert.isTrue(updateStub.calledThrice);
         assert.equal(updateStub.lastCall.args[0], 0);
-        assert.equal(element._numPendingDiffRequests.number, 0);
+        assert.equal(element._numPendingDraftRequests.number, 0);
+      });
+    });
+
+    suite('saving progress indicators', () => {
+      setup(() => {
+        sandbox.stub(element, '_deleteDraft').returns(Promise.resolve());
+        element._savingMessage = '';
+      });
+
+      test('saving', () => {
+        element._saveDraft();
+        assert.equal(element._savingMessage, 'Saving draft...');
+      });
+
+      test('discarding', () => {
+        element._discardDraft();
+        assert.equal(element._savingMessage, 'Discarding draft...');
       });
     });
   });

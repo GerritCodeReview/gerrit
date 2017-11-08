@@ -51,17 +51,17 @@ limitations under the License.
         patchNum: '3',
       };
       const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
         {_number: 3},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 2},
+        {_number: 1},
       ];
       for (const patchNum of ['1', '2', '3']) {
-        assert.isFalse(element._computeRightDisabled(patchNum,
-            patchRange.basePatchNum, sortedRevisions));
+        assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum,
+            patchNum, sortedRevisions));
       }
-      for (const patchNum of ['PARENT', '1', '2']) {
-        assert.isFalse(element._computeLeftDisabled(patchNum,
+      for (const basePatchNum of ['1', '2']) {
+        assert.isFalse(element._computeLeftDisabled(basePatchNum,
             patchRange.patchNum, sortedRevisions));
       }
       assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum));
@@ -69,23 +69,23 @@ limitations under the License.
       patchRange.basePatchNum = element.EDIT_NAME;
       assert.isTrue(element._computeLeftDisabled('3', patchRange.patchNum,
           sortedRevisions));
-      assert.isTrue(element._computeRightDisabled('1', patchRange.basePatchNum,
+      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '1',
           sortedRevisions));
-      assert.isTrue(element._computeRightDisabled('2', patchRange.basePatchNum,
+      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum, '2',
           sortedRevisions));
-      assert.isFalse(element._computeRightDisabled('3', patchRange.basePatchNum,
+      assert.isFalse(element._computeRightDisabled(patchRange.basePatchNum, '3',
           sortedRevisions));
-      assert.isTrue(element._computeRightDisabled(element.EDIT_NAME,
-          patchRange.basePatchNum, sortedRevisions));
+      assert.isTrue(element._computeRightDisabled(patchRange.basePatchNum,
+          element.EDIT_NAME, sortedRevisions));
     });
 
     test('_computeBaseDropdownContent', () => {
-      element.comments = {};
+      const comments = {};
       const availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
         {num: 'edit'},
+        {num: 3},
+        {num: 2},
+        {num: 1},
       ];
       const revisions = [
         {
@@ -99,31 +99,19 @@ limitations under the License.
       ];
       const patchNum = 1;
       const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
         {_number: 3},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 2, description: 'description'},
+        {_number: 1},
       ];
       const expectedResult = [
         {
-          text: 'Base',
-          value: 'PARENT',
-        },
-        {
           disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1',
-          mobileText: '1',
+          triggerText: 'Patchset edit',
+          text: 'Patchset edit',
+          mobileText: 'edit',
           bottomText: '',
-          value: 1,
-        },
-        {
-          disabled: true,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
+          value: 'edit',
         },
         {
           disabled: true,
@@ -135,15 +123,27 @@ limitations under the License.
         },
         {
           disabled: true,
-          triggerText: 'Patchset edit',
-          text: 'Patchset edit',
-          mobileText: 'edit',
+          triggerText: 'Patchset 2',
+          text: 'Patchset 2',
+          mobileText: '2 description',
+          bottomText: 'description',
+          value: 2,
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset 1',
+          text: 'Patchset 1',
+          mobileText: '1',
           bottomText: '',
-          value: 'edit',
+          value: 1,
+        },
+        {
+          text: 'Base',
+          value: 'PARENT',
         },
       ];
       assert.deepEqual(element._computeBaseDropdownContent(availablePatches,
-          patchNum, sortedRevisions, revisions), expectedResult);
+          patchNum, sortedRevisions, revisions, comments), expectedResult);
     });
 
     test('_computeBaseDropdownContent called when patchNum updates', () => {
@@ -170,6 +170,35 @@ limitations under the License.
       assert.equal(element._computeBaseDropdownContent.callCount, 1);
     });
 
+    test('_computeBaseDropdownContent called when comments update', () => {
+      element.revisions = [
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      element.availablePatches = [
+        {num: 'edit'},
+        {num: 3},
+        {num: 2},
+        {num: 1},
+      ];
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
+      flushAsynchronousOperations();
+
+      // Should be recomputed for each available patch
+      sandbox.stub(element, '_computeBaseDropdownContent');
+      assert.equal(element._computeBaseDropdownContent.callCount, 0);
+      element.set('comments', {
+        file: [{
+          message: 'test',
+          patch_set: 2,
+        }],
+      });
+      assert.equal(element._computeBaseDropdownContent.callCount, 1);
+    });
+
     test('_computePatchDropdownContent called when basePatchNum updates', () => {
       element.revisions = [
         {commit: {}},
@@ -193,48 +222,59 @@ limitations under the License.
       assert.equal(element._computePatchDropdownContent.callCount, 1);
     });
 
-    test('_computePatchDropdownContent', () => {
-      element.comments = {};
-      const availablePatches = [
+    test('_computePatchDropdownContent called when comments update', () => {
+      element.revisions = [
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+        {commit: {}},
+      ];
+      element.availablePatches = [
         {num: 1},
         {num: 2},
         {num: 3},
         {num: 'edit'},
       ];
-      const revisions = [
-        {
-          commit: {},
-          _number: 2,
-          description: 'description',
-        },
-        {commit: {}},
-        {commit: {}},
-        {commit: {}},
+      element.patchNum = 2;
+      element.basePatchNum = 'PARENT';
+      flushAsynchronousOperations();
+
+      // Should be recomputed for each available patch
+      sandbox.stub(element, '_computePatchDropdownContent');
+      assert.equal(element._computePatchDropdownContent.callCount, 0);
+      element.set('comments', {
+        file: [{
+          message: 'test',
+          patch_set: 2,
+        }],
+      });
+      assert.equal(element._computePatchDropdownContent.callCount, 1);
+    });
+
+    test('_computePatchDropdownContent', () => {
+      const comments = {};
+      const availablePatches = [
+        {num: 'edit'},
+        {num: 3},
+        {num: 2},
+        {num: 1},
       ];
       const basePatchNum = 1;
       const sortedRevisions = [
-        {_number: 1},
-        {_number: 2},
-        {_number: element.EDIT_NAME, basePatchNum: 2},
         {_number: 3},
+        {_number: element.EDIT_NAME, basePatchNum: 2},
+        {_number: 2, description: 'description'},
+        {_number: 1},
       ];
 
       const expectedResult = [
         {
-          disabled: true,
-          triggerText: 'Patchset 1',
-          text: 'Patchset 1',
-          mobileText: '1',
-          bottomText: '',
-          value: 1,
-        },
-        {
           disabled: false,
-          triggerText: 'Patchset 2',
-          text: 'Patchset 2',
-          mobileText: '2 description',
-          bottomText: 'description',
-          value: 2,
+          triggerText: 'edit',
+          text: 'edit',
+          mobileText: 'edit',
+          bottomText: '',
+          value: 'edit',
         },
         {
           disabled: false,
@@ -246,16 +286,24 @@ limitations under the License.
         },
         {
           disabled: false,
-          triggerText: 'edit',
-          text: 'edit',
-          mobileText: 'edit',
+          triggerText: 'Patchset 2',
+          text: 'Patchset 2',
+          mobileText: '2 description',
+          bottomText: 'description',
+          value: 2,
+        },
+        {
+          disabled: true,
+          triggerText: 'Patchset 1',
+          text: 'Patchset 1',
+          mobileText: '1',
           bottomText: '',
-          value: 'edit',
+          value: 1,
         },
       ];
 
       assert.deepEqual(element._computePatchDropdownContent(availablePatches,
-          basePatchNum, sortedRevisions, revisions), expectedResult);
+          basePatchNum, sortedRevisions, comments), expectedResult);
     });
 
     test('filesWeblinks', () => {

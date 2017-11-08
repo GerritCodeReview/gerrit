@@ -103,10 +103,6 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    listeners: {
-      'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
-    },
-
     keyBindings: {
       '/': '_handleForwardSlashKey',
     },

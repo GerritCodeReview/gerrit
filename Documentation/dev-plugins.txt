@@ -483,6 +483,15 @@ plugins implementing this can modify commit message of the change being
 submitted by Rebase Always and Cherry Pick submit strategies as well as
 change being queried with COMMIT_FOOTERS option.
 
+[[merge-super-set-computation]]
+== Merge Super Set Computation
+
+The algorithm to compute the merge super set to detect changes that
+should be submitted together can be customized by implementing
+`com.google.gerrit.server.git.MergeSuperSetComputation`.
+MergeSuperSetComputation is a DynamicItem, so Gerrit may only have one
+implementation.
+
 [[receive-pack]]
 == Receive Pack Initializers
 

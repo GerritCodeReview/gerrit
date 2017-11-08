@@ -47,6 +47,11 @@ limitations under the License.
     //    - `leftSide`, optional, Boolean, if a `lineNum` is provided, a value
     //        of true selects the line from base of the patch range. False by
     //        default.
+    //
+    //  - Gerrit.Nav.View.GROUP:
+    //    - `groupId`, required, String, the ID of the group.
+    //    - `detail`, optional, String, the name of the group detail view.
+    //      Takes any value from Gerrit.Nav.GroupDetailView.
 
     window.Gerrit = window.Gerrit || {};
 
@@ -71,6 +76,12 @@ limitations under the License.
         EDIT: 'edit',
         SEARCH: 'search',
         SETTINGS: 'settings',
+        GROUP: 'group',
+      },
+
+      GroupDetailView: {
+        MEMBERS: 'members',
+        LOG: 'log',
       },
 
       /** @type {Function} */
@@ -119,7 +130,7 @@ limitations under the License.
        *     the project.
        * @return {string}
        */
-      getUrlForProject(project, opt_openOnly) {
+      getUrlForProjectChanges(project, opt_openOnly) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           project,
@@ -164,6 +175,17 @@ limitations under the License.
           hashtag,
           statuses: ['open', 'merged'],
         });
+      },
+
+      /**
+       * Navigate to a search for changes with the given status.
+       * @param {string} status
+       */
+      navigateToStatusSearch(status) {
+        this._navigate(this._getUrlFor({
+          view: Gerrit.Nav.View.SEARCH,
+          statuses: [status],
+        }));
       },
 
       /**
@@ -314,6 +336,41 @@ limitations under the License.
           throw new Error('navigateToRelativeUrl with non-relative URL');
         }
         this._navigate(relativeUrl);
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroup(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+        });
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroupLog(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+          detail: Gerrit.Nav.GroupDetailView.LOG,
+        });
+      },
+
+      /**
+       * @param {string} groupId
+       * @return {string}
+       */
+      getUrlForGroupMembers(groupId) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.GROUP,
+          groupId,
+          detail: Gerrit.Nav.GroupDetailView.MEMBERS,
+        });
       },
     };
   })(window);

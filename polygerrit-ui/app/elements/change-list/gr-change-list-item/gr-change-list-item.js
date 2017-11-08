@@ -104,7 +104,7 @@
     },
 
     _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProject(project, true);
+      return Gerrit.Nav.getUrlForProjectChanges(project, true);
     },
 
     _computeProjectBranchURL(change) {

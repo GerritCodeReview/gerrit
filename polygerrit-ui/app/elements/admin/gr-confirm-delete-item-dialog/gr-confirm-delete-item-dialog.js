@@ -16,6 +16,7 @@
 
   const DETAIL_TYPES = {
     BRANCHES: 'branches',
+    ID: 'id',
     TAGS: 'tags',
   };
 
@@ -56,6 +57,8 @@
         return 'Branch';
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return 'Tag';
+      } else if (detailType === DETAIL_TYPES.ID) {
+        return 'ID';
       }
     },
   });

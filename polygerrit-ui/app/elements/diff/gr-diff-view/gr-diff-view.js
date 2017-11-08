@@ -61,24 +61,8 @@
         value() { return {}; },
         observer: '_changeViewStateChanged',
       },
-
+      /** @type {?} */
       _patchRange: Object,
-      // These are kept as separate properties from the patchRange so that the
-      // observer can be aware of the previous value. In order to view sub
-      // property changes for _patchRange, a complex observer must be used, and
-      // that only displays the new value.
-      //
-      // If a previous value did not exist, the change is not reloaded with the
-      // new patches. This is just the initial setting from the change view vs.
-      // an update coming from the two way data binding.
-      _patchNum: {
-        type: String,
-        observer: '_patchOrBaseChanged',
-      },
-      _basePatchNum: {
-        type: String,
-        observer: '_patchOrBaseChanged',
-      },
       /**
        * @type {{
        *  subject: string,
@@ -87,6 +71,8 @@
        * }}
        */
       _change: Object,
+      /** @type {?} */
+      _changeComments: Object,
       _changeNum: String,
       _diff: Object,
       _fileList: {
@@ -166,7 +152,6 @@
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
       '_setReviewedObserver(_loggedIn, params.*)',
-      '_patchRangeChanged(_patchRange.*)',
     ],
 
     keyBindings: {
@@ -540,6 +525,7 @@
 
       promises.push(this._getChangeEdit(this._changeNum));
 
+      this._loading = true;
       Promise.all(promises).then(r => {
         const edit = r[4];
         if (edit) {
@@ -581,17 +567,6 @@
         this.$.cursor.side = DiffSides.RIGHT;
       }
       this.$.cursor.initialLineNumber = params.lineNum;
-    },
-
-    _patchRangeChanged() {
-      this._basePatchNum = this._patchRange.basePatchNum;
-      this._patchNum = this._patchRange.patchNum;
-    },
-
-    _patchOrBaseChanged(patchNew, patchOld) {
-      if (!patchOld) { return; }
-
-      this._handlePatchChange(this._basePatchNum, this._patchNum);
     },
 
     _pathChanged(path) {
@@ -700,7 +675,10 @@
       this.$.dropdown.open();
     },
 
-    _handlePatchChange(basePatchNum, patchNum) {
+    _handlePatchChange(e) {
+      const {basePatchNum, patchNum} = e.detail;
+      if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
+          this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
       Gerrit.Nav.navigateToDiff(
           this._change, this._path, patchNum, basePatchNum);
     },
@@ -774,11 +752,21 @@
 
     _loadComments() {
       return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._commentMap = this.$.commentAPI.getPaths(this._patchRange);
+        this._changeComments = this.$.commentAPI._changeComments;
+        this._commentMap = this._getPaths(this._patchRange);
 
-        this._commentsForDiff = this.$.commentAPI.getCommentsForPath(this._path,
+        this._commentsForDiff = this._getCommentsForPath(this._path,
             this._patchRange, this._projectConfig);
       });
+    },
+
+    _getPaths(patchRange) {
+      return this._changeComments.getPaths(patchRange);
+    },
+
+    _getCommentsForPath(path, patchRange, projectConfig) {
+      return this._changeComments.getCommentsForPath(path, patchRange,
+          projectConfig);
     },
 
     _getDiffDrafts() {

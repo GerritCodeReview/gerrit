@@ -26,6 +26,11 @@
         type: Boolean,
         observer: '_setupTooltipListeners',
       },
+      positionBelow: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
 
       _isTouchDevice: {
         type: Boolean,
@@ -73,6 +78,7 @@
       const tooltip = document.createElement('gr-tooltip');
       tooltip.text = this._titleText;
       tooltip.maxWidth = this.getAttribute('max-width');
+      tooltip.positionBelow = this.getAttribute('position-below');
 
       // Set visibility to hidden before appending to the DOM so that
       // calculations can be made based on the element’s size.
@@ -125,9 +131,14 @@
         });
       }
       tooltip.style.left = Math.max(0, left) + 'px';
-      tooltip.style.top = Math.max(0, top) + 'px';
-      tooltip.style.transform = 'translateY(calc(-100% - ' + BOTTOM_OFFSET +
-          'px))';
+
+      if (!this.positionBelow) {
+        tooltip.style.top = Math.max(0, top) + 'px';
+        tooltip.style.transform = 'translateY(calc(-100% - ' + BOTTOM_OFFSET +
+            'px))';
+      } else {
+        tooltip.style.top = top + rect.height + BOTTOM_OFFSET + 'px';
+      }
     },
   };
 })(window);

@@ -43,6 +43,12 @@ limitations under the License.
           .querySelector('.arrow').hidden, true);
     });
 
+    test('position-below attribute is reflected', () => {
+      assert.isFalse(element.hasAttribute('position-below'));
+      element.positionBelow = true;
+      assert.isTrue(element.hasAttribute('position-below'));
+    });
+
     test('icon is visible with showIcon property', () => {
       element.showIcon = true;
       assert.equal(Polymer.dom(element.root)

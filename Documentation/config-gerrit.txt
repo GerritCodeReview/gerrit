@@ -22,6 +22,9 @@ Sample `etc/gerrit.config`:
 [[accountPatchReviewDb]]
 === Section accountPatchReviewDb
 
+The AccountPatchReviewDb is a database used to store the user file reviewed
+flags. It co-exists with <<database,ReviewDb>> and link:note-db.html[NoteDb].
+
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
 The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`,
@@ -764,13 +767,8 @@ If 0, disk storage for the cache is disabled.
 cache `"accounts"`::
 +
 Cache entries contain important details of an active user, including
-their display name, preferences, known email addresses, and group
-memberships.  Entry information is obtained from the following
-database tables:
-+
-* `accounts`
-+
-* `account_group_members`
+their display name, preferences, and known email addresses. Entry
+information is obtained from the `accounts` database table.
 
 +
 If direct updates are made to any of these database tables, this
@@ -846,19 +844,19 @@ cache `"groups"`::
 Caches the basic group information from the `account_groups` table,
 including the group owner, name, and description.
 +
-Gerrit group membership obtained from the `account_group_members`
-table is cached under the `"accounts"` cache, above.  External group
-membership obtained from LDAP is cached under `"ldap_groups"`.
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
 
-cache `"groups_byinclude"`::
+cache `"groups_bymember"`::
 +
-Caches group inclusions in other groups.  If direct updates are made
+Caches the groups which contain a specific member (account). If direct
+updates are made to the `account_group_members` table, this cache should
+be flushed.
+
+cache `"groups_bysubgroups"`::
++
+Caches the parent groups of a subgroup.  If direct updates are made
 to the `account_group_includes` table, this cache should be flushed.
-
-cache `"groups_members"`::
-+
-Caches subgroups.  If direct updates are made to the
-`account_group_includes` table, this cache should be flushed.
 
 cache `"ldap_groups"`::
 +
@@ -1601,8 +1599,13 @@ Default is 1 hour.
 [[database]]
 === Section database
 
-The database section configures where Gerrit stores its metadata
-records about user accounts and change reviews.
+The database section configures ReviewDb, where Gerrit stores its metadata
+records about account groups and change reviews. Starting from 2.15, accounts
+are always stored in NoteDb and, optionally, changes too. See the
+link:note-db.html[NoteDb documentation] for more information.
+
+Note that user file reviewed flags are stored in a separate database. See the
+<<accountPatchReviewDb,accountPatchReviewDb>> section for more information.
 
 ----
 [database]
@@ -2167,6 +2170,11 @@ By default false.
 +
 Path prefix for PolyGerrit's static resources if using a CDN.
 
+[[gerrit.faviconPath]]gerrit.faviconPath::
++
+Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
+including icon name and extension (.ico should be used).
+
 [[gerrit.ui]]gerrit.ui::
 +
 Default UI when the user does not request a different preference via argument
@@ -2238,6 +2246,14 @@ at a specific branch when `gitweb.type` is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
+
+[[gitweb.tag]]gitweb.tag::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at a specific tag when `gitweb.type` is set to `custom`.
++
+Valid replacements are `${project}` for the project name in Gerrit
+and `${tag}` for the name of the tag.
 
 [[gitweb.roottree]]gitweb.roottree::
 +
@@ -2546,6 +2562,12 @@ By default, 5, suitable for most lower-volume traffic sites.
 Maximum number of threads to permit in the worker thread pool.
 +
 By default 25, suitable for most lower-volume traffic sites.
++
+[NOTE]
+Unless SSH daemon is disabled, see <<sshd.listenAddress, sshd.listenAddress>>,
+the max number of concurrent Git requests over HTTP and SSH together is
+defined by the <<sshd.threads, sshd.threads>> and
+<<sshd.batchThreads, sshd.batchThreads>>.
 
 [[httpd.maxQueued]]httpd.maxQueued::
 +
@@ -4143,6 +4165,10 @@ If additional requests are received while all threads are busy they
 are queued and serviced in a first-come-first-served order.
 +
 By default, 2x the number of CPUs available to the JVM.
++
+[NOTE]
+When SSH daemon is enabled then this setting also defines the max number of
+concurrent Git requests for interactive users over SSH and HTTP together.
 
 [[sshd.batchThreads]]sshd.batchThreads::
 +
@@ -4161,6 +4187,10 @@ than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +
 By default is 1 on single core node, 2 otherwise.
++
+[NOTE]
+When SSH daemon is enabled then this setting also defines the max number of
+concurrent Git requests for batch users over SSH and HTTP together.
 
 [[sshd.streamThreads]]sshd.streamThreads::
 +
@@ -4206,8 +4236,9 @@ By default, 2 minutes.
 [[sshd.idleTimeout]]sshd.idleTimeout::
 +
 Time in seconds after which the server automatically terminates idle
-connections (or 0 to disable closing of idle connections).  Values
-should use common unit suffixes to express their setting:
+connections (or 0 to disable closing of idle connections) not waiting for
+any server operation to complete.
+Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds
 * m, min, minute, minutes
@@ -4216,6 +4247,21 @@ should use common unit suffixes to express their setting:
 
 +
 By default, 0.
+
+[[sshd.waitTimeout]]sshd.waitTimeout::
++
+Time in seconds after which the server automatically terminates
+connections waiting for a server operation to complete, like for instance
+cloning a very large repo with lots of refs.
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+
++
+By default, 30s.
 
 [[sshd.maxConnectionsPerUser]]sshd.maxConnectionsPerUser::
 +
@@ -4235,10 +4281,24 @@ per key.  Cipher names starting with `+` are enabled in addition
 to the default ciphers, cipher names starting with `-` are removed
 from the default cipher set.
 +
-Supported ciphers: `aes128-cbc`, `aes128-cbc`, `aes256-cbc`, `blowfish-cbc`,
-`3des-cbc`, `none`.
+Supported ciphers:
++
+* `aes128-ctr`
+* `aes192-ctr`
+* `aes256-ctr`
+* `aes128-cbc`
+* `aes192-cbc`
+* `aes256-cbc`
+* `blowfish-cbc`
+* `3des-cbc`
+* `arcfour128`
+* `arcfour256`
+* `none`
 +
 By default, all supported ciphers except `none` are available.
++
+If your setup allows for it, it's recommended to disable all ciphers except
+the AES-CTR modes.
 
 [[sshd.mac]]sshd.mac::
 +
@@ -4248,8 +4308,14 @@ configuration file, one MAC per key.  MAC names starting with `+`
 are enabled in addition to the default MACs, MAC names starting with
 `-` are removed from the default MACs.
 +
-Supported MACs: `hmac-md5`, `hmac-md5-96`, `hmac-sha1`, `hmac-sha1-96`,
-`hmac-sha2-256`, `hmac-sha2-512`.
+Supported MACs:
++
+* `hmac-md5`
+* `hmac-md5-96`
+* `hmac-sha1`
+* `hmac-sha1-96`
+* `hmac-sha2-256`
+* `hmac-sha2-512`
 +
 By default, all supported MACs are available.
 
@@ -4285,6 +4351,11 @@ Supported key exchange algorithms:
 By default, all supported key exchange algorithms are available.
 Without Bouncy Castle, `diffie-hellman-group1-sha1` is the only
 available algorithm.
+
+It is strongly recommended to disable at least `diffie-hellman-group1-sha1`
+as it's known to be vulnerable (logjam attack). Additionally, if your setup
+allows for it, it is recommended to disable the remaining two `sha1` key
+exchange algorithms.
 --
 
 [[sshd.kerberosKeytab]]sshd.kerberosKeytab::
@@ -4537,9 +4608,8 @@ Defaults to 0 seconds, wait indefinitely.
 [[upload]]
 === Section upload
 
-Sets the group of users allowed to execute 'upload-pack' on the
-server, 'upload-pack' is what runs on the server during a user's
-fetch, clone or repo sync command.
+Options to control the behavior of `upload-pack` on the server side,
+which handles a user's fetch, clone, or repo sync command.
 
 ----
 [upload]
@@ -4549,8 +4619,8 @@ fetch, clone or repo sync command.
 
 [[upload.allowGroup]]upload.allowGroup::
 +
-Name of the groups of users that are allowed to execute 'upload-pack'
-on the server. One or more groups can be set.
+Name of the groups of users that are allowed to execute 'upload-pack'.
+One or more groups can be set.
 +
 If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.

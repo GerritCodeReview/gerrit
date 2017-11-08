@@ -20,6 +20,8 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
@@ -94,7 +96,13 @@ limitations under the License.
       </header>
     </gr-fixed-panel>
     <div class="textareaWrapper">
-      <textarea value="{{_newContent::input}}" id="file"></textarea>
+      <gr-endpoint-decorator name="editor">
+        <gr-endpoint-param name="fileContent" value="[[_newContent]]">
+        </gr-endpoint-param>
+        <gr-endpoint-param name="prefs" value="[[_prefs]]">
+        </gr-endpoint-param>
+        <textarea value="{{_newContent::input}}" id="file"></textarea>
+      </gr-endpoint-decorator>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

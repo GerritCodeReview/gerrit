@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<!--
+
+  Jetty configuration to place "gerrit.war" into the root context,
+  so it answers to simple URLs like "/$changeid" and "/mine".
+
+  * Copy this file to $JETTY_HOME/contexts/gerrit.xml
+  * Edit url, username, password as necessary below for database.
+
+  * Copy commons-dbcp-*.jar     to $JETTY_HOME/lib/ext/
+  * Copy commons-pool-*.jar     to $JETTY_HOME/lib/ext/
+  * Copy JDBC driver            to $JETTY_HOME/lib/ext/
+  * Copy www/gerrit-*.war       to $JETTY_HOME/webapps/gerrit.war
+
+  * Make sure you remove $JETTY_HOME/context/test.xml
+
+-->
+<Configure id="wac" class="org.eclipse.jetty.webapp.WebAppContext">
+  <Set name="contextPath">/</Set>
+  <Set name="war"><SystemProperty name="jetty.home" default="."/>/webapps/gerrit.war</Set>
+
+  <Set name="extractWAR">true</Set>
+  <Set name="copyWebDir">true</Set>
+  <Set name="defaultsDescriptor"><SystemProperty name="jetty.home" default="."/>/etc/webdefault.xml</Set>
+
+  <Set name="ConfigurationClasses">
+    <Array type="java.lang.String">
+      <Item>org.eclipse.jetty.webapp.WebInfConfiguration</Item>
+      <Item>org.eclipse.jetty.webapp.WebXmlConfiguration</Item>
+      <Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>
+      <Item>org.eclipse.jetty.plus.webapp.Configuration</Item>
+      <Item>org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Item>
+    </Array>
+  </Set>
+
+  <New id="ReviewDb" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg>
+    <Arg>jdbc/ReviewDb</Arg>
+    <Arg>
+      <New class="org.apache.commons.dbcp.BasicDataSource">
+<!--  PostgreSQL
+        <Set name="driverClassName">org.postgresql.Driver</Set>
+        <Set name="url">jdbc:postgresql:reviewdb</Set>
+        <Set name="username">gerrit</Set>
+        <Set name="password">secretkey</Set>
+-->
+<!--  MySQL
+        <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+        <Set name="url">jdbc:mysql://localhost/reviewdb?user=gerrit&amp;password=secretkey</Set>
+-->
+<!--  MariaDB
+        <Set name="driverClassName">org.mariadb.jdbc.Driver</Set>
+        <Set name="url">jdbc:mariadb://localhost/reviewdb?user=gerrit&amp;password=secretkey</Set>
+-->
+<!--  H2
+        <Set name="driverClassName">org.h2.Driver</Set>
+        <Set name="url">jdbc:h2:file:ReviewDb</Set>
+-->
+        <Set name="initialSize">4</Set>
+        <Set name="maxActive">8</Set>
+        <Set name="minIdle">4</Set>
+        <Set name="maxIdle">4</Set>
+        <Set name="maxWait">30000</Set>
+      </New>
+    </Arg>
+  </New>
+</Configure>

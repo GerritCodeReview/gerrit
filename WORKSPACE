@@ -1,5 +1,9 @@
 workspace(name = "gerrit")
 
+load("//:version.bzl", "check_version")
+
+check_version("0.5.3")
+
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
@@ -100,18 +104,18 @@ maven_jar(
     sha1 = "5d9e2e895e3111622720157d0aa540066d5fce3a",
 )
 
-GWT_VERS = "2.8.1"
+GWT_VERS = "2.8.2"
 
 maven_jar(
     name = "user",
     artifact = "com.google.gwt:gwt-user:" + GWT_VERS,
-    sha1 = "9a13fbee70848f1f1cddd3ae33ad180af3392d9e",
+    sha1 = "a2b9be2c996a658c4e009ba652a9c6a81c88a797",
 )
 
 maven_jar(
     name = "dev",
     artifact = "com.google.gwt:gwt-dev:" + GWT_VERS,
-    sha1 = "c7e88c07e9cda90cc623b4451d0d9713ae03aa53",
+    sha1 = "7a87e060bbf129386b7ae772459fb9f87297c332",
 )
 
 maven_jar(
@@ -188,8 +192,8 @@ maven_jar(
 
 maven_jar(
     name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.0.0-beta-2",
-    sha1 = "de80fe047052445869b96f6def6baca7182c95af",
+    artifact = "com.google.protobuf:protobuf-java:3.4.0",
+    sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
 )
 
 load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
@@ -198,12 +202,6 @@ maven_jar(
     name = "guava",
     artifact = "com.google.guava:guava:" + GUAVA_VERSION,
     sha1 = GUAVA_BIN_SHA1,
-)
-
-maven_jar(
-    name = "velocity",
-    artifact = "org.apache.velocity:velocity:1.7",
-    sha1 = "2ceb567b8f3f21118ecdec129fe1271dbc09aa7a",
 )
 
 maven_jar(
@@ -275,12 +273,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons_collections",
-    artifact = "commons-collections:commons-collections:3.2.2",
-    sha1 = "8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5",
-)
-
-maven_jar(
     name = "commons_compress",
     artifact = "org.apache.commons:commons-compress:1.13",
     sha1 = "15c5e9584200122924e50203ae210b57616b75ee",
@@ -294,8 +286,8 @@ maven_jar(
 
 maven_jar(
     name = "commons_lang3",
-    artifact = "org.apache.commons:commons-lang3:3.3.2",
-    sha1 = "90a3822c38ec8c996e84c16a3477ef632cbc87a3",
+    artifact = "org.apache.commons:commons-lang3:3.6",
+    sha1 = "9d28a6b23650e8a7e9063c04588ace6cf7012c17",
 )
 
 maven_jar(
@@ -317,12 +309,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons_oro",
-    artifact = "oro:oro:2.0.8",
-    sha1 = "5592374f834645c4ae250f4c9fbb314c9369d698",
-)
-
-maven_jar(
     name = "commons_validator",
     artifact = "commons-validator:commons-validator:1.6",
     sha1 = "e989d1e87cdd60575df0765ed5bac65c905d7908",
@@ -330,8 +316,8 @@ maven_jar(
 
 maven_jar(
     name = "automaton",
-    artifact = "dk.brics.automaton:automaton:1.11-8",
-    sha1 = "6ebfa65eb431ff4b715a23be7a750cbc4cc96d0f",
+    artifact = "dk.brics:automaton:1.12-1",
+    sha1 = "959a0c62f9a5c2309e0ad0b0589c74d69e101241",
 )
 
 maven_jar(
@@ -352,20 +338,20 @@ maven_jar(
     sha1 = "2e35862b0435c1b027a21f3d6eecbe50e6e08d54",
 )
 
-GREENMAIL_VERS = "1.5.3"
+GREENMAIL_VERS = "1.5.5"
 
 maven_jar(
     name = "greenmail",
     artifact = "com.icegreen:greenmail:" + GREENMAIL_VERS,
-    sha1 = "afabf8178312f7f220f74f1558e457bf54fa4253",
+    sha1 = "9ea96384ad2cb8118c22f493b529eb72c212691c",
 )
 
-MAIL_VERS = "1.5.6"
+MAIL_VERS = "1.6.0"
 
 maven_jar(
     name = "mail",
     artifact = "com.sun.mail:javax.mail:" + MAIL_VERS,
-    sha1 = "ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe",
+    sha1 = "a055c648842c4954c1f7db7254f45d9ad565e278",
 )
 
 MIME4J_VERS = "0.8.0"
@@ -388,36 +374,36 @@ maven_jar(
     sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
 )
 
-OW2_VERS = "5.1"
+OW2_VERS = "5.2"
 
 maven_jar(
     name = "ow2_asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
-    sha1 = "5ef31c4fe953b1fd00b8a88fa1d6820e8785bb45",
+    sha1 = "4ce3ecdc7115bcbf9d4ff4e6ec638e60760819df",
 )
 
 maven_jar(
     name = "ow2_asm_analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-    sha1 = "6d1bf8989fc7901f868bee3863c44f21aa63d110",
+    sha1 = "2de10833bb3ade1939b1489b7656c9de20343e14",
 )
 
 maven_jar(
     name = "ow2_asm_commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-    sha1 = "25d8a575034dd9cfcb375a39b5334f0ba9c8474e",
+    sha1 = "2f916f2c20f1d04404276cb1c2e6d5d6793dca3f",
 )
 
 maven_jar(
     name = "ow2_asm_tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-    sha1 = "87b38c12a0ea645791ead9d3e74ae5268d1d6c34",
+    sha1 = "733a8d67f6f4174d12142b7bbcfc496a6d99882e",
 )
 
 maven_jar(
     name = "ow2_asm_util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-    sha1 = "b60e33a6bd0d71831e0c249816d01e6c1dd90a47",
+    sha1 = "9408ea14e73b7c9b427545a1b84923d6afaf8e1e",
 )
 
 maven_jar(
@@ -428,8 +414,8 @@ maven_jar(
 
 maven_jar(
     name = "tukaani_xz",
-    artifact = "org.tukaani:xz:1.4",
-    sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
+    artifact = "org.tukaani:xz:1.6",
+    sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
 # When upgrading Lucene, make sure it's compatible with Elasticsearch
@@ -570,17 +556,17 @@ maven_jar(
 
 maven_jar(
     name = "blame_cache",
-    artifact = "com/google/gitiles:blame-cache:0.2-4",
+    artifact = "com/google/gitiles:blame-cache:0.2-5",
     attach_source = False,
     repository = GERRIT,
-    sha1 = "e68fa6fcb6402e9a781cd33b2e0ecec85d1b786d",
+    sha1 = "50861b114350c598579ba66f99285e692e3c8d45",
 )
 
 # Keep this version of Soy synchronized with the version used in Gitiles.
 maven_jar(
     name = "soy",
-    artifact = "com.google.template:soy:2017-04-23",
-    sha1 = "52f32a5a3801ab97e0909373ef7f73a3460d0802",
+    artifact = "com.google.template:soy:2017-08-08",
+    sha1 = "792aa49e3ec3f61e793e56b499f0724df1c1e16c",
 )
 
 maven_jar(
@@ -597,8 +583,8 @@ maven_jar(
 
 maven_jar(
     name = "dropwizard_core",
-    artifact = "io.dropwizard.metrics:metrics-core:3.2.4",
-    sha1 = "36af4975e38bb39686a63ba5139dce8d3f410669",
+    artifact = "io.dropwizard.metrics:metrics-core:3.2.5",
+    sha1 = "ea2316646e9787c5b2d14ca97f4ef7ad5c6b94e9",
 )
 
 # When updading Bouncy Castle, also update it in bazlets.
@@ -705,18 +691,18 @@ maven_jar(
     sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
 )
 
-TRUTH_VERS = "0.35"
+TRUTH_VERS = "0.36"
 
 maven_jar(
     name = "truth",
     artifact = "com.google.truth:truth:" + TRUTH_VERS,
-    sha1 = "c08a7fde45e058323bcfa3f510d4fe1e2b028f37",
+    sha1 = "7485219d2c1d341097a19382c02bde07e69ff5d2",
 )
 
 maven_jar(
     name = "truth-java8-extension",
     artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-    sha1 = "5457fdf91b1e954b070ad7f2db9bea5505da4bca",
+    sha1 = "dcc60988c8f9a051840766ef192a2ef41e7992f1",
 )
 
 # When bumping the easymock version number, make sure to also move powermock to a compatible version
@@ -897,14 +883,14 @@ maven_jar(
 
 maven_jar(
     name = "asciidoctor",
-    artifact = "org.asciidoctor:asciidoctorj:1.5.4.1",
-    sha1 = "f7ddfb2bbed2f8da3f9ad0d1a5514f04b4274a5a",
+    artifact = "org.asciidoctor:asciidoctorj:1.5.6",
+    sha1 = "bb757d4b8b0f8438ce2ed781f6688cc6c01d9237",
 )
 
 maven_jar(
     name = "jruby",
-    artifact = "org.jruby:jruby-complete:9.1.5.0",
-    sha1 = "00d0003e99da3c4d830b12c099691ce910c84e39",
+    artifact = "org.jruby:jruby-complete:9.1.13.0",
+    sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
 )
 
 # When upgrading Elasticsearch, make sure it's compatible with Lucene
@@ -1097,6 +1083,20 @@ bower_archive(
 )
 
 bower_archive(
+    name = "iron-icon",
+    package = "polymerelements/iron-icon",
+    sha1 = "7da49a0d33cd56017740e0dbcf41d2b71532023f",
+    version = "2.0.0",
+)
+
+bower_archive(
+    name = "iron-iconset-svg",
+    package = "polymerelements/iron-iconset-svg",
+    sha1 = "4d0c406239cad2ff2975c6dd95fa189de0fe6b50",
+    version = "2.1.0",
+)
+
+bower_archive(
     name = "moment",
     package = "moment/moment",
     sha1 = "fc8ce2c799bab21f6ced7aff928244f4ca8880aa",
@@ -1127,8 +1127,8 @@ bower_archive(
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "566b5fe9a2a3eea2cf3417c67d975a6752d131eb",
-    version = "1.9.3",
+    sha1 = "62ce80a5079c1b97f6c5c6ebf6b350e741b18b9c",
+    version = "1.11.0",
 )
 
 bower_archive(

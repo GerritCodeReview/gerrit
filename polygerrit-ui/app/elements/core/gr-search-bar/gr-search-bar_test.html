@@ -59,17 +59,6 @@ limitations under the License.
           document.activeElement;
     };
 
-    test('tap on search button triggers nav', done => {
-      sandbox.stub(page, 'show', () => {
-        page.show.restore();
-        assert.notEqual(getActiveElement(), element.$.searchInput);
-        assert.notEqual(getActiveElement(), element.$.searchButton);
-        done();
-      });
-      element.value = 'test';
-      MockInteractions.tap(element.$.searchButton);
-    });
-
     test('enter in search input triggers nav', done => {
       sandbox.stub(page, 'show', () => {
         page.show.restore();

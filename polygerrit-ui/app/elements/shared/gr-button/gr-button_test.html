@@ -51,6 +51,16 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('disabled is set by disabled or loading', () => {
+      assert.isFalse(element.$$('paper-button').disabled);
+      element.disabled = true;
+      assert.isTrue(element.$$('paper-button').disabled);
+      element.disabled = false;
+      assert.isFalse(element.$$('paper-button').disabled);
+      element.loading = true;
+      assert.isTrue(element.$$('paper-button').disabled);
+    });
+
     for (const eventName of ['tap', 'click']) {
       test('dispatches ' + eventName + ' event', () => {
         const spy = addSpyOn(eventName);
@@ -66,6 +76,16 @@ limitations under the License.
         element.addEventListener('tap', tapSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key);
         assert.isTrue(tapSpy.calledOnce);
+      });
+
+      test('dispatches no tap event with modifier on keycode ' + key, () => {
+        const tapSpy = sandbox.spy();
+        element.addEventListener('tap', tapSpy);
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
+        MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
+        assert.isFalse(tapSpy.calledOnce);
       });
     }
 

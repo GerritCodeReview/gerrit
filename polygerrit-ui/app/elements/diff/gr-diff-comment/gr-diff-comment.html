@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -45,7 +46,8 @@ limitations under the License.
       :host([disabled]) {
         pointer-events: none;
       }
-      :host([disabled]) .container {
+      :host([disabled]) .body,
+      :host([disabled]) .date {
         opacity: .5;
       }
       :host([is-robot-comment]) {
@@ -93,7 +95,11 @@ limitations under the License.
         padding-top: 0;
       }
       .action {
-        margin-left: .5em;
+        margin-left: 1em;
+        --gr-button: {
+          color: #212121;
+        }
+        --gr-button-hover-color: rgba(33, 33, 33, .75);
       }
       .rightActions {
         display: flex;
@@ -128,6 +134,7 @@ limitations under the License.
       .editing .ack,
       .editing .done,
       .editing .edit,
+      .editing .discard,
       .editing .unresolved {
         display: none;
       }
@@ -204,6 +211,12 @@ limitations under the License.
       #deleteBtn.showDeleteButtons {
         display: block;
       }
+      #savingMessage {
+        display: none;
+      }
+      :host([disabled]) #savingMessage {
+        display: inline;
+      }
     </style>
     <div id="container"
         class="container"
@@ -218,6 +231,7 @@ limitations under the License.
               title="This draft is only visible to you. To publish drafts, click the red 'Reply' button at the top of the change or press the 'A' key."
               max-width="20em"
               show-icon></gr-tooltip-content>
+          <span id="savingMessage">[[_savingMessage]]</span>
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
@@ -243,68 +257,86 @@ limitations under the License.
           </label>
         </div>
       </div>
-      <template is="dom-if" if="[[comment.robot_id]]">
-        <div class="robotId" hidden$="[[collapsed]]">
-          [[comment.robot_id]]
+      <div class="body">
+        <template is="dom-if" if="[[comment.robot_id]]">
+          <div class="robotId" hidden$="[[collapsed]]">
+            [[comment.robot_id]]
+          </div>
+        </template>
+        <gr-textarea
+            id="editTextarea"
+            class="editMessage"
+            autocomplete="on"
+            monospace
+            disabled="{{disabled}}"
+            rows="4"
+            text="{{_messageText}}"></gr-textarea>
+        <gr-formatted-text class="message"
+            content="[[comment.message]]"
+            no-trailing-margin="[[!comment.__draft]]"
+            collapsed="[[collapsed]]"
+            config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+        <div hidden$="[[!comment.robot_run_id]]">
+          <div class="runIdInformation" hidden$="[[collapsed]]">
+            Run ID:
+            <a class="robotRunLink" href$="[[comment.url]]">
+              <span class="robotRun">[[comment.robot_run_id]]</span>
+            </a>
+          </div>
         </div>
-      </template>
-      <gr-textarea
-          id="editTextarea"
-          class="editMessage"
-          autocomplete="on"
-          monospace
-          disabled="{{disabled}}"
-          rows="4"
-          text="{{_messageText}}"></gr-textarea>
-      <gr-formatted-text class="message"
-          content="[[comment.message]]"
-          no-trailing-margin="[[!comment.__draft]]"
-          collapsed="[[collapsed]]"
-          config="[[projectConfig.commentlinks]]"></gr-formatted-text>
-      <div hidden$="[[!comment.robot_run_id]]">
-        <div class="runIdInformation" hidden$="[[collapsed]]">
-          Run ID:
-          <a class="robotRunLink" href$="[[comment.url]]">
-            <span class="robotRun">[[comment.robot_run_id]]</span>
-          </a>
+        <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
+          <div class="action resolve hideOnPublished">
+            <label>
+              <input type="checkbox"
+                  checked$="[[resolved]]"
+                  on-change="_handleToggleResolved">
+              Resolved
+            </label>
+          </div>
+          <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
+            Unresolved
+          </div>
+          <div class="rightActions">
+            <gr-button link class="action cancel hideOnPublished"
+                on-tap="_handleCancel">Cancel</gr-button>
+            <gr-button link class="action discard hideOnPublished"
+                on-tap="_handleDiscard">Discard</gr-button>
+            <gr-button link class="action edit hideOnPublished"
+                on-tap="_handleEdit">Edit</gr-button>
+            <gr-button link class="action save hideOnPublished"
+                on-tap="_handleSave"
+                disabled$="[[_computeSaveDisabled(_messageText)]]">Save
+            </gr-button>
+          </div>
         </div>
-      </div>
-      <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
-        <div class="action resolve hideOnPublished">
-          <label>
-            <input type="checkbox"
-                checked$="[[resolved]]"
-                on-change="_handleToggleResolved">
-            Resolved
-          </label>
+        <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
+          <gr-button link class="action fix"
+              on-tap="_handleFix"
+              disabled="[[robotButtonDisabled]]">
+            Please Fix
+          </gr-button>
         </div>
-        <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
-          Unresolved
-        </div>
-        <div class="rightActions">
-          <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
-              Edit</gr-button>
-          <gr-button class="action save hideOnPublished" on-tap="_handleSave"
-              disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
-          <gr-button class="action cancel hideOnPublished"
-              on-tap="_handleCancel" hidden>Cancel</gr-button>
-          <gr-button class="action discard hideOnPublished"
-              on-tap="_handleDiscard">Discard</gr-button>
-        </div>
-      </div>
-      <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-        <gr-button class="action fix"
-            on-tap="_handleFix"
-            disabled="[[robotButtonDisabled]]">
-          Please Fix
-        </gr-button>
       </div>
     </div>
-    <gr-overlay id="overlay" with-backdrop>
+    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
       <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
           on-confirm="_handleConfirmDeleteComment"
           on-cancel="_handleCancelDeleteComment">
       </gr-confirm-delete-comment-dialog>
+    </gr-overlay>
+    <gr-overlay id="confirmDiscardOverlay" with-backdrop>
+      <gr-confirm-dialog
+          id="confirmDiscaDialog"
+          confirm-label="Discard"
+          on-confirm="_handleConfirmDiscard"
+          on-cancel="_closeConfirmDiscardOverlay">
+        <div class="header">
+          Discard comment
+        </div>
+        <div class="main">
+          Are you sure you want to discard this draft comment?
+        </div>
+      </gr-confirm-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>

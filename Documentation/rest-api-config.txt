@@ -333,12 +333,17 @@ The entries in the map are sorted by cache name.
         "mem": 12
       }
     },
-    "groups_byinclude": {
+    "groups_bymember": {
       "type": "MEM",
       "entries": {},
       "hit_ratio": {}
     },
     "groups_byname": {
+      "type": "MEM",
+      "entries": {},
+      "hit_ratio": {}
+    },
+    "groups_bysubgroup": {
       "type": "MEM",
       "entries": {},
       "hit_ratio": {}
@@ -357,16 +362,6 @@ The entries in the map are sorted by cache name.
       "type": "MEM",
       "entries": {},
       "hit_ratio": {}
-    },
-    groups_members": {
-      "type": "MEM",
-      "entries": {
-        "mem": 4
-      },
-      "average_get": "697.8us",
-      "hit_ratio": {
-        "mem": 82
-      }
     },
     "permission_sort": {
       "type": "MEM",
@@ -467,11 +462,11 @@ The cache names are lexicographically sorted.
     "diff_intraline",
     "git_tags",
     "groups",
-    "groups_byinclude",
+    "groups_bymember",
     "groups_byname",
+    "groups_bysubgroup",
     "groups_byuuid",
     "groups_external",
-    "groups_members",
     "permission_sort",
     "plugin_resources",
     "project_list",

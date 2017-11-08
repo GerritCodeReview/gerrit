@@ -124,8 +124,11 @@ limitations under the License.
         text-decoration: none;
       }
       .loading {
-        padding: 0 var(--default-horizontal-margin) 1em;
-        color: #666;
+        color: #777;
+        font-size: 2em;
+        height: 100%;
+        padding: 1em var(--default-horizontal-margin);
+        text-align: center;
       }
       .subHeader {
         flex-wrap: wrap;
@@ -145,10 +148,12 @@ limitations under the License.
         overflow: auto;
       }
       #trigger {
-        -moz-user-select: text;
-        -ms-user-select: text;
-        -webkit-user-select: text;
-        user-select: text;
+        --gr-button: {
+          -moz-user-select: text;
+          -ms-user-select: text;
+          -webkit-user-select: text;
+          user-select: text;
+        }
       }
       .editLoaded .hideOnEdit {
         display: none;
@@ -281,11 +286,13 @@ limitations under the License.
           <gr-patch-range-select
               id="rangeSelect"
               change-num="[[_changeNum]]"
-              patch-num="{{_patchNum}}"
-              base-patch-num="{{_basePatchNum}}"
+              comments="[[_changeComments.comments]]"
+              patch-num="[[_patchRange.patchNum]]"
+              base-patch-num="[[_patchRange.basePatchNum]]"
               files-weblinks="[[_filesWeblinks]]"
               available-patches="[[_allPatchSets]]"
-              revisions="[[_change.revisions]]">
+              revisions="[[_change.revisions]]"
+              on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="download desktop">
             <span class="separator">/</span>

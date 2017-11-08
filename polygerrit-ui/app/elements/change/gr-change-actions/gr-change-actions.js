@@ -76,7 +76,7 @@
 
   const ActionLoadingLabels = {
     abandon: 'Abandoning...',
-    cherrypick: 'Cherry-Picking...',
+    cherrypick: 'Cherry-picking...',
     delete: 'Deleting...',
     move: 'Moving..',
     rebase: 'Rebasing...',
@@ -97,7 +97,7 @@
     __type: 'change',
     enabled: true,
     key: 'review',
-    label: 'Quick Approve',
+    label: 'Quick approve',
     method: 'POST',
   };
 
@@ -120,7 +120,7 @@
 
   const REBASE_EDIT = {
     enabled: true,
-    label: 'Rebase Edit',
+    label: 'Rebase edit',
     title: 'Rebase change edit',
     __key: 'rebaseEdit',
     __primary: false,
@@ -130,7 +130,7 @@
 
   const PUBLISH_EDIT = {
     enabled: true,
-    label: 'Publish Edit',
+    label: 'Publish edit',
     title: 'Publish change edit',
     __key: 'publishEdit',
     __primary: false,
@@ -140,7 +140,7 @@
 
   const DELETE_EDIT = {
     enabled: true,
-    label: 'Delete Edit',
+    label: 'Delete edit',
     title: 'Delete change edit',
     __key: 'deleteEdit',
     __primary: false,
@@ -158,6 +158,12 @@
      * Fired when the change should be reloaded.
      *
      * @event reload-change
+     */
+
+     /**
+     * Fired when the reply button is tapped.
+     *
+     * @event reply-tap
      */
 
     /**
@@ -208,6 +214,8 @@
         type: Object,
         value() { return {}; },
       },
+      replyButtonLabel: String,
+      replyDisabled: Boolean,
 
       _loading: {
         type: Boolean,
@@ -227,7 +235,10 @@
         type: Array,
         computed: '_computeTopLevelActions(_allActionValues.*, ' +
             '_hiddenActions.*, _overflowActions.*)',
+        observer: '_filterPrimaryActions',
       },
+      _topLevelPrimaryActions: Array,
+      _topLevelSecondaryActions: Array,
       _menuActions: {
         type: Array,
         computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*, ' +
@@ -323,6 +334,7 @@
     observers: [
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*, ' +
           'editLoaded, editBasedOnCurrentPatchSet, change)',
+      '_changeChanged(change)',
     ],
 
     listeners: {
@@ -351,6 +363,10 @@
         this._loading = false;
         throw err;
       });
+    },
+
+    _changeChanged() {
+      this.reload();
     },
 
     addActionButton(type, label) {
@@ -430,6 +446,14 @@
         this.push('_hiddenActions', key);
       } else if (!hidden && idx !== -1) {
         this.splice('_hiddenActions', idx, 1);
+      }
+    },
+
+    getActionDetails(action) {
+      if (this.revisionActions[action]) {
+        return this.revisionActions[action];
+      } else if (this.actions[action]) {
+        return this.actions[action];
       }
     },
 
@@ -605,20 +629,29 @@
       const result = [];
       const values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
+      const pluginActions = [];
       for (const a in actions) {
-        if (!values.includes(a)) { continue; }
+        if (!actions.hasOwnProperty(a)) {
+          continue;
+        }
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.includes(a);
-        if (actions[a].label === 'Delete') {
-          // This label is common within change and revision actions. Make it
-          // more explicit to the user.
-          if (type === ActionType.CHANGE) {
-            actions[a].label += ' Change';
-          }
+        // Plugin actions always contain ~ in the key.
+        if (a.indexOf('~') !== -1) {
+          pluginActions.push(actions[a]);
+          // Add server-side provided plugin actions to overflow menu.
+          this._overflowActions.push({
+            type,
+            key: a,
+          });
+          continue;
+        } else if (!values.includes(a)) {
+          continue;
         }
+        actions[a].label = this._getActionLabel(actions[a], type);
+
         // Triggers a re-render by ensuring object inequality.
-        // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));
       }
 
@@ -631,7 +664,33 @@
         // Triggers a re-render by ensuring object inequality.
         return Object.assign({}, a);
       });
-      return result.concat(additionalActions);
+      return result.concat(additionalActions).concat(pluginActions);
+    },
+
+    /**
+     * Given a change action, return a display label that uses the appropriate
+     * casing or includes explanatory details.
+     */
+    _getActionLabel(action, type) {
+      if (action.label === 'Delete' && type === ActionType.CHANGE) {
+        // This label is common within change and revision actions. Make it more
+        // explicit to the user.
+        return 'Delete change';
+      } else if (action.label === 'WIP' && type === ActionType.CHANGE) {
+        return 'Mark as work in progress';
+      }
+      // Otherwise, just map the anme to sentence case.
+      return this._toSentenceCase(action.label);
+    },
+
+    /**
+     * Capitalize the first letter and lowecase all others.
+     * @param {string} s
+     * @return {string}
+     */
+    _toSentenceCase(s) {
+      if (!s.length) { return ''; }
+      return s[0].toUpperCase() + s.slice(1).toLowerCase();
     },
 
     _computeLoadingLabel(action) {
@@ -664,11 +723,17 @@
       this._showActionDialog(this.$.confirmRevertDialog);
     },
 
+    _handleReplyTap(e) {
+      e.preventDefault();
+      this.dispatchEvent(new CustomEvent('reply-tap'));
+    },
+
     _handleActionTap(e) {
       e.preventDefault();
-      const el = e.currentTarget;
+      const el = Polymer.dom(e).localTarget;
       const key = el.getAttribute('data-action-key');
-      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
+          key.indexOf('~') !== -1) {
         this.fire(`${key}-tap`, {node: el});
         return;
       }
@@ -677,6 +742,14 @@
     },
 
     _handleOveflowItemTap(e) {
+      e.preventDefault();
+      const el = Polymer.dom(e).localTarget;
+      const key = e.detail.action.__key;
+      if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
+          key.indexOf('~') !== -1) {
+        this.fire(`${key}-tap`, {node: el});
+        return;
+      }
       this._handleAction(e.detail.action.__type, e.detail.action.__key);
     },
 
@@ -1126,6 +1199,13 @@
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
       });
+    },
+
+    _filterPrimaryActions(_topLevelActions) {
+      this._topLevelPrimaryActions = _topLevelActions.filter(action =>
+          action.__primary);
+      this._topLevelSecondaryActions = _topLevelActions.filter(action =>
+          !action.__primary);
     },
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {

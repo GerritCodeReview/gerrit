@@ -111,6 +111,24 @@ limitations under the License.
       assert.equal(tooltip.style.top, '100px');
     });
 
+    test('position to bottom', () => {
+      sandbox.stub(element, 'getBoundingClientRect', () => {
+        return {top: 100, left: 950, width: 50, height: 50};
+      });
+      const tooltip = makeTooltip(
+          {height: 30, width: 120},
+          {top: 0, left: 0, width: 1000});
+
+      element.positionBelow = true;
+      element._positionTooltip(tooltip);
+      assert.isTrue(tooltip.updateStyles.called);
+      const offset = tooltip.updateStyles
+          .lastCall.args[0]['--gr-tooltip-arrow-center-offset'];
+      assert.isAbove(parseFloat(offset.replace(/px$/, '')), 0);
+      assert.equal(tooltip.style.left, '915px');
+      assert.equal(tooltip.style.top, '157.2px');
+    });
+
     test('hides tooltip when detached', () => {
       sandbox.stub(element, '_handleHideTooltip');
       element.remove();

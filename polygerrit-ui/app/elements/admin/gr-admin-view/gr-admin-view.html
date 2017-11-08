@@ -21,8 +21,8 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-page-nav-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
-<link rel="import" href="../../shared/gr-placeholder/gr-placeholder.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
@@ -131,9 +131,6 @@ limitations under the License.
             path="[[path]]"
             project="[[params.project]]"></gr-project-access>
       </main>
-    </template>
-    <template is="dom-if" if="[[params.placeholder]]" restamp="true">
-      <gr-placeholder title="Admin" path="[[path]]"></gr-placeholder>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

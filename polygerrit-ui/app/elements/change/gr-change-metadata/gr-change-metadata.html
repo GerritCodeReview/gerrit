@@ -91,19 +91,19 @@ limitations under the License.
 
       /* CSS Mixins should be applied last. */
       section.assignee {
-        @apply(--change-metadata-assignee);
+        @apply --change-metadata-assignee;
       }
       section.labelStatus {
-        @apply(--change-metadata-label-status);
+        @apply --change-metadata-label-status;
       }
       section.strategy {
-        @apply(--change-metadata-strategy);
+        @apply --change-metadata-strategy;
       }
       section.topic {
-        @apply(--change-metadata-topic);
+        @apply --change-metadata-topic;
       }
-      gr-account-chip([disabled]),
-      gr-linked-chip([disabled]) {
+      gr-account-chip[disabled],
+      gr-linked-chip[disabled] {
         opacity: 0;
         pointer-events: none;
       }
@@ -127,7 +127,6 @@ limitations under the License.
         .title,
         .value {
           display: table-cell;
-          vertical-align: top;
         }
         .title {
           padding-right: .5em;
@@ -215,15 +214,19 @@ limitations under the License.
       <section class="topic">
         <span class="title">Topic</span>
         <span class="value">
-          <template is="dom-if" if="[[change.topic]]">
+          <template
+              is="dom-if"
+              if="[[_showTopicChip(change.*, _settingTopic)]]">
             <gr-linked-chip
                 text="[[change.topic]]"
                 limit="40"
-                href="[[_computeTopicURL(change.topic)]]"
+                href="[[_computeTopicURL(change.*)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>
-          <template is="dom-if" if="[[!change.topic]]">
+          <template
+              is="dom-if"
+              if="[[_showAddTopic(change.*, _settingTopic)]]">
             <gr-editable-label
                 uppercase
                 label-text="Add a topic"

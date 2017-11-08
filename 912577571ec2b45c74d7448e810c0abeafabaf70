@@ -35,6 +35,24 @@
       "revId": "912577571ec2b45c74d7448e810c0abeafabaf70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90771aff_8f52df33",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/GroupsOnInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:42:39Z",
+      "side": 1,
+      "message": "Yeah, I am now thinking we may have to fix this for AccountsOnInit in the 2.15 series. But that argument doesn\u0027t apply to groups, which aren\u0027t in 2.15, so this is fine.",
+      "parentUuid": "760a04f5_a74edfd4",
+      "revId": "912577571ec2b45c74d7448e810c0abeafabaf70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

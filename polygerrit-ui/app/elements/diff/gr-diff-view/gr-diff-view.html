@@ -26,6 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
+<link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="../gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../gr-diff-preferences/gr-diff-preferences.html">
@@ -227,6 +228,7 @@ limitations under the License.
               files-weblinks="[[_filesWeblinks]]"
               available-patches="[[_allPatchSets]]"
               revisions="[[_change.revisions]]"
+              revision-info="[[_revisionInfo]]"
               on-patch-range-change="_handlePatchChange">
           </gr-patch-range-select>
           <span class="download desktop">

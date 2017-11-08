@@ -93,6 +93,14 @@ public final class AccountGroupMemberAudit {
     return key;
   }
 
+  public AccountGroup.Id getGroupId() {
+    return key.getGroupId();
+  }
+
+  public Account.Id getMemberId() {
+    return key.getParentKey();
+  }
+
   public boolean isActive() {
     return removedOn == null;
   }
@@ -109,6 +117,10 @@ public final class AccountGroupMemberAudit {
 
   public Account.Id getAddedBy() {
     return addedBy;
+  }
+
+  public Timestamp getAddedOn() {
+    return key.getAddedOn();
   }
 
   public Account.Id getRemovedBy() {

@@ -351,7 +351,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
   }
 
   private InternalGroup reload(AccountGroup g) throws Exception {
-    return GroupConfig.loadForGroup(repo, g.getGroupUUID()).getLoadedGroup().get();
+    return removeRefState(GroupConfig.loadForGroup(repo, g.getGroupUUID()).getLoadedGroup().get());
   }
 
   private AccountGroup newGroup(String name) {
@@ -442,5 +442,9 @@ public class GroupRebuilderTest extends GerritBaseTests {
     assertThat(commitInfo).committer().email().isEqualTo(SERVER_EMAIL);
     assertThat(commitInfo).committer().date().isEqualTo(commitInfo.author.date);
     assertThat(commitInfo).committer().tz().isEqualTo(commitInfo.author.tz);
+  }
+
+  private static InternalGroup removeRefState(InternalGroup group) throws Exception {
+    return group.toBuilder().setRefState(null).build();
   }
 }

@@ -486,6 +486,14 @@ public abstract class AbstractDaemonTest {
     return cloneProject(p, admin);
   }
 
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p, String ref)
+      throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(p);
+    GitUtil.fetch(repo, ref + ":" + ref);
+    repo.reset(ref);
+    return repo;
+  }
+
   protected TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey p, TestAccount testAccount) throws Exception {
     return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));

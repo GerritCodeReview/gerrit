@@ -139,7 +139,7 @@ public class SetAccessUtil {
           && section.getName().startsWith(RefNames.REFS_GROUPS)) {
         throw new BadRequestException(
             String.format(
-                "Permissions on %s is managed by Gerrit and cannot be modified",
+                "permissions on %s are managed by gerrit and cannot be modified",
                 RefNames.REFS_GROUPS));
       }
     }

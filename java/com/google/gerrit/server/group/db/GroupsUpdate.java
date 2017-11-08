@@ -526,7 +526,15 @@ public class GroupsUpdate {
     return groupCache
         .get(groupUuid)
         .map(InternalGroup::getName)
-        .map(name -> String.format("%s <%s>", name, groupUuid))
+        .map(
+            name -> {
+              StringBuilder formattedResult = new StringBuilder();
+              PersonIdent.appendSanitized(formattedResult, name);
+              formattedResult.append(" <");
+              PersonIdent.appendSanitized(formattedResult, groupUuid.get());
+              formattedResult.append(">");
+              return formattedResult.toString();
+            })
         .orElse(groupUuid.get());
   }
 

@@ -334,12 +334,12 @@ public class GroupConfig extends VersionedMetaData {
         Sets.difference(oldSubgroups, newSubgroups)
             .stream()
             .map(groupNameRetriever)
-            .map("Remove: group "::concat);
+            .map("Remove-group: "::concat);
     Stream<String> addedMembers =
         Sets.difference(newSubgroups, oldSubgroups)
             .stream()
             .map(groupNameRetriever)
-            .map("Add: group "::concat);
+            .map("Add-group: "::concat);
     return Stream.concat(removedMembers, addedMembers);
   }
 }

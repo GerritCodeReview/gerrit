@@ -25,7 +25,13 @@
       return this._reloadComments();
     },
 
-    _reloadCommentsWithCallback(e) {
+    /**
+     * For the purposes of the mock, _reloadDrafts is not included because its
+     * response is the same type as reloadComments, just makes less API
+     * requests. Since this is for test purposes/mocked data anyway, keep this
+     * file simpler by just using _reloadComments here instead.
+     */
+    _reloadDraftsWithCallback(e) {
       return this._reloadComments().then(() => {
         return e.detail.resolve();
       });

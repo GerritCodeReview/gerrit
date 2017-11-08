@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -85,6 +87,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
@@ -101,6 +104,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private AllUsersName allUsers;
+  @Inject private StalenessChecker stalenessChecker;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -933,6 +937,43 @@ public class GroupsIT extends AbstractDaemonTest {
     r.assertMessage("All-Users must inherit from All-Projects");
   }
 
+  @Test
+  public void stalenessChecker() throws Exception {
+    assume().that(isNoteDbConfig()).isTrue();
+
+    // Newly created group is not stale
+    GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupInfo.id);
+    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
+
+    // Manual update makes index document stale
+    String groupRef = RefNames.refsGroups(groupUuid);
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(groupRef).getObjectId());
+
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(commit.getTree());
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage(commit.getFullMessage());
+      ObjectId emptyCommit = oi.insert(cb);
+      oi.flush();
+
+      RefUpdate updateRef = repo.updateRef(groupRef);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(emptyCommit);
+      assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
+
+    // Reindex fixes staleness
+    gApi.groups().id(groupInfo.id).index();
+    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
+  }
+
   private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)
       throws Exception {
     grantLabel(
@@ -1048,5 +1089,9 @@ public class GroupsIT extends AbstractDaemonTest {
     } catch (BadRequestException e) {
       // Expected
     }
+  }
+
+  private boolean isNoteDbConfig() {
+    return baseConfig.getBoolean("user", "writeGroupsToNoteDb", false);
   }
 }

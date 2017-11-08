@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexedQuery;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -22,9 +23,21 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
+import java.util.HashSet;
+import java.util.Set;
 
 public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>
     implements DataSource<InternalGroup> {
+
+  public static QueryOptions createOptions(
+      IndexConfig config, int start, int limit, Set<String> fields) {
+    // Always include GroupField.UUID since it is needed to load the group from NoteDb.
+    if (!fields.contains(GroupField.UUID.getName())) {
+      fields = new HashSet<>(fields);
+      fields.add((GroupField.UUID.getName()));
+    }
+    return QueryOptions.create(config, start, limit, fields);
+  }
 
   public IndexedGroupQuery(
       Index<AccountGroup.UUID, InternalGroup> index,

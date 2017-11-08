@@ -48,12 +48,6 @@ name:'NAME'::
 +
 Matches groups that have the name 'NAME' (case-insensitive).
 
-[[owner]]
-owner:'OWNER'::
-+
-Matches groups that are owned by the group whose name best matches
-'OWNER' or that has the UUID 'OWNER'.
-
 [[uuid]]
 uuid:'UUID'::
 +

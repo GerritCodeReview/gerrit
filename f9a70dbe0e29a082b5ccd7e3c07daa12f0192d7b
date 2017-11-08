@@ -35,6 +35,24 @@
       "revId": "f9a70dbe0e29a082b5ccd7e3c07daa12f0192d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6179eba_6add4857",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:30:21Z",
+      "side": 1,
+      "message": "\u003e Regarding the newline at the end: Should commit messages typically end with a newline character or not?\n\nI honestly don\u0027t know what is preferred. If you want it to seem more like a human, then probably add a newline, since that\u0027s what (most?) editor programs will do. But there are plenty of examples in Gerrit today where we set a one-line commit message that does not end in a newline. I don\u0027t think there is a strong reason for that, it\u0027s just more natural in Java to write setMessage(\"Update draft comments\") than setMessage(\"Update draft comments\\n\").",
+      "parentUuid": "882e4000_20ce7d3c",
+      "revId": "f9a70dbe0e29a082b5ccd7e3c07daa12f0192d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

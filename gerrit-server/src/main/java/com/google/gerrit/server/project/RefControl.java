@@ -532,7 +532,7 @@ public class RefControl {
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted");
+        throw new AuthException(perm.describeForException() + " not permitted for " + getRefName());
       }
     }
 

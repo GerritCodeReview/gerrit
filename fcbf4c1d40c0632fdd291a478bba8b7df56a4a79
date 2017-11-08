@@ -125,6 +125,24 @@
       "revId": "fcbf4c1d40c0632fdd291a478bba8b7df56a4a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f9c4a_cc27e770",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:25:14Z",
+      "side": 1,
+      "message": "Internal groups are scoped to a server; other group backends are not. But I think the way to fix this would be to move the server ID into the (internal) group UUID itself. That is a separate migration and we don\u0027t need to fix it now.",
+      "parentUuid": "e3118923_223814f8",
+      "revId": "fcbf4c1d40c0632fdd291a478bba8b7df56a4a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

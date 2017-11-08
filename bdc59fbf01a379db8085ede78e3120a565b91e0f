@@ -35,6 +35,24 @@
       "revId": "bdc59fbf01a379db8085ede78e3120a565b91e0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dca6349_a5ed7b42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:25:14Z",
+      "side": 1,
+      "message": "Hmm good point, I forgot about the differences in newlines. I think we should actually allow \\r, since it\u0027s allowed in other files, in particular git config files.\n\nIs Splitter.onPattern(\"\\r?\\n\") good enough? Otherwise, maybe go back to StringReader. Sorry for the noise.",
+      "parentUuid": "b36adec2_befbc06b",
+      "revId": "bdc59fbf01a379db8085ede78e3120a565b91e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59dca5c5_31e25018",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T12:25:14Z",
+      "side": 1,
+      "message": "This is only slightly ugly, but I think it\u0027s fine. You could also use MetaDataUpdate.InternalFactory directly (this is what I do in GroupRebuilder), but there is actually functionality in User that is mildlyuseful:\n\n* it calls setAuthor, which means the author will be populated in RefUpdatedEvents\n* it sets the server ident so you don\u0027t have to",
+      "revId": "ee1061387039acc78953bde7a95b2f37d5ec8682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

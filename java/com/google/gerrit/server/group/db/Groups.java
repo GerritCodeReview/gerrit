@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
@@ -23,7 +24,9 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -278,5 +281,47 @@ public class Groups {
         .map(AccountGroupById::getIncludeUUID)
         .distinct()
         .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
+  }
+
+  /**
+   * Returns the membership audit records for a given group.
+   *
+   * @param db the {@code ReviewDb} instance to use for lookups
+   * @param groupUuid the UUID of the group
+   * @return the audit records, in arbitrary order; empty if the group does not exist
+   * @throws OrmException if an error occurs while reading from ReviewDb
+   */
+  public List<AccountGroupMemberAudit> getMembersAudit(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException {
+    if (readFromNoteDb) {
+      // TODO(dborowitz): Implement.
+      throw new OrmException("Audit logs not yet implemented in NoteDb");
+    }
+    Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
+    if (!group.isPresent()) {
+      return ImmutableList.of();
+    }
+    return db.accountGroupMembersAudit().byGroup(group.get().getId()).toList();
+  }
+
+  /**
+   * Returns the subgroup audit records for a given group.
+   *
+   * @param db the {@code ReviewDb} instance to use for lookups
+   * @param groupUuid the UUID of the group
+   * @return the audit records, in arbitrary order; empty if the group does not exist
+   * @throws OrmException if an error occurs while reading from ReviewDb
+   */
+  public List<AccountGroupByIdAud> getSubgroupsAudit(ReviewDb db, AccountGroup.UUID groupUuid)
+      throws OrmException {
+    if (readFromNoteDb) {
+      // TODO(dborowitz): Implement.
+      throw new OrmException("Audit logs not yet implemented in NoteDb");
+    }
+    Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
+    if (!group.isPresent()) {
+      return ImmutableList.of();
+    }
+    return db.accountGroupByIdAud().byGroup(group.get().getId()).toList();
   }
 }

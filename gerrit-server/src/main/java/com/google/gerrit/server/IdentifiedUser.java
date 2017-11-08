@@ -49,9 +49,13 @@ import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {
+  private static final Logger log = LoggerFactory.getLogger(IdentifiedUser.class);
+
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
@@ -109,6 +113,11 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser runAs(
         SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
+      log.info("Creating identified user for accountId: " + id);
+      log.info("Realm: " + realm);
+      log.info("anonymousCowardName: " + anonymousCowardName);
+      log.info("CurrentUser(caller): " + caller);
+      log.info("id: " + id);
       return new IdentifiedUser(
           capabilityControlFactory,
           authConfig,

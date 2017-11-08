@@ -109,6 +109,9 @@ public class AccountManager {
         if (id == null) {
           // New account, automatically create and return.
           //
+          log.info(
+              "External ID found to be null. Attempting to create new account for: "
+                  + who.getUserName());
           return create(db, who);
         }
 
@@ -199,20 +202,24 @@ public class AccountManager {
 
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
+    log.info("Creating account in DB");
     Account.Id newId = new Account.Id(db.nextAccountId());
+    log.info("Assigning newId to account: " + newId);
     Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    log.info("Created externalID: " + extId.toString());
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.email());
 
     boolean isFirstAccount =
         awaitsFirstAccountCheck.getAndSet(false) && db.accounts().anyAccounts().toList().isEmpty();
-
+    if (isFirstAccount) {
+      log.info("Account is a first Account");
+    }
     try {
       db.accounts().upsert(Collections.singleton(account));
-
       ExternalId existingExtId =
           ExternalId.from(db.accountExternalIds().get(extId.key().asAccountExternalIdKey()));
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
@@ -258,10 +265,13 @@ public class AccountManager {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
+    log.info("Username from AuthRequest: " + who.getUserName());
     if (who.getUserName() != null) {
+      log.info("Setting username for: " + who.getUserName());
       // Only set if the name hasn't been used yet, but was given to us.
       //
       IdentifiedUser user = userFactory.create(newId);
+      log.info("Identified user was created from: " + who.getUserName() + ": " + user.toString());
       try {
         changeUserNameFactory.create(db, user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {

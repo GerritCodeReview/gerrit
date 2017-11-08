@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class InternalGroup implements Serializable {
@@ -30,6 +31,14 @@ public abstract class InternalGroup implements Serializable {
       AccountGroup accountGroup,
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups) {
+    return create(accountGroup, members, subgroups, null);
+  }
+
+  public static InternalGroup create(
+      AccountGroup accountGroup,
+      ImmutableSet<Account.Id> members,
+      ImmutableSet<AccountGroup.UUID> subgroups,
+      ObjectId refState) {
     return builder()
         .setId(accountGroup.getId())
         .setNameKey(accountGroup.getNameKey())
@@ -40,6 +49,7 @@ public abstract class InternalGroup implements Serializable {
         .setCreatedOn(accountGroup.getCreatedOn())
         .setMembers(members)
         .setSubgroups(subgroups)
+        .setRefState(refState)
         .build();
   }
 
@@ -66,6 +76,11 @@ public abstract class InternalGroup implements Serializable {
 
   public abstract ImmutableSet<AccountGroup.UUID> getSubgroups();
 
+  @Nullable
+  public abstract ObjectId getRefState();
+
+  public abstract Builder toBuilder();
+
   public static Builder builder() {
     return new AutoValue_InternalGroup.Builder();
   }
@@ -89,6 +104,8 @@ public abstract class InternalGroup implements Serializable {
     public abstract Builder setMembers(ImmutableSet<Account.Id> members);
 
     public abstract Builder setSubgroups(ImmutableSet<AccountGroup.UUID> subgroups);
+
+    public abstract Builder setRefState(ObjectId refState);
 
     public abstract InternalGroup build();
   }

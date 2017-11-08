@@ -34,7 +34,10 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
 
   @Deprecated static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
 
+  @Deprecated
   static final Schema<InternalGroup> V4 = schema(V3, GroupField.MEMBER, GroupField.SUBGROUP);
+
+  static final Schema<InternalGroup> V5 = schema(V4, GroupField.REF_STATE);
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

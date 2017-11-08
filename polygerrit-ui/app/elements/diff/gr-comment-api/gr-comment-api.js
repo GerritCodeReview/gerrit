@@ -200,7 +200,7 @@
     },
 
     listeners: {
-      'reload-comments': 'loadAll',
+      'reload-drafts': 'reloadDrafts',
     },
 
     behaviors: [
@@ -213,7 +213,7 @@
      * does not yield the comment data.
      *
      * @param {number} changeNum
-     * @return {!Promise}
+     * @return {!Promise<!Object>}
      */
     loadAll(changeNum) {
       const promises = [];
@@ -224,6 +224,26 @@
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
           robotComments, drafts, changeNum);
+        return this._changeComments;
+      });
+    },
+
+
+    /**
+     * Re-initialize _changeComments with a new ChangeComments object, that
+     * uses the previous values for comments and robot comments, but fetches
+     * updated draft comments.
+     *
+     * @param {number} changeNum
+     * @return {!Promise<!Object>}
+     */
+    reloadDrafts(changeNum) {
+      if (!this._changeComments) {
+        return this.loadAll(changeNum);
+      }
+      return this.$.restAPI.getDiffDrafts(changeNum).then(drafts => {
+        this._changeComments = new ChangeComments(this._changeComments.comments,
+            this._changeComments.robotComments, drafts, changeNum);
         return this._changeComments;
       });
     },

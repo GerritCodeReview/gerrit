@@ -100,6 +100,50 @@ limitations under the License.
       });
     });
 
+    suite('reloadDrafts', () => {
+      let commentStub;
+      let robotCommentStub;
+      let draftStub;
+      setup(() => {
+        commentStub = sandbox.stub(element.$.restAPI, 'getDiffComments')
+          .returns(Promise.resolve({}));
+        robotCommentStub = sandbox.stub(element.$.restAPI,
+            'getDiffRobotComments').returns(Promise.resolve({}));
+        draftStub = sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+            .returns(Promise.resolve({}));
+      });
+
+      test('without loadAll first', done => {
+        assert.isNotOk(element._changeComments);
+        sandbox.spy(element, 'loadAll');
+        element.reloadDrafts().then(() => {
+          assert.isTrue(element.loadAll.called);
+          assert.isOk(element._changeComments);
+          assert.equal(commentStub.callCount, 1);
+          assert.equal(robotCommentStub.callCount, 1);
+          assert.equal(draftStub.callCount, 1);
+          done();
+        });
+      });
+
+      test('with loadAll first', done => {
+        assert.isNotOk(element._changeComments);
+        element.loadAll().then(() => {
+          assert.isOk(element._changeComments);
+          assert.equal(commentStub.callCount, 1);
+          assert.equal(robotCommentStub.callCount, 1);
+          assert.equal(draftStub.callCount, 1);
+          return element.reloadDrafts();
+        }).then(() => {
+          assert.isOk(element._changeComments);
+          assert.equal(commentStub.callCount, 1);
+          assert.equal(robotCommentStub.callCount, 1);
+          assert.equal(draftStub.callCount, 2);
+          done();
+        });
+      });
+    });
+
     suite('_changeComment methods', () => {
       setup(done => {
         const changeNum = 1234;

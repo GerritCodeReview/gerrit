@@ -241,40 +241,41 @@ limitations under the License.
       });
     });
 
-    test('comments are reloaded when reload-comments fired', done => {
-      const reloadStub = sandbox.stub(element.$.commentAPI, 'loadAll')
+    suite('reloading drafts', () => {
+      let reloadStub;
+      const drafts = {
+        'testfile.txt': [
+          {
+            patch_set: 5,
+            id: 'dd2982f5_c01c9e6a',
+            line: 1,
+            updated: '2017-11-08 18:47:45.000000000',
+            message: 'test',
+            unresolved: true,
+          },
+        ],
+      };
+      setup(() => {
+        reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
           .returns(Promise.resolve({
-            drafts: {
-              'testfile.txt': [
-                {
-                  patch_set: 5,
-                  id: 'dd2982f5_c01c9e6a',
-                  line: 1,
-                  updated: '2017-11-08 18:47:45.000000000',
-                  message: 'test',
-                  unresolved: true,
-                },
-              ],
-            },
+            drafts,
           }
         ));
-      element.$.fileList.fire('reload-comments', {
-        resolve: () => {
-          assert.isTrue(reloadStub.called);
-          assert.deepEqual(element._diffDrafts, {
-            'testfile.txt': [
-              {
-                patch_set: 5,
-                id: 'dd2982f5_c01c9e6a',
-                line: 1,
-                updated: '2017-11-08 18:47:45.000000000',
-                message: 'test',
-                unresolved: true,
-              },
-            ],
-          });
-          done();
-        },
+      });
+
+      test('drafts are reloaded when reload-drafts fired', done => {
+        element.$.fileList.fire('reload-drafts', {
+          resolve: () => {
+            assert.isTrue(reloadStub.called);
+            assert.deepEqual(element._diffDrafts, drafts);
+            done();
+          },
+        });
+      });
+
+      test('drafts are reloaded when comment-refresh fired', () => {
+        element.fire('comment-refresh');
+        assert.isTrue(reloadStub.called);
       });
     });
 

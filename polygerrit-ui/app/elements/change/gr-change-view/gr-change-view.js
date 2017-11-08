@@ -259,7 +259,7 @@
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
-      this.addEventListener('comment-refresh', this._reloadComments.bind(this));
+      this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
       this.addEventListener('editable-content-save',
@@ -1037,14 +1037,30 @@
           });
     },
 
-    _reloadCommentsWithCallback(e) {
-      return this._reloadComments().then(() => {
+    _reloadDraftsWithCallback(e) {
+      return this._reloadDrafts().then(() => {
         return e.detail.resolve();
       });
     },
 
+    /**
+     * Fetches a new changeComment object, and data for all types of comments
+     * (comments, robot comments, draft comments) is requested.
+     */
     _reloadComments() {
       return this.$.commentAPI.loadAll(this._changeNum)
+          .then(comments => {
+            this._changeComments = comments;
+            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+          });
+    },
+
+    /**
+     * Fetches a new changeComment object, but only updated data for drafts is
+     * requested.
+     */
+    _reloadDrafts() {
+      return this.$.commentAPI.reloadDrafts(this._changeNum)
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);

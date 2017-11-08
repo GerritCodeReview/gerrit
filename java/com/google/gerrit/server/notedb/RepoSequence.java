@@ -190,13 +190,17 @@ public class RepoSequence {
     }
   }
 
+  protected Repository openRepository() throws IOException {
+    return repoManager.openRepository(projectName);
+  }
+
   @VisibleForTesting
   public void set(int val) throws OrmException {
     // Don't bother spinning. This is only for tests, and a test that calls set
     // concurrently with other writes is doing it wrong.
     counterLock.lock();
     try {
-      try (Repository repo = repoManager.openRepository(projectName);
+      try (Repository repo = openRepository();
           RevWalk rw = new RevWalk(repo)) {
         checkResult(store(repo, rw, null, val));
         counter = limit;
@@ -211,7 +215,7 @@ public class RepoSequence {
   public void increaseTo(int val) throws OrmException {
     counterLock.lock();
     try {
-      try (Repository repo = repoManager.openRepository(projectName);
+      try (Repository repo = openRepository();
           RevWalk rw = new RevWalk(repo)) {
         TryIncreaseTo attempt = new TryIncreaseTo(repo, rw, val);
         checkResult(retryer.call(attempt));
@@ -230,7 +234,7 @@ public class RepoSequence {
   }
 
   private void acquire(int count) throws OrmException {
-    try (Repository repo = repoManager.openRepository(projectName);
+    try (Repository repo = openRepository();
         RevWalk rw = new RevWalk(repo)) {
       TryAcquire attempt = new TryAcquire(repo, rw, count);
       checkResult(retryer.call(attempt));

@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GroupSequence;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -65,6 +66,7 @@ public class SchemaCreator {
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
   private final boolean writeGroupsToNoteDb;
+  private final boolean readGroupIdsFromNoteDb;
 
   @Inject
   public SchemaCreator(
@@ -103,6 +105,7 @@ public class SchemaCreator {
     // Don't flip this flag in a production setting! We only added it to spread the implementation
     // of groups in NoteDb among several changes which are gradually merged.
     writeGroupsToNoteDb = config.getBoolean("user", null, "writeGroupsToNoteDb", false);
+    readGroupIdsFromNoteDb = GroupSequence.readSetting(config);
   }
 
   public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
@@ -123,17 +126,21 @@ public class SchemaCreator {
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
 
+    GroupSequence seq =
+        new GroupSequence(
+            db, readGroupIdsFromNoteDb, allUsersName, repoManager, GitReferenceUpdated.DISABLED);
     try (Repository repository = repoManager.openRepository(allUsersName)) {
-      createAdminsGroup(db, repository, admins);
-      createBatchUsersGroup(db, repository, batchUsers, admins.getUUID());
+      createAdminsGroup(db, seq, repository, admins);
+      createBatchUsersGroup(db, seq, repository, batchUsers, admins.getUUID());
     }
 
     dataSourceType.getIndexScript().run(db);
   }
 
-  private void createAdminsGroup(ReviewDb db, Repository repository, GroupReference groupReference)
+  private void createAdminsGroup(
+      ReviewDb db, GroupSequence seq, Repository repository, GroupReference groupReference)
       throws OrmException, IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(db, seq, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
 
@@ -142,11 +149,12 @@ public class SchemaCreator {
 
   private void createBatchUsersGroup(
       ReviewDb db,
+      GroupSequence seq,
       Repository repository,
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
       throws OrmException, IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(db, seq, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("Users who perform batch actions on Gerrit")
@@ -216,11 +224,12 @@ public class SchemaCreator {
     return new GroupReference(groupUuid, name);
   }
 
-  private static InternalGroupCreation getGroupCreation(ReviewDb db, GroupReference groupReference)
-      throws OrmException {
+  private InternalGroupCreation getGroupCreation(
+      ReviewDb db, GroupSequence seq, GroupReference groupReference) throws OrmException {
+    int next = seq.nextGroupId();
     return InternalGroupCreation.builder()
         .setNameKey(new AccountGroup.NameKey(groupReference.getName()))
-        .setId(new AccountGroup.Id(db.nextAccountGroupId()))
+        .setId(new AccountGroup.Id(next))
         .setGroupUUID(groupReference.getUUID())
         .setCreatedOn(TimeUtil.nowTs())
         .build();

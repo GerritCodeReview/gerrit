@@ -23,6 +23,7 @@ import java.util.Set;
 
 @AutoValue
 public abstract class QueryOptions {
+
   public static QueryOptions create(IndexConfig config, int start, int limit, Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
     checkArgument(limit > 0, "limit must be positive: %s", limit);

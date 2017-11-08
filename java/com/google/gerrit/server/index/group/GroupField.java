@@ -19,14 +19,18 @@ import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
+import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
@@ -72,4 +76,14 @@ public class GroupField {
           .buildRepeatable(
               g ->
                   g.getSubgroups().stream().map(AccountGroup.UUID::get).collect(toImmutableList()));
+
+  /** ObjectId of HEAD:refs/groups/<UUID>. */
+  public static final FieldDef<InternalGroup, byte[]> REF_STATE =
+      storedOnly("ref_state")
+          .build(
+              g -> {
+                byte[] a = new byte[Constants.OBJECT_ID_STRING_LENGTH];
+                MoreObjects.firstNonNull(g.getRefState(), ObjectId.zeroId()).copyRawTo(a, 0);
+                return a;
+              });
 }

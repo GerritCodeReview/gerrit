@@ -16,6 +16,24 @@
       "revId": "ee1061387039acc78953bde7a95b2f37d5ec8682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbc11583_f4b374fe",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-08T12:57:49Z",
+      "side": 1,
+      "message": "When we switch to a BatchRefUpdate in the context of ensuring unique names, we won\u0027t use the author for the RefUpdatedEvents automatically anymore. I\u0027ll adjust this code when I use the BatchRefUpdate.",
+      "parentUuid": "59dca5c5_31e25018",
+      "revId": "ee1061387039acc78953bde7a95b2f37d5ec8682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

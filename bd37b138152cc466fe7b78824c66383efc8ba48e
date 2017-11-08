@@ -16,6 +16,24 @@
       "revId": "bd37b138152cc466fe7b78824c66383efc8ba48e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa683bc_6ddd5227",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-08T12:15:17Z",
+      "side": 1,
+      "message": "Did you see this comment: https://gerrit-review.googlesource.com/c/gerrit/+/136051/6/java/com/google/gerrit/reviewdb/client/RefNames.java#127",
+      "parentUuid": "8bad666a_5efdc004",
+      "revId": "bd37b138152cc466fe7b78824c66383efc8ba48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

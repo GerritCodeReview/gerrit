@@ -259,7 +259,7 @@
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
-      this.addEventListener('comment-refresh', this._getDiffDrafts.bind(this));
+      this.addEventListener('comment-refresh', this._reloadComments.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
       this.addEventListener('editable-content-save',
@@ -891,12 +891,6 @@
       this.fire('page-error', {response});
     },
 
-    _getDiffDrafts() {
-      return this.$.restAPI.getDiffDrafts(this._changeNum).then(drafts => {
-        this._diffDrafts = drafts;
-      });
-    },
-
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
@@ -1052,7 +1046,8 @@
     _reloadComments() {
       return this.$.commentAPI.loadAll(this._changeNum)
           .then(comments => {
-            this._changeComments = this.$.commentAPI._changeComments;
+            this._changeComments = comments;
+            this._diffDrafts = Object.assign({}, this._changeComments.drafts);
           });
     },
 

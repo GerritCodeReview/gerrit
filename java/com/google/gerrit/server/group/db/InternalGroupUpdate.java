@@ -49,7 +49,7 @@ public abstract class InternalGroupUpdate {
 
   public static Builder builder() {
     return new AutoValue_InternalGroupUpdate.Builder()
-        .setMemberModification(in -> in)
+        .setMemberModification((MemberModification) in -> in)
         .setSubgroupModification(in -> in);
   }
 

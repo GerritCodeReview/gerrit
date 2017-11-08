@@ -61,6 +61,17 @@ public final class AccountGroupMemberAudit {
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {groupId};
     }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof AccountGroupMemberAudit.Key)) {
+        return false;
+      }
+      AccountGroupMemberAudit.Key a = (AccountGroupMemberAudit.Key) o;
+      return Objects.equals(accountId.get(), a.accountId.get())
+          && Objects.equals(groupId.get(), a.groupId.get())
+          && Objects.equals(addedOn, a.addedOn);
+    }
   }
 
   @Column(id = 1, name = Column.NONE)

@@ -18,12 +18,13 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class GetCommit implements RestReadView<CommitResource> {
 
   @Override
-  public CommitInfo apply(CommitResource rsrc) {
+  public CommitInfo apply(CommitResource rsrc) throws IOException {
     return CommitUtil.toCommitInfo(rsrc.getCommit());
   }
 }

@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class Sequences {
   public static final String NAME_ACCOUNTS = "accounts";
+  public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {
@@ -50,17 +51,20 @@ public class Sequences {
 
   private enum SequenceType {
     ACCOUNTS,
-    CHANGES;
+    CHANGES,
+    GROUPS;
   }
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
+  private final RepoSequence groupSeq;
+  private final boolean readGroupSeqFromNoteDb;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
-  Sequences(
+  public Sequences(
       @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       NotesMigration migration,
@@ -90,6 +94,13 @@ public class Sequences {
         new RepoSequence(
             repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
 
+    RepoSequence.Seed groupSeed = () -> nextGroupId(db.get());
+    int groupBatchSize = 1;
+    groupSeq =
+        new RepoSequence(
+            repoManager, gitRefUpdated, allUsers, NAME_GROUPS, groupSeed, groupBatchSize);
+    readGroupSeqFromNoteDb = readGroupFromNoteDbSetting(cfg);
+
     nextIdLatency =
         metrics.newTimer(
             "sequence/next_id_latency",
@@ -98,6 +109,10 @@ public class Sequences {
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence"),
             Field.ofBoolean("multiple"));
+  }
+
+  public static boolean readGroupFromNoteDbSetting(Config cfg) {
+    return cfg.getBoolean("noteDb", "groups", "readSequenceFromNoteDb", false);
   }
 
   public int nextAccountId() throws OrmException {
@@ -134,6 +149,17 @@ public class Sequences {
     return ImmutableList.copyOf(ids);
   }
 
+  public int nextGroupId() throws OrmException {
+    if (readGroupSeqFromNoteDb) {
+      try (Timer2.Context timer = nextIdLatency.start(SequenceType.GROUPS, false)) {
+        return groupSeq.next();
+      }
+    }
+    int groupId = nextGroupId(db.get());
+    groupSeq.increaseTo(groupId + 1); // NoteDb stores next available account ID.
+    return groupId;
+  }
+
   @VisibleForTesting
   public RepoSequence getChangeIdRepoSequence() {
     return changeSeq;
@@ -142,5 +168,10 @@ public class Sequences {
   @SuppressWarnings("deprecation")
   private static int nextChangeId(ReviewDb db) throws OrmException {
     return db.nextChangeId();
+  }
+
+  @SuppressWarnings("deprecation")
+  static int nextGroupId(ReviewDb db) throws OrmException {
+    return db.nextAccountGroupId();
   }
 }

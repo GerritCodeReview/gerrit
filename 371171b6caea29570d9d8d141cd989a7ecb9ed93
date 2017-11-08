@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "00c733fe_bf315e1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-08T19:00:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ebfaad2_f8056ce6",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "371171b6caea29570d9d8d141cd989a7ecb9ed93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f5647223_5fc9b472",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-08T18:14:17Z",
       "side": 1,
       "message": "This breaks selections for diffs. Try selecting content from one side of a diff (in side-by-side mode) and observe that content from both sides becomes selected.\n\nQuoting from the Polymer 2 upgrade guide [1] the equivalence between ::content and ::slotted is that ..\n\n\u003e That is:\n\u003e\n\u003e  ::slotted(.foo)\n\u003e\n\u003e is equivalent to:\n\u003e\n\u003e  ::content \u003e .foo\n\n.. note the `\u003e` operator, meaning that the parameter of ::slotted must be an immediate child of the slot.\n\nSo, since the parameters to ::slotted used here (i.e. .content .contextControl and .blame) are not immediate children of the slot, this does not select them. One quick way to fix the styles is to add `* ` before each parameter.\n\n .contentWrapper ::slotted(* .content),\n .contentWrapper ::slotted(* .contextControl),\n .contentWrapper ::slotted(* .blame) {\n\n* [1] https://www.polymer-project.org/2.0/docs/upgrade#shadow-dom-styles",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "371171b6caea29570d9d8d141cd989a7ecb9ed93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d10ad0e_3ab90abb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-08T19:00:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f5647223_5fc9b472",
       "range": {
         "startLine": 22,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1619a07b_53719c6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-08T19:00:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "70cc369e_498894a8",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 34
+      },
+      "revId": "371171b6caea29570d9d8d141cd989a7ecb9ed93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "908b5fb4_61ef4895",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2017-11-08T18:14:17Z",
       "side": 1,
       "message": "The same applies to these ::slotted selectors as in the comment on ll.22-24 of gr-diff-selection.html.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 76
+      },
+      "revId": "371171b6caea29570d9d8d141cd989a7ecb9ed93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ff664b_c012443e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-08T19:00:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "908b5fb4_61ef4895",
       "range": {
         "startLine": 44,
         "startChar": 0,

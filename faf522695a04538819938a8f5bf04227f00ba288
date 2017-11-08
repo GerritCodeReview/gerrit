@@ -46,6 +46,30 @@
       "revId": "faf522695a04538819938a8f5bf04227f00ba288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b564dc3a_dd847e0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-08T20:11:26Z",
+      "side": 1,
+      "message": "I see your point, and I suppose it\u0027s a nontrivial exercise to refactor everything to using this list.\n\nMaybe we could add a comment describing the difference between `_fileList` and `_formattedFiles`?",
+      "parentUuid": "6478cc6e_a1986199",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 8
+      },
+      "revId": "faf522695a04538819938a8f5bf04227f00ba288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

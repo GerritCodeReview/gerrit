@@ -79,6 +79,16 @@ public class SchemaUtil {
             .build());
   }
 
+  public static <V> Schema<V> schema(
+      Schema<V> schema, ImmutableList<FieldDef<V, ?>> add, ImmutableList<FieldDef<V, ?>> remove) {
+    return new Schema<>(
+        new ImmutableList.Builder<FieldDef<V, ?>>()
+            .addAll(
+                schema.getFields().values().stream().filter(d -> !remove.contains(d)).iterator())
+            .addAll(add)
+            .build());
+  }
+
   @SafeVarargs
   public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
     return schema(ImmutableList.copyOf(fields));

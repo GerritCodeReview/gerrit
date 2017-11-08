@@ -63,6 +63,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -89,6 +90,14 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbConfig() {
+    Config config = new Config();
+    config.setBoolean("user", null, "writeGroupsToNoteDb", true);
+    config.setBoolean("user", null, "readGroupsFromNoteDb", true);
+    return config;
+  }
+
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private AllUsersName allUsers;

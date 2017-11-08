@@ -65,6 +65,10 @@
           UNIFIED: 'UNIFIED_DIFF',
         },
       },
+      _revisionInfo: {
+        type: Object,
+        computed: '_getRevisionInfo(change)',
+      },
     },
 
     behaviors: [
@@ -211,6 +215,10 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
   });
 })();

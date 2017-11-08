@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1510127264 +0100\nnonce AMT3iFjN2ROfMG+UULvmoGyWYQKLrLvM5JtVvde6/XPRHHq5bKwtgEn8LUn+bkfp0ENRm+PXyWQa\n\n0000000000000000000000000000000000000000 c193ca265617e6d10584279a0dd21b5b5c42476b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaAragAAoJEHFVO370GiZWj4gH/0Ryo1Y4LmAaSHPHpGJPE3Br\nd9PZGpkBfMeHMkMcYE+VswtHDvHueZFjclGvfhwD0qhEImkTgMsUoDKu6PIubUqI\nYn1gJsdTxRDgyWbvhblqgvvNWgyUDFAJqDe3lU68aqCyb5HRkm3XWVDmlOrgWMsF\ntSlqCTNH0Kh0xQ95l2jQtK7mpnW4pD9F+MP4u0h9/ujUQeVxRy7EREAjGarD2Vrx\n99T8/gf23sClVWNnKgA835vIHkia0b3oYiQW24YZypOmvBAp36VwjFRKzBDNkoqo\n9xSRhgVz/UVFTgq0yfCFQdQ1UbP7S3iqFlz3QmRfPUQQmwguZu/GDvnk5iYe3HE\u003d\n\u003dR54b\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "352df11c_dc408058",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T07:56:21Z",
+      "side": 1,
+      "message": "optional: Instead of flipping this config twice, shall we run the class with a config suite and have assume() statements in all the tests that require write to note DB?",
+      "revId": "c193ca265617e6d10584279a0dd21b5b5c42476b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

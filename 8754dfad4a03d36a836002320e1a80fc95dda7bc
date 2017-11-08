@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85bfcb39_7d9dcc5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-08T00:50:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dc1c86c_fc8106b3",
+      "range": {
+        "startLine": 133,
+        "startChar": 10,
+        "endLine": 133,
+        "endChar": 11
+      },
+      "revId": "8754dfad4a03d36a836002320e1a80fc95dda7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "409970f3_ace50408",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-08T00:09:22Z",
       "side": 1,
       "message": "Optional nit: in `setup` I think you can drop the `done` and just:\n\n return commentApiWrapper.loadComments();",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 9
+      },
+      "revId": "8754dfad4a03d36a836002320e1a80fc95dda7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d771f00c_d7181dda",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-08T00:50:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "409970f3_ace50408",
       "range": {
         "startLine": 151,
         "startChar": 6,

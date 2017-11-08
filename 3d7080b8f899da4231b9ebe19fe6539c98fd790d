@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3736ef0_7a008592",
+        "filename": "java/com/google/gerrit/server/schema/Schema_162.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-08T16:13:07Z",
+      "side": 1,
+      "message": "SchemaVersion.C needs to be updated to point to this new schema version.",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "3d7080b8f899da4231b9ebe19fe6539c98fd790d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

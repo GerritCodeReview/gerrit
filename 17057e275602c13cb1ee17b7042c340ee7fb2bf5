@@ -182,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "c6d512b2_e54b285b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-08T16:13:07Z",
+      "side": 1,
+      "message": "True, we can\u0027t inject into ProjectConfig :(\nThen this should be fine.",
+      "parentUuid": "7649f145_05d6d1fa",
+      "range": {
+        "startLine": 430,
+        "startChar": 10,
+        "endLine": 437,
+        "endChar": 11
+      },
+      "revId": "17057e275602c13cb1ee17b7042c340ee7fb2bf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2f53de8_129a1ea3",
         "filename": "java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 1

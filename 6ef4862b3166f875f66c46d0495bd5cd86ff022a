@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1194f0d_e174e516",
+        "filename": "java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T14:04:29Z",
+      "side": 1,
+      "message": "The goal of this class was to have all nextFooId methods in one place, so I would expect there to be a nextGroupId method here.\n\nFor seeding the sequences during init, you should just be able to construct a RepoSequence manually.",
+      "revId": "6ef4862b3166f875f66c46d0495bd5cd86ff022a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

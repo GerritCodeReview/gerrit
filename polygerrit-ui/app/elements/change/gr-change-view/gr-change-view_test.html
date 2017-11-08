@@ -241,13 +241,41 @@ limitations under the License.
       });
     });
 
-    test('comments are reloaded when reload-comments fired', () => {
+    test('comments are reloaded when reload-comments fired', done => {
       const reloadStub = sandbox.stub(element.$.commentAPI, 'loadAll')
-          .returns(Promise.resolve());
+          .returns(Promise.resolve({
+            drafts: {
+              'testfile.txt': [
+                {
+                  patch_set: 5,
+                  id: 'dd2982f5_c01c9e6a',
+                  line: 1,
+                  updated: '2017-11-08 18:47:45.000000000',
+                  message: 'test',
+                  unresolved: true,
+                },
+              ],
+            },
+          }
+        ));
       element.$.fileList.fire('reload-comments', {
-        resolve: () => { return Promise.resolve(); },
+        resolve: () => {
+          assert.isTrue(reloadStub.called);
+          assert.deepEqual(element._diffDrafts, {
+            'testfile.txt': [
+              {
+                patch_set: 5,
+                id: 'dd2982f5_c01c9e6a',
+                line: 1,
+                updated: '2017-11-08 18:47:45.000000000',
+                message: 'test',
+                unresolved: true,
+              },
+            ],
+          });
+          done();
+        },
       });
-      assert.isTrue(reloadStub.called);
     });
 
     test('download tap calls _handleOpenDownloadDialog', () => {

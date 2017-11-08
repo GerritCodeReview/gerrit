@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
@@ -25,7 +26,10 @@ import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GroupSequence;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -40,11 +44,14 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -66,6 +73,11 @@ public class SchemaCreator {
   private final GroupIndexCollection indexCollection;
   private final boolean writeGroupsToNoteDb;
 
+  private final Config config;
+  private final MetricMaker metricMaker;
+  private final NotesMigration migration;
+  private final AllProjectsName allProjectsName;
+
   @Inject
   public SchemaCreator(
       SitePaths site,
@@ -76,8 +88,14 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
-      @GerritServerConfig Config config) {
-    this(site.site_path, repoManager, ap, auc, allUsersName, au, dst, ic, config);
+      @GerritServerConfig Config config,
+
+      MetricMaker metricMaker,
+      NotesMigration migration,
+      AllProjectsName apName
+      ) {
+    this(site.site_path, repoManager, ap, auc, allUsersName, au, dst, ic, config,
+        metricMaker, migration, apName);
   }
 
   public SchemaCreator(
@@ -89,7 +107,11 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
-      Config config) {
+      Config config,
+      MetricMaker metricMaker,
+      NotesMigration migration,
+      AllProjectsName apName
+      ) {
     site_path = site;
     this.repoManager = repoManager;
     allProjectsCreator = ap;
@@ -103,6 +125,11 @@ public class SchemaCreator {
     // Don't flip this flag in a production setting! We only added it to spread the implementation
     // of groups in NoteDb among several changes which are gradually merged.
     writeGroupsToNoteDb = config.getBoolean("user", null, "writeGroupsToNoteDb", false);
+
+    this.config = config;
+    this.allProjectsName = apName;
+    this.migration  = migration;
+    this.metricMaker = metricMaker;
   }
 
   public void create(ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
@@ -123,17 +150,28 @@ public class SchemaCreator {
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
 
+    // Manual instantiation, since we have no
+    Sequences seqs = new Sequences(
+        config,
+        () -> db,
+        migration,
+        repoManager,
+        GitReferenceUpdated.DISABLED,
+        allProjectsName,
+        allUsersName,
+        metricMaker);
     try (Repository repository = repoManager.openRepository(allUsersName)) {
-      createAdminsGroup(db, repository, admins);
-      createBatchUsersGroup(db, repository, batchUsers, admins.getUUID());
+      createAdminsGroup(db, seqs, repository, admins);
+      createBatchUsersGroup(db, seqs, repository, batchUsers, admins.getUUID());
     }
 
     dataSourceType.getIndexScript().run(db);
   }
 
-  private void createAdminsGroup(ReviewDb db, Repository repository, GroupReference groupReference)
+  private void createAdminsGroup(
+      ReviewDb db, Sequences seqs, Repository repository, GroupReference groupReference)
       throws OrmException, IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
 
@@ -142,11 +180,12 @@ public class SchemaCreator {
 
   private void createBatchUsersGroup(
       ReviewDb db,
+      Sequences seqs,
       Repository repository,
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
       throws OrmException, IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(db, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("Users who perform batch actions on Gerrit")
@@ -216,11 +255,12 @@ public class SchemaCreator {
     return new GroupReference(groupUuid, name);
   }
 
-  private static InternalGroupCreation getGroupCreation(ReviewDb db, GroupReference groupReference)
+  private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference)
       throws OrmException {
+    int next = seqs.nextGroupId();
     return InternalGroupCreation.builder()
         .setNameKey(new AccountGroup.NameKey(groupReference.getName()))
-        .setId(new AccountGroup.Id(db.nextAccountGroupId()))
+        .setId(new AccountGroup.Id(next))
         .setGroupUUID(groupReference.getUUID())
         .setCreatedOn(TimeUtil.nowTs())
         .build();

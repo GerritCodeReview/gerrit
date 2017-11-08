@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4aad2933_8c4050fc",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T11:59:26Z",
+      "side": 1,
+      "message": "This should be getCreatedOn(), since an explicit createdOn of auditCreationInstantTs() should compare equal to a null createdOn.",
+      "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a25a8a6_2f032c50",
         "filename": "java/com/google/gerrit/reviewdb/client/AccountGroupById.java",
         "patchSetId": 1
@@ -62,6 +79,30 @@
       "side": 1,
       "message": "Yes, same applies in other places but I only added the comment here.\n\nAdding checkNotNull would suffice, I think.",
       "parentUuid": "86e4cc10_e1f9210e",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a01b6a43_2d85462b",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroupById.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T11:59:26Z",
+      "side": 1,
+      "message": "Well, there\u0027s no Guava dep in this package, but I can add checks to the constructor.\n\nThere are also the protected no-arg constructors that are used by gwtorm. Do you think it\u0027s safe to assume that a caller using that constructor will correctly populate all the fields? Assuming the only caller is gwtorm, I think it\u0027s fine.",
+      "parentUuid": "2de60cb7_9c315a66",
       "range": {
         "startLine": 83,
         "startChar": 68,

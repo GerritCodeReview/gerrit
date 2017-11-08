@@ -22,6 +22,30 @@
       "revId": "92588cbee7b461322028c0a1bd252a3ddac62736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c858dcf_f0e74a30",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-08T02:00:26Z",
+      "side": 1,
+      "message": "optional: At the same fix the capitalisation of \"Permissions\" and \"Gerrit\".  The assertMessage is case-insensitive so it doesn\u0027t have any effect on the test, but \"git grep\" is case insensitive and thus searching for \"managed by Gerrit\" does not include this line.  AccessIT already uses the correct capitalisation.",
+      "parentUuid": "a035ef76_9ec2ef30",
+      "range": {
+        "startLine": 844,
+        "startChar": 49,
+        "endLine": 844,
+        "endChar": 51
+      },
+      "revId": "92588cbee7b461322028c0a1bd252a3ddac62736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

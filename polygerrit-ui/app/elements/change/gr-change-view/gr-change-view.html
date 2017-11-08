@@ -83,6 +83,8 @@ limitations under the License.
         display: flex;
         flex: 1;
         font-size: 1.2em;
+      }
+      .header-title .headerSubject {
         font-family: var(--font-family-bold);
       }
       gr-change-star {
@@ -311,17 +313,18 @@ limitations under the License.
             </template>
           </div>
           <div class="changeText">
-            <span>[[_change._number]]</span>
-            <template
+            <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
+                href$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a><!--
+         --><template
                 is="dom-if"
-                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
-              <span class="text"> ([[_changeStatus]] as </span>
-                <gr-commit-info
+                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]"><!--
+           --><span class="text"> ([[_changeStatus]] as </span><!--
+             --><gr-commit-info
                     change="[[_change]]"
                     commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                    server-config="[[_serverConfig]]"></gr-commit-info>)
-            </template>
-            <span class="text">: </span><span>[[_change.subject]]</span>
+                    server-config="[[_serverConfig]]"></gr-commit-info>)<!--
+         --></template><!--
+         --><span class="text">: </span><span class="headerSubject">[[_change.subject]]</span>
           </div>
         </div><!-- end header-title -->
         <div class="commitActions" hidden$="[[!_loggedIn]]">

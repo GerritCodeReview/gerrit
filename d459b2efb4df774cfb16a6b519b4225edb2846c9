@@ -47,6 +47,30 @@
       "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2de60cb7_9c315a66",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroupById.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-08T06:49:13Z",
+      "side": 1,
+      "message": "Yes, same applies in other places but I only added the comment here.\n\nAdding checkNotNull would suffice, I think.",
+      "parentUuid": "86e4cc10_e1f9210e",
+      "range": {
+        "startLine": 83,
+        "startChar": 68,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "d459b2efb4df774cfb16a6b519b4225edb2846c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

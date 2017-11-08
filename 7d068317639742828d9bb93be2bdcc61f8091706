@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b02cf69_7886a4fa",
+        "filename": "java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T19:50:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. What instantiation is delayed? In what sense do we have ReviewDb only? I thought the purpose of using Sequences here is to respect the current config setting?",
+      "revId": "7d068317639742828d9bb93be2bdcc61f8091706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

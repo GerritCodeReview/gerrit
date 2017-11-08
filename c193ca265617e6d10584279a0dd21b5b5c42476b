@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "aaff1ee7_ecd25bbf",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-08T08:27:05Z",
+      "side": 1,
+      "message": "ProjectConfig takes care to automatically add it to the groups file.",
+      "parentUuid": "603f93ea_65a9c3dd",
+      "range": {
+        "startLine": 547,
+        "startChar": 34,
+        "endLine": 547,
+        "endChar": 92
+      },
+      "revId": "c193ca265617e6d10584279a0dd21b5b5c42476b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "352df11c_dc408058",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 3

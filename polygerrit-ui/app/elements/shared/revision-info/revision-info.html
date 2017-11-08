@@ -1,0 +1,31 @@
+<script>
+  (function() {
+    'use strict';
+
+    function RevisionInfo(change) {
+      this._change = change;
+    }
+
+    RevisionInfo.prototype.getMaxParents = function() {
+      return Object.values(this._change.revisions)
+          .reduce((acc, rev) => Math.max(rev.commit.parents.length, acc), 0);
+    };
+
+    RevisionInfo.prototype.getParentCountMap = function() {
+      const result = {};
+      Object.values(this._change.revisions)
+          .forEach(rev => { result[rev._number] = rev.commit.parents.length; });
+      return result;
+    };
+
+    RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
+      const rev = Object.values(this._change.revisions).find(rev => Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum));
+      return rev.commit.parents[parentIndex].commit;
+    };
+
+    if (!window.Gerrit) {
+      window.Gerrit = {};
+    }
+    window.Gerrit.RevisionInfo = RevisionInfo;
+  })();
+</script>

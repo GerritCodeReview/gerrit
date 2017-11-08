@@ -139,6 +139,10 @@
         type: Array,
         computed: 'computeAllPatchSets(_change, _change.revisions.*)',
       },
+      _revisionInfo: {
+        type: Object,
+        computed: '_getRevisionInfo(_change)',
+      },
     },
 
     behaviors: [
@@ -847,6 +851,10 @@
 
     _computeBlameLoaderClass(isImageDiff, supported) {
       return !isImageDiff && supported ? 'show' : '';
+    },
+
+    _getRevisionInfo(change) {
+      return new Gerrit.RevisionInfo(change);
     },
   });
 })();

@@ -54,6 +54,7 @@
       patchNum: String,
       basePatchNum: String,
       revisions: Object,
+      revisionInfo: Object,
       _sortedRevisions: Array,
     },
 
@@ -65,6 +66,13 @@
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         comments) {
+
+      const parentCounts = this.revisionInfo.getParentCountMap();
+      const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
+          parentCounts[patchNum] : 1;
+      const maxParents = this.revisionInfo.getMaxParents();
+      const isMerge = currentParentCount > 1;
+
       const dropdownContent = [];
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
@@ -81,10 +89,23 @@
           value: basePatch.num,
         });
       }
+
       dropdownContent.push({
-        text: 'Base',
+        text: isMerge ? 'Auto Merge' : 'Base',
         value: 'PARENT',
       });
+
+      for (let idx = 0; isMerge && idx < maxParents; idx++) {
+        dropdownContent.push({
+          disabled: idx >= currentParentCount,
+          triggerText: `Parent ${idx + 1}`,
+          text: `Parent ${idx + 1}`,
+          mobileText: `Parent ${idx + 1}`,
+          value: -(idx + 1),
+          bottomText: this.revisionInfo.getParentId(patchNum, idx).substring(0, 6),
+        });
+      }
+
       return dropdownContent;
     },
 

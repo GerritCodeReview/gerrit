@@ -35,6 +35,7 @@
 
     behaviors: [
       Gerrit.PathListBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -840,6 +841,7 @@
      */
     getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
       const params = this.listChangesOptionsToHex(
+          this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS
       );
       return this._getChangeDetail(changeNum, params, opt_errFn,
@@ -903,14 +905,17 @@
     /**
      * @param {number|string} changeNum
      * @param {!Promise<?Object>} patchRange
+     * @return {!Promise<!Array<!Object>>}
      */
-    getChangeFiles(changeNum, patchRange) {
-      let endpoint = '/files';
-      if (patchRange.basePatchNum !== 'PARENT') {
-        endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
+    getChangeFiles(changeNum, patchRange, opt_parentIndex) {
+      let params = undefined;
+      if (this.isMergeParent(patchRange.basePatchNum)) {
+        params = {parent: this._getParentIndex(patchRange.basePatchNum)};
+      } else if (!this.patchNumEquals(patchRange.basePatchNum, 'PARENT')) {
+        params = {base: patchRange.basePatchNum};
       }
-      return this._getChangeURLAndFetch(changeNum, endpoint,
-          patchRange.patchNum);
+      return this._getChangeURLAndFetch(changeNum, '/files',
+          patchRange.patchNum, undefined, undefined, params);
     },
 
     /**
@@ -936,6 +941,11 @@
           `/files?q=${encodeURIComponent(query)}`, patchNum);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {!Promise<?Object>} patchRange
+     * @return {!Promise<!Array<!Object>>}
+     */
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
@@ -1416,7 +1426,8 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {number|string} basePatchNum
+     * @param {number|string} basePatchNum Negative values specify merge parent
+     *     index.
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
@@ -1429,7 +1440,9 @@
         intraline: null,
         whitespace: 'IGNORE_NONE',
       };
-      if (basePatchNum != PARENT_PATCH_NUM) {
+      if (this.isMergeParent(basePatchNum)) {
+        params.parent = this._getParentIndex(basePatchNum);
+      } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM)) {
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
@@ -1969,6 +1982,10 @@
       return this._getChangeURLAndFetch(changeNum,
           `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
           opt_base ? {base: 't'} : undefined);
+    },
+
+    _getParentIndex(rangeBase) {
+      return -parseInt(rangeBase + '', 10);
     },
   });
 })();

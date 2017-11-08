@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "92bd205b_32896018",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1055795
+      },
+      "writtenOn": "2017-11-08T19:10:28Z",
+      "side": 1,
+      "message": "As I understand it, ::slotted is more limited than ::content. Specifically, ::slotted can only match the top level elements that are slotted into the `\u003cslot\u003e`, and the selector can\u0027t use any combinators like `.foo + .bar` or `.foo \u003e .bar` or even just `.foo .bar`.\n\nThis is one of the biggest changes in the Polymer 2 update, and because the final spec is less powerful than the v0 spec used by Polymer 1 it sometimes requires redesign of code that was using ::content. It\u0027s just not something that we can provide an automatic fix or a runtime rewrite.",
+      "parentUuid": "4e3ccb21_e0728b35",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 71
+      },
+      "revId": "e1c8d1373895ecb4334f57285e95aaa808ceff39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4881211a_62f864fd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 7

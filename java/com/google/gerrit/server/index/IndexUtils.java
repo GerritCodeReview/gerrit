@@ -18,6 +18,7 @@ import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -33,11 +34,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public final class IndexUtils {
   public static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
       ImmutableMap.of("_", " ", ".", " ");
+
+  public static final Function<Exception, IOException> MAPPER =
+      new Function<Exception, IOException>() {
+        @Override
+        public IOException apply(Exception in) {
+          if (in instanceof IOException) {
+            return (IOException) in;
+          } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
+            return (IOException) in.getCause();
+          } else {
+            return new IOException(in);
+          }
+        }
+      };
 
   public static void setReady(SitePaths sitePaths, String name, int version, boolean ready)
       throws IOException {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.group.InternalGroup;
@@ -34,7 +35,11 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
 
   @Deprecated static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
 
+  @Deprecated
   static final Schema<InternalGroup> V4 = schema(V3, GroupField.MEMBER, GroupField.SUBGROUP);
+
+  static final Schema<InternalGroup> V5 =
+      schema(V4, ImmutableList.of(GroupField.REF_STATE), ImmutableList.of(GroupField.OWNER_UUID));
 
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();
 

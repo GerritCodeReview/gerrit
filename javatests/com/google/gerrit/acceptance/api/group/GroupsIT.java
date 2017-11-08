@@ -23,6 +23,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -67,9 +68,11 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -80,6 +83,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -90,6 +94,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
@@ -105,6 +110,11 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
+  @Inject private StalenessChecker stalenessChecker;
+
+  @Inject
+  @Named("groups_byuuid")
+  LoadingCache<String, Optional<InternalGroup>> groupsByUUIDCache;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -953,6 +963,47 @@ public class GroupsIT extends AbstractDaemonTest {
             .to(RefNames.REFS_CONFIG);
     r.assertErrorStatus("invalid project configuration");
     r.assertMessage("All-Users must inherit from All-Projects");
+  }
+
+  @Test
+  public void stalenessChecker() throws Exception {
+    assume().that(groupsInNoteDb()).isTrue();
+
+    // Newly created group is not stale
+    GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupInfo.id);
+    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
+
+    // Manual update makes index document stale
+    String groupRef = RefNames.refsGroups(groupUuid);
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(groupRef).getObjectId());
+
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(commit.getTree());
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage(commit.getFullMessage());
+      ObjectId emptyCommit = oi.insert(cb);
+      oi.flush();
+
+      RefUpdate updateRef = repo.updateRef(groupRef);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(emptyCommit);
+      assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    // Evict group from cache to be sure that we use the index state for staleness checks. This has
+    // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for
+    // the group.
+    groupsByUUIDCache.invalidate(groupUuid);
+    assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
+
+    // Reindex fixes staleness
+    gApi.groups().id(groupInfo.id).index();
+    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
   }
 
   private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)

@@ -303,6 +303,22 @@ limitations under the License.
       assert.equal(actual, '');
     });
 
+    test('_showAddTopic', () => {
+      assert.isTrue(element._showAddTopic(null, false));
+      assert.isTrue(element._showAddTopic({base: {topic: null}}, false));
+      assert.isFalse(element._showAddTopic({base: {topic: null}}, true));
+      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, true));
+      assert.isFalse(element._showAddTopic({base: {topic: 'foo'}}, false));
+    });
+
+    test('_showTopicChip', () => {
+      assert.isFalse(element._showTopicChip(null, false));
+      assert.isFalse(element._showTopicChip({base: {topic: null}}, false));
+      assert.isFalse(element._showTopicChip({base: {topic: null}}, true));
+      assert.isFalse(element._showTopicChip({base: {topic: 'foo'}}, true));
+      assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
+    });
+
     suite('Topic removal', () => {
       let change;
       setup(() => {

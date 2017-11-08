@@ -48,6 +48,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.InternalGroup.Builder;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -62,6 +63,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -264,7 +266,10 @@ public class GroupsUpdate {
     AccountGroup group = createAccountGroup(groupCreation);
     UpdateResult updateResult = updateGroupInReviewDb(db, group, groupUpdate);
     return InternalGroup.create(
-        group, updateResult.getModifiedMembers(), updateResult.getModifiedSubgroups());
+        group,
+        updateResult.getModifiedMembers(),
+        updateResult.getModifiedSubgroups(),
+        updateResult.getRefState());
   }
 
   public static AccountGroup createAccountGroup(
@@ -504,7 +509,8 @@ public class GroupsUpdate {
             .setGroupId(updatedGroup.getId())
             .setGroupName(updatedGroup.getNameKey())
             .setModifiedMembers(modifiedMembers)
-            .setModifiedSubgroups(modifiedSubgroups);
+            .setModifiedSubgroups(modifiedSubgroups)
+            .setRefState(updatedGroup.getRefState());
     if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
       resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
     }
@@ -621,6 +627,9 @@ public class GroupsUpdate {
 
     abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
 
+    @Nullable
+    public abstract ObjectId getRefState();
+
     static Builder builder() {
       return new AutoValue_GroupsUpdate_UpdateResult.Builder();
     }
@@ -638,6 +647,8 @@ public class GroupsUpdate {
       abstract Builder setModifiedMembers(Set<Account.Id> modifiedMembers);
 
       abstract Builder setModifiedSubgroups(Set<AccountGroup.UUID> modifiedSubgroups);
+
+      public abstract Builder setRefState(ObjectId refState);
 
       abstract UpdateResult build();
     }

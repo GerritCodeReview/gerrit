@@ -64,15 +64,18 @@ public class Groups {
   private final boolean readFromNoteDb;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final AuditLogReader auditLogReader;
 
   @Inject
   public Groups(
       @GerritServerConfig Config config,
       GitRepositoryManager repoManager,
-      AllUsersName allUsersName) {
+      AllUsersName allUsersName,
+      AuditLogReader auditLogReader) {
     readFromNoteDb = config.getBoolean("user", null, "readGroupsFromNoteDb", false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.auditLogReader = auditLogReader;
   }
 
   /**
@@ -289,12 +292,13 @@ public class Groups {
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
   public List<AccountGroupMemberAudit> getMembersAudit(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     if (readFromNoteDb) {
-      // TODO(dborowitz): Implement.
-      throw new OrmException("Audit logs not yet implemented in NoteDb");
+      return auditLogReader.getMembersAudit(groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {
@@ -310,12 +314,13 @@ public class Groups {
    * @param groupUuid the UUID of the group
    * @return the audit records, in arbitrary order; empty if the group does not exist
    * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
    */
   public List<AccountGroupByIdAud> getSubgroupsAudit(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     if (readFromNoteDb) {
-      // TODO(dborowitz): Implement.
-      throw new OrmException("Audit logs not yet implemented in NoteDb");
+      return auditLogReader.getSubgroupsAudit(groupUuid);
     }
     Optional<AccountGroup> group = getGroupFromReviewDb(db, groupUuid);
     if (!group.isPresent()) {

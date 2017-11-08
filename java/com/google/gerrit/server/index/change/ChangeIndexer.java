@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
-import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -31,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -50,7 +50,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.Config;
@@ -79,22 +78,8 @@ public class ChangeIndexer {
     // ExecutionException, so we can reuse the same mapper as for a single
     // future. Assume the actual contents of the exception are not useful to
     // callers. All exceptions are already logged by IndexTask.
-    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
+    return Futures.makeChecked(Futures.allAsList(futures), IndexUtils.MAPPER);
   }
-
-  private static final Function<Exception, IOException> MAPPER =
-      new Function<Exception, IOException>() {
-        @Override
-        public IOException apply(Exception in) {
-          if (in instanceof IOException) {
-            return (IOException) in;
-          } else if (in instanceof ExecutionException && in.getCause() instanceof IOException) {
-            return (IOException) in.getCause();
-          } else {
-            return new IOException(in);
-          }
-        }
-      };
 
   private final ChangeIndexCollection indexes;
   private final ChangeIndex index;
@@ -335,7 +320,8 @@ public class ChangeIndexer {
   @SuppressWarnings("deprecation")
   private static <T> com.google.common.util.concurrent.CheckedFuture<T, IOException> submit(
       Callable<T> task, ListeningExecutorService executor) {
-    return Futures.makeChecked(Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
+    return Futures.makeChecked(
+        Futures.nonCancellationPropagating(executor.submit(task)), IndexUtils.MAPPER);
   }
 
   private abstract class AbstractIndexTask<T> implements Callable<T> {

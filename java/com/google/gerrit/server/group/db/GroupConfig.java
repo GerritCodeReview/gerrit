@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -42,6 +43,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -159,7 +161,15 @@ public class GroupConfig extends VersionedMetaData {
       }
 
       loadedGroup =
-          Optional.of(createFrom(groupUuid, ownerGroupUuid, config, members, subgroups, createdOn));
+          Optional.of(
+              createFrom(
+                  groupUuid,
+                  ownerGroupUuid,
+                  config,
+                  members,
+                  subgroups,
+                  createdOn,
+                  revision.toObjectId()));
     }
 
     isLoaded = true;
@@ -171,7 +181,8 @@ public class GroupConfig extends VersionedMetaData {
       Config config,
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups,
-      Timestamp createdOn) {
+      Timestamp createdOn,
+      ObjectId refState) {
     InternalGroup.Builder group = InternalGroup.builder();
     group.setGroupUUID(groupUuid);
     group.setOwnerGroupUUID(ownerGroupUuid);
@@ -180,7 +191,15 @@ public class GroupConfig extends VersionedMetaData {
     group.setMembers(members);
     group.setSubgroups(subgroups);
     group.setCreatedOn(createdOn);
+    group.setRefState(refState);
     return group.build();
+  }
+
+  @Override
+  public RevCommit commit(MetaDataUpdate update) throws IOException {
+    RevCommit c = super.commit(update);
+    loadedGroup = Optional.of(loadedGroup.get().toBuilder().setRefState(c.toObjectId()).build());
+    return c;
   }
 
   @Override
@@ -227,7 +246,8 @@ public class GroupConfig extends VersionedMetaData {
                 config,
                 updatedMembers.orElse(originalMembers),
                 updatedSubgroups.orElse(originalSubgroups),
-                createdOn));
+                createdOn,
+                null));
     groupCreation = Optional.empty();
 
     return true;

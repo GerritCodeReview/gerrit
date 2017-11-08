@@ -241,8 +241,8 @@ limitations under the License.
       });
     });
 
-    test('comments are reloaded when reload-comments fired', done => {
-      const reloadStub = sandbox.stub(element.$.commentAPI, 'loadAll')
+    test('drafts are reloaded when reload-drafts fired', done => {
+      const reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
           .returns(Promise.resolve({
             drafts: {
               'testfile.txt': [
@@ -258,7 +258,7 @@ limitations under the License.
             },
           }
         ));
-      element.$.fileList.fire('reload-comments', {
+      element.$.fileList.fire('reload-drafts', {
         resolve: () => {
           assert.isTrue(reloadStub.called);
           assert.deepEqual(element._diffDrafts, {

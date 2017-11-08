@@ -1,4 +1,137 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1510155525 +0100\nnonce AMT3iFinegkg+CUwHnj/7+8TKl8r9WRqDugeXQRKF46lYM6tExZLGDGWrGj4go6J5r6LLG5ClOVE\n\n0000000000000000000000000000000000000000 94db42f0699c6d7eef24fd2de59c1e675d3f5c7c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaAyUFAAoJEHFVO370GiZW+94H/0+70ZQK/XqkrIQNf2gR4M2X\nHe6vI9SDgZSdapBF3Eza8Z2ksX/Es+k9h7WE4N/CcKx58wm3lDZ03rT9sFQ6EDiO\nGzOtFSxljTU8I0EM8tsv2ZzwoP4ojZyTfg4Zd3FmM2Uv24JqcpWj6sfzyFoFV1ir\n5+QzGVj4luhBkTDluONmk6oAX60AcZc7O1k+ztSBn/MpxFs4AiECFgeTgb4Z/DlU\nSzsTa5uvnEPEBWFS/5ofYaoFoDC3NtPHidyzUuRTSY42cDnpJgqsVluItv4PkXxW\naFqeyG2HayLbkVQrRw/OUfLy+w2ng0ODUl708N9YNlPDE4J8XAKn36QvhA3c2Vg\u003d\n\u003dCk3O\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc2b39bb_b50f9b1b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "nit: missing punctuation (here and a couple if times below)",
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65be8720_237dd8e3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "{@link MetaDataUpdate}",
+      "range": {
+        "startLine": 58,
+        "startChar": 54,
+        "endLine": 58,
+        "endChar": 68
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1891c5_71418542",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "maybe: is read-only.",
+      "range": {
+        "startLine": 59,
+        "startChar": 61,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3864a655_c4082bfd",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "Instead of dropping everything completely, how about consistently returning the first record?\n\nAlternatively, log an error instead of a warning.",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 18
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78dcc6c7_e5a9f7b3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "optional (here and below):\n \n   for (Permission p : ImmutableList.of(Permission.READ, Permission.PUSH)) {\n        config.remove(\n            config.getAccessSection(ref),\n            new Permission(r),\n            new PermissionRule(oldOwnerGroupReference));\n   }",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 56
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626e3f47_4b2d0229",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-08T16:40:44Z",
+      "side": 1,
+      "message": "Why does a value retrieved from the Java API have to be URL decoded?",
+      "range": {
+        "startLine": 437,
+        "startChar": 15,
+        "endLine": 437,
+        "endChar": 25
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

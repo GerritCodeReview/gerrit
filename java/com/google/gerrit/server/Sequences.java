@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class Sequences {
   public static final String NAME_ACCOUNTS = "accounts";
+  public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {
@@ -57,6 +58,7 @@ public class Sequences {
   private final NotesMigration migration;
   private final RepoSequence accountSeq;
   private final RepoSequence changeSeq;
+  private final GroupSequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
@@ -98,6 +100,14 @@ public class Sequences {
                 .setUnit(Units.MILLISECONDS),
             Field.ofEnum(SequenceType.class, "sequence"),
             Field.ofBoolean("multiple"));
+
+    this.groupSeq =
+        new GroupSequence(
+            db.get(), GroupSequence.readSetting(cfg), allUsers, repoManager, gitRefUpdated);
+  }
+
+  public int nextGroupId() throws OrmException {
+    return groupSeq.nextGroupId();
   }
 
   public int nextAccountId() throws OrmException {

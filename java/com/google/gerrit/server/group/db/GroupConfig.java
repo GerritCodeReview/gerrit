@@ -44,12 +44,20 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 // TODO(aliceks): Add Javadoc descriptions to this file.
 public class GroupConfig extends VersionedMetaData {
   public static final String GROUP_CONFIG_FILE = "group.config";
+
+  static final FooterKey FOOTER_ADD_MEMBER = new FooterKey("Add");
+  static final FooterKey FOOTER_REMOVE_MEMBER = new FooterKey("Remove");
+  static final FooterKey FOOTER_ADD_GROUP = new FooterKey("Add-group");
+  static final FooterKey FOOTER_REMOVE_GROUP = new FooterKey("Remove-group");
+
   private static final String MEMBERS_FILE = "members";
   private static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
@@ -75,6 +83,13 @@ public class GroupConfig extends VersionedMetaData {
     GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
     groupConfig.load(repository);
     groupConfig.setGroupCreation(groupCreation);
+    return groupConfig;
+  }
+
+  static GroupConfig loadForGroupNoOwnerUpdate(RevWalk rw, ObjectId id, AccountGroup.UUID groupUuid)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    groupConfig.load(rw, id);
     return groupConfig;
   }
 
@@ -332,12 +347,12 @@ public class GroupConfig extends VersionedMetaData {
         Sets.difference(oldMembers, newMembers)
             .stream()
             .map(accountNameEmailRetriever)
-            .map("Remove: "::concat);
+            .map((FOOTER_REMOVE_MEMBER.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newMembers, oldMembers)
             .stream()
             .map(accountNameEmailRetriever)
-            .map("Add: "::concat);
+            .map((FOOTER_ADD_MEMBER.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }
 
@@ -347,12 +362,12 @@ public class GroupConfig extends VersionedMetaData {
         Sets.difference(oldSubgroups, newSubgroups)
             .stream()
             .map(groupNameRetriever)
-            .map("Remove-group: "::concat);
+            .map((FOOTER_REMOVE_GROUP.getName() + ": ")::concat);
     Stream<String> addedMembers =
         Sets.difference(newSubgroups, oldSubgroups)
             .stream()
             .map(groupNameRetriever)
-            .map("Add-group: "::concat);
+            .map((FOOTER_ADD_GROUP.getName() + ": ")::concat);
     return Stream.concat(removedMembers, addedMembers);
   }
 }

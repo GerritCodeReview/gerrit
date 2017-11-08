@@ -95,6 +95,30 @@
       "revId": "e3eee02683c425d8f47a2587f24ac1a25c6ca173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "188cc5b2_507b0166",
+        "filename": "java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-08T13:43:35Z",
+      "side": 1,
+      "message": "I initially expected this method to simply read:\n\n allProjectsCreator.setAdministrators(admins).setBatchUsers(batchUsers).create();\n allUsersCreator.setAdministrators(admins).setBatchUsers(batchUsers).create();\n\nand the code to create groups to live in the body of AllUsersCreator#create, so there is no implementation of group creation in this class.\n\nI think I have a reason that wouldn\u0027t be the best way to do it: group creation touches both All-Users and ReviewDb, and it wouldn\u0027t make sense for AllUsersCreator to be touching ReviewDb.",
+      "parentUuid": "258b607b_d69cd6bd",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 5
+      },
+      "revId": "e3eee02683c425d8f47a2587f24ac1a25c6ca173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

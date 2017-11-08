@@ -21,13 +21,27 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
+
 <link rel="import" href="gr-messages-list.html">
 
 <script>void(0);</script>
 
+<dom-module id="comment-api-mock">
+  <template>
+    <gr-messages-list
+        id="messagesList"
+        change-comments="[[_changeComments]]"></gr-messages-list>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
+  </template>
+  <script src="../../diff/gr-comment-api/gr-comment-api-mock.js"></script>
+</dom-module>
+
 <test-fixture id="basic">
   <template>
-    <gr-messages-list></gr-messages-list>
+    <comment-api-mock>
+      <gr-messages-list></gr-messages-list>
+    </comment-api-mock>
   </template>
 </test-fixture>
 
@@ -58,21 +72,84 @@ limitations under the License.
     let element;
     let messages;
     let sandbox;
+    let commentApiWrapper;
 
     const getMessages = function() {
       return Polymer.dom(element.root).querySelectorAll('gr-message');
+    };
+
+    const author = {
+      _account_id: 42,
+      name: 'Marvin the Paranoid Android',
+      email: 'marvin@sirius.org',
+    };
+
+    const comments = {
+      file1: [
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: '6505d749_f0bec0aa',
+          line: 62,
+          id: '6505d749_10ed44b2',
+          patch_set: 2,
+          author: {
+            email: 'some@email.com',
+            _account_id: 123,
+          },
+        },
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: 'c5912363_6b820105',
+          line: 42,
+          id: '450a935e_0f1c05db',
+          patch_set: 2,
+          author,
+        },
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: '6505d749_f0bec0aa',
+          line: 62,
+          id: '6505d749_10ed44b2',
+          patch_set: 2,
+          author,
+        },
+      ],
+      file2: [
+        {
+          message: 'message text',
+          updated: '2016-09-27 00:18:03.000000000',
+          in_reply_to: 'c5912363_4b7d450a',
+          line: 132,
+          id: '450a935e_4f260d25',
+          patch_set: 2,
+          author,
+        },
+      ],
     };
 
     setup(() => {
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getLoggedIn() { return Promise.resolve(false); },
+        getDiffComments() { return Promise.resolve(comments); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
       messages = _.times(3, randomMessage);
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.messagesList;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.messages = messages;
-      flushAsynchronousOperations();
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
+      return commentApiWrapper.loadComments();
     });
 
     teardown(() => {
@@ -285,56 +362,6 @@ limitations under the License.
     });
 
     test('messages', () => {
-      const author = {
-        _account_id: 42,
-        name: 'Marvin the Paranoid Android',
-        email: 'marvin@sirius.org',
-      };
-      const comments = {
-        file1: [
-          {
-            message: 'message text',
-            updated: '2016-09-27 00:18:03.000000000',
-            in_reply_to: '6505d749_f0bec0aa',
-            line: 62,
-            id: '6505d749_10ed44b2',
-            patch_set: 2,
-            author: {
-              email: 'some@email.com',
-              _account_id: 123,
-            },
-          },
-          {
-            message: 'message text',
-            updated: '2016-09-27 00:18:03.000000000',
-            in_reply_to: 'c5912363_6b820105',
-            line: 42,
-            id: '450a935e_0f1c05db',
-            patch_set: 2,
-            author,
-          },
-          {
-            message: 'message text',
-            updated: '2016-09-27 00:18:03.000000000',
-            in_reply_to: '6505d749_f0bec0aa',
-            line: 62,
-            id: '6505d749_10ed44b2',
-            patch_set: 2,
-            author,
-          },
-        ],
-        file2: [
-          {
-            message: 'message text',
-            updated: '2016-09-27 00:18:03.000000000',
-            in_reply_to: 'c5912363_4b7d450a',
-            line: 132,
-            id: '450a935e_4f260d25',
-            patch_set: 2,
-            author,
-          },
-        ],
-      };
       const messages = [].concat(
           randomMessage(),
           {
@@ -354,7 +381,6 @@ limitations under the License.
             id: 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5',
           }
       );
-      element.comments = comments;
       element.messages = messages;
       const isAuthor = function(author, message) {
         return message.author._account_id === author._account_id;
@@ -373,21 +399,6 @@ limitations under the License.
     });
 
     test('messages without author do not throw', () => {
-      const comments = {
-        file1: [
-          {
-            message: 'message text',
-            updated: '2016-09-27 00:18:03.000000000',
-            in_reply_to: '6505d749_f0bec0aa',
-            line: 62,
-            id: '6505d749_10ed44b2',
-            patch_set: 2,
-            author: {
-              email: 'some@email.com',
-              _account_id: 123,
-            },
-          },
-        ]};
       const messages = [{
         _index: 5,
         _revision_number: 4,
@@ -396,7 +407,6 @@ limitations under the License.
         id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
       }];
       element.messages = messages;
-      element.comments = comments;
       flushAsynchronousOperations();
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
@@ -419,6 +429,8 @@ limitations under the License.
   suite('gr-messages-list automate tests', () => {
     let element;
     let messages;
+    let sandbox;
+    let commentApiWrapper;
 
     const getMessages = function() {
       return Polymer.dom(element.root).querySelectorAll('gr-message');
@@ -429,18 +441,36 @@ limitations under the License.
 
     const randomMessageReviewer = {
       reviewer: {},
+      date: '2016-01-13 20:30:33.038000',
     };
 
     setup(() => {
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getLoggedIn() { return Promise.resolve(false); },
+        getDiffComments() { return Promise.resolve({}); },
+        getDiffRobotComments() { return Promise.resolve({}); },
+        getDiffDrafts() { return Promise.resolve({}); },
       });
-      element = fixture('basic');
+
+      sandbox = sinon.sandbox.create();
       messages = _.times(2, randomAutomated);
       messages.push(randomMessageReviewer);
+
+      // Element must be wrapped in an element with direct access to the
+      // comment API.
+      commentApiWrapper = fixture('basic');
+      element = commentApiWrapper.$.messagesList;
+      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.messages = messages;
-      flushAsynchronousOperations();
+
+      // Stub methods on the changeComments object after changeComments has
+      // been initalized.
+      return commentApiWrapper.loadComments();
+    });
+
+    teardown(() => {
+      sandbox.restore();
     });
 
     test('hide autogenerated button is not hidden', () => {

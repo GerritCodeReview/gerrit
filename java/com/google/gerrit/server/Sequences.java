@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class Sequences {
   public static final String NAME_ACCOUNTS = "accounts";
+  public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
 
   public static int getChangeSequenceGap(Config cfg) {

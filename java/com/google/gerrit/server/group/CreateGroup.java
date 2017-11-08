@@ -37,11 +37,16 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GroupSequence;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -81,6 +86,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final SystemGroupBackend systemGroupBackend;
   private final boolean defaultVisibleToAll;
   private final String name;
+  private final GroupSequence groupSeq;
 
   @Inject
   CreateGroup(
@@ -95,7 +101,10 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       AddMembers addMembers,
       SystemGroupBackend systemGroupBackend,
       @GerritServerConfig Config cfg,
-      @Assisted String name) {
+      @Assisted String name,
+      AllUsersName allUsersName,
+      GitRepositoryManager repositoryManager,
+      GitReferenceUpdated gitReferenceUpdated) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.db = db;
@@ -108,6 +117,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.systemGroupBackend = systemGroupBackend;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
+    this.groupSeq = new GroupSequence
+        (db, GroupSequence.readSetting(cfg), allUsersName, repositoryManager, gitReferenceUpdated);
   }
 
   public CreateGroup addOption(ListGroupsOption o) {
@@ -192,7 +203,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       }
     }
 
-    AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
+    AccountGroup.Id groupId = new AccountGroup.Id(groupSeq.nextGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
             createGroupArgs.getGroupName(),

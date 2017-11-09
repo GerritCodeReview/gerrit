@@ -19,14 +19,20 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
+
 import org.junit.Test;
 
 @NoHttpd
 public class SetParentIT extends AbstractDaemonTest {
+  @Inject private AllUsersName allUsers;
+
   @Test
   public void setParentNotAllowed() throws Exception {
     String parent = createProject("parent", null, true).get();
@@ -85,5 +91,16 @@ public class SetParentIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("not found");
     gApi.projects().name(project.get()).parent("non-existing");
+  }
+
+  @Test
+  public void setParentForAllProjectsMustBeAllUsers() throws Exception {
+    gApi.projects().name(allUsers.get()).parent(allProjects.get());
+
+    String parent = createProject("parent", null, true).get();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("All-Users must inherit from All-Projects");
+    gApi.projects().name(allUsers.get()).parent(parent);
   }
 }

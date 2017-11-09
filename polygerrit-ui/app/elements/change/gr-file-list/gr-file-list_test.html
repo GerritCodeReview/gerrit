@@ -81,7 +81,7 @@ limitations under the License.
       // been initalized.
       commentApiWrapper.loadComments().then(() => {
         sandbox.stub(element.changeComments, 'getPaths').returns({});
-        sandbox.stub(element.changeComments, 'getCommentsForPath')
+        sandbox.stub(element.changeComments, 'getCommentsBySideForPath')
             .returns({meta: {}, left: [], right: []});
         done();
       });
@@ -1089,7 +1089,7 @@ limitations under the License.
       // been initalized.
       commentApiWrapper.loadComments().then(() => {
         sandbox.stub(element.changeComments, 'getPaths').returns({});
-        sandbox.stub(element.changeComments, 'getCommentsForPath')
+        sandbox.stub(element.changeComments, 'getCommentsBySideForPath')
             .returns({meta: {}, left: [], right: []});
         done();
       });

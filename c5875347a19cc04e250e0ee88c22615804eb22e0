@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510244050 +0100\nnonce AMT3iFgro7R9Z48ZnUY4m1h1Lnf4MTBVzQmJ4lYZQX5NbogyzcxQIQYEj9g4IWBwoXRKbCj2ncbU\n\n0000000000000000000000000000000000000000 c5875347a19cc04e250e0ee88c22615804eb22e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBH7SAAoJEFG1/Zeg0O9RyO8H/0KDZWk+utpKP2+O1K7HIYXP\n8eVArHJBcYKNWgVv5IgBFofq1X6HgCKADLnA71qHl92wfyvW1qzXSgu1pnE6Wma9\n8GVteVOaGkRL2aHM75LBVQx+LSL9yHCPKbyJI1N1PEh9bxeJsvYfXYTyMYrPle8B\n3P6/FbQR+Rk//mdGexGwlt8kdBVEDIFbdhYZtakRli2A8jlIIM1ET/rdRanyAg+Y\nMoYgqLgxFHBFXKOBiwx2BA3j3Ff2QaJPRRvJmKrRU7vQj7ktY+J8hHcHsUuR8D4f\nC8nhFMYniXM4J6pc0BR1NznhHOP6sBPLNMGWKXa3GR6nrZh+vMgwCzKTKQusPpI\u003d\n\u003dT/kw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "761cd30e_027eacb2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T16:22:42Z",
+      "side": 1,
+      "message": "Does this prevent us from having multiple owners on a group? Patrick suggested in https://gerrit-review.googlesource.com/c/gerrit/+/139490 that this would be a possibility.",
+      "revId": "c5875347a19cc04e250e0ee88c22615804eb22e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

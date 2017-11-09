@@ -461,10 +461,8 @@ limitations under the License.
       test('enabled', () => {
         element.warnUncommitted = true;
         element.text = 'blah blah blah';
-        element._focused = true;
         MockInteractions.blur(element.$.input);
         assert.isTrue(inputClassList.contains('warnUncommitted'));
-        assert.isFalse(element._focused);
         assert.equal(getComputedStyle(element.$.input.inputElement).color,
             'rgb(255, 0, 0)');
         MockInteractions.focus(element.$.input);
@@ -475,20 +473,16 @@ limitations under the License.
 
       test('disabled', () => {
         element.warnUncommitted = false;
-        element._focused = true;
         element.text = 'blah blah blah';
         MockInteractions.blur(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
-        assert.isFalse(element._focused);
       });
 
       test('no text', () => {
         element.warnUncommitted = true;
-        element._focused = true;
         element.text = '';
         MockInteractions.blur(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
-        assert.isFalse(element._focused);
       });
     });
   });

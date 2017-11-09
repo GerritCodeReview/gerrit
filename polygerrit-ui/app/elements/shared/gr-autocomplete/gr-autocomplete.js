@@ -210,7 +210,6 @@
     },
 
     _onInputBlur() {
-      this._focused = false;
       this.$.input.classList.toggle('warnUncommitted',
           this.warnUncommitted && this.text.length && !this._focused);
       // Needed so that --paper-input-container-input updated style is applied.

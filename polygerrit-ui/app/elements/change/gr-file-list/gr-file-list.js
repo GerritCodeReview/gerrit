@@ -309,89 +309,33 @@
       this.$.diffCursor.handleDiffUpdate();
     },
 
-    _computeCommentsString(comments, patchNum, path) {
-      return this._computeCountString(comments, patchNum, path, 'comment');
+    _computeCommentsString(changeComments, patchNum, path) {
+      return changeComments.computeCommentsString(patchNum, path);
     },
 
-    _computeDraftsString(drafts, patchNum, path) {
-      return this._computeCountString(drafts, patchNum, path, 'draft');
+    _computeDraftsString(changeComments, patchNum, path) {
+      return changeComments.computeDraftString(patchNum, path);
     },
 
-    _computeDraftsStringMobile(drafts, patchNum, path) {
-      const draftCount = this._computeCountString(drafts, patchNum, path);
-      return draftCount ? draftCount + 'd' : '';
+    _computeDraftsStringMobile(changeComments, patchNum, path) {
+      return changeComments.computeDraftString(patchNum, path, true);
     },
 
-    _computeCommentsStringMobile(comments, patchNum, path) {
-      const commentCount = this._computeCountString(comments, patchNum, path);
-      return commentCount ? commentCount + 'c' : '';
-    },
-
-    getCommentsForPath(comments, patchNum, path) {
-      return (comments[path] || []).filter(c => {
-        return this.patchNumEquals(c.patch_set, patchNum);
-      });
-    },
-
-    /**
-     * @param {!Array} comments
-     * @param {number} patchNum
-     * @param {string} path
-     * @param {string=} opt_noun
-     */
-    _computeCountString(comments, patchNum, path, opt_noun) {
-      if (!comments) { return ''; }
-
-      const patchComments = this.getCommentsForPath(comments, patchNum, path);
-      const num = patchComments.length;
-      if (num === 0) { return ''; }
-      if (!opt_noun) { return num; }
-      const output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
-      return output;
+    _computeCommentsStringMobile(changeComments, patchNum, path) {
+      return changeComments.computeCommentsString(patchNum, path, true);
     },
 
     /**
      * Computes a string counting the number of unresolved comment threads in a
      * given file and path.
      *
-     * @param {!Object} comments
-     * @param {!Object} drafts
+     * @param {!Object} changeComments
      * @param {number} patchNum
      * @param {string} path
      * @return {string}
      */
-    _computeUnresolvedString(comments, drafts, patchNum, path) {
-      const unresolvedNum = this.computeUnresolvedNum(
-          comments, drafts, patchNum, path);
-      return unresolvedNum === 0 ? '' : '(' + unresolvedNum + ' unresolved)';
-    },
-
-    computeUnresolvedNum(comments, drafts, patchNum, path) {
-      comments = this.getCommentsForPath(comments, patchNum, path);
-      drafts = this.getCommentsForPath(drafts, patchNum, path);
-      comments = comments.concat(drafts);
-
-      // Create an object where every comment ID is the key of an unresolved
-      // comment.
-
-      const idMap = comments.reduce((acc, comment) => {
-        if (comment.unresolved) {
-          acc[comment.id] = true;
-        }
-        return acc;
-      }, {});
-
-      // Set false for the comments that are marked as parents.
-      for (const comment of comments) {
-        idMap[comment.in_reply_to] = false;
-      }
-
-      // The unresolved comments are the comments that still have true.
-      const unresolvedLeaves = Object.keys(idMap).filter(key => {
-        return idMap[key];
-      });
-
-      return unresolvedLeaves.length;
+    _computeUnresolvedString(changeComments, patchNum, path) {
+      return changeComments.computeUnresolvedString(patchNum, path, true);
     },
 
     _computeReviewed(file, _reviewed) {

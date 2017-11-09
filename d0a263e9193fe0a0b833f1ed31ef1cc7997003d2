@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510243081 +0100\nnonce AMT3iFgNeIuOZmJmeuTdyIJ0ko1BJ/9dGdSlMh2P64jmk13JRT8cqLO9aYCH2Ji7WTFJn0XLlt/Y\n\n0000000000000000000000000000000000000000 c07e3db29abba46a4db694e99a61f539b9ed795c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBHsJAAoJEFG1/Zeg0O9RuOUH/0ACPev2sEtgqeDvy+dmLOBQ\nxr0UC7L5Ky0HdmNXqAZQZ7NnVNf5EziBy13pX4o/d+lI8k8catUdWz/WkZ6kKDYV\nP7QmCpLif30jF2vr2ig/PSe55iv6cIHqmtslBIwBheZ9kcxNtPGW12mVoAytttXr\ni3fudKMH2xPQm/9hpaX2ic5Ja7SnoHN9uy5R47rwf3uQSy9XSB6iydOQLnSVm4mc\n+aDt1qtU2fjV0qX9j4zU0xzbF5LUNLkjkt5T2OUFlXeKw8dWuSNaiKi9VIubC+Fs\nuq4CR/wRRWyDa4+OtrNtHKa+Uv0hzKNM0ki+flWPLh2o9Cc7kiicJtRLyJ5LZtY\u003d\n\u003dpOPu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c647f36e_3f1187f1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T16:26:59Z",
+      "side": 1,
+      "message": "We have this in multiple places now. Should we just move it to AbstractDaemonTest right next to AllProjectsName?",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8229b991_5e874ed5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T16:26:59Z",
+      "side": 1,
+      "message": "optional: This is overloading a local variable and a class member which is slightly confusing. I\u0027d just give the local variable a different name (same below).",
+      "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

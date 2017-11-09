@@ -35,6 +35,24 @@
       "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6773336b_b6795c89",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T12:40:12Z",
+      "side": 1,
+      "message": "\u003e Maybe I\u0027m missing some other place that InternalGroupUpdate is used?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/138780/6/java/com/google/gerrit/server/group/db/GroupConfig.java#267",
+      "parentUuid": "d9f783ea_4f6bf25d",
+      "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

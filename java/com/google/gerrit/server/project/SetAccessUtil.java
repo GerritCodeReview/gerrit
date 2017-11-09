@@ -136,11 +136,12 @@ public class SetAccessUtil {
         }
       }
       if (isGroupsMutationDisallowed(config.getName())
-          && section.getName().startsWith(RefNames.REFS_GROUPS)) {
+          && (section.getName().startsWith(RefNames.REFS_GROUPS)
+              || section.getName().equals(RefNames.REFS_GROUPNAMES))) {
         throw new BadRequestException(
             String.format(
-                "permissions on %s are managed by gerrit and cannot be modified",
-                RefNames.REFS_GROUPS));
+                "permissions on %s and %s are managed by gerrit and cannot be modified",
+                RefNames.REFS_GROUPS, RefNames.REFS_GROUPNAMES));
       }
     }
 

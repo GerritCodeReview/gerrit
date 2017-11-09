@@ -148,8 +148,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
               && isGroupMutation(section.getName())) {
             throw new ConfigInvalidException(
                 String.format(
-                    "permissions on %s are managed by gerrit and cannot be modified",
-                    RefNames.REFS_GROUPS));
+                    "permissions on %s and %s are managed by gerrit and cannot be modified",
+                    RefNames.REFS_GROUPS, RefNames.REFS_GROUPNAMES));
           }
         }
       }
@@ -158,8 +158,8 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         if (groupMutationsDisallowed(projectName) && isGroupMutation(name)) {
           throw new ConfigInvalidException(
               String.format(
-                  "permissions on %s are managed by gerrit and cannot be modified",
-                  RefNames.REFS_GROUPS));
+                  "permissions on %s and %s are managed by gerrit and cannot be modified",
+                  RefNames.REFS_GROUPS, RefNames.REFS_GROUPNAMES));
         }
 
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
@@ -271,6 +271,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   }
 
   private boolean isGroupMutation(String sectionName) {
-    return sectionName.startsWith(RefNames.REFS_GROUPS);
+    return sectionName.startsWith(RefNames.REFS_GROUPS)
+        || sectionName.equals(RefNames.REFS_GROUPNAMES);
   }
 }

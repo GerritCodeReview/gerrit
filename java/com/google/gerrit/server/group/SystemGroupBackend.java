@@ -38,6 +38,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +50,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -213,31 +215,29 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         return;
       }
 
-      Optional<InternalGroup> conflictingGroup;
+      Optional<GroupReference> conflictingGroup;
       try (ReviewDb db = schema.open()) {
         conflictingGroup =
             groups
-                .getAll(db)
-                // TODO(aliceks): Filter the groups by name as early as possible and avoid loading
-                // them (if possible with NoteDb).
+                .getAllGroupReferences(db)
                 .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
                 .findAny();
 
-      } catch (OrmException ignored) {
+      } catch (OrmException | IOException | ConfigInvalidException ignored) {
         return;
       }
 
       if (conflictingGroup.isPresent()) {
-        InternalGroup group = conflictingGroup.get();
+        GroupReference group = conflictingGroup.get();
         String groupName = group.getName();
         AccountGroup.UUID systemGroupUuid = byLowerCaseConfiguredName.get(groupName);
         throw new StartupException(
-            getAmbiguousNameMessage(groupName, group.getGroupUUID(), systemGroupUuid));
+            getAmbiguousNameMessage(groupName, group.getUUID(), systemGroupUuid));
       }
     }
 
     private static boolean hasConfiguredName(
-        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, InternalGroup group) {
+        Map<String, AccountGroup.UUID> byLowerCaseConfiguredName, GroupReference group) {
       String name = group.getName().toLowerCase(Locale.US);
       return byLowerCaseConfiguredName.keySet().contains(name);
     }

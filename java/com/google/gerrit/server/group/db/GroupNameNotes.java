@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -34,8 +35,12 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 // TODO(aliceks): Add Javadoc descriptions.
 public class GroupNameNotes extends VersionedMetaData {
@@ -88,6 +93,25 @@ public class GroupNameNotes extends VersionedMetaData {
     groupNameNotes.load(repository);
     groupNameNotes.ensureNewNameIsNotUsed();
     return groupNameNotes;
+  }
+
+  public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
+      throws IOException, ConfigInvalidException {
+    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
+    if (ref == null) {
+      return ImmutableSet.of();
+    }
+    try (RevWalk revWalk = new RevWalk(repository);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+      ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
+      for (Note note : noteMap) {
+        GroupReference groupReference = getGroupReference(reader, note.getData());
+        groupReferences.add(groupReference);
+      }
+      return groupReferences.build();
+    }
   }
 
   @Override

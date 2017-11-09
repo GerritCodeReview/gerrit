@@ -21,6 +21,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -32,6 +33,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.slf4j.Logger;
@@ -73,7 +76,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     List<AccountGroup.UUID> uuids;
     try {
       uuids = collectGroups(progress);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       log.error("Error collecting groups", e);
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
@@ -128,10 +131,14 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress) throws OrmException {
+  private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress)
+      throws OrmException, IOException, ConfigInvalidException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
     try (ReviewDb db = schemaFactory.open()) {
-      return groups.getAllUuids(db).collect(toImmutableList());
+      return groups
+          .getAllGroupReferences(db)
+          .map(GroupReference::getUUID)
+          .collect(toImmutableList());
     } finally {
       progress.endTask();
     }

@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -44,8 +45,6 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A database accessor for read calls related to groups.
@@ -62,8 +61,6 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class Groups {
-  private static final Logger log = LoggerFactory.getLogger(Groups.class);
-
   private final boolean readFromNoteDb;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -174,25 +171,25 @@ public class Groups {
     }
   }
 
-  public Stream<InternalGroup> getAll(ReviewDb db) throws OrmException {
-    // TODO(aliceks): Add code for NoteDb.
-    return getAllUuids(db)
-        .map(groupUuid -> getGroupIfPossible(db, groupUuid))
-        .flatMap(Streams::stream);
-  }
-
-  public Stream<AccountGroup.UUID> getAllUuids(ReviewDb db) throws OrmException {
-    // TODO(aliceks): Add code for NoteDb.
-    return Streams.stream(db.accountGroups().all()).map(AccountGroup::getGroupUUID);
-  }
-
-  private Optional<InternalGroup> getGroupIfPossible(ReviewDb db, AccountGroup.UUID groupUuid) {
-    try {
-      return getGroup(db, groupUuid);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
-      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+  /**
+   * Returns {@code GroupReference}s for all internal groups.
+   *
+   * @param db the {@code ReviewDb} instance to use for lookups
+   * @return a stream of the {@code GroupReference}s of all internal groups
+   * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
+   */
+  public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromNoteDb) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+        return GroupNameNotes.loadAllGroupReferences(allUsersRepo).stream();
+      }
     }
-    return Optional.empty();
+
+    return Streams.stream(db.accountGroups().all())
+        .map(group -> new GroupReference(group.getGroupUUID(), group.getName()));
   }
 
   /**

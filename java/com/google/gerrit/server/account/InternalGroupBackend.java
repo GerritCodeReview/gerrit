@@ -22,7 +22,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
@@ -30,7 +29,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
@@ -75,24 +76,26 @@ public class InternalGroupBackend implements GroupBackend {
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     try (ReviewDb db = schema.open()) {
       return groups
-          .getAll(db)
-          // TODO(aliceks): Filter the groups by name before loading them (if possible with NoteDb).
+          .getAllGroupReferences(db)
           .filter(group -> startsWithIgnoreCase(group, name))
-          .map(InternalGroupDescription::new)
           .filter(this::isVisible)
-          .map(GroupReference::forGroup)
           .collect(toList());
-    } catch (OrmException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       return ImmutableList.of();
     }
   }
 
-  private static boolean startsWithIgnoreCase(InternalGroup group, String name) {
+  private static boolean startsWithIgnoreCase(GroupReference group, String name) {
     return group.getName().regionMatches(true, 0, name, 0, name.length());
   }
 
-  private boolean isVisible(GroupDescription.Internal group) {
-    return groupControlFactory.controlFor(group).isVisible();
+  private boolean isVisible(GroupReference groupReference) {
+    return groupCache
+        .get(groupReference.getUUID())
+        .map(InternalGroupDescription::new)
+        .map(groupControlFactory::controlFor)
+        .filter(GroupControl::isVisible)
+        .isPresent();
   }
 
   @Override

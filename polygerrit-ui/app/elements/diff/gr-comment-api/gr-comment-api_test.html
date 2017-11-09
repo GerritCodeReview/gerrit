@@ -103,6 +103,11 @@ limitations under the License.
     suite('_changeComment methods', () => {
       setup(done => {
         const changeNum = 1234;
+        stub('gr-rest-api-interface', {
+          getDiffComments() { return Promise.resolve({}); },
+          getDiffRobotComments() { return Promise.resolve({}); },
+          getDiffDrafts() { return Promise.resolve({}); },
+        });
         element.loadAll(changeNum).then(() => {
           done();
         });
@@ -142,31 +147,60 @@ limitations under the License.
             comment, patchRange));
       });
 
+      test('_isInPatchRange', () => {
+        const patchRange1 = {basePatchNum: 122, patchNum: 124};
+        const patchRange2 = {basePatchNum: 123, patchNum: 125};
+        const patchRange3 = {basePatchNum: 124, patchNum: 125};
+
+        const isInBasePatchStub = sandbox.stub(element._changeComments,
+            '_isInBaseOfPatchRange');
+        const isInRevisionPatchStub = sandbox.stub(element._changeComments,
+            '_isInRevisionOfPatchRange');
+
+        isInBasePatchStub.withArgs({}, patchRange1).returns(true);
+        isInBasePatchStub.withArgs({}, patchRange2).returns(false);
+        isInBasePatchStub.withArgs({}, patchRange3).returns(false);
+
+        isInRevisionPatchStub.withArgs({}, patchRange1).returns(false);
+        isInRevisionPatchStub.withArgs({}, patchRange2).returns(true);
+        isInRevisionPatchStub.withArgs({}, patchRange3).returns(false);
+
+        assert.isTrue(element._changeComments._isInPatchRange({}, patchRange1));
+        assert.isTrue(element._changeComments._isInPatchRange({}, patchRange2));
+        assert.isFalse(element._changeComments._isInPatchRange({},
+            patchRange3));
+      });
+
       suite('comment ranges and paths', () => {
         setup(() => {
-          element._changeComments._drafts = {};
+          element._changeComments._drafts = {
+            'file/one': [
+              {id: 11, patch_set: 2, side: PARENT},
+              {id: 12, patch_set: 2},
+            ],
+          };
           element._changeComments._robotComments = {
             'file/one': [
-              {patch_set: 2, side: PARENT},
-              {patch_set: 2},
+              {id: 1, patch_set: 2, side: PARENT},
+              {id: 2, patch_set: 2, unresolved: true},
             ],
           };
           element._changeComments._comments = {
             'file/one': [
-              {patch_set: 2, side: PARENT},
-              {patch_set: 2},
+              {id: 3, patch_set: 2, side: PARENT},
+              {id: 4, patch_set: 2},
             ],
             'file/two': [
-              {patch_set: 2},
-              {patch_set: 3},
+              {id: 5, patch_set: 2},
+              {id: 6, patch_set: 3},
             ],
             'file/three': [
-              {patch_set: 2, side: PARENT},
-              {patch_set: 3},
+              {id: 7, patch_set: 2, side: PARENT, unresolved: true},
+              {id: 8, patch_set: 3},
             ],
             'file/four': [
-              {patch_set: 5, side: PARENT},
-              {patch_set: 5},
+              {id: 9, patch_set: 5, side: PARENT},
+              {i: 10, patch_set: 5},
             ],
           };
         });
@@ -198,39 +232,82 @@ limitations under the License.
           assert.property(paths, 'file/four');
         });
 
-        test('getCommentsForPath', () => {
+        test('getCommentsBySideForPath', () => {
           const patchRange = {basePatchNum: 1, patchNum: 3};
           let path = 'file/one';
-          let comments = element._changeComments.getCommentsForPath(path,
+          let comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.meta.changeNum, 1234);
           assert.equal(comments.left.length, 0);
           assert.equal(comments.right.length, 0);
 
           path = 'file/two';
-          comments = element._changeComments.getCommentsForPath(path,
+          comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.left.length, 0);
           assert.equal(comments.right.length, 1);
 
           patchRange.basePatchNum = 2;
-          comments = element._changeComments.getCommentsForPath(path,
+          comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.left.length, 1);
           assert.equal(comments.right.length, 1);
 
           patchRange.basePatchNum = PARENT;
           path = 'file/three';
-          comments = element._changeComments.getCommentsForPath(path,
+          comments = element._changeComments.getCommentsBySideForPath(path,
               patchRange);
           assert.equal(comments.left.length, 0);
           assert.equal(comments.right.length, 1);
         });
 
         test('getAllCommentsForPath', () => {
-          const path = 'file/one';
-          const comments = element._changeComments.getAllCommentsForPath(path);
+          let path = 'file/one';
+          let comments = element._changeComments.getAllCommentsForPath(path);
           assert.deepEqual(comments.length, 4);
+          path = 'file/two';
+          comments = element._changeComments.getAllCommentsForPath(path, 2);
+          assert.deepEqual(comments.length, 1);
+        });
+
+        test('getAllDraftsForPath', () => {
+          const path = 'file/one';
+          const drafts = element._changeComments.getAllDraftsForPath(path);
+          assert.deepEqual(drafts.length, 2);
+        });
+
+        test('computeUnresolvedNum', () => {
+          assert.equal(element._changeComments
+              .computeUnresolvedNum(2, 'file/one'), 1);
+          assert.equal(element._changeComments
+              .computeUnresolvedNum(1, 'file/one'), 0);
+          assert.equal(element._changeComments
+              .computeUnresolvedNum(2, 'file/three'), 1);
+        });
+
+        test('computeCommentCount', () => {
+          assert.equal(element._changeComments
+              .computeCommentCount(2, 'file/one'), 4);
+          assert.equal(element._changeComments
+              .computeCommentCount(1, 'file/one'), 0);
+          assert.equal(element._changeComments
+              .computeCommentCount(2, 'file/three'), 1);
+        });
+
+        test('computeDraftCount', () => {
+          assert.equal(element._changeComments
+              .computeDraftCount(2, 'file/one'), 2);
+          assert.equal(element._changeComments
+              .computeDraftCount(1, 'file/one'), 0);
+          assert.equal(element._changeComments
+              .computeDraftCount(2, 'file/three'), 0);
+        });
+
+        test('getAllPublishedComments', () => {
+          const publishedComments = element._changeComments
+              .getAllPublishedComments();
+          assert.equal(Object.keys(publishedComments).length, 4);
+          assert.equal(Object.keys(publishedComments[['file/one']]).length, 4);
         });
       });
     });

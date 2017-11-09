@@ -20,7 +20,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -37,6 +39,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupNameNotes;
+import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -46,6 +50,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -67,6 +72,7 @@ public class GroupsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
+  private final boolean readFromNoteDb;
   private final boolean writeGroupsToNoteDb;
 
   @Inject
@@ -74,6 +80,7 @@ public class GroupsOnInit {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
+    readFromNoteDb = flags.cfg.getBoolean("user", null, "readGroupsFromNoteDb", false);
     // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
     // have been addressed.
     // Don't flip this flag in a production setting! We only added it to spread the implementation
@@ -82,28 +89,80 @@ public class GroupsOnInit {
   }
 
   /**
-   * Returns the {@code AccountGroup} for the specified name.
+   * Returns the {@code AccountGroup} for the specified {@code GroupReference}.
    *
    * @param db the {@code ReviewDb} instance to use for lookups
-   * @param groupName the name of the group
-   * @return the {@code AccountGroup} which has the specified name
+   * @param groupReference the {@code GroupReference} of the group
+   * @return the {@code InternalGroup} represented by the {@code GroupReference}
    * @throws OrmException if the group couldn't be retrieved from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
    * @throws NoSuchGroupException if a group with such a name doesn't exist
    */
-  public AccountGroup getExistingGroup(ReviewDb db, AccountGroup.NameKey groupName)
-      throws OrmException, NoSuchGroupException {
-    // TODO(aliceks): Add implementation for NoteDb.
-    AccountGroupName accountGroupName = db.accountGroupNames().get(groupName);
+  public InternalGroup getExistingGroup(ReviewDb db, GroupReference groupReference)
+      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
+    if (readFromNoteDb) {
+      return getExistingGroupFromNoteDb(groupReference);
+    }
+
+    return getExistingGroupFromReviewDb(db, groupReference);
+  }
+
+  private InternalGroup getExistingGroupFromNoteDb(GroupReference groupReference)
+      throws IOException, ConfigInvalidException, NoSuchGroupException {
+    File allUsersRepoPath = getPathToAllUsersRepository();
+    if (allUsersRepoPath != null) {
+      try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
+        AccountGroup.UUID groupUuid = groupReference.getUUID();
+        GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
+        return groupConfig
+            .getLoadedGroup()
+            .orElseThrow(() -> new NoSuchGroupException(groupReference.getUUID()));
+      }
+    }
+    throw new NoSuchGroupException(groupReference.getUUID());
+  }
+
+  private static InternalGroup getExistingGroupFromReviewDb(
+      ReviewDb db, GroupReference groupReference) throws OrmException, NoSuchGroupException {
+    String groupName = groupReference.getName();
+    AccountGroupName accountGroupName =
+        db.accountGroupNames().get(new AccountGroup.NameKey(groupName));
     if (accountGroupName == null) {
-      throw new NoSuchGroupException(groupName.toString());
+      throw new NoSuchGroupException(groupName);
     }
 
     AccountGroup.Id groupId = accountGroupName.getId();
     AccountGroup group = db.accountGroups().get(groupId);
     if (group == null) {
-      throw new NoSuchGroupException(groupName.toString());
+      throw new NoSuchGroupException(groupName);
     }
-    return group;
+    return Groups.asInternalGroup(db, group);
+  }
+
+  /**
+   * Returns {@code GroupReference}s for all internal groups.
+   *
+   * @param db the {@code ReviewDb} instance to use for lookups
+   * @return a stream of the {@code GroupReference}s of all internal groups
+   * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
+   */
+  public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromNoteDb) {
+      File allUsersRepoPath = getPathToAllUsersRepository();
+      if (allUsersRepoPath != null) {
+        try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
+          return GroupNameNotes.loadAllGroupReferences(allUsersRepo).stream();
+        }
+      }
+      return Stream.empty();
+    }
+
+    return Streams.stream(db.accountGroups().all())
+        .map(group -> new GroupReference(group.getGroupUUID(), group.getName()));
   }
 
   /**

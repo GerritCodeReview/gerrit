@@ -17,8 +17,9 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -26,7 +27,6 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
@@ -46,6 +46,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class InitAdminUser implements InitStep {
@@ -130,9 +131,18 @@ public class InitAdminUser implements InitStep {
           a.setPreferredEmail(email);
           accounts.insert(a);
 
-          AccountGroup adminGroup =
-              groupsOnInit.getExistingGroup(db, new AccountGroup.NameKey("Administrators"));
-          groupsOnInit.addGroupMember(db, adminGroup.getGroupUUID(), a);
+          // Only two groups should exist at this point in time and hence iterating over all of them
+          // is cheap.
+          Optional<GroupReference> adminGroupReference =
+              groupsOnInit
+                  .getAllGroupReferences(db)
+                  .filter(group -> group.getName().equals("Administrators"))
+                  .findAny();
+          if (!adminGroupReference.isPresent()) {
+            throw new NoSuchGroupException("Administrators");
+          }
+          GroupReference adminGroup = adminGroupReference.get();
+          groupsOnInit.addGroupMember(db, adminGroup.getUUID(), a);
 
           if (sshKey != null) {
             VersionedAuthorizedKeysOnInit authorizedKeys = authorizedKeysFactory.create(id).load();
@@ -146,8 +156,7 @@ public class InitAdminUser implements InitStep {
             accountIndex.replace(as);
           }
 
-          InternalGroup adminInternalGroup =
-              InternalGroup.create(adminGroup, ImmutableSet.of(id), ImmutableSet.of());
+          InternalGroup adminInternalGroup = groupsOnInit.getExistingGroup(db, adminGroup);
           for (GroupIndex groupIndex : groupIndexCollection.getWriteIndexes()) {
             groupIndex.replace(adminInternalGroup);
           }

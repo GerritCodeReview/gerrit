@@ -125,7 +125,7 @@ public class Groups {
     return groupConfig.getLoadedGroup();
   }
 
-  private static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)
+  public static InternalGroup asInternalGroup(ReviewDb db, AccountGroup accountGroup)
       throws OrmException {
     ImmutableSet<Account.Id> members =
         getMembersFromReviewDb(db, accountGroup.getId()).collect(toImmutableSet());

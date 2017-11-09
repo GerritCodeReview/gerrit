@@ -72,5 +72,27 @@ limitations under the License.
       comment.side = 'PARENT';
       assert.equal(element._computePatchDisplayName(comment), 'Base, ');
     });
+
+    test('config commentlinks propagate to formatted text', () => {
+      element.comments = {
+        'test.h': [{
+          author: {name: 'foo'},
+          patch_set: 4,
+          line: 10,
+          updated: '2017-10-30 20:48:40.000000000',
+          message: 'Ideadbeefdeadbeef',
+          unresolved: true,
+        }],
+      };
+      element.projectConfig = {
+        commentlinks: {foo: {link: '#/q/$1', match: '(I[0-9a-f]{8,40})'}},
+      };
+      flushAsynchronousOperations();
+      const formattedText = Polymer.dom(element.root).querySelector(
+          'gr-formatted-text.message');
+      assert.isOk(formattedText.config);
+      assert.deepEqual(formattedText.config,
+          element.projectConfig.commentlinks);
+    });
   });
 </script>

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "d83457c3_a604d622",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2b39bb_b50f9b1b",
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65be8720_237dd8e3",
         "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
         "patchSetId": 5
@@ -40,6 +58,30 @@
       "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdafc17e_3d3c8fe8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65be8720_237dd8e3",
+      "range": {
+        "startLine": 58,
+        "startChar": 54,
+        "endLine": 58,
+        "endChar": 68
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "a75b14a2_119982a1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb1891c5_71418542",
+      "range": {
+        "startLine": 59,
+        "startChar": 61,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3864a655_c4082bfd",
         "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
         "patchSetId": 5
@@ -86,6 +152,30 @@
       "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f197541b_ddc49a75",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "\u003e Instead of dropping everything completely, how about consistently returning the first record?\n\nGenerally if a result is ambiguous we treat it the same way as if there was no result (e.g. when looking up accounts by email). So I think it\u0027s consistent to do the same here.\nThis way we will get to know about the inconsistency since it will cause errors in the log.\n\n\u003e Alternatively, log an error instead of a warning.\n\nThe caller of this method already throws an exception when null is returned [1], but yes this should probably be logged on error too. Done.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/138780/5/java/com/google/gerrit/server/group/db/GroupConfig.java#157",
+      "parentUuid": "3864a655_c4082bfd",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 18
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "3bf55ebd_5a6c52d8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "Yes, that\u0027s nicer. Thanks.\n\nDone.",
+      "parentUuid": "78dcc6c7_e5a9f7b3",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 56
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "626e3f47_4b2d0229",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5
@@ -132,6 +246,30 @@
       "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5470850_baa65efb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T08:13:26Z",
+      "side": 1,
+      "message": "It\u0027s encoded in the json that is returned by the REST API [1] and the JavaApi is just a wrapper around the REST API and doesn\u0027t do any decoding (maybe it should?).\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info",
+      "parentUuid": "626e3f47_4b2d0229",
+      "range": {
+        "startLine": 437,
+        "startChar": 15,
+        "endLine": 437,
+        "endChar": 25
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

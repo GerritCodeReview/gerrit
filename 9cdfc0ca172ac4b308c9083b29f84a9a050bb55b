@@ -23,6 +23,30 @@
       "revId": "9cdfc0ca172ac4b308c9083b29f84a9a050bb55b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66c405c0_705a469a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T12:20:26Z",
+      "side": 1,
+      "message": "I guess I didn\u0027t need to say they should be submitted at the same time. The tests pass in either case, and nobody should be running with groups in NoteDb enabled from exactly this commit.",
+      "parentUuid": "c121a929_77ce60b3",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "9cdfc0ca172ac4b308c9083b29f84a9a050bb55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

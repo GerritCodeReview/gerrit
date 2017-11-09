@@ -21,8 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.inject.Inject;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -30,8 +28,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject private AllUsersName allUsers;
-
   @After
   public void cleanUp() throws Exception {
     try (Repository git = repoManager.openRepository(allUsers)) {

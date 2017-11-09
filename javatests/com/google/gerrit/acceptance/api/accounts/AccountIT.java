@@ -92,7 +92,6 @@ import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.mail.Address;
@@ -147,8 +146,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
-
-  @Inject private AllUsersName allUsers;
 
   @Inject private AccountsUpdate.Server accountsUpdate;
 

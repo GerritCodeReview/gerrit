@@ -27,8 +27,6 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.inject.Inject;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -38,8 +36,6 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class DiffPreferencesIT extends AbstractDaemonTest {
-  @Inject private AllUsersName allUsers;
-
   @After
   public void cleanUp() throws Exception {
     gApi.accounts().id(admin.getId().toString()).setDiffPreferences(DiffPreferencesInfo.defaults());

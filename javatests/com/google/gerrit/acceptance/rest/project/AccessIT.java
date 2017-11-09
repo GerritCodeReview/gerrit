@@ -40,11 +40,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -63,8 +61,6 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String REFS_HEADS = Constants.R_HEADS + "*";
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
-
-  @Inject private AllUsersName allUsers;
 
   private String newProjectName;
   private ProjectApi pApi;

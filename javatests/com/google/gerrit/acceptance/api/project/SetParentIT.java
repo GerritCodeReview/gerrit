@@ -24,13 +24,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class SetParentIT extends AbstractDaemonTest {
-  @Inject private AllUsersName allUsers;
 
   @Test
   public void setParentNotAllowed() throws Exception {

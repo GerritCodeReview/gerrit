@@ -52,7 +52,6 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
@@ -95,7 +94,6 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     return cfg;
   }
 
-  @Inject private AllUsersName allUsers;
   @Inject private ChangeBundleReader bundleReader;
   @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;

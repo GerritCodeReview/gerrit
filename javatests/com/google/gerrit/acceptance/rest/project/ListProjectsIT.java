@@ -32,10 +32,8 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
-import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
@@ -43,8 +41,6 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class ListProjectsIT extends AbstractDaemonTest {
-
-  @Inject private AllUsersName allUsers;
 
   @Test
   public void listProjects() throws Exception {

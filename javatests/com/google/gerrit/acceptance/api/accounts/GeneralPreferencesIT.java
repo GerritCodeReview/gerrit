@@ -32,8 +32,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategory
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -45,8 +43,6 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject private AllUsersName allUsers;
-
   private TestAccount user42;
 
   @Before

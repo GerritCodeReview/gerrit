@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ec9b67d8_539ca73f",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-09T16:00:05Z",
+      "side": 1,
+      "message": "I tried this out and ran into problems, I\u0027m sure I\u0027m doing something wrong.\n\nThis is my tedious way of bringing up PG locally:\n\n$(bazel info output_base)/external/local_jdk/bin/java   -jar bazel-bin/gerrit.war daemon --polygerrit-dev   -d ../gerrit_testsite --console-log --show-stack-trace\n\nI had populated the ./gerrit_testsite repo with test changes I use to test against.\n\nWhen I did:\n\n polygerrit-ui/app/samples folder and use ./polygerrit-ui/run-server.sh --host chromium-review.googlesource.com --plugins /absolute/path/here/gerrit/polygerrit-ui/app/samples\n\nIt brings up an instance locally but I am not sure how to get data in there to test against.",
+      "parentUuid": "44fd3be7_55abcbd8",
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afc9dea7_9cbe0952",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-19T17:50:59Z",
       "side": 1,
       "message": "Ideally, this shouldn\u0027t be exposed to plugin.",
+      "range": {
+        "startLine": 20,
+        "startChar": 24,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c772d0_063287f0",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-09T16:00:05Z",
+      "side": 1,
+      "message": "I directly did \u0027add\u0027 and \u0027both\u0027 now. I could add to GrDiffLine isTypeAdd and isTypeBoth.",
+      "parentUuid": "afc9dea7_9cbe0952",
       "range": {
         "startLine": 20,
         "startChar": 24,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "3a970db9_ec8a74b1",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-09T16:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e023d17_6a4e1eec",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94024b09_52862565",
         "filename": "polygerrit-ui/app/elements/coverage.js",
         "patchSetId": 6
@@ -85,6 +151,30 @@
       "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd7496a_506c0a47",
+        "filename": "polygerrit-ui/app/elements/coverage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-09T16:00:05Z",
+      "side": 1,
+      "message": "Removed this to GrDiffLine.",
+      "parentUuid": "94024b09_52862565",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -125,6 +215,30 @@
       "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f467709_b84e60d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2017-11-09T16:00:05Z",
+      "side": 1,
+      "message": "I changed the plugin to return an instance of the annotation layer interface.\nI verified that the listeners did work there by putting in a 3 second delay to simulate a server call.",
+      "parentUuid": "39b6abca_25ec051d",
+      "range": {
+        "startLine": 127,
+        "startChar": 21,
+        "endLine": 127,
+        "endChar": 36
+      },
+      "revId": "4b0389cddddfc93f7d1a5b48bddab605bb4046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

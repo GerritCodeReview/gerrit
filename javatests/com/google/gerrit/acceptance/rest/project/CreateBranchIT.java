@@ -27,13 +27,19 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class CreateBranchIT extends AbstractDaemonTest {
+  @Inject private AllUsersName allUsers;
+
   private Branch.NameKey branch;
 
   @Before
@@ -44,31 +50,31 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Test
   public void createBranch_Forbidden() throws Exception {
     setApiUser(user);
-    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(branch, AuthException.class, "create not permitted for refs/heads/test");
   }
 
   @Test
   public void createBranchByAdmin() throws Exception {
-    assertCreateSucceeds();
+    assertCreateSucceeds(branch);
   }
 
   @Test
   public void branchAlreadyExists_Conflict() throws Exception {
-    assertCreateSucceeds();
-    assertCreateFails(ResourceConflictException.class);
+    assertCreateSucceeds(branch);
+    assertCreateFails(branch, ResourceConflictException.class);
   }
 
   @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
     setApiUser(user);
-    assertCreateSucceeds();
+    assertCreateSucceeds(branch);
   }
 
   @Test
   public void createBranchByAdminCreateReferenceBlocked_Forbidden() throws Exception {
     blockCreateReference();
-    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(branch, AuthException.class, "create not permitted for refs/heads/test");
   }
 
   @Test
@@ -76,7 +82,18 @@ public class CreateBranchIT extends AbstractDaemonTest {
     grantOwner();
     blockCreateReference();
     setApiUser(user);
-    assertCreateFails(AuthException.class, "create not permitted for refs/heads/test");
+    assertCreateFails(branch, AuthException.class, "create not permitted for refs/heads/test");
+  }
+
+  @Test
+  public void createUserBranch_Conflict() throws Exception {
+    allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
+    allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
+    assertCreateFails(
+        new Branch.NameKey(allUsers, RefNames.refsUsers(new Account.Id(1))),
+        RefNames.refsUsers(admin.getId()),
+        ResourceConflictException.class,
+        "Not allowed to create user branch.");
   }
 
   private void blockCreateReference() throws Exception {
@@ -87,25 +104,38 @@ public class CreateBranchIT extends AbstractDaemonTest {
     allow("refs/*", Permission.OWNER, REGISTERED_USERS);
   }
 
-  private BranchApi branch() throws Exception {
+  private BranchApi branch(Branch.NameKey branch) throws Exception {
     return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
   }
 
-  private void assertCreateSucceeds() throws Exception {
-    BranchInfo created = branch().create(new BranchInput()).get();
+  private void assertCreateSucceeds(Branch.NameKey branch) throws Exception {
+    BranchInfo created = branch(branch).create(new BranchInput()).get();
     assertThat(created.ref).isEqualTo(Constants.R_HEADS + branch.getShortName());
   }
 
-  private void assertCreateFails(Class<? extends RestApiException> errType, String errMsg)
+  private void assertCreateFails(
+      Branch.NameKey branch, Class<? extends RestApiException> errType, String errMsg)
+      throws Exception {
+    assertCreateFails(branch, null, errType, errMsg);
+  }
+
+  private void assertCreateFails(
+      Branch.NameKey branch,
+      String revision,
+      Class<? extends RestApiException> errType,
+      String errMsg)
       throws Exception {
     exception.expect(errType);
     if (errMsg != null) {
       exception.expectMessage(errMsg);
     }
-    branch().create(new BranchInput());
+    BranchInput in = new BranchInput();
+    in.revision = revision;
+    branch(branch).create(in);
   }
 
-  private void assertCreateFails(Class<? extends RestApiException> errType) throws Exception {
-    assertCreateFails(errType, null);
+  private void assertCreateFails(Branch.NameKey branch, Class<? extends RestApiException> errType)
+      throws Exception {
+    assertCreateFails(branch, errType, null);
   }
 }

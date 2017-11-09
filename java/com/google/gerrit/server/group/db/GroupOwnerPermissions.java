@@ -129,7 +129,7 @@ public class GroupOwnerPermissions {
 
     String ref = RefNames.refsGroups(groupUuid);
 
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName)) {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName, allUsersRepo)) {
       ProjectConfig config = ProjectConfig.read(md);
 
       if (oldOwnerGroupReference != null) {

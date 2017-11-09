@@ -14,11 +14,21 @@
 
 package com.google.gerrit.server.group.db;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import java.io.IOException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Repository;
 
 @FunctionalInterface
 public interface MetaDataUpdateFactory {
-  MetaDataUpdate create(Project.NameKey projectName) throws IOException;
+  default MetaDataUpdate create(Project.NameKey projectName, Repository repository)
+      throws IOException {
+    return create(projectName, repository, null);
+  }
+
+  MetaDataUpdate create(
+      Project.NameKey projectName, Repository repository, @Nullable BatchRefUpdate batchRefUpdate)
+      throws IOException;
 }

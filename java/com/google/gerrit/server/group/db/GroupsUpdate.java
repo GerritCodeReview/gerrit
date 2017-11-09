@@ -42,11 +42,13 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -58,9 +60,11 @@ import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A database accessor for write calls related to groups.
@@ -101,6 +105,7 @@ public class GroupsUpdate {
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
+  private final GitReferenceUpdated gitRefUpdated;
   private final boolean writeGroupsToNoteDb;
 
   @Inject
@@ -116,9 +121,9 @@ public class GroupsUpdate {
       ProjectCache projectCache,
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
-      MetaDataUpdate.User metaDataUpdateUserFactory,
-      MetaDataUpdate.Server metaDataUpdateServerFactory,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @GerritServerConfig Config config,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -130,15 +135,11 @@ public class GroupsUpdate {
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.projectCache = projectCache;
     this.serverId = serverId;
+    this.gitRefUpdated = gitRefUpdated;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(
-            metaDataUpdateUserFactory,
-            metaDataUpdateServerFactory,
-            currentUser,
-            serverIdent,
-            serverId,
-            anonymousCowardName);
+            metaDataUpdateInternalFactory, currentUser, serverIdent, serverId, anonymousCowardName);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
     // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
     // have been addressed.
@@ -151,23 +152,27 @@ public class GroupsUpdate {
   // doesn't require this ugly code. In addition, allow to pass in the repository and to use another
   // author ident.
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
-      MetaDataUpdate.User metaDataUpdateUserFactory,
-      MetaDataUpdate.Server metaDataUpdateServerFactory,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @Nullable IdentifiedUser currentUser,
       PersonIdent serverIdent,
       String serverId,
       String anonymousCowardName) {
-    return currentUser != null
-        ? projectName -> {
-          MetaDataUpdate metaDataUpdate =
-              metaDataUpdateUserFactory.create(projectName, currentUser);
-          PersonIdent authorIdent =
-              getAuditLogAuthorIdent(
-                  currentUser.getAccount(), serverIdent, serverId, anonymousCowardName);
-          metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
-          return metaDataUpdate;
-        }
-        : metaDataUpdateServerFactory::create;
+    return (projectName, repository, batchRefUpdate) -> {
+      MetaDataUpdate metaDataUpdate =
+          metaDataUpdateInternalFactory.create(projectName, repository, batchRefUpdate);
+      metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
+      PersonIdent authorIdent;
+      if (currentUser != null) {
+        metaDataUpdate.setAuthor(currentUser);
+        authorIdent =
+            getAuditLogAuthorIdent(
+                currentUser.getAccount(), serverIdent, serverId, anonymousCowardName);
+      } else {
+        authorIdent = serverIdent;
+      }
+      metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
+      return metaDataUpdate;
+    };
   }
 
   private static PersonIdent getAuditLogAuthorIdent(
@@ -442,61 +447,63 @@ public class GroupsUpdate {
   private InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmException {
-    GroupConfig groupConfig = createFor(groupCreation);
-    updateGroupInNoteDb(groupConfig, groupUpdate);
-    return groupConfig
-        .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
-  }
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
+      GroupNameNotes groupNameNotes =
+          GroupNameNotes.loadForNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
 
-  private GroupConfig createFor(InternalGroupCreation groupCreation)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.createForNewGroup(
-          allUsersName, repository, groupCreation, metaDataUpdateFactory);
+      GroupConfig groupConfig =
+          GroupConfig.createForNewGroup(
+              allUsersName, allUsersRepo, groupCreation, metaDataUpdateFactory);
+      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      commit(allUsersRepo, groupConfig, groupNameNotes);
+
+      return groupConfig
+          .getLoadedGroup()
+          .orElseThrow(
+              () -> new IllegalStateException("Created group wasn't automatically loaded"));
     }
   }
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = loadFor(groupUuid);
-    if (!groupConfig.getLoadedGroup().isPresent()) {
-      // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
-      return Optional.empty();
-    }
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      GroupConfig groupConfig =
+          GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid, metaDataUpdateFactory);
+      if (!groupConfig.getLoadedGroup().isPresent()) {
+        // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
+        return Optional.empty();
+      }
 
-    return updateGroupInNoteDb(groupConfig, groupUpdate);
+      InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
+
+      GroupNameNotes groupNameNotes = null;
+      if (groupUpdate.getName().isPresent()) {
+        AccountGroup.NameKey oldName = originalGroup.getNameKey();
+        AccountGroup.NameKey newName = groupUpdate.getName().get();
+        groupNameNotes = GroupNameNotes.loadForRename(allUsersRepo, groupUuid, oldName, newName);
+      }
+
+      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      commit(allUsersRepo, groupConfig, groupNameNotes);
+
+      InternalGroup updatedGroup =
+          groupConfig
+              .getLoadedGroup()
+              .orElseThrow(
+                  () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+
+      return Optional.of(getUpdateResult(originalGroup, updatedGroup));
+    }
   }
 
-  private GroupConfig loadFor(AccountGroup.UUID groupUuid)
-      throws IOException, ConfigInvalidException {
-    try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.loadForGroup(allUsersName, repository, groupUuid, metaDataUpdateFactory);
-    }
-  }
-
-  private Optional<UpdateResult> updateGroupInNoteDb(
-      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
-    Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
-
-    // TODO(aliceks): Find a way to ensure unique names with NoteDb.
-    groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
-    commit(groupConfig);
-    InternalGroup updatedGroup =
-        groupConfig
-            .getLoadedGroup()
-            .orElseThrow(
-                () -> new IllegalStateException("Updated group wasn't automatically loaded"));
-
-    Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
-    Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
-    Optional<AccountGroup.NameKey> previousName =
-        getPreviousNameIfModified(originalGroup, updatedGroup);
-
-    // updating the group in NoteDb may update the owner permissions which are cached in
-    // ProjectState
-    projectCache.evict(allUsersName);
+  private static UpdateResult getUpdateResult(
+      InternalGroup originalGroup, InternalGroup updatedGroup) {
+    Set<Account.Id> modifiedMembers =
+        Sets.symmetricDifference(originalGroup.getMembers(), updatedGroup.getMembers());
+    Set<AccountGroup.UUID> modifiedSubgroups =
+        Sets.symmetricDifference(originalGroup.getSubgroups(), updatedGroup.getSubgroups());
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
@@ -505,8 +512,10 @@ public class GroupsUpdate {
             .setGroupName(updatedGroup.getNameKey())
             .setModifiedMembers(modifiedMembers)
             .setModifiedSubgroups(modifiedSubgroups);
-    previousName.ifPresent(resultBuilder::setPreviousGroupName);
-    return Optional.of(resultBuilder.build());
+    if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
+      resultBuilder.setPreviousGroupName(updatedGroup.getNameKey());
+    }
+    return resultBuilder.build();
   }
 
   private String getAccountNameEmail(Account.Id accountId) {
@@ -538,31 +547,28 @@ public class GroupsUpdate {
         .orElse(groupUuid.get());
   }
 
-  private void commit(GroupConfig groupConfig) throws IOException {
-    try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(allUsersName)) {
-      groupConfig.commit(metaDataUpdate);
+  private void commit(
+      Repository allUsersRepo, GroupConfig groupConfig, @Nullable GroupNameNotes groupNameNotes)
+      throws IOException {
+    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    try (RevWalk revWalk = new RevWalk(allUsersRepo)) {
+      try (MetaDataUpdate metaDataUpdate =
+          metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
+        groupConfig.commit(metaDataUpdate);
+      }
+
+      if (groupNameNotes != null) {
+        // MetaDataUpdates unfortunately can't be reused. -> Create a new one.
+        try (MetaDataUpdate metaDataUpdate =
+            metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
+          groupNameNotes.commit(metaDataUpdate);
+        }
+      }
+
+      RefUpdateUtil.executeChecked(batchRefUpdate, revWalk);
+      gitRefUpdated.fire(
+          allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
     }
-  }
-
-  private static Set<Account.Id> getModifiedMembers(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    ImmutableSet<Account.Id> originalMembers =
-        originalGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
-    return Sets.symmetricDifference(originalMembers, updatedGroup.getMembers());
-  }
-
-  private static Set<AccountGroup.UUID> getModifiedSubgroups(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        originalGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
-    return Sets.symmetricDifference(originalSubgroups, updatedGroup.getSubgroups());
-  }
-
-  private static Optional<AccountGroup.NameKey> getPreviousNameIfModified(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    return originalGroup
-        .map(InternalGroup::getNameKey)
-        .filter(originalName -> !Objects.equals(originalName, updatedGroup.getNameKey()));
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
@@ -573,6 +579,8 @@ public class GroupsUpdate {
     for (AccountGroup.UUID modifiedSubgroup : createdGroup.getSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
     }
+    // Creating a group in NoteDb changes the owner permissions which are cached in ProjectState.
+    projectCache.evict(allUsersName);
   }
 
   private void updateCachesOnGroupUpdate(UpdateResult result) throws IOException {
@@ -598,6 +606,10 @@ public class GroupsUpdate {
     for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
     }
+    // TODO(aliceks): Evict the cache only when necessary.
+    // Updating the group in NoteDb may update the owner permissions which are cached in
+    // ProjectState.
+    projectCache.evict(allUsersName);
   }
 
   @AutoValue

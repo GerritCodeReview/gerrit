@@ -57,6 +57,10 @@ public class RefUpdateUtil {
    */
   @VisibleForTesting
   static void checkResults(BatchRefUpdate bru) throws IOException {
+    if (bru.getCommands().isEmpty()) {
+      return;
+    }
+
     int lockFailure = 0;
     int aborted = 0;
     int failure = 0;

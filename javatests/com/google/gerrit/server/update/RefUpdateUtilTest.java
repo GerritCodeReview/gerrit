@@ -53,6 +53,7 @@ public class RefUpdateUtilTest {
 
   @Test
   public void checkBatchRefUpdateResults() throws Exception {
+    checkResults();
     checkResults(OK);
     checkResults(OK, OK);
 

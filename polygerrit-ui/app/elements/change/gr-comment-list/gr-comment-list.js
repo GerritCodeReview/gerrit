@@ -26,7 +26,6 @@
       changeNum: Number,
       comments: Object,
       patchNum: Number,
-      commentLinks: Object,
       projectName: String,
       /** @type {?} */
       projectConfig: Object,

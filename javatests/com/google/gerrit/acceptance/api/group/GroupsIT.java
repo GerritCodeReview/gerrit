@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
@@ -30,6 +31,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -91,6 +93,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -787,15 +791,17 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
-    pushToGroupBranch(allUsers, "group update not allowed");
+    pushToGroupBranch(allUsers, "Not allowed to create group branch.", "group update not allowed");
   }
 
   @Test
   public void pushToGroupBranchForNonAllUsersRepo() throws Exception {
-    pushToGroupBranch(project, null);
+    pushToGroupBranch(project, null, null);
   }
 
-  private void pushToGroupBranch(Project.NameKey project, String expectedError) throws Exception {
+  private void pushToGroupBranch(
+      Project.NameKey project, String expectedErrorOnCreate, String expectedErrorOnUpdate)
+      throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
 
@@ -808,8 +814,8 @@ public class GroupsIT extends AbstractDaemonTest {
                 db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
             .setParents(ImmutableList.of())
             .to(RefNames.REFS_GROUPS + name("foo"));
-    if (expectedError != null) {
-      r.assertErrorStatus(expectedError);
+    if (expectedErrorOnCreate != null) {
+      r.assertErrorStatus(expectedErrorOnCreate);
     } else {
       r.assertOkStatus();
     }
@@ -824,8 +830,8 @@ public class GroupsIT extends AbstractDaemonTest {
             .create(
                 db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
             .to(groupRefName);
-    if (expectedError != null) {
-      r.assertErrorStatus(expectedError);
+    if (expectedErrorOnUpdate != null) {
+      r.assertErrorStatus(expectedErrorOnUpdate);
     } else {
       r.assertOkStatus();
     }
@@ -953,6 +959,46 @@ public class GroupsIT extends AbstractDaemonTest {
             .to(RefNames.REFS_CONFIG);
     r.assertErrorStatus("invalid project configuration");
     r.assertMessage("All-Users must inherit from All-Projects");
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotCreateGroupBranch() throws Exception {
+    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE);
+    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH);
+
+    String groupRef = RefNames.refsGroups(new AccountGroup.UUID(name("foo")));
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), allUsersRepo).to(groupRef);
+    r.assertErrorStatus();
+    assertThat(r.getMessage()).contains("Not allowed to create group branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(groupRef)).isNull();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void cannotDeleteGroupBranch() throws Exception {
+    assume().that(groupsInNoteDb()).isTrue();
+
+    grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.DELETE, true, REGISTERED_USERS);
+
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
+    assertThat(adminGroup).isNotNull();
+    String groupRef = RefNames.refsGroups(adminGroup.getGroupUUID());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    PushResult r = deleteRef(allUsersRepo, groupRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(groupRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage()).contains("Not allowed to delete group branch.");
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(groupRef)).isNotNull();
+    }
   }
 
   private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)

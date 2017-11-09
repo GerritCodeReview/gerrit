@@ -126,25 +126,34 @@ public class RefOperationValidators {
     @Override
     public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
         throws ValidationException {
-      if (refEvent.project.getNameKey().equals(allUsersName)
-          && (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
-              && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT))) {
-        if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
-          try {
-            perm.check(GlobalPermission.ACCESS_DATABASE);
-          } catch (AuthException | PermissionBackendException e) {
-            throw new ValidationException("Not allowed to create user branch.");
+      if (refEvent.project.getNameKey().equals(allUsersName)) {
+        if (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
+            && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT)) {
+          if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+            try {
+              perm.check(GlobalPermission.ACCESS_DATABASE);
+            } catch (AuthException | PermissionBackendException e) {
+              throw new ValidationException("Not allowed to create user branch.");
+            }
+            if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
+              throw new ValidationException(
+                  String.format(
+                      "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
+            }
+          } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+            try {
+              perm.check(GlobalPermission.ACCESS_DATABASE);
+            } catch (AuthException | PermissionBackendException e) {
+              throw new ValidationException("Not allowed to delete user branch.");
+            }
           }
-          if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
-            throw new ValidationException(
-                String.format(
-                    "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
-          }
-        } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
-          try {
-            perm.check(GlobalPermission.ACCESS_DATABASE);
-          } catch (AuthException | PermissionBackendException e) {
-            throw new ValidationException("Not allowed to delete user branch.");
+        }
+
+        if (refEvent.command.getRefName().startsWith(RefNames.REFS_GROUPS)) {
+          if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+            throw new ValidationException("Not allowed to create group branch.");
+          } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+            throw new ValidationException("Not allowed to delete group branch.");
           }
         }
       }

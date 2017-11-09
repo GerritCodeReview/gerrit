@@ -70,6 +70,30 @@
       "revId": "6f647757a3d37b0a0afb9cb94f3d790a9302198e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e66fb98c_37a1422f",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-09T22:58:44Z",
+      "side": 1,
+      "message": "FWIW, +1 for not using obsolete syntax.\n\nMaybe take the \u0027use strict\u0027 out just to keep this as simple as possible for readers, though.",
+      "parentUuid": "e5d40a26_5bdf85f9",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "6f647757a3d37b0a0afb9cb94f3d790a9302198e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "544e2409_b4a385ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-09T18:55:22Z",
+      "side": 1,
+      "message": "Maybe this should be more forcefully worded, like...\n\n\u003e DEPRECATED: not supported in PG UI. The regular expression pattern is applied to the HTML form of the message in question, which means it needs to assume the data has been escaped. So `\"` needs to be matched as `\u0026amp;quot;`, `\u003c` as `\u0026amp;lt;`, and `\u0027` as `\u0026amp;#39;`.",
+      "range": {
+        "startLine": 1350,
+        "startChar": 0,
+        "endLine": 1357,
+        "endChar": 1
+      },
+      "revId": "1c1bcaa0a5fd7b5af2d88a81182466c7c9d6df7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

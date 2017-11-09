@@ -1144,28 +1144,34 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushAccountConfigToUserBranch() throws Exception {
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    TestAccount oooUser = accountCreator.create("away", "away@mail.invalid", "Ambrose Way");
+    setApiUser(oooUser);
+
+    // Must clone as oooUser to ensure the push is allowed.
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, oooUser);
+    fetch(allUsersRepo, RefNames.refsUsers(oooUser.id) + ":userRef");
     allUsersRepo.reset("userRef");
 
     Config ac = getAccountConfig(allUsersRepo);
     ac.setString(AccountConfig.ACCOUNT, null, AccountConfig.KEY_STATUS, "out-of-office");
 
+    accountIndexedCounter.clear();
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            oooUser.getIdent(),
             allUsersRepo,
             "Update account config",
             AccountConfig.ACCOUNT_CONFIG,
             ac.toText())
-        .to(RefNames.REFS_USERS_SELF)
+        .to(RefNames.refsUsers(oooUser.id))
         .assertOkStatus();
-    accountIndexedCounter.assertReindexOf(admin);
+
+    accountIndexedCounter.assertReindexOf(oooUser);
 
     AccountInfo info = gApi.accounts().self().get();
-    assertThat(info.email).isEqualTo(admin.email);
-    assertThat(info.name).isEqualTo(admin.fullName);
+    assertThat(info.email).isEqualTo(oooUser.email);
+    assertThat(info.name).isEqualTo(oooUser.fullName);
     assertThat(info.status).isEqualTo("out-of-office");
   }
 
@@ -1764,7 +1770,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertGroups(
         admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));
 
-    //TODO: update when test user is fixed to be included in "Anonymous Users" and
+    // TODO: update when test user is fixed to be included in "Anonymous Users" and
     //      "Registered Users" groups
     assertGroups(user.username, ImmutableList.of());
 
@@ -1920,6 +1926,7 @@ public class AccountIT extends AbstractDaemonTest {
     return ac;
   }
 
+  /** Checks if an account is indexed the correct number of times. */
   private static class AccountIndexedCounter implements AccountIndexedListener {
     private final AtomicLongMap<Integer> countsByAccount = AtomicLongMap.create();
 

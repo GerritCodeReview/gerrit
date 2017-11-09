@@ -17,6 +17,24 @@
       "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f783ea_4f6bf25d",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T12:38:10Z",
+      "side": 1,
+      "message": "We need to set permissions for the owner group on the group ref.\nAssigning permissions in \u0027project.config\u0027 uses the group name, which is then resolved to the UUID in the \u0027groups\u0027 file. Hence for writing permissions for the owner group we need both name and UUID.",
+      "parentUuid": "f8c28ad7_b8f4f93e",
+      "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

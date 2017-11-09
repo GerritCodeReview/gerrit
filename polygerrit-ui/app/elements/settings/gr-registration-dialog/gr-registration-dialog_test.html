@@ -41,13 +41,16 @@ limitations under the License.
   suite('gr-registration-dialog tests', () => {
     let element;
     let account;
+    let sandbox;
     let _listeners;
 
     setup(done => {
+      sandbox = sinon.sandbox.create();
       _listeners = {};
 
       account = {
         name: 'name',
+        username: 'username',
         email: 'email',
         secondary_emails: [
           'email2',
@@ -65,6 +68,10 @@ limitations under the License.
           account.name = name;
           return Promise.resolve();
         },
+        setAccountUsername(username) {
+          account.username = username;
+          return Promise.resolve();
+        },
         setPreferredAccountEmail(email) {
           account.email = email;
           return Promise.resolve();
@@ -75,6 +82,7 @@ limitations under the License.
     });
 
     teardown(() => {
+      sandbox.restore();
       for (const eventType in _listeners) {
         if (_listeners.hasOwnProperty(eventType)) {
           element.removeEventListener(eventType, _listeners[eventType]);
@@ -119,30 +127,24 @@ limitations under the License.
       }).then(done);
     });
 
-    test('saves name and preferred email', done => {
+    test('saves account details', done => {
       flush(() => {
         element.$.name.value = 'new name';
+        element.$.username.value = 'new username';
         element.$.email.value = 'email3';
 
         // Nothing should be committed yet.
         assert.equal(account.name, 'name');
+        assert.equal(account.username, 'username');
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
         save().then(() => {
           assert.equal(account.name, 'new name');
+          assert.equal(account.username, 'new username');
           assert.equal(account.email, 'email3');
         }).then(done);
       });
-    });
-
-    test('pressing enter saves name', done => {
-      element.$.name.value = 'entered name';
-      save(() => {
-        MockInteractions.pressAndReleaseKeyOn(element.$.name, 13); // 'enter'
-      }).then(() => {
-        assert.equal(account.name, 'entered name');
-      }).then(done);
     });
 
     test('email select properly populated', done => {
@@ -151,6 +153,16 @@ limitations under the License.
         assert.equal(element.$.email.value, 'foo');
         done();
       });
+    });
+
+    test('save btn disabled', () => {
+      const compute = element._computeSaveDisabled;
+      assert.isTrue(compute('', '', '', false));
+      assert.isTrue(compute('', 'test', 'test', false));
+      assert.isTrue(compute('test', '', 'test', false));
+      assert.isTrue(compute('test', 'test', '', false));
+      assert.isTrue(compute('test', 'test', 'test', true));
+      assert.isFalse(compute('test', 'test', 'test', false));
     });
   });
 </script>

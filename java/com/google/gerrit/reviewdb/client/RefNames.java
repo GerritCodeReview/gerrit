@@ -263,6 +263,31 @@ public class RefNames {
     return id;
   }
 
+  static String parseShardedUuidFromRefPart(String name) {
+    if (name == null) {
+      return null;
+    }
+
+    String[] parts = name.split("/");
+    int n = parts.length;
+    if (n != 2) {
+      return null;
+    }
+
+    // First 2 chars.
+    if (parts[0].length() != 2) {
+      return null;
+    }
+
+    // Full UUID.
+    String uuid = parts[1];
+    if (!uuid.startsWith(parts[0])) {
+      return null;
+    }
+
+    return uuid;
+  }
+
   /**
    * Skips a sharded ref part at the beginning of the name.
    *

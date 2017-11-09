@@ -87,6 +87,28 @@ public final class AccountGroup {
       r.fromString(str);
       return r;
     }
+
+    /** Parse an AccountGroup.UUID out of a ref-name. */
+    public static UUID fromRef(String ref) {
+      if (ref == null) {
+        return null;
+      }
+      if (ref.startsWith(RefNames.REFS_GROUPS)) {
+        return fromRefPart(ref.substring(RefNames.REFS_GROUPS.length()));
+      }
+      return null;
+    }
+
+    /**
+     * Parse an AccountGroup.UUID out of a part of a ref-name.
+     *
+     * @param refPart a ref name with the following syntax: {@code "12/1234..."}. We assume that the
+     *     caller has trimmed any prefix.
+     */
+    public static UUID fromRefPart(String refPart) {
+      String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
+      return uuid != null ? new AccountGroup.UUID(uuid) : null;
+    }
   }
 
   /** @return true if the UUID is for a group managed within Gerrit. */

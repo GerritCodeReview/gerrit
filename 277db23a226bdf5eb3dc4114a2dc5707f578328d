@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac7a6b2_f5a18b23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "on",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 2
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db13eb53_0c92d6bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "similar",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58fa4901_de34c158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "This is not an argument against storing this field in the index, it would work fine as a repeated field. But the following argument about making staleness computation harder certainly still applies, so I think you can just remove this sentence.",
+      "range": {
+        "startLine": 17,
+        "startChar": 50,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df8d088_676a2bab",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t think this is the RefState that was stored in the index, it\u0027s the RefState that was stored in the GroupCache. LuceneGroupIndex (and I assume other index implementations) just look up the group in the cache by UUID.\n\nI think the reason your test passes is that you don\u0027t invalidate the GroupCache when you change the ref SHA-1 behind Gerrit\u0027s back. So it\u0027s actually detecting that the _cache_ is stale, not that the index is stale.",
+      "range": {
+        "startLine": 90,
+        "startChar": 26,
+        "endLine": 90,
+        "endChar": 45
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17241954_2b0a2068",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "Optional: TestRepository can make this code shorter.",
+      "range": {
+        "startLine": 977,
+        "startChar": 6,
+        "endLine": 989,
+        "endChar": 77
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "781b8b11_d33281ff",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T18:03:39Z",
+      "side": 1,
+      "message": "See my comment in StalenessChecker: I\u0027ll bet if you inserted a call to GroupCache#evict here, the test would fail.",
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

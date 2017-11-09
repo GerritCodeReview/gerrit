@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb08e06c_a18e5a5a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T15:14:02Z",
+      "side": 1,
+      "message": "[optional] this could stay \u0027RefNames.REFS_USERS_SELF\u0027 now",
+      "revId": "c23f19facd780a185140830a32849002ebbf4f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

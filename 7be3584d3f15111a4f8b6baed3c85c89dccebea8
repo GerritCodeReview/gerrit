@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cb420f5_d3d317d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-09T21:28:35Z",
+      "side": 1,
+      "message": "It looks like the reply dialog doesn\u0027t take advantage of this one. I can open the reply dialog and still trigger comment and robot-comment requests.",
+      "range": {
+        "startLine": 1062,
+        "startChar": 4,
+        "endLine": 1062,
+        "endChar": 17
+      },
+      "revId": "7be3584d3f15111a4f8b6baed3c85c89dccebea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

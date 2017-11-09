@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static java.util.Comparator.comparing;
+
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
@@ -29,13 +31,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.db.Groups;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +48,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
   private final GroupJson groupJson;
   private final GroupBackend groupBackend;
+  private final Groups groups;
 
   @Inject
   public GetAuditLog(
@@ -53,12 +56,14 @@ public class GetAuditLog implements RestReadView<GroupResource> {
       AccountLoader.Factory accountLoaderFactory,
       GroupCache groupCache,
       GroupJson groupJson,
-      GroupBackend groupBackend) {
+      GroupBackend groupBackend,
+      Groups groups) {
     this.db = db;
     this.accountLoaderFactory = accountLoaderFactory;
     this.groupCache = groupCache;
     this.groupJson = groupJson;
     this.groupBackend = groupBackend;
+    this.groups = groups;
   }
 
   @Override
@@ -75,14 +80,12 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     List<GroupAuditEventInfo> auditEvents = new ArrayList<>();
 
     for (AccountGroupMemberAudit auditEvent :
-        db.get().accountGroupMembersAudit().byGroup(group.getId()).toList()) {
-      AccountInfo member = accountLoader.get(auditEvent.getKey().getParentKey());
+        groups.getMembersAudit(db.get(), group.getGroupUUID())) {
+      AccountInfo member = accountLoader.get(auditEvent.getMemberId());
 
       auditEvents.add(
           GroupAuditEventInfo.createAddUserEvent(
-              accountLoader.get(auditEvent.getAddedBy()),
-              auditEvent.getKey().getAddedOn(),
-              member));
+              accountLoader.get(auditEvent.getAddedBy()), auditEvent.getAddedOn(), member));
 
       if (!auditEvent.isActive()) {
         auditEvents.add(
@@ -92,8 +95,8 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     }
 
     for (AccountGroupByIdAud auditEvent :
-        db.get().accountGroupByIdAud().byGroup(group.getId()).toList()) {
-      AccountGroup.UUID includedGroupUUID = auditEvent.getKey().getIncludeUUID();
+        groups.getSubgroupsAudit(db.get(), group.getGroupUUID())) {
+      AccountGroup.UUID includedGroupUUID = auditEvent.getIncludeUUID();
       Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
       GroupInfo member;
       if (includedGroup.isPresent()) {
@@ -121,14 +124,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
     accountLoader.fill();
 
     // sort by date in reverse order so that the newest audit event comes first
-    Collections.sort(
-        auditEvents,
-        new Comparator<GroupAuditEventInfo>() {
-          @Override
-          public int compare(GroupAuditEventInfo e1, GroupAuditEventInfo e2) {
-            return e2.date.compareTo(e1.date);
-          }
-        });
+    Collections.sort(auditEvents, comparing((GroupAuditEventInfo a) -> a.date).reversed());
 
     return auditEvents;
   }

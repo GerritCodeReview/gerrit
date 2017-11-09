@@ -93,6 +93,14 @@ public final class AccountGroupByIdAud {
     return key;
   }
 
+  public AccountGroup.Id getGroupId() {
+    return key.getParentKey();
+  }
+
+  public AccountGroup.UUID getIncludeUUID() {
+    return key.getIncludeUUID();
+  }
+
   public boolean isActive() {
     return removedOn == null;
   }
@@ -104,6 +112,10 @@ public final class AccountGroupByIdAud {
 
   public Account.Id getAddedBy() {
     return addedBy;
+  }
+
+  public Timestamp getAddedOn() {
+    return key.getAddedOn();
   }
 
   public Account.Id getRemovedBy() {

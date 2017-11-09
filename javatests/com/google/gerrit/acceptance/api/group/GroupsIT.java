@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
@@ -722,6 +723,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getAuditLog() throws Exception {
+    assume().that(cfg.getBoolean("user", null, "readGroupsFromNoteDb", false)).isFalse();
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);

@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "f9ce8938_0ea64535",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T12:48:32Z",
+      "side": 1,
+      "message": "I missed that there is such a thing as a groupNameRetriever. Yes, this can be used and then this can be changed back to UUID.",
+      "parentUuid": "1001e727_4353227a",
+      "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86833a2a_7d96c35c",
         "filename": "java/com/google/gerrit/server/group/db/MetaDataUpdateFactory.java",
         "patchSetId": 6

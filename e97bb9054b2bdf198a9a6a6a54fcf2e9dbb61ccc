@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "836d6da7_63efbaaa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-09T18:17:52Z",
+      "side": 1,
+      "message": "Test is done. How would you mention this in the JSdoc? Via comment/description or annotation?",
+      "parentUuid": "db8b171c_05c06cfc",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 243,
+        "endChar": 7
+      },
+      "revId": "e97bb9054b2bdf198a9a6a6a54fcf2e9dbb61ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b17fa6fd_016b9473",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "e97bb9054b2bdf198a9a6a6a54fcf2e9dbb61ccc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de59f0e8_48e4dfef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-09T18:17:52Z",
+      "side": 1,
+      "message": "Argh, yes! thanks",
+      "parentUuid": "b17fa6fd_016b9473",
+      "range": {
+        "startLine": 244,
+        "startChar": 28,
+        "endLine": 244,
+        "endChar": 43
+      },
+      "revId": "e97bb9054b2bdf198a9a6a6a54fcf2e9dbb61ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

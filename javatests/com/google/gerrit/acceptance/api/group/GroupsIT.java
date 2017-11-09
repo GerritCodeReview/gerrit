@@ -909,6 +909,30 @@ public class GroupsIT extends AbstractDaemonTest {
     r.assertOkStatus();
   }
 
+  @Test
+  public void pushCustomInheritanceForAllUsersFails() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
+
+    String config =
+        gApi.projects()
+            .name(allUsers.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file("project.config")
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString("access", null, "inheritFrom", project.get());
+    config = cfg.toText();
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), repo, "Subject", "project.config", config)
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage("All-Users must inherit from All-Projects");
+  }
+
   private void pushToGroupBranchForReviewAndSubmit(Project.NameKey project, String expectedError)
       throws Exception {
     grantLabel(

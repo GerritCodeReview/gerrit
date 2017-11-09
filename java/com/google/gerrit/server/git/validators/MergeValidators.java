@@ -117,6 +117,7 @@ public class MergeValidators {
             + "The change must be submitted by a Gerrit administrator.";
 
     private final AllProjectsName allProjectsName;
+    private final AllUsersName allUsersName;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -128,10 +129,12 @@ public class MergeValidators {
     @Inject
     public ProjectConfigValidator(
         AllProjectsName allProjectsName,
+        AllUsersName allUsersName,
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
+      this.allUsersName = allUsersName;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
@@ -168,7 +171,12 @@ public class MergeValidators {
                 log.warn("Cannot check ADMINISTRATE_SERVER", e);
                 throw new MergeValidationException("validation unavailable");
               }
-
+              if (allUsersName.equals(destProject.getNameKey())
+                  && !allProjectsName.equals(newParent)) {
+                throw new MergeValidationException(
+                    String.format(
+                        " %s must inherit from %s", allUsersName.get(), allProjectsName.get()));
+              }
               if (projectCache.get(newParent) == null) {
                 throw new MergeValidationException(PARENT_NOT_FOUND);
               }

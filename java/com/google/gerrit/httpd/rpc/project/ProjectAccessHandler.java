@@ -27,6 +27,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.common.errors.UpdateParentFailedException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -189,7 +190,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
                   + "not an administrator. You may save the modifications for review "
                   + "so that an administrator can approve them.",
               e);
-        } catch (ResourceConflictException | UnprocessableEntityException e) {
+        } catch (ResourceConflictException | UnprocessableEntityException | BadRequestException e) {
           throw new UpdateParentFailedException(e.getMessage(), e);
         }
         config.getProject().setParentName(parentProjectName);

@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -45,29 +47,34 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.Server updateFactory;
   private final AllProjectsName allProjects;
+  private final AllUsersName allUsers;
 
   @Inject
   SetParent(
       ProjectCache cache,
       PermissionBackend permissionBackend,
       MetaDataUpdate.Server updateFactory,
-      AllProjectsName allProjects) {
+      AllProjectsName allProjects,
+      AllUsersName allUsers) {
     this.cache = cache;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.allProjects = allProjects;
+    this.allUsers = allUsers;
   }
 
   @Override
   public String apply(ProjectResource rsrc, ParentInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException {
+          UnprocessableEntityException, IOException, PermissionBackendException,
+          BadRequestException {
     return apply(rsrc, input, true);
   }
 
   public String apply(ProjectResource rsrc, ParentInput input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException {
+          UnprocessableEntityException, IOException, PermissionBackendException,
+          BadRequestException {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
@@ -102,9 +109,14 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
   public void validateParentUpdate(
       Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, UnprocessableEntityException,
-          PermissionBackendException {
+          PermissionBackendException, BadRequestException {
     if (checkIfAdmin) {
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    }
+
+    if (project.equals(allUsers) && !allProjects.equals(newParent)) {
+      throw new BadRequestException(
+          String.format("%s must inherit from %s", allUsers.get(), allProjects.get()));
     }
 
     if (project.equals(allProjects)) {

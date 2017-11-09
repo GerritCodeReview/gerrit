@@ -39,9 +39,13 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import java.util.HashMap;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -59,6 +63,9 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String REFS_HEADS = Constants.R_HEADS + "*";
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
+
+  @Inject private AllProjectsName allProjects;
+  @Inject private AllUsersName allUsers;
 
   private String newProjectName;
   private ProjectApi pApi;
@@ -480,7 +487,7 @@ public class AccessIT extends AbstractDaemonTest {
         gApi.projects()
             .name(allProjects.get())
             .branch(RefNames.REFS_CONFIG)
-            .file("project.config")
+            .file(ProjectConfig.PROJECT_CONFIG)
             .asString();
 
     // Append and push unknown permission
@@ -490,7 +497,7 @@ public class AccessIT extends AbstractDaemonTest {
     config = cfg.toText();
     PushOneCommit push =
         pushFactory.create(
-            db, admin.getIdent(), allProjectsRepo, "Subject", "project.config", config);
+            db, admin.getIdent(), allProjectsRepo, "Subject", ProjectConfig.PROJECT_CONFIG, config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     // Verify that unknownPermission is present
@@ -498,7 +505,7 @@ public class AccessIT extends AbstractDaemonTest {
         gApi.projects()
             .name(allProjects.get())
             .branch(RefNames.REFS_CONFIG)
-            .file("project.config")
+            .file(ProjectConfig.PROJECT_CONFIG)
             .asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission)).isEqualTo(registeredUsers);
@@ -517,7 +524,7 @@ public class AccessIT extends AbstractDaemonTest {
         gApi.projects()
             .name(allProjects.get())
             .branch(RefNames.REFS_CONFIG)
-            .file("project.config")
+            .file(ProjectConfig.PROJECT_CONFIG)
             .asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission)).isEqualTo(registeredUsers);
@@ -538,6 +545,15 @@ public class AccessIT extends AbstractDaemonTest {
     ProjectAccessInput accessInput = newProjectAccessInput();
     accessInput.add.put(RefNames.REFS_GROUPS + "*", createDefaultAccessSectionInfo());
     gApi.projects().name(project.get()).access(accessInput);
+  }
+
+  @Test
+  public void allUsersCanOnlyInheritFromAllProjects() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    accessInput.parent = project.get();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(allUsers.get() + " must inherit from " + allProjects.get());
+    gApi.projects().name(allUsers.get()).access(accessInput);
   }
 
   private ProjectAccessInput newProjectAccessInput() {

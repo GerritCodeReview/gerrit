@@ -212,13 +212,14 @@ public class SetAccessUtil {
     }
   }
 
-  void setParentName(
+  public void setParentName(
       IdentifiedUser identifiedUser,
       ProjectConfig config,
       Project.NameKey projectName,
       Project.NameKey newParentProjectName,
       boolean checkAdmin)
-      throws ResourceConflictException, AuthException, PermissionBackendException {
+      throws ResourceConflictException, AuthException, PermissionBackendException,
+          BadRequestException {
     if (newParentProjectName != null
         && !config.getProject().getNameKey().equals(allProjects)
         && !config.getProject().getParent(allProjects).equals(newParentProjectName)) {

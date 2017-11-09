@@ -228,6 +228,8 @@
         url = this._generateDiffOrEditUrl(params);
       } else if (params.view === Views.GROUP) {
         url = this._generateGroupUrl(params);
+      } else if (params.view === Views.SETTINGS) {
+        url = this._generateSettingsUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
@@ -349,6 +351,14 @@
         url += ',audit-log';
       }
       return url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateSettingsUrl(params) {
+      return '/settings';
     },
 
     /**

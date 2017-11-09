@@ -372,6 +372,10 @@ limitations under the License.
           detail: Gerrit.Nav.GroupDetailView.MEMBERS,
         });
       },
+
+      getUrlForSettingsView() {
+        return this._getUrlFor({view: Gerrit.Nav.View.SETTINGS});
+      },
     };
   })(window);
 </script>

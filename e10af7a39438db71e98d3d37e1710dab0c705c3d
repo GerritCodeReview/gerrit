@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510243081 +0100\nnonce AMT3iFgNeIuOZmJmeuTdyIJ0ko1BJ/9dGdSlMh2P64jmk13JRT8cqLO9aYCH2Ji7WTFJn0XLlt/Y\n\n0000000000000000000000000000000000000000 c07e3db29abba46a4db694e99a61f539b9ed795c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBHsJAAoJEFG1/Zeg0O9RuOUH/0ACPev2sEtgqeDvy+dmLOBQ\nxr0UC7L5Ky0HdmNXqAZQZ7NnVNf5EziBy13pX4o/d+lI8k8catUdWz/WkZ6kKDYV\nP7QmCpLif30jF2vr2ig/PSe55iv6cIHqmtslBIwBheZ9kcxNtPGW12mVoAytttXr\ni3fudKMH2xPQm/9hpaX2ic5Ja7SnoHN9uy5R47rwf3uQSy9XSB6iydOQLnSVm4mc\n+aDt1qtU2fjV0qX9j4zU0xzbF5LUNLkjkt5T2OUFlXeKw8dWuSNaiKi9VIubC+Fs\nuq4CR/wRRWyDa4+OtrNtHKa+Uv0hzKNM0ki+flWPLh2o9Cc7kiicJtRLyJ5LZtY\u003d\n\u003dpOPu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6808c7f8_675e62f4",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T16:31:12Z",
+      "side": 1,
+      "message": "@Nullable (here and below)\n\nThough we aren\u0027t very consistent with that in general :/",
+      "revId": "e10af7a39438db71e98d3d37e1710dab0c705c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "017b714c_25045d73",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T16:31:12Z",
+      "side": 1,
+      "message": "nit: {@link AccountGroup.UUID}",
+      "range": {
+        "startLine": 103,
+        "startChar": 16,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "e10af7a39438db71e98d3d37e1710dab0c705c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d395d5_bca51a59",
+        "filename": "javatests/com/google/gerrit/reviewdb/client/AccountGroupTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T16:31:12Z",
+      "side": 1,
+      "message": "nit (here and in the other test): Put \"ccab3195282a8ce4f5014efa391e82d10f884c64\" in a local variable to avoid duplicates and increase readability (it is hard to see if the chars are altered at some point or not).",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "e10af7a39438db71e98d3d37e1710dab0c705c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

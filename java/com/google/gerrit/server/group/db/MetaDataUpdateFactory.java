@@ -14,21 +14,46 @@
 
 package com.google.gerrit.server.group.db;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import java.io.IOException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Repository;
 
 @FunctionalInterface
 public interface MetaDataUpdateFactory {
   /**
-   * Create a {@link MetaDataUpdate} for the given project.
+   * Creates a {@link MetaDataUpdate} for the given project and repository.
    *
    * <p>The {@link CommitBuilder} of the returned {@link MetaDataUpdate} must have author and
    * committer set.
    *
    * @param projectName The project for which meta data should be updated.
+   * @param repository the repository to update. The caller is responsible for closing the
+   *     repository.
    * @return A new {@link MetaDataUpdate} instance for the given project.
    */
-  MetaDataUpdate create(Project.NameKey projectName) throws IOException;
+  default MetaDataUpdate create(Project.NameKey projectName, Repository repository)
+      throws IOException {
+    return create(projectName, repository, null);
+  }
+
+  /**
+   * Creates a {@link MetaDataUpdate}.
+   *
+   * <p>The {@link CommitBuilder} of the returned {@link MetaDataUpdate} must have author and
+   * committer set.
+   *
+   * @param projectName the name of the project for which meta data should be updated
+   * @param repository the repository to update. The caller is responsible for closing the
+   *     repository.
+   * @param batchRefUpdate a {@code BatchRefUpdate} to combine multiple ref updates. The caller is
+   *     responsible for executing the {@code BatchRefUpdate}.
+   * @return a new {@link MetaDataUpdate} instance
+   */
+  MetaDataUpdate create(
+      Project.NameKey projectName, Repository repository, @Nullable BatchRefUpdate batchRefUpdate)
+      throws IOException;
 }

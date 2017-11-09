@@ -313,6 +313,10 @@ limitations under the License.
         }
         this._navigate(relativeUrl);
       },
+
+      getUrlForSettings() {
+        return this._getUrlFor({view: Gerrit.Nav.View.SETTINGS});
+      },
     };
   })(window);
 </script>

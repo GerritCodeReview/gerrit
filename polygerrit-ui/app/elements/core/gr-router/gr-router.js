@@ -262,11 +262,21 @@
         if (params.edit) {
           url += ',edit';
         }
+      } else if (params.view === Gerrit.Nav.View.SETTINGS) {
+        url = this._generateSettingsUrl(params);
       } else {
         throw new Error('Can\'t generate');
       }
 
       return base + url;
+    },
+
+    /**
+     * @param {!Object} params
+     * @return {string}
+     */
+    _generateSettingsUrl(params) {
+      return '/settings';
     },
 
     /**

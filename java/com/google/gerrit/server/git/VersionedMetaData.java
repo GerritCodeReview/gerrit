@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.base.MoreObjects;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -276,6 +278,7 @@ public abstract class VersionedMetaData {
 
       @Override
       public void write(VersionedMetaData config, CommitBuilder commit) throws IOException {
+        checkSameRef(config);
         if (!doSave(config, commit)) {
           return;
         }
@@ -317,6 +320,18 @@ public abstract class VersionedMetaData {
 
         src = rw.parseCommit(inserter.insert(commit));
         srcTree = res;
+      }
+
+      private void checkSameRef(VersionedMetaData other) {
+        String thisRef = VersionedMetaData.this.getRefName();
+        String otherRef = other.getRefName();
+        checkArgument(
+            otherRef.equals(thisRef),
+            "cannot add %s for %s to %s on %s",
+            other.getClass().getSimpleName(),
+            otherRef,
+            BatchMetaDataUpdate.class.getSimpleName(),
+            thisRef);
       }
 
       @Override

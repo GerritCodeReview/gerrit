@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510215192 +0100\nnonce AMT3iFjoZCDWD+9fXuYH+l7ualKXp4+UvcJH8tjlij0TeVWHls+g6XZbQeZ8cD3Y/El29jMoh2Ws\n\n0000000000000000000000000000000000000000 c5ba387c8ec35907f0e687426aa1d65cdef8cc95 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBA4YAAoJEFG1/Zeg0O9R9REH/2caAM51hk2/UOH+1tHb2GdP\niM6esXMSLFWGLTF/3n+eFaVwJBBEsxbeu/F4DsQwsdzdFgicgvgXWZWCz7pGQQWQ\nTa+6OU1mTBobXy+aRlQz8lhlVs1kVqoVUuttqG/4/d9K1whr2cFQEPRttBUz2M6J\nuEQlJwT6LX50GUgXu4vMhLoe3Fqsthc3KO/GyWahtKC/5em6rU2TrR1pCvnvkWSx\nNALT89HA4QkQ+9Pz9Y8jXm/QLtu66kRA9tqlkydtTAwam0emMO11Hf3D2EjXQ0ok\nMyJU2O8DWyB+QR+rhhxUwL9xUBG5ZnxHSOuoTeDOCay08GYfspYZawQCRJQVCCw\u003d\n\u003dvCYg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8c28ad7_b8f4f93e",
+        "filename": "java/com/google/gerrit/server/group/db/InternalGroupUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T12:35:15Z",
+      "side": 1,
+      "message": "This seems unnecessary. A GroupReference is just a pair of (UUID, name). But the main place InternalGroupUpdate is used is to pass to GroupConfig#setGroupUpdate, which already takes a Function\u003cAccountGroup.UUID, String\u003e. So why not just continue passing the UUID and have the body of setGroupUpdate construct the GroupReference?\n\nMaybe I\u0027m missing some other place that InternalGroupUpdate is used?",
+      "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

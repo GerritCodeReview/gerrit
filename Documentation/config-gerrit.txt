@@ -1347,10 +1347,13 @@ upper and lower case character for each position must be used.  For
 example, to match the string `bug` in a case insensitive way the match
 pattern `[bB][uU][gG]` needs to be used.
 +
-The regular expression pattern is applied to the HTML form of the message
-in question, which means it needs to assume the data has been escaped.
-So `"` needs to be matched as `&amp;quot;`, `<` as `&amp;lt;`, and `'` as
-`&amp;#39;`.
+Between the GWT UI and PolyGerrit, the commentlink.name.match regular
+expressions are applied differently. Whereas in the GWT UI the
+expressions are applied to the formatted and escaped HTML result, the
+PolyGerrit UI applies them only to the raw, unformatted and unescaped
+text form. PolyGerrit does not support regex matching against HTML.
+Comment link patterns that are written in this style should be updated
+to match text formats.
 +
 A common pattern to match is `bug\\s+(\\d+)`.
 

@@ -414,15 +414,18 @@ public class CommitValidators {
                     new HashSet<>(cfg.getAccessSections()));
             boolean modifiesGroupsAccessSection =
                 diff.stream()
-                    .filter(as -> as.getName().startsWith(RefNames.REFS_GROUPS))
+                    .filter(
+                        as ->
+                            as.getName().startsWith(RefNames.REFS_GROUPS)
+                                || as.getName().equals(RefNames.REFS_GROUPNAMES))
                     .findAny()
                     .isPresent();
             if (modifiesGroupsAccessSection) {
               addError("Invalid project configuration:", messages);
               addError(
                   String.format(
-                      "  permissions on %s are managed by gerrit and cannot be modified",
-                      RefNames.REFS_GROUPS),
+                      "  permissions on %s and %s are managed by gerrit and cannot be modified",
+                      RefNames.REFS_GROUPS, RefNames.REFS_GROUPNAMES),
                   messages);
               throw new ConfigInvalidException("invalid project configuration");
             }

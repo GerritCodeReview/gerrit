@@ -149,14 +149,7 @@
     _computePatchSetCommentsString(changeComments, patchNum) {
       if (!changeComments) { return; }
 
-      const commentString = changeComments.computeCommentsString(patchNum);
-      const unresolvedString = changeComments.computeUnresolvedString(patchNum);
-
-      if (!commentString.length && !unresolvedString.length) {
-        return '';
-      }
-
-      return ` (${commentString}, ${unresolvedString})`;
+      return this.changeComments.computeCommentWithUnresolvedString(patchNum);
     },
 
     /**

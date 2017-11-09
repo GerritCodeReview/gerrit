@@ -246,6 +246,28 @@
       };
 
   /**
+   * Computes a string counting the number of commens in a given file and path.
+   *
+   * @param {number} patchNum
+   * @param {string=} opt_path
+   * @return {string}
+   */
+  ChangeComments.prototype.computeCommentWithUnresolvedString =
+      function(patchNum, opt_path) {
+        const commentString = this.computeCommentsString(patchNum, opt_path);
+        const unresolvedString = this.computeUnresolvedString(patchNum,
+            opt_path);
+
+        if (!commentString.length && !unresolvedString.length) {
+          return '';
+        }
+        if (commentString.length && unresolvedString.length) {
+          return ` (${commentString}, ${unresolvedString})`;
+        }
+        return ` (${commentString}${unresolvedString})`;
+      },
+
+  /**
    * Computes a string counting the number of drafts in a given file and path.
    *
    * @param {number} patchNum

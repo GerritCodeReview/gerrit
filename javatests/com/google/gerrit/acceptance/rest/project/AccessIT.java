@@ -65,7 +65,6 @@ public class AccessIT extends AbstractDaemonTest {
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
 
-  @Inject private AllProjectsName allProjects;
   @Inject private AllUsersName allUsers;
 
   private String newProjectName;

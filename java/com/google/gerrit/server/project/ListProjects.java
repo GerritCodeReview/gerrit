@@ -38,7 +38,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.StringUtil;
+import com.google.gerrit.server.ioutil.StringUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;

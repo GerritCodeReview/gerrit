@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.ioutil;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.server.ioutil.StringUtil;
 import org.junit.Test;
 
 public class StringUtilTest {

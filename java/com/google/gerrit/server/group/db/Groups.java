@@ -273,12 +273,35 @@ public class Groups {
    * @param db the {@code ReviewDb} instance to use for lookups
    * @return a stream of the UUIDs of the known external groups
    * @throws OrmException if an error occurs while reading from ReviewDb
+   * @throws IOException if an error occurs while reading from NoteDb
+   * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
    */
-  public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db) throws OrmException {
-    // TODO(aliceks): Add code for NoteDb.
+  public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db)
+      throws OrmException, IOException, ConfigInvalidException {
+    if (readFromNoteDb) {
+      try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+        return getExternalGroupsFromNoteDb(allUsersRepo);
+      }
+    }
+
     return Streams.stream(db.accountGroupById().all())
         .map(AccountGroupById::getIncludeUUID)
         .distinct()
+        .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
+  }
+
+  private Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(Repository allUsersRepo)
+      throws IOException, ConfigInvalidException {
+    ImmutableSet<GroupReference> allInternalGroups =
+        GroupNameNotes.loadAllGroupReferences(allUsersRepo);
+    ImmutableSet.Builder<AccountGroup.UUID> allSubgroups = ImmutableSet.builder();
+    for (GroupReference internalGroup : allInternalGroups) {
+      Optional<InternalGroup> group = getGroupFromNoteDb(allUsersRepo, internalGroup.getUUID());
+      group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
+    }
+    return allSubgroups
+        .build()
+        .stream()
         .filter(groupUuid -> !AccountGroup.isInternalGroup(groupUuid));
   }
 

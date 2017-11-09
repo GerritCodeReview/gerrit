@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510169708 -0500\nnonce AMT3iFj4Id8QPGlUwQxdNOhZFA5tucQiDG2a32nJ+HBpPIucChiK7ZNP3J6TwYeYs7iik7++3NCf\n\n0000000000000000000000000000000000000000 d21d4c0901f5fb7b2535662103f58ec28db5cc02 refs/for/master%r\u003daliceks@google.com,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloDXGwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM+t8P/RXzlsaDrkDWH6EEOj1+/afTG+tO\nEhoAP7xH7zIO96FkuNZMP1ngQcZEJEAkouZ/k+WjJsGmqkxi+mGkU1t/JlVb6yPN\nSOpSZqtCcui+DeiBcQgOhXKPYAI0xkbF9NC1WeiW4xTQuENEaowgz8GsIkWiNYSs\nGoZ6ASfTsNwGevpG+JScQFkximwdNUW4ZVdFuqbuCiMZuqXsuyLAlzlF/UX11flP\nCFTBHaUnndq4tl1YrHriLNOYcFuJQxpbalA+i2pd4GlnQPxy8xHe+cQ0ARcHlZhe\nfn5wDvNMgKTTsuNN+H+ciuKzRb4OJPYcwgzQNtdN9UQvNMyU59FFji3DWdz2JVHw\nE2mojNjxoOPPUkVrmib6KXSCNDMSz7QN/hL8OfQAY1DCTJD00Ri4NS12NQiK6WIa\nYluG6kgpFqomdAmN1aXYA1Zs2rH155g/nX9d8Hu23QOOCsZBLB8keL4APuCBpFSE\nlwZjV3ubaX1HU4fNOuZ3OX9yHHZL6eQcwHTSFSf0GhoTkaP3IIYBxbClnzayTcAB\n2V+Wz7ZjCw1V1sWEEppYg132hC+oprcxcdqb4QziCe+rj/vBzBjQdni1jK9e7r9f\nQ4q2GKxJSYnt7Trf3V2z7P9Aq1qCrlxWfCwu5b7Mv9aDoW5MDIJKXi3p+tHj5Jxv\nwRh+nAo1R31eaH9/\n\u003dalwt\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34cc086c_1191743d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-09T09:05:29Z",
+      "side": 1,
+      "message": "This code is nearly identical to the one in lines 513-518. Could we extract it to a method?",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 48
+      },
+      "revId": "0ab5d2e98d6f21cdf092cf824c9aecb965a51856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

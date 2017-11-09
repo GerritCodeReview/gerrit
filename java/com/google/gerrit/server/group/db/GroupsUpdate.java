@@ -43,10 +43,12 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -58,9 +60,11 @@ import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A database accessor for write calls related to groups.
@@ -100,6 +104,7 @@ public class GroupsUpdate {
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
+  private final GitReferenceUpdated gitRefUpdated;
   private final boolean writeGroupsToNoteDb;
 
   @Inject
@@ -114,9 +119,9 @@ public class GroupsUpdate {
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
-      MetaDataUpdate.User metaDataUpdateUserFactory,
-      MetaDataUpdate.Server metaDataUpdateServerFactory,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @GerritServerConfig Config config,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted @Nullable IdentifiedUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -127,15 +132,11 @@ public class GroupsUpdate {
     this.anonymousCowardName = anonymousCowardName;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.serverId = serverId;
+    this.gitRefUpdated = gitRefUpdated;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(
-            metaDataUpdateUserFactory,
-            metaDataUpdateServerFactory,
-            currentUser,
-            serverIdent,
-            serverId,
-            anonymousCowardName);
+            metaDataUpdateInternalFactory, currentUser, serverIdent, serverId, anonymousCowardName);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
     // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
     // have been addressed.
@@ -144,27 +145,28 @@ public class GroupsUpdate {
     writeGroupsToNoteDb = config.getBoolean("user", null, "writeGroupsToNoteDb", false);
   }
 
-  // TODO(aliceks): Introduce a common class for MetaDataUpdate.User and MetaDataUpdate.Server which
-  // doesn't require this ugly code. In addition, allow to pass in the repository and to use another
-  // author ident.
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
-      MetaDataUpdate.User metaDataUpdateUserFactory,
-      MetaDataUpdate.Server metaDataUpdateServerFactory,
+      MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       @Nullable IdentifiedUser currentUser,
       PersonIdent serverIdent,
       String serverId,
       String anonymousCowardName) {
-    return currentUser != null
-        ? projectName -> {
-          MetaDataUpdate metaDataUpdate =
-              metaDataUpdateUserFactory.create(projectName, currentUser);
-          PersonIdent authorIdent =
-              getAuditLogAuthorIdent(
-                  currentUser.getAccount(), serverIdent, serverId, anonymousCowardName);
-          metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
-          return metaDataUpdate;
-        }
-        : metaDataUpdateServerFactory::create;
+    return (projectName, repository, batchRefUpdate) -> {
+      MetaDataUpdate metaDataUpdate =
+          metaDataUpdateInternalFactory.create(projectName, repository, batchRefUpdate);
+      metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
+      PersonIdent authorIdent;
+      if (currentUser != null) {
+        metaDataUpdate.setAuthor(currentUser);
+        authorIdent =
+            getAuditLogAuthorIdent(
+                currentUser.getAccount(), serverIdent, serverId, anonymousCowardName);
+      } else {
+        authorIdent = serverIdent;
+      }
+      metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
+      return metaDataUpdate;
+    };
   }
 
   private static PersonIdent getAuditLogAuthorIdent(
@@ -209,6 +211,7 @@ public class GroupsUpdate {
       return createdGroupInReviewDb;
     }
 
+    // TODO(aliceks): Add retry mechanism.
     InternalGroup createdGroup = createGroupInNoteDb(groupCreation, groupUpdate);
     updateCachesOnGroupCreation(createdGroup);
     return createdGroup;
@@ -244,6 +247,7 @@ public class GroupsUpdate {
       return reviewDbUpdateResult;
     }
 
+    // TODO(aliceks): Add retry mechanism.
     Optional<UpdateResult> noteDbUpdateResult = updateGroupInNoteDb(groupUuid, groupUpdate);
     return noteDbUpdateResult.orElse(reviewDbUpdateResult);
   }
@@ -440,10 +444,14 @@ public class GroupsUpdate {
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
+      GroupNameNotes groupNameNotes =
+          GroupNameNotes.loadForNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+
       GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
-      // TODO(aliceks): Find a way to ensure unique names with NoteDb.
       groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
-      commit(groupConfig);
+
+      commit(allUsersRepo, groupConfig, groupNameNotes);
 
       return groupConfig
           .getLoadedGroup()
@@ -454,9 +462,10 @@ public class GroupsUpdate {
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
+      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
       if (!groupConfig.getLoadedGroup().isPresent()) {
         // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
         return Optional.empty();
@@ -464,9 +473,14 @@ public class GroupsUpdate {
 
       InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
 
-      // TODO(aliceks): Find a way to ensure unique names with NoteDb.
-      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
-      commit(groupConfig);
+      GroupNameNotes groupNameNotes = null;
+      if (groupUpdate.getName().isPresent()) {
+        AccountGroup.NameKey oldName = originalGroup.getNameKey();
+        AccountGroup.NameKey newName = groupUpdate.getName().get();
+        groupNameNotes = GroupNameNotes.loadForRename(allUsersRepo, groupUuid, oldName, newName);
+      }
+
+      commit(allUsersRepo, groupConfig, groupNameNotes);
 
       InternalGroup updatedGroup =
           groupConfig
@@ -528,10 +542,27 @@ public class GroupsUpdate {
     return formattedResult.toString();
   }
 
-  private void commit(GroupConfig groupConfig) throws IOException {
-    try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(allUsersName)) {
+  private void commit(
+      Repository allUsersRepo, GroupConfig groupConfig, @Nullable GroupNameNotes groupNameNotes)
+      throws IOException {
+    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    try (MetaDataUpdate metaDataUpdate =
+        metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
       groupConfig.commit(metaDataUpdate);
     }
+    if (groupNameNotes != null) {
+      // MetaDataUpdates unfortunately can't be reused. -> Create a new one.
+      try (MetaDataUpdate metaDataUpdate =
+          metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
+        groupNameNotes.commit(metaDataUpdate);
+      }
+    }
+
+    try (RevWalk revWalk = new RevWalk(allUsersRepo)) {
+      RefUpdateUtil.executeChecked(batchRefUpdate, revWalk);
+    }
+    gitRefUpdated.fire(
+        allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
   }
 
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
@@ -571,7 +602,9 @@ public class GroupsUpdate {
 
   @FunctionalInterface
   private interface MetaDataUpdateFactory {
-    MetaDataUpdate create(Project.NameKey projectName) throws IOException;
+    MetaDataUpdate create(
+        Project.NameKey projectName, Repository repository, BatchRefUpdate batchRefUpdate)
+        throws IOException;
   }
 
   @AutoValue

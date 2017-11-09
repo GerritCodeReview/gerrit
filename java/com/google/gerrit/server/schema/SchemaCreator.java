@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.metrics.MetricMaker;
@@ -38,12 +39,14 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -53,9 +56,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
@@ -166,28 +171,28 @@ public class SchemaCreator {
             allProjectsName,
             allUsersName,
             metricMaker);
-    try (Repository repository = repoManager.openRepository(allUsersName)) {
-      createAdminsGroup(db, seqs, repository, admins);
-      createBatchUsersGroup(db, seqs, repository, batchUsers, admins.getUUID());
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      createAdminsGroup(db, seqs, allUsersRepo, admins);
+      createBatchUsersGroup(db, seqs, allUsersRepo, batchUsers, admins.getUUID());
     }
 
     dataSourceType.getIndexScript().run(db);
   }
 
   private void createAdminsGroup(
-      ReviewDb db, Sequences seqs, Repository repository, GroupReference groupReference)
+      ReviewDb db, Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
       throws OrmException, IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
 
-    createGroup(db, repository, groupCreation, groupUpdate);
+    createGroup(db, allUsersRepo, groupCreation, groupUpdate);
   }
 
   private void createBatchUsersGroup(
       ReviewDb db,
       Sequences seqs,
-      Repository repository,
+      Repository allUsersRepo,
       GroupReference groupReference,
       AccountGroup.UUID adminsGroupUuid)
       throws OrmException, IOException, ConfigInvalidException {
@@ -198,12 +203,12 @@ public class SchemaCreator {
             .setOwnerGroupUUID(adminsGroupUuid)
             .build();
 
-    createGroup(db, repository, groupCreation, groupUpdate);
+    createGroup(db, allUsersRepo, groupCreation, groupUpdate);
   }
 
   private void createGroup(
       ReviewDb db,
-      Repository repository,
+      Repository allUsersRepo,
       InternalGroupCreation groupCreation,
       InternalGroupUpdate groupUpdate)
       throws OrmException, ConfigInvalidException, IOException {
@@ -214,7 +219,7 @@ public class SchemaCreator {
       return;
     }
 
-    InternalGroup createdGroup = createGroupInNoteDb(repository, groupCreation, groupUpdate);
+    InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupUpdate);
     index(createdGroup);
   }
 
@@ -228,23 +233,45 @@ public class SchemaCreator {
   }
 
   private InternalGroup createGroupInNoteDb(
-      Repository repository, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
-    GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(allUsersRepo, groupCreation);
     // We don't add any initial members or subgroups and hence the provided functions should never
     // be called. To be on the safe side, we specify some valid functions.
     groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
-    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository)) {
-      groupConfig.commit(metaDataUpdate);
-    }
+
+    AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
+    GroupNameNotes groupNameNotes =
+        GroupNameNotes.loadForNewGroup(allUsersRepo, groupCreation.getGroupUUID(), groupName);
+
+    commit(allUsersRepo, groupConfig, groupNameNotes);
+
     return groupConfig
         .getLoadedGroup()
         .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
   }
 
-  private MetaDataUpdate createMetaDataUpdate(Repository repository) {
+  private void commit(
+      Repository allUsersRepo, GroupConfig groupConfig, GroupNameNotes groupNameNotes)
+      throws IOException {
+    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
+      groupConfig.commit(metaDataUpdate);
+    }
+    // MetaDataUpdates unfortunately can't be reused. -> Create a new one.
+    try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
+      groupNameNotes.commit(metaDataUpdate);
+    }
+    try (RevWalk revWalk = new RevWalk(allUsersRepo)) {
+      RefUpdateUtil.executeChecked(batchRefUpdate, revWalk);
+    }
+  }
+
+  private MetaDataUpdate createMetaDataUpdate(
+      Repository allUsersRepo, @Nullable BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repository);
+        new MetaDataUpdate(
+            GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
     metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
     metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
     return metaDataUpdate;

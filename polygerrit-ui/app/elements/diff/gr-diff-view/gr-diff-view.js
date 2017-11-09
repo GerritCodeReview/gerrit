@@ -753,8 +753,8 @@
     },
 
     _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(() => {
-        this._changeComments = this.$.commentAPI._changeComments;
+      return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+        this._changeComments = comments;
         this._commentMap = this._getPaths(this._patchRange);
 
         this._commentsForDiff = this._getCommentsForPath(this._path,

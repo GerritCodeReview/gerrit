@@ -321,12 +321,8 @@
     _messageTextChanged(newValue, oldValue) {
       if (!this.comment || (this.comment && this.comment.id)) { return; }
 
-      // Keep comment.message in sync so that gr-diff-comment-thread is aware
-      // of the current message in the case that another comment is deleted.
-      this.comment.message = this._messageText || '';
       this.debounce('store', () => {
         const message = this._messageText;
-
         const commentLocation = {
           changeNum: this.changeNum,
           patchNum: this._getPatchNum(),
@@ -342,7 +338,6 @@
         } else {
           this.$.storage.setDraftComment(commentLocation, message);
         }
-        this._fireUpdate();
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
@@ -405,7 +400,10 @@
 
     _handleCancel(e) {
       e.preventDefault();
-      if (!this.comment.message || this.comment.message.trim().length === 0) {
+
+      if (!this.comment.message ||
+          this.comment.message.trim().length === 0 ||
+          !this.comment.id) {
         this._fireDiscard();
         return;
       }

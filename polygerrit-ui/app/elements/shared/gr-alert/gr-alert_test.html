@@ -41,8 +41,7 @@ limitations under the License.
       assert.isNull(element.parentNode);
       element.show();
       assert.equal(element.parentNode, document.body);
-      element.customStyle['--gr-alert-transition-duration'] = '0ms';
-      element.updateStyles();
+      element.updateStyles({'--gr-alert-transition-duration': '0ms'});
       element.hide();
       assert.isNull(element.parentNode);
     });

@@ -57,6 +57,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -135,7 +136,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   @Override
   protected Change.Id updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-      throws IOException, OrmException, PermissionDeniedException, PermissionBackendException {
+      throws IOException, OrmException, PermissionDeniedException, PermissionBackendException,
+          ConfigInvalidException {
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");

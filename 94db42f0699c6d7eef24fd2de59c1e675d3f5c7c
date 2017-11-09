@@ -270,6 +270,30 @@
       "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0205c138_8ac0eb69",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-09T08:31:09Z",
+      "side": 1,
+      "message": "Thanks for explaining. Yeah maybe it should in some change in the future :)",
+      "parentUuid": "f5470850_baa65efb",
+      "range": {
+        "startLine": 437,
+        "startChar": 15,
+        "endLine": 437,
+        "endChar": 25
+      },
+      "revId": "94db42f0699c6d7eef24fd2de59c1e675d3f5c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -93,6 +93,30 @@
       "revId": "d73a4b1c95b4f823dca77ce72200cccfbedcf305",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f3a270_26210ddd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-09T21:08:09Z",
+      "side": 1,
+      "message": "Right, these comments are supposed to help you update the commit message. Try to use as specific language as possible.",
+      "parentUuid": "1746040a_7c4ba718",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "d73a4b1c95b4f823dca77ce72200cccfbedcf305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

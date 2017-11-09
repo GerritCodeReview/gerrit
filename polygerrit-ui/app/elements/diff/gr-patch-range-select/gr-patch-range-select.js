@@ -42,13 +42,7 @@
             'basePatchNum, _sortedRevisions, changeComments)',
       },
       changeNum: String,
-      // In the case of a patch range select (like diff view) comments should
-      // be an empty array, so that the patch and base content computed values
-      // get triggered.
-      changeComments: {
-        type: Object,
-        value: () => { return {}; },
-      },
+      changeComments: Object,
       /** @type {{ meta_a: !Array, meta_b: !Array}} */
       filesWeblinks: Object,
       patchNum: String,
@@ -73,10 +67,9 @@
               basePatch.num, patchNum, _sortedRevisions),
           triggerText: `Patchset ${basePatchNum}`,
           text: `Patchset ${basePatchNum}` +
-              this._computePatchSetCommentsString(changeComments.comments,
-                  basePatchNum),
+              this._computePatchSetCommentsString(changeComments, basePatchNum),
           mobileText: this._computeMobileText(basePatchNum,
-              changeComments.comments, _sortedRevisions),
+              changeComments, _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, basePatchNum)}`,
           value: basePatch.num,
@@ -89,9 +82,9 @@
       return dropdownContent;
     },
 
-    _computeMobileText(patchNum, comments, revisions) {
+    _computeMobileText(patchNum, changeComments, revisions) {
       return `${patchNum}` +
-          `${this._computePatchSetCommentsString(comments, patchNum)}` +
+          `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
           `${this._computePatchSetDescription(revisions, patchNum, true)}`;
     },
 
@@ -107,8 +100,8 @@
               patchNum,
           text: `${patchNum === 'edit' ? '': 'Patchset '}${patchNum}` +
               `${this._computePatchSetCommentsString(
-                  changeComments.comments, patchNum)}`,
-          mobileText: this._computeMobileText(patchNum, changeComments.comments,
+                  changeComments, patchNum)}`,
+          mobileText: this._computeMobileText(patchNum, changeComments,
               _sortedRevisions),
           bottomText: `${this._computePatchSetDescription(
               _sortedRevisions, patchNum)}`,
@@ -152,66 +145,26 @@
           this.findSortedIndex(patchNum, sortedRevisions);
     },
 
-    // Copied from gr-file-list
-    // @todo(beckysiegel) clean up.
-    _getCommentsForPath(comments, patchNum, path) {
-      return (comments[path] || []).filter(c => {
-        return this.patchNumEquals(c.patch_set, patchNum);
-      });
-    },
 
-    // Copied from gr-file-list
-    // @todo(beckysiegel) clean up.
-    _computeUnresolvedNum(comments, drafts, patchNum, path) {
-      comments = this._getCommentsForPath(comments, patchNum, path);
-      drafts = this._getCommentsForPath(drafts, patchNum, path);
-      comments = comments.concat(drafts);
+    _computePatchSetCommentsString(changeComments, patchNum) {
+      if (!changeComments) { return; }
 
-      // Create an object where every comment ID is the key of an unresolved
-      // comment.
+      const commentCount = changeComments.computeCommentCount(patchNum);
+      const commentString = GrCountStringFormatter.computePluralString(
+          commentCount, 'comment');
 
-      const idMap = comments.reduce((acc, comment) => {
-        if (comment.unresolved) {
-          acc[comment.id] = true;
-        }
-        return acc;
-      }, {});
+      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum);
+      const unresolvedString = GrCountStringFormatter.computeString(
+          unresolvedCount, 'unresolved');
 
-      // Set false for the comments that are marked as parents.
-      for (const comment of comments) {
-        idMap[comment.in_reply_to] = false;
+      if (!commentString.length && !unresolvedString.length) {
+        return '';
       }
 
-      // The unresolved comments are the comments that still have true.
-      const unresolvedLeaves = Object.keys(idMap).filter(key => {
-        return idMap[key];
-      });
-
-      return unresolvedLeaves.length;
-    },
-
-    _computePatchSetCommentsString(allComments, patchNum) {
-      // todo (beckysiegel) get comment strings for diff view also.
-      if (!allComments) { return ''; }
-      let numComments = 0;
-      let numUnresolved = 0;
-      for (const file in allComments) {
-        if (allComments.hasOwnProperty(file)) {
-          numComments += this._getCommentsForPath(
-              allComments, patchNum, file).length;
-          numUnresolved += this._computeUnresolvedNum(
-              allComments, {}, patchNum, file);
-        }
-      }
-      let commentsStr = '';
-      if (numComments > 0) {
-        commentsStr = ' (' + numComments + ' comments';
-        if (numUnresolved > 0) {
-          commentsStr += ', ' + numUnresolved + ' unresolved';
-        }
-        commentsStr += ')';
-      }
-      return commentsStr;
+      return ` (${commentString}` +
+          // Add a comma + space if both comments and unresolved
+          (commentString && unresolvedString ? ', ' : '') +
+          `${unresolvedString})`;
     },
 
     /**

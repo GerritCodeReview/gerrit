@@ -22,6 +22,30 @@
       "revId": "fde2da6dc214d4d7c71e805211875dfbc9ee023f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ab42a9_b9664f64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-09T17:56:51Z",
+      "side": 1,
+      "message": "Do you just mean a JSDoc style comment (vs. actual annotations)?",
+      "parentUuid": "001e508c_b1e43f4b",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "fde2da6dc214d4d7c71e805211875dfbc9ee023f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

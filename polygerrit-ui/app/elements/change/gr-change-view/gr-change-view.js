@@ -1107,9 +1107,9 @@
     },
 
     _computeRelatedChangesClass(collapsed, loading) {
-      // TODO(beckysiegel) figure out how to check for customstyle in Polymer2,
-      // since customStyle was removed.
-      if (!loading && !this.customStyle['--relation-chain-max-height']) {
+      // TODO update to polymer 2.x syntax
+      if (!loading &&
+          !this.getComputedStyleValue('--relation-chain-max-height')) {
         this._updateRelatedChangeMaxHeight();
       }
       return collapsed ? 'collapsed' : '';

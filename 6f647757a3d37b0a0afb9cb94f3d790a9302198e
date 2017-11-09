@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f989438_0e8ccb2a",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-09T21:07:22Z",
+      "side": 1,
+      "message": "Hmm, should this be in non es5 syntax for older browsers as we wont be using any scripts that converts it to syntax supported by most browsers?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "6f647757a3d37b0a0afb9cb94f3d790a9302198e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -37,18 +38,23 @@ limitations under the License.
       header {
         border-bottom: 1px solid #cdcdcd;
         font-family: var(--font-family-bold);
+        margin-bottom: 1em;
       }
-      header,
-      main,
-      footer {
+      .container {
         padding: .5em 1.5em;
       }
       footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
+      }
+      footer gr-button {
+        margin-left: 1em;
+      }
+      input {
+        width: 20em;
       }
     </style>
-    <main class="gr-form-styles">
+    <div class="container gr-form-styles">
       <header>Please confirm your contact information</header>
       <main>
         <p>
@@ -64,8 +70,15 @@ limitations under the License.
               is="iron-input"
               id="name"
               bind-value="{{_account.name}}"
-              disabled="[[_saving]]"
-              on-keydown="_handleNameKeydown">
+              disabled="[[_saving]]">
+        </section>
+        <section>
+          <div class="title">Username</div>
+          <input
+              is="iron-input"
+              id="username"
+              bind-value="{{_account.username}}"
+              disabled="[[_saving]]">
         </section>
         <section>
           <div class="title">Preferred Email</div>
@@ -78,19 +91,26 @@ limitations under the License.
             </template>
           </select>
         </section>
+        <hr>
+        <p>
+          More configuration options for Gerrit may be found in the
+          <a on-tap="close" href$="[[_computeSettingsUrl(_account)]]">settings</a>.
+        </p>
       </main>
       <footer>
         <gr-button
-            id="saveButton"
-            primary
-            disabled="[[_saving]]"
-            on-tap="_handleSave">Save</gr-button>
-        <gr-button
             id="closeButton"
+            link
             disabled="[[_saving]]"
             on-tap="_handleClose">Close</gr-button>
+        <gr-button
+            id="saveButton"
+            primary
+            link
+            disabled="[[_computeSaveDisabled(_account.name, _account.username, _account.email, _saving)]]"
+            on-tap="_handleSave">Save</gr-button>
       </footer>
-    </main>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-registration-dialog.js"></script>

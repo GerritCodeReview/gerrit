@@ -79,7 +79,8 @@
       // element for selected a file to view.
       _formattedFiles: {
         type: Array,
-        computed: '_formatFilesForDropdown(_fileList)',
+        computed: '_formatFilesForDropdown(_fileList, _patchRange.patchNum, ' +
+            '_changeComments)',
       },
       // An sorted array of files, as returned by the rest API.
       _fileList: {
@@ -641,7 +642,7 @@
       return this._getChangePath(change, patchRangeRecord.base, revisions);
     },
 
-    _formatFilesForDropdown(fileList) {
+    _formatFilesForDropdown(fileList, patchNum, changeComments) {
       if (!fileList) { return; }
       const dropdownContent = [];
       for (const path of fileList) {
@@ -649,9 +650,27 @@
           text: this.computeDisplayPath(path),
           mobileText: this.computeTruncatedPath(path),
           value: path,
+          bottomText: this._computeCommentString(changeComments, patchNum,
+              path),
         });
       }
       return dropdownContent;
+    },
+
+    _computeCommentString(changeComments, patchNum, path) {
+      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
+          path);
+      const commentCount = changeComments.computeCommentCount(patchNum, path);
+      const commentString = GrCountStringFormatter.computePluralString(
+          commentCount, 'comment');
+      const unresolvedString = GrCountStringFormatter.computeString(
+          unresolvedCount, 'unresolved');
+
+      return commentString +
+          // Add a space if both comments and unresolved
+          (commentString && unresolvedString ? ', ' : '') +
+          // Add parentheses around unresolved if it exists.
+          (unresolvedString ? `${unresolvedString}` : '');
     },
 
     _computePrefsButtonHidden(prefs, loggedIn) {

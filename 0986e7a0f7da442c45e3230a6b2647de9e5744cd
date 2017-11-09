@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d143c11_6439586a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T07:30:41Z",
+      "side": 1,
+      "message": "NoteDb",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "0986e7a0f7da442c45e3230a6b2647de9e5744cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7b6cf16_162aa1bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3401,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T07:30:41Z",
+      "side": 1,
+      "message": "\"group\", here and the explanation text below",
+      "range": {
+        "startLine": 3401,
+        "startChar": 12,
+        "endLine": 3401,
+        "endChar": 19
+      },
+      "revId": "0986e7a0f7da442c45e3230a6b2647de9e5744cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885b932a_bd75784e",
+        "filename": "java/com/google/gerrit/server/Sequences.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T07:30:41Z",
+      "side": 1,
+      "message": "group",
+      "range": {
+        "startLine": 159,
+        "startChar": 70,
+        "endLine": 159,
+        "endChar": 77
+      },
+      "revId": "0986e7a0f7da442c45e3230a6b2647de9e5744cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08b0e59c_f83628d6",
+        "filename": "java/com/google/gerrit/server/schema/Schema_162.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T07:30:41Z",
+      "side": 1,
+      "message": "group",
+      "range": {
+        "startLine": 54,
+        "startChar": 49,
+        "endLine": 54,
+        "endChar": 56
+      },
+      "revId": "0986e7a0f7da442c45e3230a6b2647de9e5744cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

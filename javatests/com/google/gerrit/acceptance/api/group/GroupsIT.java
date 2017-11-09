@@ -430,6 +430,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(name).options().visibleToAll).isTrue();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void groupOwner() throws Exception {
     String adminUUID = getFromCache("Administrators").getGroupUUID().get();

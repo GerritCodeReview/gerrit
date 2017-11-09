@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c49ce2a6_73302949",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-09T23:54:51Z",
+      "side": 1,
+      "message": "nit: getCustomCssValue",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "80976b609f47628d3141508a22f94745dbddf999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4cf534_14a73963",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-09T23:54:51Z",
+      "side": 1,
+      "message": "nit: \n\nreturn element.getComputedStyleValue(cssParam);",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "80976b609f47628d3141508a22f94745dbddf999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

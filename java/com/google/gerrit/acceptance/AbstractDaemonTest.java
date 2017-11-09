@@ -346,9 +346,9 @@ public abstract class AbstractDaemonTest {
     // later on. As test indexes are non-permanent, closing an instance and opening another one
     // removes all indexed data.
     // As a workaround, we simply reindex all available groups here.
-    Iterable<AccountGroup.UUID> allGroupUuids = groups.getAllUuids(db)::iterator;
-    for (AccountGroup.UUID groupUuid : allGroupUuids) {
-      groupCache.onCreateGroup(groupUuid);
+    Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
+    for (GroupReference group : allGroups) {
+      groupCache.onCreateGroup(group.getUUID());
     }
 
     admin = accountCreator.admin();

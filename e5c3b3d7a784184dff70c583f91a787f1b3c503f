@@ -34,6 +34,24 @@
       "revId": "e5c3b3d7a784184dff70c583f91a787f1b3c503f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a50f8ebc_07d693db",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-09T09:01:57Z",
+      "side": 1,
+      "message": "Using a different footer also sounds like the best option to me. I expected that we would need to fine-tune those footers for the parsing of the audit log and just didn\u0027t want to optimize ahead of time. Any necessary adjustments to them are fine for me.",
+      "parentUuid": "54038f7d_cc0ec4d3",
+      "revId": "e5c3b3d7a784184dff70c583f91a787f1b3c503f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

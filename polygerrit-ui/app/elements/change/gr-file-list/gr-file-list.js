@@ -883,8 +883,8 @@
           console.log('Expanding diff', iter, 'of', initialCount, ':',
               path);
           const diffElem = this._findDiffByPath(path, diffElements);
-          diffElem.comments = this.changeComments.getCommentsForPath(path,
-              this.patchRange, this.projectConfig);
+          diffElem.comments = this.changeComments.getCommentsBySideForPath(
+              path, this.patchRange, this.projectConfig);
           const promises = [diffElem.reload()];
           if (this._isLoggedIn) {
             promises.push(this._reviewFile(path));

@@ -17,8 +17,18 @@ package com.google.gerrit.server.group.db;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import java.io.IOException;
+import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 
 @FunctionalInterface
 public interface MetaDataUpdateFactory {
+  /**
+   * Create a {@link MetaDataUpdate} for the given project.
+   *
+   * <p>The {@link CommitBuilder} of the returned {@link MetaDataUpdate} must have author and
+   * committer set.
+   *
+   * @param projectName The project for which meta data should be updated.
+   * @return A new {@link MetaDataUpdate} instance for the given project.
+   */
   MetaDataUpdate create(Project.NameKey projectName) throws IOException;
 }

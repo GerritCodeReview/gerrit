@@ -1352,6 +1352,9 @@ in question, which means it needs to assume the data has been escaped.
 So `"` needs to be matched as `&amp;quot;`, `<` as `&amp;lt;`, and `'` as
 `&amp;#39;`.
 +
+Note: The PolyGerrit UI does not apply the regular expression to the HTML form
+of the message, and this style of CommentLink is deprecated.
++
 A common pattern to match is `bug\\s+(\\d+)`.
 
 [[commentlink.name.link]]commentlink.<name>.link::

@@ -16,6 +16,24 @@
       "revId": "c23f19facd780a185140830a32849002ebbf4f82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c6f242_51c06885",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-09T15:31:25Z",
+      "side": 1,
+      "message": "i\u0027ll do a followup change, so this can get merged.",
+      "parentUuid": "eb08e06c_a18e5a5a",
+      "revId": "c23f19facd780a185140830a32849002ebbf4f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

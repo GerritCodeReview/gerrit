@@ -220,7 +220,7 @@ limitations under the License.
             <gr-linked-chip
                 text="[[change.topic]]"
                 limit="40"
-                href="[[_computeTopicURL(change.*)]]"
+                href="[[_computeTopicURL(change.topic)]]"
                 removable="[[!_topicReadOnly]]"
                 on-remove="_handleTopicRemoved"></gr-linked-chip>
           </template>

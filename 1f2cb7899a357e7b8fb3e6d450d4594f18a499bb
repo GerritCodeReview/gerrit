@@ -23,6 +23,30 @@
       "revId": "1f2cb7899a357e7b8fb3e6d450d4594f18a499bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b32dc16_12fe5080",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T12:05:23Z",
+      "side": 1,
+      "message": "I know, I switched to writing small tests instead. It\u0027s still WIP.",
+      "parentUuid": "710bc788_00312c05",
+      "range": {
+        "startLine": 712,
+        "startChar": 4,
+        "endLine": 712,
+        "endChar": 75
+      },
+      "revId": "1f2cb7899a357e7b8fb3e6d450d4594f18a499bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -32,8 +33,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 // TODO(aliceks): Add Javadoc descriptions.
 public class GroupNameNotes extends VersionedMetaData {
@@ -83,6 +89,25 @@ public class GroupNameNotes extends VersionedMetaData {
     return groupNameNotes;
   }
 
+  public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
+      throws IOException, ConfigInvalidException {
+    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
+    if (ref == null) {
+      return ImmutableSet.of();
+    }
+    try (RevWalk revWalk = new RevWalk(repository);
+        ObjectReader reader = revWalk.getObjectReader()) {
+      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      NoteMap noteMap = NoteMap.read(reader, notesCommit);
+      ImmutableSet.Builder<GroupReference> groupReferences = ImmutableSet.builder();
+      for (Note note : noteMap) {
+        GroupReference groupReference = getGroupReference(reader, note.getData());
+        groupReferences.add(groupReference);
+      }
+      return groupReferences.build();
+    }
+  }
+
   @Override
   protected String getRefName() {
     return RefNames.REFS_GROUPNAMES;
@@ -105,12 +130,14 @@ public class GroupNameNotes extends VersionedMetaData {
   private void ensureOldNameIsPresent(NoteMap noteMap) throws IOException, ConfigInvalidException {
     if (oldGroupName.isPresent()) {
       AccountGroup.NameKey oldName = oldGroupName.get();
-      Optional<GroupReference> groupReference = getGroupReference(noteMap, oldName);
-      if (!groupReference.isPresent()) {
+      ObjectId noteKey = getNoteKey(oldName);
+      ObjectId noteDataBlobId = noteMap.get(noteKey);
+      if (noteDataBlobId == null) {
         throw new ConfigInvalidException(
             String.format("Group name '%s' doesn't exist in the list of all names", oldName));
       }
-      AccountGroup.UUID foundUuid = groupReference.get().getUUID();
+      GroupReference group = getGroupReference(reader, noteDataBlobId);
+      AccountGroup.UUID foundUuid = group.getUUID();
       if (!Objects.equals(groupUuid, foundUuid)) {
         throw new ConfigInvalidException(
             String.format(
@@ -161,17 +188,10 @@ public class GroupNameNotes extends VersionedMetaData {
     return config.toText();
   }
 
-  private Optional<GroupReference> getGroupReference(
-      NoteMap noteMap, AccountGroup.NameKey groupName) throws IOException, ConfigInvalidException {
-    ObjectId noteKey = getNoteKey(groupName);
-    ObjectId blobId = noteMap.get(noteKey);
-    if (blobId == null) {
-      return Optional.empty();
-    }
-
-    byte[] noteData = rw.getObjectReader().open(blobId, OBJ_BLOB).getCachedBytes();
-    GroupReference groupReference = getFromNoteData(noteData);
-    return Optional.of(groupReference);
+  private static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
+      throws IOException, ConfigInvalidException {
+    byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
+    return getFromNoteData(noteData);
   }
 
   private static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {

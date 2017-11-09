@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -53,12 +54,14 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
@@ -257,7 +260,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
-      throws OrmException, RestApiException {
+      throws OrmException, RestApiException, IOException, ConfigInvalidException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
@@ -266,7 +269,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return output;
   }
 
-  public List<GroupInfo> get() throws OrmException, RestApiException {
+  public List<GroupInfo> get()
+      throws OrmException, RestApiException, IOException, ConfigInvalidException {
     if (!Strings.isNullOrEmpty(suggest)) {
       return suggestGroups();
     }
@@ -290,13 +294,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return getAllGroups();
   }
 
-  private List<GroupInfo> getAllGroups() throws OrmException {
+  private List<GroupInfo> getAllGroups() throws OrmException, IOException, ConfigInvalidException {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> existingGroups =
         getAllExistingGroups()
-            // TODO(aliceks): Filter groups by UUID/name before loading them (if possible with
-            // NoteDb).
-            .filter(group -> !isNotRelevant(pattern, group))
+            .filter(group -> isRelevant(pattern, group))
+            .map(this::loadGroup)
+            .flatMap(Streams::stream)
+            .filter(this::isVisible)
             .sorted(GROUP_COMPARATOR)
             .skip(start);
     if (limit > 0) {
@@ -310,19 +315,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private Stream<GroupDescription.Internal> getAllExistingGroups() throws OrmException {
+  private Stream<GroupReference> getAllExistingGroups()
+      throws OrmException, IOException, ConfigInvalidException {
     if (!projects.isEmpty()) {
       return projects
           .stream()
           .map(ProjectState::getAllGroups)
           .flatMap(Collection::stream)
-          .map(GroupReference::getUUID)
-          .distinct()
-          .map(groupCache::get)
-          .flatMap(Streams::stream)
-          .map(InternalGroupDescription::new);
+          .distinct();
     }
-    return groups.getAll(db.get()).map(InternalGroupDescription::new);
+    return groups.getAllGroupReferences(db.get());
   }
 
   private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
@@ -381,15 +383,15 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> filterGroupsOwnedBy(Predicate<GroupDescription.Internal> filter)
-      throws OrmException {
+      throws OrmException, IOException, ConfigInvalidException {
     Pattern pattern = getRegexPattern();
     Stream<? extends GroupDescription.Internal> foundGroups =
         groups
-            .getAll(db.get())
-            .map(InternalGroupDescription::new)
-            // TODO(aliceks): Filter groups by UUID/name before loading them (if possible with
-            // NoteDb).
-            .filter(group -> !isNotRelevant(pattern, group))
+            .getAllGroupReferences(db.get())
+            .filter(group -> isRelevant(pattern, group))
+            .map(this::loadGroup)
+            .flatMap(Streams::stream)
+            .filter(this::isVisible)
             .filter(filter)
             .sorted(GROUP_COMPARATOR)
             .skip(start);
@@ -404,12 +406,18 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(String id) throws OrmException, RestApiException {
+  private Optional<GroupDescription.Internal> loadGroup(GroupReference groupReference) {
+    return groupCache.get(groupReference.getUUID()).map(InternalGroupDescription::new);
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(String id)
+      throws OrmException, RestApiException, IOException, ConfigInvalidException {
     String uuid = groupsCollection.parse(id).getGroupUUID().get();
     return filterGroupsOwnedBy(group -> group.getOwnerGroupUUID().get().equals(uuid));
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
+      throws OrmException, IOException, ConfigInvalidException {
     return filterGroupsOwnedBy(group -> isOwner(user, group));
   }
 
@@ -425,24 +433,24 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
   }
 
-  private boolean isNotRelevant(Pattern pattern, GroupDescription.Internal group) {
+  private boolean isRelevant(Pattern pattern, GroupReference group) {
     if (!Strings.isNullOrEmpty(matchSubstring)) {
       if (!group.getName().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US))) {
-        return true;
+        return false;
       }
     } else if (pattern != null) {
       if (!pattern.matcher(group.getName()).matches()) {
-        return true;
+        return false;
       }
     }
-    if (visibleToAll && !group.isVisibleToAll()) {
-      return true;
-    }
-    if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
-      return true;
-    }
+    return groupsToInspect.isEmpty() || groupsToInspect.contains(group.getUUID());
+  }
 
+  private boolean isVisible(GroupDescription.Internal group) {
+    if (visibleToAll && !group.isVisibleToAll()) {
+      return false;
+    }
     GroupControl c = groupControlFactory.controlFor(group);
-    return !c.isVisible();
+    return c.isVisible();
   }
 }

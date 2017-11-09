@@ -27,7 +27,7 @@
       change: Object,
       changeNum: String,
       changeUrl: String,
-      comments: Object,
+      changeComments: Object,
       commitInfo: Object,
       editLoaded: Boolean,
       loggedIn: Boolean,

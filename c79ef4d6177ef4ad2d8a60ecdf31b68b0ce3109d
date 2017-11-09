@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5926e13_392c0b1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SetParentIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-09T15:23:43Z",
+      "side": 1,
+      "message": "setParentForAllUsersMustBeAllProjects?",
+      "range": {
+        "startLine": 97,
+        "startChar": 14,
+        "endLine": 97,
+        "endChar": 51
+      },
+      "revId": "c79ef4d6177ef4ad2d8a60ecdf31b68b0ce3109d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

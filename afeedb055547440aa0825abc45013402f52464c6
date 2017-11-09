@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510237076 -0500\nnonce AMT3iFh59E9afF9t8prW4/PSjl3R0kP6GCObnNY2cX6zgAvM/hvSRE0XhPOwzO4TjEgtEg3FL5Fd\n\n0000000000000000000000000000000000000000 afeedb055547440aa0825abc45013402f52464c6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloEY5QVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMix0QAJd4E+xcP6gEadlsLG4nUljxSRLz\nwQ9EKV2hZHIJnRJROMPUEG0szYIrYVHH0HDoVHekd1Vn1P/LCrUX7aODSrndrvHL\n9dccAE/KQby0j9Fwkv//NQ6MdiKGPlqNc7qGVmAV1POskILMqqPLj3WntChLue0D\n7lq1OXxe039H0PYC2YMv30GnSlm5JuePAjhvw4hgv87WXYemYPs/msayKoVZdxdO\n93C/cddepuIjYJcjkfPtlS6xcd7lmkutxqWN6/2DUNNahHoVcs2DFFiOcW7H0NX4\nUyAi1TwW23SZ3Re0EW2jK3Ug3Hwtbj4Dc09WIJberS+lwaUgoS7sklKIrhp6cscJ\nfeZUbG3eIsqs0jcnYIfrQKO2m4A07+05ribKBQB9KHddH7QZTDSL40uKJHVyKmdQ\nFAv9CFQ7fv5bNOWWI3GanjsqZau0gJUXD5pht9h2qSShb91Z3QhQkAoVwY37NTnm\nJ9Dvq8KnMO/OXYJylrL2/0vl8jXo6avFU50V6Ztu/XPMSW/h8E3kL/s6bmVA7IOG\nTffScziJhnM6LoE0tPqidSh09g6uLON712DRVj83d4sUzNI3B6UV30xv3BXF/+WV\nZ/0ycOSXnOEzdGn4JeyrLltaXSaAJzZAjZXz2OJEwPOLBKToDEeZy4IwyY4pCZMO\n8D1aBy2O6boD4DXx\n\u003dl+jG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "58449fc2_fb28058e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T14:42:49Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure I was holding this right, so I wrote a test for BatchMetaDataUpdate + BatchRefUpdate:\n\nhttps://gerrit-review.googlesource.com/#/c/gerrit/+/139770",
+      "revId": "afeedb055547440aa0825abc45013402f52464c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

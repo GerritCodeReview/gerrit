@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.parseAfterShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
+import static com.google.gerrit.reviewdb.client.RefNames.parseShardedUuidFromRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.skipShardedRefPart;
 
 import org.junit.Rule;
@@ -25,6 +26,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class RefNamesTest {
+  private static final String TEST_GROUP_UUID = "ccab3195282a8ce4f5014efa391e82d10f884c64";
+  private static final String TEST_SHARDED_GROUP_UUID =
+      TEST_GROUP_UUID.substring(0, 2) + "/" + TEST_GROUP_UUID;
+
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
   private final Account.Id accountId = new Account.Id(1011123);
@@ -141,6 +146,33 @@ public class RefNamesTest {
 
     // Shard too short.
     assertThat(parseShardedRefPart("1/1")).isNull();
+  }
+
+  @Test
+  public void parseShardedUuidFromRefsPart() throws Exception {
+    assertThat(parseShardedUuidFromRefPart(TEST_SHARDED_GROUP_UUID)).isEqualTo(TEST_GROUP_UUID);
+    assertThat(parseShardedUuidFromRefPart(TEST_SHARDED_GROUP_UUID + "-2"))
+        .isEqualTo(TEST_GROUP_UUID + "-2");
+    assertThat(parseShardedUuidFromRefPart("7e/7ec4775d")).isEqualTo("7ec4775d");
+    assertThat(parseShardedUuidFromRefPart("fo/foo")).isEqualTo("foo");
+
+    assertThat(parseShardedUuidFromRefPart(null)).isNull();
+    assertThat(parseShardedUuidFromRefPart("")).isNull();
+
+    // Prefix not stripped.
+    assertThat(parseShardedUuidFromRefPart("refs/groups/" + TEST_SHARDED_GROUP_UUID)).isNull();
+
+    // Invalid shards.
+    assertThat(parseShardedUuidFromRefPart("c/" + TEST_GROUP_UUID)).isNull();
+    assertThat(parseShardedUuidFromRefPart("cca/" + TEST_GROUP_UUID)).isNull();
+
+    // Mismatched shard.
+    assertThat(parseShardedUuidFromRefPart("ca/" + TEST_GROUP_UUID)).isNull();
+    assertThat(parseShardedUuidFromRefPart("64/" + TEST_GROUP_UUID)).isNull();
+
+    // Wrong number of segments.
+    assertThat(parseShardedUuidFromRefPart("cc")).isNull();
+    assertThat(parseShardedUuidFromRefPart(TEST_SHARDED_GROUP_UUID + "/1")).isNull();
   }
 
   @Test

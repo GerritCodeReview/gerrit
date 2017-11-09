@@ -30,6 +30,14 @@
 
   GrDiffLine.prototype.text = '';
 
+  // Exposes GrAnnotation.annotateElement to make it easier for plugins to
+  // annotate lines.
+  GrDiffLine.prototype.annotateElement = function(el, cssClass) {
+    GrAnnotation.annotateElement(
+          el, 0, GrAnnotation.getStringLength(this.text),
+          'style-scopei gr-diff ' + cssClass);
+  };
+
   GrDiffLine.Type = {
     ADD: 'add',
     BOTH: 'both',

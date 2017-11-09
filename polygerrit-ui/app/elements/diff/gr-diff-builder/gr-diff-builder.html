@@ -124,18 +124,9 @@ limitations under the License.
           ];
 
           // Get layers from plugins (if any).
-          for (const pluginLayerFunc of this.$.jsAPI.getDiffLayers(
+          for (const pluginLayer of this.$.jsAPI.getDiffLayers(
                this._diffPath, this._changeNum, this._patchNum)) {
-            // Wrap the plugin layer function in an annotate(el, line) function
-            // for gr-diff-builder.js to call into.
-            const wrappedLayer = function() {
-              return {
-                annotate(el, line) {
-                  pluginLayerFunc(el, line);
-                },
-              };
-            };
-            layers.push(wrappedLayer());
+            layers.push(pluginLayer);
           }
 
           this._layers = layers;

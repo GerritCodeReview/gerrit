@@ -3,6 +3,9 @@
 The Gerrit server functionality can be extended by installing plugins.
 This page describes how plugins for Gerrit can be developed.
 
+For PolyGerrit-specific plugin development, consult with
+link:pg-plugin-dev.html[PolyGerrit Plugin Development] guide.
+
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between `plugins` and `extensions`.
 

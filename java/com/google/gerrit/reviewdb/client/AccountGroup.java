@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
@@ -81,11 +82,34 @@ public final class AccountGroup {
       uuid = newValue;
     }
 
-    /** Parse an AccountGroup.UUID out of a string representation. */
+    /** Parse an {@link AccountGroup.UUID} out of a string representation. */
+    @Nullable
     public static UUID parse(String str) {
       final UUID r = new UUID();
       r.fromString(str);
       return r;
+    }
+
+    /** Parse an {@link AccountGroup.UUID} out of a ref-name. */
+    public static UUID fromRef(String ref) {
+      if (ref == null) {
+        return null;
+      }
+      if (ref.startsWith(RefNames.REFS_GROUPS)) {
+        return fromRefPart(ref.substring(RefNames.REFS_GROUPS.length()));
+      }
+      return null;
+    }
+
+    /**
+     * Parse an AccountGroup.UUID out of a part of a ref-name.
+     *
+     * @param refPart a ref name with the following syntax: {@code "12/1234..."}. We assume that the
+     *     caller has trimmed any prefix.
+     */
+    public static UUID fromRefPart(String refPart) {
+      String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
+      return uuid != null ? new AccountGroup.UUID(uuid) : null;
     }
   }
 

@@ -114,7 +114,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    if (project.equals(allUsers) && !allProjects.equals(newParent)) {
+    if (project.equals(allUsers) && !allProjects.get().equals(newParent)) {
       throw new BadRequestException(
           String.format("%s must inherit from %s", allUsers.get(), allProjects.get()));
     }

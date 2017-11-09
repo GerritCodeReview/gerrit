@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ioutil;
 
-import com.google.gerrit.server.StringUtil;
 import java.io.PrintWriter;
 
 /**

@@ -53,6 +53,23 @@
       "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86833a2a_7d96c35c",
+        "filename": "java/com/google/gerrit/server/group/db/MetaDataUpdateFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-09T12:40:43Z",
+      "side": 1,
+      "message": "My first attempt at implementing this resulted in NPEs in low-level JGit code, because I did not properly prepopulate something in the CommitBuilder. Can you please document what is required of implementations here?",
+      "revId": "c5ba387c8ec35907f0e687426aa1d65cdef8cc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

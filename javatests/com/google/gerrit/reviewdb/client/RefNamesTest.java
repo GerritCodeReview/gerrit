@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.RefNames.parseAfterShardedRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.parseRefSuffix;
 import static com.google.gerrit.reviewdb.client.RefNames.parseShardedRefPart;
+import static com.google.gerrit.reviewdb.client.RefNames.parseShardedUuidFromRefPart;
 import static com.google.gerrit.reviewdb.client.RefNames.skipShardedRefPart;
 
 import org.junit.Rule;
@@ -141,6 +142,38 @@ public class RefNamesTest {
 
     // Shard too short.
     assertThat(parseShardedRefPart("1/1")).isNull();
+  }
+
+  @Test
+  public void parseShardedUuidFromRefsPart() throws Exception {
+    assertThat(parseShardedUuidFromRefPart("cc/ccab3195282a8ce4f5014efa391e82d10f884c64"))
+        .isEqualTo("ccab3195282a8ce4f5014efa391e82d10f884c64");
+    assertThat(parseShardedUuidFromRefPart("cc/ccab3195282a8ce4f5014efa391e82d10f884c64-2"))
+        .isEqualTo("ccab3195282a8ce4f5014efa391e82d10f884c64-2");
+    assertThat(parseShardedUuidFromRefPart("7e/7ec4775d")).isEqualTo("7ec4775d");
+    assertThat(parseShardedUuidFromRefPart("fo/foo")).isEqualTo("foo");
+
+    assertThat(parseShardedUuidFromRefPart(null)).isNull();
+    assertThat(parseShardedUuidFromRefPart("")).isNull();
+
+    // Prefix not stripped.
+    assertThat(
+            parseShardedUuidFromRefPart("refs/groups/cc/ccab3195282a8ce4f5014efa391e82d10f884c64"))
+        .isNull();
+
+    // Invalid shards.
+    assertThat(parseShardedUuidFromRefPart("c/ccab3195282a8ce4f5014efa391e82d10f884c64")).isNull();
+    assertThat(parseShardedUuidFromRefPart("cca/ccab3195282a8ce4f5014efa391e82d10f884c64"))
+        .isNull();
+
+    // Mismatched shard.
+    assertThat(parseShardedUuidFromRefPart("ca/ccab3195282a8ce4f5014efa391e82d10f884c64")).isNull();
+    assertThat(parseShardedUuidFromRefPart("64/ccab3195282a8ce4f5014efa391e82d10f884c64")).isNull();
+
+    // Wrong number of segments.
+    assertThat(parseShardedUuidFromRefPart("cc")).isNull();
+    assertThat(parseShardedUuidFromRefPart("cc/ccab3195282a8ce4f5014efa391e82d10f884c64/1"))
+        .isNull();
   }
 
   @Test

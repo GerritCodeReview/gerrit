@@ -108,37 +108,25 @@ public class GroupOwnerPermissions {
   /**
    * Updating the group owner permissions.
    *
-   * <p>For the new group owner READ/PUSH permissions on the group ref are added, for the old group
-   * owner the permissions are removed.
+   * <p>For the new group owner READ/PUSH permissions on the group ref are added. For all other
+   * groups the READ/PUSH permissions are removed.
    *
    * @param groupUuid UUID of the group for which the owner permissions should be updated.
-   * @param oldOwnerGroupReference Group reference for the old owner group, {@code null} if the
-   *     group is newly created.
    * @param newOwnerGroupReference Group reference for the new owner group.
    */
   public void updateOwnerPermissions(
-      AccountGroup.UUID groupUuid,
-      @Nullable GroupReference oldOwnerGroupReference,
-      GroupReference newOwnerGroupReference)
+      AccountGroup.UUID groupUuid, GroupReference newOwnerGroupReference)
       throws IOException, ConfigInvalidException {
     checkNotNull(metaDataUpdateFactory);
     checkNotNull(newOwnerGroupReference);
-    if (newOwnerGroupReference.equals(oldOwnerGroupReference)) {
-      return;
-    }
 
     String ref = RefNames.refsGroups(groupUuid);
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName)) {
       ProjectConfig config = ProjectConfig.read(md);
 
-      if (oldOwnerGroupReference != null) {
-        for (String permission : ImmutableList.of(Permission.READ, Permission.PUSH)) {
-          config.remove(
-              config.getAccessSection(ref),
-              new Permission(permission),
-              new PermissionRule(oldOwnerGroupReference));
-        }
+      for (String permission : ImmutableList.of(Permission.READ, Permission.PUSH)) {
+        config.remove(config.getAccessSection(ref), new Permission(permission));
       }
 
       AccessSection accessSection = config.getAccessSection(ref, true);

@@ -267,8 +267,11 @@ public class GroupConfig extends VersionedMetaData {
       newOwnerGroupReference = groupUpdate.get().getOwnerGroupReference().get();
     }
 
-    groupOwnerPermissions.updateOwnerPermissions(
-        groupUuid, oldOwnerGroupReference, newOwnerGroupReference);
+    if (newOwnerGroupReference.equals(oldOwnerGroupReference)) {
+      return newOwnerGroupReference.getUUID();
+    }
+
+    groupOwnerPermissions.updateOwnerPermissions(groupUuid, newOwnerGroupReference);
     return newOwnerGroupReference.getUUID();
   }
 

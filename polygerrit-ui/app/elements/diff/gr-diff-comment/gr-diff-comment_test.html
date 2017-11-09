@@ -565,21 +565,14 @@ limitations under the License.
       element.flushDebouncer('store');
       assert(fireStub.calledWith('comment-update'),
           'comment-update should be sent');
-      assert.deepEqual(fireStub.lastCall.args, [
-        'comment-update', {
-          comment: {
-            __commentSide: 'right',
-            __draft: true,
-            __draftID: 'temp_draft_id',
-            __editing: true,
-            line: 5,
-            path: '/path/to/file',
-            message: 'good news, everyone!',
-            unresolved: false,
-          },
-          patchNum: 1,
-        },
-      ]);
+      assert.isTrue(fireStub.calledOnce);
+
+      element._messageText = 'good news, everyone!';
+      element.flushDebouncer('fire-update');
+      element.flushDebouncer('store');
+      assert.isTrue(fireStub.calledOnce,
+          'No events should fire for text editing');
+
       MockInteractions.tap(element.$$('.save'));
 
       assert.isTrue(element.disabled,
@@ -714,6 +707,34 @@ limitations under the License.
         element._discardDraft();
         assert.equal(element._savingMessage, 'Discarding draft...');
       });
+    });
+
+    test('cancelling an unsaved draft discards, persists in storage', () => {
+      const discardSpy = sandbox.spy(element, '_fireDiscard');
+      const storeStub = sandbox.stub(element.$.storage, 'setDraftComment');
+      const eraseStub = sandbox.stub(element.$.storage, 'eraseDraftComment');
+      element._messageText = 'test text';
+      flushAsynchronousOperations();
+      element.flushDebouncer('store');
+
+      assert.isTrue(storeStub.called);
+      assert.equal(storeStub.lastCall.args[1], 'test text');
+      element._handleCancel({preventDefault: () => {}});
+      assert.isTrue(discardSpy.called);
+      assert.isFalse(eraseStub.called);
+    });
+
+    test('cancelling edit on a saved draft does not store', () => {
+      element.comment.id = 'foo';
+      const discardSpy = sandbox.spy(element, '_fireDiscard');
+      const storeStub = sandbox.stub(element.$.storage, 'setDraftComment');
+      element._messageText = 'test text';
+      flushAsynchronousOperations();
+      element.flushDebouncer('store');
+
+      assert.isFalse(storeStub.called);
+      element._handleCancel({preventDefault: () => {}});
+      assert.isTrue(discardSpy.called);
     });
   });
 </script>

@@ -309,89 +309,67 @@
       this.$.diffCursor.handleDiffUpdate();
     },
 
-    _computeCommentsString(comments, patchNum, path) {
-      return this._computeCountString(comments, patchNum, path, 'comment');
-    },
-
-    _computeDraftsString(drafts, patchNum, path) {
-      return this._computeCountString(drafts, patchNum, path, 'draft');
-    },
-
-    _computeDraftsStringMobile(drafts, patchNum, path) {
-      const draftCount = this._computeCountString(drafts, patchNum, path);
-      return draftCount ? draftCount + 'd' : '';
-    },
-
-    _computeCommentsStringMobile(comments, patchNum, path) {
-      const commentCount = this._computeCountString(comments, patchNum, path);
-      return commentCount ? commentCount + 'c' : '';
-    },
-
-    getCommentsForPath(comments, patchNum, path) {
-      return (comments[path] || []).filter(c => {
-        return this.patchNumEquals(c.patch_set, patchNum);
-      });
-    },
-
     /**
-     * @param {!Array} comments
-     * @param {number} patchNum
-     * @param {string} path
-     * @param {string=} opt_noun
-     */
-    _computeCountString(comments, patchNum, path, opt_noun) {
-      if (!comments) { return ''; }
-
-      const patchComments = this.getCommentsForPath(comments, patchNum, path);
-      const num = patchComments.length;
-      if (num === 0) { return ''; }
-      if (!opt_noun) { return num; }
-      const output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
-      return output;
-    },
-
-    /**
-     * Computes a string counting the number of unresolved comment threads in a
-     * given file and path.
+     * Computes a string with the number of comments and unresolved comments.
      *
-     * @param {!Object} comments
-     * @param {!Object} drafts
+     * @param {!Object} changeComments
      * @param {number} patchNum
      * @param {string} path
      * @return {string}
      */
-    _computeUnresolvedString(comments, drafts, patchNum, path) {
-      const unresolvedNum = this.computeUnresolvedNum(
-          comments, drafts, patchNum, path);
-      return unresolvedNum === 0 ? '' : '(' + unresolvedNum + ' unresolved)';
+    _computeCommentsString(changeComments, patchNum, path) {
+      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
+          path);
+      const commentCount = changeComments.computeCommentCount(patchNum, path);
+      const commentString = GrCountStringFormatter.computePluralString(
+          commentCount, 'comment');
+      const unresolvedString = GrCountStringFormatter.computeString(
+          unresolvedCount, 'unresolved');
+
+      return commentString +
+          // Add a space if both comments and unresolved
+          (commentString && unresolvedString ? ' ' : '') +
+          // Add parentheses around unresolved if it exists.
+          (unresolvedString ? `(${unresolvedString})` : '');
     },
 
-    computeUnresolvedNum(comments, drafts, patchNum, path) {
-      comments = this.getCommentsForPath(comments, patchNum, path);
-      drafts = this.getCommentsForPath(drafts, patchNum, path);
-      comments = comments.concat(drafts);
+    /**
+     * Computes a string with the number of drafts.
+     *
+     * @param {!Object} changeComments
+     * @param {number} patchNum
+     * @param {string} path
+     * @return {string}
+     */
+    _computeDraftsString(changeComments, patchNum, path) {
+      const draftCount = changeComments.computeDraftCount(patchNum, path);
+      return GrCountStringFormatter.computePluralString(draftCount, 'draft');
+    },
 
-      // Create an object where every comment ID is the key of an unresolved
-      // comment.
+    /**
+     * Computes a shortened string with the number of drafts.
+     *
+     * @param {!Object} changeComments
+     * @param {number} patchNum
+     * @param {string} path
+     * @return {string}
+     */
+    _computeDraftsStringMobile(changeComments, patchNum, path) {
+      const draftCount = changeComments.computeDraftCount(patchNum, path);
+      return GrCountStringFormatter.computeShortString(draftCount, 'd');
+    },
 
-      const idMap = comments.reduce((acc, comment) => {
-        if (comment.unresolved) {
-          acc[comment.id] = true;
-        }
-        return acc;
-      }, {});
-
-      // Set false for the comments that are marked as parents.
-      for (const comment of comments) {
-        idMap[comment.in_reply_to] = false;
-      }
-
-      // The unresolved comments are the comments that still have true.
-      const unresolvedLeaves = Object.keys(idMap).filter(key => {
-        return idMap[key];
-      });
-
-      return unresolvedLeaves.length;
+    /**
+     * Computes a shortened string with the number of comments.
+     *
+     * @param {!Object} changeComments
+     * @param {number} patchNum
+     * @param {string} path
+     * @return {string}
+     */
+    _computeCommentsStringMobile(changeComments, patchNum, path) {
+      const commentCount = changeComments.computeCommentCount(patchNum, path);
+      return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
     _computeReviewed(file, _reviewed) {

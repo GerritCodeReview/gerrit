@@ -308,7 +308,8 @@ public class GroupsUpdate {
             .setGroupId(group.getId())
             .setGroupName(group.getNameKey())
             .setModifiedMembers(modifiedMembers)
-            .setModifiedSubgroups(modifiedSubgroups);
+            .setModifiedSubgroups(modifiedSubgroups)
+            .setProjectPermissionsModified(false);
     if (!Objects.equals(originalName, updatedName)) {
       resultBuilder.setPreviousGroupName(originalName);
     }
@@ -442,61 +443,55 @@ public class GroupsUpdate {
   private InternalGroup createGroupInNoteDb(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmException {
-    GroupConfig groupConfig = createFor(groupCreation);
-    updateGroupInNoteDb(groupConfig, groupUpdate);
-    return groupConfig
-        .getLoadedGroup()
-        .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
-  }
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      GroupConfig groupConfig =
+          GroupConfig.createForNewGroup(
+              allUsersName, allUsersRepo, groupCreation, metaDataUpdateFactory);
+      // TODO(aliceks): Find a way to ensure unique names with NoteDb.
+      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      commit(groupConfig);
 
-  private GroupConfig createFor(InternalGroupCreation groupCreation)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.createForNewGroup(
-          allUsersName, repository, groupCreation, metaDataUpdateFactory);
+      return groupConfig
+          .getLoadedGroup()
+          .orElseThrow(
+              () -> new IllegalStateException("Created group wasn't automatically loaded"));
     }
   }
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = loadFor(groupUuid);
-    if (!groupConfig.getLoadedGroup().isPresent()) {
-      // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
-      return Optional.empty();
-    }
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      GroupConfig groupConfig =
+          GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid, metaDataUpdateFactory);
+      if (!groupConfig.getLoadedGroup().isPresent()) {
+        // TODO(aliceks): Throw a NoSuchGroupException here when all groups are stored in NoteDb.
+        return Optional.empty();
+      }
 
-    return updateGroupInNoteDb(groupConfig, groupUpdate);
+      InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
+
+      // TODO(aliceks): Find a way to ensure unique names with NoteDb.
+      groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
+      commit(groupConfig);
+
+      InternalGroup updatedGroup =
+          groupConfig
+              .getLoadedGroup()
+              .orElseThrow(
+                  () -> new IllegalStateException("Updated group wasn't automatically loaded"));
+      return Optional.of(getUpdateResult(originalGroup, updatedGroup));
+    }
   }
 
-  private GroupConfig loadFor(AccountGroup.UUID groupUuid)
-      throws IOException, ConfigInvalidException {
-    try (Repository repository = repoManager.openRepository(allUsersName)) {
-      return GroupConfig.loadForGroup(allUsersName, repository, groupUuid, metaDataUpdateFactory);
-    }
-  }
-
-  private Optional<UpdateResult> updateGroupInNoteDb(
-      GroupConfig groupConfig, InternalGroupUpdate groupUpdate) throws IOException {
-    Optional<InternalGroup> originalGroup = groupConfig.getLoadedGroup();
-
-    // TODO(aliceks): Find a way to ensure unique names with NoteDb.
-    groupConfig.setGroupUpdate(groupUpdate, this::getAccountNameEmail, this::getGroupName);
-    commit(groupConfig);
-    InternalGroup updatedGroup =
-        groupConfig
-            .getLoadedGroup()
-            .orElseThrow(
-                () -> new IllegalStateException("Updated group wasn't automatically loaded"));
-
-    Set<Account.Id> modifiedMembers = getModifiedMembers(originalGroup, updatedGroup);
-    Set<AccountGroup.UUID> modifiedSubgroups = getModifiedSubgroups(originalGroup, updatedGroup);
-    Optional<AccountGroup.NameKey> previousName =
-        getPreviousNameIfModified(originalGroup, updatedGroup);
-
-    // updating the group in NoteDb may update the owner permissions which are cached in
-    // ProjectState
-    projectCache.evict(allUsersName);
+  private static UpdateResult getUpdateResult(
+      InternalGroup originalGroup, InternalGroup updatedGroup) {
+    Set<Account.Id> modifiedMembers =
+        Sets.symmetricDifference(originalGroup.getMembers(), updatedGroup.getMembers());
+    Set<AccountGroup.UUID> modifiedSubgroups =
+        Sets.symmetricDifference(originalGroup.getSubgroups(), updatedGroup.getSubgroups());
+    boolean ownerModified =
+        !Objects.equals(originalGroup.getOwnerGroupUUID(), updatedGroup.getOwnerGroupUUID());
 
     UpdateResult.Builder resultBuilder =
         UpdateResult.builder()
@@ -504,9 +499,12 @@ public class GroupsUpdate {
             .setGroupId(updatedGroup.getId())
             .setGroupName(updatedGroup.getNameKey())
             .setModifiedMembers(modifiedMembers)
-            .setModifiedSubgroups(modifiedSubgroups);
-    previousName.ifPresent(resultBuilder::setPreviousGroupName);
-    return Optional.of(resultBuilder.build());
+            .setModifiedSubgroups(modifiedSubgroups)
+            .setProjectPermissionsModified(ownerModified);
+    if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
+      resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
+    }
+    return resultBuilder.build();
   }
 
   private String getAccountNameEmail(Account.Id accountId) {
@@ -546,27 +544,6 @@ public class GroupsUpdate {
     }
   }
 
-  private static Set<Account.Id> getModifiedMembers(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    ImmutableSet<Account.Id> originalMembers =
-        originalGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
-    return Sets.symmetricDifference(originalMembers, updatedGroup.getMembers());
-  }
-
-  private static Set<AccountGroup.UUID> getModifiedSubgroups(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        originalGroup.map(InternalGroup::getSubgroups).orElseGet(ImmutableSet::of);
-    return Sets.symmetricDifference(originalSubgroups, updatedGroup.getSubgroups());
-  }
-
-  private static Optional<AccountGroup.NameKey> getPreviousNameIfModified(
-      Optional<InternalGroup> originalGroup, InternalGroup updatedGroup) {
-    return originalGroup
-        .map(InternalGroup::getNameKey)
-        .filter(originalName -> !Objects.equals(originalName, updatedGroup.getNameKey()));
-  }
-
   private void updateCachesOnGroupCreation(InternalGroup createdGroup) throws IOException {
     groupCache.onCreateGroup(createdGroup.getGroupUUID());
     for (Account.Id modifiedMember : createdGroup.getMembers()) {
@@ -574,6 +551,10 @@ public class GroupsUpdate {
     }
     for (AccountGroup.UUID modifiedSubgroup : createdGroup.getSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
+    }
+    if (writeGroupsToNoteDb) {
+      // Creating a group in NoteDb changes the owner permissions which are cached in ProjectState.
+      projectCache.evict(allUsersName);
     }
   }
 
@@ -600,6 +581,11 @@ public class GroupsUpdate {
     for (AccountGroup.UUID modifiedSubgroup : result.getModifiedSubgroups()) {
       groupIncludeCache.evictParentGroupsOf(modifiedSubgroup);
     }
+    if (result.isProjectPermissionsModified()) {
+      // Updating the group in NoteDb may update the owner permissions which are cached in
+      // ProjectState.
+      projectCache.evict(allUsersName);
+    }
   }
 
   @AutoValue
@@ -615,6 +601,8 @@ public class GroupsUpdate {
     abstract ImmutableSet<Account.Id> getModifiedMembers();
 
     abstract ImmutableSet<AccountGroup.UUID> getModifiedSubgroups();
+
+    abstract boolean isProjectPermissionsModified();
 
     static Builder builder() {
       return new AutoValue_GroupsUpdate_UpdateResult.Builder();
@@ -633,6 +621,8 @@ public class GroupsUpdate {
       abstract Builder setModifiedMembers(Set<Account.Id> modifiedMembers);
 
       abstract Builder setModifiedSubgroups(Set<AccountGroup.UUID> modifiedSubgroups);
+
+      abstract Builder setProjectPermissionsModified(boolean modified);
 
       abstract UpdateResult build();
     }

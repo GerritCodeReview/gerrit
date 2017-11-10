@@ -44,17 +44,28 @@ limitations under the License.
               date-str="[[_account.registered_on]]"></gr-date-formatter>
         </span>
       </section>
-      <section>
+      <section id="usernameSection">
         <span class="title">Username</span>
-        <span class="value">[[_account.username]]</span>
+        <span
+            hidden$="[[usernameMutable]]"
+            class="value">[[_account.username]]</span>
+        <span
+            hidden$="[[!usernameMutable]]"
+            class="value">
+          <input
+              is="iron-input"
+              id="usernameInput"
+              disabled="[[_saving]]"
+              on-keydown="_handleKeydown"
+              bind-value="{{_account.username}}">
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>
         <span
-            hidden$="[[mutable]]"
+            hidden$="[[nameMutable]]"
             class="value">[[_account.name]]</span>
         <span
-            hidden$="[[!mutable]]"
+            hidden$="[[!nameMutable]]"
             class="value">
           <input
               is="iron-input"

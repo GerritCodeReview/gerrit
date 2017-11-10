@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "b777b5ef_b4315ae8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-10T07:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47c2f052_8e32704b",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8229b991_5e874ed5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
         "patchSetId": 2
@@ -64,6 +88,24 @@
       "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd9afa25_cbed8b7f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-10T07:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8229b991_5e874ed5",
+      "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

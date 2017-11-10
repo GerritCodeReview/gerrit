@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "774b3dd6_0a57c437",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T23:35:05Z",
+      "side": 1,
+      "message": "Yes. I\u0027ve changed the wording to be explicit.",
+      "parentUuid": "c19ba892_2e00929f",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b11e607_22c601d8",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-10T23:15:18Z",
       "side": 1,
       "message": "I feel like a lot of the functions in this file could use JSDocs to describe what they do, and how. It\u0027s very much not obvious to me what this code does when reading through it.\n\nI know it may seem obvious to you, but for me when I see multiple levels of promises the perceived complexity goes way way up.\n\nThis is non-blocking for this change, but I\u0027d really like to see a bit more documentation inline here, and in general for the actual plugin API code.",
+      "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af4eba6c_8505a6b9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T23:35:05Z",
+      "side": 1,
+      "message": "Good point. Yes, totally true, this needs more docs.\n\nAs for the general plugin docs, please take a look at https://gerrit-review.googlesource.com/Documentation/pg-plugin-dev.html - it has a link for creating concrete bugs for missing/obscure parts.",
+      "parentUuid": "7b11e607_22c601d8",
       "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -62,6 +104,30 @@
       "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9bf8b0c_5d5161a2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T23:35:05Z",
+      "side": 1,
+      "message": "tl;tr: yes\n\nSee gr-attribute-helper for more awesomeness.",
+      "parentUuid": "afbae876_2b41c577",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 8
+      },
+      "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

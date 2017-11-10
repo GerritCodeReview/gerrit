@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.project.ProjectField.NAME;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -40,6 +41,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
@@ -151,26 +153,38 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
 
     @Override
     public ResultSet<ProjectData> read() throws OrmException {
+      return readImpl(LuceneProjectIndex.this::toProjectData);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(LuceneProjectIndex.this::toFieldBundle);
+    }
+
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
         int realLimit = opts.start() + opts.limit();
         TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<ProjectData> result = new ArrayList<>(docs.scoreDocs.length);
+        List<T> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searcher.doc(sd.doc, IndexUtils.projectFields(opts));
-          result.add(toProjectData(doc));
+          T mapperResult = mapper.apply(doc);
+          if (mapperResult != null) {
+            result.add(mapperResult);
+          }
         }
-        final List<ProjectData> r = Collections.unmodifiableList(result);
-        return new ResultSet<ProjectData>() {
+        final List<T> r = Collections.unmodifiableList(result);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<ProjectData> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<ProjectData> toList() {
+          public List<T> toList() {
             return r;
           }
 

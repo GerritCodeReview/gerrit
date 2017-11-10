@@ -14,10 +14,13 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
@@ -30,10 +33,12 @@ import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -52,6 +57,7 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
@@ -326,6 +332,29 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     } else {
       throw FieldType.badFieldType(type);
     }
+  }
+
+  protected FieldBundle toFieldBundle(Document doc) {
+    Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
+    ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
+    for (IndexableField field : doc.getFields()) {
+      checkArgument(allFields.containsKey(field.name()), "Unrecognized field " + field.name());
+      FieldType<?> type = allFields.get(field.name()).getType();
+      if (type == FieldType.EXACT || type == FieldType.FULL_TEXT || type == FieldType.PREFIX) {
+        rawFields.put(field.name(), field.stringValue());
+      } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
+        rawFields.put(field.name(), field.numericValue().intValue());
+      } else if (type == FieldType.LONG) {
+        rawFields.put(field.name(), field.numericValue().longValue());
+      } else if (type == FieldType.TIMESTAMP) {
+        rawFields.put(field.name(), new Timestamp(field.numericValue().longValue()));
+      } else if (type == FieldType.STORED_ONLY) {
+        rawFields.put(field.name(), field.binaryValue().bytes);
+      } else {
+        throw FieldType.badFieldType(type);
+      }
+    }
+    return new FieldBundle(rawFields);
   }
 
   private static Field.Store store(FieldDef<?, ?> f) {

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.account.AccountField.ID;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,6 +41,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
@@ -154,26 +156,38 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
     @Override
     public ResultSet<AccountState> read() throws OrmException {
+      return readImpl(LuceneAccountIndex.this::toAccountState);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(LuceneAccountIndex.this::toFieldBundle);
+    }
+
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
         int realLimit = opts.start() + opts.limit();
         TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<AccountState> result = new ArrayList<>(docs.scoreDocs.length);
+        List<T> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searcher.doc(sd.doc, IndexUtils.accountFields(opts));
-          result.add(toAccountState(doc));
+          T mapperResult = mapper.apply(doc);
+          if (mapperResult != null) {
+            result.add(mapperResult);
+          }
         }
-        final List<AccountState> r = Collections.unmodifiableList(result);
-        return new ResultSet<AccountState>() {
+        final List<T> r = Collections.unmodifiableList(result);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<AccountState> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<AccountState> toList() {
+          public List<T> toList() {
             return r;
           }
 

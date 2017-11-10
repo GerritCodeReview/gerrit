@@ -60,6 +60,7 @@ public interface ProjectApi {
     protected int start;
     protected String substring;
     protected String regex;
+    protected boolean byCreated;
 
     public abstract List<T> get() throws RestApiException;
 
@@ -83,6 +84,11 @@ public interface ProjectApi {
       return this;
     }
 
+    public ListRefsRequest<T> byCreated() {
+      this.byCreated = true;
+      return this;
+    }
+
     public int getLimit() {
       return limit;
     }
@@ -97,6 +103,10 @@ public interface ProjectApi {
 
     public String getRegex() {
       return regex;
+    }
+
+    public boolean isByCreated() {
+      return byCreated;
     }
   }
 

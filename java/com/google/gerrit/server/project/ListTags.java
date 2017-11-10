@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.util.Comparator.comparing;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -99,10 +101,21 @@ public class ListTags implements RestReadView<ProjectResource> {
     this.matchRegex = matchRegex;
   }
 
+  @Option(
+    name = "--by-created",
+    aliases = {"-t"},
+    metaVar = "BOOLEAN",
+    usage = "list tags by created date"
+  )
+  public void setByCreated(boolean byCreated) {
+    this.byCreated = byCreated;
+  }
+
   private int limit;
   private int start;
   private String matchSubstring;
   private String matchRegex;
+  private boolean byCreated;
 
   @Inject
   public ListTags(
@@ -123,6 +136,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     this.setStart(request.getStart());
     this.setMatchSubstring(request.getSubstring());
     this.setMatchRegex(request.getRegex());
+    this.setByCreated(request.isByCreated());
     return this;
   }
 
@@ -142,7 +156,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     }
 
-    Collections.sort(tags, comparing((TagInfo info) -> info.ref));
+    Collections.sort(tags, comparator());
 
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)
@@ -150,6 +164,13 @@ public class ListTags implements RestReadView<ProjectResource> {
         .subString(matchSubstring)
         .regex(matchRegex)
         .filter(tags);
+  }
+
+  @VisibleForTesting
+  public Comparator<TagInfo> comparator() {
+    return byCreated
+        ? comparing((TagInfo info) -> info.getCreated()).thenComparing((TagInfo info) -> info.ref)
+        : comparing((TagInfo info) -> info.ref);
   }
 
   public TagInfo get(ProjectResource resource, IdString id)

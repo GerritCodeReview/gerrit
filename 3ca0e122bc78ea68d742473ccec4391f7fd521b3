@@ -34,6 +34,24 @@
       "revId": "3ca0e122bc78ea68d742473ccec4391f7fd521b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f47fd016_dedb2f61",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:55:13Z",
+      "side": 1,
+      "message": "Cool cool. It looks different, but not in a bad way at all :P\n\nFigured it was worth checking in about. Thanks!",
+      "parentUuid": "b5ede040_b1a72533",
+      "revId": "3ca0e122bc78ea68d742473ccec4391f7fd521b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58548c4_98dfee07",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T19:25:39Z",
+      "side": 1,
+      "message": "tl;dr: Done.\n\n\u003e This looks to me like less of a transpiler bug and more related to this vanilla for loop, which doesn\u0027t create a lexical scope.\n\nDetails are here:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7685#c8\n\nAlso, at a risk of repeating myself I\u0027ll point out that unminified version works.",
+      "parentUuid": "c1def8ae_6611828e",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

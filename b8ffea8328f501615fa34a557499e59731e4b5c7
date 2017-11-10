@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "89daf36f_c675f323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-10T23:38:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0f214e7b_8d5f8d20",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "b8ffea8328f501615fa34a557499e59731e4b5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b36fa69_f288d289",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-10T23:30:47Z",
       "side": 1,
       "message": "Can you test this? This shouldn\u0027t be included in the commit message. If this change can\u0027t be merged, then it shouldn\u0027t be up for review.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "b8ffea8328f501615fa34a557499e59731e4b5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "300ec0f7_f745a9c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-10T23:38:37Z",
+      "side": 1,
+      "message": "Yeh i can test this.",
+      "parentUuid": "3b36fa69_f288d289",
       "range": {
         "startLine": 14,
         "startChar": 0,

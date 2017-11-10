@@ -35,6 +35,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -73,6 +74,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -218,8 +220,27 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      return readImpl(this::toChangeData);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(ElasticChangeIndex.this::toFieldBundle);
+    }
+
+    @Override
+    public boolean hasChange() {
+      return false;
+    }
+
+    @Override
+    public String toString() {
+      return search.toString();
+    }
+
+    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
       try {
-        List<ChangeData> results = Collections.emptyList();
+        List<T> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
           JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
@@ -227,21 +248,21 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              results.add(toChangeData(json.get(i)));
+              results.add(mapper.apply(json.get(i).getAsJsonObject()));
             }
           }
         } else {
           log.error(result.getErrorMessage());
         }
-        final List<ChangeData> r = Collections.unmodifiableList(results);
-        return new ResultSet<ChangeData>() {
+        final List<T> r = Collections.unmodifiableList(results);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<ChangeData> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<ChangeData> toList() {
+          public List<T> toList() {
             return r;
           }
 
@@ -253,16 +274,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       } catch (IOException e) {
         throw new OrmException(e);
       }
-    }
-
-    @Override
-    public boolean hasChange() {
-      return false;
-    }
-
-    @Override
-    public String toString() {
-      return search.toString();
     }
 
     private ChangeData toChangeData(JsonElement json) {

@@ -26,6 +26,7 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_S
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
@@ -37,6 +38,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -243,7 +245,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, p, opts, getSort());
+    return new QuerySource(indexes, p, opts, getSort(), openIndex::toFieldBundle);
   }
 
   @Override
@@ -269,15 +271,21 @@ public class LuceneChangeIndex implements ChangeIndex {
     private final Query query;
     private final QueryOptions opts;
     private final Sort sort;
+    private final Function<Document, FieldBundle> rawDocumentMapper;
 
     private QuerySource(
-        List<ChangeSubIndex> indexes, Predicate<ChangeData> predicate, QueryOptions opts, Sort sort)
+        List<ChangeSubIndex> indexes,
+        Predicate<ChangeData> predicate,
+        QueryOptions opts,
+        Sort sort,
+        Function<Document, FieldBundle> rawDocumentMapper)
         throws QueryParseException {
       this.indexes = indexes;
       this.predicate = predicate;
       this.query = checkNotNull(queryBuilder.toQuery(predicate), "null query from Lucene");
       this.opts = opts;
       this.sort = sort;
+      this.rawDocumentMapper = rawDocumentMapper;
     }
 
     @Override
@@ -317,6 +325,33 @@ public class LuceneChangeIndex implements ChangeIndex {
                 }
               }),
           fields);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      List<Document> documents;
+      try {
+        documents = doRead(IndexUtils.changeFields(opts));
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+      List<FieldBundle> fieldBundles = documents.stream().map(rawDocumentMapper).collect(toList());
+      return new ResultSet<FieldBundle>() {
+        @Override
+        public Iterator<FieldBundle> iterator() {
+          return fieldBundles.iterator();
+        }
+
+        @Override
+        public List<FieldBundle> toList() {
+          return fieldBundles;
+        }
+
+        @Override
+        public void close() {
+          // Do nothing.
+        }
+      };
     }
 
     private List<Document> doRead(Set<String> fields) throws IOException {

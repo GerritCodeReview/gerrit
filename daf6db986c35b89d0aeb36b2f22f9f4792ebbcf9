@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95d0d307_656b4ed5",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T16:01:11Z",
+      "side": 1,
+      "message": "I\u0027m a little bit leery of sets of GroupReferences, since GroupReference has the (IMHO) unexpected equals() behavior of comparing only the UUID.\n\nIf everything is working correctly, then this should be fine because the name \u003c-\u003e UUID mapping will be 1-to-1. But if we have a corrupt notes branch where there are multiple names for a single UUID, then this method will have the perhaps unexpected behavior of silently dropping one of the (name, UUID) pairs.\n\nI\u0027m honestly not sure what the best behavior of this method would be in that case, though. Some options (not necessarily exhaustive):\n\n* Include only one (name, UUID) pair for that UUID (the current behavior)\n* Return a list with possible duplicate UUIDs\n* Fail fast\n\n(It would be nice--maybe--if GroupReference included the group name in its equality check, but I strongly suspect that would break things in the permission editing.)",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffe25d4e_f95d16e4",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T16:01:11Z",
+      "side": 1,
+      "message": "Per my comment in loadAllGroupReferences, this has different behavior wrt duplicate UUIDs between NoteDb and ReviewDb.\n\nIf we decide we\u0027re ok with the Set behavior in NoteDb, you could make the ReviewDb behavior match by adding distinct() to the stream call below.",
+      "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

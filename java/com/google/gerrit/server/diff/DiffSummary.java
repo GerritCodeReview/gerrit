@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
-import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -70,6 +69,16 @@ public class DiffSummary implements Serializable {
       for (int i = 0; i < paths.length; i++) {
         paths[i] = readString(in);
       }
+    }
+  }
+
+  public static class ChangedLines {
+    public final int insertions;
+    public final int deletions;
+
+    public ChangedLines(int insertions, int deletions) {
+      this.insertions = insertions;
+      this.deletions = deletions;
     }
   }
 }

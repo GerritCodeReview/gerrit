@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Multimaps.toMultimap;
@@ -25,7 +25,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
-import com.google.gerrit.server.diff.PatchListEntry;
+import com.google.gerrit.server.patchlib.AutoValue_EditTransformer_ContextAwareEdit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -110,8 +110,7 @@ public class EditTransformer {
     Map<String, List<ContextAwareEdit>> editsPerFilePath =
         edits.stream().collect(groupingBy(sideStrategy::getFilePath));
     Map<String, List<PatchListEntry>> transEntriesPerPath =
-        transformingEntries.stream().collect(groupingBy(
-            EditTransformer::getOldFilePath));
+        transformingEntries.stream().collect(groupingBy(EditTransformer::getOldFilePath));
 
     edits =
         editsPerFilePath
@@ -211,7 +210,7 @@ public class EditTransformer {
         boolean filePathAdjusted) {
       String adjustedOldFilePath = MoreObjects.firstNonNull(oldFilePath, newFilePath);
       boolean implicitRename = !Objects.equals(oldFilePath, newFilePath) && filePathAdjusted;
-      return new com.google.gerrit.server.patchlib.AutoValue_EditTransformer_ContextAwareEdit(
+      return new AutoValue_EditTransformer_ContextAwareEdit(
           adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
     }
 

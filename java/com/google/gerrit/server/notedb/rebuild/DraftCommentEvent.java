@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 
 class DraftCommentEvent extends Event {

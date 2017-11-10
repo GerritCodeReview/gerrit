@@ -29,17 +29,21 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
+  {if $faviconPath}
+    <link rel="apple-touch-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
+    <link rel="icon" href="{$canonicalPath}/{$faviconPath}">{\n}
+    <!--[if IE]><link rel="shortcut icon" href="{$canonicalPath}/{$faviconPath}"><![endif]-->{\n}
+  {else}
+    <link rel="apple-touch-icon" href="{$canonicalPath}/favicon.ico">{\n}
+    <link rel="icon" href="{$canonicalPath}/favicon.ico">{\n}
+    <!--[if IE]><link rel="shortcut icon" href="{$canonicalPath}/favicon.ico"><![endif]-->{\n}
+  {/if}
+
   {if $canonicalPath != '' or $versionInfo}
     <script>
       {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
       {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     </script>{\n}
-  {/if}
-
-  {if $faviconPath}
-    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
-  {else}
-    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
   {/if}
 
   // RobotoMono fonts are used in styles/fonts.css

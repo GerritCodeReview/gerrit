@@ -16,6 +16,11 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.patchlib.DiffSummary;
+import com.google.gerrit.server.patchlib.DiffSummaryKey;
+import com.google.gerrit.server.patchlib.PatchList;
+import com.google.gerrit.server.patchlib.PatchListCache;
+import com.google.gerrit.server.patchlib.PatchListEntry;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;

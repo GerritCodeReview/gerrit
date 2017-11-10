@@ -14,9 +14,9 @@
 
 package gerrit;
 
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patchlib.PatchList;
+import com.google.gerrit.server.patchlib.PatchListEntry;
+import com.google.gerrit.server.patchlib.Text;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;

@@ -10,6 +10,7 @@ def acceptance_tests(
     name = group,
     deps = deps + [
       '//java/com/google/gerrit/acceptance:lib',
+      "//java/com/google/gerrit/server/diff",
     ],
     tags = labels + [
       'acceptance',

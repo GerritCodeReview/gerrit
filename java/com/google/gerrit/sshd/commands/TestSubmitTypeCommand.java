@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 @CommandMetaData(name = "type", description = "Test prolog submit type")
 final class TestSubmitTypeCommand extends BaseTestPrologCommand {

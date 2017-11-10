@@ -29,9 +29,9 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import javax.inject.Inject;
 
 public class Check
     implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {

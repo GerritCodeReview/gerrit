@@ -24,10 +24,10 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Objects;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class Fixes implements ChildCollection<RevisionResource, FixResource> {

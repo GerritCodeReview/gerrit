@@ -16,8 +16,8 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.apache.sshd.server.Command;
 
 /** Resolves an alias to another command. */

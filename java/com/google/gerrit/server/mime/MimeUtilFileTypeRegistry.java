@@ -15,8 +15,6 @@
 package com.google.gerrit.server.mime;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
@@ -28,6 +26,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

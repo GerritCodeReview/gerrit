@@ -27,10 +27,10 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.PostCaches.Input;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton

@@ -19,9 +19,9 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
+import javax.inject.Inject;
 
 /** Create account_external_ids_byEmail index. */
 public class Schema_145 extends SchemaVersion {

@@ -29,9 +29,9 @@ import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 /** Causes the caches to purge all entries and reload. */

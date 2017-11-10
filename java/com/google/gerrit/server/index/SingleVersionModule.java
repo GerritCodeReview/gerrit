@@ -21,9 +21,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
@@ -31,6 +29,8 @@ import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

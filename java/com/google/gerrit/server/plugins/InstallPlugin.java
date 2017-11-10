@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +30,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.zip.ZipException;
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPluginInput> {

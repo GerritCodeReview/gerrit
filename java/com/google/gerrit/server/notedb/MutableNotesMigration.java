@@ -16,9 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.function.Function;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /**

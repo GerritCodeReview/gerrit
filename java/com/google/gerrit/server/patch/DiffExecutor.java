@@ -16,13 +16,13 @@ package com.google.gerrit.server.patch;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.util.concurrent.ExecutorService;
+import javax.inject.Qualifier;
 
 /**
  * Marker on {@link ExecutorService} used by {@link IntraLineLoader} and {@link PatchListLoader}.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface DiffExecutor {}

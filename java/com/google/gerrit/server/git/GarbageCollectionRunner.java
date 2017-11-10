@@ -21,9 +21,9 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

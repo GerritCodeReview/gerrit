@@ -15,7 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetName implements RestReadView<GroupResource> {

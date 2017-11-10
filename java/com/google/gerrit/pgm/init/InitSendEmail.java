@@ -22,9 +22,9 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.Encryption;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.nio.file.Files;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Initialize the {@code sendemail} configuration section. */
 @Singleton

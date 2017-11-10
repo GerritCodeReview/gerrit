@@ -16,8 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 public class AccountVisibilityProvider implements Provider<AccountVisibility> {

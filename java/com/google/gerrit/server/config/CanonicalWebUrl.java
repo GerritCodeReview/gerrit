@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Marker on a {@link String} holding the canonical address for this server.
@@ -27,5 +27,5 @@ import java.lang.annotation.Retention;
  * such cases explicitly.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface CanonicalWebUrl {}

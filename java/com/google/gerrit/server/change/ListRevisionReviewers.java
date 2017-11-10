@@ -23,12 +23,12 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 class ListRevisionReviewers implements RestReadView<RevisionResource> {

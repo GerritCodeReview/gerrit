@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class AgreementSignup {
   private final DynamicSet<AgreementSignupListener> listeners;

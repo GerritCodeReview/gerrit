@@ -30,11 +30,11 @@ import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.QueryProjects;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.List;
 import java.util.SortedMap;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 class ProjectsImpl implements Projects {

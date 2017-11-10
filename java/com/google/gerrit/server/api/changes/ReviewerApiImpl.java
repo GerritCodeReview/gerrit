@@ -25,9 +25,9 @@ import com.google.gerrit.server.change.DeleteVote;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.change.Votes;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Map;
+import javax.inject.Inject;
 
 public class ReviewerApiImpl implements ReviewerApi {
   interface Factory {

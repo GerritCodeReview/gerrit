@@ -17,10 +17,10 @@ package com.google.gerrit.server.config;
 import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

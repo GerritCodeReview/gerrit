@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,6 +26,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import javax.inject.Inject;
 
 public class Schema_87 extends SchemaVersion {
   @Inject

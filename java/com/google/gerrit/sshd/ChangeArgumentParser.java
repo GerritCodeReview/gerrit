@@ -31,11 +31,11 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 
 public class ChangeArgumentParser {
   private final CurrentUser currentUser;

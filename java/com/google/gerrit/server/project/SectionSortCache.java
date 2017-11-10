@@ -20,14 +20,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.MostSpecificComparator;
-import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -44,7 +44,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,6 +58,7 @@ import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */

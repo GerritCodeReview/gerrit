@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Marker on {@link org.eclipse.jgit.lib.Config} holding {@code gerrit.config} .
@@ -26,5 +26,5 @@ import java.lang.annotation.Retention;
  * Gerrit Code Review server.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface GerritServerConfig {}

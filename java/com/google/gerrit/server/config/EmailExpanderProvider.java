@@ -15,8 +15,8 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 class EmailExpanderProvider implements Provider<EmailExpander> {

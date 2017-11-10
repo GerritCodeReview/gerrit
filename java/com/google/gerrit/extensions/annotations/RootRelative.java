@@ -16,10 +16,10 @@ package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
 /**
  * Annotation applied to HttpServletRequest and HttpServletResponse when they are inherited from
@@ -29,5 +29,5 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface RootRelative {}

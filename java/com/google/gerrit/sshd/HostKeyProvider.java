@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import java.io.File;
@@ -23,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;

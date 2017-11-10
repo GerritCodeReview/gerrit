@@ -16,10 +16,10 @@ package com.google.gerrit.gpg;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.MagicBranch;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.Collection;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;

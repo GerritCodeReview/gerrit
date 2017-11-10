@@ -22,9 +22,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetPreferences implements RestReadView<AccountResource> {

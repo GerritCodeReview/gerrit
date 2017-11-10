@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public abstract class PluginAdminSshCommand extends SshCommand {

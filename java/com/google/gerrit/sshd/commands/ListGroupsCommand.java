@@ -28,8 +28,8 @@ import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
-import com.google.inject.Inject;
 import java.util.Optional;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(

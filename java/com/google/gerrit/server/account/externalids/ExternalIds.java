@@ -19,10 +19,10 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 

@@ -20,7 +20,7 @@ import com.google.gerrit.lucene.LuceneVersionManager;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)

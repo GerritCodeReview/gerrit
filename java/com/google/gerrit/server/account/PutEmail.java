@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class PutEmail implements RestModifyView<AccountResource.Email, EmailInput> {

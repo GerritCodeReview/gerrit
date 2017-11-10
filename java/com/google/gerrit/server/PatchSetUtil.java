@@ -34,13 +34,13 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 

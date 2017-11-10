@@ -29,10 +29,10 @@ import com.google.gerrit.server.project.DashboardsCollection;
 import com.google.gerrit.server.project.GetDashboard;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.SetDashboard;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class DashboardApiImpl implements DashboardApi {

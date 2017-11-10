@@ -23,12 +23,12 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton

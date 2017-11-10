@@ -36,11 +36,11 @@ import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */

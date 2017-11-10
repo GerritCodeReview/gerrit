@@ -24,7 +24,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */

@@ -20,11 +20,11 @@ import com.google.gwtorm.schema.sql.DialectPostgreSQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
 
 public class Schema_102 extends SchemaVersion {
   @Inject

@@ -2,10 +2,10 @@ package com.google.gerrit.lifecycle;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;
+import javax.inject.Singleton;
 
 /** Module to support registering a unique LifecyleListener. */
 public abstract class LifecycleModule extends FactoryModule {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Drop ACCOUNT_EXTERNAL_IDS table. */
 public class Schema_150 extends SchemaVersion {

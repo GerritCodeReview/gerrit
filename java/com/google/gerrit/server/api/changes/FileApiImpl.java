@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.GetContent;
 import com.google.gerrit.server.change.GetDiff;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 class FileApiImpl implements FileApi {
   interface Factory {

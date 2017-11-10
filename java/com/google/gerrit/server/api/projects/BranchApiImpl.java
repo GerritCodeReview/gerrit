@@ -35,10 +35,10 @@ import com.google.gerrit.server.project.GetBranch;
 import com.google.gerrit.server.project.GetContent;
 import com.google.gerrit.server.project.GetReflog;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.List;
+import javax.inject.Inject;
 
 public class BranchApiImpl implements BranchApi {
   interface Factory {

@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 public class RegisterNewEmailSender extends OutgoingEmail {
   public interface Factory {

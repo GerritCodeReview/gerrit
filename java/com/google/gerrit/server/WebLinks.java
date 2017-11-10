@@ -33,10 +33,10 @@ import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

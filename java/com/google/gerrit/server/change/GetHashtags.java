@@ -20,10 +20,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {

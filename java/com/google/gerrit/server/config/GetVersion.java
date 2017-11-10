@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetVersion implements RestReadView<ConfigResource> {

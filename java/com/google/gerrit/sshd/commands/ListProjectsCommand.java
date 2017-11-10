@@ -20,8 +20,8 @@ import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
-import com.google.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 
 @CommandMetaData(
   name = "ls-projects",

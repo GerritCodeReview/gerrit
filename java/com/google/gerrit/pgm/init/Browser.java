@@ -17,11 +17,11 @@ package com.google.gerrit.pgm.init;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.InitUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 /** Opens the user's web browser to the web UI. */

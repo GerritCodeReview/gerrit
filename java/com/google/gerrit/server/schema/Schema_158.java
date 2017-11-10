@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Drop ACCOUNTS table. */
 public class Schema_158 extends SchemaVersion {

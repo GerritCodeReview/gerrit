@@ -26,12 +26,12 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class ListChildProjects implements RestReadView<ProjectResource> {

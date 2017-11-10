@@ -19,9 +19,9 @@ import static com.google.gerrit.common.data.LabelFunction.MAX_WITH_BLOCK;
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Arrays;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

@@ -28,9 +28,9 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Collection;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */

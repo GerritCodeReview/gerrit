@@ -22,10 +22,10 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {

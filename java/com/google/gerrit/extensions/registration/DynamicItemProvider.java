@@ -15,13 +15,13 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binding;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import java.util.List;
+import javax.inject.Inject;
 
 class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
   private final TypeLiteral<T> type;

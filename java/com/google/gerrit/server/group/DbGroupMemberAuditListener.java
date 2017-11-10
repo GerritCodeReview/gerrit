@@ -29,11 +29,11 @@ import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.audit.GroupMemberAuditListener;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {

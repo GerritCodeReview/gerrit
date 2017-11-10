@@ -18,12 +18,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

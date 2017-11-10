@@ -21,11 +21,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.EnumSet;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetDetail implements RestReadView<AccountResource> {

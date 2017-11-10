@@ -20,11 +20,11 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.schema.ReviewDbFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import javax.inject.Inject;
 
 /** Provides {@link Path} annotated with {@link SitePath}. */
 class SitePathFromSystemConfigProvider implements Provider<Path> {

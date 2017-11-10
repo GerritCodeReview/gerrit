@@ -63,7 +63,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.After;

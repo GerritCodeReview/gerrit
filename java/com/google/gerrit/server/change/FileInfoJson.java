@@ -26,10 +26,10 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton

@@ -26,9 +26,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

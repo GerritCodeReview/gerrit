@@ -30,8 +30,8 @@ import com.google.gerrit.server.index.project.ProjectIndexRewriter;
 import com.google.gerrit.server.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /**
  * Query processor for the project index.

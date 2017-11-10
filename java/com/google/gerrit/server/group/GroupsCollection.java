@@ -35,8 +35,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 public class GroupsCollection
     implements RestCollection<TopLevelResource, GroupResource>,

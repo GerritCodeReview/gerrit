@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.api.projects.CommitApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CherryPickCommit;
 import com.google.gerrit.server.project.CommitResource;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 public class CommitApiImpl implements CommitApi {
   public interface Factory {

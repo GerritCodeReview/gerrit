@@ -25,12 +25,12 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Initialize the {@code index} configuration section. */
 @Singleton

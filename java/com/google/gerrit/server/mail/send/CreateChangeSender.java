@@ -25,9 +25,9 @@ import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.stream.StreamSupport;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

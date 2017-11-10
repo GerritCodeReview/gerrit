@@ -25,8 +25,6 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.SocketUtil;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -38,6 +36,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 

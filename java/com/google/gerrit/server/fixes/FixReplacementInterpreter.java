@@ -26,14 +26,14 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 

@@ -16,8 +16,8 @@ package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Local path where a plugin can store its own private data.
@@ -37,5 +37,5 @@ import java.lang.annotation.Retention;
  * </pre>
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface PluginData {}

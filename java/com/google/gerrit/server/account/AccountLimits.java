@@ -22,10 +22,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Limits which QoS a user runs as, and how many search results it can request. */
 public class AccountLimits {

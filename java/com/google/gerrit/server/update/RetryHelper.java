@@ -36,10 +36,10 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

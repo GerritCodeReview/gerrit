@@ -31,8 +31,8 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {

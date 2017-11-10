@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetTag implements RestReadView<TagResource> {

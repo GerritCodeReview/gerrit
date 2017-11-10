@@ -22,7 +22,6 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import org.eclipse.jgit.util.HttpSupport;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */

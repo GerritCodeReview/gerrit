@@ -20,11 +20,11 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import javax.inject.Singleton;
 
 @Singleton
 public class DefaultProjectNameLockManager implements ProjectNameLockManager {

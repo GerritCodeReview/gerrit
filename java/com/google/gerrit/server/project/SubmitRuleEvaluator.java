@@ -32,7 +32,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologEnvironment;
 import com.google.gerrit.server.rules.StoredValues;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
@@ -48,6 +47,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -32,11 +32,11 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 

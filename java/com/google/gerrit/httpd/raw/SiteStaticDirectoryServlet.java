@@ -17,11 +17,11 @@ package com.google.gerrit.httpd.raw;
 import com.google.common.cache.Cache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /** Sends static content from the site 's {@code static/} subdirectory. */

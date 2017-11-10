@@ -19,16 +19,16 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
 /**
  * A marker for database modifications which aren't directly related to a user request (e.g. happen
  * outside of a request context). Those modifications will be attributed to the Gerrit server by
  * using the Gerrit server identity as author and committer for all related NoteDb commits.
  */
-@BindingAnnotation
+@Qualifier
 @Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
 public @interface ServerInitiated {}

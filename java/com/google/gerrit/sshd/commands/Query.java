@@ -18,8 +18,8 @@ import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

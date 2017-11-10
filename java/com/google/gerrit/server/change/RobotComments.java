@@ -23,8 +23,8 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class RobotComments implements ChildCollection<RevisionResource, RobotCommentResource> {

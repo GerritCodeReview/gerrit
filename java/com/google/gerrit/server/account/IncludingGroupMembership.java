@@ -20,7 +20,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.inject.Inject;
 
 /**
  * Group membership checker for the internal group system.

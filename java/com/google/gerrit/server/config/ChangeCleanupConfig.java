@@ -16,9 +16,9 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

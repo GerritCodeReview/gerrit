@@ -23,11 +23,11 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.gerrit.server.mail.receive.MailProcessor;
-import com.google.inject.Inject;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import javax.inject.Inject;
 import org.junit.Test;
 
 public class MailProcessorIT extends AbstractMailIT {

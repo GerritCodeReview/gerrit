@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   private final String canonicalWebUrl;

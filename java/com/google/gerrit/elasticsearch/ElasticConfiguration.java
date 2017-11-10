@@ -16,8 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

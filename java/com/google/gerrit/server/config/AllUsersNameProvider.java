@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

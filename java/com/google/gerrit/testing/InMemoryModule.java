@@ -88,7 +88,6 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
@@ -99,6 +98,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 

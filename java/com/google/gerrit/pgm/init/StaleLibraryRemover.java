@@ -18,12 +18,12 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class StaleLibraryRemover {

@@ -16,10 +16,10 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

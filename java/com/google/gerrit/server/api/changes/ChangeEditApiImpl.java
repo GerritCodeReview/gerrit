@@ -34,10 +34,10 @@ import com.google.gerrit.server.change.DeleteChangeEdit;
 import com.google.gerrit.server.change.PublishChangeEdit;
 import com.google.gerrit.server.change.RebaseChangeEdit;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Optional;
+import javax.inject.Inject;
 
 public class ChangeEditApiImpl implements ChangeEditApi {
   interface Factory {

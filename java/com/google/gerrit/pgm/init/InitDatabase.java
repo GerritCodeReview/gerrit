@@ -29,16 +29,16 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /** Initialize the {@code database} configuration section. */

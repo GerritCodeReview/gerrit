@@ -27,10 +27,10 @@ import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class QueryGroups implements RestReadView<TopLevelResource> {

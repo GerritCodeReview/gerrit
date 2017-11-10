@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.Inject;
 import java.util.Collection;
+import javax.inject.Inject;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;

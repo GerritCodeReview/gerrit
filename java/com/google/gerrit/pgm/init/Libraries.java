@@ -17,9 +17,7 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.pgm.init.api.LibraryDownload;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +26,8 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 

@@ -19,11 +19,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.DownloadConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class AllowedFormats {

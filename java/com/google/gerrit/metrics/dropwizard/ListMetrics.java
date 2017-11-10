@@ -22,12 +22,12 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 class ListMetrics implements RestReadView<ConfigResource> {

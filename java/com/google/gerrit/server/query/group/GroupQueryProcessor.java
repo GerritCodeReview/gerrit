@@ -30,8 +30,8 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /**
  * Query processor for the group index.

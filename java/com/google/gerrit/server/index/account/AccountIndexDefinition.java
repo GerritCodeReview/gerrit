@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class AccountIndexDefinition
     extends IndexDefinition<Account.Id, AccountState, AccountIndex> {

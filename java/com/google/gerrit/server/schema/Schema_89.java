@@ -19,9 +19,9 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
+import javax.inject.Inject;
 
 public class Schema_89 extends SchemaVersion {
   @Inject

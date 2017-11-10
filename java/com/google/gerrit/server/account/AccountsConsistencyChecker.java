@@ -17,11 +17,11 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class AccountsConsistencyChecker {

@@ -20,9 +20,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeBundle.Source;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GwtormChangeBundleReader implements ChangeBundleReader {

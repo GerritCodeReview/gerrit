@@ -40,12 +40,12 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import javax.inject.Inject;
 
 public class SetHashtagsOp implements BatchUpdateOp {
   public interface Factory {

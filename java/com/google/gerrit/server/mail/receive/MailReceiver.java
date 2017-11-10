@@ -21,7 +21,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,6 +29,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Future;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

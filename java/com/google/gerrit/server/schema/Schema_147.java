@@ -25,7 +25,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -34,6 +33,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 

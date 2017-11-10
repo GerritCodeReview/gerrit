@@ -16,13 +16,13 @@ package com.google.gerrit.server.ssh;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Marker on the list of {@link java.net.SocketAddress}es on which the SSH daemon is configured to
  * listen.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface SshListenAddresses {}

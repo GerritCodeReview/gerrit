@@ -23,9 +23,9 @@ import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 @CommandMetaData(name = "changes", description = "Index changes")

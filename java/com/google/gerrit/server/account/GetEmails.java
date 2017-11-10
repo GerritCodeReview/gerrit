@@ -16,11 +16,11 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {

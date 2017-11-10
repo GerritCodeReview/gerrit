@@ -19,7 +19,7 @@ import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 

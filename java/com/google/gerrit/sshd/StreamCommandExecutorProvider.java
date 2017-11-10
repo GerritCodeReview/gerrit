@@ -16,9 +16,9 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 class StreamCommandExecutorProvider implements Provider<ScheduledThreadPoolExecutor> {

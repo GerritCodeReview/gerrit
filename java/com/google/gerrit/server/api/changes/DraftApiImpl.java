@@ -26,8 +26,8 @@ import com.google.gerrit.server.change.DeleteDraftComment;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 class DraftApiImpl implements DraftApi {
   interface Factory {

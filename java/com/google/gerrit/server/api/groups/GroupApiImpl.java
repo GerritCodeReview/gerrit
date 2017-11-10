@@ -45,10 +45,10 @@ import com.google.gerrit.server.group.PutDescription;
 import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
 
 class GroupApiImpl implements GroupApi {
   interface Factory {

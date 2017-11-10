@@ -38,12 +38,12 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.util.MutableInteger;
 
 /** Rewriter that pushes boolean logic into the secondary index. */

@@ -53,7 +53,6 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -63,6 +62,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {

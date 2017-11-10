@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.RepositoryConfig;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class GitRepositoryManagerModule extends LifecycleModule {
 

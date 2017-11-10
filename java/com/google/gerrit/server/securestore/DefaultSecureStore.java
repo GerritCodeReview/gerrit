@@ -16,15 +16,15 @@ package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;

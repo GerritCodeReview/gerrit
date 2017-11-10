@@ -40,10 +40,10 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.template.soy.tofu.SoyTofu;
 import java.util.List;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class EmailArguments {

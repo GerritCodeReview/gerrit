@@ -16,8 +16,8 @@ package com.google.gerrit.server.schema;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Marker on {@link com.google.gwtorm.server.SchemaFactory} implementation that talks to the
@@ -27,5 +27,5 @@ import java.lang.annotation.Retention;
  * tables enabled/disabled; this marker goes on the low-level implementation that has all tables.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface ReviewDbFactory {}

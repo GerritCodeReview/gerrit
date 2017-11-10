@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 /** Create a new branch. * */

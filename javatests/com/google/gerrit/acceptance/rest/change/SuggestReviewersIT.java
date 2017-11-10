@@ -35,9 +35,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 

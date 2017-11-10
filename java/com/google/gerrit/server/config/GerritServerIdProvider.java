@@ -17,11 +17,11 @@ package com.google.gerrit.server.config;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;

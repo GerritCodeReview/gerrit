@@ -26,11 +26,11 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class Votes implements ChildCollection<ReviewerResource, VoteResource> {

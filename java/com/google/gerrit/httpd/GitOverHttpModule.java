@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
-import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */

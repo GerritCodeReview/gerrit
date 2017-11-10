@@ -27,9 +27,9 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.EnumSet;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Initialize the {@code auth} configuration section. */
 @Singleton

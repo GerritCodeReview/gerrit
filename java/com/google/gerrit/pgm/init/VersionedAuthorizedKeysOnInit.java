@@ -26,11 +26,11 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AuthorizedKeys;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 

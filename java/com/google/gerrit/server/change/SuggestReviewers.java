@@ -19,8 +19,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewersUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 

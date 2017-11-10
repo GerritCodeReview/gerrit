@@ -72,13 +72,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 /**

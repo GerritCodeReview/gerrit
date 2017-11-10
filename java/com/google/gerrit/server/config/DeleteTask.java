@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 @RequiresAnyCapability({KILL_TASK, MAINTAIN_SERVER})

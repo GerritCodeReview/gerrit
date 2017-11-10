@@ -26,9 +26,9 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 class MetricsCollection implements ChildCollection<ConfigResource, MetricResource> {

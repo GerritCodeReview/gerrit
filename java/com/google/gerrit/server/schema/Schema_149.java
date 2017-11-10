@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Add workInProgress field to change. */
 public class Schema_149 extends SchemaVersion {

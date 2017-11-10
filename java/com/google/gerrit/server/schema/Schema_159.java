@@ -17,8 +17,8 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Migrate draft changes to private or wip changes. */
 public class Schema_159 extends SchemaVersion {

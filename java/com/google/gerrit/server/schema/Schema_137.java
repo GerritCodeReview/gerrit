@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /* change the type of SystemConfig#sitePath to CLOB */
 public class Schema_137 extends SchemaVersion {

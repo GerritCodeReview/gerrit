@@ -33,12 +33,12 @@ import com.google.gerrit.reviewdb.client.FixSuggestion;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
 
 class CommentJson {
 

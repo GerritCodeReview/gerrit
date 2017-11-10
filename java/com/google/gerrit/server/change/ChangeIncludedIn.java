@@ -21,10 +21,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ChangeIncludedIn implements RestReadView<ChangeResource> {

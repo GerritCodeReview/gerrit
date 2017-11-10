@@ -16,9 +16,9 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.ImplementedBy;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.SortedSet;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 

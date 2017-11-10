@@ -25,7 +25,6 @@ import com.google.gwtorm.schema.sql.DialectPostgreSQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -37,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
 
 public class Schema_101 extends SchemaVersion {
 

@@ -18,8 +18,8 @@ import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.inject.Inject;
 import java.util.Locale;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton

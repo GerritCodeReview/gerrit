@@ -48,14 +48,14 @@ import com.google.gerrit.metrics.Timer3;
 import com.google.gerrit.metrics.proc.JGitMetricModule;
 import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.server.cache.CacheMetrics;
-import com.google.inject.Inject;
 import com.google.inject.Scopes;
-import com.google.inject.Singleton;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Connects Gerrit metric package onto DropWizard.

@@ -16,9 +16,9 @@ package com.google.gerrit.pgm.init.index;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.index.IndexDefinition;
-import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.Collection;
+import javax.inject.Inject;
 
 /**
  * This class starts/stops the indexes from the init program so that init can write updates the

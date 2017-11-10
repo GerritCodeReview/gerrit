@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;

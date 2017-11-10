@@ -28,11 +28,11 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.function.Supplier;
+import javax.inject.Inject;
 
 public class GroupJson {
   public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {

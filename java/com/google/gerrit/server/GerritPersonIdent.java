@@ -16,13 +16,13 @@ package com.google.gerrit.server;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity representing Gerrit
  * server itself.
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface GerritPersonIdent {}

@@ -25,16 +25,16 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BooleanSupplier;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

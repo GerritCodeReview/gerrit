@@ -15,13 +15,13 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.Iterables;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton

@@ -22,6 +22,30 @@
       "revId": "47bcef7dc0dde46f14ec48df2a45a1b981f68209",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70274238_9214f69b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T10:22:00Z",
+      "side": 1,
+      "message": "Since the GroupRebuilder will call GroupOwnerPermissions#updateOwnerPermissions on its own (see I4c1ccd80d), we should probably leave this check in both places.",
+      "parentUuid": "ba9d6b5f_ea5a39e5",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 5
+      },
+      "revId": "47bcef7dc0dde46f14ec48df2a45a1b981f68209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

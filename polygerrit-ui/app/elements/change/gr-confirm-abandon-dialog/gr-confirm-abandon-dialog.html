@@ -55,8 +55,8 @@ limitations under the License.
         confirm-label="Abandon"
         on-confirm="_handleConfirmTap"
         on-cancel="_handleCancelTap">
-      <div class="header">Abandon Change</div>
-      <div class="main">
+      <div class="header" slot="header">Abandon Change</div>
+      <div class="main" slot="main">
         <label for="messageInput">Abandon Message</label>
         <iron-autogrow-textarea
             id="messageInput"

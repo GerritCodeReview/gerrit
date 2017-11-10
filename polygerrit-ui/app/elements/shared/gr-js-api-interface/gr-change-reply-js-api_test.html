@@ -40,37 +40,72 @@ breaking changes to gr-reply-dialog won’t be noticed.
     let element;
     let sandbox;
     let changeReply;
+    let plugin;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
         getAccount() { return Promise.resolve(null); },
       });
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-      let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      changeReply = plugin.changeReply();
     });
 
     teardown(() => {
-      changeReply = null;
       sandbox.restore();
     });
 
-    test('calls', () => {
-      sandbox.stub(element, 'getLabelValue').returns('+123');
-      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+    suite('early init', () => {
+      setup(() => {
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
+        changeReply = plugin.changeReply();
+        element = fixture('basic');
+      });
 
-      sandbox.stub(element, 'setLabelValue');
-      changeReply.setLabelValue('My-Label', '+1337');
-      assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+      teardown(() => {
+        changeReply = null;
+      });
 
-      sandbox.stub(element, 'send');
-      changeReply.send(false);
-      assert.isTrue(element.send.calledWithExactly(false));
+      test('works', () => {
+        sandbox.stub(element, 'getLabelValue').returns('+123');
+        assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+
+        sandbox.stub(element, 'setLabelValue');
+        changeReply.setLabelValue('My-Label', '+1337');
+        assert.isTrue(
+            element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+
+        sandbox.stub(element, 'send');
+        changeReply.send(false);
+        assert.isTrue(element.send.calledWithExactly(false));
+      });
+    });
+
+    suite('normal init', () => {
+      setup(() => {
+        element = fixture('basic');
+        Gerrit.install(p => { plugin = p; }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
+        changeReply = plugin.changeReply();
+      });
+
+      teardown(() => {
+        changeReply = null;
+      });
+
+      test('works', () => {
+        sandbox.stub(element, 'getLabelValue').returns('+123');
+        assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+
+        sandbox.stub(element, 'setLabelValue');
+        changeReply.setLabelValue('My-Label', '+1337');
+        assert.isTrue(
+            element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+
+        sandbox.stub(element, 'send');
+        changeReply.send(false);
+        assert.isTrue(element.send.calledWithExactly(false));
+      });
     });
   });
 </script>

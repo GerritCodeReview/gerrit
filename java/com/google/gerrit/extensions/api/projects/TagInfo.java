@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class TagInfo extends RefInfo {
+  private static final Timestamp NULL_TIMESTAMP = new Timestamp(0);
+
   public String object;
   public String message;
   public GitPerson tagger;
@@ -72,5 +74,9 @@ public class TagInfo extends RefInfo {
     this.message = message;
     this.tagger = tagger;
     this.webLinks = webLinks;
+  }
+
+  public Timestamp getCreated() {
+    return created != null ? created : NULL_TIMESTAMP;
   }
 }

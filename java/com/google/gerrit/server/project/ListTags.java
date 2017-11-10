@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -36,7 +38,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -141,14 +142,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     }
 
-    Collections.sort(
-        tags,
-        new Comparator<TagInfo>() {
-          @Override
-          public int compare(TagInfo a, TagInfo b) {
-            return a.ref.compareTo(b.ref);
-          }
-        });
+    Collections.sort(tags, comparing((TagInfo info) -> info.ref));
 
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)

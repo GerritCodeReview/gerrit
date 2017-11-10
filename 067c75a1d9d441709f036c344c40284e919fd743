@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "9dadcf98_7d7503a4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T14:27:54Z",
+      "side": 1,
+      "message": "I would leave the code as it is and adjust it if we ever get to the future clean-up mentioned below.",
+      "parentUuid": "704c61fb_582297e4",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 89
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f13e473_415701a4",
         "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
         "patchSetId": 11
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "I almost like this idea, but see my previous comment: if we do that, then if the caller wants to set the name/email, then they have to pass a timestamp to setAuthor/setCommitter will be ignored.\n\nMaybe if InternalGroupUpdate had set{Author,Committer}NameEmail and also setTimestamp, then that would work.\n\nThis all sounds like ideas for future cleanup, though. Let me know if there\u0027s anything you\u0027d like me to change in this iteration.",
       "parentUuid": "8f13e473_415701a4",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 80
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28b2280c_e4924346",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T14:27:54Z",
+      "side": 1,
+      "message": "A future clean-up seems the best option for me.",
+      "parentUuid": "82cca7e9_ad919306",
       "range": {
         "startLine": 147,
         "startChar": 8,
@@ -249,6 +297,30 @@
       "side": 1,
       "message": "We did this for changes, so I know it\u0027s possible. That said, what I wanted to avoid was bucketing events with similar but slightly different timestamps together, because that\u0027s subtle code and it makes testing considerably harder (see ChangeBundle.java).\n\nI am fine with combining events that have exactly the same timestamp to the millisecond, that code is easy and does not complicate testing.\n\nUnfortunately, DbGroupMemberAuditListener does a dumb thing and calls TimeUtil.nowTs() in the body of a loop, so actually memberships added in a single AddMembers call might have different timestamps in the audit log. In most cases they will be the same but it\u0027s not a guarantee.",
       "parentUuid": "0b8ad173_85339a8f",
+      "range": {
+        "startLine": 183,
+        "startChar": 31,
+        "endLine": 183,
+        "endChar": 39
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1b8af6_a5751f59",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T14:27:54Z",
+      "side": 1,
+      "message": "If combining events with exactly the same timestamp is easy, I would do it. Thus, we at least save on some commits. Keeping any peculiarities of the previous audit log should be fine.",
+      "parentUuid": "937d18d4_1d4303a8",
       "range": {
         "startLine": 183,
         "startChar": 31,

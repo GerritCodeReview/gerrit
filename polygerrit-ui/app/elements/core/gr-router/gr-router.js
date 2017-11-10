@@ -526,6 +526,7 @@
       // Middleware
       page((ctx, next) => {
         document.body.scrollTop = 0;
+        this.dispatchEvent(new CustomEvent('beforeunload', {bubbles: true}));
 
         // Fire asynchronously so that the URL is changed by the time the event
         // is processed.
@@ -537,6 +538,22 @@
           reporting.locationChanged();
         }, 1);
         next();
+      });
+
+      page.exit(RoutePattern.DEFAULT, (ctx, next) => {
+        if (window.onbeforeunload) {
+          // Emulate onbeforeunload dialog.
+          if (confirm('You have unsaved changes. Are you sure you want to ' +
+              'navigate?')) {
+            window.onbeforeunload = null;
+            next();
+          } else {
+            // Revert the page nav.
+            ctx.pushState();
+          }
+        } else {
+          next();
+        }
       });
 
       this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');

@@ -36,9 +36,11 @@ limitations under the License.
 <script>
   suite('gr-editable-content tests', () => {
     let element;
+    const alertHandler = sinon.stub();
 
     setup(() => {
       element = fixture('basic');
+      element.addEventListener('alert-before-nav', alertHandler);
     });
 
     test('save event', done => {
@@ -62,13 +64,18 @@ limitations under the License.
       element._newContent = 'stale content';
       element.editing = true;
       assert.equal(element._newContent, 'current content');
+      assert.isTrue(alertHandler.called);
+      assert.equal(alertHandler.lastCall.args[0].detail.alert, true);
     });
 
     test('disabling editing does not update edit field contents', () => {
       element.content = 'current content';
       element.editing = true;
+      assert.isTrue(alertHandler.called);
+      assert.equal(alertHandler.lastCall.args[0].detail.alert, true);
       element._newContent = 'stale content';
       element.editing = false;
+      assert.equal(alertHandler.lastCall.args[0].detail.alert, false);
       assert.equal(element._newContent, 'stale content');
     });
 

@@ -18,6 +18,14 @@
     is: 'gr-editable-content',
 
     /**
+     * Fired when the edit mode is toggled. The boolean value of e.detail.alert
+     * will determine if an alert will be shown before navigation away from the
+     * current page.
+     *
+     * @event alert-before-nav
+     */
+
+    /**
      * Fired when the save button is pressed.
      *
      * @event editable-content-save
@@ -58,11 +66,15 @@
     },
 
     _editingChanged(editing) {
-      if (!editing) { return; }
+      this.dispatchEvent(new CustomEvent('alert-before-nav',
+          {detail: {alert: editing}, bubbles: true}));
 
-      // TODO(wyatta) switch linkify sequence, see issue 5526.
-      this._newContent = this.removeZeroWidthSpace ?
-          this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
+      if (editing) {
+        // TODO(wyatta) switch linkify sequence, see issue 5526.
+        this._newContent = this.removeZeroWidthSpace ?
+            this.content.replace(/^R=\u200B/gm, 'R=') :
+            this.content;
+      }
     },
 
     _computeSaveDisabled(disabled, content, newContent) {

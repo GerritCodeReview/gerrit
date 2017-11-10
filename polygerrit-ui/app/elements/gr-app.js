@@ -76,6 +76,7 @@
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
       'location-change': '_handleLocationChange',
+      'alert-before-nav': '_handleAlertBeforeNav',
     },
 
     observers: [
@@ -270,6 +271,11 @@
       if (status !== null) {
         Gerrit.Nav.navigateToStatusSearch(status);
       }
+    },
+
+    _handleAlertBeforeNav(e) {
+      console.log('received event', e);
+      window.onbeforeunload = e.detail.alert ? () => true : null;
     },
   });
 })();

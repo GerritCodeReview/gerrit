@@ -26,7 +26,15 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.diff.ComparisonType;
+import com.google.gerrit.server.diff.IntraLineDiff;
+import com.google.gerrit.server.diff.IntraLineDiffArgs;
+import com.google.gerrit.server.diff.IntraLineDiffKey;
+import com.google.gerrit.server.diff.PatchListCache;
+import com.google.gerrit.server.diff.PatchListEntry;
+import com.google.gerrit.server.diff.Text;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
@@ -225,7 +233,7 @@ class PatchScriptBuilder {
         intralineDifferenceIsPossible,
         intralineFailure,
         intralineTimeout,
-        content.getPatchType() == Patch.PatchType.BINARY,
+        content.getPatchType() == PatchType.BINARY,
         aId == null ? null : aId.getName(),
         bId == null ? null : bId.getName());
   }

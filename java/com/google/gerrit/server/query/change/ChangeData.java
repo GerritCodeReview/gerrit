@@ -63,15 +63,16 @@ import com.google.gerrit.server.change.GetPureRevert;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.diff.DiffSummary;
+import com.google.gerrit.server.diff.DiffSummary.ChangedLines;
+import com.google.gerrit.server.diff.DiffSummaryKey;
+import com.google.gerrit.server.diff.PatchListCache;
+import com.google.gerrit.server.diff.PatchListKey;
+import com.google.gerrit.server.diff.PatchListNotAvailableException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.patch.DiffSummary;
-import com.google.gerrit.server.patch.DiffSummaryKey;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -1192,16 +1193,6 @@ public class ChangeData {
       h.addValue(legacyId);
     }
     return h.toString();
-  }
-
-  public static class ChangedLines {
-    public final int insertions;
-    public final int deletions;
-
-    public ChangedLines(int insertions, int deletions) {
-      this.insertions = insertions;
-      this.deletions = deletions;
-    }
   }
 
   public ImmutableList<byte[]> getRefStates() {

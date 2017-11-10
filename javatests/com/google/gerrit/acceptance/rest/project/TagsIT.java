@@ -186,7 +186,7 @@ public class TagsIT extends AbstractDaemonTest {
 
     setApiUser(user);
     result = tag(input.ref).get();
-    assertThat(result.canDelete).isFalse();
+    assertThat(result.canDelete).isNull();
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
   }

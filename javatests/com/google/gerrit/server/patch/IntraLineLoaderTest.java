@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.diff.IntraLineDiff;
+import com.google.gerrit.server.diff.Text;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
@@ -76,14 +78,14 @@ public class IntraLineLoaderTest {
     String b = "multi\nlinemulti\nline\n";
     assertThat(intraline(a, b)).isEqualTo(wordEdit(10, 10, 6, 16));
     // better would be:
-    //assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 16));
+    // assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 16));
     // or the equivalent:
-    //assertThat(intraline(a, b)).isEqualTo(ref()
+    // assertThat(intraline(a, b)).isEqualTo(ref()
     //    .common("multi\n").insert("linemulti\n").common("line\n").edits
-    //);
+    // );
   }
 
-  //TODO: expected failure
+  // TODO: expected failure
   // the current code does not work on the first line
   // and the insert marker is in the wrong location
   @Test(expected = AssertionError.class)
@@ -94,7 +96,7 @@ public class IntraLineLoaderTest {
         .isEqualTo(ref().insert("  ").common("  abc\n").insert("  ").common("  def\n").edits);
   }
 
-  //TODO: expected failure
+  // TODO: expected failure
   // the current code does not work on the first line
   @Test(expected = AssertionError.class)
   public void preferDeleteAtLineBreak() throws Exception {

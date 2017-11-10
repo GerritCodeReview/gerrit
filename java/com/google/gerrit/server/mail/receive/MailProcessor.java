@@ -43,7 +43,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;

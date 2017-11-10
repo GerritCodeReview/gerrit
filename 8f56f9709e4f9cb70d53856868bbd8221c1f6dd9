@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "a812b13d_82a4a593",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T23:36:00Z",
+      "side": 1,
+      "message": "Err, https://gerrit-review.googlesource.com/c/gerrit/+/139970 is not live yet.",
+      "parentUuid": "af4eba6c_8505a6b9",
+      "revId": "8f56f9709e4f9cb70d53856868bbd8221c1f6dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afbae876_2b41c577",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.js",
         "patchSetId": 2

@@ -94,6 +94,30 @@
       "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c8ce7a_331cea22",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T23:14:14Z",
+      "side": 1,
+      "message": "I didn\u0027t know promises are always async -- even when they resolve immediately! TIL",
+      "parentUuid": "d9a6bb3f_3c419f27",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

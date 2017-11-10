@@ -25,6 +25,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import java.util.Collection;
 import org.junit.Ignore;
 
 @Ignore
@@ -54,6 +55,11 @@ public class FakeChangeIndex implements ChangeIndex {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <V> Collection<V> readField(FieldDef<ChangeData, V> field) throws OrmException {
       throw new UnsupportedOperationException();
     }
 

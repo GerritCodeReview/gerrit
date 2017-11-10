@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.group.GroupField.UUID;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -36,6 +37,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -181,6 +183,32 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
             // Do nothing.
           }
         };
+      } catch (IOException e) {
+        throw new OrmException(e);
+      } finally {
+        if (searcher != null) {
+          try {
+            release(searcher);
+          } catch (IOException e) {
+            log.warn("cannot release Lucene searcher", e);
+          }
+        }
+      }
+    }
+
+    @Override
+    public <V> Collection<V> readField(FieldDef<InternalGroup, V> field) throws OrmException {
+      IndexSearcher searcher = null;
+      try {
+        searcher = acquire();
+        int realLimit = opts.start() + opts.limit();
+        TopFieldDocs docs = searcher.search(query, realLimit, sort);
+        if (docs.scoreDocs.length != 1) {
+          return null;
+        }
+        ScoreDoc sd = docs.scoreDocs[0];
+        Document doc = searcher.doc(sd.doc, IndexUtils.groupFields(opts));
+        return getFieldValues(doc, field);
       } catch (IOException e) {
         throw new OrmException(e);
       } finally {

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import java.util.Collection;
 
 public interface DataSource<T> {
   /** @return an estimate of the number of results from {@link #read()}. */
@@ -23,4 +25,6 @@ public interface DataSource<T> {
 
   /** @return read from the database and return the results. */
   ResultSet<T> read() throws OrmException;
+
+  <V> Collection<V> readField(FieldDef<T, V> field) throws OrmException;
 }

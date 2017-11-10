@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Change;
@@ -51,6 +52,11 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
       }
     }
     return new ListResultSet<>(r);
+  }
+
+  @Override
+  public <V> Collection<V> readField(FieldDef<ChangeData, V> field) throws OrmException {
+    return null;
   }
 
   @Override

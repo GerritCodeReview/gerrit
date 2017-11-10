@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -46,6 +47,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -195,6 +197,11 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       } catch (IOException e) {
         throw new OrmException(e);
       }
+    }
+
+    @Override
+    public <V> Collection<V> readField(FieldDef<InternalGroup, V> field) throws OrmException {
+      return null;
     }
 
     @Override

@@ -86,6 +86,11 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
+  public <V> Collection<V> readField(FieldDef<T, V> field) throws OrmException {
+    return source.readField(field);
+  }
+
+  @Override
   public ResultSet<T> restart(int start) throws OrmException {
     opts = opts.withStart(start);
     try {

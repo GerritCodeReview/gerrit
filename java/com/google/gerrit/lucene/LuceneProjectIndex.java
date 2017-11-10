@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.index.project.ProjectField.NAME;
 
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -36,6 +37,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -190,6 +192,11 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
           }
         }
       }
+    }
+
+    @Override
+    public <V> Collection<V> readField(FieldDef<ProjectData, V> field) throws OrmException {
+      return null;
     }
   }
 

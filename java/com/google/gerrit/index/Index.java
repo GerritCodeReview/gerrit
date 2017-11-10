@@ -20,6 +20,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,6 +110,28 @@ public interface Index<K, V> {
         return Optional.of(results.get(0));
       default:
         throw new IOException("Multiple results found in index for key " + key + ": " + results);
+    }
+  }
+
+  /**
+   * Get a single field from a document from the index.
+   *
+   * @param key document key.
+   * @param opts query options. Options that do not make sense in the context of a single document,
+   *     such as start, will be ignored.
+   * @return a collection of the field's values. A collection with cardinality 1 is returned if the
+   *     field is not repeated.
+   * @throws IOException
+   */
+  default <T> Collection<T> getField(K key, QueryOptions opts, FieldDef<V, T> fieldDef)
+      throws IOException {
+    opts = opts.withStart(0).withLimit(2);
+    try {
+      return getSource(keyPredicate(key), opts).readField(fieldDef);
+    } catch (QueryParseException e) {
+      throw new IOException("Unexpected QueryParseException during get()", e);
+    } catch (OrmException e) {
+      throw new IOException(e);
     }
   }
 

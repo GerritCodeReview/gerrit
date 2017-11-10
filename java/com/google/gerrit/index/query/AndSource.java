@@ -20,6 +20,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.index.FieldDef;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -87,6 +88,11 @@ public class AndSource<T> extends AndPredicate<T>
       }
       throw new OrmException(err);
     }
+  }
+
+  @Override
+  public <V> Collection<V> readField(FieldDef<T, V> field) throws OrmException {
+    return null;
   }
 
   private ResultSet<T> readImpl() throws OrmException {

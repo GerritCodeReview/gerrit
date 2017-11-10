@@ -35,6 +35,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
@@ -317,6 +318,11 @@ public class LuceneChangeIndex implements ChangeIndex {
                 }
               }),
           fields);
+    }
+
+    @Override
+    public <V> Collection<V> readField(FieldDef<ChangeData, V> field) throws OrmException {
+      return null;
     }
 
     private List<Document> doRead(Set<String> fields) throws IOException {

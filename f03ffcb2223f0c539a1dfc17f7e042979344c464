@@ -23,6 +23,30 @@
       "revId": "f03ffcb2223f0c539a1dfc17f7e042979344c464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b058f0_ff66b13e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-10T08:52:46Z",
+      "side": 1,
+      "message": "Sure, if group deletion is implemented we can decide whether groups can only be deleted through the API or also by deleting group branches. In the latter case we would simply remove the check that is introduced by this change.",
+      "parentUuid": "698dee01_ee612711",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "f03ffcb2223f0c539a1dfc17f7e042979344c464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

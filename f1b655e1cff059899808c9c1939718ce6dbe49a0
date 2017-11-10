@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "353c0aa4_a897ea8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T21:34:18Z",
+      "side": 1,
+      "message": "Sorry. I think this one is unused also.",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 15
+      },
+      "revId": "f1b655e1cff059899808c9c1939718ce6dbe49a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

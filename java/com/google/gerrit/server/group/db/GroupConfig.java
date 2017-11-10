@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -197,9 +198,7 @@ public class GroupConfig extends VersionedMetaData {
       commit.setAuthor(new PersonIdent(commit.getAuthor(), createdOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), createdOn));
     } else {
-      checkState(
-          loadedGroup.isPresent(),
-          String.format("Cannot update non-existent group %s", groupUuid.get()));
+      checkState(loadedGroup.isPresent(), "Cannot update non-existent group %s", groupUuid.get());
       createdOn = loadedGroup.get().getCreatedOn();
     }
 
@@ -234,7 +233,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private void checkLoaded() {
-    checkState(isLoaded, String.format("Group %s not loaded yet", groupUuid.get()));
+    checkState(isLoaded, "Group %s not loaded yet", groupUuid.get());
   }
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {
@@ -257,14 +256,18 @@ public class GroupConfig extends VersionedMetaData {
         loadedGroup.map(g -> new GroupReference(g.getOwnerGroupUUID(), g.getName())).orElse(null);
 
     GroupReference newOwnerGroupReference = oldOwnerGroupReference;
-    if (groupCreation.isPresent()) {
-      // new group, by default it owns itself
-      newOwnerGroupReference =
-          new GroupReference(
-              groupCreation.get().getGroupUUID(), groupCreation.get().getNameKey().get());
-    }
     if (groupUpdate.isPresent() && groupUpdate.get().getOwnerGroupReference().isPresent()) {
       newOwnerGroupReference = groupUpdate.get().getOwnerGroupReference().get();
+    } else if (groupCreation.isPresent()) {
+      InternalGroupCreation creation = groupCreation.get();
+      String name =
+          groupUpdate.flatMap(InternalGroupUpdate::getName).orElseGet(creation::getNameKey).get();
+      // new group, by default it owns itself
+      newOwnerGroupReference = new GroupReference(creation.getGroupUUID(), name);
+    }
+
+    if (Objects.equals(oldOwnerGroupReference, newOwnerGroupReference)) {
+      return oldOwnerGroupReference.getUUID();
     }
 
     groupOwnerPermissions.updateOwnerPermissions(
@@ -278,7 +281,8 @@ public class GroupConfig extends VersionedMetaData {
         groupUpdate
             .map(InternalGroupUpdate::getMemberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
-            .map(ImmutableSet::copyOf);
+            .map(ImmutableSet::copyOf)
+            .filter(members -> !originalMembers.equals(members));
     if (updatedMembers.isPresent()) {
       saveMembers(updatedMembers.get());
     }
@@ -291,7 +295,9 @@ public class GroupConfig extends VersionedMetaData {
         groupUpdate
             .map(InternalGroupUpdate::getSubgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
-            .map(ImmutableSet::copyOf);
+            .map(ImmutableSet::copyOf)
+            .filter(subgroups -> !originalSubgroups.equals(subgroups));
+    ;
     if (updatedSubgroups.isPresent()) {
       saveSubgroups(updatedSubgroups.get());
     }

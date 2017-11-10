@@ -33,6 +33,7 @@ import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -267,6 +268,10 @@ public class GroupConfig extends VersionedMetaData {
       newOwnerGroupReference = new GroupReference(creation.getGroupUUID(), name);
     }
 
+    if (Objects.equals(oldOwnerGroupReference, newOwnerGroupReference)) {
+      return oldOwnerGroupReference.getUUID();
+    }
+
     groupOwnerPermissions.updateOwnerPermissions(
         groupUuid, oldOwnerGroupReference, newOwnerGroupReference);
     return newOwnerGroupReference.getUUID();
@@ -278,7 +283,8 @@ public class GroupConfig extends VersionedMetaData {
         groupUpdate
             .map(InternalGroupUpdate::getMemberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
-            .map(ImmutableSet::copyOf);
+            .map(ImmutableSet::copyOf)
+            .filter(members -> !originalMembers.equals(members));
     if (updatedMembers.isPresent()) {
       saveMembers(updatedMembers.get());
     }
@@ -291,7 +297,9 @@ public class GroupConfig extends VersionedMetaData {
         groupUpdate
             .map(InternalGroupUpdate::getSubgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
-            .map(ImmutableSet::copyOf);
+            .map(ImmutableSet::copyOf)
+            .filter(subgroups -> !originalSubgroups.equals(subgroups));
+    ;
     if (updatedSubgroups.isPresent()) {
       saveSubgroups(updatedSubgroups.get());
     }

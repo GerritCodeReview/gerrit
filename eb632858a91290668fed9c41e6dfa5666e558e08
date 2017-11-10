@@ -70,6 +70,30 @@
       "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9a6bb3f_3c419f27",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T20:30:59Z",
+      "side": 1,
+      "message": "Right, but it returns a Promise, so always async.",
+      "parentUuid": "02e73173_bd26171d",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

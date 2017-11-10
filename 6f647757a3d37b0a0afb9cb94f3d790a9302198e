@@ -94,6 +94,30 @@
       "revId": "6f647757a3d37b0a0afb9cb94f3d790a9302198e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01c4106b_d57b3672",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-10T00:18:32Z",
+      "side": 1,
+      "message": "re: IE11 and android browsers - I believe people who are targeting those would know what of JS they can use and what they can not. I\u0027ve added a note for the target browsers.\n\nre: \u0027use strict\u0027\nI\u0027m open for discussion, but I\u0027d prefer new people to just be able to copy and paste this and be in a marginally better position.",
+      "parentUuid": "e66fb98c_37a1422f",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "6f647757a3d37b0a0afb9cb94f3d790a9302198e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

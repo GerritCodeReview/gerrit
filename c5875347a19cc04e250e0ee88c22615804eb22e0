@@ -17,6 +17,24 @@
       "revId": "c5875347a19cc04e250e0ee88c22615804eb22e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea79dd74_2d288ca4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupOwnerPermissions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-10T13:47:22Z",
+      "side": 1,
+      "message": "The purpose of this method is to keep the owner permissions in NoteDb in sync with ReviewDb. ReviewDb supports only a single owner group. Once groups in ReviewDb are no longer supported this class should be deleted and instead the API for setting permissions should be used to edit the group owner permissions directly. Only then you can have multiple group owners.",
+      "parentUuid": "761cd30e_027eacb2",
+      "revId": "c5875347a19cc04e250e0ee88c22615804eb22e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

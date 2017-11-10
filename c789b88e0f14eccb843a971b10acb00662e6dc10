@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f0a0c238_31f9d930",
+        "filename": "java/com/google/gerrit/index/query/DataSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T16:25:35Z",
+      "side": 1,
+      "message": "Ooh, I am liking this idea better and better.\n\nFor years I have been thinking that it would be nice if each index backend implementation doesn\u0027t have to replicate the ChangeData population logic. I think FieldBundle will finally be able to solve this problem: the index backend implementation only constructs the FieldBundle, and then the Index interface (which is not backend-specific) could have a method to turn a FieldBundle into a result:\n\n interface Index\u003cK, V\u003e {\n   V toResult(FieldBundle fields);\n }\n\n interface ChangeIndex extends Index\u003cChange.Id, ChangeData\u003e {\n   @Override\n   default ChangeData toResult(FieldBundle fields) {\n     ChangeData cd \u003d new ChangeData(new Change.Id(fields.get(LEGACY_ID));\n     if (fields.has(APPROVAL)) {\n       cd.setCurrentApprovals(decodeProtos(fields.get(APPROVAL)));\n     }\n     ...\n   }\n }\n\nYou can do that now if you think it\u0027ll be cleaner, but no pressure.",
+      "parentUuid": "909b910c_c77a6332",
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "407a6735_aa8e49bf",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1

@@ -89,6 +89,12 @@ public class AndSource<T> extends AndPredicate<T>
     }
   }
 
+  @Override
+  public ResultSet<FieldsBundle> readRaw() throws OrmException {
+    // TOOD(hiesel): Implement
+    throw new UnsupportedOperationException("not implemented");
+  }
+
   private ResultSet<T> readImpl() throws OrmException {
     if (source == null) {
       throw new OrmException("No DataSource: " + this);

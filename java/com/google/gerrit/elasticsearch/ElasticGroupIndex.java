@@ -21,6 +21,7 @@ import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -51,6 +52,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -159,8 +161,23 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
     @Override
     public ResultSet<InternalGroup> read() throws OrmException {
+      return readImpl(this::toInternalGroup);
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      return readImpl(ElasticGroupIndex.this::toFieldsBundle);
+    }
+
+    @Override
+    public String toString() {
+      return search.toString();
+    }
+
+    private <T> ResultSet<T> readImpl(Function<JsonObject, Optional<T>> mapper)
+        throws OrmException {
       try {
-        List<InternalGroup> results = Collections.emptyList();
+        List<T> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
           JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
@@ -168,22 +185,22 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              Optional<InternalGroup> internalGroup = toInternalGroup(json.get(i));
+              Optional<T> internalGroup = mapper.apply(json.get(i).getAsJsonObject());
               internalGroup.ifPresent(results::add);
             }
           }
         } else {
           log.error(result.getErrorMessage());
         }
-        final List<InternalGroup> r = Collections.unmodifiableList(results);
-        return new ResultSet<InternalGroup>() {
+        final List<T> r = Collections.unmodifiableList(results);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<InternalGroup> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<InternalGroup> toList() {
+          public List<T> toList() {
             return r;
           }
 
@@ -197,13 +214,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       }
     }
 
-    @Override
-    public String toString() {
-      return search.toString();
-    }
-
-    private Optional<InternalGroup> toInternalGroup(JsonElement json) {
-      JsonElement source = json.getAsJsonObject().get("_source");
+    private Optional<InternalGroup> toInternalGroup(JsonObject json) {
+      JsonElement source = json.get("_source");
       if (source == null) {
         source = json.getAsJsonObject().get("fields");
       }

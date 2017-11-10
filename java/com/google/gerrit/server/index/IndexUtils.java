@@ -29,6 +29,9 @@ import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.project.ProjectField;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -100,6 +103,16 @@ public final class IndexUtils {
     return fs.contains(ProjectField.NAME.getName())
         ? fs
         : Sets.union(fs, ImmutableSet.of(ProjectField.NAME.getName()));
+  }
+
+  public static void addToMapOfLists(Map<String, List<Object>> map, String key, Object value) {
+    if (map.containsKey(key)) {
+      map.get(key).add(value);
+    } else {
+      List<Object> list = new ArrayList<>();
+      list.add(value);
+      map.put(key, list);
+    }
   }
 
   private IndexUtils() {

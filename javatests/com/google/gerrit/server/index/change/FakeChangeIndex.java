@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -55,6 +56,11 @@ public class FakeChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      throw new UnsupportedOperationException("not implemented");
     }
 
     @Override

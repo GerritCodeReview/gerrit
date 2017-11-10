@@ -23,4 +23,7 @@ public interface DataSource<T> {
 
   /** @return read from the database and return the results. */
   ResultSet<T> read() throws OrmException;
+
+  /** @return read from the database and return the raw results. */
+  ResultSet<FieldsBundle> readRaw() throws OrmException;
 }

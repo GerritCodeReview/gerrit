@@ -17,6 +17,7 @@ package com.google.gerrit.index;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
@@ -83,6 +84,11 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   @Override
   public ResultSet<T> read() throws OrmException {
     return source.read();
+  }
+
+  @Override
+  public ResultSet<FieldsBundle> readRaw() throws OrmException {
+    return source.readRaw();
   }
 
   @Override

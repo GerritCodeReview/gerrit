@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.project.ProjectField.NAME;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -190,6 +191,12 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
           }
         }
       }
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      // TOOD(hiesel): Make a generic implementation for Lucene/ES
+      throw new UnsupportedOperationException("not implemented");
     }
   }
 

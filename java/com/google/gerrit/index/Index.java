@@ -15,6 +15,7 @@
 package com.google.gerrit.index;
 
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -97,6 +98,36 @@ public interface Index<K, V> {
     List<V> results;
     try {
       results = getSource(keyPredicate(key), opts).read().toList();
+    } catch (QueryParseException e) {
+      throw new IOException("Unexpected QueryParseException during get()", e);
+    } catch (OrmException e) {
+      throw new IOException(e);
+    }
+    switch (results.size()) {
+      case 0:
+        return Optional.empty();
+      case 1:
+        return Optional.of(results.get(0));
+      default:
+        throw new IOException("Multiple results found in index for key " + key + ": " + results);
+    }
+  }
+
+  /**
+   * Get a single field from a document from the index.
+   *
+   * @param key document key.
+   * @param opts query options. Options that do not make sense in the context of a single document,
+   *     such as start, will be ignored.
+   * @return a collection of the field's values. A collection with cardinality 1 is returned if the
+   *     field is not repeated.
+   * @throws IOException
+   */
+  default Optional<FieldsBundle> getRaw(K key, QueryOptions opts) throws IOException {
+    opts = opts.withStart(0).withLimit(2);
+    List<FieldsBundle> results;
+    try {
+      results = getSource(keyPredicate(key), opts).readRaw().toList();
     } catch (QueryParseException e) {
       throw new IOException("Unexpected QueryParseException during get()", e);
     } catch (OrmException e) {

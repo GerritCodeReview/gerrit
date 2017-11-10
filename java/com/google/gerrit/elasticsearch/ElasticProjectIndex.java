@@ -21,6 +21,7 @@ import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -193,6 +194,12 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       } catch (IOException e) {
         throw new OrmException(e);
       }
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      // TOOD(hiesel): Make a generic implementation for Lucene/ES
+      throw new UnsupportedOperationException("not implemented");
     }
 
     @Override

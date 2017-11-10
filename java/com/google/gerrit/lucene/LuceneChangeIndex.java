@@ -37,6 +37,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -317,6 +318,12 @@ public class LuceneChangeIndex implements ChangeIndex {
                 }
               }),
           fields);
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      // TOOD(hiesel): Make a generic implementation for Lucene/ES
+      throw new UnsupportedOperationException("not implemented");
     }
 
     private List<Document> doRead(Set<String> fields) throws IOException {

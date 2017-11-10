@@ -35,6 +35,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldsBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -253,6 +254,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       } catch (IOException e) {
         throw new OrmException(e);
       }
+    }
+
+    @Override
+    public ResultSet<FieldsBundle> readRaw() throws OrmException {
+      // TOOD(hiesel): Make a generic implementation for Lucene/ES
+      throw new UnsupportedOperationException("not implemented");
     }
 
     @Override

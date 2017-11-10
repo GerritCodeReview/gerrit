@@ -167,8 +167,8 @@ public class StaticModule extends ServletModule {
   private class CoreStaticModule extends ServletModule {
     @Override
     public void configureServlets() {
-      serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
-      serve("/favicon.ico").with(named(FAVICON_SERVLET));
+      serveRegex("^/robots.txt$").with(named(ROBOTS_TXT_SERVLET));
+      serveRegex("^/favicon.ico$").with(named(FAVICON_SERVLET));
     }
 
     @Provides

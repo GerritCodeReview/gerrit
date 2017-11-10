@@ -14,12 +14,13 @@
 
 package com.google.gerrit.common.data;
 
+import static java.util.Comparator.comparingInt;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,14 +74,7 @@ public class LabelType {
     if (values.size() <= 1) {
       return Collections.unmodifiableList(values);
     }
-    Collections.sort(
-        values,
-        new Comparator<LabelValue>() {
-          @Override
-          public int compare(LabelValue o1, LabelValue o2) {
-            return o1.getValue() - o2.getValue();
-          }
-        });
+    Collections.sort(values, comparingInt((LabelValue l) -> l.getValue()));
     short min = values.get(0).getValue();
     short max = values.get(values.size() - 1).getValue();
     short v = min;

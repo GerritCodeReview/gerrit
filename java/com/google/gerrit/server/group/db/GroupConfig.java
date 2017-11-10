@@ -297,7 +297,6 @@ public class GroupConfig extends VersionedMetaData {
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
             .map(ImmutableSet::copyOf)
             .filter(subgroups -> !originalSubgroups.equals(subgroups));
-    ;
     if (updatedSubgroups.isPresent()) {
       saveSubgroups(updatedSubgroups.get());
     }

@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "f5ad110a_8dac027a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:16:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure what that has to do with it?\n\nMaybe my suggestion wasn\u0027t clear. I think this is equivalent to what you have:\n\n new TestRepository\u003c\u003e(repo).branch(groupRef).commit().create();",
+      "parentUuid": "77849d2f_58613705",
+      "range": {
+        "startLine": 977,
+        "startChar": 6,
+        "endLine": 989,
+        "endChar": 77
+      },
+      "revId": "277db23a226bdf5eb3dc4114a2dc5707f578328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "781b8b11_d33281ff",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 2

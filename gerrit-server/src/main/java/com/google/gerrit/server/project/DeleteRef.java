@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
@@ -118,7 +119,7 @@ public class DeleteRef {
 
   private void deleteSingleRef(Repository r) throws IOException, ResourceConflictException {
     String ref = refsToDelete.get(0);
-    if (prefix != null && !ref.startsWith(prefix)) {
+    if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
     RefUpdate.Result result;

@@ -14,6 +14,11 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static com.google.common.net.HttpHeaders.ORIGIN;
+import static com.google.common.net.HttpHeaders.VARY;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
@@ -21,6 +26,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -34,6 +40,7 @@ import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.plugins.Plugin;
@@ -80,6 +87,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
@@ -101,6 +109,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
   private List<Plugin> pending = new ArrayList<>();
   private ContextMapper wrapper;
   private final ConcurrentMap<String, PluginHolder> plugins = Maps.newConcurrentMap();
+  final Pattern allowOrigin;
 
   @Inject
   HttpPluginServlet(
@@ -109,7 +118,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       SshInfo sshInfo,
       RestApiServlet.Globals globals,
-      PluginsCollection plugins) {
+      PluginsCollection plugins,
+      @GerritServerConfig Config cfg) {
     this.mimeUtil = mimeUtil;
     this.webUrl = webUrl;
     this.resourceCache = cache;
@@ -130,6 +140,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     }
     this.sshHost = sshHost;
     this.sshPort = sshPort;
+    this.allowOrigin = makeAllowOrigin(cfg);
   }
 
   @Override
@@ -262,6 +273,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       return;
     }
 
+    checkCors(req, res);
+
     String file = pathInfo.substring(1);
     PluginResourceKey key = PluginResourceKey.create(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
@@ -331,6 +344,32 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       resourceCache.put(key, Resource.NOT_FOUND);
       Resource.NOT_FOUND.send(req, res);
     }
+  }
+
+  private static Pattern makeAllowOrigin(Config cfg) {
+    String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
+    if (allow.length > 0) {
+      return Pattern.compile(Joiner.on('|').join(allow));
+    }
+    return null;
+  }
+
+  private void checkCors(HttpServletRequest req, HttpServletResponse res) {
+    String origin = req.getHeader(ORIGIN);
+    if (!Strings.isNullOrEmpty(origin) && isOriginAllowed(origin)) {
+      res.addHeader(VARY, ORIGIN);
+      setCorsHeaders(res, origin);
+    }
+  }
+
+  private void setCorsHeaders(HttpServletResponse res, String origin) {
+    res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+    res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+    res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, HEAD");
+  }
+
+  private boolean isOriginAllowed(String origin) {
+    return allowOrigin == null || allowOrigin.matcher(origin).matches();
   }
 
   private boolean hasUpToDateCachedResource(Resource cachedResource, long lastUpdateTime) {

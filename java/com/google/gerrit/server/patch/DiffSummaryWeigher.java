@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.Weigher;
+import com.google.gerrit.server.diff.DiffSummary;
+import com.google.gerrit.server.diff.DiffSummaryKey;
 
 /** Computes memory usage for {@link DiffSummary} in bytes of memory used. */
 public class DiffSummaryWeigher implements Weigher<DiffSummaryKey, DiffSummary> {

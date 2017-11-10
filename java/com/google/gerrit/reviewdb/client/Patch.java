@@ -127,7 +127,7 @@ public final class Patch {
   }
 
   /** Type of formatting for this patch. */
-  public enum PatchType implements CodedEnum {
+  public static enum PatchType implements CodedEnum {
     /**
      * A textual difference between two versions.
      *

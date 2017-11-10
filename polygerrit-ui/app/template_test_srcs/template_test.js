@@ -33,6 +33,7 @@ const EXTERN_NAMES = [
   'GrRangeNormalizer',
   'GrReporting',
   'GrReviewerUpdatesParser',
+  'GrStringFormatter',
   'GrThemeApi',
   'moment',
   'page',

@@ -309,20 +309,6 @@
       this.$.diffCursor.handleDiffUpdate();
     },
 
-    _computePluralString(count, noun) {
-      return this._computeString(count, noun) + (count > 1 ? 's' : '');
-    },
-
-    _computeString(count, noun) {
-      if (count === 0) { return ''; }
-      return count + ' ' + noun;
-    },
-
-    _computeShortString(count, chars) {
-      if (count === 0) { return ''; }
-      return count + chars;
-    },
-
     /**
      * Computes a string with the number of comments and unresolved comments.
      *
@@ -335,9 +321,10 @@
       const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
           path, true);
       const commentCount = changeComments.computeCommentCount(patchNum, path);
-      const commentString = this._computePluralString(commentCount, 'comment');
-      const unresolvedString = this._computeString(unresolvedCount,
-          'unresolved');
+      const commentString = GrCountStringFormatter.computePluralString(
+          commentCount, 'comment');
+      const unresolvedString = GrCountStringFormatter.computeString(
+          unresolvedCount, 'unresolved');
 
       return commentString +
           // Add a space if both comments and unresolved
@@ -356,7 +343,7 @@
      */
     _computeDraftsString(changeComments, patchNum, path) {
       const draftCount = changeComments.computeDraftCount(patchNum, path);
-      return this._computePluralString(draftCount, 'draft');
+      return GrCountStringFormatter.computePluralString(draftCount, 'draft');
     },
 
     /**
@@ -369,7 +356,7 @@
      */
     _computeDraftsStringMobile(changeComments, patchNum, path) {
       const draftCount = changeComments.computeDraftCount(patchNum, path);
-      return this._computeShortString(draftCount, 'd');
+      return GrCountStringFormatter.computeShortString(draftCount, 'd');
     },
 
     /**
@@ -382,7 +369,7 @@
      */
     _computeCommentsStringMobile(changeComments, patchNum, path) {
       const commentCount = changeComments.computeCommentCount(patchNum, path);
-      return this._computeShortString(commentCount, 'c');
+      return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
     _computeReviewed(file, _reviewed) {

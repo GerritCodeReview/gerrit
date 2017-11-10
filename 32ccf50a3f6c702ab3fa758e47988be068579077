@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cd9c27a_2689372c",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:07Z",
+      "side": 1,
+      "message": "I have a similar question in the predecessor change on the DataSource interface: what is the collection here? Seeing a call site does not make it more obvious.",
+      "revId": "32ccf50a3f6c702ab3fa758e47988be068579077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1eb9120_2c4c82cc",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:07Z",
+      "side": 1,
+      "message": "It feels weird that you have to specify fields twice in the same call, and moreover that FIELDS is not just ImmutableSet.of(REF_STATE.getName()).",
+      "range": {
+        "startLine": 83,
+        "startChar": 67,
+        "endLine": 83,
+        "endChar": 96
+      },
+      "revId": "32ccf50a3f6c702ab3fa758e47988be068579077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

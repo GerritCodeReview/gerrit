@@ -128,6 +128,7 @@ junit_tests(
         ":custom-truth-subjects",
         "//java/com/google/gerrit/extensions/client/testing:client-test-util",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/server/patchlib",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/org/eclipse/jgit:server",

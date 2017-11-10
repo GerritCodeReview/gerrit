@@ -46,7 +46,7 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patchlib.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;

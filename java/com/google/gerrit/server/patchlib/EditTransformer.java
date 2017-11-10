@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.patchlib;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Multimaps.toMultimap;
@@ -41,7 +41,7 @@ import org.eclipse.jgit.diff.Edit;
  * treeB} to {@code treeB'}. Edits which can't be transformed due to conflicts with the
  * transformation are omitted.
  */
-class EditTransformer {
+public class EditTransformer {
 
   private List<ContextAwareEdit> edits;
 
@@ -182,7 +182,7 @@ class EditTransformer {
   }
 
   @AutoValue
-  abstract static class ContextAwareEdit {
+  public abstract static class ContextAwareEdit {
     static ContextAwareEdit create(PatchListEntry patchListEntry, Edit edit) {
       return create(
           patchListEntry.getOldName(),

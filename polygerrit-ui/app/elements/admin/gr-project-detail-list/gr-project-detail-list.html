@@ -187,10 +187,10 @@ limitations under the License.
           confirm-label="Create"
           on-confirm="_handleCreateItem"
           on-cancel="_handleCloseCreate">
-        <div class="header">
+        <div class="header" slot="header">
           Create [[_computeItemName(detailType)]]
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           <gr-create-pointer-dialog
               id="createNewModal"
               detail-type="[[_computeItemName(detailType)]]"

@@ -55,8 +55,8 @@ limitations under the License.
       }
     </style>
     <div class="container">
-      <header><content select=".header"></content></header>
-      <main><content select=".main"></content></main>
+      <header><slot name="header"></slot></header>
+      <main><slot name="main"></slot></main>
       <footer>
         <gr-button link on-tap="_handleCancelTap">[[cancelLabel]]</gr-button>
         <gr-button link primary on-tap="_handleConfirmTap" disabled="[[disabled]]">

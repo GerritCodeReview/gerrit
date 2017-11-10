@@ -179,10 +179,10 @@ limitations under the License.
           confirm-label="Delete"
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleDeleteConfirm">
-        <div class="header">
+        <div class="header" slot="header">
           Delete Change
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           Do you really want to delete the change?
         </div>
       </gr-confirm-dialog>
@@ -192,10 +192,10 @@ limitations under the License.
           confirm-label="Delete"
           on-cancel="_handleConfirmDialogCancel"
           on-confirm="_handleDeleteEditConfirm">
-        <div class="header">
+        <div class="header" slot="header">
           Delete Change Edit
         </div>
-        <div class="main">
+        <div class="main" slot="main">
           Do you really want to delete the edit?
         </div>
       </gr-confirm-dialog>

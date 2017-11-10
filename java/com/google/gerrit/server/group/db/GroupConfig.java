@@ -198,9 +198,7 @@ public class GroupConfig extends VersionedMetaData {
       commit.setAuthor(new PersonIdent(commit.getAuthor(), createdOn));
       commit.setCommitter(new PersonIdent(commit.getCommitter(), createdOn));
     } else {
-      checkState(
-          loadedGroup.isPresent(),
-          String.format("Cannot update non-existent group %s", groupUuid.get()));
+      checkState(loadedGroup.isPresent(), "Cannot update non-existent group %s", groupUuid.get());
       createdOn = loadedGroup.get().getCreatedOn();
     }
 
@@ -235,7 +233,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private void checkLoaded() {
-    checkState(isLoaded, String.format("Group %s not loaded yet", groupUuid.get()));
+    checkState(isLoaded, "Group %s not loaded yet", groupUuid.get());
   }
 
   private Config updateGroupProperties() throws IOException, ConfigInvalidException {

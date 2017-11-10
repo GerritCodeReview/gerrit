@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8a1101d_9733ee23",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T16:15:16Z",
+      "side": 1,
+      "message": "I think we do not want to fail fast. By the end of this series, this method will be called from GroupIncludeCache.AllExternalLoader, and that cache is used by IncludingGroupMembership#getKnownGroups, which is used to create change ETags. So failing to populate that cache will make the whole server essentially unusable until the corruption is fixed.\n\nHaving thought about it a bit more, I think my preferred fix would be to keep the current behavior but add a warning log if you detect duplicates.",
+      "parentUuid": "95d0d307_656b4ed5",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ffe25d4e_f95d16e4",
         "filename": "java/com/google/gerrit/server/group/db/Groups.java",
         "patchSetId": 2

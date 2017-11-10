@@ -16,18 +16,26 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.WebLinkInfo;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TagInfo extends RefInfo {
   public String object;
   public String message;
   public GitPerson tagger;
+  public Timestamp created;
   public List<WebLinkInfo> webLinks;
 
-  public TagInfo(String ref, String revision, Boolean canDelete, List<WebLinkInfo> webLinks) {
+  public TagInfo(
+      String ref,
+      String revision,
+      Boolean canDelete,
+      Timestamp created,
+      List<WebLinkInfo> webLinks) {
     this.ref = ref;
     this.revision = revision;
     this.canDelete = canDelete;
+    this.created = created;
     this.webLinks = webLinks;
   }
 
@@ -38,8 +46,9 @@ public class TagInfo extends RefInfo {
       String message,
       GitPerson tagger,
       Boolean canDelete,
+      Timestamp created,
       List<WebLinkInfo> webLinks) {
-    this(ref, revision, canDelete, webLinks);
+    this(ref, revision, canDelete, created, webLinks);
     this.object = object;
     this.message = message;
     this.tagger = tagger;

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d08a0180_63173ac8",
+        "filename": "java/com/google/gerrit/index/query/DataSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:02Z",
+      "side": 1,
+      "message": "What is the collection here? One element per result document, or repeated field values for a single document?\n\nEither way I\u0027m not quite sure how this fits into the DataSource interface. A DataSource feels like a thunk that opens a ResultSet: basically just a deferred deferred iterable.\n\nWhat if we think about it this way instead: a DataSource allows you to kick off a query, but gives you multiple ways to view the results of that query. You can choose to fetch results in one of two ways:\n\n* as T\u0027s, via read()\n* as a set of raw field values, *without* executing the codepath to parse a collection of fields into a T (which is what we\u0027re trying to avoid this series, right?)\n\nThat would imply a method more like:\n\n ResultSet\u003cMap\u003cString, Object\u003e\u003e readFields(Set\u003cString\u003e fields)\n\nHere it\u0027s obvious that you\u0027re getting a deferred ResultSet, and each element in the set is just a raw map of field names to raw field values. The big downside is you sacrifice type safety (the caller has to understand the FieldDefs to properly interpret the Objects), but it\u0027s possible there\u0027s a more typesafe way to do this that I haven\u0027t thought of.",
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "407a6735_aa8e49bf",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:02Z",
+      "side": 1,
+      "message": "Optional: could factor this out into a Function\u003cIndexableField, ?\u003e so you only have to call (List\u003cT\u003e) Arrays.stream(fields.map(func)).collect(toList()) once. (It does seem rather type-unsafe but actually it\u0027s just making the existing type-unsafety slightly more obvious.)",
+      "range": {
+        "startLine": 341,
+        "startChar": 36,
+        "endLine": 341,
+        "endChar": 68
+      },
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2528fcce_3f8cfeb7",
+        "filename": "java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:02Z",
+      "side": 1,
+      "message": "I would not be a fan of having to repeat this implementation in all Lucene*Index implementations. Maybe it\u0027s time to factor out an AbstractLuceneQuerySource?\n\nAlthough for expediency, it might be ok to throw UnsupportedOperationException in the non-group implementations and revisit this later.",
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbde8c4f_6bbf21eb",
+        "filename": "java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T14:42:02Z",
+      "side": 1,
+      "message": "Regardless of whether we factor things out between index implementations, surely there is some low-hanging fruit of private methods that could be shared between this method and read().",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 221,
+        "endChar": 9
+      },
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "47c2f052_8e32704b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-10T00:30:11Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/gerrit/+/140070",
+      "parentUuid": "c647f36e_3f1187f1",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "d0a263e9193fe0a0b833f1ed31ef1cc7997003d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8229b991_5e874ed5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
         "patchSetId": 2

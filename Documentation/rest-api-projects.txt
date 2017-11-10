@@ -1364,7 +1364,6 @@ Limit the number of branches to be included in the results.
     {
       "ref": "HEAD",
       "revision": "master",
-      "can_delete": false
     }
   ]
 ----
@@ -1388,7 +1387,6 @@ Skip the given number of branches from the beginning of the list.
     {
       "ref": "HEAD",
       "revision": "master",
-      "can_delete": false
     }
   ]
 ----
@@ -2722,7 +2720,7 @@ The `BranchInfo` entity contains information about a branch.
 |Field Name  ||Description
 |`ref`       ||The ref of the branch.
 |`revision`  ||The revision to which the branch points.
-|`can_delete`|`false` if not set|
+|`can_delete`|not set if `false`|
 Whether the calling user can delete this branch.
 |`web_links` |optional|
 Links to the branch in external sites as a list of
@@ -3281,7 +3279,7 @@ tag points.
 the signature.
 |`tagger`|Only set for annotated tags, if present in the tag.|The tagger as a
 link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
-|`can_delete`|`false` if not set|
+|`can_delete`|not set if `false`|
 Whether the calling user can delete this tag.
 |`web_links` |optional|
 Links to the tag in external sites as a list of

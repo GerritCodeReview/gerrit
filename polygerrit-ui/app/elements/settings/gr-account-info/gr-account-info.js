@@ -24,18 +24,28 @@
      */
 
     properties: {
-      mutable: {
+      usernameMutable: {
         type: Boolean,
         notify: true,
-        computed: '_computeMutable(_serverConfig)',
+        computed: '_computeUsernameMutable(_serverConfig)',
+      },
+      nameMutable: {
+        type: Boolean,
+        notify: true,
+        computed: '_computeNameMutable(_serverConfig)',
       },
       hasUnsavedChanges: {
         type: Boolean,
         notify: true,
-        computed: '_computeHasUnsavedChanges(_hasNameChange, _hasStatusChange)',
+        computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
+            '_hasUsernameChange, _hasStatusChange)',
       },
 
       _hasNameChange: {
+        type: Boolean,
+        value: false,
+      },
+      _hasUsernameChange: {
         type: Boolean,
         value: false,
       },
@@ -58,6 +68,7 @@
 
     observers: [
       '_nameChanged(_account.name)',
+      '_usernameChanged(_account.username)',
       '_statusChanged(_account.status)',
     ],
 
@@ -88,6 +99,7 @@
       // Set only the fields that have changed.
       // Must be done in sequence to avoid race conditions (@see Issue 5721)
       return this._maybeSetName()
+          .then(this._maybeSetUsername.bind(this))
           .then(this._maybeSetStatus.bind(this))
           .then(() => {
             this._hasNameChange = false;
@@ -98,9 +110,15 @@
     },
 
     _maybeSetName() {
-      return this._hasNameChange && this.mutable ?
-                this.$.restAPI.setAccountName(this._account.name) :
-                Promise.resolve();
+      return this._hasNameChange && this.nameMutable ?
+          this.$.restAPI.setAccountName(this._account.name) :
+          Promise.resolve();
+    },
+
+    _maybeSetUsername() {
+      return this._hasUsernameChange && this.usernameMutable ?
+          this.$.restAPI.setAccountUsername(this._account.username) :
+          Promise.resolve();
     },
 
     _maybeSetStatus() {
@@ -109,17 +127,26 @@
           Promise.resolve();
     },
 
-    _computeHasUnsavedChanges(name, status) {
-      return name || status;
+    _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
+      return nameChanged || usernameChanged || statusChanged;
     },
 
-    _computeMutable(config) {
+    _computeUsernameMutable(config) {
+      return config.auth.editable_account_fields.includes('USER_NAME');
+    },
+
+    _computeNameMutable(config) {
       return config.auth.editable_account_fields.includes('FULL_NAME');
     },
 
     _statusChanged() {
       if (this._loading) { return; }
       this._hasStatusChange = true;
+    },
+
+    _usernameChanged() {
+      if (this._loading) { return; }
+      this._hasUsernameChange = true;
     },
 
     _nameChanged() {

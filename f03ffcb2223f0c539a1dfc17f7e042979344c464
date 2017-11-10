@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510301500 +0100\nnonce AMT3iFi7wi1kt/4zzwg/hKKMhKcQyGV2T2dc8mtFFVQVmXgjKoVlai4V24EvfYhsOXGUPMALGbej\n\n0000000000000000000000000000000000000000 f03ffcb2223f0c539a1dfc17f7e042979344c464 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBV88AAoJEFG1/Zeg0O9Re0oIAL3EPSengiM84Uw4cjOIkvai\nTpM2GEbv9Jt6YARQ2WGFQFhtGlOUG0X8fS5BLUd2WoaO/w+X3M5P2rhBUCYSCh/m\nxy5ksdwYLV81FnEBKwYNQhySONqTM6v13vZQ8O2a046oQ5+z+tXSGEo5/Celgd+K\nPfpbxNbGT5kzms/aVNA8k5b2VEqt/dvfR5mNzMeEAB8+F4lvvmnASl79jEfN6pQT\nVwKA2aL4ATBJwAsvRmqpIZyvyS/Lq2VYE/6xELaWy7al7+KJLD4NsRBDuFzLIX01\nRlqLRnpZXDny+ji+YUoQ3q4gbgt+u+mM0lrLOzLEjXAPOO1bSx2SsFbC8PLTaMs\u003d\n\u003d0Z5O\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "698dee01_ee612711",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-10T08:47:48Z",
+      "side": 1,
+      "message": "Will this change allow for future implementation of group deletion?",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "f03ffcb2223f0c539a1dfc17f7e042979344c464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

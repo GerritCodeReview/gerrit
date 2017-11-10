@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd428cea_cc26d357",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:49:30Z",
+      "side": 1,
+      "message": "Any reason this shouldn\u0027t go under refs/meta? Like refs/meta/external-ids, which is the closest analogue.",
+      "revId": "665a53fad717605db016acc0edd3881bbf0c596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77b1a2ed_4c8f1892",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:49:30Z",
+      "side": 1,
+      "message": "Maybe add checkNotNull(newGroupName)?",
+      "revId": "665a53fad717605db016acc0edd3881bbf0c596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03740e90_66bc280b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:49:30Z",
+      "side": 1,
+      "message": "If we always throw CIE if the old name is not present, then how do we repair the notes branch? Some manual intervention not involving this class?\n\nMaybe the answer is that a later change will make this check optional, if the caller declares their intent to perform a repair.\n\nEither way I suppose this is fine to leave as-is in this change.",
+      "revId": "665a53fad717605db016acc0edd3881bbf0c596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ebb56bb_6800c675",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:49:30Z",
+      "side": 1,
+      "message": "I can tell you right now that I\u0027m going to need this functionality in some other method that\u0027s not in onSave, so I can bulk update notes in GroupRebuilder with a single commit.\n\nI don\u0027t mind doing that on my own later, though.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 5
+      },
+      "revId": "665a53fad717605db016acc0edd3881bbf0c596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "043f8b3e_c20bc67c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:49:30Z",
+      "side": 1,
+      "message": "I think I already mentioned in some doc somewhere that I think this is pretty low priority, FWIW. We don\u0027t have a high rate of group creation traffic.",
+      "revId": "665a53fad717605db016acc0edd3881bbf0c596e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

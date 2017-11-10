@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;

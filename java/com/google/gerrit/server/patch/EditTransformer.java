@@ -25,6 +25,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.server.diff.PatchListEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +183,7 @@ class EditTransformer {
   }
 
   @AutoValue
-  abstract static class ContextAwareEdit {
+  public abstract static class ContextAwareEdit {
     static ContextAwareEdit create(PatchListEntry patchListEntry, Edit edit) {
       return create(
           patchListEntry.getOldName(),

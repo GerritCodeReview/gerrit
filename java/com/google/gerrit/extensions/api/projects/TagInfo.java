@@ -54,4 +54,8 @@ public class TagInfo extends RefInfo {
     this.tagger = tagger;
     this.webLinks = webLinks;
   }
+
+  public Timestamp getCreated() {
+    return created == null ? new Timestamp(0) : created;
+  }
 }

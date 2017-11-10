@@ -139,6 +139,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void assertDeleteSucceeds() throws Exception {
+    assertThat(branch().get().canDelete).isTrue();
     String branchRev = branch().get().revision;
     branch().delete();
     eventRecorder.assertRefUpdatedEvents(
@@ -148,6 +149,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void assertDeleteForbidden() throws Exception {
+    assertThat(branch().get().canDelete).isNull();
     exception.expect(AuthException.class);
     exception.expectMessage("delete not permitted");
     branch().delete();

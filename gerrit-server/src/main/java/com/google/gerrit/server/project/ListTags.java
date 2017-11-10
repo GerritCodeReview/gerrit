@@ -190,7 +190,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       WebLinks links)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
-    boolean canDelete = perm.testOrFalse(RefPermission.DELETE);
+    Boolean canDelete = perm.testOrFalse(RefPermission.DELETE) ? true : null;
     List<WebLinkInfo> webLinks = links.getTagLinks(projectName.get(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag

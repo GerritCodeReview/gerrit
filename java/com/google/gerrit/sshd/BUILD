@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/util/cli",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",

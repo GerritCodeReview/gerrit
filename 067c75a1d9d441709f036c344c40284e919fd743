@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "0a292d08_58032e86",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "Thanks.\n\nFWIW the reason I added this is otherwise GroupRebuilder would produce 2 commits for an empty group:\n\n* The root commit setting the group properties, with no member files at all.\n* The final fixup commit (setCurrentMembership) would add empty member files.\n\nI could have moved the optimization into GroupRebuilder but this seemed cleaner.",
+      "parentUuid": "efed9b4d_3af5f420",
+      "range": {
+        "startLine": 316,
+        "startChar": 35,
+        "endLine": 316,
+        "endChar": 82
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae02abb3_4be353cc",
         "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
         "patchSetId": 11
@@ -37,6 +61,30 @@
       "writtenOn": "2017-11-10T12:17:03Z",
       "side": 1,
       "message": "Isn\u0027t the special \u0027audit\u0027 PersonIdent we use in GroupsUpdate also necessary here?",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 91
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "131bfee0_cf5ce87b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "Good catch, thanks.\n\nI wrote this before suggesting that we change the identities everywhere, and never went back and fixed it. This shows that asserting over log messages in tests is not sufficient and I should check the identities as well.",
+      "parentUuid": "ae02abb3_4be353cc",
       "range": {
         "startLine": 88,
         "startChar": 8,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "704c61fb_582297e4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "It sets createdOn, but it reuses the name/email from the original author/committer. So to set the name/email to the server ident, I still have to call setAuthor/setCommitter, even though the timestamp portion of this ident will be ignored.\n\nSo the choices are:\n\n* use nowServerIdent, but leave a comment that the timestamp is wrong but that\u0027s ok because GroupConfig will fix it\n* use createdOn, which is obviously correct regardless of what GroupConfig does\n\nI chose the latter because I thought it would make this code clearer, but if you think the former is clearer I have no problem changing it.",
+      "parentUuid": "9770de10_1e604ce3",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 89
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f13e473_415701a4",
         "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
         "patchSetId": 11
@@ -83,6 +155,30 @@
       "writtenOn": "2017-11-10T12:17:03Z",
       "side": 1,
       "message": "I\u0027m wondering whether we shouldn\u0027t just have an optional property in InternalGroupUpdate which determines the timestamp of the commit. If it is set, we use that value (in GroupConfig#onSave), if it isn\u0027t, we take the current time. Thus, it would be clearer which timestamp is used for the commit in my opinion (and not depend on the time GroupsUpdate is instantiated).",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 80
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82cca7e9_ad919306",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "I almost like this idea, but see my previous comment: if we do that, then if the caller wants to set the name/email, then they have to pass a timestamp to setAuthor/setCommitter will be ignored.\n\nMaybe if InternalGroupUpdate had set{Author,Committer}NameEmail and also setTimestamp, then that would work.\n\nThis all sounds like ideas for future cleanup, though. Let me know if there\u0027s anything you\u0027d like me to change in this iteration.",
+      "parentUuid": "8f13e473_415701a4",
       "range": {
         "startLine": 147,
         "startChar": 8,
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "937d18d4_1d4303a8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "We did this for changes, so I know it\u0027s possible. That said, what I wanted to avoid was bucketing events with similar but slightly different timestamps together, because that\u0027s subtle code and it makes testing considerably harder (see ChangeBundle.java).\n\nI am fine with combining events that have exactly the same timestamp to the millisecond, that code is easy and does not complicate testing.\n\nUnfortunately, DbGroupMemberAuditListener does a dumb thing and calls TimeUtil.nowTs() in the body of a loop, so actually memberships added in a single AddMembers call might have different timestamps in the audit log. In most cases they will be the same but it\u0027s not a guarantee.",
+      "parentUuid": "0b8ad173_85339a8f",
+      "range": {
+        "startLine": 183,
+        "startChar": 31,
+        "endLine": 183,
+        "endChar": 39
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aaa9aff9_278f6b5c",
         "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
         "patchSetId": 11
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "5ee32e88_51e0238e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "I don\u0027t care about efficiency (given that neither is obviously quadratic), but I will take your suggestions on the basis of readability :)",
+      "parentUuid": "aaa9aff9_278f6b5c",
+      "range": {
+        "startLine": 244,
+        "startChar": 18,
+        "endLine": 244,
+        "endChar": 89
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c826de2_3acc04dc",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupRebuilderIT.java",
         "patchSetId": 11
@@ -184,6 +328,30 @@
       "revId": "067c75a1d9d441709f036c344c40284e919fd743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029acfdd_35cc0bf6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupRebuilderIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "Yes. It\u0027s not obvious from createGroup whether the return value was read directly from storage, or is something that was created in-memory.",
+      "parentUuid": "5c826de2_3acc04dc",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 60
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -230,6 +398,30 @@
       "revId": "067c75a1d9d441709f036c344c40284e919fd743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e76f90b_6c3b985d",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T13:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb215ce2_533969bf",
+      "range": {
+        "startLine": 385,
+        "startChar": 26,
+        "endLine": 385,
+        "endChar": 48
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,8 +48,9 @@ public class ReviewInput {
    * How to process draft comments already in the database that were not also described in this
    * input request.
    *
-   * <p>Defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it defaults to KEEP and
-   * any other value is disallowed.
+   * <p>Historically defaults to DELETE, unless {@link #onBehalfOf} is set, in which case it
+   * defaults to KEEP and any other value is disallowed. New callers should always populate this
+   * field with a non-null value.
    */
   public DraftHandling drafts;
 
@@ -108,6 +109,11 @@ public class ReviewInput {
     public String url;
     public Map<String, String> properties;
     public List<FixSuggestionInfo> fixSuggestions;
+  }
+
+  public ReviewInput drafts(DraftHandling d) {
+    drafts = d;
+    return this;
   }
 
   public ReviewInput message(String msg) {

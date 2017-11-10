@@ -36,6 +36,9 @@ public class ReviewResult {
    */
   @Nullable public Boolean ready;
 
+  /** Warning message if {@link ReviewInput#drafts} was not specified. */
+  @Nullable public String warning;
+
   /** Error message for non-200 responses. */
   @Nullable public String error;
 }

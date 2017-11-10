@@ -220,6 +220,8 @@ public class PostReview
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+    ReviewResult output = new ReviewResult();
+
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -231,6 +233,7 @@ public class PostReview
       revision = onBehalfOf(revision, labelTypes, input);
     } else if (input.drafts == null) {
       input.drafts = DraftHandling.DELETE;
+      output.warning = "default value for drafts field (DELETE) is deprecated";
     }
     if (input.labels != null) {
       checkLabels(revision, labelTypes, input.labels);
@@ -279,7 +282,6 @@ public class PostReview
       }
     }
 
-    ReviewResult output = new ReviewResult();
     output.reviewers = reviewerJsonResults;
     if (hasError || confirm) {
       output.error = ERROR_ADDING_REVIEWER;

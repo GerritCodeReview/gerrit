@@ -619,27 +619,22 @@
       const values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
       const pluginActions = [];
-      for (const a in actions) {
-        if (!actions.hasOwnProperty(a)) {
-          continue;
-        }
+      Object.keys(actions).forEach(a => {
         actions[a].__key = a;
         actions[a].__type = type;
         actions[a].__primary = primaryActionKeys.includes(a);
         // Plugin actions always contain ~ in the key.
         if (a.indexOf('~') !== -1) {
+          this._populateActionUrl(actions[a]);
           pluginActions.push(actions[a]);
-          const patchNum = type === ActionType.REVISION ? this.patchNum : null;
-          this.$.restAPI.getChangeActionURL(this.changeNum, patchNum, '/' + a)
-              .then(url => actions[a].__url = url);
           // Add server-side provided plugin actions to overflow menu.
           this._overflowActions.push({
             type,
             key: a,
           });
-          continue;
+          return;
         } else if (!values.includes(a)) {
-          continue;
+          return;
         }
         if (actions[a].label === 'Delete') {
           // This label is common within change and revision actions. Make it
@@ -650,7 +645,7 @@
         }
         // Triggers a re-render by ensuring object inequality.
         result.push(Object.assign({}, actions[a]));
-      }
+      });
 
       let additionalActions = (additionalActionsChangeRecord &&
       additionalActionsChangeRecord.base) || [];
@@ -662,6 +657,14 @@
         return Object.assign({}, a);
       });
       return result.concat(additionalActions).concat(pluginActions);
+    },
+
+    _populateActionUrl(action) {
+      const patchNum =
+            action.__type === ActionType.REVISION ? this.patchNum : null;
+      this.$.restAPI.getChangeActionURL(
+          this.changeNum, patchNum, '/' + action.__key)
+          .then(url => action.__url = url);
     },
 
     _computeLoadingLabel(action) {

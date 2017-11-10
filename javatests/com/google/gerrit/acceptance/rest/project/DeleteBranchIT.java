@@ -20,15 +20,19 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,6 +127,31 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     grantDelete();
     assertDeleteByRestSucceeds(metaBranch, metaRef);
+  }
+
+  @Test
+  public void deleteUserBranch_Conflict() throws Exception {
+    allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
+    allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Not allowed to delete user branch.");
+    branch(new Branch.NameKey(allUsers, RefNames.refsUsers(admin.id))).delete();
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void deleteGroupBranch_Conflict() throws Exception {
+    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
+    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
+
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
+    assertThat(adminGroup).isNotNull();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Not allowed to delete group branch.");
+    branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroup.getGroupUUID()))).delete();
   }
 
   private void blockForcePush() throws Exception {

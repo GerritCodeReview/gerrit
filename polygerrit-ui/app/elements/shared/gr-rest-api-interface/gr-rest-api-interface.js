@@ -544,25 +544,39 @@
     },
 
     /**
+     * @param {?Object} obj
+     */
+    _updateCachedAccount(obj) {
+      // If result of getAccount is in cache, update it in the cache
+      // so we don't have to invalidate it.
+      const cachedAccount = this._cache['/accounts/self/detail'];
+      if (cachedAccount) {
+        // Replace object in cache with new object to force UI updates.
+        this._cache['/accounts/self/detail'] =
+            Object.assign({}, cachedAccount, obj);
+      }
+    },
+
+    /**
      * @param {string} name
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
     setAccountName(name, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/name', {name}, opt_errFn,
-          opt_ctx).then(response => {
-            // If result of getAccount is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
-            if (cachedAccount) {
-              return this.getResponseObject(response).then(newName => {
-                // Replace object in cache with new object to force UI updates.
-                // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {name: newName});
-              });
-            }
-          });
+      return this.send('PUT', '/accounts/self/name', {name}, opt_errFn, opt_ctx)
+          .then(response => this.getResponseObject(response)
+              .then(newName => this._updateCachedAccount({name: newName})));
+    },
+
+    /**
+     * @param {string} username
+     * @param {function(?Response, string=)=} opt_errFn
+     * @param {?=} opt_ctx
+     */
+    setAccountUsername(username, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/username', {username}, opt_errFn,
+          opt_ctx).then(response => this.getResponseObject(response)
+              .then(newName => this._updateCachedAccount({username: newName})));
     },
 
     /**
@@ -572,19 +586,9 @@
      */
     setAccountStatus(status, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/status', {status},
-          opt_errFn, opt_ctx).then(response => {
-            // If result of getAccount is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedAccount = this._cache['/accounts/self/detail'];
-            if (cachedAccount) {
-              return this.getResponseObject(response).then(newStatus => {
-                // Replace object in cache with new object to force UI updates.
-                // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
-                    {}, cachedAccount, {status: newStatus});
-              });
-            }
-          });
+          opt_errFn, opt_ctx).then(response => this.getResponseObject(response)
+              .then(newStatus => this._updateCachedAccount(
+                  {status: newStatus})));
     },
 
     getAccountStatus(userId) {

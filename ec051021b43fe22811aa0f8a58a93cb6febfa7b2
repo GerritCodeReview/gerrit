@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d024dd0_52666eef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 4
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f3618d5_3651e45b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 4
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d16477bb_99fb04bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "c \u003d\u003e this._patchNumEquals(c.patch_set, opt_patchNum)",
+      "range": {
+        "startLine": 126,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa540f5_5be9b753",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24dc675c_ae247dae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Hmm, so this is just a rename?",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 53
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74333f15_d8e26cd7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Super nit: could we three-line this?\n\n    const unresolvedString \u003d unresolvedNum \u003d\u003d\u003d 0 ?\n        \u0027\u0027 :\n        unresolvedNum + \u0027 unresolved\u0027;",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 22
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30d1a72d_d4208083",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-10T00:42:58Z",
+      "side": 1,
+      "message": "Remove blank line.",
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

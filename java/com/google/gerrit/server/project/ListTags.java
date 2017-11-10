@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -201,15 +203,23 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getName(),
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
-          tagger != null ? CommonConverters.toGitPerson(tag.getTaggerIdent()) : null,
+          tagger != null ? CommonConverters.toGitPerson(tagger) : null,
           canDelete,
+          tagger != null ? new Timestamp(tagger.getWhen().getTime()) : null,
           webLinks.isEmpty() ? null : webLinks);
     }
+
+    Timestamp timestamp =
+        object instanceof RevCommit
+            ? new Timestamp(((RevCommit) object).getCommitterIdent().getWhen().getTime())
+            : null;
+
     // Lightweight tag
     return new TagInfo(
         ref.getName(),
         ref.getObjectId().getName(),
         canDelete,
+        timestamp,
         webLinks.isEmpty() ? null : webLinks);
   }
 

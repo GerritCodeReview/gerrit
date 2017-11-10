@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import java.sql.Timestamp;
 import java.util.List;
 import org.junit.Test;
 
@@ -177,12 +178,14 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
     assertThat(result.revision).isEqualTo(input.revision);
     assertThat(result.canDelete).isTrue();
+    assertThat(result.created).isEqualTo(timestamp(r));
 
     input.ref = "refs/tags/v2.0";
     result = tag(input.ref).create(input).get();
     assertThat(result.ref).isEqualTo(input.ref);
     assertThat(result.revision).isEqualTo(input.revision);
     assertThat(result.canDelete).isTrue();
+    assertThat(result.created).isEqualTo(timestamp(r));
 
     setApiUser(user);
     result = tag(input.ref).get();
@@ -210,6 +213,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.message).isEqualTo(input.message);
     assertThat(result.tagger.name).isEqualTo(admin.fullName);
     assertThat(result.tagger.email).isEqualTo(admin.email);
+    assertThat(result.created).isEqualTo(result.tagger.date);
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
 
@@ -224,6 +228,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result2.message).isEqualTo(input2.message);
     assertThat(result2.tagger.name).isEqualTo(admin.fullName);
     assertThat(result2.tagger.email).isEqualTo(admin.email);
+    assertThat(result2.created).isEqualTo(result2.tagger.date);
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result2.ref, null, result2.revision);
   }
@@ -325,7 +330,9 @@ public class TagsIT extends AbstractDaemonTest {
       throws Exception {
     assertThat(actual).hasSize(expected.size());
     for (int i = 0; i < expected.size(); i++) {
-      assertThat(actual.get(i).ref).isEqualTo(R_TAGS + expected.get(i));
+      TagInfo info = actual.get(i);
+      assertThat(info.created).isNotNull();
+      assertThat(info.ref).isEqualTo(R_TAGS + expected.get(i));
     }
   }
 
@@ -349,6 +356,10 @@ public class TagsIT extends AbstractDaemonTest {
 
   private TagApi tag(String tagname) throws Exception {
     return gApi.projects().name(project.get()).tag(tagname);
+  }
+
+  private Timestamp timestamp(PushOneCommit.Result r) {
+    return new Timestamp(r.getCommit().getCommitterIdent().getWhen().getTime());
   }
 
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {

@@ -20,11 +20,20 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 // TODO(aliceks): Add Javadoc descriptions to this file.
 @AutoValue
 public abstract class InternalGroupUpdate {
+  @FunctionalInterface
+  public interface MemberModification {
+    Set<Account.Id> apply(ImmutableSet<Account.Id> in);
+  }
+
+  @FunctionalInterface
+  public interface SubgroupModification {
+    Set<AccountGroup.UUID> apply(ImmutableSet<AccountGroup.UUID> in);
+  }
+
   public abstract Optional<AccountGroup.NameKey> getName();
 
   // TODO(aliceks): Mention empty string (not null!) -> unset value in Javadoc.
@@ -34,16 +43,14 @@ public abstract class InternalGroupUpdate {
 
   public abstract Optional<Boolean> getVisibleToAll();
 
-  public abstract Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>>
-      getMemberModification();
+  public abstract MemberModification getMemberModification();
 
-  public abstract Function<ImmutableSet<AccountGroup.UUID>, ? extends Set<AccountGroup.UUID>>
-      getSubgroupModification();
+  public abstract SubgroupModification getSubgroupModification();
 
   public static Builder builder() {
     return new AutoValue_InternalGroupUpdate.Builder()
-        .setMemberModification(Function.identity())
-        .setSubgroupModification(Function.identity());
+        .setMemberModification(in -> in)
+        .setSubgroupModification(in -> in);
   }
 
   @AutoValue.Builder
@@ -56,12 +63,9 @@ public abstract class InternalGroupUpdate {
 
     public abstract Builder setVisibleToAll(boolean visibleToAll);
 
-    public abstract Builder setMemberModification(
-        Function<ImmutableSet<Account.Id>, ? extends Set<Account.Id>> memberModification);
+    public abstract Builder setMemberModification(MemberModification memberModification);
 
-    public abstract Builder setSubgroupModification(
-        Function<ImmutableSet<AccountGroup.UUID>, ? extends Set<AccountGroup.UUID>>
-            subgroupModification);
+    public abstract Builder setSubgroupModification(SubgroupModification subgroupModification);
 
     public abstract InternalGroupUpdate build();
   }

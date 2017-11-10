@@ -18,7 +18,10 @@
     is: 'gr-endpoint-param',
     properties: {
       name: String,
-      value: Object,
+      value: {
+        type: Object,
+        notify: true,
+      },
     },
   });
 })();

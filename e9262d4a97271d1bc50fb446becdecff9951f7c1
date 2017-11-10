@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbd80ea7_d36b7c8c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T21:15:53Z",
+      "side": 1,
+      "message": "Nit: can you use classes here instead of $hidden? We\u0027ve been trying to move away from the hidden property due to https://meowni.ca/hidden.is.a.lie.html",
+      "revId": "e9262d4a97271d1bc50fb446becdecff9951f7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa73ac0_36ee753a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T21:15:53Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s a big deal, but these can probably be run in parallel. Not sure if it\u0027s worth it though.",
+      "range": {
+        "startLine": 102,
+        "startChar": 9,
+        "endLine": 103,
+        "endChar": 48
+      },
+      "revId": "e9262d4a97271d1bc50fb446becdecff9951f7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c01434b4_4ee56c83",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T21:15:53Z",
+      "side": 1,
+      "message": "nit: I think it\u0027d be helpful to name these hasNameChange, hasUsernameChange, hasStatusChange, even though they are longer, just because it\u0027s a little confusing that these indicate booleans. Alternatively, you could annotate them.",
+      "range": {
+        "startLine": 130,
+        "startChar": 30,
+        "endLine": 130,
+        "endChar": 52
+      },
+      "revId": "e9262d4a97271d1bc50fb446becdecff9951f7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68269d8_0f802680",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T21:15:53Z",
+      "side": 1,
+      "message": "Since this is all used in these 3 functions, can we move to a separate function like _updateCachedAccount?",
+      "range": {
+        "startLine": 587,
+        "startChar": 0,
+        "endLine": 595,
+        "endChar": 13
+      },
+      "revId": "e9262d4a97271d1bc50fb446becdecff9951f7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

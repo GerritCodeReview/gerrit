@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db7a4180_1f3ddc36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80ch.",
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae5d08ef_c5b9811f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "This looks unused.",
+      "range": {
+        "startLine": 226,
+        "startChar": 5,
+        "endLine": 226,
+        "endChar": 32
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00ec7a78_6ffe19fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be\n\n {number}\n\n?",
+      "range": {
+        "startLine": 227,
+        "startChar": 13,
+        "endLine": 227,
+        "endChar": 21
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e07e76_78b05c12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Little Nitpick: since the if contains a return, (according to the style guide) the else should just be the remainder of the function body.",
+      "range": {
+        "startLine": 233,
+        "startChar": 5,
+        "endLine": 233,
+        "endChar": 12
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ffee26c_d0840e65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Nit: indented too far.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 4
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3251acef_2cf9ac54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Same here, I\u0027d expect\n\n {number}",
+      "range": {
+        "startLine": 245,
+        "startChar": 13,
+        "endLine": 245,
+        "endChar": 21
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e895ac7d_9c794a70",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Same here with the else.",
+      "range": {
+        "startLine": 251,
+        "startChar": 5,
+        "endLine": 251,
+        "endChar": 12
+      },
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfc5bd6d_a03734c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:24:40Z",
+      "side": 1,
+      "message": "Nit: this line exceeds 80ch.",
+      "revId": "74c109295c3a3b3b9fc7dc20e93ac6d7a2a0a13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

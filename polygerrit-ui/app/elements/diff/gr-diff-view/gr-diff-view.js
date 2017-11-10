@@ -767,7 +767,7 @@
     },
 
     _getCommentsForPath(path, patchRange, projectConfig) {
-      return this._changeComments.getCommentsForPath(path, patchRange,
+      return this._changeComments.getCommentsBySideForPath(path, patchRange,
           projectConfig);
     },
 

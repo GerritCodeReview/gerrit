@@ -16,6 +16,35 @@
 
   const PARENT = 'PARENT';
 
+  const Defs = {};
+
+  /**
+   * @typedef {{
+   *    basePatchNum: (string|number),
+   *    patchNum: (number),
+   * }}
+   */
+  Defs.patchRange;
+
+  /**
+   * @typedef {{
+   *    changeNum: number,
+   *    path: string,
+   *    patchRange: !Defs.patchRange,
+   *    projectConfig: (Object|undefined),
+   * }}
+   */
+  Defs.commentMeta;
+
+  /**
+   * @typedef {{
+   *    meta: !Defs.commentMeta,
+   *    left: !Array,
+   *    right: !Array,
+   * }}
+   */
+  Defs.commentsBySide;
+
   /**
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
@@ -56,8 +85,8 @@
    * Paths with comments are mapped to true, whereas paths without comments
    * are not mapped.
    *
-   * @param {Object=} opt_patchRange The patch-range object containing patchNum
-   *     and basePatchNum properties to represent the range.
+   * @param {Defs.patchRange=} opt_patchRange The patch-range object containing
+   *     patchNum and basePatchNum properties to represent the range.
    * @return {!Object}
    */
   ChangeComments.prototype.getPaths = function(opt_patchRange) {
@@ -78,32 +107,68 @@
     return commentMap;
   };
 
- /**
-  * Gets all the comments and robot comments for the given change.
-  *
-  * @return {!Object}
-  */
-  ChangeComments.prototype.getAllPublishedComments = function() {
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  ChangeComments.prototype.getAllPublishedComments = function(opt_patchNum) {
     const paths = this.getPaths();
     const publishedComments = {};
     for (const path of Object.keys(paths)) {
-      publishedComments[path] = this.getAllCommentsForPath(path);
+      publishedComments[path] = this.getAllCommentsForPath(path, opt_patchNum);
     }
     return publishedComments;
   };
 
- /**
-  * Get the comments (with drafts and robot comments) for a path and
-  * patch-range. Returns an object with left and right properties mapping to
-  * arrays of comments in on either side of the patch range for that path.
-  *
-  * @param {!string} path
-  * @return {!Object}
-  */
-  ChangeComments.prototype.getAllCommentsForPath = function(path) {
+  /**
+   * Gets all the comments and robot comments for the given change.
+   *
+   * @param {number=} opt_patchNum
+   * @return {!Object}
+   */
+  ChangeComments.prototype.getAllDrafts = function(opt_patchNum) {
+    const paths = this.getPaths();
+    const drafts = {};
+    for (const path of Object.keys(paths)) {
+      drafts[path] = this.getAllDraftsForPath(path, opt_patchNum);
+    }
+    return drafts;
+  };
+
+  /**
+   * Get the comments (robot comments) for a path and optional patch num.
+   *
+   * @param {!string} path
+   * @param {number=} opt_patchNum
+   * @return {!Array}
+   */
+  ChangeComments.prototype.getAllCommentsForPath = function(path,
+      opt_patchNum) {
     const comments = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
-    return comments.concat(robotComments);
+    const allComments = comments.concat(robotComments);
+    if (!opt_patchNum) { return allComments; }
+    return (allComments || []).filter(c =>
+      this._patchNumEquals(c.patch_set, opt_patchNum)
+    );
+  };
+
+  /**
+   * Get the drafts for a path and optional patch num.
+   *
+   * @param {!string} path
+   * @param {number=} opt_patchNum
+   * @return {!Array}
+   */
+  ChangeComments.prototype.getAllDraftsForPath = function(path,
+      opt_patchNum) {
+    const comments = this._drafts[path] || [];
+    if (!opt_patchNum) { return comments; }
+    return (comments || []).filter(c =>
+      this._patchNumEquals(c.patch_set, opt_patchNum)
+    );
   };
 
   /**
@@ -112,17 +177,17 @@
    * arrays of comments in on either side of the patch range for that path.
    *
    * @param {!string} path
-   * @param {!Object} patchRange The patch-range object containing patchNum
+   * @param {!Defs.patchRange} patchRange The patch-range object containing patchNum
    *     and basePatchNum properties to represent the range.
    * @param {Object=} opt_projectConfig Optional project config object to
    *     include in the meta sub-object.
-   * @return {!Object}
+   * @return {!Defs.commentsBySide}
    */
-  ChangeComments.prototype.getCommentsForPath = function(path, patchRange,
-      opt_projectConfig) {
-    const comments = this._comments[path] || [];
-    const drafts = this._drafts[path] || [];
-    const robotComments = this._robotComments[path] || [];
+  ChangeComments.prototype.getCommentsBySideForPath = function(path,
+      patchRange, opt_projectConfig) {
+    const comments = this.comments[path] || [];
+    const drafts = this.drafts[path] || [];
+    const robotComments = this.robotComments[path] || [];
 
     drafts.forEach(d => { d.__draft = true; });
 
@@ -145,11 +210,92 @@
     };
   };
 
+  ChangeComments.prototype._commentObjToArray = function(comments) {
+    let commentArr = [];
+    for (const file of Object.keys(comments)) {
+      commentArr = commentArr.concat(comments[file]);
+    }
+    return commentArr;
+  };
+
+  /**
+   * Computes a string counting the number of commens in a given file and path.
+   *
+   * @param {number} patchNum
+   * @param {string=} opt_path
+   * @return {number}
+   */
+  ChangeComments.prototype.computeCommentCount = function(patchNum, opt_path) {
+    if (opt_path) {
+      return this.getAllCommentsForPath(opt_path, patchNum).length;
+    }
+    const allComments = this.getAllPublishedComments(patchNum);
+    return this._commentObjToArray(allComments).length;
+  };
+
+  /**
+   * Computes a string counting the number of commens in a given file and path.
+   *
+   * @param {number} patchNum
+   * @param {string=} opt_path
+   * @return {number}
+   */
+  ChangeComments.prototype.computeDraftCount = function(patchNum, opt_path) {
+    if (opt_path) {
+      return this.getAllDraftsForPath(opt_path, patchNum).length;
+    }
+    const allComments = this.getAllDrafts(patchNum);
+    return this._commentObjToArray(allComments).length;
+  };
+
+  /**
+   * Computes a number of unresolved comment threads in a given file and path.
+   *
+   * @param {number} patchNum
+   * @param {string=} opt_path
+   * @return {number}
+   */
+  ChangeComments.prototype.computeUnresolvedNum = function(patchNum,
+      opt_path) {
+    let comments = [];
+    let drafts = [];
+
+    if (opt_path) {
+      comments = this.getAllCommentsForPath(opt_path, patchNum);
+      drafts = this.getAllDraftsForPath(opt_path, patchNum);
+    } else {
+      comments = this._commentObjToArray(
+          this.getAllPublishedComments(patchNum));
+    }
+
+    comments = comments.concat(drafts);
+
+    // Create an object where every comment ID is the key of an unresolved
+    // comment.
+    const idMap = comments.reduce((acc, comment) => {
+      if (comment.unresolved) {
+        acc[comment.id] = true;
+      }
+      return acc;
+    }, {});
+
+    // Set false for the comments that are marked as parents.
+    for (const comment of comments) {
+      idMap[comment.in_reply_to] = false;
+    }
+
+    // The unresolved comments are the comments that still have true.
+    const unresolvedLeaves = Object.keys(idMap).filter(key => {
+      return idMap[key];
+    });
+    return unresolvedLeaves.length;
+  };
+
   /**
   * Whether the given comment should be included in the base side of the
   * given patch range.
   * @param {!Object} comment
-  * @param {!Object} range
+  * @param {!Defs.patchRange} range
   * @return {boolean}
   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
@@ -172,19 +318,19 @@
    * Whether the given comment should be included in the revision side of the
    * given patch range.
    * @param {!Object} comment
-   * @param {!Object} range
+   * @param {!Defs.patchRange} range
    * @return {boolean}
    */
-  ChangeComments.prototype._isInRevisionOfPatchRange =
-      function(comment, range) {
-        return comment.side !== PARENT &&
-            this._patchNumEquals(comment.patch_set, range.patchNum);
-      };
+  ChangeComments.prototype._isInRevisionOfPatchRange = function(comment,
+      range) {
+    return comment.side !== PARENT &&
+        this._patchNumEquals(comment.patch_set, range.patchNum);
+  };
 
   /**
    * Whether the given comment should be included in the given patch range.
    * @param {!Object} comment
-   * @param {!Object} range
+   * @param {!Defs.patchRange} range
    * @return {boolean|undefined}
    */
   ChangeComments.prototype._isInPatchRange = function(comment, range) {

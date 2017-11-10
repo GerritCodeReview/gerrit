@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db71d4ee_0b2b5138",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T01:47:30Z",
+      "side": 1,
+      "message": "Does the \"WithSide\" indicate that the result is an object with `left` and `right` (and `meta`) props? (As opposed to a flat array?)\n\nWould \"BySide\" make sense here?\n\nI wonder if this style of object would be worth putting in a typedef.",
+      "range": {
+        "startLine": 157,
+        "startChar": 38,
+        "endLine": 157,
+        "endChar": 46
+      },
+      "revId": "e678c5ad7e76a9a218ab9669db33cbe6c66965e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e88d5fb_2e6bedb9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T01:47:30Z",
+      "side": 1,
+      "message": "Optional:\n\nThese strings seem rather presentational. In the interest of separating out logic from presentation, what if these methods on the API returned the count of unresolved comments as a number? Then it could get dropped into a string at the visual element level.\n\nSimilarly, methods returning multiple counts interpolated into the same string (such as `computeCommentWithUnresolvedString`) might return an object with number properties.\n\n{\n  total: 64,\n  unresolved: 32,\n}\n\nThis might also be easier to i18n in the future.",
+      "revId": "e678c5ad7e76a9a218ab9669db33cbe6c66965e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -96,6 +96,30 @@
       "revId": "b4567e694d62791f2755d381a1c37d5e7b833d1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1723f2c_08713e89",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T15:00:59Z",
+      "side": 1,
+      "message": "Oops. That was me.",
+      "parentUuid": "41c3067f_ac92e96e",
+      "range": {
+        "startLine": 333,
+        "startChar": 4,
+        "endLine": 333,
+        "endChar": 5
+      },
+      "revId": "b4567e694d62791f2755d381a1c37d5e7b833d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

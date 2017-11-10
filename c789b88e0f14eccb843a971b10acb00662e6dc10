@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "dabfde8c_9f81c1a9",
+        "filename": "java/com/google/gerrit/index/query/DataSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T16:27:11Z",
+      "side": 1,
+      "message": "\u003e You can do that now if you think it\u0027ll be cleaner, but no pressure.\n\nActually I would lean towards not doing it now, despite my excitement. IIRC I introduced some bugs by getting the requested-but-empty vs. not-requested semantics wrong the first time I tried. I\u0027d rather not introduce that risk into prod at the moment.",
+      "parentUuid": "f0a0c238_31f9d930",
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "407a6735_aa8e49bf",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1

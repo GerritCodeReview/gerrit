@@ -23,6 +23,213 @@
       "revId": "067c75a1d9d441709f036c344c40284e919fd743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae02abb3_4be353cc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "Isn\u0027t the special \u0027audit\u0027 PersonIdent we use in GroupsUpdate also necessary here?",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 91
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9770de10_1e604ce3",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. GroupConfig#onSave updates the PersonIdent with the specified createdOn value. Does that mechanism not work in this case?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 89
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f13e473_415701a4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we shouldn\u0027t just have an optional property in InternalGroupUpdate which determines the timestamp of the commit. If it is set, we use that value (in GroupConfig#onSave), if it isn\u0027t, we take the current time. Thus, it would be clearer which timestamp is used for the commit in my opinion (and not depend on the time GroupsUpdate is instantiated).",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 80
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb2bd80_2dbf6121",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "Does this method return the expected result in the context of a GroupReference for the permissions? GroupsUpdate#getGroupName was changed to not only return the pure group name but also the UUID. Would this break the permissions configuration?",
+      "range": {
+        "startLine": 175,
+        "startChar": 59,
+        "endLine": 175,
+        "endChar": 92
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8ad173_85339a8f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "If I understand the code correctly, GroupRebuilder will create a separate commit for each member/subgroup modification even when several members were added/removed at once. Would it be difficult to combine them into one commit?",
+      "range": {
+        "startLine": 183,
+        "startChar": 31,
+        "endLine": 183,
+        "endChar": 39
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa9aff9_278f6b5c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "optional: Is this more efficient than\n\n Sets.difference(in, ImmutableSet.of(toRemove)\n\n? (For addition, Sets#union could be used.)",
+      "range": {
+        "startLine": 244,
+        "startChar": 18,
+        "endLine": 244,
+        "endChar": 89
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c826de2_3acc04dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupRebuilderIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "Is this line present so that the group is explicitly read from ReviewDb? (A comment or explicit variable name would be nice.)",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 60
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50f34c35_36149753",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "Do we somewhere have tests which ensure that the author identity of the commits is correct?",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb215ce2_533969bf",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-10T12:17:03Z",
+      "side": 1,
+      "message": "optional: Could be\n\n Iterables.getOnlyElement(perm.getRules())",
+      "range": {
+        "startLine": 385,
+        "startChar": 26,
+        "endLine": 385,
+        "endChar": 48
+      },
+      "revId": "067c75a1d9d441709f036c344c40284e919fd743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -257,14 +257,14 @@ public class GroupConfig extends VersionedMetaData {
         loadedGroup.map(g -> new GroupReference(g.getOwnerGroupUUID(), g.getName())).orElse(null);
 
     GroupReference newOwnerGroupReference = oldOwnerGroupReference;
-    if (groupCreation.isPresent()) {
-      // new group, by default it owns itself
-      newOwnerGroupReference =
-          new GroupReference(
-              groupCreation.get().getGroupUUID(), groupCreation.get().getNameKey().get());
-    }
     if (groupUpdate.isPresent() && groupUpdate.get().getOwnerGroupReference().isPresent()) {
       newOwnerGroupReference = groupUpdate.get().getOwnerGroupReference().get();
+    } else if (groupCreation.isPresent()) {
+      InternalGroupCreation creation = groupCreation.get();
+      String name =
+          groupUpdate.flatMap(InternalGroupUpdate::getName).orElseGet(creation::getNameKey).get();
+      // new group, by default it owns itself
+      newOwnerGroupReference = new GroupReference(creation.getGroupUUID(), name);
     }
 
     groupOwnerPermissions.updateOwnerPermissions(

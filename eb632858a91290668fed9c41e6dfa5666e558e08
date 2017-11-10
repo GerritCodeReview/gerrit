@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1def8ae_6611828e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T17:11:51Z",
+      "side": 1,
+      "message": "This looks to me like less of a transpiler bug and more related to this vanilla for loop, which doesn\u0027t create a lexical scope.\n\nThis is why it\u0027s generally good to avoid declaring functions inside vanilla JS loops.\n\nWhat if this were just converted to a lexically binding loop such as ..\n\nObject.keys(actions).forEach(a \u003d\u003e {\n  // ..\n});\n\n.. or ..\n\nfor (const a in actions) {\n  ((a) \u003d\u003e {\n    // ..\n  })(a);\n}\n\n.. ?",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

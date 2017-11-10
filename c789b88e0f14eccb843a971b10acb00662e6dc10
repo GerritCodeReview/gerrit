@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "909b910c_c77a6332",
+        "filename": "java/com/google/gerrit/index/query/DataSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-10T15:17:29Z",
+      "side": 1,
+      "message": "Per some IM discussion, we can do better by defining a FieldBundle type instead of a Map, which basically stores the map internally but exposes a downstream-type-safe interface as \u003cT, V\u003e getField(FieldDef\u003cT, V\u003e field)",
+      "parentUuid": "d08a0180_63173ac8",
+      "revId": "c789b88e0f14eccb843a971b10acb00662e6dc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "407a6735_aa8e49bf",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 1

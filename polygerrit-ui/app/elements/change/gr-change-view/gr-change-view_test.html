@@ -66,6 +66,12 @@ limitations under the License.
       });
     });
 
+    getCustomCssValue = cssParam => {
+      // TODO: Update to be compatible with 2.x when we upgrade from
+      // 1.x to 2.x.
+      return element.getComputedStyleValue(cssParam);
+    };
+
     suite('keyboard shortcuts', () => {
       test('S should toggle the CL star', () => {
         const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
@@ -1068,10 +1074,10 @@ limitations under the License.
         // 20 (adjusted height) - 8 (remainder) = 12 (max height to set).
 
         element._updateRelatedChangeMaxHeight();
-        assert.equal(element.customStyle['--relation-chain-max-height'],
+        assert.equal(getCustomCssValue('--relation-chain-max-height'),
             '12px');
-        assert.equal(element.customStyle['--related-change-btn-top-padding'],
-            undefined);
+        assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
+            '');
       });
 
       test('_updateRelatedChangeMaxHeight with commit toggle', () => {
@@ -1084,9 +1090,9 @@ limitations under the License.
         // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
 
         element._updateRelatedChangeMaxHeight();
-        assert.equal(element.customStyle['--relation-chain-max-height'],
+        assert.equal(getCustomCssValue('--relation-chain-max-height'),
             '48px');
-        assert.equal(element.customStyle['--related-change-btn-top-padding'],
+        assert.equal(getCustomCssValue('--related-change-btn-top-padding'),
             '2px');
       });
 
@@ -1101,7 +1107,7 @@ limitations under the License.
         // 400 (new height) % 12 (line height) = 4 (remainder).
         // 400 (new height) - 4 (remainder) = 396.
 
-        assert.equal(element.customStyle['--relation-chain-max-height'],
+        assert.equal(getCustomCssValue('--relation-chain-max-height'),
             '396px');
       });
 
@@ -1120,7 +1126,7 @@ limitations under the License.
         // 100 (new height) % 12 (line height) = 4 (remainder).
         // 100 (new height) - 4 (remainder) = 96.
         element._updateRelatedChangeMaxHeight();
-        assert.equal(element.customStyle['--relation-chain-max-height'],
+        assert.equal(getCustomCssValue('--relation-chain-max-height'),
             '96px');
       });
 

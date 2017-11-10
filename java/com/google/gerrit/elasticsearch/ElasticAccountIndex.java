@@ -23,6 +23,7 @@ import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -52,6 +53,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -160,8 +162,17 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
     @Override
     public ResultSet<AccountState> read() throws OrmException {
+      return readImpl(this::toAccountState);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(ElasticAccountIndex.this::toFieldBundle);
+    }
+
+    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
       try {
-        List<AccountState> results = Collections.emptyList();
+        List<T> results = Collections.emptyList();
         JestResult result = client.execute(search);
         if (result.isSucceeded()) {
           JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
@@ -169,21 +180,24 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              results.add(toAccountState(json.get(i)));
+              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
+              if (mapperResult != null) {
+                results.add(mapperResult);
+              }
             }
           }
         } else {
           log.error(result.getErrorMessage());
         }
-        final List<AccountState> r = Collections.unmodifiableList(results);
-        return new ResultSet<AccountState>() {
+        final List<T> r = Collections.unmodifiableList(results);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<AccountState> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<AccountState> toList() {
+          public List<T> toList() {
             return r;
           }
 

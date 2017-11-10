@@ -27,7 +27,10 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -64,6 +67,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
@@ -382,6 +386,26 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     gApi.groups().id(group1.id).index();
     assertQuery("description:" + group1.description);
     assertQuery("description:" + newDescription, group1);
+  }
+
+  @Test
+  public void rawDocument() throws Exception {
+    GroupInfo group1 = createGroup(name("group1"));
+    AccountGroup.UUID uuid = new AccountGroup.UUID(group1.id);
+
+    Optional<FieldBundle> rawFields =
+        indexes
+            .getSearchIndex()
+            .getRaw(
+                uuid,
+                QueryOptions.create(
+                    IndexConfig.createDefault(),
+                    0,
+                    10,
+                    indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
+
+    assertThat(rawFields.isPresent()).isTrue();
+    assertThat(rawFields.get().getValue(GroupField.UUID)).isEqualTo(uuid.get());
   }
 
   private Account.Id createAccountOutsideRequestContext(

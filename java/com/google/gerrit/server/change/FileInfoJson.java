@@ -20,12 +20,13 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchType;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.diff.PatchList;
+import com.google.gerrit.server.diff.PatchListCache;
+import com.google.gerrit.server.diff.PatchListEntry;
+import com.google.gerrit.server.diff.PatchListKey;
+import com.google.gerrit.server.diff.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class FileInfoJson {
       d.oldPath = e.getOldName();
       d.sizeDelta = e.getSizeDelta();
       d.size = e.getSize();
-      if (e.getPatchType() == Patch.PatchType.BINARY) {
+      if (e.getPatchType() == PatchType.BINARY) {
         d.binary = true;
       } else {
         d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;

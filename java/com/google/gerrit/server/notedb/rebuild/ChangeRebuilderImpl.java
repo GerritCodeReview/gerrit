@@ -65,7 +65,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.ChainedReceiveCommands;

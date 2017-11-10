@@ -15,76 +15,38 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.diff.IntraLineDiff;
+import com.google.gerrit.server.diff.Text;
+import com.google.gerrit.server.patch.PatchListCacheImpl.LargeObjectTombstone;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.List;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.ReplaceEdit;
 import org.junit.Test;
 
-public class PatchListTest {
-  @Test
-  public void fileOrder() {
-    String[] names = {
-      "zzz", "def/g", "/!xxx", "abc", Patch.MERGE_LIST, "qrx", Patch.COMMIT_MSG,
-    };
-    String[] want = {
-      Patch.COMMIT_MSG, Patch.MERGE_LIST, "/!xxx", "abc", "def/g", "qrx", "zzz",
-    };
-
-    Arrays.sort(
-        names,
-        0,
-        names.length,
-        new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            return PatchList.comparePaths(o1, o2);
-          }
-        });
-    assertThat(names).isEqualTo(want);
-  }
-
-  @Test
-  public void fileOrderNoMerge() {
-    String[] names = {
-      "zzz", "def/g", "/!xxx", "abc", "qrx", Patch.COMMIT_MSG,
-    };
-    String[] want = {
-      Patch.COMMIT_MSG, "/!xxx", "abc", "def/g", "qrx", "zzz",
-    };
-
-    Arrays.sort(
-        names,
-        0,
-        names.length,
-        new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            return PatchList.comparePaths(o1, o2);
-          }
-        });
-    assertThat(names).isEqualTo(want);
-  }
-
+public class PatchListCacheTest {
   @Test
   public void largeObjectTombstoneCanBeSerializedAndDeserialized() throws Exception {
     // Serialize
     byte[] serializedObject;
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(baos)) {
-      objectStream.writeObject(new PatchListCacheImpl.LargeObjectTombstone());
+      objectStream.writeObject(new LargeObjectTombstone());
       serializedObject = baos.toByteArray();
       assertThat(serializedObject).isNotNull();
     }
     // Deserialize
     try (InputStream is = new ByteArrayInputStream(serializedObject);
         ObjectInputStream ois = new ObjectInputStream(is)) {
-      assertThat(ois.readObject()).isInstanceOf(PatchListCacheImpl.LargeObjectTombstone.class);
+      assertThat(ois.readObject()).isInstanceOf(LargeObjectTombstone.class);
     }
   }
 }

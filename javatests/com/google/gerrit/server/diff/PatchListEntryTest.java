@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -20,6 +20,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchType;
 import org.junit.Test;
 
 public class PatchListEntryTest {
@@ -29,7 +30,7 @@ public class PatchListEntryTest {
     final PatchListEntry e = PatchListEntry.empty(name);
     assertNull(e.getOldName());
     assertEquals(name, e.getNewName());
-    assertSame(Patch.PatchType.UNIFIED, e.getPatchType());
+    assertSame(PatchType.UNIFIED, e.getPatchType());
     assertSame(Patch.ChangeType.MODIFIED, e.getChangeType());
     assertTrue(e.getEdits().isEmpty());
   }

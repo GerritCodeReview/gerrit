@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
-public class PatchListNotAvailableException extends Exception {
-  private static final long serialVersionUID = 1L;
+import org.eclipse.jgit.diff.SequenceComparator;
 
-  public PatchListNotAvailableException(String message) {
-    super(message);
+public class CharTextComparator extends SequenceComparator<CharText> {
+  @Override
+  public boolean equals(CharText a, int ai, CharText b, int bi) {
+    return a.charAt(ai) == b.charAt(bi);
   }
 
-  public PatchListNotAvailableException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  public PatchListNotAvailableException(Throwable cause) {
-    super(cause);
+  @Override
+  public int hash(CharText seq, int ptr) {
+    return seq.charAt(ptr);
   }
 }

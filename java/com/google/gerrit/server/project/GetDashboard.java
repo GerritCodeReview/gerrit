@@ -30,9 +30,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 

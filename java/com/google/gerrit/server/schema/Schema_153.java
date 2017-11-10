@@ -17,8 +17,8 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Add reviewStarted field to change. */
 public class Schema_153 extends SchemaVersion {

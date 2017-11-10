@@ -17,12 +17,12 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

@@ -438,7 +438,7 @@ its own custom event class derived from
 import com.google.gerrit.common.EventDispatcher;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 class MyPlugin {
   private final DynamicItem<EventDispatcher> eventDispatcher;
@@ -2157,7 +2157,7 @@ Servlets may use auto-registration to declare the URL they handle:
 [source,java]
 ----
 import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

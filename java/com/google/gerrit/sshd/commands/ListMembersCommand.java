@@ -29,10 +29,10 @@ import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 /** Implements a command that allows the user to see the members of a group. */

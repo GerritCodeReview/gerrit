@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.EnumSet;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class GetChange implements RestReadView<ChangeResource> {

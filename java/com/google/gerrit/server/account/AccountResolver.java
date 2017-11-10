@@ -19,9 +19,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +27,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton

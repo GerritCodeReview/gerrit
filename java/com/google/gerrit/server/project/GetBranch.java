@@ -18,10 +18,10 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetBranch implements RestReadView<BranchResource> {

@@ -27,12 +27,12 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Operation to change the username of an account. */

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 /** User identity for plugin code that needs an identity. */
 public class PluginUser extends InternalUser {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /** Add revertOf field to change. */
 public class Schema_156 extends SchemaVersion {

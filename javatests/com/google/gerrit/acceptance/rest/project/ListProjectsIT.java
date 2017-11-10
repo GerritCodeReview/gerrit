@@ -36,6 +36,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd

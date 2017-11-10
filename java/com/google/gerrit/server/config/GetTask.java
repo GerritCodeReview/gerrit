@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetTask implements RestReadView<TaskResource> {

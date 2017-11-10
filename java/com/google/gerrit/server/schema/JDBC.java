@@ -16,7 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 class JDBC extends BaseDataSourceType {

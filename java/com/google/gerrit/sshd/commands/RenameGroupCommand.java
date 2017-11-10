@@ -24,8 +24,8 @@ import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.IOException;
+import javax.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 

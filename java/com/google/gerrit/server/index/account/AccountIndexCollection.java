@@ -18,7 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class AccountIndexCollection

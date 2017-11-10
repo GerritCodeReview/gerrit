@@ -16,9 +16,9 @@ package com.google.gerrit.server.mail.send;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface MailTemplates {}

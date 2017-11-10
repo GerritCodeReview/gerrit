@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountResource.SshKey;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetSshKey implements RestReadView<AccountResource.SshKey> {

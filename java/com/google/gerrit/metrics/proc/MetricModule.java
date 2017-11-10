@@ -17,7 +17,7 @@ package com.google.gerrit.metrics.proc;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 /** Guice module to configure metrics on server startup. */
 public abstract class MetricModule extends LifecycleModule {

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class ServerInformationImpl implements ServerInformation {

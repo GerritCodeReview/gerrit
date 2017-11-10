@@ -30,7 +30,6 @@ import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.util.Providers;
 import java.io.IOException;
@@ -39,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 /** Initialize a new Gerrit installation. */

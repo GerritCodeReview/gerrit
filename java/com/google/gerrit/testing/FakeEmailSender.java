@@ -26,14 +26,14 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

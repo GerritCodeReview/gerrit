@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetActive implements RestReadView<AccountResource> {

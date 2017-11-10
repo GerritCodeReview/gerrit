@@ -23,12 +23,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.GetAccess;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class ListAccess implements RestReadView<TopLevelResource> {

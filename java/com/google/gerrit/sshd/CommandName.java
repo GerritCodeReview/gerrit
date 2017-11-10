@@ -16,8 +16,8 @@ package com.google.gerrit.sshd;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Name of a command registered in an SSH daemon.
@@ -28,7 +28,7 @@ import java.lang.annotation.Retention;
  * @see Commands#key(String)
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface CommandName {
   String value();
 }

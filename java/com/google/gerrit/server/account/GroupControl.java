@@ -25,10 +25,10 @@ import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.Optional;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {

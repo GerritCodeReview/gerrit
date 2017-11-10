@@ -14,10 +14,10 @@
 
 package com.google.gerrit.pgm.init.api;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import javax.inject.Qualifier;
 
-@BindingAnnotation
+@Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InstallAllPlugins {}

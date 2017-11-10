@@ -16,11 +16,11 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.MailMessage;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

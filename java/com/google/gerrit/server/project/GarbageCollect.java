@@ -31,14 +31,14 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.GarbageCollect.Input;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Collections;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton

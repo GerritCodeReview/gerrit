@@ -24,8 +24,8 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -23,8 +23,8 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 
 /** Parses a query string meant to be applied to project objects. */
 public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {

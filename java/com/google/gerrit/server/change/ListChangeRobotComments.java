@@ -21,10 +21,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 
 public class ListChangeRobotComments implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> db;

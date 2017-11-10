@@ -34,10 +34,10 @@ import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.server.account.QueryAccounts;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class AccountsImpl implements Accounts {

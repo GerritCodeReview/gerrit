@@ -24,11 +24,11 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.server.plugins.PluginsCollection;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.SortedMap;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class PluginsImpl implements Plugins {

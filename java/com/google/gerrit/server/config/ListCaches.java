@@ -27,12 +27,12 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})

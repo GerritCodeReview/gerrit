@@ -19,16 +19,16 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
 /**
  * A marker for database modifications which are directly related to a user request (e.g. happen
  * inside of a request context). Those modifications will be attributed to the user by using the
  * user's identity as author and committer for all related NoteDb commits.
  */
-@BindingAnnotation
+@Qualifier
 @Target({FIELD, PARAMETER, METHOD})
 @Retention(RUNTIME)
 public @interface UserInitiated {}

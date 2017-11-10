@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.events.ChangeRevertedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.sql.Timestamp;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

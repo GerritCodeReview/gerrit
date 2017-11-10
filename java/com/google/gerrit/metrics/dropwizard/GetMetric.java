@@ -20,7 +20,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 class GetMetric implements RestReadView<MetricResource> {

@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.init;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;

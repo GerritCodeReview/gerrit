@@ -22,12 +22,12 @@ import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.inject.Inject;
 
 public class Schema_142 extends SchemaVersion {
   private static final int MAX_BATCH_SIZE = 1000;

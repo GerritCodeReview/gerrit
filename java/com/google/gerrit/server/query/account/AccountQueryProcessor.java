@@ -30,8 +30,8 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 /**
  * Query processor for the account index.

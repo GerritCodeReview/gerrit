@@ -18,8 +18,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.inject.Inject;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 public class CommandExecutorQueueProvider implements QueueProvider {

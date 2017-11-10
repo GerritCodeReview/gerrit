@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Simple class to produce 4 billion keys randomly distributed. */
 @Singleton

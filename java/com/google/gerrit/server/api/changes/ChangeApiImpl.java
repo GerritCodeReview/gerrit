@@ -93,13 +93,13 @@ import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Unignore;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
 
 class ChangeApiImpl implements ChangeApi {
   interface Factory {

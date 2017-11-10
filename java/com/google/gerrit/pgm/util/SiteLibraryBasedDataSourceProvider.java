@@ -21,9 +21,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.sql.DataSource;
 import org.eclipse.jgit.lib.Config;
 

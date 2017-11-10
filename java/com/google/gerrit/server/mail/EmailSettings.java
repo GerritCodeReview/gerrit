@@ -16,9 +16,9 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

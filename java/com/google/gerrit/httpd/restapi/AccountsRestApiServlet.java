@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd.restapi;
 
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class AccountsRestApiServlet extends RestApiServlet {

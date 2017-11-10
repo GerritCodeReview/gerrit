@@ -20,7 +20,7 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevWalk;
 

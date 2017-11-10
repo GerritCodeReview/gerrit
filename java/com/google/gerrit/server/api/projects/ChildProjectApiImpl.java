@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ChildProjectResource;
 import com.google.gerrit.server.project.GetChildProject;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 public class ChildProjectApiImpl implements ChildProjectApi {
   interface Factory {

@@ -26,9 +26,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import javax.inject.Inject;
 
 /** Parses a query string meant to be applied to account objects. */
 public class AccountQueryBuilder extends QueryBuilder<AccountState> {

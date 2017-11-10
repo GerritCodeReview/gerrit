@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CommentResource;
 import com.google.gerrit.server.change.DeleteComment;
 import com.google.gerrit.server.change.GetComment;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 class CommentApiImpl implements CommentApi {
   interface Factory {

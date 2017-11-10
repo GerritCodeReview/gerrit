@@ -76,11 +76,11 @@ import com.google.gerrit.server.account.Stars;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
+import javax.inject.Inject;
 
 public class AccountApiImpl implements AccountApi {
   interface Factory {

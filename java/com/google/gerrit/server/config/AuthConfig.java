@@ -24,14 +24,14 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /** Authentication related settings from {@code gerrit.config}. */

@@ -19,7 +19,7 @@ import com.google.gerrit.server.config.ConfirmEmail;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 

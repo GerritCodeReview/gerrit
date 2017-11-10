@@ -18,13 +18,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /**

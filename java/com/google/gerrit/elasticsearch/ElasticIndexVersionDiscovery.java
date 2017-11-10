@@ -16,8 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.http.JestHttpClient;
 import io.searchbox.indices.aliases.GetAliases;
@@ -26,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 class ElasticIndexVersionDiscovery {

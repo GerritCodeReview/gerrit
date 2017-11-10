@@ -57,10 +57,10 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /**

@@ -19,8 +19,8 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 import java.util.Collections;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {

@@ -26,9 +26,9 @@ import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
-import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.Locale;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 

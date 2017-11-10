@@ -17,10 +17,10 @@ package com.google.gerrit.server.auth;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Universal implementation of the AuthBackend that works with the injected set of AuthBackends. */
 @Singleton

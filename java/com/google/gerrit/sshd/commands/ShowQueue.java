@@ -33,12 +33,12 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import javax.inject.Inject;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 

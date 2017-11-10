@@ -30,9 +30,9 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Set;
+import javax.inject.Inject;
 
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {

@@ -18,11 +18,11 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

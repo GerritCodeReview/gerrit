@@ -22,11 +22,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

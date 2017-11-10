@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class GetChildProject implements RestReadView<ChildProjectResource> {

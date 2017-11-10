@@ -31,12 +31,12 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 public class ListMembers implements RestReadView<GroupResource> {

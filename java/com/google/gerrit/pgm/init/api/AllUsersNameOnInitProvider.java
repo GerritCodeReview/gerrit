@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.init.api;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 
 public class AllUsersNameOnInitProvider implements Provider<String> {
   private final String name;

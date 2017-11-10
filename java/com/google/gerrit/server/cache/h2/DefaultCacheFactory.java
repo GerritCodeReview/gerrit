@@ -28,8 +28,8 @@ import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 public class DefaultCacheFactory implements MemoryCacheFactory {

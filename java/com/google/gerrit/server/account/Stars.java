@@ -36,13 +36,13 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class Stars implements ChildCollection<AccountResource, AccountResource.Star> {

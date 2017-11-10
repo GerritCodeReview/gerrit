@@ -21,8 +21,8 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 /** Provides {@link CanonicalWebUrl} from {@code gerrit.canonicalWebUrl}. */

@@ -18,7 +18,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GroupIndexCollection

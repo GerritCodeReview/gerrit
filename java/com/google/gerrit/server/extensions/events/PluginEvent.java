@@ -16,7 +16,7 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.events.PluginEventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class PluginEvent {
   private final DynamicSet<PluginEventListener> listeners;

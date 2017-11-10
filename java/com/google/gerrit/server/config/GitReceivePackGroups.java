@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
 /**
  * Used to populate the groups of users that are allowed to run receive-pack on the server.
@@ -30,5 +30,5 @@ import java.lang.annotation.Retention;
  * </pre>
  */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface GitReceivePackGroups {}

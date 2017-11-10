@@ -17,8 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
+import javax.inject.Singleton;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton

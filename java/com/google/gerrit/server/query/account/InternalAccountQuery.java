@@ -31,10 +31,10 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

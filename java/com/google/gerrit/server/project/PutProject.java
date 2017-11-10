@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class PutProject implements RestModifyView<ProjectResource, ProjectInput> {

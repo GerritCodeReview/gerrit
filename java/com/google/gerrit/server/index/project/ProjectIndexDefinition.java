@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectData;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class ProjectIndexDefinition
     extends IndexDefinition<Project.NameKey, ProjectData, ProjectIndex> {

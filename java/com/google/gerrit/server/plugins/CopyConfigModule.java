@@ -26,10 +26,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 

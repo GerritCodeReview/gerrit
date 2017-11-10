@@ -20,8 +20,8 @@ import static com.google.gerrit.server.schema.JdbcUtil.port;
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import java.io.IOException;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 class HANA extends BaseDataSourceType {

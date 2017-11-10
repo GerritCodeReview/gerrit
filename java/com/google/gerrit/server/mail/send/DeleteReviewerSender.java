@@ -22,13 +22,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.mail.Address;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 
 /** Let users know that a reviewer and possibly her review have been removed. */
 public class DeleteReviewerSender extends ReplyToChangeSender {

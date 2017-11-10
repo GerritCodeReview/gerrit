@@ -28,9 +28,9 @@ import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.project.TagsCollection;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import javax.inject.Inject;
 
 public class TagApiImpl implements TagApi {
   interface Factory {

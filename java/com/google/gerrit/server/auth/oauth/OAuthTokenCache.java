@@ -22,10 +22,10 @@ import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class OAuthTokenCache {

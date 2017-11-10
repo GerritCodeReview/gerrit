@@ -28,9 +28,9 @@ import com.google.gerrit.server.config.TasksCollection;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 /** Kill a task in the work queue. */

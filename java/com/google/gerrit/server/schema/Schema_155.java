@@ -21,9 +21,9 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.SQLException;
+import javax.inject.Inject;
 
 /** Create account sequence in NoteDb */
 public class Schema_155 extends SchemaVersion {

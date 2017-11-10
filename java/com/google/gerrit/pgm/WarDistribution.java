@@ -19,7 +19,6 @@ import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.PluginsDistribution;
-import com.google.inject.Singleton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

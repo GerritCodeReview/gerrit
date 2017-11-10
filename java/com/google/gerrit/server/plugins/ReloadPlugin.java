@@ -21,10 +21,10 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton

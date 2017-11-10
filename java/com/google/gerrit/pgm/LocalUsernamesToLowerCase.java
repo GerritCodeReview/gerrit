@@ -26,10 +26,10 @@ import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.Collection;
 import java.util.Locale;
+import javax.inject.Inject;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 

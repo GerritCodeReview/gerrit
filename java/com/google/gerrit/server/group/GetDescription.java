@@ -18,7 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetDescription implements RestReadView<GroupResource> {

@@ -31,12 +31,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 

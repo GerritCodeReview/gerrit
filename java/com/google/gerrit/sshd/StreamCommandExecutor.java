@@ -16,11 +16,11 @@ package com.google.gerrit.sshd;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import javax.inject.Qualifier;
 
 /** Marker on {@link ScheduledThreadPoolExecutor} used by delayed event streaming. */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface StreamCommandExecutor {}

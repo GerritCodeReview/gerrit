@@ -17,10 +17,8 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.shared.SoyAstCache;
 import com.google.template.soy.tofu.SoyTofu;
@@ -29,6 +27,8 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** Configures Soy Tofu object for rendering email templates. */
 @Singleton

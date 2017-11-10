@@ -22,8 +22,8 @@ import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQuer
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 @CommandMetaData(

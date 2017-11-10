@@ -23,8 +23,8 @@ import com.google.gerrit.server.plugins.EnablePlugin;
 import com.google.gerrit.server.plugins.GetStatus;
 import com.google.gerrit.server.plugins.PluginResource;
 import com.google.gerrit.server.plugins.ReloadPlugin;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 public class PluginApiImpl implements PluginApi {
   public interface Factory {

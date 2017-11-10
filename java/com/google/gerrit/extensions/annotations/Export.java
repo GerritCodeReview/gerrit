@@ -16,10 +16,10 @@ package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
 /**
  * Annotation applied to auto-registered, exported types.
@@ -44,7 +44,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface Export {
   String value();
 }

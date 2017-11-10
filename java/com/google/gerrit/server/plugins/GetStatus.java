@@ -16,7 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class GetStatus implements RestReadView<PluginResource> {

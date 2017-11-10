@@ -15,11 +15,11 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

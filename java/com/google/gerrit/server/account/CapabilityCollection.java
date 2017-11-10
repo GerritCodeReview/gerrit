@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
 
 /** Caches active {@link GlobalCapability} set for a site. */
 public class CapabilityCollection {

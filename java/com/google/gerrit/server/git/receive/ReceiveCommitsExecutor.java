@@ -16,11 +16,11 @@ package com.google.gerrit.server.git.receive;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 import java.util.concurrent.ExecutorService;
+import javax.inject.Qualifier;
 
 /** Marker on the global {@link ExecutorService} used by {@link ReceiveCommits}. */
 @Retention(RUNTIME)
-@BindingAnnotation
+@Qualifier
 public @interface ReceiveCommitsExecutor {}

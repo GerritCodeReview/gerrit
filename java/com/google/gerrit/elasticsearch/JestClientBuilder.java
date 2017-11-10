@@ -14,13 +14,13 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.client.config.HttpClientConfig.Builder;
 import io.searchbox.client.http.JestHttpClient;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 class JestClientBuilder {

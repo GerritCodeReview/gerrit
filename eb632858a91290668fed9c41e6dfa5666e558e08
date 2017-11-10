@@ -46,6 +46,30 @@
       "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e73173_bd26171d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-10T19:53:21Z",
+      "side": 1,
+      "message": "SGTM.\n\nIt looks like this code can probably also break in unminified code if the getChangeActionURL method actually makes a request. Almost always though, it doesn\u0027t and resolves synchronously.",
+      "parentUuid": "e58548c4_98dfee07",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

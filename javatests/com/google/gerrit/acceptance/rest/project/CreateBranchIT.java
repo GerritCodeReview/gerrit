@@ -19,6 +19,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -28,8 +29,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.group.InternalGroup;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,6 +93,21 @@ public class CreateBranchIT extends AbstractDaemonTest {
         RefNames.refsUsers(admin.getId()),
         ResourceConflictException.class,
         "Not allowed to create user branch.");
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void createGroupBranch_Conflict() throws Exception {
+    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
+    allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
+    InternalGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
+    assertThat(adminGroup).isNotNull();
+    assertCreateFails(
+        new Branch.NameKey(allUsers, RefNames.refsGroups(new AccountGroup.UUID("foo"))),
+        RefNames.refsGroups(adminGroup.getGroupUUID()),
+        ResourceConflictException.class,
+        "Not allowed to create group branch.");
   }
 
   private void blockCreateReference() throws Exception {

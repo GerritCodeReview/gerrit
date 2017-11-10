@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.InternalGroup;
-import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,6 +84,14 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createMetaBranch() throws Exception {
+    String metaRef = RefNames.REFS_META + "foo";
+    allow(metaRef, Permission.CREATE, REGISTERED_USERS);
+    allow(metaRef, Permission.PUSH, REGISTERED_USERS);
+    assertCreateSucceeds(new Branch.NameKey(project, metaRef));
+  }
+
+  @Test
   public void createUserBranch_Conflict() throws Exception {
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_USERS + "*", Permission.PUSH, REGISTERED_USERS);
@@ -124,7 +131,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   private void assertCreateSucceeds(Branch.NameKey branch) throws Exception {
     BranchInfo created = branch(branch).create(new BranchInput()).get();
-    assertThat(created.ref).isEqualTo(Constants.R_HEADS + branch.getShortName());
+    assertThat(created.ref).isEqualTo(branch.get());
   }
 
   private void assertCreateFails(

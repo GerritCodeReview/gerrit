@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "96f4c18e_c65a106d",
+        "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-10T08:13:14Z",
+      "side": 1,
+      "message": "It turns out we don\u0027t have access to our Nullable annotation from this class:\n\njava/com/google/gerrit/reviewdb/client/AccountGroup.java:17: error: package com.google.gerrit.common does not exist\nimport com.google.gerrit.common.Nullable;\n                               ^\n\nHence I removed the @Nullable annotation again. I think it\u0027s not that important to have.",
+      "parentUuid": "45b1d1a6_3733e7bf",
+      "revId": "e10af7a39438db71e98d3d37e1710dab0c705c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017b714c_25045d73",
         "filename": "java/com/google/gerrit/reviewdb/client/AccountGroup.java",
         "patchSetId": 2

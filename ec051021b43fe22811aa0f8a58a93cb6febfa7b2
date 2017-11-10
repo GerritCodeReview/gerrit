@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e383d43f_e21ae452",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d024dd0_52666eef",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 4
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f3618d5_3651e45b",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b32d4d5d_4a381d03",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3618d5_3651e45b",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 4
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ce946b77_81c27702",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16477bb_99fb04bf",
+      "range": {
+        "startLine": 126,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aa540f5_5be9b753",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -85,6 +157,24 @@
       "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31868d30_968566f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa540f5_5be9b753",
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "5aef8879_0b24dc9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "It\u0027s a rename, because getCommentsForPath now has a different meaning (I renamed in this way because I think it is more intuitive which does which). This \u0027new\u0027 version is moving to gr-comment-api from gr-file-list (which you can see being removed from there in a follow-up change: https://gerrit-review.googlesource.com/c/gerrit/+/140050/1). \n\nThe new getCommentsForPath returns an array of comments, while this one returns the object below (meta, left, right).",
+      "parentUuid": "24dc675c_ae247dae",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 53
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74333f15_d8e26cd7",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "c78f27b6_33052318",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74333f15_d8e26cd7",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 22
+      },
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30d1a72d_d4208083",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 1
@@ -148,6 +286,24 @@
       "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0f60e42_00de6756",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-10T01:08:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30d1a72d_d4208083",
+      "revId": "ec051021b43fe22811aa0f8a58a93cb6febfa7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

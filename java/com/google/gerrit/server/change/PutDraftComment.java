@@ -31,7 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;

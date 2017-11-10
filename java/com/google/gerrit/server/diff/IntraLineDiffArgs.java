@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.diff.AutoValue_IntraLineDiffArgs;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;

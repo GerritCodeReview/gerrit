@@ -63,7 +63,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -106,7 +105,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
-  @Inject private AllUsersName allUsers;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {

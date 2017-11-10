@@ -87,6 +87,7 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -209,6 +210,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected AccountCreator accountCreator;
   @Inject protected Accounts accounts;
   @Inject protected AllProjectsName allProjects;
+  @Inject protected AllUsersName allUsers;
   @Inject protected BatchUpdate.Factory batchUpdateFactory;
   @Inject protected ChangeData.Factory changeDataFactory;
   @Inject protected ChangeFinder changeFinder;

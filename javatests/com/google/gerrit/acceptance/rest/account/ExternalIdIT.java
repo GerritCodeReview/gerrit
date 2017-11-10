@@ -53,7 +53,6 @@ import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate.RefsMetaExternalIdsUpdate;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
@@ -88,7 +87,6 @@ import org.junit.Test;
 
 @Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
-  @Inject private AllUsersName allUsers;
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
   @Inject private ExternalIds externalIds;
   @Inject private ExternalIdReader externalIdReader;

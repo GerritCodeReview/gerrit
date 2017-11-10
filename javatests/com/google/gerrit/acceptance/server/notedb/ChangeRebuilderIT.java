@@ -61,7 +61,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -127,8 +126,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     return cfg;
   }
-
-  @Inject private AllUsersName allUsers;
 
   @Inject private NoteDbChecker checker;
 

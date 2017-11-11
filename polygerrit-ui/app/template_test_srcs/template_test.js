@@ -30,6 +30,7 @@ const EXTERN_NAMES = [
   'GrLinkTextParser',
   'GrPluginEndpoints',
   'GrPopupInterface',
+  'GrProjectActionsInterface',
   'GrRangeNormalizer',
   'GrReporting',
   'GrReviewerUpdatesParser',

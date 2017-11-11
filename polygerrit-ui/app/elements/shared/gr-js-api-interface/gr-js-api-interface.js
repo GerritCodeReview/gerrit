@@ -27,6 +27,7 @@
 
   const Element = {
     CHANGE_ACTIONS: 'changeactions',
+    PROJECT_ACTIONS: 'projectactions',
     REPLY_DIALOG: 'replydialog',
   };
 

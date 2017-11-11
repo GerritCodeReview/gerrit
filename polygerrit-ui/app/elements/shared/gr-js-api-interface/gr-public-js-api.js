@@ -187,6 +187,12 @@
           Plugin._sharedAPIElement.Element.REPLY_DIALOG));
   };
 
+  Plugin.prototype.projectActions = function() {
+    return new GrProjectActionsInterface(this,
+      Plugin._sharedAPIElement.getElement(
+          Plugin._sharedAPIElement.Element.PROJECT_ACTIONS));
+  };
+
   Plugin.prototype.changeView = function() {
     return new GrChangeViewApi(this);
   };
@@ -249,7 +255,7 @@
     onAction(type, action, callback) {
       console.warn('plugin.deprecated.onAction() is deprecated,' +
           ' use plugin.changeActions() instead!');
-      if (type !== 'change' && type !== 'revision') {
+      if (type !== 'change' && type !== 'revision' && type !== 'project') {
         console.warn(`${type} actions are not supported.`);
         return;
       }

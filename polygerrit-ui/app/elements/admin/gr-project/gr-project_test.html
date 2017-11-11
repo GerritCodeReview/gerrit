@@ -232,12 +232,12 @@ limitations under the License.
         element._noteDbEnabled = false;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), '');
+            element._computeProjectsClass(element._noteDbEnabled), '');
 
         element._noteDbEnabled = true;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), 'showNoteDb');
+            element._computeProjectsClass(element._noteDbEnabled), 'showConfig');
 
         const configInputObj = {
           description: 'new description',

@@ -15,9 +15,12 @@
 package com.google.gerrit.server.api;
 
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.extensions.api.plugins.Plugins;
+import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.api.plugins.PluginApiImpl;
+import com.google.gerrit.server.api.plugins.PluginsImpl;
 
-public class Module extends AbstractModule {
+public class Module extends RestApiModule {
   @Override
   protected void configure() {
     bind(GerritApi.class).to(GerritApiImpl.class);
@@ -27,5 +30,8 @@ public class Module extends AbstractModule {
     install(new com.google.gerrit.server.api.config.Module());
     install(new com.google.gerrit.server.api.groups.Module());
     install(new com.google.gerrit.server.api.projects.Module());
+
+    bind(Plugins.class).to(PluginsImpl.class);
+    factory(PluginApiImpl.Factory.class);
   }
 }

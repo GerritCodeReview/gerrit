@@ -23,6 +23,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server:module",
+        "//java/com/google/gerrit/server/api",
         "//java/com/google/gerrit/server/cache/h2",
         "//lib:gwtorm",
         "//lib:h2",

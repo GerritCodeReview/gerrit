@@ -189,23 +189,18 @@ limitations under the License.
             element.$$('.diffContainer').classList.contains('displayLine'));
       });
 
-      test('loads files weblinks', done => {
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({
-              meta_a: {
-                web_links: 'foo',
-              },
-              meta_b: {
-                web_links: 'bar',
-              },
-            }));
+      test('loads files weblinks', () => {
+        const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+            .returns([{name: 'stubb', url: '#s'}]);
+        sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({}));
+        element.commitRange = {};
         element.patchRange = {};
-        element._getDiff().then(() => {
+        return element._getDiff().then(() => {
+          assert.isTrue(weblinksStub.called);
           assert.deepEqual(element.filesWeblinks, {
-            meta_a: 'foo',
-            meta_b: 'bar',
+            meta_a: [{name: 'stubb', url: '#s'}],
+            meta_b: [{name: 'stubb', url: '#s'}],
           });
-          done();
         });
       });
 

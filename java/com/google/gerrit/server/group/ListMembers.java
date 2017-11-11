@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.api.accounts.AccountInfoComparator;
+import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.ArrayList;

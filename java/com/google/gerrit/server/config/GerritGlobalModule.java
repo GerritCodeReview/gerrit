@@ -90,7 +90,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
-import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
+import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -300,7 +300,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(UiActions.class);
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
-    install(new com.google.gerrit.server.api.Module());
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.config.Module());
     install(new com.google.gerrit.server.group.Module());

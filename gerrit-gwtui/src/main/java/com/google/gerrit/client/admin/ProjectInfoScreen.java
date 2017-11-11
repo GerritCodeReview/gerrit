@@ -185,6 +185,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (enableSignedPush != null) {
       enableSignedPush.setEnabled(isOwner);
     }
+    if (requireSignedPush != null) {
+      requireSignedPush.setEnabled(isOwner);
+    }
     descTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);

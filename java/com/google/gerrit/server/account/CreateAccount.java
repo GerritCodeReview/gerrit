@@ -40,7 +40,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.UserInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;

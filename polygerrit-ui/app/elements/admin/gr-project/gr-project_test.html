@@ -73,6 +73,14 @@ limitations under the License.
               value: false,
               configured_value: 'FALSE',
             },
+            enable_signed_push: {
+              value: false,
+              configured_value: 'FALSE',
+            },
+            require_signed_push: {
+              value: false,
+              configured_value: 'FALSE',
+            },
             reject_implicit_merges: {
               value: false,
               configured_value: 'FALSE',
@@ -229,15 +237,46 @@ limitations under the License.
       });
 
       test('fields update and save correctly', done => {
+        // test notedb
         element._noteDbEnabled = false;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), '');
+            element._computeProjectsClass(element._noteDbEnabled), '');
 
         element._noteDbEnabled = true;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), 'showNoteDb');
+            element._computeProjectsClass(element._noteDbEnabled), 'showConfig');
+
+        // test enable_signed_push
+        let projectConfig = {
+          enable_signed_push: false,
+        };
+
+        assert.equal(element._computeProjectsClass(
+            projectConfig.enable_signed_push), '');
+
+        projectConfig = {
+          enable_signed_push: true,
+        };
+
+        assert.equal(element._computeProjectsClass(
+            projectConfig.enable_signed_push), 'showConfig');
+
+        // test require_signed_push
+        projectConfig = {
+          require_signed_push: false,
+        };
+
+        assert.equal(element._computeProjectsClass(
+            projectConfig.require_signed_push), '');
+
+        projectConfig = {
+          require_signed_push: true,
+        };
+
+        assert.equal(element._computeProjectsClass(
+            projectConfig.require_signed_push), 'showConfig');
 
         const configInputObj = {
           description: 'new description',
@@ -246,6 +285,8 @@ limitations under the License.
           use_signed_off_by: 'TRUE',
           create_new_change_for_all_not_in_target: 'TRUE',
           require_change_id: 'TRUE',
+          enable_signed_push: 'TRUE',
+          require_signed_push: 'TRUE',
           reject_implicit_merges: 'TRUE',
           private_by_default: 'TRUE',
           match_author_to_committer_date: 'TRUE',
@@ -274,6 +315,10 @@ limitations under the License.
               configInputObj.create_new_change_for_all_not_in_target;
           element.$.requireChangeIdSelect.bindValue =
               configInputObj.require_change_id;
+          element.$.enabledSignedPush.bindValue =
+              configInputObj.enable_signed_push;
+          element.$.requireSignedPush.bindValue =
+              configInputObj.require_signed_push;
           element.$.rejectImplicitMergesSelect.bindValue =
               configInputObj.reject_implicit_merges;
           element.$.setAllnewChangesPrivateByDefaultSelect.bindValue =

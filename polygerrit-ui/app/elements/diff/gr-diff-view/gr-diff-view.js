@@ -63,6 +63,8 @@
       },
       /** @type {?} */
       _patchRange: Object,
+      /** @type {?} */
+      _commitRange: Object,
       /**
        * @type {{
        *  subject: string,
@@ -204,6 +206,7 @@
     _getChangeDetail(changeNum) {
       return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
+        return change;
       });
     },
 
@@ -527,7 +530,20 @@
         this._userPrefs = prefs;
       }));
 
-      promises.push(this._getChangeDetail(this._changeNum));
+      promises.push(this._getChangeDetail(this._changeNum).then(change => {
+        let commit;
+        let baseCommit;
+        for (const k in change.revisions) {
+          if (!change.revisions.hasOwnProperty(k)) continue;
+          const patchNum = change.revisions[k]._number.toString();
+          if (patchNum === this._patchRange.patchNum) {
+            commit = k;
+          } else if (patchNum === this._patchRange.basePatchNum) {
+            baseCommit = k;
+          }
+        }
+        this._commitRange = {commit, baseCommit};
+      }));
 
       promises.push(this._loadComments());
 

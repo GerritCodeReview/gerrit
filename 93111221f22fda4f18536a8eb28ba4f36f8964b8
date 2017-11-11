@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c0fc84_1571ff0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-11T10:09:50Z",
+      "side": 1,
+      "message": "Note to reviewers: it is known, that the real reason for I26e38a8c3 is the fact that Google\u0027s gerrit fork doesn\u0027t use WAR archive, so that the version information was included too late in the dependency graph, and as the consequence, the gerrit version was lost and reported as \"dev\". This change partialy reverted I26e38a8c3 to undo the negative impact I26e38a8c3 had on gerrit development. I suggest that in Google\u0027s gerrit fork common:version is included in the final artifact (manually) instead of relying on Version being included in common:server artifact.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "93111221f22fda4f18536a8eb28ba4f36f8964b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

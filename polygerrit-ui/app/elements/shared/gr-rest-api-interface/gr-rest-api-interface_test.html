@@ -1036,5 +1036,82 @@ limitations under the License.
         assert.deepEqual(sendSpy.lastCall.args[2], {generate: true});
       });
     });
+
+    suite('getChangeFiles', () => {
+      test('patch only', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        const range = {basePatchNum: 'PARENT', patchNum: 2};
+        return element.getChangeFiles(123, range).then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 2);
+          assert.isNotOk(fetchStub.lastCall.args[5]);
+        });
+      });
+
+      test('simple range', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        const range = {basePatchNum: 4, patchNum: 5};
+        return element.getChangeFiles(123, range).then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 5);
+          assert.isOk(fetchStub.lastCall.args[5]);
+          assert.equal(fetchStub.lastCall.args[5].base, 4);
+          assert.isNotOk(fetchStub.lastCall.args[5].parent);
+        });
+      });
+
+      test('parent index', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        const range = {basePatchNum: -3, patchNum: 5};
+        return element.getChangeFiles(123, range).then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 5);
+          assert.isOk(fetchStub.lastCall.args[5]);
+          assert.isNotOk(fetchStub.lastCall.args[5].base);
+          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+        });
+      });
+    });
+
+    suite('getDiff', () => {
+      test('patchOnly', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 2);
+          assert.isOk(fetchStub.lastCall.args[5]);
+          assert.isNotOk(fetchStub.lastCall.args[5].parent);
+          assert.isNotOk(fetchStub.lastCall.args[5].base);
+        });
+      });
+
+      test('simple range', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 5);
+          assert.isOk(fetchStub.lastCall.args[5]);
+          assert.isNotOk(fetchStub.lastCall.args[5].parent);
+          assert.equal(fetchStub.lastCall.args[5].base, 4);
+        });
+      });
+
+      test('parent index', () => {
+        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+            .returns(Promise.resolve());
+        return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
+          assert.isTrue(fetchStub.calledOnce);
+          assert.equal(fetchStub.lastCall.args[2], 5);
+          assert.isOk(fetchStub.lastCall.args[5]);
+          assert.isNotOk(fetchStub.lastCall.args[5].base);
+          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+        });
+      });
+    });
   });
 </script>

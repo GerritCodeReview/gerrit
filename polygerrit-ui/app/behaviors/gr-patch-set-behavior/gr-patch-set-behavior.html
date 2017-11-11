@@ -241,6 +241,14 @@ limitations under the License.
       const findNum = rev => rev._number + '' === patchNum + '';
       return revisions.findIndex(findNum);
     },
+
+    /**
+     * @param {number|string} rangeBase
+     * @return {number}
+     */
+    getParentIndex(rangeBase) {
+      return -parseInt(rangeBase + '', 10);
+    },
   };
 })(window);
 </script>

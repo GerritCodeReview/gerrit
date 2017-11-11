@@ -14,6 +14,16 @@
 (function() {
   'use strict';
 
+  const Defs = {};
+
+  /**
+   * @typedef {{
+   *    basePatchNum: (string|number),
+   *    patchNum: (number),
+   * }}
+   */
+  Defs.patchRange;
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -35,6 +45,7 @@
 
     behaviors: [
       Gerrit.PathListBehavior,
+      Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,
     ],
 
@@ -902,15 +913,18 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {!Promise<?Object>} patchRange
+     * @param {Defs.patchRange} patchRange
+     * @param {number=} opt_parentIndex
      */
-    getChangeFiles(changeNum, patchRange) {
-      let endpoint = '/files';
-      if (patchRange.basePatchNum !== 'PARENT') {
-        endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
+    getChangeFiles(changeNum, patchRange, opt_parentIndex) {
+      let params = undefined;
+      if (this.isMergeParent(patchRange.basePatchNum)) {
+        params = {parent: this.getParentIndex(patchRange.basePatchNum)};
+      } else if (!this.patchNumEquals(patchRange.basePatchNum, 'PARENT')) {
+        params = {base: patchRange.basePatchNum};
       }
-      return this._getChangeURLAndFetch(changeNum, endpoint,
-          patchRange.patchNum);
+      return this._getChangeURLAndFetch(changeNum, '/files',
+          patchRange.patchNum, undefined, undefined, params);
     },
 
     /**
@@ -936,6 +950,11 @@
           `/files?q=${encodeURIComponent(query)}`, patchNum);
     },
 
+    /**
+     * @param {number|string} changeNum
+     * @param {Defs.patchRange} patchRange
+     * @return {!Promise<!Array<!Object>>}
+     */
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(
           this._normalizeChangeFilesResponse.bind(this));
@@ -1416,7 +1435,8 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {number|string} basePatchNum
+     * @param {number|string} basePatchNum Negative values specify merge parent
+     *     index.
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
@@ -1429,7 +1449,9 @@
         intraline: null,
         whitespace: 'IGNORE_NONE',
       };
-      if (basePatchNum != PARENT_PATCH_NUM) {
+      if (this.isMergeParent(basePatchNum)) {
+        params.parent = this.getParentIndex(basePatchNum);
+      } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM)) {
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;

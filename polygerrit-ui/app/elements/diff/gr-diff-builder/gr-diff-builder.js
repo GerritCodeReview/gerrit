@@ -14,21 +14,10 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
-  const HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
-  const HTML_ENTITY_MAP = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    '\'': '&#39;',
-    '/': '&#x2F;',
-    '`': '&#96;',
-  };
+  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
-
-  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
   function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
     this._diff = diff;
@@ -47,14 +36,6 @@
       }
     }
   }
-
-  GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
-  GrDiffBuilder.GREATER_THAN_CODE = '>'.charCodeAt(0);
-  GrDiffBuilder.AMPERSAND_CODE = '&'.charCodeAt(0);
-  GrDiffBuilder.SEMICOLON_CODE = ';'.charCodeAt(0);
-
-  GrDiffBuilder.LINE_FEED_HTML =
-      '<span class="style-scope gr-diff br"></span>';
 
   GrDiffBuilder.GroupType = {
     ADDED: 'b',
@@ -212,10 +193,6 @@
       startLine, endLine, opt_side) {
     return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
         group => { return group.element; });
-  };
-
-  GrDiffBuilder.prototype._commentIsAtLineNum = function(side, lineNum) {
-    return this._commentLocations[side][lineNum] === true;
   };
 
   // TODO(wyatta): Move this completely into the processor.
@@ -412,25 +389,50 @@
       td.classList.add('content');
     }
     td.classList.add(line.type);
-    let html = this._escapeHTML(text);
-    html = this._addTabWrappers(html, this._prefs.tab_size);
-    if (!this._prefs.line_wrapping &&
-        this._textLength(text, this._prefs.tab_size) >
-        this._prefs.line_length) {
-      html = this._addNewlines(text, html);
-    }
+    let tabSize = this._prefs.tab_size;
+    let lineLimit =
+        !this._prefs.line_wrapping ? +this._prefs.line_length : Infinity;
+    let offset = 0;
+    let columnPos = 0;
 
     const contentText = this._createElement('div', 'contentText');
-    if (opt_side) {
-      contentText.setAttribute('data-side', opt_side);
-    }
+    while (offset < text.length) {
+      let nextTab = text.indexOf('\t', offset);
+      if (nextTab == -1) {
+        nextTab = text.length;
+      }
+      // Add text with line breaks as needed.
+      while (offset < nextTab) {
+        let chunk = this._trimToCodePoints(
+            text.substring(offset, nextTab), lineLimit - columnPos);
+        contentText.appendChild(document.createTextNode(chunk));
+        if (chunk.length != (nextTab - offset)) {
+          // _trimToCodePoints truncated the string, which means that it
+          // finished the row.
+          columnPos = lineLimit;
+        } else if (nextTab != text.length) {
+          // _trimToCodePoints didn't truncate, but there's more text coming
+          // after this chunk, so we need to measure how many columns we
+          // actually encountered.
+          columnPos += this._countCodePoints(chunk);
+        }
+        offset += chunk.length;
 
-    // If the html is equivalent to the text then it didn't get highlighted
-    // or escaped. Use textContent which is faster than innerHTML.
-    if (html === text) {
-      contentText.textContent = text;
-    } else {
-      contentText.innerHTML = html;
+        // If we advanced columnPos to the end of the row, add a line break.
+        if (columnPos == lineLimit) {
+          contentText.appendChild(this._createElement('span', 'br'));
+          columnPos = 0;
+        }
+      }
+
+      // Add a tab character.
+      if (nextTab != text.length) {
+        let effectiveTabSize =
+            Math.min(lineLimit - columnPos, tabSize - (columnPos % tabSize));
+        contentText.appendChild(this._getTabWrapper(effectiveTabSize));
+        offset += 1;
+        columnPos += effectiveTabSize;
+      }
     }
 
     for (const layer of this.layers) {
@@ -443,139 +445,64 @@
   };
 
   /**
-   * Returns the text length after normalizing unicode and tabs.
-   * @return {number} The normalized length of the text.
+   * Limits a string to a particular number of Unicode code points.
+   *
+   * In JS, unicode code points above 0xFFFF occupy two chars of a JS string --
+   * for example '𐀏'.length is 2. To read more about this:
+   *
+   *    https://mathiasbynens.be/notes/javascript-unicode
+   *    https://mathiasbynens.be/notes/javascript-encoding
+   *
+   * @param {string} string The string to be trimmed.
+   * @param {number} n The maximum number of code points allowed in the returned
+   *                   string.
+   * @return {string} The truncated input string.
    */
-  GrDiffBuilder.prototype._textLength = function(text, tabSize) {
-    text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
-    let numChars = 0;
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === '\t') {
-        numChars += tabSize - (numChars % tabSize);
-      } else {
-        numChars++;
-      }
+  GrDiffBuilder.prototype._trimToCodePoints = function(string, n) {
+    if (string.length <= n) {
+      return string;
     }
-    return numChars;
-  };
-
-  // Advance `index` by the appropriate number of characters that would
-  // represent one source code character and return that index. For
-  // example, for source code '<span>' the escaped html string is
-  // '&lt;span&gt;'. Advancing from index 0 on the prior html string would
-  // return 4, since &lt; maps to one source code character ('<').
-  GrDiffBuilder.prototype._advanceChar = function(html, index) {
-    // TODO(andybons): Unicode is all kinds of messed up in JS. Account for it.
-    // https://mathiasbynens.be/notes/javascript-unicode
-
-    // Tags don't count as characters
-    while (index < html.length &&
-           html.charCodeAt(index) === GrDiffBuilder.LESS_THAN_CODE) {
-      while (index < html.length &&
-             html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
-        index++;
-      }
-      index++; // skip the ">" itself
-    }
-    // An HTML entity (e.g., &lt;) counts as one character.
-    if (index < html.length &&
-        html.charCodeAt(index) === GrDiffBuilder.AMPERSAND_CODE) {
-      while (index < html.length &&
-             html.charCodeAt(index) !== GrDiffBuilder.SEMICOLON_CODE) {
-        index++;
-      }
-    }
-    return index + 1;
-  };
-
-  GrDiffBuilder.prototype._advancePastTagClose = function(html, index) {
-    while (index < html.length &&
-           html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
-      index++;
-    }
-    return index + 1;
-  };
-
-  GrDiffBuilder.prototype._addNewlines = function(text, html) {
-    let htmlIndex = 0;
-    const indices = [];
-    let numChars = 0;
-    let prevHtmlIndex = 0;
-    for (let i = 0; i < text.length; i++) {
-      if (numChars > 0 && numChars % this._prefs.line_length === 0) {
-        indices.push(htmlIndex);
-      }
-      htmlIndex = this._advanceChar(html, htmlIndex);
-      if (text[i] === '\t') {
-        // Advance past tab closing tag.
-        htmlIndex = this._advancePastTagClose(html, htmlIndex);
-        // ~~ is a faster Math.floor
-        if (~~(numChars / this._prefs.line_length) !==
-            ~~((numChars + this._prefs.tab_size) / this._prefs.line_length)) {
-          // Tab crosses line limit - push it to the next line.
-          indices.push(prevHtmlIndex);
-        }
-        numChars += this._prefs.tab_size;
-      } else {
-        numChars++;
-      }
-      prevHtmlIndex = htmlIndex;
-    }
-    let result = html;
-    // Since the result string is being altered in place, start from the end
-    // of the string so that the insertion indices are not affected as the
-    // result string changes.
-    for (let i = indices.length - 1; i >= 0; i--) {
-      result = result.slice(0, indices[i]) + GrDiffBuilder.LINE_FEED_HTML +
-          result.slice(indices[i]);
-    }
-    return result;
+    const regex_n_graphemes =
+        new RegExp(`([\uD800-\uDBFF][\uDC00-\uDFFF]|.){0,${n}}`);
+    const result = regex_n_graphemes.exec(string);
+    return result[0];
   };
 
   /**
-   * Takes a string of text (not HTML) and returns a string of HTML with tab
-   * elements in place of tab characters. In each case tab elements are given
-   * the width needed to reach the next tab-stop.
+   * Counts the number of code points in a unicode string.
    *
-   * @param {string} A line of text potentially containing tab characters.
-   * @param {number} The width for tabs.
-   * @return {string} An HTML string potentially containing tab elements.
+   * In JS, unicode code points above 0xFFFF occupy two chars of a JS string --
+   * for example '𐀏'.length is 2. To read more about this:
+   *
+   *    https://mathiasbynens.be/notes/javascript-unicode
+   *    https://mathiasbynens.be/notes/javascript-encoding
+   *
+   * @param {string} string The string to be counted.
+   * @return {number} The number of code points.
    */
-  GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
-    if (!line.length) { return ''; }
-
-    let result = '';
-    let offset = 0;
-    const split = line.split('\t');
-    let width;
-
-    for (let i = 0; i < split.length - 1; i++) {
-      offset += split[i].length;
-      width = tabSize - (offset % tabSize);
-      result += split[i] + this._getTabWrapper(width);
-      offset += width;
-    }
-    if (split.length) {
-      result += split[split.length - 1];
-    }
-
-    return result;
+  GrDiffBuilder.prototype._countCodePoints = function(string) {
+    return string.replace(REGEX_ASTRAL_SYMBOL, '_').length;
   };
 
+  /**
+   * Returns a <span> element holding a '\t' character, that will visually
+   * occupy |tabSize| many columns.
+   *
+   * @param {number} tabSize The effective size of this tab stop.
+   * @return {HTMLElement}
+   */
   GrDiffBuilder.prototype._getTabWrapper = function(tabSize) {
     // Force this to be a number to prevent arbitrary injection.
+    // TODO(nick): This should be moved out of the inner loop.
     tabSize = +tabSize;
     if (isNaN(tabSize)) {
       throw Error('Invalid tab size from preferences.');
     }
 
-    let str = '<span class="style-scope gr-diff tab ';
-    str += '" style="';
-    // TODO(andybons): CSS tab-size is not supported in IE.
-    str += 'tab-size:' + tabSize + ';';
-    str += '-moz-tab-size:' + tabSize + ';';
-    str += '">\t</span>';
-    return str;
+    let result = this._createElement('span', 'tab');
+    result.style['tab-size'] = tabSize;
+    result.style['-moz-tab-size'] = tabSize;
+    return result;
   };
 
   GrDiffBuilder.prototype._createElement = function(tagName, className) {
@@ -618,12 +545,6 @@
     return group.type === GrDiffGroup.Type.DELTA &&
         (!group.adds.length || !group.removes.length) &&
         !(!group.adds.length && !group.removes.length);
-  };
-
-  GrDiffBuilder.prototype._escapeHTML = function(str) {
-    return str.replace(HTML_ENTITY_PATTERN, s => {
-      return HTML_ENTITY_MAP[s];
-    });
   };
 
   /**

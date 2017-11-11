@@ -189,6 +189,7 @@
         type: Object,
         value: app,
       },
+      _config: Object,
     },
 
     behaviors: [
@@ -236,6 +237,82 @@
       }
 
       return base + url;
+    },
+
+    _generateWeblinks(params) {
+      const type = params.type;
+      switch (type) {
+        case Gerrit.Nav.WeblinkType.FILE:
+          return this._getFileWebLinks(params);
+        case Gerrit.Nav.WeblinkType.CHANGE:
+          return this._getChangeWeblinks(params);
+        case Gerrit.Nav.WeblinkType.PATCHSET:
+          return this._getPatchSetWeblinks(params);
+        default:
+          console.warn(`Unsupported weblink ${type}!`);
+      }
+    },
+
+    _getPatchSetWeblinks({repo, commit, options: {weblinks}}) {
+      const name = commit && commit.slice(0, 7);
+      const gitwebConfigUrl = this._configBasedCommitUrl(repo, commit);
+      if (gitwebConfigUrl) {
+        return {
+          name,
+          url: gitwebConfigUrl,
+        };
+      }
+      return this._getSupportedWeblinks(weblinks).slice(0, 1).map(({url}) => {
+        return {name, url};
+      });
+    },
+
+    _configBasedCommitUrl(repo, commit) {
+      if (this._config.gitweb && this._config.gitweb.url &&
+          this._config.gitweb.type && this._config.gitweb.type.revision) {
+        return this._config.gitweb.url + this._config.gitweb.type.revision
+          .replace('${project}', repo)
+          .replace('${commit}', commit);
+      }
+    },
+
+    _isDirectCommit(link) {
+      // This is a whitelist of web link types that provide direct links to
+      // the commit in the url property.
+      return link.name === 'gitiles' || link.name === 'gitweb';
+    },
+
+    _getSupportedWeblinks(weblinks) {
+      if (!weblinks) return [];
+      return weblinks.filter(this._isDirectCommit).map(({name, url}) => {
+        if (url.startsWith('http')) {
+          return {name, url};
+        } else {
+          return {
+            name,
+            url: `../../${url}`,
+          };
+        }
+      });
+    },
+
+    _getChangeWeblinks({repo, commit, options: {weblinks}}) {
+      if (!weblinks || !weblinks.length) return [];
+      return weblinks.filter(weblink => !this._isDirectCommit(weblink)).map(
+        ({name, url}) => {
+          if (url.startsWith('http')) {
+            return {name, url};
+          } else {
+            return {
+              name,
+              url: `../../${url}`,
+            };
+          }
+        });
+    },
+
+    _getFileWebLinks({repo, commit, file, options: {weblinks}}) {
+      return weblinks;
     },
 
     /**
@@ -528,8 +605,13 @@
 
       const reporting = getReporting();
 
-      Gerrit.Nav.setup(url => { page.show(url); },
-          this._generateUrl.bind(this));
+      this.$.restAPI.getConfig().then(config => this._config = config);
+
+      Gerrit.Nav.setup(
+          url => { page.show(url); },
+          this._generateUrl.bind(this),
+          params => this._generateWeblinks(params)
+      );
 
       // Middleware
       page((ctx, next) => {

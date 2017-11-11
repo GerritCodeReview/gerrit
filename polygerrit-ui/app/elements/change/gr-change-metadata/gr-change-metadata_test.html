@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../core/gr-router/gr-router.html">
 <link rel="import" href="gr-change-metadata.html">
 
 <script>void(0);</script>
@@ -119,6 +120,17 @@ limitations under the License.
           ['test', 'test2']);
     });
 
+    test('weblinks use Gerrit.Nav interface', () => {
+      const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+          .returns([{name: 'stubb', url: '#s'}]);
+      element.commitInfo = {};
+      flushAsynchronousOperations();
+      const webLinks = element.$.webLinks;
+      assert.isTrue(weblinksStub.called);
+      assert.isFalse(webLinks.hasAttribute('hidden'));
+      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    });
+
     test('weblinks hidden when no weblinks', () => {
       element.commitInfo = {};
       flushAsynchronousOperations();
@@ -135,6 +147,10 @@ limitations under the License.
     });
 
     test('weblinks are visible when other weblinks', () => {
+      const router = document.createElement('gr-router');
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
       element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
       flushAsynchronousOperations();
       const webLinks = element.$.webLinks;
@@ -147,6 +163,10 @@ limitations under the License.
     });
 
     test('weblinks are visible when gitiles and other weblinks', () => {
+      const router = document.createElement('gr-router');
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
       element.commitInfo = {
         web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
       flushAsynchronousOperations();

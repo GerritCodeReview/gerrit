@@ -17,6 +17,7 @@
 jar_filetype = FileType([".jar"])
 
 LIBS = [
+    "//java/com/google/gerrit/common:version",
     "//java/com/google/gerrit/httpd/init",
     "//lib:postgresql",
     "//lib/bouncycastle:bcpkix",

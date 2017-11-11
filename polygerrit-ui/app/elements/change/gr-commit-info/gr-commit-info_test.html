@@ -21,6 +21,7 @@ limitations under the License.
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../../core/gr-router/gr-router.html">
 <link rel="import" href="gr-commit-info.html">
 
 <script>void(0);</script>
@@ -34,22 +35,48 @@ limitations under the License.
 <script>
   suite('gr-commit-info tests', () => {
     let element;
+    let sandbox;
+    let configStub;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
+      configStub = sandbox.stub().returns({});
+      stub('gr-rest-api-interface', {
+        getConfig: configStub,
+      });
       element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('weblinks use Gerrit.Nav interface', () => {
+      const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+          .returns([{name: 'stubb', url: '#s'}]);
+      element.change = {};
+      element.commitInfo = {};
+      element.serverConfig = {};
+      assert.isTrue(weblinksStub.called);
     });
 
     test('no web link when unavailable', () => {
       element.commitInfo = {};
       element.serverConfig = {};
-      element.change = {labels: []};
+      element.change = {labels: [], project: ''};
 
       assert.isNotOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));
     });
 
     test('use web link when available', () => {
-      element.commitInfo = {web_links: [{name: 'gitweb', url: 'link-url'}]};
+      const router = document.createElement('gr-router');
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
+      element.change = {labels: [], project: ''};
+      element.commitInfo =
+          {commit: 'commitsha', web_links: [{name: 'gitweb', url: 'link-url'}]};
       element.serverConfig = {};
 
       assert.isOk(element._computeShowWebLink(element.change,
@@ -59,7 +86,13 @@ limitations under the License.
     });
 
     test('does not relativize web links that begin with scheme', () => {
+      const router = document.createElement('gr-router');
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
+      element.change = {labels: [], project: ''};
       element.commitInfo = {
+        commit: 'commitsha',
         web_links: [{name: 'gitweb', url: 'https://link-url'}],
       };
       element.serverConfig = {};
@@ -71,11 +104,15 @@ limitations under the License.
     });
 
     test('use gitweb when available', () => {
-      element.commitInfo = {commit: 'commit-sha'};
-      element.serverConfig = {gitweb: {
+      const router = document.createElement('gr-router');
+      router._config = {gitweb: {
         url: 'url-base/',
         type: {revision: 'xx ${project} xx ${commit} xx'},
       }};
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
+      element.commitInfo = {commit: 'commit-sha'};
       element.change = {
         project: 'project-name',
         labels: [],
@@ -90,14 +127,18 @@ limitations under the License.
     });
 
     test('prefer gitweb when both are available', () => {
+      const router = document.createElement('gr-router');
+      router._config = {gitweb: {
+        url: 'url-base/',
+        type: {revision: 'xx ${project} xx ${commit} xx'},
+      }};
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
       element.commitInfo = {
         commit: 'commit-sha',
         web_links: [{url: 'link-url'}],
       };
-      element.serverConfig = {gitweb: {
-        url: 'url-base/',
-        type: {revision: 'xx ${project} xx ${commit} xx'},
-      }};
       element.change = {
         project: 'project-name',
         labels: [],
@@ -115,6 +156,11 @@ limitations under the License.
     });
 
     test('ignore web links that are neither gitweb nor gitiles', () => {
+      const router = document.createElement('gr-router');
+      sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+          router._generateWeblinks.bind(router));
+
+      element.change = {project: 'project-name'};
       element.commitInfo = {
         commit: 'commit-sha',
         web_links: [
@@ -128,7 +174,6 @@ limitations under the License.
           },
         ],
       };
-      element.serverConfig = {};
 
       assert.isOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));

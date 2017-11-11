@@ -35,7 +35,6 @@ java_library(
         ["**/*.java"],
         exclude = ANNOTATIONS,
     ),
-    resources = [":Version"],
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
@@ -50,6 +49,12 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
+)
+
+java_library(
+    name = "version",
+    resources = [":Version"],
+    visibility = ["//visibility:public"],
 )
 
 genrule(

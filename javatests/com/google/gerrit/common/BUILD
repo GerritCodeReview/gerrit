@@ -24,6 +24,7 @@ junit_tests(
     srcs = SERVER_TEST_SRCS,
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/common:version",
         "//java/com/google/gerrit/launcher",
         "//lib:guava",
         "//lib:truth",

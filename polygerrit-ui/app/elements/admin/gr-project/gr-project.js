@@ -176,7 +176,8 @@
         {
           label: 'True',
           value: 'TRUE',
-        }, {
+        },
+        {
           label: 'False',
           value: 'FALSE',
         },
@@ -257,6 +258,14 @@
 
     _computeNoteDbClass(noteDB) {
       return noteDB ? 'showNoteDb': '';
+    },
+
+    _selected(value, project) {
+      if (!project &&
+          project.configured_value === undefined) {
+        return false;
+      }
+      return project.configured_value === value;
     },
   });
 })();

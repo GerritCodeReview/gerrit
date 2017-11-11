@@ -151,9 +151,13 @@ def gen_classpath(ext):
 
     m = java_library.match(p)
     if m:
+      print("orig: %s" % p, file=sys.stderr)
+      found = m.group(1)
+      print("extract: %s" % found, file=sys.stderr)
       src.add(m.group(1))
       # Exceptions: both source and lib
-      if p.endswith('libquery_parser.jar') or \
+      if p.endswith('java/com/google/gerrit/common/libversion.jar') or \
+         p.endswith('libquery_parser.jar') or \
          p.endswith('libgerrit-prolog-common.jar'):
         lib.add(p)
       # JGit dependency from external repository

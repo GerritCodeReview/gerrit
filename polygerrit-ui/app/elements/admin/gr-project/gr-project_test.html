@@ -229,15 +229,31 @@ limitations under the License.
       });
 
       test('fields update and save correctly', done => {
+        // test notedb
         element._noteDbEnabled = false;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), '');
+            element._computeProjectsClass(element._noteDbEnabled), '');
 
         element._noteDbEnabled = true;
 
         assert.equal(
-            element._computeNoteDbClass(element._noteDbEnabled), 'showNoteDb');
+            element._computeProjectsClass(element._noteDbEnabled), 'showConfig');
+
+        // test enable_signed_push
+        let projectConfig = {
+          enable_signed_push: false,
+        };
+
+        assert.equal(
+            element._computeProjectsClass(projectConfig.enable_signed_push), '');
+
+        projectConfig = {
+          enable_signed_push: true,
+        };
+
+        assert.equal(
+            element._computeProjectsClass(projectConfig.enable_signed_push), 'showConfig');
 
         const configInputObj = {
           description: 'new description',

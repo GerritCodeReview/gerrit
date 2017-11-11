@@ -44,10 +44,10 @@ limitations under the License.
       #loading:not(.loading) {
         display: none;
       }
-      #noteDbSettings {
+      .projectSettings {
         display: none;
       }
-      #noteDbSettings.showNoteDb {
+      .projectSettings.showConfig {
         display: block;
       }
     </style>
@@ -157,6 +157,40 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
+              <section
+                   id="enableSignedPushSettings"
+                   class$="projectSettings [[_computeProjectsClass(_projectConfig.enable_signed_push)]]">
+                <span class="title">Enable signed push</span>
+                <span class="value">
+                  <gr-select
+                      id="enableSignedPush"
+                      bind-value="{{_projectConfig.enable_signed_push.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.enable_signed_push)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section
+                   id="requireSignedPushSettings"
+                   class$="projectSettings [[_computeProjectsClass(_projectConfig.require_signed_push)]]">
+                <span class="title">Require signed push</span>
+                <span class="value">
+                  <gr-select
+                      id="requireSignedPush"
+                      bind-value="{{_projectConfig.require_signed_push.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_projectConfig.require_signed_push)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
               <section>
                 <span class="title">
                   Reject implicit merges when changes are pushed for review</span>
@@ -173,7 +207,7 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
-              <section id="noteDbSettings class$=[[_computeNoteDbClass(_noteDbEnabled)]]">
+              <section id="noteDbSettings" class$="projectSettings [[_computeProjectsClass(_noteDbEnabled)]]">
                 <span class="title">
                   Enable adding unregistered users as reviewers and CCs on changes</span>
                 <span class="value">

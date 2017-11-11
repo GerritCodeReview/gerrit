@@ -38,7 +38,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -596,26 +595,7 @@ public final class GerritLauncher {
   }
 
   /**
-   * Check whether the process is running in Eclipse.
-   *
-   * <p>Unlike {@link #getDeveloperEclipseOut()}, this method checks the actual runtime stack, not
-   * the classpath.
-   *
-   * @return true if any thread has a stack frame in {@code org.eclipse.jdt}.
-   */
-  public static boolean isRunningInEclipse() {
-    return Thread.getAllStackTraces()
-        .values()
-        .stream()
-        .flatMap(Arrays::stream)
-        .anyMatch(e -> e.getClassName().startsWith("org.eclipse.jdt."));
-  }
-
-  /**
    * Locate the path of the {@code eclipse-out} directory in a source tree.
-   *
-   * <p>Unlike {@link #isRunningInEclipse()}, this method only inspects files relative to the
-   * classpath, not the runtime stack.
    *
    * @return local path of the {@code eclipse-out} directory in a source tree.
    * @throws FileNotFoundException if the directory cannot be found.

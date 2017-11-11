@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510316436 +0100\nnonce AMT3iFj2rGDDQRE0Ry835TFhwfFYhGkqVqyiW1su6Si7GyJGJev6/wAO3A8YaAY3teb7khmjlAdr\n\n0000000000000000000000000000000000000000 053f563502b82fd6e5b265c3e37cb8d828b0c81b refs/for/stable-2.15%wip\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaBZmUAAoJEFG1/Zeg0O9RI2kIALx/ExQyj02ZBy6Cz5+E53rS\n4TD8U3BraB471lZhPJQoctFUQwINPBt+KhCTrRgAUTRij1blKV9frOB7hiyVDwlm\n7HsrzRxEV/atDAz/AA8fN+GJmGZ7UuBnlR8aExUssp/CsKFi5cZvyRnfNAau9rxe\nJYxbFbTKwMfbMmgXMbluzsRA9pw3I3XhefuHPPt8lY2S97hSqcWZUQRv75gFK3SY\nHlMubC+6dvF+C5B515WcuJNkfMLDFEfyT28JP8O4+JJKwgMKzw+UOqkU9pNWrUjh\nZ2I2Yr6ZiRDoJyarJoQttz9Ezeq9R8lxTJ53BmsaFMbvE1ZrRhZqXXW7myRECjw\u003d\n\u003dApBV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "97752d51_fc7045b2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteBranchesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-11T07:44:05Z",
+      "side": 1,
+      "message": "Or:\n\n assertBranchesDeleted(expected)",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "053f563502b82fd6e5b265c3e37cb8d828b0c81b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

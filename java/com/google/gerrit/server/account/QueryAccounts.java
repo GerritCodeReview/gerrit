@@ -28,7 +28,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
-import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;

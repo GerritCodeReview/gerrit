@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.GpgApiAdapter;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;

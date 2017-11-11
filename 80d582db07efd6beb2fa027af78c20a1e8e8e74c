@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa2944c_41b45ecc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-11T00:49:17Z",
+      "side": 1,
+      "message": "Nit:\n\n s/api/API/",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "80d582db07efd6beb2fa027af78c20a1e8e8e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70fc8664_9a9d0b2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-count-string-formatter/gr-count-string-formatter.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-11T00:49:17Z",
+      "side": 1,
+      "message": "I\u0027m on the fence over whether I feel like this file is overkill.\n\nIt\u0027s hard to say whether the pluralization would adapt to i18n nicely, and this version only covers one kind of English plural.\n\nThe other two methods are relatively simple concatenators. It doesn\u0027t seem like a problem if those were repeated in multiple elements.",
+      "revId": "80d582db07efd6beb2fa027af78c20a1e8e8e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

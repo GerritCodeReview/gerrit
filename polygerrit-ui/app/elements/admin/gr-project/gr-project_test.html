@@ -175,7 +175,8 @@ limitations under the License.
         {
           label: 'True',
           value: 'TRUE',
-        }, {
+        },
+        {
           label: 'False',
           value: 'FALSE',
         },
@@ -191,11 +192,37 @@ limitations under the License.
         {
           label: 'True',
           value: 'TRUE',
-        }, {
+        },
+        {
           label: 'False',
           value: 'FALSE',
         },
       ]);
+    });
+
+    test('_selected', () => {
+      let projectOptions = {
+        configured_value: 'TRUE',
+      };
+      assert.isTrue(element._selected('TRUE', projectOptions));
+
+      projectOptions = {
+        configured_value: 'FALSE',
+      };
+      assert.isTrue(element._selected('FALSE', projectOptions));
+
+      projectOptions = {}
+      assert.isFalse(element._selected('TRUE', projectOptions));
+
+      projectOptions = {
+        configured_value: 'TRUE',
+      };
+      assert.isFalse(element._selected('FALSE', projectOptions));
+
+      projectOptions = {
+        configured_value: 'FALSE',
+      };
+      assert.isFalse(element._selected('TRUE', projectOptions));
     });
 
     suite('admin', () => {

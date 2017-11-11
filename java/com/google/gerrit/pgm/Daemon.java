@@ -52,6 +52,7 @@ import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
@@ -411,6 +412,8 @@ public class Daemon extends SiteProgram {
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new GerritApiModule());
+
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());

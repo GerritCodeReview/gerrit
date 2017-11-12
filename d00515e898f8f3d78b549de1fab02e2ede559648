@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dc9065e_0121df0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-12T14:23:43Z",
+      "side": 0,
+      "message": "I think this needs to stay here to prevent submit being shown to everyone.",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 71
+      },
+      "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -302,10 +302,7 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
-    if (!change.getStatus().isOpen()
-        || change.isWorkInProgress()
-        || !resource.isCurrent()
-        || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
+    if (!change.getStatus().isOpen() || !resource.isCurrent()) {
       return null; // submit not visible
     }
 

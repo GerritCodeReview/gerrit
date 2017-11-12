@@ -97,6 +97,8 @@ public class Submit
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
+  private static final String UNAUTHORIZED_SUBMIT_TOOLTIP =
+      "You are not authorized to submit this change";
   private static final String BLOCKED_SUBMIT_TOOLTIP =
       "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
@@ -270,6 +272,13 @@ public class Submit
       if (cs.furtherHiddenChanges()) {
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
+      if (!permissionBackend
+          .user(user)
+          .database(dbProvider)
+          .change(cd)
+          .testOrFalse(ChangePermission.SUBMIT)) {
+        return UNAUTHORIZED_SUBMIT_TOOLTIP;
+      }
       for (ChangeData c : cs.changes()) {
         Set<ChangePermission> can =
             permissionBackend
@@ -313,9 +322,7 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
-    if (!change.getStatus().isOpen()
-        || !resource.isCurrent()
-        || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
+    if (!change.getStatus().isOpen() || !resource.isCurrent()) {
       return null; // submit not visible
     }
 

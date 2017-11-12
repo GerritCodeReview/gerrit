@@ -22,6 +22,30 @@
       "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2417053c_6778b4d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-11-12T14:25:15Z",
+      "side": 0,
+      "message": "Why?\n\nWe have some branches that are being blocked occasionally before release. The users have no idea that the branch is blocked, and they call me to ask why they can\u0027t submit :)",
+      "parentUuid": "4dc9065e_0121df0b",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 71
+      },
+      "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

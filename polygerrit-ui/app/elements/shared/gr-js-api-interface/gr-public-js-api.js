@@ -354,6 +354,10 @@
     });
   };
 
+  Gerrit.restAPI = function() {
+    return getRestAPI();
+  };
+
   /**
    * Polyfill GWT API dependencies to avoid runtime exceptions when loading
    * GWT-compiled plugins.

@@ -41,8 +41,10 @@ import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 
 /** Base class for any tests written in Prolog. */
+@Ignore
 public abstract class PrologTestCase extends GerritBaseTests {
   private static final SymbolTerm test_1 = SymbolTerm.intern("test", 1);
 

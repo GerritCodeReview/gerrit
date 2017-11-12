@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4208cef3_a0e1848b",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-12T09:21:28Z",
+      "side": 1,
+      "message": "I was confused, why this dependency and the one on the line 240 below was needed. It turned out, the the original change, that split the query rules into index specic rules has a drawback, that it only matched one single query test per index, while the other tests were missed and silently were moved to server_tests rules.\n\nThis problem is even more weird on stable 2.14 because, index specific code wasn\u0027t extracted to gerrit-index top level directory, this change and the friends: [1].\n\nI went ahead and refactored monolitic BUILD file for server tests and broke it in multiple BUILD files here: [2], each own for own package. I\u0027m not sure, it worth the whole merge overhead to stable-2.14 branch.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/118990/\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/140571",
+      "range": {
+        "startLine": 230,
+        "startChar": 8,
+        "endLine": 230,
+        "endChar": 38
+      },
+      "revId": "a8d7461a1049603d3a3ba6468c78a8ad8de933dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

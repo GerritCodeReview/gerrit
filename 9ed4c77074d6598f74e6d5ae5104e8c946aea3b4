@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fde03e3_0c65b787",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-12T03:04:32Z",
+      "side": 1,
+      "message": "\"ProjectInfoScreen: Only show \u0027require signed push\u0027 for project owners\"",
+      "revId": "9ed4c77074d6598f74e6d5ae5104e8c946aea3b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

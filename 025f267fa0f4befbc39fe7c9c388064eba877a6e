@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7601c97d_7634c1a7",
+        "filename": "java/com/google/gerrit/server/diff/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T14:39:25Z",
+      "side": 1,
+      "message": "If you check the dependency of your new package diff, it doesn\u0027t have any dependency on gerrit/server package. Well, besides //java/com/google/gerrit/server/ioutil, that itself doesn\u0027t depend on any gerrit/server stuff.\n\nSo I wonder whether we should extract stuff that doesn\u0027t depend on gerrit/server from gerrit/server package:\n\n* 1. Move ioutil outside of the server package, to: com/google/gerrit/ioutil. The same for the corresponding javatests package\n* 2. Move java/com/google/gerrit/server/diff outside gerrit/server package.\n\nThat what we did with index and lifecycle packages recently.\n\nAnother suggestion I thought about, to not pollute com/google/gerrit with too many low level packages, we could create intermediate top level package say lib (or similar)\n\n* com/google/gerrit/lib/ioutil\n* com/google/gerrit/lib/diff\n\nThe main message is: lib stuff doesn\u0027t depend on the server and it is very obvious and visible for every one stated, because it is located outside of the gerrit/server package.\n\nAs a side note: One goal of re-arranging of directory structure was to make such moves much easier. because the question:\n\n* I move diff and ioutil (and many other) packages outside of the gerrit/server package , but in what top-level directory should I put it, suddenly disappeared.",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "025f267fa0f4befbc39fe7c9c388064eba877a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -526,23 +526,6 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void updateGroupRefPermissions() throws Exception {
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    accessInput.add.put(RefNames.REFS_GROUPS + "*", createDefaultAccessSectionInfo());
-    exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "Permissions on refs/groups/ is managed by Gerrit and cannot be modified");
-    gApi.projects().name(allProjects.get()).access(accessInput);
-  }
-
-  @Test
-  public void updateGroupRefPermissionsAllowedOnCustomProject() throws Exception {
-    ProjectAccessInput accessInput = newProjectAccessInput();
-    accessInput.add.put(RefNames.REFS_GROUPS + "*", createDefaultAccessSectionInfo());
-    gApi.projects().name(project.get()).access(accessInput);
-  }
-
-  @Test
   public void allUsersCanOnlyInheritFromAllProjects() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     accessInput.parent = project.get();

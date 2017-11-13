@@ -841,7 +841,23 @@ like the Linux kernel repository).
 
 cache `"groups"`::
 +
-Caches the basic group information from the `account_groups` table,
+Caches the basic group information of internal groups by group ID,
+including the group owner, name, and description.
++
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
+
+cache `"groups_byname"`::
++
+Caches the basic group information of internal groups by group name,
+including the group owner, name, and description.
++
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
+
+cache `"groups_byuuid"`::
++
+Caches the basic group information of internal groups by group UUID,
 including the group owner, name, and description.
 +
 External group membership obtained from LDAP is cached under

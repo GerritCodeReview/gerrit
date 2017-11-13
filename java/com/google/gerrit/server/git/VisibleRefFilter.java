@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
@@ -23,6 +24,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -30,6 +32,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -75,6 +79,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
+  private final GroupCache groupCache;
   private final PermissionBackend permissionBackend;
   private final PermissionBackend.ForProject perm;
   private final ProjectState projectState;
@@ -90,6 +95,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       @Nullable SearchingChangeCacheImpl changeCache,
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
+      GroupCache groupCache,
       PermissionBackend permissionBackend,
       @Assisted ProjectState projectState,
       @Assisted Repository git) {
@@ -98,6 +104,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.changeCache = changeCache;
     this.db = db;
     this.user = user;
+    this.groupCache = groupCache;
     this.permissionBackend = permissionBackend;
     this.perm =
         permissionBackend.user(user).database(db).project(projectState.getProject().getNameKey());
@@ -126,16 +133,21 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
     }
 
-    Account.Id userId;
     boolean viewMetadata;
+    boolean isAdmin;
+    Account.Id userId;
+    IdentifiedUser identifiedUser;
     if (user.get().isIdentifiedUser()) {
       viewMetadata = withUser.testOrFalse(GlobalPermission.ACCESS_DATABASE);
-      IdentifiedUser u = user.get().asIdentifiedUser();
-      userId = u.getAccountId();
+      isAdmin = withUser.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
+      identifiedUser = user.get().asIdentifiedUser();
+      userId = identifiedUser.getAccountId();
       userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
-      userId = null;
       viewMetadata = false;
+      isAdmin = false;
+      userId = null;
+      identifiedUser = null;
     }
 
     Map<String, Ref> result = new HashMap<>();
@@ -145,6 +157,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
+      AccountGroup.UUID accountGroupUuid;
       if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
         continue;
       } else if (RefNames.isRefsEdit(name)) {
@@ -158,8 +171,17 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
           result.put(name, ref);
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
-        // Account ref is visible only to corresponding account.
+        // Account ref is visible only to the corresponding account.
         if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
+          result.put(name, ref);
+        }
+      } else if ((accountGroupUuid = AccountGroup.UUID.fromRef(name)) != null) {
+        // Group ref is visible only to the corresponding owner group.
+        InternalGroup group = groupCache.get(accountGroupUuid).orElse(null);
+        if (viewMetadata
+            || (group != null
+                && isGroupOwner(group, identifiedUser, isAdmin)
+                && canReadRef(name))) {
           result.put(name, ref);
         }
       } else if (isTag(ref)) {
@@ -373,5 +395,14 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return false;
     }
     return true;
+  }
+
+  private boolean isGroupOwner(
+      InternalGroup group, @Nullable IdentifiedUser user, boolean isAdmin) {
+    checkNotNull(group);
+
+    // Keep this logic in sync with GroupControl#isOwner().
+    return isAdmin
+        || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29334ba2_97a70574",
+        "filename": "javatests/com/google/gerrit/server/rules/PrologTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T15:59:23Z",
+      "side": 1,
+      "message": "IMHO this test (and all other classes that contain no @Test methods) should probably go in a testing package somewhere in the java tree. Fine for now, though, since that\u0027s obviously a bigger cleanup.",
+      "revId": "20130daa6388f5b1cc49fcd0d68dec7189a63392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

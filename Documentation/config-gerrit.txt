@@ -740,6 +740,9 @@ Default is 1024 for most caches, except:
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
 * `"diff_summary"`: default is `10m` (10 MiB of memory)
+* `"groups"`: default is unlimited
+* `"groups_byname"`: default is unlimited
+* `"groups_byuuid"`: default is unlimited
 * `"plugin_resources"`: default is 2m (2 MiB of memory)
 
 +
@@ -841,8 +844,39 @@ like the Linux kernel repository).
 
 cache `"groups"`::
 +
-Caches the basic group information from the `account_groups` table,
+Caches the basic group information of internal groups by group ID,
 including the group owner, name, and description.
++
+For this cache it is important to configure a size that is larger than
+the number of internal Gerrit groups, otherwise general Gerrit
+performance may be poor. This is why by default this cache is
+unlimited.
++
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
+
+cache `"groups_byname"`::
++
+Caches the basic group information of internal groups by group name,
+including the group owner, name, and description.
++
+For this cache it is important to configure a size that is larger than
+the number of internal Gerrit groups, otherwise general Gerrit
+performance may be poor. This is why by default this cache is
+unlimited.
++
+External group membership obtained from LDAP is cached under
+`"ldap_groups"`.
+
+cache `"groups_byuuid"`::
++
+Caches the basic group information of internal groups by group UUID,
+including the group owner, name, and description.
++
+For this cache it is important to configure a size that is larger than
+the number of internal Gerrit groups, otherwise general Gerrit
+performance may be poor. This is why by default this cache is
+unlimited.
 +
 External group membership obtained from LDAP is cached under
 `"ldap_groups"`.

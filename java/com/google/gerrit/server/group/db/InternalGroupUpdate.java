@@ -16,7 +16,6 @@ package com.google.gerrit.server.group.db;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import java.util.Optional;
@@ -31,7 +30,7 @@ public abstract class InternalGroupUpdate {
   // TODO(aliceks): Mention empty string (not null!) -> unset value in Javadoc.
   public abstract Optional<String> getDescription();
 
-  public abstract Optional<GroupReference> getOwnerGroupReference();
+  public abstract Optional<AccountGroup.UUID> getOwnerGroupUUID();
 
   public abstract Optional<Boolean> getVisibleToAll();
 
@@ -53,7 +52,7 @@ public abstract class InternalGroupUpdate {
 
     public abstract Builder setDescription(String description);
 
-    public abstract Builder setOwnerGroupReference(GroupReference ownerGroupReference);
+    public abstract Builder setOwnerGroupUUID(AccountGroup.UUID ownerGroupUUID);
 
     public abstract Builder setVisibleToAll(boolean visibleToAll);
 

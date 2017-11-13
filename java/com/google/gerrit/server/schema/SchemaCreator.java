@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -169,7 +168,7 @@ public class SchemaCreator {
             metricMaker);
     try (Repository repository = repoManager.openRepository(allUsersName)) {
       createAdminsGroup(db, seqs, repository, admins);
-      createBatchUsersGroup(db, seqs, repository, batchUsers, admins);
+      createBatchUsersGroup(db, seqs, repository, batchUsers, admins.getUUID());
     }
 
     dataSourceType.getIndexScript().run(db);
@@ -190,13 +189,13 @@ public class SchemaCreator {
       Sequences seqs,
       Repository repository,
       GroupReference groupReference,
-      GroupReference admins)
+      AccountGroup.UUID adminsGroupUuid)
       throws OrmException, IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setDescription("Users who perform batch actions on Gerrit")
-            .setOwnerGroupReference(admins)
+            .setOwnerGroupUUID(adminsGroupUuid)
             .build();
 
     createGroup(db, repository, groupCreation, groupUpdate);
@@ -231,9 +230,7 @@ public class SchemaCreator {
   private InternalGroup createGroupInNoteDb(
       Repository repository, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws ConfigInvalidException, IOException, OrmDuplicateKeyException {
-    GroupConfig groupConfig =
-        GroupConfig.createForNewGroup(
-            allUsersName, repository, groupCreation, p -> createMetaDataUpdate(p));
+    GroupConfig groupConfig = GroupConfig.createForNewGroup(repository, groupCreation);
     // We don't add any initial members or subgroups and hence the provided functions should never
     // be called. To be on the safe side, we specify some valid functions.
     groupConfig.setGroupUpdate(groupUpdate, Account.Id::toString, AccountGroup.UUID::get);
@@ -243,12 +240,6 @@ public class SchemaCreator {
     return groupConfig
         .getLoadedGroup()
         .orElseThrow(() -> new IllegalStateException("Created group wasn't automatically loaded"));
-  }
-
-  private MetaDataUpdate createMetaDataUpdate(Project.NameKey project) throws IOException {
-    try (Repository repository = repoManager.openRepository(project)) {
-      return createMetaDataUpdate(repository);
-    }
   }
 
   private MetaDataUpdate createMetaDataUpdate(Repository repository) {

@@ -23,7 +23,6 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -64,7 +63,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
-      AllUsersName allUsers,
       Provider<SetParent> setParent,
       GitReferenceUpdated gitRefUpdated,
       ContributorAgreementsChecker contributorAgreements,
@@ -80,7 +78,6 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
         groupBackend,
         metaDataUpdateFactory,
         allProjects,
-        allUsers,
         setParent,
         user.get(),
         projectName,

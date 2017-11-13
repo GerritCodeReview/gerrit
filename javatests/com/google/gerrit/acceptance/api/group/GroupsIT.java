@@ -25,7 +25,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -34,14 +33,8 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.api.access.PermissionInfo;
-import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
-import com.google.gerrit.extensions.api.access.PermissionRuleInfo.Action;
-import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -57,7 +50,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -65,7 +57,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
@@ -230,9 +221,6 @@ public class GroupsIT extends AbstractDaemonTest {
     String newGroupName = name("newGroup");
     GroupInfo g = gApi.groups().create(newGroupName).get();
     assertGroupInfo(getFromCache(newGroupName), g);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(g.id, g.id);
-    }
   }
 
   @Test
@@ -286,7 +274,6 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create("anonymous users");
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void createGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();
@@ -298,9 +285,6 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(g.description).isEqualTo(in.description);
     assertThat(g.options.visibleToAll).isEqualTo(in.visibleToAll);
     assertThat(g.ownerId).isEqualTo(in.ownerId);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(g.id, in.ownerId);
-    }
   }
 
   @Test
@@ -432,34 +416,23 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(gApi.groups().id(name).options().visibleToAll).isTrue();
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void groupOwner() throws Exception {
+    String name = name("group");
+    GroupInfo info = gApi.groups().create(name).get();
     String adminUUID = getFromCache("Administrators").getGroupUUID().get();
     String registeredUUID = SystemGroupBackend.REGISTERED_USERS.get();
 
-    // get owner from group that was created during init
-    assertThat(Url.decode(gApi.groups().id(adminUUID).owner().id)).isEqualTo(adminUUID);
-
-    String name = name("group");
-    GroupInfo info = gApi.groups().create(name).get();
-
-    // get owner from newly created group
+    // get owner
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(info.id);
 
     // set owner by name
     gApi.groups().id(name).owner("Registered Users");
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(registeredUUID);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(info.id, registeredUUID);
-    }
 
     // set owner by UUID
     gApi.groups().id(name).owner(adminUUID);
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(info.id, adminUUID);
-    }
 
     // set non existing owner
     exception.expect(UnprocessableEntityException.class);
@@ -848,96 +821,6 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushGroupsAccessSectionChangeToAllUsersFails() throws Exception {
-    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
-
-    String config =
-        gApi.projects()
-            .name(allUsers.get())
-            .branch(RefNames.REFS_CONFIG)
-            .file(ProjectConfig.PROJECT_CONFIG)
-            .asString();
-
-    Config cfg = new Config();
-    cfg.fromText(config);
-    cfg.setString("access", RefNames.REFS_GROUPS + "foo", "push", "group Registered Users");
-    config = cfg.toText();
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), repo, "Subject", ProjectConfig.PROJECT_CONFIG, config)
-            .to(RefNames.REFS_CONFIG);
-    r.assertErrorStatus("invalid project configuration");
-    r.assertMessage("permissions on refs/groups/ are managed by gerrit and cannot be modified");
-  }
-
-  @Test
-  public void pushNonGroupsAccessSectionChangeToAllUsersSucceeds() throws Exception {
-    // Add an access section for refs/groups manually to see that mutation other data does not
-    // trigger a validation error.
-    ProjectConfig projectConfig = projectCache.checkedGet(allUsers).getConfig();
-    AccessSection as = new AccessSection(RefNames.REFS_GROUPS + "foo");
-    Permission perm = new Permission("push");
-    perm.add(new PermissionRule(systemGroupBackend.getGroup(ANONYMOUS_USERS)));
-    as.addPermission(perm);
-    projectConfig.replace(as);
-    saveProjectConfig(allUsers, projectConfig);
-
-    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
-
-    String config =
-        gApi.projects()
-            .name(allUsers.get())
-            .branch(RefNames.REFS_CONFIG)
-            .file(ProjectConfig.PROJECT_CONFIG)
-            .asString();
-    assertThat(config).contains("[access \"refs/groups/foo\"]");
-
-    Config cfg = new Config();
-    cfg.fromText(config);
-    cfg.setString("access", RefNames.REFS_CHANGES + "foo", "push", "group Registered Users");
-    config = cfg.toText();
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), repo, "Subject", ProjectConfig.PROJECT_CONFIG, config)
-            .to(RefNames.REFS_CONFIG);
-    r.assertOkStatus();
-  }
-
-  @Test
-  public void pushGroupsAccessSectionChangeToCustomProjectSucceeds() throws Exception {
-    TestRepository<InMemoryRepository> repo = cloneProject(project, RefNames.REFS_CONFIG);
-
-    String config =
-        gApi.projects()
-            .name(project.get())
-            .branch(RefNames.REFS_CONFIG)
-            .file(ProjectConfig.PROJECT_CONFIG)
-            .asString();
-
-    Config cfg = new Config();
-    cfg.fromText(config);
-    cfg.setString("access", RefNames.REFS_GROUPS + "foo", "push", "group Registered Users");
-    config = cfg.toText();
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(
-                db,
-                admin.getIdent(),
-                repo,
-                "Subject",
-                ImmutableMap.of(
-                    "groups",
-                    "global:Registered-Users\tRegistered Users",
-                    ProjectConfig.PROJECT_CONFIG,
-                    config))
-            .to(RefNames.REFS_CONFIG);
-    r.assertOkStatus();
-  }
-
-  @Test
   public void pushCustomInheritanceForAllUsersFails() throws Exception {
     TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
 
@@ -1116,19 +999,6 @@ public class GroupsIT extends AbstractDaemonTest {
     } catch (BadRequestException e) {
       // Expected
     }
-  }
-
-  private void assertGroupOwnerPermissions(String groupUuid, String expectedOwnerUuid)
-      throws RestApiException {
-    PermissionInfo newPermissionInfo = new PermissionInfo(null, null);
-    newPermissionInfo.rules =
-        ImmutableMap.of(expectedOwnerUuid, new PermissionRuleInfo(Action.ALLOW, false));
-
-    ProjectAccessInfo access = gApi.projects().name(allUsers.get()).access();
-    String groupRef = RefNames.refsGroups(AccountGroup.UUID.parse(groupUuid));
-    assertThat(access.local).containsKey(groupRef);
-    assertThat(access.local.get(groupRef).permissions)
-        .containsExactly(Permission.PUSH, newPermissionInfo, Permission.READ, newPermissionInfo);
   }
 
   private boolean groupsInNoteDb() {

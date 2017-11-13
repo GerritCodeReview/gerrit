@@ -30,10 +30,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -49,18 +47,15 @@ import java.util.Map;
 public class SetAccessUtil {
   private final GroupsCollection groupsCollection;
   private final AllProjectsName allProjects;
-  private final AllUsersName allUsers;
   private final Provider<SetParent> setParent;
 
   @Inject
   private SetAccessUtil(
       GroupsCollection groupsCollection,
       AllProjectsName allProjects,
-      AllUsersName allUsers,
       Provider<SetParent> setParent) {
     this.groupsCollection = groupsCollection;
     this.allProjects = allProjects;
-    this.allUsers = allUsers;
     this.setParent = setParent;
   }
 
@@ -121,7 +116,7 @@ public class SetAccessUtil {
 
   /**
    * Checks that the removals and additions are logically valid, but doesn't check current user's
-   * permission. In addition, checks that no Gerrit-managed permissions are added or removed.
+   * permission.
    */
   void validateChanges(
       ProjectConfig config, List<AccessSection> removals, List<AccessSection> additions)
@@ -134,13 +129,6 @@ public class SetAccessUtil {
           throw new BadRequestException(
               "Cannot edit global capabilities for projects other than " + allProjects.get());
         }
-      }
-      if (isGroupsMutationDisallowed(config.getName())
-          && section.getName().startsWith(RefNames.REFS_GROUPS)) {
-        throw new BadRequestException(
-            String.format(
-                "permissions on %s are managed by gerrit and cannot be modified",
-                RefNames.REFS_GROUPS));
       }
     }
 
@@ -233,9 +221,5 @@ public class SetAccessUtil {
       }
       config.getProject().setParentName(newParentProjectName);
     }
-  }
-
-  private boolean isGroupsMutationDisallowed(Project.NameKey project) {
-    return allProjects.equals(project) || allUsers.equals(project);
   }
 }

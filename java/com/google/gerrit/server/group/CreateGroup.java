@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -213,10 +212,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
         InternalGroupUpdate.builder().setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupId != null) {
       Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupId);
-      ownerGroup.ifPresent(
-          g ->
-              groupUpdateBuilder.setOwnerGroupReference(
-                  new GroupReference(g.getGroupUUID(), g.getName())));
+      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupUpdateBuilder::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {
       groupUpdateBuilder.setDescription(createGroupArgs.groupDescription);

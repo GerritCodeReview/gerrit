@@ -19,8 +19,8 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.Locale;
-import javax.inject.Singleton;
 
 @Singleton
 class InitExperimental implements InitStep {

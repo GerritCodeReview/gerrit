@@ -277,6 +277,30 @@
       "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd0e115_9874a289",
+        "filename": "javatests/com/google/gerrit/server/patchlib/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-13T15:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "070b1ffc_84643d0a",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

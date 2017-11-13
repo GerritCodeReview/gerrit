@@ -17,6 +17,24 @@
       "revId": "a97e3971a143db3aeb2565d20d0cd1995c99aee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21578f06_60607053",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-13T15:28:30Z",
+      "side": 1,
+      "message": "+1 for setting no limit. How would we do this? Just use Long.MAX_VALUE as maximumWeight?",
+      "parentUuid": "6e897c99_ea781e2c",
+      "revId": "a97e3971a143db3aeb2565d20d0cd1995c99aee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -35,6 +35,24 @@
       "revId": "a97e3971a143db3aeb2565d20d0cd1995c99aee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f549c86_978100b7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T15:45:36Z",
+      "side": 1,
+      "message": "Yeah I think that is the only way to do it without modifying the cache implementation.\n\n(We can\u0027t use some sort of sentinel, because DefaultCacheFactory#create always passes the result of CacheProvider#maximumWeight() directly to CacheBuilder#maximumWeight(int), which requires a positive value.)",
+      "parentUuid": "21578f06_60607053",
+      "revId": "a97e3971a143db3aeb2565d20d0cd1995c99aee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

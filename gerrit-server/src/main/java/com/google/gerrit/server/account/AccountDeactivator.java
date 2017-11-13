@@ -96,14 +96,19 @@ public class AccountDeactivator implements Runnable {
 
   @Override
   public void run() {
-    log.debug("Running account deactivations");
+    log.info("Running account deactivations");
     try {
       int numberOfAccountsDeactivated = 0;
       for (AccountState acc : accountQueryProvider.get().query(AccountPredicates.isActive())) {
         log.debug("processing account " + acc.getUserName());
         if (acc.getUserName() != null && !realm.isActive(acc.getUserName())) {
-          sif.deactivate(acc.getAccount().getId());
-          log.debug("deactivated accout " + acc.getUserName());
+          try {
+            sif.deactivate(acc.getAccount().getId());
+          }
+          catch (Exception e) {
+            log.error("Error deactivating account: {} ({}) {}", acc.getUserName(), acc.getAccount().getId(), e.getMessage(), e);
+          }
+          log.info("deactivated account " + acc.getUserName());
           numberOfAccountsDeactivated++;
         }
       }

@@ -47,6 +47,30 @@
       "revId": "215117889f1e37cf4f706f4d2728828156576887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "085ab0d0_83fe6152",
+        "filename": "java/com/google/gerrit/server/group/GetAuditLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T13:35:38Z",
+      "side": 1,
+      "message": "Also this comment isn\u0027t really applicable to this change, which is just cleanup and should introduce no behavior change.",
+      "parentUuid": "0cff661b_5bfdb5e9",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 91
+      },
+      "revId": "215117889f1e37cf4f706f4d2728828156576887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

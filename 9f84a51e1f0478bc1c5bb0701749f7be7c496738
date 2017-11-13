@@ -314,6 +314,30 @@
     },
     {
       "key": {
+        "uuid": "16179a46_6176a464",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:51:09Z",
+      "side": 1,
+      "message": "I just merged them, so that this change should be rebased.",
+      "parentUuid": "41f6c676_5eb8f229",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 51
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb631b9_d86095c4",
         "filename": "javatests/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
         "patchSetId": 3

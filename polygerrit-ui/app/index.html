@@ -32,6 +32,13 @@ RobotoMono fonts are used in styles/fonts.css
 <link rel="preload" href="/fonts/Roboto-Medium.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="/styles/fonts.css">
 <link rel="stylesheet" href="/styles/main.css">
+<script>
+  /*eslint-disable */
+  var importDoc = document.currentScript.ownerDocument;
+  var style = importDoc.querySelector('link[rel=stylesheet]');
+  document.head.appendChild(style);
+  /*eslint-enable */
+</script>
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <!--
   - Content between webcomponents-lite and the load of the main app element

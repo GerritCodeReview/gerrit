@@ -12,17 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.endpoint;
 
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.config.ListTasks.TaskInfo;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.inject.TypeLiteral;
 
-@Singleton
-public class GetTask implements RestReadView<TaskResource> {
+public class TaskResource extends ConfigResource {
+  public static final TypeLiteral<RestView<TaskResource>> TASK_KIND =
+      new TypeLiteral<RestView<TaskResource>>() {};
 
-  @Override
-  public TaskInfo apply(TaskResource rsrc) {
-    return new TaskInfo(rsrc.getTask());
+  private final Task<?> task;
+
+  public TaskResource(Task<?> task) {
+    this.task = task;
+  }
+
+  public Task<?> getTask() {
+    return task;
   }
 }

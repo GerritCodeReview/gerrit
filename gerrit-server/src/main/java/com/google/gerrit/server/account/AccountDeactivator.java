@@ -96,22 +96,38 @@ public class AccountDeactivator implements Runnable {
 
   @Override
   public void run() {
-    log.debug("Running account deactivations");
+    log.info("Running account deactivations");
     try {
       int numberOfAccountsDeactivated = 0;
       for (AccountState acc : accountQueryProvider.get().query(AccountPredicates.isActive())) {
-        log.debug("processing account " + acc.getUserName());
-        if (acc.getUserName() != null && !realm.isActive(acc.getUserName())) {
-          sif.deactivate(acc.getAccount().getId());
-          log.debug("deactivated accout " + acc.getUserName());
+        if (processAccount(acc)) {
           numberOfAccountsDeactivated++;
         }
       }
       log.info(
           "Deactivations complete, {} account(s) were deactivated", numberOfAccountsDeactivated);
     } catch (Exception e) {
-      log.error("Failed to deactivate inactive accounts " + e.getMessage(), e);
+      log.error("Failed to complete deactivation of accounts: " + e.getMessage(), e);
     }
+  }
+
+  private boolean processAccount(AccountState account) {
+    log.debug("processing account " + account.getUserName());
+    try {
+      if (account.getUserName() != null && !realm.isActive(account.getUserName())) {
+        sif.deactivate(account.getAccount().getId());
+        log.info("deactivated account " + account.getUserName());
+        return true;
+      }
+    } catch (Exception e) {
+      log.error(
+          "Error deactivating account: {} ({}) {}",
+          account.getUserName(),
+          account.getAccount().getId(),
+          e.getMessage(),
+          e);
+    }
+    return false;
   }
 
   @Override

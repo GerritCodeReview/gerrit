@@ -40,12 +40,7 @@ public interface GroupApi {
    */
   void name(String name) throws RestApiException;
 
-  /**
-   * @return owning group info.
-   * @deprecated for groups in NoteDb, use READ/PUSH permissions on the group ref to express
-   *     ownership.
-   */
-  @Deprecated
+  /** @return owning group info. */
   GroupInfo owner() throws RestApiException;
 
   /**
@@ -53,10 +48,7 @@ public interface GroupApi {
    *
    * @param owner identifier of new group owner.
    * @throws RestApiException
-   * @deprecated for groups in NoteDb, use READ/PUSH permissions on the group ref to express
-   *     ownership.
    */
-  @Deprecated
   void owner(String owner) throws RestApiException;
 
   /** @return group description. */

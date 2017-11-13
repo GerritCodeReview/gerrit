@@ -93,6 +93,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f0a099_1966b857",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-13T23:30:00Z",
+      "side": 1,
+      "message": "I\u0027ve looked at bind-value, but i carn\u0027t reproduce this in a jsfiddle so some where in polygerrit it\u0027s breaking this for firefox, which i can\u0027t work out why or how. See https://jsfiddle.net/658z0Lhh/9/\n\nI also looked at gr-select but carn\u0027t figure out the issue there either. But the strange thing is it dosen\u0027t affect safari or chrome.",
+      "parentUuid": "0c3929f5_78b563d2",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

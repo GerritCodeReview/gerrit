@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6a4fdc0_12358601",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-13T18:06:52Z",
+      "side": 1,
+      "message": "May be helpful to add some context in the comment about what a parent index is, why we\u0027re negating things here, etc.",
+      "revId": "2acf182ca7dda827103754c08f7fd3c35742bb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

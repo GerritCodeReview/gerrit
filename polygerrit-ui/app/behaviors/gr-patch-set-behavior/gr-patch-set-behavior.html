@@ -241,6 +241,16 @@ limitations under the License.
       const findNum = rev => rev._number + '' === patchNum + '';
       return revisions.findIndex(findNum);
     },
+
+    /**
+     * Convert parent indexes from patch range expressions to numbers.
+     * For example, in a patch range expression `"-3"` becomes `3`.
+     * @param {number|string} rangeBase
+     * @return {number}
+     */
+    getParentIndex(rangeBase) {
+      return -parseInt(rangeBase + '', 10);
+    },
   };
 })(window);
 </script>

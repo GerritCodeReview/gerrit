@@ -245,5 +245,10 @@ limitations under the License.
       sorted.splice(2, 0, edit);
       assert.deepEqual(sort(revisions), sorted);
     });
+
+    test('getParentIndex', () => {
+      assert.equal(Gerrit.PatchSetBehavior.getParentIndex('-13'), 13);
+      assert.equal(Gerrit.PatchSetBehavior.getParentIndex(-4), 4);
+    });
   });
 </script>

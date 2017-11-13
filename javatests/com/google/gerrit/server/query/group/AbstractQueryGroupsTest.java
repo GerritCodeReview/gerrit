@@ -476,7 +476,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return b.toString();
   }
 
-  @SuppressWarnings("deprecation")
   protected String format(Iterable<GroupInfo> groups) {
     StringBuilder b = new StringBuilder();
     b.append("[");

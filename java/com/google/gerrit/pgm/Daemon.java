@@ -62,7 +62,7 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.RestCacheAdminModule;
+import com.google.gerrit.server.config.endpoint.RestCacheAdminModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
@@ -412,6 +412,8 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new com.google.gerrit.server.api.Module());
+    modules.add(new com.google.gerrit.server.config.endpoint.Module());
+
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());

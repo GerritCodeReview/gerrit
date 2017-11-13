@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.endpoint;
 
-import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.inject.TypeLiteral;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.config.endpoint.ListTasks.TaskInfo;
+import com.google.inject.Singleton;
 
-public class TaskResource extends ConfigResource {
-  public static final TypeLiteral<RestView<TaskResource>> TASK_KIND =
-      new TypeLiteral<RestView<TaskResource>>() {};
+@Singleton
+public class GetTask implements RestReadView<TaskResource> {
 
-  private final Task<?> task;
-
-  public TaskResource(Task<?> task) {
-    this.task = task;
-  }
-
-  public Task<?> getTask() {
-    return task;
+  @Override
+  public TaskInfo apply(TaskResource rsrc) {
+    return new TaskInfo(rsrc.getTask());
   }
 }

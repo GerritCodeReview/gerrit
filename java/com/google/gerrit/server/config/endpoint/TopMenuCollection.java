@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,41 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.endpoint;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ConfigCollection implements RestCollection<TopLevelResource, ConfigResource> {
-  private final DynamicMap<RestView<ConfigResource>> views;
+class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
+  private final DynamicMap<RestView<TopMenuResource>> views;
+  private final ListTopMenus list;
 
   @Inject
-  ConfigCollection(DynamicMap<RestView<ConfigResource>> views) {
+  TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views, ListTopMenus list) {
     this.views = views;
+    this.list = list;
   }
 
   @Override
-  public RestView<TopLevelResource> list() throws ResourceNotFoundException {
-    throw new ResourceNotFoundException();
+  public RestView<ConfigResource> list() throws ResourceNotFoundException {
+    return list;
   }
 
   @Override
-  public DynamicMap<RestView<ConfigResource>> views() {
-    return views;
-  }
-
-  @Override
-  public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
-    if (id.get().equals("server")) {
-      return new ConfigResource();
-    }
+  public TopMenuResource parse(ConfigResource parent, IdString id)
+      throws ResourceNotFoundException {
     throw new ResourceNotFoundException(id);
+  }
+
+  @Override
+  public DynamicMap<RestView<TopMenuResource>> views() {
+    return views;
   }
 }

@@ -346,37 +346,88 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void groupName() throws Exception {
-    String name = name("group");
+  public void groupIsCreatedForSpecifiedName() throws Exception {
+    String name = name("Users");
     gApi.groups().create(name);
 
-    // get name
     assertThat(gApi.groups().id(name).name()).isEqualTo(name);
-
-    // set name to same name
-    gApi.groups().id(name).name(name);
-    assertThat(gApi.groups().id(name).name()).isEqualTo(name);
-
-    // set name with name conflict
-    String other = name("other");
-    gApi.groups().create(other);
-    exception.expect(ResourceConflictException.class);
-    gApi.groups().id(name).name(other);
   }
 
   @Test
-  public void groupRename() throws Exception {
-    String name = name("group");
-    gApi.groups().create(name);
+  public void groupCannotBeCreatedWithNameOfAnotherGroup() throws Exception {
+    String name = name("Users");
+    gApi.groups().create(name).get();
 
-    String newName = name("newName");
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().create(name);
+  }
+
+  @Test
+  public void groupCanBeRenamed() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    String newName = name("Name2");
     gApi.groups().id(name).name(newName);
-    assertThat(getFromCache(newName)).isNotNull();
-    assertThat(gApi.groups().id(newName).name()).isEqualTo(newName);
+    assertThat(gApi.groups().id(group.id).name()).isEqualTo(newName);
+  }
+
+  @Test
+  public void groupCanBeRenamedToItsCurrentName() throws Exception {
+    String name = name("Users");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    gApi.groups().id(group.id).name(name);
+    assertThat(gApi.groups().id(group.id).name()).isEqualTo(name);
+  }
+
+  @Test
+  public void groupCannotBeRenamedToNameOfAnotherGroup() throws Exception {
+    String name1 = name("Name1");
+    GroupInfo group1 = gApi.groups().create(name1).get();
+
+    String name2 = name("Name2");
+    gApi.groups().create(name2);
+
+    exception.expect(ResourceConflictException.class);
+    gApi.groups().id(group1.id).name(name2);
+  }
+
+  @Test
+  public void renamedGroupCanBeLookedUpByNewName() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    String newName = name("Name2");
+    gApi.groups().id(group.id).name(newName);
+
+    GroupInfo foundGroup = gApi.groups().id(newName).get();
+    assertThat(foundGroup.id).isEqualTo(group.id);
+  }
+
+  @Test
+  public void oldNameOfRenamedGroupIsNotAccessibleAnymore() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    String newName = name("Name2");
+    gApi.groups().id(group.id).name(newName);
 
     assertThat(getFromCache(name)).isNull();
     exception.expect(ResourceNotFoundException.class);
     gApi.groups().id(name).get();
+  }
+
+  @Test
+  public void oldNameOfRenamedGroupIsFreeForUseAgain() throws Exception {
+    String name = name("Name1");
+    GroupInfo group1 = gApi.groups().create(name).get();
+
+    String newName = name("Name2");
+    gApi.groups().id(group1.id).name(newName);
+
+    GroupInfo group2 = gApi.groups().create(name).get();
+    assertThat(group2.id).isNotEqualTo(group1.id);
   }
 
   @Test

@@ -70,6 +70,30 @@
       "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e61f184_f191bf59",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T15:27:33Z",
+      "side": 1,
+      "message": "Also, this should probably replicate the full logic of GroupControl#isOwner, which includes canAdministrateServer(). (Probably ok to not construct N GroupControls, though.)",
+      "parentUuid": "a6415f1b_06764e83",
+      "range": {
+        "startLine": 391,
+        "startChar": 52,
+        "endLine": 391,
+        "endChar": 64
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

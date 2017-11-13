@@ -103,7 +103,6 @@ public class GroupJson {
     return info;
   }
 
-  @SuppressWarnings("deprecation")
   private void addInternalDetails(
       GroupInfo info,
       GroupDescription.Internal internalGroup,

@@ -16,6 +16,23 @@
       "revId": "ced32cc4b2adc33277f9bf07b9af1f51b4035773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b53b9772_6a4e1745",
+        "filename": "java/com/google/gerrit/server/account/AccountInfoComparator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T22:43:27Z",
+      "side": 1,
+      "message": "I think the copyright line shouldn\u0027t be modified here.",
+      "revId": "ced32cc4b2adc33277f9bf07b9af1f51b4035773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

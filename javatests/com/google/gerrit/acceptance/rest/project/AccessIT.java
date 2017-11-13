@@ -531,7 +531,7 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.add.put(RefNames.REFS_GROUPS + "*", createDefaultAccessSectionInfo());
     exception.expect(BadRequestException.class);
     exception.expectMessage(
-        "permissions on refs/groups/ are managed by gerrit and cannot be modified");
+        "Permissions on refs/groups/ is managed by Gerrit and cannot be modified");
     gApi.projects().name(allProjects.get()).access(accessInput);
   }
 

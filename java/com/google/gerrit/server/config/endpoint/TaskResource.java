@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.endpoint;
 
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.inject.TypeLiteral;
 
-public class CapabilityResource extends ConfigResource {
-  public static final TypeLiteral<RestView<CapabilityResource>> CAPABILITY_KIND =
-      new TypeLiteral<RestView<CapabilityResource>>() {};
+public class TaskResource extends ConfigResource {
+  public static final TypeLiteral<RestView<TaskResource>> TASK_KIND =
+      new TypeLiteral<RestView<TaskResource>>() {};
+
+  private final Task<?> task;
+
+  public TaskResource(Task<?> task) {
+    this.task = task;
+  }
+
+  public Task<?> getTask() {
+    return task;
+  }
 }

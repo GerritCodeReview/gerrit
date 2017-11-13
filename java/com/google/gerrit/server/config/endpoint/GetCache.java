@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.endpoint;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.config.ListTasks.TaskInfo;
+import com.google.gerrit.server.config.endpoint.ListCaches.CacheInfo;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetTask implements RestReadView<TaskResource> {
+public class GetCache implements RestReadView<CacheResource> {
 
   @Override
-  public TaskInfo apply(TaskResource rsrc) {
-    return new TaskInfo(rsrc.getTask());
+  public CacheInfo apply(CacheResource rsrc) {
+    return new CacheInfo(rsrc.getName(), rsrc.getCache());
   }
 }

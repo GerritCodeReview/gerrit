@@ -10,6 +10,11 @@ def acceptance_tests(
     name = group,
     deps = deps + [
       '//java/com/google/gerrit/acceptance:lib',
+<<<<<<< HEAD
+=======
+      "//java/com/google/gerrit/server/patchlib",
+      "//java/com/google/gerrit/server/config/endpoint",
+>>>>>>> f2e880dd87... Split off config REST endpoints from giant server lib
     ],
     tags = labels + [
       'acceptance',

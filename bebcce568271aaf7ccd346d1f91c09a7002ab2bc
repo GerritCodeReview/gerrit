@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510567061 +0100\nnonce AMT3iFjLWABvJPChQKCkZOD02c8z1Zq9an5EQegwqNj4Y1THdAZMOhnWr1vVx8dQYLUQoA29zPME\n\n0000000000000000000000000000000000000000 bebcce568271aaf7ccd346d1f91c09a7002ab2bc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaCWyVAAoJEFG1/Zeg0O9RHzMH/AlmRlqtGNAS5xmgBoPbBAP7\nKhIr2WF+exP87xHl6ZOPZMqA7Wn3MaGMjlk/8L6QywaMLTdPDFEE9UELHRPcnXS9\nId440PUB76FZvgo9ZI1hq4+XxV0mr8ERJlNKBzofyxOW2rOB1DG4xe6D9Fn8ArLV\ngbGQ7uQDgO6w7Syr4GgRsDYTqcQBN063H6CvaXhn/wHcIr5hPoIFm48YnJi35A2B\no+CpiGVlkgGos5PwnCKFc1EmE3M2IcKBCZL9jAvJPlkzu3DhyhfidtocSD2WkiFk\nZpoLNO0iHmQzBVgwPDMlzedEKRvrVmvM81ir56mqvoD6vtfPBxqZgYv9o78aIvY\u003d\n\u003dA9tC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7933db7_b408b825",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T12:27:30Z",
+      "side": 1,
+      "message": "We don\u0027t need this TODO anymore.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 84
+      },
+      "revId": "bebcce568271aaf7ccd346d1f91c09a7002ab2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75b06e94_b3bb0061",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T12:27:30Z",
+      "side": 1,
+      "message": "This field is now unnecessary.",
+      "range": {
+        "startLine": 595,
+        "startChar": 4,
+        "endLine": 595,
+        "endChar": 52
+      },
+      "revId": "bebcce568271aaf7ccd346d1f91c09a7002ab2bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

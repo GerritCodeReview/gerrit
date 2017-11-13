@@ -16,6 +16,24 @@
       "revId": "c5784ea23f4e858d1ca134afc9ebfbdbe9a2f23c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e74c4d24_78e05161",
+        "filename": "java/com/google/gerrit/reviewdb/client/Patch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-13T19:42:28Z",
+      "side": 0,
+      "message": "now, I also can\u0027t remember. Reverted.",
+      "parentUuid": "f4b984b7_34039f70",
+      "revId": "c5784ea23f4e858d1ca134afc9ebfbdbe9a2f23c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

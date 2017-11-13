@@ -34,6 +34,52 @@
       "revId": "c5784ea23f4e858d1ca134afc9ebfbdbe9a2f23c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ed1a26e_1929dda0",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 0,
+      "message": "This wasn\u0027t changed actually, and the base version could be keeped?",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "c5784ea23f4e858d1ca134afc9ebfbdbe9a2f23c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdac9da6_bdc42d07",
+        "filename": "java/com/google/gerrit/server/diff/PatchListEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 0,
+      "message": "Why was this changed?",
+      "range": {
+        "startLine": 346,
+        "startChar": 13,
+        "endLine": 346,
+        "endChar": 37
+      },
+      "revId": "c5784ea23f4e858d1ca134afc9ebfbdbe9a2f23c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

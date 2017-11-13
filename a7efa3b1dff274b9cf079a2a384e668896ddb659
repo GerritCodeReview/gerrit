@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78041b60_b7176b4a",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Why was this added and changed below? Unwanted IJ refactoring/reformatting?",
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36a403e2_a875453f",
+        "filename": "java/com/google/gerrit/server/diff/ComparisonType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Why was this changed? Revert.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2f3483c_76cf8bee",
+        "filename": "java/com/google/gerrit/server/diff/DiffSummary.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Same here. Revert.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995fc311_3ffd6852",
+        "filename": "java/com/google/gerrit/server/diff/IntraLineDiffArgs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Why was this added? Revert.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3acd46df_76c157e8",
+        "filename": "java/com/google/gerrit/server/diff/IntraLineDiffKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Same here. Revert.",
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e75b8f27_3ec03825",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "The import order is wrongas it is not alphabetically sorted. Run gjf?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 68
+      },
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "075d9e18_3cfe0fa2",
+        "filename": "java/com/google/gerrit/server/extensions/events/ChangeAbandoned.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T21:40:54Z",
+      "side": 1,
+      "message": "Same here, import order wrong. I stop the review on this file.",
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

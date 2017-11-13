@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -70,6 +71,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsersName;
 
   private AccountGroup.UUID admins;
+  private AccountGroup.UUID nonInteractiveUsers;
 
   private ChangeData c1;
   private ChangeData c2;
@@ -83,6 +85,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admins = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID();
+    nonInteractiveUsers =
+        groupCache
+            .get(new AccountGroup.NameKey("Non-Interactive Users"))
+            .orElse(null)
+            .getGroupUUID();
     setUpPermissions();
     setUpChanges();
   }
@@ -471,6 +478,44 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
                 RefNames.REFS_USERS_SELF,
                 RefNames.refsUsers(user.id),
                 RefNames.refsUsers(admin.id));
+      }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesOmitGroupBranchedOfNonOwnedGroups() throws Exception {
+    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      List<String> refs = git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+      List<String> groupRefs = refs.stream().filter(RefNames::isRefsGroups).collect(toList());
+      assertThat(groupRefs).isEmpty();
+    }
+
+    TestRepository<?> adminTestRepository1 = cloneProject(allUsers, admin);
+    try (Git git = adminTestRepository1.git()) {
+      List<String> refs = git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+      List<String> groupRefs = refs.stream().filter(RefNames::isRefsGroups).collect(toList());
+      assertThat(groupRefs)
+          .containsExactly(RefNames.refsGroups(admins), RefNames.refsGroups(nonInteractiveUsers));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
+    allow(allUsersName, RefNames.REFS_USERS + "*", Permission.READ, REGISTERED_USERS);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    try {
+      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+      try (Git git = userTestRepository.git()) {
+        List<String> refs = git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+        List<String> groupRefs = refs.stream().filter(RefNames::isRefsGroups).collect(toList());
+        assertThat(groupRefs)
+            .containsExactly(RefNames.refsGroups(admins), RefNames.refsGroups(nonInteractiveUsers));
       }
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);

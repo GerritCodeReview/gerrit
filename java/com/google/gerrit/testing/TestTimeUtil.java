@@ -62,6 +62,41 @@ public class TestTimeUtil {
     TimeUtil.setCurrentMillisSupplier(() -> clockMs.getAndAdd(clockStepMs));
   }
 
+  /** {@link AutoCloseable} handle returned by {@link #withClockStep(long, TimeUnit)}. */
+  public static class TempClockStep implements AutoCloseable {
+    private final long oldClockStepMs;
+
+    private TempClockStep(long clockStep, TimeUnit clockStepUnit) {
+      oldClockStepMs = clockStepMs;
+      setClockStep(clockStep, clockStepUnit);
+    }
+
+    @Override
+    public void close() {
+      setClockStep(oldClockStepMs, TimeUnit.MILLISECONDS);
+    }
+  }
+
+  /**
+   * Set a clock step only for the scope of a single try-with-resources block.
+   *
+   * @param clockStep amount to increment clock by on each lookup.
+   * @param clockStepUnit time unit for {@code clockStep}.
+   * @return {@link AutoCloseable} handle which resets the clock step to its old value on close.
+   */
+  public static TempClockStep withClockStep(long clockStep, TimeUnit clockStepUnit) {
+    return new TempClockStep(clockStep, clockStepUnit);
+  }
+
+  /**
+   * Freeze the clock to stop moving only for the scope of a single try-with-resources block.
+   *
+   * @return {@link AutoCloseable} handle which resets the clock step to its old value on close.
+   */
+  public static TempClockStep freezeClock() {
+    return withClockStep(0, TimeUnit.SECONDS);
+  }
+
   /**
    * Set the clock to a specific timestamp.
    *

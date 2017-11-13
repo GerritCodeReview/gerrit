@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IntegerSubject;
+import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.GitPerson;
@@ -33,9 +35,34 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     super(failureMetadata, gitPerson);
   }
 
+  public StringSubject name() {
+    isNotNull();
+    GitPerson gitPerson = actual();
+    return Truth.assertThat(gitPerson.name).named("name");
+  }
+
+  public StringSubject email() {
+    isNotNull();
+    GitPerson gitPerson = actual();
+    return Truth.assertThat(gitPerson.email).named("email");
+  }
+
   public ComparableSubject<?, Timestamp> date() {
     isNotNull();
     GitPerson gitPerson = actual();
-    return Truth.assertThat(gitPerson.date).named("creationDate");
+    return Truth.assertThat(gitPerson.date).named("date");
+  }
+
+  public IntegerSubject tz() {
+    isNotNull();
+    GitPerson gitPerson = actual();
+    return Truth.assertThat(gitPerson.tz).named("tz");
+  }
+
+  public void hasSameDateAs(GitPerson other) {
+    isNotNull();
+    assertThat(other).named("other").isNotNull();
+    date().isEqualTo(other.date);
+    tz().isEqualTo(other.tz);
   }
 }

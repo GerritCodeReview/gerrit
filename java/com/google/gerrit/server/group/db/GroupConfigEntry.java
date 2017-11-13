@@ -83,6 +83,28 @@ enum GroupConfigEntry {
                       SECTION_NAME, null, super.keyName, Strings.emptyToNull(description)));
     }
   },
+  // TODO(hiesel) or TODO(ekempin): Replace this property by a permission mechanism.
+  OWNER_GROUP_UUID("ownerGroupUuid") {
+    @Override
+    void readFromConfig(InternalGroup.Builder group, Config config) {
+      String ownerGroupUuid = config.getString(SECTION_NAME, null, super.keyName);
+      group.setOwnerGroupUUID(new AccountGroup.UUID(ownerGroupUuid));
+    }
+
+    @Override
+    void initNewConfig(Config config, InternalGroupCreation group) {
+      config.setString(SECTION_NAME, null, super.keyName, group.getGroupUUID().get());
+    }
+
+    @Override
+    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+      groupUpdate
+          .getOwnerGroupUUID()
+          .ifPresent(
+              ownerGroupUuid ->
+                  config.setString(SECTION_NAME, null, super.keyName, ownerGroupUuid.get()));
+    }
+  },
   VISIBLE_TO_ALL("visibleToAll") {
     @Override
     void readFromConfig(InternalGroup.Builder group, Config config) {

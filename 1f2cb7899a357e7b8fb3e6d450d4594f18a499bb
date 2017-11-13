@@ -47,6 +47,30 @@
       "revId": "1f2cb7899a357e7b8fb3e6d450d4594f18a499bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfb7b20c_407e79cd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-13T12:52:03Z",
+      "side": 1,
+      "message": "It fails because all those commits has the same time-stamp which makes the sort in the endpoint not work.\n\nFor the five actions in this test:\n\nReviewDb:\n\n--\u003e REMOVE_GROUP , 2017-11-13 12:46:10.564\n--\u003e ADD_GROUP , 2017-11-13 12:46:10.541\n--\u003e REMOVE_USER , 2017-11-13 12:46:10.493\n--\u003e ADD_USER , 2017-11-13 12:46:10.448\n--\u003e ADD_USER , 2017-11-13 12:46:10.414\n\nNoteDb:\n--\u003e ADD_USER , 2017-11-13 12:46:37.0\n--\u003e ADD_USER , 2017-11-13 12:46:37.0\n--\u003e REMOVE_USER , 2017-11-13 12:46:37.0\n--\u003e ADD_GROUP , 2017-11-13 12:46:37.0\n--\u003e REMOVE_GROUP , 2017-11-13 12:46:37.0\n\nInvestigating...",
+      "parentUuid": "0b32dc16_12fe5080",
+      "range": {
+        "startLine": 712,
+        "startChar": 4,
+        "endLine": 712,
+        "endChar": 75
+      },
+      "revId": "1f2cb7899a357e7b8fb3e6d450d4594f18a499bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

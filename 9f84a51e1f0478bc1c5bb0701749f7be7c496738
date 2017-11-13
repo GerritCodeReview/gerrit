@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6d4616f_a9017076",
+        "filename": "java/com/google/gerrit/server/patchlib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T13:24:29Z",
+      "side": 1,
+      "message": "Will it be easy to change the name later on? I was never really happy with the term \u0027patch\u0027 and thought of suggesting that we rather use \u0027diff\u0027 at some point in the future.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7dd423d_e2606006",
+        "filename": "java/com/google/gerrit/server/patchlib/DiffSummaryWeigher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T13:24:29Z",
+      "side": 1,
+      "message": "Aren\u0027t all cache weighers some kind of implementation details of the cache implementations? Hence, shouldn\u0027t they stay next to those (that is in the \u0027patch\u0027 package)?",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccdda863_5fa7d66d",
+        "filename": "java/com/google/gerrit/server/patchlib/EditTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T13:24:29Z",
+      "side": 1,
+      "message": "This class is an implementation detail of the PatchList cache. It should remain alongside PatchListLoader and PatchListCacheImpl.",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad65341_7f667bdc",
+        "filename": "javatests/com/google/gerrit/server/patchlib/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-13T13:24:29Z",
+      "side": 1,
+      "message": "Do you intend to address this TODO in this change or a follow-up one? If a follow-up, please follow our standard format for TODOs, e.g. \"TODO(hanwen): some text\".",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 9
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

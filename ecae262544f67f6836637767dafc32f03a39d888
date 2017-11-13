@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "757482f1_1a66ca6b",
+        "filename": "java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:48:21Z",
+      "side": 1,
+      "message": "ChangeField.REF_STATE uses hex SHA-1s, and in general I think we prefer those for debuggability with command line tools.",
+      "range": {
+        "startLine": 86,
+        "startChar": 77,
+        "endLine": 86,
+        "endChar": 86
+      },
+      "revId": "ecae262544f67f6836637767dafc32f03a39d888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

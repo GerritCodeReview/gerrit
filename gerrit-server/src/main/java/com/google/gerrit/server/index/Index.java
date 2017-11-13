@@ -35,9 +35,6 @@ public interface Index<K, V> {
   /** @return the schema version used by this index. */
   Schema<V> getSchema();
 
-  /** Stop and await termination of all executor threads */
-  default void stop() {}
-
   /** Close this index. */
   void close();
 

@@ -95,7 +95,6 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
     }
     for (I write : writeIndexes) {
       if (write != read) {
-        write.stop();
         write.close();
       }
     }

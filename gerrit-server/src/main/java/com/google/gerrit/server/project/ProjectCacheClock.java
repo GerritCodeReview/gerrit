@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -28,15 +29,22 @@ import org.eclipse.jgit.lib.Config;
 
 /** Ticks periodically to force refresh events for {@link ProjectCacheImpl}. */
 @Singleton
-public class ProjectCacheClock {
+public class ProjectCacheClock implements LifecycleListener {
+  private final Config serverConfig;
+
   private final AtomicLong generation = new AtomicLong();
+
+  private ScheduledExecutorService executor;
 
   @Inject
   public ProjectCacheClock(@GerritServerConfig Config serverConfig) {
-    this(checkFrequency(serverConfig));
+    this.serverConfig = serverConfig;
   }
 
-  public ProjectCacheClock(long checkFrequencyMillis) {
+  @Override
+  public void start() {
+    long checkFrequencyMillis = checkFrequency(serverConfig);
+
     if (checkFrequencyMillis == Long.MAX_VALUE) {
       // Start with generation 1 (to avoid magic 0 below).
       // Do not begin background thread, disabling the clock.
@@ -44,7 +52,7 @@ public class ProjectCacheClock {
     } else if (10 < checkFrequencyMillis) {
       // Start with generation 1 (to avoid magic 0 below).
       generation.set(1);
-      ScheduledExecutorService executor =
+      executor =
           Executors.newScheduledThreadPool(
               1,
               new ThreadFactoryBuilder()
@@ -65,6 +73,13 @@ public class ProjectCacheClock {
       // Magic generation 0 triggers ProjectState to always
       // check on each needsRefresh() request we make to it.
       generation.set(0);
+    }
+  }
+
+  @Override
+  public void stop() {
+    if (executor != null) {
+      executor.shutdown();
     }
   }
 

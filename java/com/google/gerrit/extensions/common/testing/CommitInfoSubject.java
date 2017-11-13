@@ -51,4 +51,16 @@ public class CommitInfoSubject extends Subject<CommitInfoSubject, CommitInfo> {
     CommitInfo commitInfo = actual();
     return GitPersonSubject.assertThat(commitInfo.committer).named("committer");
   }
+
+  public GitPersonSubject author() {
+    isNotNull();
+    CommitInfo commitInfo = actual();
+    return GitPersonSubject.assertThat(commitInfo.author).named("author");
+  }
+
+  public StringSubject message() {
+    isNotNull();
+    CommitInfo commitInfo = actual();
+    return Truth.assertThat(commitInfo.message).named("message");
+  }
 }

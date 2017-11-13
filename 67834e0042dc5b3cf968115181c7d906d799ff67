@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5d6ee7fb_ab19a18e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-13T15:25:43Z",
+      "side": 1,
+      "message": "\u003e Is this already the case for admins on All-Users, or do we need a schema migration to\n\u003e add them?\n\nI think it would be more readable if All-Users explicitly grants READ on refs/groups/* for registered users and I was going to implement a schema migration for this.\n\n\u003e I think the tests are telling me that this already works as intended; maybe a comment in the \n\u003e commit message to that effect?\n\nYes, by default anonymous users have read access on refs/* in All-Projects and All-Users inherits this.\n\nI will clarify this in the commit message.",
+      "parentUuid": "701cb515_f03199cc",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6415f1b_06764e83",
         "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2

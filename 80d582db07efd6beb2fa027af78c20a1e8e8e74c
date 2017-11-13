@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5d54bb3_f8ee9158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-13T18:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa2944c_41b45ecc",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "80d582db07efd6beb2fa027af78c20a1e8e8e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70fc8664_9a9d0b2b",
         "filename": "polygerrit-ui/app/elements/shared/gr-count-string-formatter/gr-count-string-formatter.html",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-11T00:49:17Z",
       "side": 1,
       "message": "I\u0027m on the fence over whether I feel like this file is overkill.\n\nIt\u0027s hard to say whether the pluralization would adapt to i18n nicely, and this version only covers one kind of English plural.\n\nThe other two methods are relatively simple concatenators. It doesn\u0027t seem like a problem if those were repeated in multiple elements.",
+      "revId": "80d582db07efd6beb2fa027af78c20a1e8e8e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a3e931_ac1405cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-count-string-formatter/gr-count-string-formatter.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-13T18:10:20Z",
+      "side": 1,
+      "message": "I\u0027d like to advocate for keeping this file.\n\nI know these don\u0027t seem like difficult things to replicate, and they\u0027re not, but even the small check for only concatenating and adding a space, when there is a count, is annoying to do in 4+ places, and it\u0027s an easy mistake to make when implementing separately. \n\nAs for the I18n, I agree, that this will likely not work, but at that point we will have an entirely new strategy, and I think it will be easier to transition from this to that, rather than find the separate places this is done.\n\nIt\u0027s much easier to go from this to not use it, than the other way around.",
+      "parentUuid": "70fc8664_9a9d0b2b",
       "revId": "80d582db07efd6beb2fa027af78c20a1e8e8e74c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

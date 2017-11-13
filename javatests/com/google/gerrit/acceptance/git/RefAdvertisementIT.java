@@ -447,6 +447,37 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void advertisedReferencesOmitUserBranchedOfOtherUsers() throws Exception {
+    allow(allUsersName, RefNames.REFS_USERS + "*", Permission.READ, REGISTERED_USERS);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      List<String> refs = git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+      List<String> userRefs = refs.stream().filter(RefNames::isRefsUsers).collect(toList());
+      assertThat(userRefs).containsExactly(RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id));
+    }
+  }
+
+  @Test
+  public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
+    allow(allUsersName, RefNames.REFS_USERS + "*", Permission.READ, REGISTERED_USERS);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    try {
+      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+      try (Git git = userTestRepository.git()) {
+        List<String> refs = git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+        List<String> userRefs = refs.stream().filter(RefNames::isRefsUsers).collect(toList());
+        assertThat(userRefs)
+            .containsExactly(
+                RefNames.REFS_USERS_SELF,
+                RefNames.refsUsers(user.id),
+                RefNames.refsUsers(admin.id));
+      }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    }
+  }
+
+  @Test
   public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 

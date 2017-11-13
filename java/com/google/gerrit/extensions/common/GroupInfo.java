@@ -24,8 +24,8 @@ public class GroupInfo extends GroupBaseInfo {
   // These fields are only supplied for internal groups.
   public String description;
   public Integer groupId;
-  @Deprecated public String owner;
-  @Deprecated public String ownerId;
+  public String owner;
+  public String ownerId;
   public Timestamp createdOn;
   public Boolean _moreGroups;
 

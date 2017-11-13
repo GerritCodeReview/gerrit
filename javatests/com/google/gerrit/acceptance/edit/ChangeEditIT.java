@@ -263,7 +263,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);
     assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.getRevision().get());
-    assertThat(rebasedEdit).value().commit().committer().creationDate().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
   @Test
@@ -282,7 +282,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);
     assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.getRevision().get());
-    assertThat(rebasedEdit).value().commit().committer().creationDate().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
   @Test

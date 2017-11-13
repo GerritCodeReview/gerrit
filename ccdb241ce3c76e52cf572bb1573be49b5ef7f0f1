@@ -117,6 +117,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b90cfb3_d662050a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-13T23:42:09Z",
+      "side": 1,
+      "message": "Doing some debugging shows it knows the correct value\n\nTRUE  gr-app.js:2147:275\n\u003cselect class\u003d\"style-scope gr-project\" disabled\u003d\"true\"\u003e\n\nBut it is just not inserted.",
+      "parentUuid": "52f0a099_1966b857",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

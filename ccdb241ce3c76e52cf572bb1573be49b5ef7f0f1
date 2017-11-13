@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61114bdf_5fbb3e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-13T23:23:01Z",
+      "side": 1,
+      "message": "Please include a bit more detail in the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "407de906_1c72e066",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-13T23:23:01Z",
+      "side": 1,
+      "message": "The correct item should get selected due to the bind-value on l118. If that\u0027s not working correctly, should look there to fix it (here and below)",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

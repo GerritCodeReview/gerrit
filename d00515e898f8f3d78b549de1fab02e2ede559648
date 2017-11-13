@@ -142,6 +142,30 @@
       "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c338872c_7bc07b5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-11-13T16:02:10Z",
+      "side": 0,
+      "message": "I\u0027m still not sure I understand your problem.\n\nIs PolyGerrit different than the old UI in this regard? If I understand correctly, the Submit button is hidden/disabled for both UIs by the same logic.\n\nThis change proposes one more case in which the button will be visible but disabled, just like when a dependent change is not ready, for example.\n\nI still don\u0027t get why it bothers you",
+      "parentUuid": "5a3d0274_7170b703",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 71
+      },
+      "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

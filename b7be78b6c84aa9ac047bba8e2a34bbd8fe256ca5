@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83356019_c6abe1e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-13T11:45:24Z",
+      "side": 1,
+      "message": "Mention the motivation/reason for this change?",
+      "revId": "b7be78b6c84aa9ac047bba8e2a34bbd8fe256ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

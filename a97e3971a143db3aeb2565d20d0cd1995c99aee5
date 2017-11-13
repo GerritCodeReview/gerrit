@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510585303 +0100\nnonce AMT3iFgJUaOl3Xs3Hr3ATmLVxT8fYXY45ROfQTdGIqUiQz4FAto7EjFduIz2N6sOqjPmcmvwwXR3\n\n0000000000000000000000000000000000000000 a97e3971a143db3aeb2565d20d0cd1995c99aee5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaCbPXAAoJEFG1/Zeg0O9R0d4H/2s4klmVlzaL8FQarldnWQmi\nTacHEA5owrlMWZzQNKAl3z46newAgDu1ND7C8NERvFDtIcS9Xo2pP7wfb+KlJRMF\nzFhFe4HM3L4g7F9ZIs3gywbbZSUN5zNMKRJpBkKI/RI2aMia55OGInBjHDc13Rgv\nsXV3qIOtlGFx/j+CRodjKKJ0e8bpI/CFsyxTA/mfmpsMduL0hY7mpIVllalNC8Cl\nq+F4K1AfQswPx2MZgBpR8tGdPGiIEPMN6dNOv5QP2TVrmuYF5xJ7qhUPXGXBuhqI\nSFMXYR/YLy5dAY1rfiCK9ZeND8Wm2q6XSFl1C6ScIl7v2iWNQC05eG/HUYdLxhM\u003d\n\u003diWIs\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e897c99_ea781e2c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T15:09:05Z",
+      "side": 1,
+      "message": "Why can\u0027t we just set no limit on this cache by default? Are we concerned that users might have many many groups, but not a large heap? Even our largest host only has a few thousand groups, which is only a few tens of MiB of heap space for these caches.\n\nIf this is important, maybe we should also warn on every Groups#getAllUuids invocation if the total number of groups exceeds the cache size. (Not in this change.)",
+      "revId": "a97e3971a143db3aeb2565d20d0cd1995c99aee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

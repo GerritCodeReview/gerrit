@@ -144,6 +144,7 @@ public class GroupControl {
       return isOwner;
     }
 
+    // Keep this logic in sync with VisibleRefFilter#isOwner(...).
     if (group instanceof GroupDescription.Internal) {
       AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
       isOwner = getUser().getEffectiveGroups().contains(ownerUUID) || canAdministrateServer();

@@ -205,6 +205,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "j2objc",
+    artifact = "com.google.j2objc:j2objc-annotations:1.1",
+    sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",
+)
+
+maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.54",
     sha1 = "da3584329a263616e277e15462b387addd1b208d",

@@ -33,7 +33,7 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     super(failureMetadata, gitPerson);
   }
 
-  public ComparableSubject<?, Timestamp> creationDate() {
+  public ComparableSubject<?, Timestamp> date() {
     isNotNull();
     GitPerson gitPerson = actual();
     return Truth.assertThat(gitPerson.date).named("creationDate");

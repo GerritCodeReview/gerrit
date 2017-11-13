@@ -32,12 +32,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -67,7 +65,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllProjectsName allProjects;
-  private final AllUsersName allUsers;
   private final Provider<SetParent> setParent;
   private final ContributorAgreementsChecker contributorAgreements;
   private final PermissionBackend permissionBackend;
@@ -83,7 +80,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       AllProjectsName allProjects,
-      AllUsersName allUsers,
       Provider<SetParent> setParent,
       CurrentUser user,
       Project.NameKey projectName,
@@ -97,7 +93,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjects = allProjects;
-    this.allUsers = allUsers;
     this.setParent = setParent;
     this.user = user;
 
@@ -142,26 +137,12 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           }
 
           RefPattern.validate(name);
-          boolean differs = replace(config, toDelete, section);
-          if (differs
-              && groupMutationsDisallowed(projectName)
-              && isGroupMutation(section.getName())) {
-            throw new ConfigInvalidException(
-                String.format(
-                    "permissions on %s are managed by gerrit and cannot be modified",
-                    RefNames.REFS_GROUPS));
-          }
+
+          replace(config, toDelete, section);
         }
       }
 
       for (String name : toDelete) {
-        if (groupMutationsDisallowed(projectName) && isGroupMutation(name)) {
-          throw new ConfigInvalidException(
-              String.format(
-                  "permissions on %s are managed by gerrit and cannot be modified",
-                  RefNames.REFS_GROUPS));
-        }
-
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
           if (!checkIfOwner || canWriteConfig()) {
             config.remove(config.getAccessSection(name));
@@ -216,18 +197,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException,
           PermissionDeniedException, PermissionBackendException;
 
-  /** @return true if the access section differed from the existing one and had to be replaced. */
-  private boolean replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
+  private void replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
       throws NoSuchGroupException {
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         lookupGroup(rule);
       }
     }
-    boolean differs = !section.equals(config.getAccessSection(section.getName()));
     config.replace(section);
     toDelete.remove(section.getName());
-    return differs;
   }
 
   private static Set<String> scanSectionNames(ProjectConfig config) {
@@ -263,14 +241,5 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       canWriteConfig = false;
     }
     return canWriteConfig;
-  }
-
-  private boolean groupMutationsDisallowed(Project.NameKey projectName) {
-    return (projectName.get().equals(allProjects.get())
-        || projectName.get().equals(allUsers.get()));
-  }
-
-  private boolean isGroupMutation(String sectionName) {
-    return sectionName.startsWith(RefNames.REFS_GROUPS);
   }
 }

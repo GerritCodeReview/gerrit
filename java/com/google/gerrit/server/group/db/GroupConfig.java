@@ -22,18 +22,15 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -55,7 +52,6 @@ public class GroupConfig extends VersionedMetaData {
   private static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
-  private final GroupOwnerPermissions groupOwnerPermissions;
   private final AccountGroup.UUID groupUuid;
   private final String ref;
 
@@ -66,47 +62,23 @@ public class GroupConfig extends VersionedMetaData {
   private Function<AccountGroup.UUID, String> groupNameRetriever = AccountGroup.UUID::get;
   private boolean isLoaded = false;
 
-  private GroupConfig(GroupOwnerPermissions groupOwnerPermissions, AccountGroup.UUID groupUuid) {
-    this.groupOwnerPermissions = checkNotNull(groupOwnerPermissions);
+  private GroupConfig(AccountGroup.UUID groupUuid) {
     this.groupUuid = checkNotNull(groupUuid);
     ref = RefNames.refsGroups(groupUuid);
   }
 
   public static GroupConfig createForNewGroup(
-      AllUsersName allUsersName,
-      Repository repository,
-      InternalGroupCreation groupCreation,
-      MetaDataUpdateFactory metaDataUpdateFactory)
+      Repository repository, InternalGroupCreation groupCreation)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
-    checkNotNull(metaDataUpdateFactory);
-    GroupConfig groupConfig =
-        new GroupConfig(
-            new GroupOwnerPermissions(allUsersName, repository, metaDataUpdateFactory),
-            groupCreation.getGroupUUID());
+    GroupConfig groupConfig = new GroupConfig(groupCreation.getGroupUUID());
     groupConfig.load(repository);
     groupConfig.setGroupCreation(groupCreation);
     return groupConfig;
   }
 
-  public static GroupConfig loadForGroupNoOwnerUpdate(
-      AllUsersName allUsersName, Repository repository, AccountGroup.UUID groupUuid)
+  public static GroupConfig loadForGroup(Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig =
-        new GroupConfig(new GroupOwnerPermissions(allUsersName, repository, null), groupUuid);
-    groupConfig.load(repository);
-    return groupConfig;
-  }
-
-  public static GroupConfig loadForGroup(
-      AllUsersName allUsersName,
-      Repository repository,
-      AccountGroup.UUID groupUuid,
-      MetaDataUpdateFactory metaDataUpdateFactory)
-      throws IOException, ConfigInvalidException {
-    checkNotNull(metaDataUpdateFactory);
-    GroupConfig groupConfig =
-        new GroupConfig(
-            new GroupOwnerPermissions(allUsersName, repository, metaDataUpdateFactory), groupUuid);
+    GroupConfig groupConfig = new GroupConfig(groupUuid);
     groupConfig.load(repository);
     return groupConfig;
   }
@@ -152,15 +124,7 @@ public class GroupConfig extends VersionedMetaData {
       Config config = readConfig(GROUP_CONFIG_FILE);
       ImmutableSet<Account.Id> members = readMembers();
       ImmutableSet<AccountGroup.UUID> subgroups = readSubgroups();
-
-      AccountGroup.UUID ownerGroupUuid = groupOwnerPermissions.readOwnerGroup(groupUuid);
-      if (ownerGroupUuid == null) {
-        throw new ConfigInvalidException(
-            String.format("Group owner for group %s not found.", groupUuid.get()));
-      }
-
-      loadedGroup =
-          Optional.of(createFrom(groupUuid, ownerGroupUuid, config, members, subgroups, createdOn));
+      loadedGroup = Optional.of(createFrom(groupUuid, config, members, subgroups, createdOn));
     }
 
     isLoaded = true;
@@ -168,14 +132,12 @@ public class GroupConfig extends VersionedMetaData {
 
   private static InternalGroup createFrom(
       AccountGroup.UUID groupUuid,
-      AccountGroup.UUID ownerGroupUuid,
       Config config,
       ImmutableSet<Account.Id> members,
       ImmutableSet<AccountGroup.UUID> subgroups,
       Timestamp createdOn) {
     InternalGroup.Builder group = InternalGroup.builder();
     group.setGroupUUID(groupUuid);
-    group.setOwnerGroupUUID(ownerGroupUuid);
     Arrays.stream(GroupConfigEntry.values())
         .forEach(configEntry -> configEntry.readFromConfig(group, config));
     group.setMembers(members);
@@ -204,8 +166,6 @@ public class GroupConfig extends VersionedMetaData {
 
     Config config = updateGroupProperties();
 
-    AccountGroup.UUID groupOwnerUuid = updateOwnerPermissions();
-
     ImmutableSet<Account.Id> originalMembers =
         loadedGroup.map(InternalGroup::getMembers).orElseGet(ImmutableSet::of);
     Optional<ImmutableSet<Account.Id>> updatedMembers = updateMembers(originalMembers);
@@ -222,7 +182,6 @@ public class GroupConfig extends VersionedMetaData {
         Optional.of(
             createFrom(
                 groupUuid,
-                groupOwnerUuid,
                 config,
                 updatedMembers.orElse(originalMembers),
                 updatedSubgroups.orElse(originalSubgroups),
@@ -249,30 +208,6 @@ public class GroupConfig extends VersionedMetaData {
                     configEntry -> configEntry.updateConfigValue(config, internalGroupUpdate)));
     saveConfig(GROUP_CONFIG_FILE, config);
     return config;
-  }
-
-  private AccountGroup.UUID updateOwnerPermissions() throws IOException, ConfigInvalidException {
-    GroupReference oldOwnerGroupReference =
-        loadedGroup.map(g -> new GroupReference(g.getOwnerGroupUUID(), g.getName())).orElse(null);
-
-    GroupReference newOwnerGroupReference = oldOwnerGroupReference;
-    if (groupUpdate.isPresent() && groupUpdate.get().getOwnerGroupReference().isPresent()) {
-      newOwnerGroupReference = groupUpdate.get().getOwnerGroupReference().get();
-    } else if (groupCreation.isPresent()) {
-      InternalGroupCreation creation = groupCreation.get();
-      String name =
-          groupUpdate.flatMap(InternalGroupUpdate::getName).orElseGet(creation::getNameKey).get();
-      // new group, by default it owns itself
-      newOwnerGroupReference = new GroupReference(creation.getGroupUUID(), name);
-    }
-
-    if (Objects.equals(oldOwnerGroupReference, newOwnerGroupReference)) {
-      return oldOwnerGroupReference.getUUID();
-    }
-
-    groupOwnerPermissions.updateOwnerPermissions(
-        groupUuid, oldOwnerGroupReference, newOwnerGroupReference);
-    return newOwnerGroupReference.getUUID();
   }
 
   private Optional<ImmutableSet<Account.Id>> updateMembers(ImmutableSet<Account.Id> originalMembers)

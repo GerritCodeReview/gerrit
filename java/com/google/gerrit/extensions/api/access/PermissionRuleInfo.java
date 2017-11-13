@@ -13,7 +13,6 @@
 // limitations under the License.
 package com.google.gerrit.extensions.api.access;
 
-import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class PermissionRuleInfo {
@@ -50,15 +49,5 @@ public class PermissionRuleInfo {
   @Override
   public int hashCode() {
     return Objects.hash(action, force, min, max);
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("action", action)
-        .add("force", force)
-        .add("min", min)
-        .add("max", max)
-        .toString();
   }
 }

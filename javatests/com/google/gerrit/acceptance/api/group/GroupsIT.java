@@ -38,10 +38,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.api.access.PermissionInfo;
-import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
-import com.google.gerrit.extensions.api.access.PermissionRuleInfo.Action;
-import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -57,7 +53,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -230,9 +225,6 @@ public class GroupsIT extends AbstractDaemonTest {
     String newGroupName = name("newGroup");
     GroupInfo g = gApi.groups().create(newGroupName).get();
     assertGroupInfo(getFromCache(newGroupName), g);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(g.id, g.id);
-    }
   }
 
   @Test
@@ -298,9 +290,6 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(g.description).isEqualTo(in.description);
     assertThat(g.options.visibleToAll).isEqualTo(in.visibleToAll);
     assertThat(g.ownerId).isEqualTo(in.ownerId);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(g.id, in.ownerId);
-    }
   }
 
   @Test
@@ -435,31 +424,21 @@ public class GroupsIT extends AbstractDaemonTest {
   @SuppressWarnings("deprecation")
   @Test
   public void groupOwner() throws Exception {
+    String name = name("group");
+    GroupInfo info = gApi.groups().create(name).get();
     String adminUUID = getFromCache("Administrators").getGroupUUID().get();
     String registeredUUID = SystemGroupBackend.REGISTERED_USERS.get();
 
-    // get owner from group that was created during init
-    assertThat(Url.decode(gApi.groups().id(adminUUID).owner().id)).isEqualTo(adminUUID);
-
-    String name = name("group");
-    GroupInfo info = gApi.groups().create(name).get();
-
-    // get owner from newly created group
+    // get owner
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(info.id);
 
     // set owner by name
     gApi.groups().id(name).owner("Registered Users");
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(registeredUUID);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(info.id, registeredUUID);
-    }
 
     // set owner by UUID
     gApi.groups().id(name).owner(adminUUID);
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
-    if (groupsInNoteDb()) {
-      assertGroupOwnerPermissions(info.id, adminUUID);
-    }
 
     // set non existing owner
     exception.expect(UnprocessableEntityException.class);
@@ -1116,19 +1095,6 @@ public class GroupsIT extends AbstractDaemonTest {
     } catch (BadRequestException e) {
       // Expected
     }
-  }
-
-  private void assertGroupOwnerPermissions(String groupUuid, String expectedOwnerUuid)
-      throws RestApiException {
-    PermissionInfo newPermissionInfo = new PermissionInfo(null, null);
-    newPermissionInfo.rules =
-        ImmutableMap.of(expectedOwnerUuid, new PermissionRuleInfo(Action.ALLOW, false));
-
-    ProjectAccessInfo access = gApi.projects().name(allUsers.get()).access();
-    String groupRef = RefNames.refsGroups(AccountGroup.UUID.parse(groupUuid));
-    assertThat(access.local).containsKey(groupRef);
-    assertThat(access.local.get(groupRef).permissions)
-        .containsExactly(Permission.PUSH, newPermissionInfo, Permission.READ, newPermissionInfo);
   }
 
   private boolean groupsInNoteDb() {

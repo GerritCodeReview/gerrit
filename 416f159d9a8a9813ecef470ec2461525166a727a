@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21b13cdc_ef0b0988",
+        "filename": "java/com/google/gerrit/server/account/AccountInfoComparator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T22:46:14Z",
+      "side": 1,
+      "message": "In the previous change I said I think this shouldn\u0027t have been changed to 2017. But regardless, it certainly shouldn\u0027t be changed to 2016 in this change, considering the previous value was 2015.",
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7c22d4f_97e62f88",
+        "filename": "java/com/google/gerrit/server/config/endpoint/CacheResource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T22:46:14Z",
+      "side": 1,
+      "message": "Not sure I agree with this package name. We don\u0027t use the term \"endpoint\" anywhere in the class hierarchy of REST API related classes, e.g. Rest{Read,Modify}View.\n\nMaybe \"rest\"?",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

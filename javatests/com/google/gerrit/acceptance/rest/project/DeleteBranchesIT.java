@@ -15,14 +15,16 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_REFS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
@@ -31,6 +33,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import java.util.HashMap;
 import java.util.List;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,10 +41,12 @@ import org.junit.Test;
 @NoHttpd
 public class DeleteBranchesIT extends AbstractDaemonTest {
   private static final ImmutableList<String> BRANCHES =
-      ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "test-3");
+      ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "test-3", "refs/meta/foo");
 
   @Before
   public void setUp() throws Exception {
+    allow("refs/*", Permission.CREATE, REGISTERED_USERS);
+    allow("refs/*", Permission.PUSH, REGISTERED_USERS);
     for (String name : BRANCHES) {
       project().branch(name).create(new BranchInput());
     }
@@ -54,7 +59,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = BRANCHES;
     project().deleteBranches(input);
-    assertBranchesDeleted();
+    assertBranchesDeleted(BRANCHES);
     assertRefUpdatedEvents(initialRevisions);
   }
 
@@ -87,7 +92,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
           .hasMessageThat()
           .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     }
-    assertBranchesDeleted();
+    assertBranchesDeleted(BRANCHES);
   }
 
   @Test
@@ -106,7 +111,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
           .hasMessageThat()
           .isEqualTo(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     }
-    assertBranchesDeleted();
+    assertBranchesDeleted(BRANCHES);
   }
 
   @Test
@@ -163,7 +168,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   }
 
   private String prefixRef(String ref) {
-    return ref.startsWith(R_HEADS) ? ref : R_HEADS + ref;
+    return ref.startsWith(R_REFS) ? ref : R_HEADS + ref;
   }
 
   private ProjectApi project() throws Exception {
@@ -173,10 +178,18 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   private void assertBranches(List<String> branches) throws Exception {
     List<String> expected = Lists.newArrayList("HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
     expected.addAll(branches.stream().map(b -> prefixRef(b)).collect(toList()));
-    assertRefNames(expected, project().branches().get());
+    try (Repository repo = repoManager.openRepository(project)) {
+      for (String branch : expected) {
+        assertThat(repo.exactRef(branch)).isNotNull();
+      }
+    }
   }
 
-  private void assertBranchesDeleted() throws Exception {
-    assertBranches(ImmutableList.<String>of());
+  private void assertBranchesDeleted(List<String> branches) throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      for (String branch : branches) {
+        assertThat(repo.exactRef(branch)).isNull();
+      }
+    }
   }
 }

@@ -25,45 +25,46 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DeleteBranchIT extends AbstractDaemonTest {
 
-  private Branch.NameKey branch;
+  private Branch.NameKey testBranch;
 
   @Before
   public void setUp() throws Exception {
     project = createProject(name("p"));
-    branch = new Branch.NameKey(project, "test");
-    branch().create(new BranchInput());
+    testBranch = new Branch.NameKey(project, "test");
+    branch(testBranch).create(new BranchInput());
   }
 
   @Test
   public void deleteBranch_Forbidden() throws Exception {
     setApiUser(user);
-    assertDeleteForbidden();
+    assertDeleteForbidden(testBranch);
   }
 
   @Test
   public void deleteBranchByAdmin() throws Exception {
-    assertDeleteSucceeds();
+    assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByProjectOwner() throws Exception {
     grantOwner();
     setApiUser(user);
-    assertDeleteSucceeds();
+    assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByAdminForcePushBlocked() throws Exception {
     blockForcePush();
-    assertDeleteSucceeds();
+    assertDeleteSucceeds(testBranch);
   }
 
   @Test
@@ -71,44 +72,57 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     grantOwner();
     blockForcePush();
     setApiUser(user);
-    assertDeleteForbidden();
+    assertDeleteForbidden(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithForcePushPermission() throws Exception {
     grantForcePush();
     setApiUser(user);
-    assertDeleteSucceeds();
+    assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByUserWithDeletePermission() throws Exception {
     grantDelete();
     setApiUser(user);
-    assertDeleteSucceeds();
+    assertDeleteSucceeds(testBranch);
   }
 
   @Test
   public void deleteBranchByRestWithoutRefsHeadsPrefix() throws Exception {
     grantDelete();
-    String ref = branch.getShortName();
+    String ref = testBranch.getShortName();
     assertThat(ref).doesNotMatch(R_HEADS);
-    assertDeleteByRestSucceeds(ref);
+    assertDeleteByRestSucceeds(testBranch, ref);
   }
 
   @Test
-  public void deleteBranchByRestWithEncodedFullName() throws Exception {
+  public void deleteBranchByRestWithFullName() throws Exception {
     grantDelete();
-    assertDeleteByRestSucceeds(Url.encode(branch.get()));
+    assertDeleteByRestSucceeds(testBranch, testBranch.get());
   }
 
   @Test
   public void deleteBranchByRestFailsWithUnencodedFullName() throws Exception {
     grantDelete();
     RestResponse r =
-        userRestSession.delete("/projects/" + project.get() + "/branches/" + branch.get());
+        userRestSession.delete("/projects/" + project.get() + "/branches/" + testBranch.get());
     r.assertNotFound();
-    branch().get();
+    branch(testBranch).get();
+  }
+
+  @Test
+  public void deleteMetaBranch() throws Exception {
+    String metaRef = RefNames.REFS_META + "foo";
+    allow(metaRef, Permission.CREATE, REGISTERED_USERS);
+    allow(metaRef, Permission.PUSH, REGISTERED_USERS);
+
+    Branch.NameKey metaBranch = new Branch.NameKey(project, metaRef);
+    branch(metaBranch).create(new BranchInput());
+
+    grantDelete();
+    assertDeleteByRestSucceeds(metaBranch, metaRef);
   }
 
   private void blockForcePush() throws Exception {
@@ -127,31 +141,36 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow("refs/*", Permission.OWNER, REGISTERED_USERS);
   }
 
-  private BranchApi branch() throws Exception {
+  private BranchApi branch(Branch.NameKey branch) throws Exception {
     return gApi.projects().name(branch.getParentKey().get()).branch(branch.get());
   }
 
-  private void assertDeleteByRestSucceeds(String ref) throws Exception {
-    RestResponse r = userRestSession.delete("/projects/" + project.get() + "/branches/" + ref);
+  private void assertDeleteByRestSucceeds(Branch.NameKey branch, String ref) throws Exception {
+    RestResponse r =
+        userRestSession.delete(
+            "/projects/"
+                + IdString.fromDecoded(project.get()).encoded()
+                + "/branches/"
+                + IdString.fromDecoded(ref).encoded());
     r.assertNoContent();
     exception.expect(ResourceNotFoundException.class);
-    branch().get();
+    branch(branch).get();
   }
 
-  private void assertDeleteSucceeds() throws Exception {
-    assertThat(branch().get().canDelete).isTrue();
-    String branchRev = branch().get().revision;
-    branch().delete();
+  private void assertDeleteSucceeds(Branch.NameKey branch) throws Exception {
+    assertThat(branch(branch).get().canDelete).isTrue();
+    String branchRev = branch(branch).get().revision;
+    branch(branch).delete();
     eventRecorder.assertRefUpdatedEvents(
         project.get(), branch.get(), null, branchRev, branchRev, null);
     exception.expect(ResourceNotFoundException.class);
-    branch().get();
+    branch(branch).get();
   }
 
-  private void assertDeleteForbidden() throws Exception {
-    assertThat(branch().get().canDelete).isNull();
+  private void assertDeleteForbidden(Branch.NameKey branch) throws Exception {
+    assertThat(branch(branch).get().canDelete).isNull();
     exception.expect(AuthException.class);
     exception.expectMessage("delete not permitted");
-    branch().delete();
+    branch(branch).delete();
   }
 }

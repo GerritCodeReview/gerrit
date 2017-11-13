@@ -52,12 +52,15 @@ public class GroupCacheImpl implements GroupCache {
       @Override
       protected void configure() {
         cache(BYID_NAME, AccountGroup.Id.class, new TypeLiteral<Optional<InternalGroup>>() {})
+            .maximumWeight(4096)
             .loader(ByIdLoader.class);
 
         cache(BYNAME_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
+            .maximumWeight(4096)
             .loader(ByNameLoader.class);
 
         cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
+            .maximumWeight(4096)
             .loader(ByUUIDLoader.class);
 
         bind(GroupCacheImpl.class);

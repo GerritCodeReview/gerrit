@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  const INIT_PROPERTIES_TIMEOUT_MS = 10000;
+
   Polymer({
     is: 'gr-endpoint-decorator',
 
@@ -40,59 +42,73 @@
 
     _initDecoration(name, plugin) {
       const el = document.createElement(name);
-      this._initProperties(el, plugin, this.getContentChildren().find(
-          el => el.nodeName !== 'GR-ENDPOINT-PARAM'));
-      this._appendChild(el);
-      return el;
+      return this._initProperties(el, plugin,
+          this.getContentChildren().find(
+              el => el.nodeName !== 'GR-ENDPOINT-PARAM'))
+          .then(el => this._appendChild(el));
     },
 
     _initReplacement(name, plugin) {
-      this.getContentChildNodes().forEach(node => node.remove());
+      this.getContentChildNodes()
+          .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
+          .forEach(node => node.remove());
       const el = document.createElement(name);
-      this._initProperties(el, plugin);
-      this._appendChild(el);
-      return el;
+      return this._initProperties(el, plugin).then(
+          el => this._appendChild(el));
     },
 
     _getEndpointParams() {
-      return Polymer.dom(this).querySelectorAll('gr-endpoint-param').map(el => {
-        return {name: el.getAttribute('name'), value: el.value};
-      });
+      return Polymer.dom(this).querySelectorAll('gr-endpoint-param');
     },
 
     /**
      * @param {!Element} el
      * @param {!Object} plugin
      * @param {!Element=} opt_content
+     * @return {!Promise<Element>}
      */
     _initProperties(el, plugin, opt_content) {
       el.plugin = plugin;
       if (opt_content) {
         el.content = opt_content;
       }
-      for (const {name, value} of this._getEndpointParams()) {
-        el[name] = value;
-      }
+      const expectProperties = this._getEndpointParams().map(
+          paramEl => plugin.attributeHelper(paramEl).get('value')
+              .then(value => el[paramEl.getAttribute('name')] = value)
+      );
+      const timeout = new Promise(
+        resolve => setTimeout(() => {
+          console.warn(
+              'Timeout waiting for endpoint properties initialization.' +
+              `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
+          resolve();
+        }, INIT_PROPERTIES_TIMEOUT_MS));
+      return Promise.race([timeout, Promise.all(expectProperties)])
+          .then(() => el);
     },
 
     _appendChild(el) {
-      Polymer.dom(this.root).appendChild(el);
+      return Polymer.dom(this.root).appendChild(el);
     },
 
     _initModule({moduleName, plugin, type, domHook}) {
-      let el;
+      let initPromise;
       switch (type) {
         case 'decorate':
-          el = this._initDecoration(moduleName, plugin);
+          initPromise = this._initDecoration(moduleName, plugin);
           break;
         case 'replace':
-          el = this._initReplacement(moduleName, plugin);
+          initPromise = this._initReplacement(moduleName, plugin);
           break;
       }
-      if (el) {
-        domHook.handleInstanceAttached(el);
+      if (!initPromise) {
+        console.warn('Unable to initialize module' +
+            `${moduleName} from ${plugin.getPluginName()}`);
       }
-      this._domHooks.set(el, domHook);
+      initPromise.then(el => {
+        domHook.handleInstanceAttached(el);
+        this._domHooks.set(el, domHook);
+      });
     },
 
     ready() {

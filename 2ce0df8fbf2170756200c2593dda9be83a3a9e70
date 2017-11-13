@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac2725c6_11c7c59d",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Javadoc needs updating.",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d7fa92_34358384",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Optional:\n\n if (results.size() \u003e 1) {\n   throw ...\n }\n return results.stream().findFirst();",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea022237_421aaf6f",
+        "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Missing AOSP header",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c4abe5_3e2f29d4",
+        "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "I think I still prefer \"FieldBundle\". In (American) English a \"collection of foos\" becomes \"a foo collection\", even if you use \"bundle\" instead of \"collection\".",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53824bcb_2068c4f2",
+        "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "This is a list of {some type}, probably want to mention that.\n\nAlso, please comment on why it is not a ListMultimap (presumably because you want to distinguish between missing and mapping to the empty list)",
+      "range": {
+        "startLine": 16,
+        "startChar": 18,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c33ab2c_371fe477",
+        "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Don\u0027t use String.format with Preconditions.check*, it implements its own lazy string interpolation.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "810e9475_ad96c1c1",
+        "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Maybe also mention the actual fields.keySet() here?",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a9789c_8eadbdd4",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Why does this return Optional? It only ever returns a present instance.",
+      "range": {
+        "startLine": 338,
+        "startChar": 12,
+        "endLine": 338,
+        "endChar": 20
+      },
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0af0723_3791edff",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Didn\u0027t you already do this, isn\u0027t that what toFieldsBundle in AbstractLuceneIndex is for?",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4dbf720_8c2814e9",
+        "filename": "java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Optional: I don\u0027t think storing the Optional in a local var is a readability win in this case.",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f853ed05_a288df6d",
+        "filename": "java/com/google/gerrit/lucene/LuceneProjectIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "Same comment as in LuceneChangeIndex",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75c47b8f_099e1172",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T16:46:12Z",
+      "side": 1,
+      "message": "map.computeIfAbsent(key, k -\u003e Lists.newArrayList(value));\n\nYou could optionally inline this method as well, although it may still be a readability win.",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

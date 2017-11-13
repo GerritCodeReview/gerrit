@@ -71,6 +71,92 @@
     },
     {
       "key": {
+        "uuid": "9bb0c341_75c4356a",
+        "filename": "java/com/google/gerrit/server/patchlib/Text.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T13:25:43Z",
+      "side": 1,
+      "message": "We usually don\u0027t touch the creation year for moved files. I moved almost all files in gerrit tree in context of re-arranging directory structure series, and have not touched any creation years.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95464dc4_8152c4b2",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T13:25:43Z",
+      "side": 1,
+      "message": "As you mentioned, i broke these rules in own packages. So one from us would have to rebase. Another option would be for you to rebase it on top of my change (that was created earlier).",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 51
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cb631b9_d86095c4",
+        "filename": "javatests/com/google/gerrit/server/patch/IntraLineLoaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T13:25:43Z",
+      "side": 1,
+      "message": "Unexpected formatting changes. Are you using too new version of gjf?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 27
+      },
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f18d1b76_3592283b",
+        "filename": "javatests/com/google/gerrit/server/patchlib/PatchListEntryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-13T13:25:43Z",
+      "side": 1,
+      "message": "Why the PatchType enum was extracted from Patch and why it was done in this change?",
+      "revId": "9f84a51e1f0478bc1c5bb0701749f7be7c496738",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ad65341_7f667bdc",
         "filename": "javatests/com/google/gerrit/server/patchlib/PatchListTest.java",
         "patchSetId": 3

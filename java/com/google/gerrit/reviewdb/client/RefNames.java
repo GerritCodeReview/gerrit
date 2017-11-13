@@ -221,6 +221,10 @@ public class RefNames {
     return ref.startsWith(REFS_USERS);
   }
 
+  public static boolean isRefsGroups(String ref) {
+    return ref.startsWith(REFS_GROUPS);
+  }
+
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;

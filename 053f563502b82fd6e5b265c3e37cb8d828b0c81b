@@ -23,6 +23,30 @@
       "revId": "053f563502b82fd6e5b265c3e37cb8d828b0c81b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f37943f3_524bc682",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/DeleteBranchesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-13T07:40:34Z",
+      "side": 1,
+      "message": "No, assertBranchesDeleted checks that the branches don\u0027t exist (isNull()), here we are checking that the branches do exist (isNotNull()).",
+      "parentUuid": "97752d51_fc7045b2",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "053f563502b82fd6e5b265c3e37cb8d828b0c81b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

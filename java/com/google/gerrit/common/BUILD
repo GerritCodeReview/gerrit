@@ -35,7 +35,6 @@ java_library(
         ["**/*.java"],
         exclude = ANNOTATIONS,
     ),
-    resources = [":Version"],
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
@@ -50,6 +49,15 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
+)
+
+# ":version" should not be in the dependency graph of the acceptance
+# tests to avoid spurious test re-runs. That's because the content of
+# //:version.txt is changed when the outcome of `git describe` is changed.
+java_library(
+    name = "version",
+    resources = [":Version"],
+    visibility = ["//visibility:public"],
 )
 
 genrule(

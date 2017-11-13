@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad87632_56f8541c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2252,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-13T22:41:43Z",
+      "side": 1,
+      "message": "Please mention in the 2.16 release notes that this class has been renamed.",
+      "revId": "ced32cc4b2adc33277f9bf07b9af1f51b4035773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

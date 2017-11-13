@@ -70,6 +70,30 @@
       "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07e339b1_fb5ffbea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-11-13T12:56:32Z",
+      "side": 0,
+      "message": "I\u0027m not sure I follow.\n\nThis change doesn\u0027t cause the submit button to *always* be visible. It only covers the case when the change is submittable (i.e. has all the required labels), but the current user is not authorized to submit it (blocked by permissions).\n\nHow does this affect PolyGerrit, and why is this bad?",
+      "parentUuid": "7ce783b6_ef84ce48",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 71
+      },
+      "revId": "d00515e898f8f3d78b549de1fab02e2ede559648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

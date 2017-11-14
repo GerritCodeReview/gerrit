@@ -563,10 +563,10 @@ public class ChangeField {
               });
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.defaults().allowClosed(true).build();
+      SubmitRuleOptions.builder().allowClosed(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      SubmitRuleOptions.defaults().build();
+      SubmitRuleOptions.builder().build();
 
   /**
    * JSON type for storing SubmitRecords.

@@ -16,16 +16,16 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
-import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
+import static com.google.gerrit.server.config.rest.PostCaches.Operation.FLUSH;
+import static com.google.gerrit.server.config.rest.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.ListCaches;
-import com.google.gerrit.server.config.ListCaches.OutputFormat;
-import com.google.gerrit.server.config.PostCaches;
+import com.google.gerrit.server.config.rest.ListCaches;
+import com.google.gerrit.server.config.rest.ListCaches.OutputFormat;
+import com.google.gerrit.server.config.rest.PostCaches;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;

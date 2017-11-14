@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "465d9ac9_53bc92cf",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-14T17:23:19Z",
+      "side": 1,
+      "message": "I think we will end up with lots of \u0027lib\u0027s in the end. Should we give them more descriptive names? For this refactoring, how about \u0027processing\u0027.\n\n  import com.google.gerrit.server.mail.processing.Address;\n\ntends to read better I think",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "398f7188a58489708e8db844434d14fb7da8b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5985cad_183f7ee1",
+        "filename": "java/com/google/gerrit/server/mail/lib/MailUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-14T17:23:19Z",
+      "side": 1,
+      "message": "Please add a private constructor to prevent instantiation.",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "398f7188a58489708e8db844434d14fb7da8b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a85796_0ff1ff75",
+        "filename": "java/com/google/gerrit/server/mail/lib/MetadataParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-14T17:23:19Z",
+      "side": 1,
+      "message": "To avoid the namespace clash, rename MailUtil to MailProcessingUtil",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "398f7188a58489708e8db844434d14fb7da8b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

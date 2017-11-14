@@ -17,8 +17,11 @@ package com.google.gerrit.extensions.api.config;
 public class ConsistencyCheckInput {
   public CheckAccountsInput checkAccounts;
   public CheckAccountExternalIdsInput checkAccountExternalIds;
+  public CheckGroupsInput checkGroups;
 
   public static class CheckAccountsInput {}
 
   public static class CheckAccountExternalIdsInput {}
+
+  public static class CheckGroupsInput {}
 }

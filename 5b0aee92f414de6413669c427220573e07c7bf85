@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7d1bfda_bff3f2dd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T18:58:49Z",
+      "side": 1,
+      "message": "I think it would be getter to use gr-navigation here. Since an a tag is valid HTML without an href, the navigation can be handled in the on-tap handler.",
+      "range": {
+        "startLine": 97,
+        "startChar": 9,
+        "endLine": 97,
+        "endChar": 83
+      },
+      "revId": "5b0aee92f414de6413669c427220573e07c7bf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "231e13ab_d6d8c433",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T18:58:49Z",
+      "side": 1,
+      "message": "I would add a comment about why Object.assign is needed here (I actually just tested that the existing values were not overwritten if they did not exist in account, but I wasn\u0027t 100% sure about that ahead of time.",
+      "range": {
+        "startLine": 54,
+        "startChar": 24,
+        "endLine": 54,
+        "endChar": 66
+      },
+      "revId": "5b0aee92f414de6413669c427220573e07c7bf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6bfb2e_39444a0e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T18:58:49Z",
+      "side": 1,
+      "message": "Do you think it would be worth checking these values prior to making the REST calls? Could save a few round trips if there\u0027s nothing to set.",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 74
+      },
+      "revId": "5b0aee92f414de6413669c427220573e07c7bf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

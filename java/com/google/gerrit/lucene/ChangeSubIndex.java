@@ -87,6 +87,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   }
 
   // Make method public so that it can be used in LuceneChangeIndex
+  @Override
   public FieldBundle toFieldBundle(Document doc) {
     return super.toFieldBundle(doc);
   }

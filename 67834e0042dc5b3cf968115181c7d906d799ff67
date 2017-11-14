@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "bc140c20_5df2d1c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T08:35:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d6ee7fb_ab19a18e",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5db11e3a_ada5f420",
         "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2
@@ -73,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "74a8ba71_4fa2f277",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T08:35:10Z",
+      "side": 1,
+      "message": "Default value are only applied to class members, not to local variables. If we remove this the compiler complains that the local variables haven\u0027t been initialized.",
+      "parentUuid": "5db11e3a_ada5f420",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 27
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "058a60d5_24976319",
         "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2
@@ -84,6 +132,30 @@
       "writtenOn": "2017-11-14T05:37:46Z",
       "side": 1,
       "message": "The logic looks different from the commit message.\n\nif (group !\u003d null \u0026\u0026 canReadRef(name) \u0026\u0026 (viewMetadata || isGroupOwner(group, identifiedUser)))\n\n?",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 90
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39850274_a7b551c2",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T08:35:10Z",
+      "side": 1,
+      "message": "Good point. I will update the commit message.",
+      "parentUuid": "058a60d5_24976319",
       "range": {
         "startLine": 176,
         "startChar": 8,
@@ -163,6 +235,30 @@
       "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfcd761_e10b1638",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T08:35:10Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/140712",
+      "parentUuid": "edd20332_98849d74",
+      "range": {
+        "startLine": 493,
+        "startChar": 6,
+        "endLine": 494,
+        "endChar": 94
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

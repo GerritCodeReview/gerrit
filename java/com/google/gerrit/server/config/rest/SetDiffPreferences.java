@@ -11,12 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
-import static com.google.gerrit.server.config.GetDiffPreferences.readFromGit;
+import static com.google.gerrit.server.config.rest.GetDiffPreferences.readFromGit;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;

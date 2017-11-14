@@ -53,6 +53,24 @@
       "revId": "ded5a158be0357fce60d237c1380f3d828557b16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e340a4d8_b89b2911",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T15:08:35Z",
+      "side": 1,
+      "message": "In GroupIncludeCacheImpl.AllExternalLoader, we could make a call to Groups#getAllGroupReferences and load the InternalGroup for each GroupReference via GroupCache#get. The rest is the same as here.",
+      "parentUuid": "bdc299fd_080e33c0",
+      "revId": "ded5a158be0357fce60d237c1380f3d828557b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

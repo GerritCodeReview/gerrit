@@ -189,6 +189,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59541aa2_3049a83f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T00:59:16Z",
+      "side": 1,
+      "message": "I’m not sure how to debug this issue. As it works in safari and chrome. I think we should merge this workaround for now to unblock the 2.15 release.",
+      "parentUuid": "31ba87dd_12e4e846",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

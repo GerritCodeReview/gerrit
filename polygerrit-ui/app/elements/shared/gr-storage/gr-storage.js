@@ -15,10 +15,15 @@
   'use strict';
 
   // Date cutoff is one day:
-  const DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
+  const CLEANUP_MAX_AGE = 24 * 60 * 60 * 1000;
 
   // Clean up old entries no more frequently than one day.
   const CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
+
+  const CLEANUP_PREFIXES = [
+    'draft:',
+    'editablecontent:',
+  ];
 
   Polymer({
     is: 'gr-storage',
@@ -39,7 +44,7 @@
     },
 
     getDraftComment(location) {
-      this._cleanupDrafts();
+      this._cleanupItems();
       return this._getObject(this._getDraftKey(location));
     },
 
@@ -51,6 +56,16 @@
     eraseDraftComment(location) {
       const key = this._getDraftKey(location);
       this._storage.removeItem(key);
+    },
+
+    setEditableContentItem(key, message) {
+      this._setObject(this._getEditableContentKey(key),
+          {message, updated: Date.now()});
+    },
+
+    getEditableContentItem(key) {
+      this._cleanupItems();
+      return this._getObject(this._getEditableContentKey(key));
     },
 
     getPreferences() {
@@ -74,7 +89,11 @@
       return key;
     },
 
-    _cleanupDrafts() {
+    _getEditableContentKey(key) {
+      return `editablecontent:${key}`;
+    },
+
+    _cleanupItems() {
       // Throttle cleanup to the throttle interval.
       if (this._lastCleanup &&
           Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL) {
@@ -82,12 +101,16 @@
       }
       this._lastCleanup = Date.now();
 
-      let draft;
+      let item;
       for (const key in this._storage) {
-        if (key.startsWith('draft:')) {
-          draft = this._getObject(key);
-          if (Date.now() - draft.updated > DRAFT_MAX_AGE) {
-            this._storage.removeItem(key);
+        if (!this._storage.hasOwnProperty(key)) { continue; }
+        for (const prefix of CLEANUP_PREFIXES) {
+          if (key.startsWith(prefix)) {
+            item = this._getObject(key);
+            if (Date.now() - item.updated > CLEANUP_MAX_AGE) {
+              this._storage.removeItem(key);
+            }
+            break;
           }
         }
       }

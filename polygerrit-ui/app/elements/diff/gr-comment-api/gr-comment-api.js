@@ -299,6 +299,15 @@
   * @return {boolean}
   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
+    // If the base of the patch range is a parent of a merge, and the comment
+    // appears on a specific parent. Then only show the comment if the parent
+    // index of the comment matches that of the range.
+    if (comment.parent && comment.side === PARENT) {
+      return Gerrit.PatchSetBehavior.isMergeParent(range.basePatchNum) &&
+          comment.parent ===
+              Gerrit.PatchSetBehavior.getParentIndex(range.basePatchNum);
+    }
+
     // If the base of the range is the parent of the patch:
     if (range.basePatchNum === PARENT &&
         comment.side === PARENT &&

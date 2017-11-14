@@ -480,6 +480,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       try (Git git = userTestRepository.git()) {
         assertThat(getUserRefs(git))
             .containsExactly(
+                RefNames.REFS_USERS_SELF,
                 RefNames.refsUsers(user.id),
                 RefNames.refsUsers(admin.id));
       }

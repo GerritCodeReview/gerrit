@@ -5,7 +5,10 @@ acceptance_tests(
     group = "pgm",
     labels = ["pgm"],
     vm_args = ["-Xmx512m"],
-    deps = [":util"],
+    deps = [
+        ":util",
+        "//java/com/google/gerrit/server/schema",
+    ],
 )
 
 java_library(

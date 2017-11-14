@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "cb833316_1ac885ee",
+        "filename": "java/com/google/gerrit/server/api/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-14T10:23:07Z",
+      "side": 1,
+      "message": "this library is already tiny (37 source files), so we wouldnt get any benefit from a further splitup.",
+      "parentUuid": "87f26b73_29f5caa6",
+      "range": {
+        "startLine": 2,
+        "startChar": 4,
+        "endLine": 2,
+        "endChar": 17
+      },
+      "revId": "ced32cc4b2adc33277f9bf07b9af1f51b4035773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ab3ce9e_ca40ad30",
         "filename": "java/com/google/gerrit/server/api/BUILD",
         "patchSetId": 5

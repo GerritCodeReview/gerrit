@@ -47,7 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 
-// TODO(aliceks): Add Javadoc descriptions to this file.
+/** Holds code for reading and writing internal group data for a single group to/from NoteDB. */
 public class GroupConfig extends VersionedMetaData {
   public static final String GROUP_CONFIG_FILE = "group.config";
   private static final String MEMBERS_FILE = "members";
@@ -82,6 +82,15 @@ public class GroupConfig extends VersionedMetaData {
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
     groupConfig.load(repository);
+    return groupConfig;
+  }
+
+  /** Loads a group at a specific revision. */
+  public static GroupConfig loadForGroupSnapshot(
+      Repository repository, AccountGroup.UUID groupUuid, ObjectId commitId)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig = new GroupConfig(groupUuid);
+    groupConfig.load(repository, commitId);
     return groupConfig;
   }
 

@@ -112,7 +112,7 @@ import org.slf4j.LoggerFactory;
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.defaults().build();
+  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
       SUBMIT_RULE_OPTIONS.toBuilder().allowClosed(true).build();
 

@@ -97,7 +97,7 @@ public class SubmitRuleEvaluator {
   private final ProjectCache projectCache;
   private final ChangeData cd;
 
-  private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
+  private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.builder();
   private SubmitRuleOptions opts;
   private Change change;
   private CurrentUser user;
@@ -142,7 +142,7 @@ public class SubmitRuleEvaluator {
     if (opts != null) {
       optsBuilder = opts.toBuilder();
     } else {
-      optsBuilder = SubmitRuleOptions.defaults();
+      optsBuilder = SubmitRuleOptions.builder();
     }
     return this;
   }

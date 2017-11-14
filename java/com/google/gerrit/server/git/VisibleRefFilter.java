@@ -118,10 +118,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
     PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
-    if (checkProjectPermission(forProject, ProjectPermission.READ)) {
-      return refs;
-    } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
-      return fastHideRefsMetaConfig(refs);
+    if (!projectState.isAllUsers()) {
+      if (checkProjectPermission(forProject, ProjectPermission.READ)) {
+        return refs;
+      } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
+        return fastHideRefsMetaConfig(refs);
+      }
     }
 
     Account.Id userId;

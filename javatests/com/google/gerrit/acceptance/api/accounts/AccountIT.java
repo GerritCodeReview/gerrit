@@ -918,11 +918,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void pushAccountConfigWithPrefEmailThatDoesNotExistAsExtIdToUserBranchForReviewAndSubmit()
       throws Exception {
-    TestAccount foo = accountCreator.create(name("foo"));
+    TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
     String userRef = RefNames.refsUsers(foo.id);
     accountIndexedCounter.clear();
 
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
     allUsersRepo.reset("userRef");
 
@@ -934,7 +934,7 @@ public class AccountIT extends AbstractDaemonTest {
         pushFactory
             .create(
                 db,
-                admin.getIdent(),
+                foo.getIdent(),
                 allUsersRepo,
                 "Update account config",
                 AccountConfig.ACCOUNT_CONFIG,
@@ -1058,7 +1058,10 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestAccount foo = accountCreator.create(name("foo"));
     assertThat(gApi.accounts().id(foo.id.get()).getActive()).isTrue();
     String userRef = RefNames.refsUsers(foo.id);
@@ -1229,18 +1232,15 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushAccountConfigToUserBranchInvalidPreferredEmailButNotChanged() throws Exception {
-    TestAccount foo = accountCreator.create(name("foo"));
+    TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
     String userRef = RefNames.refsUsers(foo.id);
 
     String noEmail = "no.email";
     accountsUpdate.create().update(foo.id, a -> a.setPreferredEmail(noEmail));
     accountIndexedCounter.clear();
 
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
-
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    grant(allUsers, userRef, Permission.PUSH, false, REGISTERED_USERS);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
     allUsersRepo.reset("userRef");
 
@@ -1251,7 +1251,7 @@ public class AccountIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            foo.getIdent(),
             allUsersRepo,
             "Update account config",
             AccountConfig.ACCOUNT_CONFIG,
@@ -1268,7 +1268,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void pushAccountConfigToUserBranchIfPreferredEmailDoesNotExistAsExtId() throws Exception {
-    TestAccount foo = accountCreator.create(name("foo"));
+    TestAccount foo = accountCreator.create(name("foo"), name("foo") + "@example.com", "Foo");
     String userRef = RefNames.refsUsers(foo.id);
     accountIndexedCounter.clear();
 
@@ -1276,7 +1276,7 @@ public class AccountIT extends AbstractDaemonTest {
         groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
     grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
 
-    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
     allUsersRepo.reset("userRef");
 
@@ -1287,7 +1287,7 @@ public class AccountIT extends AbstractDaemonTest {
     pushFactory
         .create(
             db,
-            admin.getIdent(),
+            foo.getIdent(),
             allUsersRepo,
             "Update account config",
             AccountConfig.ACCOUNT_CONFIG,
@@ -1326,7 +1326,10 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Sandboxed
   public void pushAccountConfigToUserBranchDeactivateOtherAccount() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestAccount foo = accountCreator.create(name("foo"));
     assertThat(gApi.accounts().id(foo.id.get()).getActive()).isTrue();
     String userRef = RefNames.refsUsers(foo.id);

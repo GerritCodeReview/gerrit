@@ -457,7 +457,7 @@ public class StaticModule extends ServletModule {
       GuiceFilterRequestWrapper reqWrapper = new GuiceFilterRequestWrapper(req);
       String path = pathInfo(req);
 
-      // Special case assets during development that are built by Buck and not
+      // Special case assets during development that are built by Bazel and not
       // served out of the source tree.
       //
       // In the war case, these are either inlined by vulcanize, or live under

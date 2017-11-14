@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Port of Buck native gwt_binary() rule. See discussion in context of
-# https://github.com/facebook/buck/issues/109
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:java.bzl", "java_library2")
 

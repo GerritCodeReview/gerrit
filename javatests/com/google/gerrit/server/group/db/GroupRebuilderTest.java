@@ -99,7 +99,6 @@ public class GroupRebuilderTest extends GerritBaseTests {
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertCommit(log.get(0), "Create group", SERVER_NAME, SERVER_EMAIL);
-    assertServerCommit(log.get(0), "Create group");
   }
 
   @Test

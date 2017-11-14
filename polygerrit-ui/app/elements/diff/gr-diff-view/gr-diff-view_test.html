@@ -360,7 +360,7 @@ limitations under the License.
           patchNum: '10',
         };
         element._change = {_number: 42};
-        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
+        element._fileList = ['chell.go', 'glados.txt', 'wheatley.md', '/COMMIT_MSG'];
         element._path = 'glados.txt';
         const expectedFormattedFiles = [
           {
@@ -377,6 +377,12 @@ limitations under the License.
             text: 'wheatley.md',
             mobileText: 'wheatley.md',
             value: 'wheatley.md',
+            bottomText: '',
+          },
+          {
+            text: 'Commit message',
+            mobileText: 'Commit message',
+            value: '/COMMIT_MSG',
             bottomText: '',
           },
         ];

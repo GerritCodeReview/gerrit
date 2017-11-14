@@ -649,7 +649,7 @@
         dropdownContent.push({
           text: this.computeDisplayPath(path),
           mobileText: this.computeTruncatedPath(path),
-          value: this.computeDisplayPath(path),
+          value: path,
           bottomText: this._computeCommentString(changeComments, patchNum,
               path),
         });

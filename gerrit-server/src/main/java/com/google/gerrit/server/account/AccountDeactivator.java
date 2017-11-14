@@ -19,6 +19,8 @@ import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -86,13 +89,18 @@ public class AccountDeactivator implements Runnable {
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Realm realm;
   private final SetInactiveFlag sif;
+  private final ExternalIds externalIds;
 
   @Inject
   AccountDeactivator(
-      Provider<InternalAccountQuery> accountQueryProvider, SetInactiveFlag sif, Realm realm) {
+      Provider<InternalAccountQuery> accountQueryProvider,
+      SetInactiveFlag sif,
+      Realm realm,
+      ExternalIds externalIds) {
     this.accountQueryProvider = accountQueryProvider;
     this.sif = sif;
     this.realm = realm;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -116,9 +124,12 @@ public class AccountDeactivator implements Runnable {
     log.debug("processing account " + account.getUserName());
     try {
       if (account.getUserName() != null && !realm.isActive(account.getUserName())) {
-        sif.deactivate(account.getAccount().getId());
-        log.info("deactivated account " + account.getUserName());
-        return true;
+        Collection<ExternalId> ids = externalIds.byAccount(account.getAccount().getId());
+        if (realm.accBelongsToRealm(ids)) {
+          sif.deactivate(account.getAccount().getId());
+          log.info("deactivated account " + account.getUserName());
+          return true;
+        }
       }
     } catch (ResourceConflictException e) {
       log.info("Account {} already deactivated, continuing...", account.getUserName());

@@ -64,7 +64,8 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.RestCacheAdminModule;
+import com.google.gerrit.server.config.rest.ConfigRestModule;
+import com.google.gerrit.server.config.rest.RestCacheAdminModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
@@ -412,6 +413,7 @@ public class Daemon extends SiteProgram {
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
+    modules.add(new ConfigRestModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());

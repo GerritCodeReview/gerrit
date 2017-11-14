@@ -51,6 +51,29 @@
     },
     {
       "key": {
+        "uuid": "c9dd89ad_ae186785",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T15:43:37Z",
+      "side": 1,
+      "message": "[optional] I would find this easier to read if \u0027byId\u0027 was called \u0027subgroups\u0027 and \u0027byIdAudit\u0027 was called \u0027subgroupAudit\u0027.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 68
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d32e38e_d94621be",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
         "patchSetId": 18

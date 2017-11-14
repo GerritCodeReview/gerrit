@@ -22,6 +22,30 @@
       "revId": "7ea0eda1da9b40745cea5d311d96123aad121074",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a028e4a4_4cebb05a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T00:49:59Z",
+      "side": -1,
+      "message": "Posted a test comment by mistake. Please disregard.",
+      "parentUuid": "ca8e072b_78c3f7d8",
+      "range": {
+        "startLine": 843,
+        "startChar": 8,
+        "endLine": 843,
+        "endChar": 13
+      },
+      "revId": "7ea0eda1da9b40745cea5d311d96123aad121074",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

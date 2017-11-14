@@ -35,7 +35,11 @@
 
     _updateValue() {
       if (this.bindValue) {
-        this.nativeSelect.value = this.bindValue;
+        // Async needed for firefox to populate value. It was trying to do it
+        // before options from a dom-repeat were rendered previously.
+        this.async(() => {
+          this.nativeSelect.value = this.bindValue;
+        }, 1);
       }
     },
 

@@ -165,7 +165,7 @@
     _formatBooleanSelect(item) {
       if (!item) { return; }
       let inheritLabel = 'Inherit';
-      if (item.inherited_value) {
+      if (!(item.inherited_value === undefined)) {
         inheritLabel = `Inherit (${item.inherited_value})`;
       }
       return [

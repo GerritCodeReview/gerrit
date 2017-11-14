@@ -50,6 +50,52 @@
     },
     {
       "key": {
+        "uuid": "5db11e3a_ada5f420",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-14T05:37:46Z",
+      "side": 1,
+      "message": "Could we remove them? IIUC, these are their default values?",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 27
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058a60d5_24976319",
+        "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-14T05:37:46Z",
+      "side": 1,
+      "message": "The logic looks different from the commit message.\n\nif (group !\u003d null \u0026\u0026 canReadRef(name) \u0026\u0026 (viewMetadata || isGroupOwner(group, identifiedUser)))\n\n?",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 177,
+        "endChar": 90
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6415f1b_06764e83",
         "filename": "java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 2
@@ -90,6 +136,29 @@
         "startChar": 52,
         "endLine": 391,
         "endChar": 64
+      },
+      "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd20332_98849d74",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-14T05:37:46Z",
+      "side": 1,
+      "message": "We can extract these code to a method and avoid duplicates between tests.",
+      "range": {
+        "startLine": 493,
+        "startChar": 6,
+        "endLine": 494,
+        "endChar": 94
       },
       "revId": "67834e0042dc5b3cf968115181c7d906d799ff67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

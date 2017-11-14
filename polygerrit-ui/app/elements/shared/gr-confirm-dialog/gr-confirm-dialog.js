@@ -34,6 +34,10 @@
         type: String,
         value: 'Confirm',
       },
+      cancelLabel: {
+        type: String,
+        value: 'Cancel',
+      },
       disabled: {
         type: Boolean,
         value: false,

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510590790 +0100\nnonce AMT3iFg0QQDjIwZwrTizNmIyTqWCOTI2AkeVl6hU9d6VQQhRWnDtVJAffEewWc9apiMHtoq6/o0y\n\n0000000000000000000000000000000000000000 a8f022896046dd731cfd40a469a5b0427cae33d1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaCclGAAoJEFG1/Zeg0O9RP0EH/2gVu7Ks5EsocvZinzIRUynO\nXGqd+xXRhl4PGqPhN7LOLAeiSkkaGCXns01wrKV3VFgmd4lKFAZepcVyiwmOh/cc\nGaVROyIQjGq9LZArIef3moyXWsazeIHj7B8quYYm3Fip8eYO6nH7X9sEwZnkqJl5\n69OMpTlWqSZ3PWFjO9mnL6va6bt5hpfypmMviDKayls6lw/fSEYgrOK8twSJ73T1\nqju7rqTJUkcloiwdOlvR/TJpZhRXdkajaAVR9mTiTJyJu7nH/cPQ2bEEQlyTFx+P\npQU6b9M4IGc6asjh+SZo3QOdiTiPpne3JPMJXEnlpSwhdDvBj3N6CR/lcRtdG7k\u003d\n\u003dViq9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c0192f1_30c7a236",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-14T05:11:32Z",
+      "side": 1,
+      "message": "Do we need another test which checks whether \"UserBranch\" is visible to the owner without granting READ permission explicitly?",
+      "range": {
+        "startLine": 451,
+        "startChar": 4,
+        "endLine": 451,
+        "endChar": 86
+      },
+      "revId": "a8f022896046dd731cfd40a469a5b0427cae33d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

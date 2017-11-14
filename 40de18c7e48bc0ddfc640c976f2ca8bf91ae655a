@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "1873b62f_57eaf1f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T06:21:25Z",
+      "side": 1,
+      "message": "This is not how this supposed to work. Check this example, how such an optional depndency added in oauth plugin: [1]. Note, that there is no mention of \"org.scribe:scribe:1.3.7\" in gerrit core WORKSPACE file to be used from optional oauth-plugin.\n\nIt shouldn\u0027t be needed to add optional dependency in WORKSPACE file in gerrit core to be used from plugin. external_plugin_deps.bzl is a normal include that it referenced by the WORKSPACE file, so that everything you add there, is basically the same as to add it in WORKSPACE in gerrit core, as you did here: [2].\n\nI think that the problem is not to add new JS dependency to  WORKSPACE, but the other places, the JS dependency is added. Those places are needed for minification to work and themself generated from the WORKSPACE content.\n\nI think, what should happen is that similar to the extension point extending custom java and other library dependency from plugin with external_plugin_deps.bzl, the needed extension points should be added to add optional JS library to PG, that extend the exsisting minification machinery.\n\n* [1] https://github.com/davido/gerrit-oauth-provider/blob/master/external_plugin_deps.bzl#L4-L8\n* [2] https://gerrit-review.googlesource.com/#/c/plugins/codemirror-editor/+/141052/1/external_plugin_deps.bzl",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "516bc753_057ca404",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T06:21:25Z",
+      "side": 1,
+      "message": "Adding this dependency in gerrit core for an optional plugins is, well, unfortunate. If we don\u0027t know how to get it right, this should be documented as a hack. I will not oppose to add  it here, but this would mean, that the only way to extend PG with plugin that depends on non provided JS library is to fork gerrit. Long term we should find a way to add the dependency in gerrit core without forking gerrit. For this change: add a comment saying that this is a hack.",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78bc3262_ca22f529",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T06:21:25Z",
+      "side": 1,
+      "message": "You have added it already in: [1]. Current WORKSPACE file in gerrit core saying:\n\n  load_bower_archives()\n  external_plugin_deps()\n\nSo that adding it to external_plugin_deps.bzl is the same as add it here.\n\n* [1] https://gerrit-review.googlesource.com/#/c/plugins/codemirror-editor/+/141052/1/external_plugin_deps.bzl",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59225dc7_c0690629",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2
@@ -16,6 +73,52 @@
       "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05a5f12_4a64c183",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T06:21:25Z",
+      "side": 1,
+      "message": "Extension point canidate would be to include external_bower_components.bzl from with the JS plugins. Just add above the line:\n\n  load(\"//plugins:external_bower_components.bzl\", \"external_bower_deps\")\n\nand invoke:\n\n  external_bower_deps()\n\nat the end of this file. Now, create a new file plugins:external_bower_components.bzl, with similar content to plugins/external_plugin_deps.bzl:\n\n  def external_bower_deps():\n    pass",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba5dd611_8f532337",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T06:21:25Z",
+      "side": 1,
+      "message": "Extension point candidate would be: external_package_listeners.bzl.\n\nTo add extension point here for Bazel would either mean to add some way in external_plugin_deps.bzl to register external package listeners or, copy external_package_listeners.bzl to plugins and include it here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "23927b8a_82495576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T11:22:11Z",
+      "side": 1,
+      "message": "As we are doing it here https://gerrit-review.googlesource.com/#/c/plugins/codemirror-editor/+/141052/1/external_plugin_deps.bzl\n\nwe doint need to do it in this change.\n\nyou copy external_plugin_deps.bzl into plugins/ which gerrit will then load it into WORKSPACE automatically :).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1873b62f_57eaf1f2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

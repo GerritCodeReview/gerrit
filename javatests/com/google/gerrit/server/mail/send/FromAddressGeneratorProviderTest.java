@@ -22,12 +22,12 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.mail.Address;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

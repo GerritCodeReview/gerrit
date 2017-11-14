@@ -23,6 +23,8 @@ import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -32,8 +34,6 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.MailHeader;
-import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -566,7 +566,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
-    return MailUtil.rfcDateformatter.format(
+    return MailProcessingUtil.rfcDateformatter.format(
         ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
   }
 

@@ -15,9 +15,11 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -27,26 +29,84 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 // TODO(aliceks): Add Javadoc descriptions.
 public class GroupNameNotes extends VersionedMetaData {
   private static final String SECTION_NAME = "group";
   private static final String UUID_PARAM = "uuid";
   private static final String NAME_PARAM = "name";
+
+  @VisibleForTesting
+  static final String UNIQUE_REF_ERROR = "GroupReference collection must contain unique references";
+
+  public static void updateGroupNames(
+      Repository allUsersRepo,
+      ObjectInserter inserter,
+      BatchRefUpdate bru,
+      Collection<GroupReference> groupReferences,
+      PersonIdent ident)
+      throws IOException {
+    checkOneToOneMapping(groupReferences);
+
+    try (ObjectReader reader = inserter.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      // Always start from an empty map, discarding old notes.
+      NoteMap noteMap = NoteMap.newEmptyMap();
+      Ref ref = allUsersRepo.exactRef(RefNames.REFS_GROUPNAMES);
+      RevCommit oldCommit = ref != null ? rw.parseCommit(ref.getObjectId()) : null;
+
+      for (GroupReference groupReference : groupReferences) {
+        AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupReference.getName());
+        AccountGroup.UUID uuid = groupReference.getUUID();
+        ObjectId noteKey = getNoteKey(nameKey);
+        noteMap.set(noteKey, getAsNoteData(uuid, nameKey), inserter);
+      }
+
+      ObjectId newTreeId = noteMap.writeTree(inserter);
+      if (oldCommit != null && newTreeId.equals(oldCommit.getTree())) {
+        return;
+      }
+      CommitBuilder cb = new CommitBuilder();
+      if (oldCommit != null) {
+        cb.addParentId(oldCommit);
+      }
+      cb.setTreeId(newTreeId);
+      cb.setAuthor(ident);
+      cb.setCommitter(ident);
+      int n = groupReferences.size();
+      cb.setMessage("Store " + n + " group name" + (n != 1 ? "s" : ""));
+      ObjectId newId = inserter.insert(cb).copy();
+
+      ObjectId oldId = oldCommit != null ? oldCommit.copy() : ObjectId.zeroId();
+      bru.addCommand(new ReceiveCommand(oldId, newId, RefNames.REFS_GROUPNAMES));
+    }
+  }
+
+  private static void checkOneToOneMapping(Collection<GroupReference> groupReferences) {
+    try {
+      groupReferences.stream().collect(toImmutableBiMap(gr -> gr.getName(), gr -> gr.getUUID()));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(UNIQUE_REF_ERROR, e);
+    }
+  }
 
   private final AccountGroup.UUID groupUuid;
   private final Optional<AccountGroup.NameKey> oldGroupName;
@@ -197,7 +257,8 @@ public class GroupNameNotes extends VersionedMetaData {
 
   // Use the same approach as ExternalId.Key.sha1().
   @SuppressWarnings("deprecation")
-  private static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
+  @VisibleForTesting
+  static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
     return ObjectId.fromRaw(Hashing.sha1().hashString(groupName.get(), UTF_8).asBytes());
   }
 
@@ -208,7 +269,8 @@ public class GroupNameNotes extends VersionedMetaData {
     return config.toText();
   }
 
-  private static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
+  @VisibleForTesting
+  public static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
       throws IOException, ConfigInvalidException {
     byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
     return getFromNoteData(noteData);

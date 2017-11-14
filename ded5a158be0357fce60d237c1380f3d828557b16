@@ -35,6 +35,24 @@
       "revId": "ded5a158be0357fce60d237c1380f3d828557b16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdc299fd_080e33c0",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:02:16Z",
+      "side": 1,
+      "message": "\u003e I\u0027m kind of wondering why this was never an issue since the list of external groups is used in IncludingGroupMembership#computeKnownGroups which ends up being used for the ETag of changes.\n\nIncludingGroupMembership#computeKnownGroups calls GroupIncludeCache#allExternalMembers. In GroupIncludeCacheImpl, allExternalMembers is called by looking up the singleton EXTERNAL_NAME, and AllExternalLoader calls Groups#getExternalGroups. In fact, this is the _only_ caller of Groups#getExternalGroups in core.\n\nIn other words, the only time getExternalGroups is ever called is to populate the cache of all external groups, so it\u0027s ok to be slow.\n\nBy the same token, we can\u0027t change getExternalGroups to read from the cache, because then how would the cache get populated?",
+      "parentUuid": "01963ee4_fe42bac9",
+      "revId": "ded5a158be0357fce60d237c1380f3d828557b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

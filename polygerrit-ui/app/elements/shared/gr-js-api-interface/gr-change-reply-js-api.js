@@ -15,6 +15,19 @@
   'use strict';
 
   /**
+   * Ensure GrChangeReplyInterface instance has access to gr-reply-dialog
+   * element and retrieve if the interface was created before element.
+   * @param {!GrChangeReplyInterfaceOld} api
+   */
+  function ensureEl(api) {
+    if (!api._el) {
+      const sharedApiElement = document.createElement('gr-js-api-interface');
+      api._el = sharedApiElement.getElement(
+          sharedApiElement.Element.REPLY_DIALOG);
+    }
+  }
+
+  /**
    * @deprecated
    */
   function GrChangeReplyInterfaceOld(el) {
@@ -22,14 +35,17 @@
   }
 
   GrChangeReplyInterfaceOld.prototype.getLabelValue = function(label) {
+    ensureEl(this);
     return this._el.getLabelValue(label);
   };
 
   GrChangeReplyInterfaceOld.prototype.setLabelValue = function(label, value) {
+    ensureEl(this);
     this._el.setLabelValue(label, value);
   };
 
   GrChangeReplyInterfaceOld.prototype.send = function(opt_includeComments) {
+    ensureEl(this);
     return this._el.send(opt_includeComments);
   };
 

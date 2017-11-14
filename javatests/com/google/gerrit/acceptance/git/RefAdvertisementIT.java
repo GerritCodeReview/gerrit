@@ -484,7 +484,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       TestRepository<?> userTestRepository = cloneProject(allUsers, user);
       try (Git git = userTestRepository.git()) {
         assertThat(getUserRefs(git))
-            .containsExactly(RefNames.refsUsers(user.id), RefNames.refsUsers(admin.id));
+            .containsExactly(
+                RefNames.REFS_USERS_SELF,
+                RefNames.refsUsers(user.id),
+                RefNames.refsUsers(admin.id));
       }
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);

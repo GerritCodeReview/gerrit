@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c389d2e_bc74f561",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-14T18:45:35Z",
+      "side": 1,
+      "message": "Adding a reference to the issue here might be helpful.",
+      "revId": "62501c0e64b6efb710d49b671a58779a27fae583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

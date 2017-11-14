@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -534,7 +533,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
-    return MailUtil.rfcDateformatter.format(
+    return com.google.gerrit.server.mail.lib.MailUtil.rfcDateformatter.format(
         ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
   }
 

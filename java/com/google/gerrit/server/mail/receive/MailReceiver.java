@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
+import com.google.gerrit.server.mail.lib.MailMessage;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import java.io.IOException;

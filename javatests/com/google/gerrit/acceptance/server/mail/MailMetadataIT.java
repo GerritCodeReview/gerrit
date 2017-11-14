@@ -22,8 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.send.EmailHeader;
+import com.google.gerrit.server.mail.lib.EmailHeader;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
@@ -147,7 +146,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
             .contains(
                 entry.getKey()
                     + ": "
-                    + MailUtil.rfcDateformatter.format(
+                    + com.google.gerrit.server.mail.lib.MailUtil.rfcDateformatter.format(
                         ZonedDateTime.ofInstant(
                             ((Timestamp) entry.getValue()).toInstant(), ZoneId.of("UTC"))));
       } else {

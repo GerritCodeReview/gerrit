@@ -21,8 +21,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.server.mail.lib.MailMessage;
 import com.google.gerrit.server.mail.receive.MailProcessor;
 import com.google.inject.Inject;
 import java.time.ZoneId;
@@ -101,7 +100,7 @@ public class ListMailFilterIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        com.google.gerrit.server.mail.lib.MailUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message

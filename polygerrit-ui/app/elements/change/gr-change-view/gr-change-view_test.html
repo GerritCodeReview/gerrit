@@ -834,6 +834,15 @@ limitations under the License.
       });
     });
 
+    test('_openReplyDialog called with any when coming from tap event', () => {
+      const openStub = sandbox.stub(element, '_openReplyDialog');
+      element.$.actions.fire('reply-tap');
+      assert(openStub.lastCall.calledWithExactly(
+          element.$.replyDialog.FocusTarget.ANY),
+          '_openReplyDialog should have been passed ANY');
+      assert.equal(openStub.callCount, 1);
+    });
+
     test('reply dialog focus can be controlled', () => {
       const FocusTarget = element.$.replyDialog.FocusTarget;
       const openStub = sandbox.stub(element, '_openReplyDialog');
@@ -842,11 +851,13 @@ limitations under the License.
       element._handleShowReplyDialog(e);
       assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
           '_openReplyDialog should have been passed REVIEWERS');
+      assert.equal(openStub.callCount, 1);
 
       e.detail.value = {ccsOnly: true};
       element._handleShowReplyDialog(e);
       assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
+      assert.equal(openStub.callCount, 2);
     });
 
     test('getUrlParameter functionality', () => {

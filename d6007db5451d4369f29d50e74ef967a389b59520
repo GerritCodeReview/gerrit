@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "b1196614_7d3202f2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-14T15:50:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9dd7416f_c0d1dad8",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 68
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d32e38e_d94621be",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
         "patchSetId": 18

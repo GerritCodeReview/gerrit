@@ -93,14 +93,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private void setUpPermissions() throws Exception {
-    // Remove read permissions for all users besides admin. This method is
-    // idempotent, so is safe to call on every test setup.
+    // Remove read permissions for all users besides admin. This method is idempotent, so is safe
+    // to call on every test setup.
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
     for (AccessSection sec : pc.getAccessSections()) {
       sec.removePermission(Permission.READ);
     }
     Util.allow(pc, Permission.READ, admins, "refs/*");
     saveProjectConfig(allProjects, pc);
+
+    // Remove all read permissions on All-Users. This method is idempotent, so is safe to call on
+    // every test setup.
+    pc = projectCache.checkedGet(allUsers).getConfig();
+    for (AccessSection sec : pc.getAccessSections()) {
+      sec.removePermission(Permission.READ);
+    }
+    saveProjectConfig(allUsers, pc);
   }
 
   private static String changeRefPrefix(Change.Id id) {
@@ -554,7 +562,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               RefNames.refsUsers(user.id),
               RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
               RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
-              RefNames.REFS_EXTERNAL_IDS);
+              RefNames.REFS_EXTERNAL_IDS,
+              RefNames.REFS_CONFIG);
 
       List<String> expectedMetaRefs =
           new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
@@ -565,7 +574,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
       expectedAllRefs.addAll(expectedMetaRefs);
 
-      setApiUser(user);
       try (Repository repo = repoManager.openRepository(allUsers)) {
         Map<String, Ref> all = repo.getAllRefs();
 

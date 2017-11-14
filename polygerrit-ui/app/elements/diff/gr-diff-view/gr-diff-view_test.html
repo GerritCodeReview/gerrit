@@ -315,6 +315,34 @@ limitations under the License.
       assert.isTrue(overlayOpenStub.called);
     });
 
+    test('_computeCommentString', done => {
+      loadCommentSpy = sandbox.spy(element.$.commentAPI, 'loadAll');
+      const path = '/test';
+      element.$.commentAPI.loadAll().then(comments => {
+        const commentCountStub =
+            sandbox.stub(comments, 'computeCommentCount');
+        const unresolvedCountStub =
+            sandbox.stub(comments, 'computeUnresolvedNum');
+        commentCountStub.withArgs(1, path).returns(0);
+        commentCountStub.withArgs(2, path).returns(1);
+        commentCountStub.withArgs(3, path).returns(2);
+        commentCountStub.withArgs(4, path).returns(0);
+        unresolvedCountStub.withArgs(1, path).returns(1);
+        unresolvedCountStub.withArgs(2, path).returns(0);
+        unresolvedCountStub.withArgs(3, path).returns(2);
+        unresolvedCountStub.withArgs(4, path).returns(0);
+
+        assert.equal(element._computeCommentString(comments, 1, path),
+            '1 unresolved');
+        assert.equal(element._computeCommentString(comments, 2, path),
+            '1 comment');
+        assert.equal(element._computeCommentString(comments, 3, path),
+            '2 comments, 2 unresolved');
+        assert.equal(element._computeCommentString(comments, 4, path), '');
+        done();
+      });
+    });
+
     suite('url params', () => {
       setup(() => {
         sandbox.stub(Gerrit.Nav, 'getUrlForDiff', (c, p, pn, bpn) => {
@@ -340,24 +368,29 @@ limitations under the License.
             text: 'chell.go',
             mobileText: 'chell.go',
             value: 'chell.go',
+            bottomText: '',
           }, {
             text: 'glados.txt',
             mobileText: 'glados.txt',
             value: 'glados.txt',
+            bottomText: '',
           }, {
             text: 'wheatley.md',
             mobileText: 'wheatley.md',
             value: 'wheatley.md',
+            bottomText: '',
           },
           {
             text: 'Commit message',
             mobileText: 'Commit message',
             value: '/COMMIT_MSG',
+            bottomText: '',
           },
           {
             text: 'Merge list',
             mobileText: 'Merge list',
             value: '/MERGE_LIST',
+            bottomText: '',
           },
         ];
 

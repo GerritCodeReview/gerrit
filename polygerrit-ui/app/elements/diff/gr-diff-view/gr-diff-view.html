@@ -195,7 +195,7 @@ limitations under the License.
           <div class="jumpToFileContainer">
             <gr-dropdown-list
                 id="dropdown"
-                value="[[computeDisplayPath(_path)]]"
+                value="[[_path]]"
                 on-value-change="_handleFileChange"
                 items="[[_formattedFiles]]"
                 initial-count="75">

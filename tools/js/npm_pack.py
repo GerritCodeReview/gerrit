@@ -13,6 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""This downloads an NPM binary, and bundles it with its dependencies.
+
+This is used to assemble a pinned version of crispr, hosted on the
+Google storage bucket ("repository=GERRIT" in WORKSPACE).
+"""
+
 from __future__ import print_function
 
 import atexit

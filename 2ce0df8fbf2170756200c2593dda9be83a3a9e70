@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "6be36df9_998396f3",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T13:04:59Z",
+      "side": 1,
+      "message": "I don\u0027t follow. My suggestion (results.stream().findFirst()) returns Optional.empty() when the stream is empty.",
+      "parentUuid": "0ecd9447_c273833d",
+      "revId": "2ce0df8fbf2170756200c2593dda9be83a3a9e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea022237_421aaf6f",
         "filename": "java/com/google/gerrit/index/query/FieldsBundle.java",
         "patchSetId": 2

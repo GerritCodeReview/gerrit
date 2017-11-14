@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e965d2_3133ad34",
+        "filename": "java/com/google/gerrit/index/query/FieldBundle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T13:04:59Z",
+      "side": 1,
+      "message": "I think this isn\u0027t what you want in the case of repeatable fields. If a field is repeatable and was requested, but the resulting document had no stored values for that field (e.g. a change with no approvals), then the multimap will not contain this key. But that shouldn\u0027t be an error, you should return an empty list in that case. It\u0027s only programmer error to call getValue on a field that wasn\u0027t requested in the query.\n\nI think to do this right we need to either:\n\n* keep track of the set of requested fields explicitly, in addition to the actual stored fields that were encountered\n* keep track of requested fields implicitly, by pre-storing an empty list in a map (not a multimap) for all requested fields.\n\nIf you want, we can punt on repeatable fields entirely for now, and you can just change this to checkArgument(!fieldDef.isRepeatable())",
+      "revId": "38b6c9395f202b3c0ea16d6ec8d742a08ac12a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

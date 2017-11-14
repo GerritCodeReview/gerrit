@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailMessage;
 import java.time.Instant;
 import java.util.HashMap;
 import org.junit.Ignore;

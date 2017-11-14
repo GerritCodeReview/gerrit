@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.MailHeader;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.mail.MailHeader;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.apache.james.mime4j.dom.field.FieldName;

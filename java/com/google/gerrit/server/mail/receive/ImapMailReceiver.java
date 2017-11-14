@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.gerrit.mail.MailMessage;
+import com.google.gerrit.mail.MailParsingException;
+import com.google.gerrit.mail.RawMailParser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;

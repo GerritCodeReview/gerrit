@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import java.util.List;
 import org.junit.Before;

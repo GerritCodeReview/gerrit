@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountExternalIdsResultInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckAccountsResultInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.CheckGroupsResultInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountsConsistencyChecker;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
+import com.google.gerrit.server.group.GroupsConsistencyChecker;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -39,17 +41,20 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
   private final Provider<CurrentUser> user;
   private final AccountsConsistencyChecker accountsConsistencyChecker;
   private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
+  private final GroupsConsistencyChecker groupsConsistencyChecker;
 
   @Inject
   CheckConsistency(
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       AccountsConsistencyChecker accountsConsistencyChecker,
-      ExternalIdsConsistencyChecker externalIdsConsistencyChecker) {
+      ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
+      GroupsConsistencyChecker groupsChecker) {
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.accountsConsistencyChecker = accountsConsistencyChecker;
     this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
+    this.groupsConsistencyChecker = groupsChecker;
   }
 
   @Override
@@ -69,6 +74,11 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
     if (input.checkAccountExternalIds != null) {
       consistencyCheckInfo.checkAccountExternalIdsResult =
           new CheckAccountExternalIdsResultInfo(externalIdsConsistencyChecker.check());
+    }
+
+    if (input.checkGroups != null) {
+      consistencyCheckInfo.checkGroupsResult =
+          new CheckGroupsResultInfo(groupsConsistencyChecker.check());
     }
 
     return consistencyCheckInfo;

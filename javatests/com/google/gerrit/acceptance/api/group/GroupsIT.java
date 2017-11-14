@@ -47,6 +47,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
@@ -75,6 +76,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
@@ -126,6 +128,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private GroupBackend groupBackend;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
+  @Inject private GroupsConsistencyChecker groupChecker;
 
   @Inject
   @Named("groups_byuuid")
@@ -139,6 +142,12 @@ public class GroupsIT extends AbstractDaemonTest {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
+  }
+
+  @After
+  public void checkConsistency() throws Exception {
+    List<ConsistencyProblemInfo> problems = groupChecker.check();
+    assertThat(problems).isEmpty();
   }
 
   @Test

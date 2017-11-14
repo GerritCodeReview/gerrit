@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3ce838_0c5269e7",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:02:06Z",
+      "side": 1,
+      "message": "Very small nit: for consistency with the other names, maybe call this ..\n\n getUrlForSettings\n\n.. ?",
+      "range": {
+        "startLine": 376,
+        "startChar": 6,
+        "endLine": 376,
+        "endChar": 27
+      },
+      "revId": "1225845e108a443e30d1e77493d629b75a5a881c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbeeaddc_fd4d7a1b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:02:06Z",
+      "side": 1,
+      "message": "I wonder if empty strings can be confused for legit values. If we\u0027re just looking to force computation, can this just be ..\n\n {email: null, name: null, username: null}\n\n.. ? Or, better yet ..\n\n null\n\n.. ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 17,
+        "endLine": 39,
+        "endChar": 52
+      },
+      "revId": "1225845e108a443e30d1e77493d629b75a5a881c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -94,6 +94,30 @@
       "revId": "23adff788166d9ced688659bef990bb80f0bed23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "866afbc8_f036ee2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-14T18:25:43Z",
+      "side": 1,
+      "message": "\u003e Why?\n\nBecause this would create implicit dependency. Plugins would depend on page.js, and that wouldn\u0027t be tested or manifested anywhere. When PolyGerrit updates/removes page.js, plugins will break.\n\nProper solution is to migrate Gerrit.go(). Since PolyGerrit actively reduces number of methods on Gerrit, a long-term API should be introduced - with test, documentation, etc. When that is done, Gerrit.go() could be added to PolyGerrit\u0027s plugin API with console.warn(\u0027Deprecated: use x instead\u0027).",
+      "parentUuid": "021ae58c_0d0ceb6b",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "23adff788166d9ced688659bef990bb80f0bed23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

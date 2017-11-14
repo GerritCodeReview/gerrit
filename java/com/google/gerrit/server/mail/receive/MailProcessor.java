@@ -42,6 +42,12 @@ import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
+import com.google.gerrit.server.mail.lib.HtmlParser;
+import com.google.gerrit.server.mail.lib.MailComment;
+import com.google.gerrit.server.mail.lib.MailMessage;
+import com.google.gerrit.server.mail.lib.MailMetadata;
+import com.google.gerrit.server.mail.lib.MetadataParser;
+import com.google.gerrit.server.mail.lib.TextParser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -253,7 +259,7 @@ public class MailProcessor {
 
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
-        if (c.type == MailComment.CommentType.CHANGE_MESSAGE) {
+        if (c.getType() == MailComment.CommentType.CHANGE_MESSAGE) {
           continue;
         }
         comments.add(
@@ -271,8 +277,8 @@ public class MailProcessor {
     @Override
     public void postUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
-        patchSetComment = parsedComments.get(0).message;
+      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
+        patchSetComment = parsedComments.get(0).getMessage();
       }
       // Send email notifications
       outgoingMailFactory
@@ -313,12 +319,12 @@ public class MailProcessor {
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {
       String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
+      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         // Add a blank line after Patch Set to follow the default format
         if (parsedComments.size() > 1) {
           changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
         }
-        changeMsg += "\n\n" + parsedComments.get(0).message;
+        changeMsg += "\n\n" + parsedComments.get(0).getMessage();
       } else {
         changeMsg += "\n\n" + numComments(parsedComments.size());
       }
@@ -327,11 +333,11 @@ public class MailProcessor {
 
     private PatchSet targetPatchSetForComment(
         ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
-      if (mailComment.inReplyTo != null) {
+      if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
             ctx.getDb(),
             ctx.getNotes(),
-            new PatchSet.Id(ctx.getChange().getId(), mailComment.inReplyTo.key.patchSetId));
+            new PatchSet.Id(ctx.getChange().getId(), mailComment.getInReplyTo().key.patchSetId));
       }
       return current;
     }
@@ -343,11 +349,11 @@ public class MailProcessor {
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
       Side side;
-      if (mailComment.inReplyTo != null) {
-        fileName = mailComment.inReplyTo.key.filename;
-        side = Side.fromShort(mailComment.inReplyTo.side);
+      if (mailComment.getInReplyTo() != null) {
+        fileName = mailComment.getInReplyTo().key.filename;
+        side = Side.fromShort(mailComment.getInReplyTo().side);
       } else {
-        fileName = mailComment.fileName;
+        fileName = mailComment.getFileName();
         side = Side.REVISION;
       }
 
@@ -357,16 +363,16 @@ public class MailProcessor {
               fileName,
               patchSetForComment.getId(),
               (short) side.ordinal(),
-              mailComment.message,
+              mailComment.getMessage(),
               false,
               null);
 
       comment.tag = tag;
-      if (mailComment.inReplyTo != null) {
-        comment.parentUuid = mailComment.inReplyTo.key.uuid;
-        comment.lineNbr = mailComment.inReplyTo.lineNbr;
-        comment.range = mailComment.inReplyTo.range;
-        comment.unresolved = mailComment.inReplyTo.unresolved;
+      if (mailComment.getInReplyTo() != null) {
+        comment.parentUuid = mailComment.getInReplyTo().key.uuid;
+        comment.lineNbr = mailComment.getInReplyTo().lineNbr;
+        comment.range = mailComment.getInReplyTo().range;
+        comment.unresolved = mailComment.getInReplyTo().unresolved;
       }
       CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), patchSetForComment);
       return comment;

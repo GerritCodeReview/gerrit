@@ -2703,7 +2703,7 @@ specific checks like IP filters.
 [source, java]
 ----
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.server.mail.lib.MailMessage;
 
 public class MyPlugin implements MailFilter {
   boolean shouldProcessMessage(MailMessage message) {

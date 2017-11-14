@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2a5bbe7_20113cab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-14T01:54:33Z",
+      "side": 1,
+      "message": "Why red?  Red generally means something bad.  I don\u0027t think the submit button should be the same color as things like \"merge conflict\" or \"abandon\".\n\nSee issue 7759.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "7c539779134c8561b6e4553289d3c7c44fb61dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

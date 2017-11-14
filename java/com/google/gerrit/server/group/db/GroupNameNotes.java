@@ -43,6 +43,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
@@ -50,7 +51,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-// TODO(aliceks): Add Javadoc descriptions.
+/**
+ * Holds code for reading and writing group names for a single group as NoteDb data. The data is
+ * stored in a refs/meta/group-names branch. The data is stored as SHA1(name) => config file with
+ * the config file holding UUID and Name.
+ */
 public class GroupNameNotes extends VersionedMetaData {
   private static final String SECTION_NAME = "group";
   private static final String UUID_PARAM = "uuid";
@@ -102,6 +107,7 @@ public class GroupNameNotes extends VersionedMetaData {
     }
   }
 
+  // Returns UUID <=> Name bimap.
   private static ImmutableBiMap<AccountGroup.UUID, String> toBiMap(
       Collection<GroupReference> groupReferences) {
     try {
@@ -162,7 +168,13 @@ public class GroupNameNotes extends VersionedMetaData {
 
   public static ImmutableSet<GroupReference> loadAllGroupReferences(Repository repository)
       throws IOException, ConfigInvalidException {
-    Ref ref = repository.exactRef(RefNames.REFS_GROUPNAMES);
+    return loadAllGroupReferences(repository, repository.getRefDatabase());
+  }
+
+  /** load all group references at a specific revision. The refDb should be from the repository */
+  public static ImmutableSet<GroupReference> loadAllGroupReferences(
+      Repository repository, RefDatabase refDb) throws IOException, ConfigInvalidException {
+    Ref ref = refDb.exactRef(RefNames.REFS_GROUPNAMES);
     if (ref == null) {
       return ImmutableSet.of();
     }
@@ -264,7 +276,7 @@ public class GroupNameNotes extends VersionedMetaData {
   // Use the same approach as ExternalId.Key.sha1().
   @SuppressWarnings("deprecation")
   @VisibleForTesting
-  static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
+  public static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
     return ObjectId.fromRaw(Hashing.sha1().hashString(groupName.get(), UTF_8).asBytes());
   }
 
@@ -282,7 +294,7 @@ public class GroupNameNotes extends VersionedMetaData {
     return getFromNoteData(noteData);
   }
 
-  private static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
+  static GroupReference getFromNoteData(byte[] noteData) throws ConfigInvalidException {
     Config config = new Config();
     config.fromText(new String(noteData, UTF_8));
 

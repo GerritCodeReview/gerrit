@@ -19,6 +19,673 @@
     },
     {
       "key": {
+        "uuid": "f8e897af_e78ddecd",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "This looks wrong, because those resources are now packaged twice (!). Ones in libserver.jar, because the server:server rule depends on the same filegroup, and in new libendpoint.jar\n\n  $ unzip -t bazel-bin/java/com/google/gerrit/server/config/endpoint/libendpoint.jar | grep CapabilityConstants.properties\n  testing: com/google/gerrit/server/config/CapabilityConstants.properties OK\n  $ unzip -t bazel-bin/java/com/google/gerrit/server/libserver.jar | grep CapabilityConstants.properties\n  testing: com/google/gerrit/server/config/CapabilityConstants.properties OK\n\nSo, either isolate CapabilityConstants.properties in:\n\n* ./resources/com/google/gerrit/server/config/endpoint/CapabilityConstants.properties\n\nand only include the new filegroup here:\n\n   resources \u003d [\"//resources/com/google/gerrit/server/config/endpoint\"],\n\nor remove resources in endpoint entirely, because it already depends on libserver.jar, that includes it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f3860d6_74e6d144",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54c631ba_c45d8092",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 13,
+        "startChar": 8,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c60d8cf4_613814e2",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc60a08_64de8fa4",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99c05185_2ab0d8f2",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56f943db_2904c4ad",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 51
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0734e563_635f70f7",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53ed76bc_ba84b26d",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 44
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77c495e0_e9e7ab1b",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc9d81cf_bc14d15c",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72ebce57_28265d20",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f985dfef_47f6da34",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01f1836b_c94169eb",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb1b5cc4_56793539",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9490c878_7aa679c4",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4594b785_bd1a0c1e",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e01bd73_c1aae09f",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf6d8fb_b09eebd0",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 34
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f90679b_27803ec9",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2998a68d_3485d3fd",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 24
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa3bfc48_af7281aa",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8da56322_ba319cbf",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4055787_526d49f6",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 27
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c0f1f0b_d74c060e",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "301995e0_2cabfec9",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93c755fa_a8f6da7f",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 59
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e2e1532_0612ab4b",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 22
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50a4d1d6_30a773c4",
+        "filename": "java/com/google/gerrit/server/config/endpoint/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7c22d4f_97e62f88",
         "filename": "java/com/google/gerrit/server/config/endpoint/CacheResource.java",
         "patchSetId": 7
@@ -39,6 +706,53 @@
       "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd0238e7_e1113a34",
+        "filename": "java/com/google/gerrit/server/config/endpoint/CacheResource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "+1 for \"rest\".",
+      "parentUuid": "e7c22d4f_97e62f88",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6340e122_8f2f854c",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:37:43Z",
+      "side": 1,
+      "message": "As with api module change the name to ConfigRestModule or similar, to not need to use full package name here and in other general places.",
+      "range": {
+        "startLine": 165,
+        "startChar": 16,
+        "endLine": 165,
+        "endChar": 65
+      },
+      "revId": "416f159d9a8a9813ecef470ec2461525166a727a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

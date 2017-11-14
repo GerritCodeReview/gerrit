@@ -42,7 +42,7 @@ Here's a recommended starter `myplugin.html`:
 
 Basically, the DOM is the API surface. Low-level API provides methods for
 decorating, replacing, and styling DOM elements exposed through a set of
-endpoints.
+link:pg-plugin-endpoints.html[endpoints].
 
 PolyGerrit provides a simple way for accessing the DOM via DOM hooks API. A DOM
 hook is a custom element that is instantiated for the plugin endpoint. In the
@@ -69,8 +69,6 @@ Gerrit.install(plugin => {
 
 For each endpoint, PolyGerrit provides a list of DOM properties (such as
 attributes and events) that are supported in the long-term.
-
-NOTE: TODO: Insert link to the full endpoints API.
 
 ``` js
 Gerrit.install(plugin => {
@@ -159,6 +157,7 @@ Note: TODO
 === hook
 `plugin.hook(endpointName, opt_options)`
 
+See list of supported link:pg-plugin-endpoints.html[endpoints].
 Note: TODO
 
 === registerCustomComponent

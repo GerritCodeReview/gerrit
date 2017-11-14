@@ -15,15 +15,15 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
-import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
+import static com.google.gerrit.server.config.rest.PostCaches.Operation.FLUSH;
+import static com.google.gerrit.server.config.rest.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.server.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.config.PostCaches;
+import com.google.gerrit.server.config.rest.ListCaches.CacheInfo;
+import com.google.gerrit.server.config.rest.PostCaches;
 import java.util.Arrays;
 import org.junit.Test;
 

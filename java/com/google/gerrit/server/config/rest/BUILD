@@ -1,22 +1,22 @@
+package(
+    default_visibility = ["//visibility:public"],
+)
+
 java_library(
-    name = "api",
-    srcs = glob(
-        ["**/*.java"],
-    ),
-    visibility = ["//visibility:public"],
+    name = "rest",
+    srcs = glob(["**/*.java"]),
     deps = [
-        "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/config/rest",
+        "//java/org/eclipse/jgit:server",
+        "//lib:args4j",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
         "//lib/guice",
-        "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
     ],
 )

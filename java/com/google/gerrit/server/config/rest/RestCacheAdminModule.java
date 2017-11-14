@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
-import static com.google.gerrit.server.config.CacheResource.CACHE_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
+import static com.google.gerrit.server.config.rest.CacheResource.CACHE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;

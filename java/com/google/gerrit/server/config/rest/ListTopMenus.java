@@ -12,21 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
-import com.google.gerrit.common.Version;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
-public class GetVersion implements RestReadView<ConfigResource> {
+class ListTopMenus implements RestReadView<ConfigResource> {
+  private final DynamicSet<TopMenu> extensions;
+
+  @Inject
+  ListTopMenus(DynamicSet<TopMenu> extensions) {
+    this.extensions = extensions;
+  }
+
   @Override
-  public String apply(ConfigResource resource) throws ResourceNotFoundException {
-    String version = Version.getVersion();
-    if (version == null) {
-      throw new ResourceNotFoundException();
+  public List<TopMenu.MenuEntry> apply(ConfigResource resource) {
+    List<TopMenu.MenuEntry> entries = new ArrayList<>();
+    for (TopMenu extension : extensions) {
+      entries.addAll(extension.getEntries());
     }
-    return version;
+    return entries;
   }
 }

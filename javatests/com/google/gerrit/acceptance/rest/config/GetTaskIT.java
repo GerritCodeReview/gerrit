@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.config.ListTasks.TaskInfo;
+import com.google.gerrit.server.config.rest.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import org.junit.Test;

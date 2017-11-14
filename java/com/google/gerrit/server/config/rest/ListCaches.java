@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
-import static com.google.gerrit.server.config.CacheResource.cacheNameOf;
+import static com.google.gerrit.server.config.rest.CacheResource.cacheNameOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.cache.PersistentCache;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;

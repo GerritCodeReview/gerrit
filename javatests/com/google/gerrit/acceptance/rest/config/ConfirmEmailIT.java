@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.server.config.ConfirmEmail;
+import com.google.gerrit.server.config.rest.ConfirmEmail;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gwtjsonrpc.server.SignedToken;

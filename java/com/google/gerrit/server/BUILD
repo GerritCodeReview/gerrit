@@ -99,6 +99,7 @@ java_library(
     deps = [
         ":server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server/config/rest",
         "//java/com/google/gerrit/server/git/receive",
         "//lib:blame-cache",
         "//lib:guava",

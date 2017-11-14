@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.config.ListCaches.CacheType;
+import com.google.gerrit.server.config.rest.ListCaches.CacheInfo;
+import com.google.gerrit.server.config.rest.ListCaches.CacheType;
 import org.junit.Test;
 
 public class GetCacheIT extends AbstractDaemonTest {

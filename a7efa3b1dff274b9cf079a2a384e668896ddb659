@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "cbcf0c6e_0e70d6f1",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-14T14:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1276e63e_57600e2a",
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36a403e2_a875453f",
         "filename": "java/com/google/gerrit/server/diff/ComparisonType.java",
         "patchSetId": 7
@@ -97,6 +115,30 @@
       "writtenOn": "2017-11-13T21:40:54Z",
       "side": 1,
       "message": "Same here. Revert.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6b93b4e_35923632",
+        "filename": "java/com/google/gerrit/server/diff/DiffSummary.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-14T14:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2f3483c_76cf8bee",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -252,6 +294,24 @@
       "writtenOn": "2017-11-13T21:40:54Z",
       "side": 1,
       "message": "Same here, import order wrong. I stop the review on this file.",
+      "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a88f6025_1e737382",
+        "filename": "java/com/google/gerrit/server/extensions/events/ChangeAbandoned.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-14T14:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "075d9e18_3cfe0fa2",
       "revId": "a7efa3b1dff274b9cf079a2a384e668896ddb659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

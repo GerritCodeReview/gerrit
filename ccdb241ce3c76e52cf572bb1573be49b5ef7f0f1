@@ -285,6 +285,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6467e3_680ec582",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T14:31:32Z",
+      "side": 1,
+      "message": "never mind it seems to be showing in the console log now.",
+      "parentUuid": "f645d298_6b0402a3",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

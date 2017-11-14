@@ -94,7 +94,7 @@ import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.diff.PatchListKey;
 import com.google.gerrit.server.diff.PatchListNotAvailableException;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.lib.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;

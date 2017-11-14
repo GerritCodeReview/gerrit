@@ -64,7 +64,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.lib.Address;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestId;

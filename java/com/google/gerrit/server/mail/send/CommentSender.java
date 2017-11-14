@@ -33,7 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.diff.PatchFile;
 import com.google.gerrit.server.diff.PatchList;
 import com.google.gerrit.server.diff.PatchListNotAvailableException;
-import com.google.gerrit.server.mail.MailUtil;
+import com.google.gerrit.server.mail.lib.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.util.LabelVote;
@@ -534,7 +534,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
-    return MailUtil.rfcDateformatter.format(
+    return MailProcessingUtil.rfcDateformatter.format(
         ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.of("UTC")));
   }
 

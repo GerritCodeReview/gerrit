@@ -20,8 +20,8 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.server.mail.lib.MailMessage;
+import com.google.gerrit.server.mail.lib.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
 import com.google.inject.Inject;
 import java.time.ZoneId;
@@ -39,7 +39,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
@@ -67,7 +67,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
@@ -103,7 +103,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
@@ -140,7 +140,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
@@ -170,7 +170,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
     assertThat(comments).hasSize(2);
 
@@ -205,7 +205,7 @@ public class MailProcessorIT extends AbstractMailIT {
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     assertThat(comments).hasSize(2);
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message

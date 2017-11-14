@@ -123,6 +123,8 @@ limitations under the License.
     test('username render (mutable)', () => {
       element.set('_serverConfig',
           {auth: {editable_account_fields: ['USER_NAME']}});
+      element.set('_account.username', '');
+      element.set('_username', '');
 
       const section = element.$.usernameSection;
       const displaySpan = section.querySelectorAll('.value')[0];
@@ -179,10 +181,11 @@ limitations under the License.
       });
 
       test('username', done => {
+        element.set('_account.username', '');
+        element._hasUsernameChange = false;
         assert.isTrue(element.usernameMutable);
-        assert.isFalse(element.hasUnsavedChanges);
 
-        element.set('_account.username', 'new username');
+        element.set('_username', 'new username');
 
         assert.isTrue(usernameChangedSpy.called);
         assert.isFalse(statusChangedSpy.called);

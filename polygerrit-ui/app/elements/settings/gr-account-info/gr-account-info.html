@@ -48,7 +48,7 @@ limitations under the License.
         <span class="title">Username</span>
         <span
             hidden$="[[usernameMutable]]"
-            class="value">[[_account.username]]</span>
+            class="value">[[_username]]</span>
         <span
             hidden$="[[!usernameMutable]]"
             class="value">
@@ -57,7 +57,7 @@ limitations under the License.
               id="usernameInput"
               disabled="[[_saving]]"
               on-keydown="_handleKeydown"
-              bind-value="{{_account.username}}">
+              bind-value="{{_username}}">
       </section>
       <section id="nameSection">
         <span class="title">Full name</span>

@@ -119,11 +119,17 @@ limitations under the License.
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown')
             .returns(Promise.resolve(true));
         element._change = {labels: {}};
+        const openSpy = sandbox.spy(element, '_openReplyDialog');
+
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
         flush(() => {
           assert.isTrue(element.$.replyOverlay.opened);
           element.$.replyOverlay.close();
           assert.isFalse(element.$.replyOverlay.opened);
+          assert(openSpy.lastCall.calledWithExactly(
+              element.$.replyDialog.FocusTarget.ANY),
+              '_openReplyDialog should have been passed ANY');
+          assert.equal(openSpy.callCount, 1);
           done();
         });
       });
@@ -748,6 +754,25 @@ limitations under the License.
       });
     });
 
+    test('_openReplyDialog called with `ANY` when coming from tap event', () => {
+      const openStub = sandbox.stub(element, '_openReplyDialog');
+      element.$.actions.fire('reply-tap');
+      assert(openStub.lastCall.calledWithExactly(
+          element.$.replyDialog.FocusTarget.ANY),
+          '_openReplyDialog should have been passed ANY');
+      assert.equal(openStub.callCount, 1);
+    });
+
+    test('_openReplyDialog called with `BODY` when coming from message reply' +
+        'event', () => {
+      const openStub = sandbox.stub(element, '_openReplyDialog');
+      element.$.messageList.fire('reply', {message: {message: 'text'}});
+      assert(openStub.lastCall.calledWithExactly(
+          element.$.replyDialog.FocusTarget.BODY),
+          '_openReplyDialog should have been passed BODY');
+      assert.equal(openStub.callCount, 1);
+    });
+
     test('reply dialog focus can be controlled', () => {
       const FocusTarget = element.$.replyDialog.FocusTarget;
       const openStub = sandbox.stub(element, '_openReplyDialog');
@@ -756,11 +781,13 @@ limitations under the License.
       element._handleShowReplyDialog(e);
       assert(openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
           '_openReplyDialog should have been passed REVIEWERS');
+      assert.equal(openStub.callCount, 1);
 
       e.detail.value = {ccsOnly: true};
       element._handleShowReplyDialog(e);
       assert(openStub.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
+      assert.equal(openStub.callCount, 2);
     });
 
     test('getUrlParameter functionality', () => {

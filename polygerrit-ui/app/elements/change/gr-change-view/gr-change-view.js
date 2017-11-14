@@ -403,7 +403,7 @@
 
     _handleReplyTap(e) {
       e.preventDefault();
-      this._openReplyDialog();
+      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
     },
 
     _handleOpenDiffPrefs() {
@@ -431,15 +431,7 @@
         this.$.replyDialog.draft = quoteStr;
       }
       this.$.replyDialog.quote = quoteStr;
-      this._openReplyDialog();
-    },
-
-    _handleReplyOverlayOpen(e) {
-      // This is needed so that focus is not set on the reply overlay
-      // when the suggestion overaly from gr-autogrow-textarea opens.
-      if (e.target === this.$.replyOverlay) {
-        this.$.replyDialog.focus();
-      }
+      this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
     },
 
     _handleHideBackgroundContent() {
@@ -621,7 +613,7 @@
         if (!loggedIn) { return; }
 
         if (this.viewState.showReplyDialog) {
-          this._openReplyDialog();
+          this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
           // TODO(kaspern@): Find a better signal for when to call center.
           this.async(() => { this.$.replyOverlay.center(); }, 100);
           this.async(() => { this.$.replyOverlay.center(); }, 1000);
@@ -768,7 +760,7 @@
         }
 
         e.preventDefault();
-        this._openReplyDialog();
+        this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
       });
     },
 

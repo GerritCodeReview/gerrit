@@ -505,6 +505,45 @@ limitations under the License.
       assert.isFalse(filter({group: cc2}));
     });
 
+    test('_focusOn', () => {
+      sandbox.stub(element, '_chooseFocusTarget');
+      element.serverConfig = {note_db_enabled: true};
+      flushAsynchronousOperations();
+      const textareaStub = sandbox.stub(element.$.textarea, 'async');
+      const reviewerEntryStub = sandbox.stub(element.$.reviewers.focusStart,
+          'async');
+      const ccStub = sandbox.stub(element.$$('#ccs').focusStart, 'async');
+      element._focusOn();
+      assert.equal(element._chooseFocusTarget.callCount, 1);
+      assert.deepEqual(textareaStub.callCount, 0);
+      assert.deepEqual(reviewerEntryStub.callCount, 0);
+      assert.deepEqual(ccStub.callCount, 0);
+
+      element._focusOn(element.FocusTarget.ANY);
+      assert.equal(element._chooseFocusTarget.callCount, 2);
+      assert.deepEqual(textareaStub.callCount, 0);
+      assert.deepEqual(reviewerEntryStub.callCount, 0);
+      assert.deepEqual(ccStub.callCount, 0);
+
+      element._focusOn(element.FocusTarget.BODY);
+      assert.equal(element._chooseFocusTarget.callCount, 2);
+      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(reviewerEntryStub.callCount, 0);
+      assert.deepEqual(ccStub.callCount, 0);
+
+      element._focusOn(element.FocusTarget.REVIEWERS);
+      assert.equal(element._chooseFocusTarget.callCount, 2);
+      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(reviewerEntryStub.callCount, 1);
+      assert.deepEqual(ccStub.callCount, 0);
+
+      element._focusOn(element.FocusTarget.CCS);
+      assert.equal(element._chooseFocusTarget.callCount, 2);
+      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(reviewerEntryStub.callCount, 1);
+      assert.deepEqual(ccStub.callCount, 1);
+    });
+
     test('_chooseFocusTarget', () => {
       element._account = null;
       assert.strictEqual(

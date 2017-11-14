@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3017af13_468a2629",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:27:29Z",
+      "side": 1,
+      "message": "Unnecessary whitespace change",
+      "revId": "3cf8f31b32f82a18fb28709f228a500489c588cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e242c3_9f21c75c",
+        "filename": "java/com/google/gerrit/server/index/group/IndexedGroupQuery.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:27:29Z",
+      "side": 1,
+      "message": "Nit: unnecessary parens.",
+      "revId": "3cf8f31b32f82a18fb28709f228a500489c588cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e85c436_d68d0764",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:27:29Z",
+      "side": 1,
+      "message": "exactRef",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "3cf8f31b32f82a18fb28709f228a500489c588cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

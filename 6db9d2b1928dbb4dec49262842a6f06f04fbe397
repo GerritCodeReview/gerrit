@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5659a63c_ad779e19",
+        "filename": "Documentation/user-search-groups.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:27:29Z",
+      "side": 0,
+      "message": "No longer applicable, correct?",
+      "revId": "6db9d2b1928dbb4dec49262842a6f06f04fbe397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

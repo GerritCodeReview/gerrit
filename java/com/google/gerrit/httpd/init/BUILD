@@ -20,6 +20,7 @@ java_library(
         "//java/com/google/gerrit/server/api",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/sshd",
         "//lib:guava",
         "//lib:gwtorm",

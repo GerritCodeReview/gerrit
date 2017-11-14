@@ -60,7 +60,6 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
@@ -262,9 +261,7 @@ public class SchemaCreator {
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
       groupNameNotes.commit(metaDataUpdate);
     }
-    try (RevWalk revWalk = new RevWalk(allUsersRepo)) {
-      RefUpdateUtil.executeChecked(batchRefUpdate, revWalk);
-    }
+    RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
   }
 
   private MetaDataUpdate createMetaDataUpdate(

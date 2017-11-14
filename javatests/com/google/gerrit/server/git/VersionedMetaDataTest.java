@@ -190,9 +190,7 @@ public class VersionedMetaDataTest {
     assertMyMetaData(d2.getRefName(), 0);
     assertThat(bru.getCommands().stream().map(ReceiveCommand::getRefName))
         .containsExactly("refs/meta/1", "refs/meta/2");
-    try (RevWalk rw = new RevWalk(repo)) {
-      RefUpdateUtil.executeChecked(bru, rw);
-    }
+    RefUpdateUtil.executeChecked(bru, repo);
 
     assertMyMetaData(d1.getRefName(), 4, "Increment conf.value by 1", "Increment conf.value by 3");
     assertMyMetaData(

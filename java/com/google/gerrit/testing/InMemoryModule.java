@@ -47,6 +47,7 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
+import com.google.gerrit.server.config.rest.ConfigRestModule;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalMergeSuperSetComputation;
@@ -166,6 +167,7 @@ public class InMemoryModule extends FactoryModule {
     install(new GerritApiModule());
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
+    install(new ConfigRestModule());
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
 

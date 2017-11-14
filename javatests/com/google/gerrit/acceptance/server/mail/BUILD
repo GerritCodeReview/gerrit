@@ -3,6 +3,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 DEPS = [
     "//lib/greenmail",
     "//lib/mail",
+    "//java/com/google/gerrit/server/mail/lib",
 ]
 
 acceptance_tests(
@@ -12,7 +13,9 @@ acceptance_tests(
     ),
     group = "server_mail",
     labels = ["server"],
-    deps = DEPS + [":util"],
+    deps = DEPS + [
+        ":util",
+    ],
 )
 
 java_library(

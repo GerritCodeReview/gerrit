@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -28,7 +29,25 @@ public class RefUpdateUtil {
   /**
    * Execute a batch ref update, throwing a checked exception if not all updates succeeded.
    *
+   * <p>Creates a new {@link RevWalk} used only for this operation.
+   *
    * @param bru batch update; should already have been executed.
+   * @param repo repository that created {@code bru}.
+   * @throws LockFailureException if the transaction was aborted due to lock failure; see {@link
+   *     #checkResults(BatchRefUpdate)} for details.
+   * @throws IOException if any result was not {@code OK}.
+   */
+  public static void executeChecked(BatchRefUpdate bru, Repository repo) throws IOException {
+    try (RevWalk rw = new RevWalk(repo)) {
+      executeChecked(bru, rw);
+    }
+  }
+
+  /**
+   * Execute a batch ref update, throwing a checked exception if not all updates succeeded.
+   *
+   * @param bru batch update; should already have been executed.
+   * @param rw walk for executing the update.
    * @throws LockFailureException if the transaction was aborted due to lock failure; see {@link
    *     #checkResults(BatchRefUpdate)} for details.
    * @throws IOException if any result was not {@code OK}.

@@ -117,10 +117,11 @@ limitations under the License.
                       id="contentMergeSelect"
                       bind-value="{{_projectConfig.use_content_merge.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.use_content_merge)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -134,10 +135,11 @@ limitations under the License.
                       id="newChangeSelect"
                       bind-value="{{_projectConfig.create_new_change_for_all_not_in_target.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.create_new_change_for_all_not_in_target)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.create_new_change_for_all_not_in_target)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -149,10 +151,11 @@ limitations under the License.
                       id="requireChangeIdSelect"
                       bind-value="{{_projectConfig.require_change_id.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.require_change_id)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.require_change_id)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -165,10 +168,11 @@ limitations under the License.
                       id="rejectImplicitMergesSelect"
                       bind-value="{{_projectConfig.reject_implicit_merges.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.reject_implicit_merges)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.reject_implicit_merges)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -181,10 +185,11 @@ limitations under the License.
                       id="unRegisteredCcSelect"
                       bind-value="{{_projectConfig.enable_reviewer_by_email.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.enable_reviewer_by_email)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.enable_reviewer_by_email)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                   </select>
                   </gr-select>
                 </span>
@@ -197,10 +202,11 @@ limitations under the License.
                       id="setAllnewChangesPrivateByDefaultSelect"
                       bind-value="{{_projectConfig.private_by_default.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.private_by_default)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.private_by_default)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -223,10 +229,11 @@ limitations under the License.
                       id="matchAuthoredDateWithCommitterDateSelect"
                       bind-value="{{_projectConfig.match_author_to_committer_date.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.match_author_to_committer_date)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.match_author_to_committer_date)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                   </select>
                   </gr-select>
                 </span>
@@ -242,10 +249,11 @@ limitations under the License.
                       id="contributorAgreementSelect"
                       bind-value="{{_projectConfig.use_contributor_agreements.configured_value}}">
                   <select disabled$="[[_readOnly]]">
-                    <template is="dom-repeat"
-                        items="[[_formatBooleanSelect(_projectConfig.use_contributor_agreements)]]">
-                      <option value="[[item.value]]">[[item.label]]</option>
-                    </template>
+                    <option value="INHERIT">
+                      [[computeInheritValue(_projectConfig.use_contributor_agreements)]]
+                    </option>
+                    <option value="TRUE">True</option>
+                    <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>
@@ -257,10 +265,11 @@ limitations under the License.
                         id="useSignedOffBySelect"
                         bind-value="{{_projectConfig.use_signed_off_by.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.use_signed_off_by)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">
+                        [[computeInheritValue(_projectConfig.use_signed_off_by)]]
+                      </option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>

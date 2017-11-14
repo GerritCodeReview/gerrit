@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "40eacc91_7df5a713",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:16:17Z",
+      "side": 1,
+      "message": "I restructured it in a way that kind a looks clearer.",
+      "parentUuid": "4b1eaf7d_ab800e33",
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d769023_6a448936",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525cd095_01bcf8e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2018,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:16:17Z",
+      "side": 1,
+      "message": "Harmlessly removed.",
+      "parentUuid": "7d769023_6a448936",
+      "range": {
+        "startLine": 2018,
+        "startChar": 12,
+        "endLine": 2018,
+        "endChar": 25
+      },
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "bb65f787_39d6b55c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00eeb416_94c7ed0a",
+      "range": {
+        "startLine": 2026,
+        "startChar": 13,
+        "endLine": 2026,
+        "endChar": 14
+      },
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d6353_aca6c45a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 4
@@ -79,6 +145,24 @@
       "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007e14f1_fb838807",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T23:16:17Z",
+      "side": 1,
+      "message": "Oops. That was my intent but I somehow got it in my head that updating a comment is a POST. Done.",
+      "parentUuid": "9a3d6353_aca6c45a",
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

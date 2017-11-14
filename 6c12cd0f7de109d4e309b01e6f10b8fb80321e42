@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83e48bb0_e42e2bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-14T23:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "592fce57_89299137",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "6c12cd0f7de109d4e309b01e6f10b8fb80321e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d63db36_85bc1360",
         "filename": "tools/js/npm_pack.py",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6c12cd0f7de109d4e309b01e6f10b8fb80321e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee6be8cf_86de017c",
+        "filename": "tools/js/npm_pack.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-14T23:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d63db36_85bc1360",
+      "range": {
+        "startLine": 18,
+        "startChar": 45,
+        "endLine": 18,
+        "endChar": 51
+      },
+      "revId": "6c12cd0f7de109d4e309b01e6f10b8fb80321e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

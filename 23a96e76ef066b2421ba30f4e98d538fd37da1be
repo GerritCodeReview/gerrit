@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d861b4_9339f3b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T19:33:26Z",
+      "side": 1,
+      "message": "Can\u0027t you use Plugin.prototype.get or Plugin.prototype.post?",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 360,
+        "endChar": 0
+      },
+      "revId": "23a96e76ef066b2421ba30f4e98d538fd37da1be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

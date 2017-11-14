@@ -12,40 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
-  private final DynamicMap<RestView<TopMenuResource>> views;
-  private final ListTopMenus list;
+public class ConfigCollection implements RestCollection<TopLevelResource, ConfigResource> {
+  private final DynamicMap<RestView<ConfigResource>> views;
 
   @Inject
-  TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views, ListTopMenus list) {
+  ConfigCollection(DynamicMap<RestView<ConfigResource>> views) {
     this.views = views;
-    this.list = list;
   }
 
   @Override
-  public RestView<ConfigResource> list() throws ResourceNotFoundException {
-    return list;
+  public RestView<TopLevelResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public TopMenuResource parse(ConfigResource parent, IdString id)
-      throws ResourceNotFoundException {
-    throw new ResourceNotFoundException(id);
-  }
-
-  @Override
-  public DynamicMap<RestView<TopMenuResource>> views() {
+  public DynamicMap<RestView<ConfigResource>> views() {
     return views;
+  }
+
+  @Override
+  public ConfigResource parse(TopLevelResource root, IdString id) throws ResourceNotFoundException {
+    if (id.get().equals("server")) {
+      return new ConfigResource();
+    }
+    throw new ResourceNotFoundException(id);
   }
 }

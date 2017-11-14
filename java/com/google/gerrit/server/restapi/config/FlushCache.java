@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

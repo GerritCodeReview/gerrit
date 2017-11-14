@@ -18,6 +18,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -56,6 +57,7 @@ public class Accounts {
     this.emailValidator = emailValidator;
   }
 
+  @Nullable
   public Account get(Account.Id accountId) throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return read(repo, accountId);
@@ -133,6 +135,7 @@ public class Accounts {
     }
   }
 
+  @Nullable
   private Account read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
     AccountConfig accountConfig = new AccountConfig(emailValidator, accountId);

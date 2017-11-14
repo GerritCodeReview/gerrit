@@ -22,6 +22,30 @@
       "revId": "23a96e76ef066b2421ba30f4e98d538fd37da1be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d76a059c_f5bd3afe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T19:35:21Z",
+      "side": 1,
+      "message": "Will calling that work?\n\nI think that the only way to get plugin is to do self?\n\nBut as i wont have access to that as it will be inside a polymer element.",
+      "parentUuid": "12d861b4_9339f3b4",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 360,
+        "endChar": 0
+      },
+      "revId": "23a96e76ef066b2421ba30f4e98d538fd37da1be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

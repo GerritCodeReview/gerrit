@@ -70,6 +70,30 @@
       "revId": "23adff788166d9ced688659bef990bb80f0bed23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "021ae58c_0d0ceb6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T17:15:08Z",
+      "side": 1,
+      "message": "Yes, but does gr-navigation navigate to /admin/projects/?\n\nAnd also can plugins use gr-navigiation?",
+      "parentUuid": "2c5e0cab_0a91e77d",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "23adff788166d9ced688659bef990bb80f0bed23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

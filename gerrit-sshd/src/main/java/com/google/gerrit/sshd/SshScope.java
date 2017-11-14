@@ -102,7 +102,7 @@ public class SshScope {
 
     synchronized Context subContext(SshSession newSession, String newCommandLine) {
       Context ctx = new Context(this, newSession, newCommandLine);
-      cleanup.add(ctx.cleanup);
+      ctx.cleanup.add(cleanup);
       return ctx;
     }
   }

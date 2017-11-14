@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.group.db;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -84,6 +86,49 @@ public abstract class GroupBundle {
   public abstract ImmutableList<AccountGroupById> byId();
 
   public abstract ImmutableList<AccountGroupByIdAud> byIdAudit();
+
+  public abstract Builder toBuilder();
+
+  public GroupBundle roundToSecond() {
+    AccountGroup newGroup = new AccountGroup(group());
+    if (newGroup.getCreatedOn() != null) {
+      newGroup.setCreatedOn(TimeUtil.roundToSecond(newGroup.getCreatedOn()));
+    }
+    return toBuilder()
+        .group(newGroup)
+        .memberAudit(
+            memberAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableList()))
+        .byIdAudit(byIdAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableList()))
+        .build();
+  }
+
+  private static AccountGroupMemberAudit roundToSecond(AccountGroupMemberAudit a) {
+    AccountGroupMemberAudit result =
+        new AccountGroupMemberAudit(
+            new AccountGroupMemberAudit.Key(
+                a.getKey().getParentKey(),
+                a.getKey().getGroupId(),
+                TimeUtil.roundToSecond(a.getKey().getAddedOn())),
+            a.getAddedBy());
+    if (a.getRemovedOn() != null) {
+      result.removed(a.getRemovedBy(), TimeUtil.roundToSecond(a.getRemovedOn()));
+    }
+    return result;
+  }
+
+  private static AccountGroupByIdAud roundToSecond(AccountGroupByIdAud a) {
+    AccountGroupByIdAud result =
+        new AccountGroupByIdAud(
+            new AccountGroupByIdAud.Key(
+                a.getKey().getParentKey(),
+                a.getKey().getIncludeUUID(),
+                TimeUtil.roundToSecond(a.getKey().getAddedOn())),
+            a.getAddedBy());
+    if (a.getRemovedOn() != null) {
+      result.removed(a.getRemovedBy(), TimeUtil.roundToSecond(a.getRemovedOn()));
+    }
+    return result;
+  }
 
   public InternalGroup toInternalGroup() {
     return InternalGroup.create(

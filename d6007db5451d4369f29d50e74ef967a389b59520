@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "9dd7416f_c0d1dad8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:47:21Z",
+      "side": 1,
+      "message": "I would find it easier if we didn\u0027t use inconsistent naming everywhere already :)\n\nWe can\u0027t change the underlying ReviewDb type names until we remove the tables. Until then, as long as we use \"subgroup\" anywhere, there has to be *some* code where the input is a ById and the output is a Subgroup. The question is, where is that mismatched code going to be?\n\nGroupBundle is a bundle of the low-level types read from ReviewDb, so I don\u0027t think it should be here, I think this type should match ReviewDb exclusively.",
+      "parentUuid": "c9dd89ad_ae186785",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 68
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d32e38e_d94621be",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
         "patchSetId": 18

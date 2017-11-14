@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19bd8cef_73bd0875",
+        "filename": "java/com/google/gerrit/server/config/ConfigResource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T17:25:18Z",
+      "side": 1,
+      "message": "?",
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

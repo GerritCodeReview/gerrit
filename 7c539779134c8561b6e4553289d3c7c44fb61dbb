@@ -22,6 +22,30 @@
       "revId": "7c539779134c8561b6e4553289d3c7c44fb61dbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01514cf3_064479b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T01:57:22Z",
+      "side": 1,
+      "message": "Should it be green like it was a couple of patchset ago?",
+      "parentUuid": "c2a5bbe7_20113cab",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "7c539779134c8561b6e4553289d3c7c44fb61dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

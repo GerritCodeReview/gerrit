@@ -22,6 +22,30 @@
       "revId": "23adff788166d9ced688659bef990bb80f0bed23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b96d22_a2dcfe97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T13:15:34Z",
+      "side": 1,
+      "message": "Why?\n\nIt will allow me to use this in the delete project plugin to redirect\nafter deleting a project.",
+      "parentUuid": "33539d5a_0b46b4c5",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "23adff788166d9ced688659bef990bb80f0bed23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,9 +1,11 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-junit_tests(
-    name = "lucene_query_test",
-    size = "large",
-    srcs = glob(["*.java"]),
+ABSTRACT_QUERY_TEST = ["AbstractQueryAccountsTest.java"]
+
+java_library(
+    name = "abstract_query_tests",
+    testonly = 1,
+    srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
@@ -12,6 +14,23 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:truth",
+        "//lib/guice",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+    ],
+)
+
+junit_tests(
+    name = "lucene_query_test",
+    size = "large",
+    srcs = glob(
+        ["*.java"],
+        exclude = ABSTRACT_QUERY_TEST,
+    ),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":abstract_query_tests",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],

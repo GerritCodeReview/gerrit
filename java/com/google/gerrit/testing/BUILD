@@ -26,6 +26,7 @@ java_library(
         "//java/com/google/gerrit/server/api",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/restapi",
         "//lib:gwtorm",
         "//lib:h2",
         "//lib:truth",

@@ -115,7 +115,9 @@ public class AccountDeactivator implements Runnable {
   private boolean processAccount(AccountState account) {
     log.debug("processing account " + account.getUserName());
     try {
-      if (account.getUserName() != null && !realm.isActive(account.getUserName())) {
+      if (account.getUserName() != null
+          && realm.accountBelongsToRealm(account.getExternalIds())
+          && !realm.isActive(account.getUserName())) {
         sif.deactivate(account.getAccount().getId());
         log.info("deactivated account " + account.getUserName());
         return true;

@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -340,6 +341,16 @@ class LdapRealm extends AbstractRealm {
         log.warn("Cannot close LDAP query handle", e);
       }
     }
+  }
+
+  @Override
+  public boolean accountBelongsToRealm(Collection<ExternalId> externalIds) {
+    for (ExternalId id : externalIds) {
+      if (id.toString().contains(SCHEME_GERRIT)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

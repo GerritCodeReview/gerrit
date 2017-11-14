@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "e9ba878a_86cad280",
+        "filename": "java/com/google/gerrit/server/config/ConfigResource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T21:12:50Z",
+      "side": 1,
+      "message": "Ah, I was confused because I was diffing against a previous patch set, sorry for the noise.",
+      "parentUuid": "4d88e97d_c904b499",
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53282444_2ec19cac",
         "filename": "java/com/google/gerrit/server/config/rest/ConfigRestModule.java",
         "patchSetId": 10

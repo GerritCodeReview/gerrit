@@ -51,6 +51,30 @@
     },
     {
       "key": {
+        "uuid": "1af4261f_d5c67439",
+        "filename": "java/com/google/gerrit/server/group/AddMembers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T15:52:14Z",
+      "side": 1,
+      "message": "Well, I agree. When we add those other tests for NoteDb, I would just like to have an explicit test which documents the order (whichever we choose).",
+      "parentUuid": "d6121226_bfb0da70",
+      "range": {
+        "startLine": 125,
+        "startChar": 39,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9dd89ad_ae186785",
         "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
         "patchSetId": 18

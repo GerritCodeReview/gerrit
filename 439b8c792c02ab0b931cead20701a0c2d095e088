@@ -16,6 +16,24 @@
       "revId": "439b8c792c02ab0b931cead20701a0c2d095e088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0ad154_a5828919",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-11-14T07:21:13Z",
+      "side": 1,
+      "message": "As you said, submit is a special case. I don\u0027t see a practical reason why a typical setup will change the permissions for abandon for the same user.\n\nFor submit, however, this makes sense (before a release is scheduled, the project manager might want to pick only critical changes, and block developers from submitting). That\u0027s our use-case anyway.\n\nAnd Submit already has the feature of visible-but-disabled for other cases (mostly for dependencies), so this is another case that is worth considering.",
+      "parentUuid": "bedc20dc_15d4b216",
+      "revId": "439b8c792c02ab0b931cead20701a0c2d095e088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

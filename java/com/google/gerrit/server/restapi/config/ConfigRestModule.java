@@ -12,23 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.restapi.config;
 
-import static com.google.gerrit.server.config.CapabilityResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
-import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
-import static com.google.gerrit.server.config.TopMenuResource.TOP_MENU_KIND;
+import static com.google.gerrit.server.restapi.config.TaskResource.TASK_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 
-public class Module extends RestApiModule {
+public class ConfigRestModule extends RestApiModule {
   @Override
   protected void configure() {
-    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
+    DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
-    DynamicMap.mapOf(binder(), TOP_MENU_KIND);
+    DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     get(TASK_KIND).to(GetTask.class);

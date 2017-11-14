@@ -141,6 +141,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4674fad_d3fb0a36",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T00:14:38Z",
+      "side": 1,
+      "message": "Maybe related https://stackoverflow.com/questions/34206945/polymer-select-values-not-set ?",
+      "parentUuid": "5b90cfb3_d662050a",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

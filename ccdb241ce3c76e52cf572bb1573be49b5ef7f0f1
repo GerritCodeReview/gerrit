@@ -357,6 +357,30 @@
       "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d30ba07_9be71db3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T16:31:50Z",
+      "side": 1,
+      "message": "Ok i\u0027ve found a better solution to this here https://gerrit-review.googlesource.com/#/c/gerrit/+/141254/\n\nwhich also dosent need to generate the values with js. Also found something else that needs fixing too :)",
+      "parentUuid": "63d5aa70_33d15c92",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 127
+      },
+      "revId": "ccdb241ce3c76e52cf572bb1573be49b5ef7f0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

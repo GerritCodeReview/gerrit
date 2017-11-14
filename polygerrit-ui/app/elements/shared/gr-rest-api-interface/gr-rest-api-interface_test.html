@@ -606,24 +606,83 @@ limitations under the License.
       });
     });
 
-    test('_sendDiffDraft pending requests tracked', () => {
-      const obj = element._pendingRequests;
-      sandbox.stub(element, 'getChangeURLAndSend', () => mockPromise());
-      assert.notOk(element.hasPendingDiffDrafts());
+    suite('draft comments', () => {
+      test('_sendDiffDraftRequest pending requests tracked', () => {
+        const obj = element._pendingRequests;
+        sandbox.stub(element, 'getChangeURLAndSend', () => mockPromise());
+        assert.notOk(element.hasPendingDiffDrafts());
 
-      element._sendDiffDraftRequest(null, null, null, {});
-      assert.equal(obj.sendDiffDraft.length, 1);
-      assert.isTrue(!!element.hasPendingDiffDrafts());
+        element._sendDiffDraftRequest(null, null, null, {});
+        assert.equal(obj.sendDiffDraft.length, 1);
+        assert.isTrue(!!element.hasPendingDiffDrafts());
 
-      element._sendDiffDraftRequest(null, null, null, {});
-      assert.equal(obj.sendDiffDraft.length, 2);
-      assert.isTrue(!!element.hasPendingDiffDrafts());
+        element._sendDiffDraftRequest(null, null, null, {});
+        assert.equal(obj.sendDiffDraft.length, 2);
+        assert.isTrue(!!element.hasPendingDiffDrafts());
 
-      for (const promise of obj.sendDiffDraft) { promise.resolve(); }
+        for (const promise of obj.sendDiffDraft) { promise.resolve(); }
 
-      return element.awaitPendingDiffDrafts().then(() => {
-        assert.equal(obj.sendDiffDraft.length, 0);
-        assert.isFalse(!!element.hasPendingDiffDrafts());
+        return element.awaitPendingDiffDrafts().then(() => {
+          assert.equal(obj.sendDiffDraft.length, 0);
+          assert.isFalse(!!element.hasPendingDiffDrafts());
+        });
+      });
+
+      suite('_failForCreate200', () => {
+        test('_sendDiffDraftRequest checks for 200 on create', () => {
+          const sendPromise = Promise.resolve();
+          sandbox.stub(element, 'getChangeURLAndSend').returns(sendPromise);
+          const failStub = sandbox.stub(element, '_failForCreate200')
+              .returns(Promise.resolve());
+          return element._sendDiffDraftRequest('PUT', 123, 4, {}).then(() => {
+            assert.isTrue(failStub.calledOnce);
+            assert.isTrue(failStub.calledWithExactly(sendPromise));
+          });
+        });
+
+        test('_sendDiffDraftRequest no checks for 200 on non create', () => {
+          sandbox.stub(element, 'getChangeURLAndSend')
+              .returns(Promise.resolve());
+          const failStub = sandbox.stub(element, '_failForCreate200')
+              .returns(Promise.resolve());
+          return element._sendDiffDraftRequest('PUT', 123, 4, {id: '123'})
+              .then(() => {
+                assert.isFalse(failStub.called);
+              });
+        });
+
+        test('_failForCreate200 fails on 200', done => {
+          const result = {
+            ok: true,
+            status: 200,
+            headers: {entries: () => [
+              ['Set-CoOkiE', 'secret'],
+              ['Innocuous', 'hello'],
+            ]},
+          };
+          element._failForCreate200(Promise.resolve(result)).then(() => {
+            assert.isTrue(false, 'Promise should not resolve');
+          }).catch(e => {
+            assert.isOk(e);
+            assert.include(e.message, 'Saving draft resulted in HTTP 200');
+            assert.include(e.message, 'hello');
+            assert.notInclude(e.message, 'secret');
+            done();
+          });
+        });
+
+        test('_failForCreate200 does not fail on 201', done => {
+          const result = {
+            ok: true,
+            status: 201,
+            headers: {entries: () => []},
+          };
+          element._failForCreate200(Promise.resolve(result)).then(() => {
+            done();
+          }).catch(e => {
+            assert.isTrue(false, 'Promise should not fail');
+          });
+        });
       });
     });
 

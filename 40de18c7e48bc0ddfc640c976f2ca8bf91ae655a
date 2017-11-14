@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "037c9ef0_a19efe70",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T20:10:29Z",
+      "side": 1,
+      "message": "We do have some special handling in tree build for so-called core plugins. And we recently added some means to extend core plugins with custom plugins. Say gerrit site would like to add delete-project and lfs-plugin, then those plugins could be added to: CUSTOM_PLUGINS in tools/bzl/plugins.bzl:\n\n  CUSTOM_PLUGINS \u003d [\n    # Add custom core plugins here\n  ]\n\nSo, something similar could be added for JS plugins with external dependencies. I would also recommend to talk to Dave and Han-Wen as they implemented Buck/Bazel build tool chain for PG.",
+      "parentUuid": "03fa0c9d_bc36dd44",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

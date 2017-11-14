@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8f082bd_61eed5bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T00:27:30Z",
+      "side": 1,
+      "message": "Worth adding a test for \"/MERGE_LIST\" (our other magical diff path)?",
+      "revId": "7acdd8387b89a6f477246e1e5d5d8466012b5b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

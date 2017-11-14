@@ -20,6 +20,7 @@ import java.util.Objects;
 public class ConsistencyCheckInfo {
   public CheckAccountsResultInfo checkAccountsResult;
   public CheckAccountExternalIdsResultInfo checkAccountExternalIdsResult;
+  public CheckGroupsResultInfo checkGroupsResult;
 
   public static class CheckAccountsResultInfo {
     public List<ConsistencyProblemInfo> problems;
@@ -33,6 +34,14 @@ public class ConsistencyCheckInfo {
     public List<ConsistencyProblemInfo> problems;
 
     public CheckAccountExternalIdsResultInfo(List<ConsistencyProblemInfo> problems) {
+      this.problems = problems;
+    }
+  }
+
+  public static class CheckGroupsResultInfo {
+    public List<ConsistencyProblemInfo> problems;
+
+    public CheckGroupsResultInfo(List<ConsistencyProblemInfo> problems) {
       this.problems = problems;
     }
   }

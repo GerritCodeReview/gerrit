@@ -117,10 +117,9 @@ limitations under the License.
                       id="contentMergeSelect"
                       bind-value="{{_projectConfig.use_content_merge.configured_value}}">
                     <select disabled$="[[_readOnly]]">
-                      <template is="dom-repeat"
-                          items="[[_formatBooleanSelect(_projectConfig.use_content_merge)]]">
-                        <option value="[[item.value]]">[[item.label]]</option>
-                      </template>
+                      <option value="INHERIT">[[computeInheritValue(_projectConfig.use_content_merge)]]</option>
+                      <option value="TRUE">True</option>
+                      <option value="FALSE">False</option>
                     </select>
                   </gr-select>
                 </span>

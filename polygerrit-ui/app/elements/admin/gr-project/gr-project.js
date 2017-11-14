@@ -162,6 +162,16 @@
       });
     },
 
+    computeInheritValue(item) {
+      if (!item) { return; }
+      let inheritLabel = 'Inherit';
+      if (item.inherited_value) {
+        inheritLabel = `Inherit (${item.inherited_value})`;
+      }
+
+      return inheritLabel;
+    },
+
     _formatBooleanSelect(item) {
       if (!item) { return; }
       let inheritLabel = 'Inherit';

@@ -19,6 +19,7 @@ import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.git.WorkQueue;
@@ -86,13 +87,18 @@ public class AccountDeactivator implements Runnable {
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Realm realm;
   private final SetInactiveFlag sif;
+  private final ExternalIds externalIds;
 
   @Inject
   AccountDeactivator(
-      Provider<InternalAccountQuery> accountQueryProvider, SetInactiveFlag sif, Realm realm) {
+      Provider<InternalAccountQuery> accountQueryProvider,
+      SetInactiveFlag sif,
+      Realm realm,
+      ExternalIds externalIds) {
     this.accountQueryProvider = accountQueryProvider;
     this.sif = sif;
     this.realm = realm;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -115,7 +121,9 @@ public class AccountDeactivator implements Runnable {
   private boolean processAccount(AccountState account) {
     log.debug("processing account " + account.getUserName());
     try {
-      if (account.getUserName() != null && !realm.isActive(account.getUserName())) {
+      if (account.getUserName() != null
+          && realm.accBelongsToRealm(account.getExternalIds())
+          && !realm.isActive(account.getUserName())) {
         sif.deactivate(account.getAccount().getId());
         log.info("deactivated account " + account.getUserName());
         return true;

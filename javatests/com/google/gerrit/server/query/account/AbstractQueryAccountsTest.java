@@ -652,5 +652,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       }
       return Arrays.equals(arr, ((ByteArrayWrapper) other).arr);
     }
+
+    @Override
+    public int hashCode() {
+      return Arrays.hashCode(arr);
+    }
   }
 }

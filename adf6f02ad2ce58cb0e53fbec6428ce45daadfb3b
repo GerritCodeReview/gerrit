@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4edc10e_dd5eb66f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T00:03:12Z",
+      "side": 1,
+      "message": "Is the leading space important? I guess it\u0027s in the existing tests.",
+      "range": {
+        "startLine": 164,
+        "startChar": 14,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eff9aa60_fb53dbda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T00:03:12Z",
+      "side": 1,
+      "message": "Nit: can just return the promise.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63fe14c_23d69809",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-14T00:03:12Z",
+      "side": 1,
+      "message": "Nit: indentation.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 6
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

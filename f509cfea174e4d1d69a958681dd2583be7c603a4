@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510677887 -0500\nnonce AMT3iFiu3bw4WFeoCHe2wSAie2wTtUMGfXcAe4gXpSZPHLC4njxLdTOraIfBqlnvzMXWo1JbqYhT\n\n0000000000000000000000000000000000000000 f509cfea174e4d1d69a958681dd2583be7c603a4 refs/for/master%r\u003daliceks,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloLHX8VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMeysQANWQSL1ZOC9WNaXsSmSnhSixxlxb\nsRMdfllNlHvAfbhnCd7U3VSkKJtYVJIsNX09vpC5rG0e4rxA4cqhPK7UGyHB9+Y3\nTUMhRP71LAYq0aL4JQMYGyA77XoAEYtkUwVTICFwZVjqhXGUEniM+kbvTBgHWsqB\nn5wrqow6lachpp9AxD98+lFjHz9OaDfUtXmbat9Gn1DiAv9ohyMLogvkXm50Jj1V\nxiPWC2dqWStLSHFEYDaiL5C/5OJ+SBR5VZJGh4O5NJBKjsVBxS83WJruZ1Iuj80Z\nXQMXKDq/tNRgPNMDBgRFhSMN+MESMmw/E15vg2uxAqpDC3jsJndJlmJ6/YHEJGfq\nJwWt/fxIrZpuAM0X+TnP8AhumTTmSt5c5FC+zVuapwxKqqhT7uu31JiyAwVZhxcK\n7Op/5U3MoKerBJ+wOeasFE9EjuBdhlnnKohtUZz4GP/FpyYDDrpv/qJ6inlD6Hvi\nZ5wVgQaaML6V5LsWGtanWCgU1tC5gj7ymdTZTqi4AmbgDEr4E9vRSD+FpKg2ojrF\nmXz0WLzDyeAt4p6Y3i+gKiE6rcSbjV+bJWJ4pDkO6qPxcSxWHMmIHVE9wv1GFw1L\na7iBNYjTYZ9iiAlP3nazJsD9W56l1Qckh+CSzD8Ud/L1VmR9ZesYRcUMEgQtrlPE\n0ORrrYJSzBTtMSEH\n\u003dxaQq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb702c6e_d4bf728f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T17:32:36Z",
+      "side": 1,
+      "message": "optional: This will probably annoy some static code analyzers even though the stream is never empty. We could use .orElseGet(TimeUtil::nowTs) instead.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 19
+      },
+      "revId": "f509cfea174e4d1d69a958681dd2583be7c603a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb1ef6b5_0f17168c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupRebuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T17:32:36Z",
+      "side": 1,
+      "message": "Can we cast to NavigableSet here because a TreeSet is used for the keys in line 172? A comment would be nice.",
+      "range": {
+        "startLine": 220,
+        "startChar": 18,
+        "endLine": 220,
+        "endChar": 55
+      },
+      "revId": "f509cfea174e4d1d69a958681dd2583be7c603a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -17,9 +17,11 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -36,6 +38,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -45,6 +48,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -524,6 +528,53 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // user2 can't see the starred changes ref of admin's star
     assertThat(lsRemote(allUsersName, accountCreator.user2())).doesNotContain(starredChangesRef);
+  }
+
+  @Test
+  public void hideMetaRefs() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    try {
+      // create change
+      TestRepository<?> allUsersRepo = cloneProject(allUsers);
+      fetch(allUsersRepo, RefNames.REFS_USERS_SELF + ":userRef");
+      allUsersRepo.reset("userRef");
+      PushOneCommit.Result mr =
+          pushFactory
+              .create(db, admin.getIdent(), allUsersRepo)
+              .to("refs/for/" + RefNames.REFS_USERS_SELF);
+      mr.assertOkStatus();
+
+      List<String> expectedNonMetaRefs =
+          ImmutableList.of(
+              RefNames.REFS_USERS_SELF,
+              RefNames.refsUsers(admin.id),
+              RefNames.refsUsers(user.id),
+              RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
+              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS);
+
+      List<String> expectedMetaRefs =
+          new ArrayList<>(
+              ImmutableList.of(RefNames.REFS_EXTERNAL_IDS, mr.getPatchSetId().toRefName()));
+      if (NoteDbMode.get() != NoteDbMode.OFF) {
+        expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
+      }
+
+      List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
+      expectedAllRefs.addAll(expectedMetaRefs);
+
+      setApiUser(user);
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        Map<String, Ref> all = repo.getAllRefs();
+
+        VisibleRefFilter filter = refFilterFactory.create(projectCache.get(allUsers), repo);
+        assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expectedAllRefs);
+
+        assertThat(filter.setShowMetadata(false).filter(all, false).keySet())
+            .containsExactlyElementsIn(expectedNonMetaRefs);
+      }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    }
   }
 
   private List<String> lsRemote(Project.NameKey p, TestAccount a) throws Exception {

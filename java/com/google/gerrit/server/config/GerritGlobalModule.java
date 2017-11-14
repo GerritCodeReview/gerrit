@@ -103,6 +103,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
+import com.google.gerrit.server.config.rest.ConfigRestModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -305,7 +306,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.change.Module());
-    install(new com.google.gerrit.server.config.Module());
+    install(new ConfigRestModule());
     install(new com.google.gerrit.server.group.Module(groupsMigration));
     install(new com.google.gerrit.server.project.Module());
 

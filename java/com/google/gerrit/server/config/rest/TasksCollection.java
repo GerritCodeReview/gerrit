@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;

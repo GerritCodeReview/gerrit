@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import static java.util.stream.Collectors.toList;
 
@@ -48,6 +48,16 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.config.AgreementJson;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;

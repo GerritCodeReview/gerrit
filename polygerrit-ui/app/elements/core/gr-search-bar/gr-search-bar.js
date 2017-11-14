@@ -335,8 +335,9 @@
     },
 
     _handleForwardSlashKey(e) {
+      const keyboardEvent = this.getKeyboardEvent(e);
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+          (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }
 
       e.preventDefault();
       this.$.searchInput.focus();

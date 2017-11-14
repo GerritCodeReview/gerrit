@@ -4,4 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "rest_config",
     labels = ["rest"],
+    deps = [
+        "//java/com/google/gerrit/server/config/rest",
+    ],
 )

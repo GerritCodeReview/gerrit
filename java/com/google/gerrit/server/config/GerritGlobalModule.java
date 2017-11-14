@@ -108,7 +108,7 @@ import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.git.AbandonOp;
+import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;

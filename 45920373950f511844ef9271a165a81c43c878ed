@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f92b4071_6746573d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-14T23:47:59Z",
+      "side": 1,
+      "message": "The commit message should be more specific about what is fixed.\n\nIdeally each distinct issue should be fixed in a separate commit.",
+      "revId": "45920373950f511844ef9271a165a81c43c878ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d114c118_585ef64e",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-14T23:47:59Z",
+      "side": 1,
+      "message": "Fails on error_prone:\n\n error: [ArrayHashCode] hashcode method on array does not hash array contents",
+      "range": {
+        "startLine": 659,
+        "startChar": 13,
+        "endLine": 659,
+        "endChar": 30
+      },
+      "revId": "45920373950f511844ef9271a165a81c43c878ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

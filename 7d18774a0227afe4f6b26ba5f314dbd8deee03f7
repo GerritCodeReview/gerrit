@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510665900 -0500\nnonce AMT3iFgR69ONScADUZZ/2l7UnbEmT4pz4sD5S1oiR2OM5ZpbNPZy2goA9fKEEhe48Rpb2pz3TuH0\n\n0000000000000000000000000000000000000000 7d18774a0227afe4f6b26ba5f314dbd8deee03f7 refs/for/master%r\u003dxchangcheng@google.com,r\u003dhiesel@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloK7qwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMgDwP/jcHYpOU2mqBUsYNdzOON7ex9M2A\ntGCwKLAdbE1m9OHHM0fRWxLsaTDWIc7SUE2zLUVezWzIG7VZ5vU4G27wZsIehNVc\nAW4oZ7Oi+IsNOxuVLJfqYI/PVbs7tmz4tcjuZB3oR7SNoguKw8UCTfEXMPc5V+EE\n97SGPWOek0um2EKnYM/4N7XfNlITNQRHsRlLAh2ONDEyb2IO0JtCZbWlVsHW7ZKH\noUcgDh3Ciwtjx6HN8xHiBGEDYixYVapRPu3+Km9kTEZyDCixGqpmcG4joIy51jRK\nxb1jCh6BNUqCGrcOhGTge5p3HG2DvbuDeTcYGMc1de1Rg0IvJDE1B9q739ForoL5\nop5OoMch1jDmVVq3+kq8W9DPJRCsI6/QgAGgkq6w8SC0VBVTg5hJlcZGswXOZMXD\nSxK40g/3o1luKBmnhxqI1aPkTNtqnyXYiZOCfEEhHyZ9PQTVJyliGNkG4kebshyS\n5oAPhUme2hfZ0WqFHzBVKnp5uokyFzKaAjeysiS9Rtd6XPIBCk/D7A18tgFkuxcm\nWwAvGsm63MjI0XS26yQwvkdqgcnIWELQALI1oLoZx51Xjvlckf5ZAeVwmlq0PYwN\nCYSAwEbaARk6Lmx5xKPq13f3qjC7rytJG3UHSNIrIdYdJtsHPmh9EGGgo77071qO\nj3HKuJi64J082YOy\n\u003dD+bx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb7b752f_df370296",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-14T13:34:53Z",
+      "side": 1,
+      "message": "(optional) Cut down on boiler plate by adding:\n\n  public abstract Builder builder();\n\nto the AutoValue to have a prepopulated builder and only set the values you want to overwrite.",
+      "revId": "7d18774a0227afe4f6b26ba5f314dbd8deee03f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

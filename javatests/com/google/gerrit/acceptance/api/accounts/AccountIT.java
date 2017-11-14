@@ -90,6 +90,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -111,7 +112,6 @@ import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
@@ -980,8 +980,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(
-      name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
   public void addEmailSendsConfirmationEmail() throws Exception {
     String email = "new.email@example.com";
     EmailInput input = newEmailInput(email, false);
@@ -994,8 +995,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(
-      name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
   public void addEmailToBeConfirmedToOwnAccount() throws Exception {
     TestAccount user = accountCreator.create();
     setApiUser(user);
@@ -1018,8 +1020,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(
-      name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+    name = "auth.registerEmailPrivateKey",
+    value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co="
+  )
   public void addEmailToBeConfirmedToOtherAccount() throws Exception {
     TestAccount user = accountCreator.create();
     String email = "me@example.com";

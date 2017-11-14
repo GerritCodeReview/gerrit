@@ -55,6 +55,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -70,7 +71,6 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 import java.io.IOException;
@@ -1091,8 +1091,9 @@ class ChangeNotesParser {
             approvals.values(), PatchSetApproval::getPatchSetId, missing);
 
     if (!missing.isEmpty()) {
-      logger.atWarning().log(
-          "ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
+      logger
+          .atWarning()
+          .log("ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
     }
   }
 

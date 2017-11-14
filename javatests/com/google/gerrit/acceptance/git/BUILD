@@ -16,6 +16,7 @@ java_library(
     srcs = ["AbstractPushForReview.java"],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
+        "//java/com/google/gerrit/mail",
     ],
 )
 

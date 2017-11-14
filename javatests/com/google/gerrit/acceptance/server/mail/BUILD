@@ -3,6 +3,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 DEPS = [
     "//lib/greenmail",
     "//lib/mail",
+    "//java/com/google/gerrit/mail",
 ]
 
 acceptance_tests(

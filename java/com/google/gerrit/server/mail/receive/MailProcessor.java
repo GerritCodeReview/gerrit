@@ -26,6 +26,12 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.mail.HtmlParser;
+import com.google.gerrit.mail.MailComment;
+import com.google.gerrit.mail.MailHeaderParser;
+import com.google.gerrit.mail.MailMessage;
+import com.google.gerrit.mail.MailMetadata;
+import com.google.gerrit.mail.TextParser;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -144,9 +150,11 @@ public class MailProcessor {
       throws OrmException, UpdateException, RestApiException, IOException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
-        logger.atWarning().log(
-            "Message %s filtered by plugin %s %s. Will delete message.",
-            message.id(), filter.getPluginName(), filter.getExportName());
+        logger
+            .atWarning()
+            .log(
+                "Message %s filtered by plugin %s %s. Will delete message.",
+                message.id(), filter.getPluginName(), filter.getExportName());
         return;
       }
     }
@@ -154,9 +162,11 @@ public class MailProcessor {
     MailMetadata metadata = MailHeaderParser.parse(message);
 
     if (!metadata.hasRequiredFields()) {
-      logger.atSevere().log(
-          "Message %s is missing required metadata, have %s. Will delete message.",
-          message.id(), metadata);
+      logger
+          .atSevere()
+          .log(
+              "Message %s is missing required metadata, have %s. Will delete message.",
+              message.id(), metadata);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
       return;
     }
@@ -164,10 +174,12 @@ public class MailProcessor {
     Set<Account.Id> accountIds = emails.getAccountFor(metadata.author);
 
     if (accountIds.size() != 1) {
-      logger.atSevere().log(
-          "Address %s could not be matched to a unique account. It was matched to %s."
-              + " Will delete message.",
-          metadata.author, accountIds);
+      logger
+          .atSevere()
+          .log(
+              "Address %s could not be matched to a unique account. It was matched to %s."
+                  + " Will delete message.",
+              metadata.author, accountIds);
 
       // We don't want to send an email if no accounts are linked to it.
       if (accountIds.size() > 1) {
@@ -207,11 +219,13 @@ public class MailProcessor {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
-        logger.atSevere().log(
-            "Message %s references unique change %s,"
-                + " but there are %d matching changes in the index."
-                + " Will delete message.",
-            message.id(), metadata.changeNumber, changeDataList.size());
+        logger
+            .atSevere()
+            .log(
+                "Message %s references unique change %s,"
+                    + " but there are %d matching changes in the index."
+                    + " Will delete message.",
+                message.id(), metadata.changeNumber, changeDataList.size());
 
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
@@ -241,8 +255,9 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        logger.atWarning().log(
-            "Could not parse any comments from %s. Will delete message.", message.id());
+        logger
+            .atWarning()
+            .log("Could not parse any comments from %s. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
         return;
       }
@@ -283,7 +298,7 @@ public class MailProcessor {
 
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
-        if (c.type == MailComment.CommentType.CHANGE_MESSAGE) {
+        if (c.getType() == MailComment.CommentType.CHANGE_MESSAGE) {
           continue;
         }
         comments.add(
@@ -301,8 +316,8 @@ public class MailProcessor {
     @Override
     public void postUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
-        patchSetComment = parsedComments.get(0).message;
+      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
+        patchSetComment = parsedComments.get(0).getMessage();
       }
       // Send email notifications
       outgoingMailFactory
@@ -343,12 +358,12 @@ public class MailProcessor {
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {
       String changeMsg = "Patch Set " + psId.get() + ":";
-      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
+      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         // Add a blank line after Patch Set to follow the default format
         if (parsedComments.size() > 1) {
           changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
         }
-        changeMsg += "\n\n" + parsedComments.get(0).message;
+        changeMsg += "\n\n" + parsedComments.get(0).getMessage();
       } else {
         changeMsg += "\n\n" + numComments(parsedComments.size());
       }
@@ -357,11 +372,11 @@ public class MailProcessor {
 
     private PatchSet targetPatchSetForComment(
         ChangeContext ctx, MailComment mailComment, PatchSet current) throws OrmException {
-      if (mailComment.inReplyTo != null) {
+      if (mailComment.getInReplyTo() != null) {
         return psUtil.get(
             ctx.getDb(),
             ctx.getNotes(),
-            new PatchSet.Id(ctx.getChange().getId(), mailComment.inReplyTo.key.patchSetId));
+            new PatchSet.Id(ctx.getChange().getId(), mailComment.getInReplyTo().key.patchSetId));
       }
       return current;
     }
@@ -373,11 +388,11 @@ public class MailProcessor {
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
       Side side;
-      if (mailComment.inReplyTo != null) {
-        fileName = mailComment.inReplyTo.key.filename;
-        side = Side.fromShort(mailComment.inReplyTo.side);
+      if (mailComment.getInReplyTo() != null) {
+        fileName = mailComment.getInReplyTo().key.filename;
+        side = Side.fromShort(mailComment.getInReplyTo().side);
       } else {
-        fileName = mailComment.fileName;
+        fileName = mailComment.getFileName();
         side = Side.REVISION;
       }
 
@@ -387,16 +402,16 @@ public class MailProcessor {
               fileName,
               patchSetForComment.getId(),
               (short) side.ordinal(),
-              mailComment.message,
+              mailComment.getMessage(),
               false,
               null);
 
       comment.tag = tag;
-      if (mailComment.inReplyTo != null) {
-        comment.parentUuid = mailComment.inReplyTo.key.uuid;
-        comment.lineNbr = mailComment.inReplyTo.lineNbr;
-        comment.range = mailComment.inReplyTo.range;
-        comment.unresolved = mailComment.inReplyTo.unresolved;
+      if (mailComment.getInReplyTo() != null) {
+        comment.parentUuid = mailComment.getInReplyTo().key.uuid;
+        comment.lineNbr = mailComment.getInReplyTo().lineNbr;
+        comment.range = mailComment.getInReplyTo().range;
+        comment.unresolved = mailComment.getInReplyTo().unresolved;
       }
       CommentsUtil.setCommentRevId(comment, patchListCache, ctx.getChange(), patchSetForComment);
       return comment;

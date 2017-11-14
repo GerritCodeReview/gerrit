@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -42,7 +43,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -261,8 +261,10 @@ public class PostReviewersOp implements BatchUpdateOp {
       cm.addExtraCCByEmail(copiedByEmail);
       cm.send();
     } catch (Exception err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot send email to new reviewers of change %s", change.getId());
+      logger
+          .atSevere()
+          .withCause(err)
+          .log("Cannot send email to new reviewers of change %s", change.getId());
     }
   }
 

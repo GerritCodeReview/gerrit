@@ -15,7 +15,8 @@
 package com.google.gerrit.server.mail;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.mail.MailMessage;
 import com.google.inject.Singleton;
 
 /** Filters out auto-reply messages according to RFC 3834. */
@@ -30,8 +31,11 @@ public class AutoReplyMailFilter implements MailFilter {
         String prec = header.substring(MailHeader.PRECEDENCE.fieldWithDelimiter().length()).trim();
 
         if (prec.equals("list") || prec.equals("junk") || prec.equals("bulk")) {
-          logger.atSevere().log(
-              "Message %s has a Precedence header. Will ignore and delete message.", message.id());
+          logger
+              .atSevere()
+              .log(
+                  "Message %s has a Precedence header. Will ignore and delete message.",
+                  message.id());
           return false;
         }
 
@@ -40,9 +44,11 @@ public class AutoReplyMailFilter implements MailFilter {
             header.substring(MailHeader.AUTO_SUBMITTED.fieldWithDelimiter().length()).trim();
 
         if (!autoSubmitted.equals("no")) {
-          logger.atSevere().log(
-              "Message %s has an Auto-Submitted header. Will ignore and delete message.",
-              message.id());
+          logger
+              .atSevere()
+              .log(
+                  "Message %s has an Auto-Submitted header. Will ignore and delete message.",
+                  message.id());
           return false;
         }
       }

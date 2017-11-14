@@ -15,6 +15,9 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.mail.MailMessage;
+import com.google.gerrit.mail.MailParsingException;
+import com.google.gerrit.mail.RawMailParser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
@@ -108,8 +111,9 @@ public class ImapMailReceiver extends MailReceiver {
                 if (imap.store(i + ":" + i, "+FLAGS", "(\\Deleted)")) {
                   pendingDeletion.remove(mailMessage.id());
                 } else {
-                  logger.atSevere().log(
-                      "Could not mark mail message as deleted: %s", mailMessage.id());
+                  logger
+                      .atSevere()
+                      .log("Could not mark mail message as deleted: %s", mailMessage.id());
                 }
               } else {
                 mailMessages.add(mailMessage);

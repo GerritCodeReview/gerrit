@@ -91,6 +91,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -123,7 +124,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -500,8 +500,10 @@ public class ChangeJson {
                 ensureLoaded(Collections.singleton(cd));
                 return Optional.of(format(cd, Optional.empty(), false));
               } catch (OrmException | RuntimeException e) {
-                logger.atWarning().withCause(e).log(
-                    "Omitting corrupt change %s from results", cd.getId());
+                logger
+                    .atWarning()
+                    .withCause(e)
+                    .log("Omitting corrupt change %s from results", cd.getId());
                 return Optional.empty();
               }
             });

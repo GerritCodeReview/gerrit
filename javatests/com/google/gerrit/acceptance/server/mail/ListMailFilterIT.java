@@ -21,8 +21,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailMessage;
+import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
 import com.google.inject.Inject;
 import java.time.ZoneId;
@@ -47,8 +47,9 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
   @GerritConfig(
-      name = "receiveemail.filter.patterns",
-      values = {".+ser@example\\.com", "a@b\\.com"})
+    name = "receiveemail.filter.patterns",
+    values = {".+ser@example\\.com", "a@b\\.com"}
+  )
   public void listFilterWhitelistDoesNotFilterListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
@@ -59,8 +60,9 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
   @GerritConfig(
-      name = "receiveemail.filter.patterns",
-      values = {".+@gerritcodereview\\.com", "a@b\\.com"})
+    name = "receiveemail.filter.patterns",
+    values = {".+@gerritcodereview\\.com", "a@b\\.com"}
+  )
   public void listFilterWhitelistFiltersNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have NOT been persisted
@@ -74,8 +76,9 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
   @GerritConfig(
-      name = "receiveemail.filter.patterns",
-      values = {".+@gerritcodereview\\.com", "a@b\\.com"})
+    name = "receiveemail.filter.patterns",
+    values = {".+@gerritcodereview\\.com", "a@b\\.com"}
+  )
   public void listFilterBlacklistDoesNotFilterNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
@@ -86,8 +89,9 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
   @GerritConfig(
-      name = "receiveemail.filter.patterns",
-      values = {".+@example\\.com", "a@b\\.com"})
+    name = "receiveemail.filter.patterns",
+    values = {".+@example\\.com", "a@b\\.com"}
+  )
   public void listFilterBlacklistFiltersListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
@@ -100,7 +104,7 @@ public class ListMailFilterIT extends AbstractMailIT {
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
     String ts =
-        MailUtil.rfcDateformatter.format(
+        MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message

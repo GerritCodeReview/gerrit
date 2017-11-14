@@ -24,7 +24,6 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +33,6 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 public class MailUtil {
-  public static DateTimeFormatter rfcDateformatter =
-      DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss ZZZ");
 
   public static MailRecipients getRecipientsFromFooters(
       AccountResolver accountResolver, List<FooterLine> footerLines)

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a49a79cd_8e556630",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T00:42:19Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s so that there is a space in between the patch number and comments (if they exist)",
+      "parentUuid": "d4edc10e_dd5eb66f",
+      "range": {
+        "startLine": 164,
+        "startChar": 14,
+        "endLine": 164,
+        "endChar": 15
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eff9aa60_fb53dbda",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a0ab0657_b2bb3a95",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T00:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff9aa60_fb53dbda",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e63fe14c_23d69809",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
         "patchSetId": 12
@@ -68,6 +116,30 @@
       "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d2cfda3_1c2f5cab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T00:42:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e63fe14c_23d69809",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 6
+      },
+      "revId": "adf6f02ad2ce58cb0e53fbec6428ce45daadfb3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

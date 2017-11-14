@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510665360 -0500\nnonce AMT3iFh0d+umXSlL6/EjC2h029sVzDKk9Y9bZkhVOReKFi2HxHfD5vlFpnC1W/CzIFpVFq+GPVzS\n\n0000000000000000000000000000000000000000 d6007db5451d4369f29d50e74ef967a389b59520 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloK7JEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMU8UQANWrSsk2suROnx1k5mPUWoC+KgSc\n+/CYsixmexPQe1Ew9sAItj/7HEms7rEMZzzG2FVdUNZqbTZ4bKvXjNEP0YeNrazt\nBS3PBfRZOR0KR0qPn02n48NjVeN6oLCypIXCU5zpgZrxVnSFcZzWb+pL/kRRWb21\nHnrqc1wh4pArSVP8YzEnrTJmp/b2SoWDV/XEpSbZB9fUbA4OLe10aRrDHHN+kCAT\nGliX6YjxJNd9NMo9ZWLPA5aUEU6dFhHAmfg+5qV3oFfwKM3lwTbUTAwKMLhvPC8w\nFHPBHXF9/jCaDmWAb+VT1oNjJm5fbKue+ZDpX7Eyoa4iOVOLJWPWEG6PhgnUfUKH\nl9b3QzZf4Uw6Y4QRwYj7tlaluBpF/uBmnNV9e2YuK0W/PRTK1PX4CBTBqR/g9086\n6dzEMtOWLFmBruxLAWo8tsZp5NYhHYdsjDMfC4Lu24zX4+drmb8HsMDHnbX4cU19\nq+JxOdlovSeV8s0J7DfLdmtpzu6tzT63C2DEvgERImN0AQ9RAnsnOqCIp2nALk+a\n6Br5UpPO2Ij/ckqAaYbTXjHDe7QpoGw9a7NYC1mSQ1dIenQoY0mlokh1CIIBf1NJ\nBrPmYc2RSQ9tgDwNGqS6TNL6gFUaQOJnyWbDp1nm2gFJJo6VcLSxDExQL5tgXccE\nxQEmh23qp+k4Ih+P\n\u003d1LOy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd1302c7_0d0204da",
+        "filename": "java/com/google/gerrit/server/group/AddMembers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T15:27:19Z",
+      "side": 1,
+      "message": "Changing this to a LinkedHashSet so that we have a deterministic behavior for the current tests (which are for the migration) is fine for me. When we add real tests for the commit message of the NoteDb commits, we shouldn\u0027t rely on the order being deterministic. We never say so anywhere and make no promises.",
+      "range": {
+        "startLine": 125,
+        "startChar": 39,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d32e38e_d94621be",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-14T15:27:19Z",
+      "side": 1,
+      "message": "nit: Aren\u0027t those two lines redundant?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 0
+      },
+      "revId": "d6007db5451d4369f29d50e74ef967a389b59520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

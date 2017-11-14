@@ -327,9 +327,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private boolean isMetadata(String name) {
-    return name.startsWith(REFS_CHANGES)
-        || RefNames.isRefsEdit(name)
-        || (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS));
+    return name.startsWith(REFS_CHANGES) || RefNames.isRefsEdit(name);
   }
 
   private static boolean isTag(Ref ref) {

@@ -550,11 +550,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               RefNames.refsUsers(admin.id),
               RefNames.refsUsers(user.id),
               RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
-              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS);
+              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
+              RefNames.REFS_EXTERNAL_IDS);
 
       List<String> expectedMetaRefs =
-          new ArrayList<>(
-              ImmutableList.of(RefNames.REFS_EXTERNAL_IDS, mr.getPatchSetId().toRefName()));
+          new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
       if (NoteDbMode.get() != NoteDbMode.OFF) {
         expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
       }

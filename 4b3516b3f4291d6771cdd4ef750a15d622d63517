@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18c16622_b8840bcb",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "This widen of visibility should not be needed. We havn\u0027t moved this file and the direction of the dependency graph is gerrit/server \u003d\u003e server/diff.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbb6cd0c_75bce3e3",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "Actually unrelated change.",
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65250fcf_13955244",
+        "filename": "javatests/com/google/gerrit/acceptance/tests.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "This should be exported in //java/com/google/gerrit/acceptance:lib instead of adding it here. Note, that plugins do use just:\n\n  //java/com/google/gerrit/acceptance:lib\n\nAlso note how PLUGIN_TEST_DEPS is defined in tools/bzl/plugin.bzl in standalone build mode:\n\n  PLUGIN_TEST_DEPS \u003d [\n    \"//java/com/google/gerrit/acceptance:lib\",\n    \"//lib/bouncycastle:bcpg\",\n    \"//lib/bouncycastle:bcpkix\",\n    \"//lib/bouncycastle:bcprov\",\n  ]",
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ffe59e_7174fe5e",
+        "filename": "javatests/com/google/gerrit/server/diff/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "You wrote this line as:\n\n  srcs \u003d glob([\"**/*.java\"]),\n\nin java/com/google/gerrit/server/diff/BUILD file in this change. Can we be consistent?",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8acff672_a390f92b",
+        "filename": "javatests/com/google/gerrit/server/diff/PatchListEntryTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "Please, double check that you don\u0027t touch any bits in license header. Revert.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dc3f549_41e4dcb4",
+        "filename": "javatests/com/google/gerrit/server/diff/PatchListEntryTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:00:17Z",
+      "side": 1,
+      "message": "Actually unrelated change.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "4b3516b3f4291d6771cdd4ef750a15d622d63517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

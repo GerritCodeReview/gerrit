@@ -44,6 +44,8 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
+import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
@@ -140,6 +142,14 @@ public class GroupsIT extends AbstractDaemonTest {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
+  }
+
+  @After
+  public void consistencyCheck() throws Exception {
+    ConsistencyCheckInput in = new ConsistencyCheckInput();
+    in.checkGroups = new ConsistencyCheckInput.CheckGroupsInput();
+    ConsistencyCheckInfo info = gApi.config().server().checkConsistency(in);
+    assertThat(info.checkGroupsResult.problems).isEmpty();
   }
 
   @Test

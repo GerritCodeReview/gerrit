@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2c8a48d3_be88647d",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T21:11:40Z",
+      "side": 1,
+      "message": "Unneeded new line.",
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19bd8cef_73bd0875",
         "filename": "java/com/google/gerrit/server/config/ConfigResource.java",
         "patchSetId": 10
@@ -52,6 +69,52 @@
       "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53282444_2ec19cac",
+        "filename": "java/com/google/gerrit/server/config/rest/ConfigRestModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T21:11:40Z",
+      "side": 1,
+      "message": "This import indicates that you missed to move CheckConsistency.java from config to config/rest/ package?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 56
+      },
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26ba8243_4e429a83",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T21:11:40Z",
+      "side": 1,
+      "message": "I would think, that this could be a part of acceptance-lib, so that the plugins can depend on it. For the same reason i explained here: [1]. OTOH we would like to minimize re-run of tests if some parts of the dependency graph get updated. So that\u0027s why you added it here?\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/140535/10/javatests/com/google/gerrit/acceptance/tests.bzl@13",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

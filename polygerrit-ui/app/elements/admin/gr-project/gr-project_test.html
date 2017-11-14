@@ -165,37 +165,13 @@ limitations under the License.
       });
     });
 
-    test('_formatBooleanSelect', () => {
+    test('computeInheritValue', () => {
       let item = {inherited_value: 'true'};
-      assert.deepEqual(element._formatBooleanSelect(item), [
-        {
-          label: 'Inherit (true)',
-          value: 'INHERIT',
-        },
-        {
-          label: 'True',
-          value: 'TRUE',
-        }, {
-          label: 'False',
-          value: 'FALSE',
-        },
-      ]);
+      assert.deepEqual(element.computeInheritValue(item), 'Inherit (true)');
 
       // For items without inherited values
       item = {};
-      assert.deepEqual(element._formatBooleanSelect(item), [
-        {
-          label: 'Inherit',
-          value: 'INHERIT',
-        },
-        {
-          label: 'True',
-          value: 'TRUE',
-        }, {
-          label: 'False',
-          value: 'FALSE',
-        },
-      ]);
+      assert.deepEqual(element.computeInheritValue(item), 'Inherit');
     });
 
     suite('admin', () => {

@@ -162,25 +162,15 @@
       });
     },
 
-    _formatBooleanSelect(item) {
+    computeInheritValue(item) {
       if (!item) { return; }
+
       let inheritLabel = 'Inherit';
-      if (item.inherited_value) {
+      if (item.inherited_value || item.inherited_value === false) {
         inheritLabel = `Inherit (${item.inherited_value})`;
       }
-      return [
-        {
-          label: inheritLabel,
-          value: 'INHERIT',
-        },
-        {
-          label: 'True',
-          value: 'TRUE',
-        }, {
-          label: 'False',
-          value: 'FALSE',
-        },
-      ];
+
+      return inheritLabel;
     },
 
     _isLoading() {

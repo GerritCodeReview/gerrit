@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.config.ScheduleConfig.MISSING_CONFIG;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
@@ -119,6 +120,8 @@ public class AccountDeactivator implements Runnable {
         log.info("deactivated account " + account.getUserName());
         return true;
       }
+    } catch (ResourceConflictException e) {
+      log.info("Account {} already deactivated, continuing...", account.getUserName());
     } catch (Exception e) {
       log.error(
           "Error deactivating account: {} ({}) {}",

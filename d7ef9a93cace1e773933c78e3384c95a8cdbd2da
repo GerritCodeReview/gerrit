@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfdc8744_d026d76a",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-11-14T12:54:23Z",
+      "side": 1,
+      "message": "would move it to constructor so that object is not created over and over again when one actually uses it for sorting ;)",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 3
+      },
+      "revId": "d7ef9a93cace1e773933c78e3384c95a8cdbd2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

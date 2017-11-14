@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -638,7 +639,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   /** Boiler plate code to check two byte arrays for equality */
-  private class ByteArrayWrapper {
+  private static class ByteArrayWrapper {
     private byte[] arr;
 
     private ByteArrayWrapper(byte[] arr) {
@@ -651,6 +652,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         return false;
       }
       return Arrays.equals(arr, ((ByteArrayWrapper) other).arr);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(arr);
     }
   }
 }

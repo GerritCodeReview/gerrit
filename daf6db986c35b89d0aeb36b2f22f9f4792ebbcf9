@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "7178f39d_96561b5b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T14:41:42Z",
+      "side": 1,
+      "message": "Clarified my understanding over IM. We agree it\u0027s ok to have inline consistency checks where the overhead is small enough (e.g. in this case, it\u0027s ~zero). But you believe that all consistency checks should be accomplished by calling methods on the checker class, so implementing checks before we have a checker class is premature. That\u0027s fair; I don\u0027t mind deferring the checks until we have a common checker class to put them in.",
+      "parentUuid": "678586fc_a022d317",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffe25d4e_f95d16e4",
         "filename": "java/com/google/gerrit/server/group/db/Groups.java",
         "patchSetId": 2
@@ -107,6 +131,24 @@
       "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cab41def_c0c15dd5",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T14:41:42Z",
+      "side": 1,
+      "message": "I was thinking purely in terms of assumptions that callers can make on the return value of this method. If we use NoteDb, then the caller can assume that a given UUID only appears once in the stream; if we use ReviewDb, then the caller cannot make that assumption.\n\nBut I don\u0027t think any callers are concerned about it one way or the other. I\u0027m fine with leaving it as-is.",
+      "parentUuid": "9196eab7_925d9a76",
+      "revId": "daf6db986c35b89d0aeb36b2f22f9f4792ebbcf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

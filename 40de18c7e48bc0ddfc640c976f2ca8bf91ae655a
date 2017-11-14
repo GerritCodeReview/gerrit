@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "03fa0c9d_bc36dd44",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-14T19:08:18Z",
+      "side": 1,
+      "message": "@David that sounds awesome to me!\n\nIs there any technical way I could squash steps 2 or 3 through 6 into one big step with bazel?",
+      "parentUuid": "c0b8375f_dde8b96e",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

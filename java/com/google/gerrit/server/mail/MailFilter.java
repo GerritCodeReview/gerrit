@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailMessage;
 
 /**
  * Listener to filter incoming email.

@@ -168,7 +168,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
   private InternalGroup rebuild(InternalGroup group) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      rebuilder.rebuild(repo, GroupBundle.fromReviewDb(db, group.getId()));
+      rebuilder.rebuild(repo, GroupBundle.fromReviewDb(db, group.getId()), null);
       GroupConfig groupConfig = GroupConfig.loadForGroup(repo, group.getGroupUUID());
       Optional<InternalGroup> result = groupConfig.getLoadedGroup();
       assertThat(result).isPresent();

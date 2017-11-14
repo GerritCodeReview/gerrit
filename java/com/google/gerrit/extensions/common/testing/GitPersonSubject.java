@@ -24,6 +24,8 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
 import com.google.gerrit.extensions.common.GitPerson;
 import java.sql.Timestamp;
+import java.util.Date;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
 
@@ -64,5 +66,15 @@ public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
     assertThat(other).named("other").isNotNull();
     date().isEqualTo(other.date);
     tz().isEqualTo(other.tz);
+  }
+
+  public void matches(PersonIdent ident) {
+    isNotNull();
+    name().isEqualTo(ident.getName());
+    email().isEqualTo(ident.getEmailAddress());
+    Truth.assertThat(new Date(actual().date.getTime()))
+        .named("rounded date")
+        .isEqualTo(ident.getWhen());
+    tz().isEqualTo(ident.getTimeZoneOffset());
   }
 }

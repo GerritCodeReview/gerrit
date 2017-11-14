@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "3c8e1157_12f05f91",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T21:22:19Z",
+      "side": 1,
+      "message": "Oh that would be great if this plugin is at least added by default :).",
+      "parentUuid": "037c9ef0_a19efe70",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

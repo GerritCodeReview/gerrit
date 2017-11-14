@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78079769_0129dbef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T18:46:14Z",
+      "side": 1,
+      "message": "Nit: this doesn\u0027t seem like the end of the sentence.",
+      "range": {
+        "startLine": 303,
+        "startChar": 35,
+        "endLine": 303,
+        "endChar": 37
+      },
+      "revId": "e000536c386785facc288df23b001b6ce3a57df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f864e8_4273ad45",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-14T18:46:14Z",
+      "side": 1,
+      "message": "Should this get set as a function on the object prototype like on l.77? Probably not necessary, but should probably be consistent (or remove the other one).",
+      "range": {
+        "startLine": 306,
+        "startChar": 13,
+        "endLine": 306,
+        "endChar": 50
+      },
+      "revId": "e000536c386785facc288df23b001b6ce3a57df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

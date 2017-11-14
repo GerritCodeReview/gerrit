@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "c0b8375f_dde8b96e",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T18:57:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure if standalone mode is easier to implement for JS plugin with external bower archive dependency. My guess it should be easier to do in gerrit tree build, or at least I would try to provide in gerrit tree build first. But my main point is, that ideally, optional plugin in either build mode shouldn\u0027t touch any files in gerrit core. In gerrit tree build mode (that always assumes that the whole gerrit source tree is available) could be implemented like this:\n\n* 1. clone gerrit\n* 2. clone js-plugin into gerrit/plugins directory\n* 3. copy js-plugin/external_plugins_deps.bzl to gerrit plugins directory\n* 4. copy js-plugin/external_bower_deps.bzl to gerrit plugins directory\n* 5. re-generate python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl\n* 6. run bazel build polygerrit\n\nAt this point I would expect, that the external bower dependencies are fetched and minified and the plugin is fully functional. Note that with these steps above we wouldn\u0027t touch any gerrit core files (nothing to commit).",
+      "parentUuid": "43d89b2b_a969305d",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

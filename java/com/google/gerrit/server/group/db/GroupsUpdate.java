@@ -511,26 +511,42 @@ public class GroupsUpdate {
     return resultBuilder.build();
   }
 
-  private String getAccountNameEmail(Account.Id accountId) {
+  static String getAccountName(
+      AccountCache accountCache, String anonymousCowardName, Account.Id accountId) {
     AccountState accountState = accountCache.getOrNull(accountId);
-    String accountName =
-        Optional.ofNullable(accountState)
-            .map(AccountState::getAccount)
-            .map(account -> account.getName(anonymousCowardName))
-            .orElse(anonymousCowardName);
+    return Optional.ofNullable(accountState)
+        .map(AccountState::getAccount)
+        .map(account -> account.getName(anonymousCowardName))
+        .orElse(anonymousCowardName);
+  }
+
+  static String getAccountNameEmail(
+      AccountCache accountCache,
+      String anonymousCowardName,
+      Account.Id accountId,
+      String serverId) {
+    String accountName = getAccountName(accountCache, anonymousCowardName, accountId);
     return formatNameEmail(accountName, getEmailForAuditLog(accountId, serverId));
   }
 
-  private static String getEmailForAuditLog(Account.Id accountId, String serverId) {
+  static String getEmailForAuditLog(Account.Id accountId, String serverId) {
     return accountId.get() + "@" + serverId;
   }
 
-  private String getGroupName(AccountGroup.UUID groupUuid) {
+  private String getAccountNameEmail(Account.Id accountId) {
+    return getAccountNameEmail(accountCache, anonymousCowardName, accountId, serverId);
+  }
+
+  static String getGroupName(GroupCache groupCache, AccountGroup.UUID groupUuid) {
     return groupCache
         .get(groupUuid)
         .map(InternalGroup::getName)
         .map(name -> formatNameEmail(name, groupUuid.get()))
         .orElse(groupUuid.get());
+  }
+
+  private String getGroupName(AccountGroup.UUID groupUuid) {
+    return getGroupName(groupCache, groupUuid);
   }
 
   private static String formatNameEmail(String name, String email) {

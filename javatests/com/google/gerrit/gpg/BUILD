@@ -15,6 +15,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
+        "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:gwtorm",

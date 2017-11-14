@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:truth",
         "//lib/guice",

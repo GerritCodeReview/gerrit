@@ -14,24 +14,31 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Streams;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import io.searchbox.client.JestResult;
@@ -42,7 +49,12 @@ import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -170,5 +182,37 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       }
     }
     return builder.endObject().string();
+  }
+
+  protected FieldBundle toFieldBundle(JsonObject doc) {
+    Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
+    ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
+    for (Entry<String, JsonElement> element : doc.get("fields").getAsJsonObject().entrySet()) {
+      checkArgument(
+          allFields.containsKey(element.getKey()), "Unrecognized field " + element.getKey());
+      FieldType<?> type = allFields.get(element.getKey()).getType();
+
+      Iterable<JsonElement> innerItems =
+          element.getValue().isJsonArray()
+              ? element.getValue().getAsJsonArray()
+              : Collections.singleton(element.getValue());
+
+      for (JsonElement inner : innerItems) {
+        if (type == FieldType.EXACT || type == FieldType.FULL_TEXT || type == FieldType.PREFIX) {
+          rawFields.put(element.getKey(), inner.getAsString());
+        } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
+          rawFields.put(element.getKey(), inner.getAsInt());
+        } else if (type == FieldType.LONG) {
+          rawFields.put(element.getKey(), inner.getAsLong());
+        } else if (type == FieldType.TIMESTAMP) {
+          rawFields.put(element.getKey(), new Timestamp(inner.getAsLong()));
+        } else if (type == FieldType.STORED_ONLY) {
+          rawFields.put(element.getKey(), Base64.decodeBase64(inner.getAsString()));
+        } else {
+          throw FieldType.badFieldType(type);
+        }
+      }
+    }
+    return new FieldBundle(rawFields);
   }
 }

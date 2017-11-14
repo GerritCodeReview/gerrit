@@ -24,6 +24,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -83,6 +84,11 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   public DataSource<ChangeData> getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
+  }
+
+  // Make method public so that it can be used in LuceneChangeIndex
+  public FieldBundle toFieldBundle(Document doc) {
+    return super.toFieldBundle(doc);
   }
 
   @Override

@@ -19,13 +19,18 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -41,11 +46,15 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -62,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -110,6 +120,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AllUsersName allUsers;
 
   @Inject protected GitRepositoryManager repoManager;
+
+  @Inject protected AccountIndexCollection indexes;
+
+  @Inject protected ExternalIds externalIds;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -424,6 +438,38 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("name:" + quote(newName), user1);
   }
 
+  @Test
+  public void rawDocument() throws Exception {
+    AccountInfo userInfo = gApi.accounts().id(user.getAccountId().get()).get();
+
+    Optional<FieldBundle> rawFields =
+        indexes
+            .getSearchIndex()
+            .getRaw(
+                new Account.Id(userInfo._accountId),
+                QueryOptions.create(
+                    IndexConfig.createDefault(),
+                    0,
+                    1,
+                    indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
+
+    assertThat(rawFields.isPresent()).isTrue();
+    assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+
+    List<AccountExternalIdInfo> externalIdInfos = gApi.accounts().self().getExternalIds();
+    List<ByteArrayWrapper> blobs = new ArrayList<>();
+    for (AccountExternalIdInfo info : externalIdInfos) {
+      blobs.add(
+          new ByteArrayWrapper(externalIds.get(ExternalId.Key.parse(info.identity)).toByteArray()));
+    }
+    assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
+    assertThat(
+            Streams.stream(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE))
+                .map(b -> new ByteArrayWrapper(b))
+                .collect(toList()))
+        .containsExactlyElementsIn(blobs);
+  }
+
   protected AccountInfo newAccount(String username) throws Exception {
     return newAccountWithEmail(username, null);
   }
@@ -589,5 +635,22 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected static Iterable<Integer> ids(List<AccountInfo> accounts) {
     return accounts.stream().map(a -> a._accountId).collect(toList());
+  }
+
+  /** Boiler plate code to check two byte arrays for equality */
+  private class ByteArrayWrapper {
+    private byte[] arr;
+
+    private ByteArrayWrapper(byte[] arr) {
+      this.arr = arr;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (!(other instanceof ByteArrayWrapper)) {
+        return false;
+      }
+      return Arrays.equals(arr, ((ByteArrayWrapper) other).arr);
+    }
   }
 }

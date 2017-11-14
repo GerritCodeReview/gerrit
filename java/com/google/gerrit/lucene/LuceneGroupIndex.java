@@ -19,6 +19,7 @@ import static com.google.gerrit.server.index.group.GroupField.UUID;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -39,8 +40,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
@@ -152,27 +153,38 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
 
     @Override
     public ResultSet<InternalGroup> read() throws OrmException {
+      return readImpl(LuceneGroupIndex.this::toInternalGroup);
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(LuceneGroupIndex.this::toFieldBundle);
+    }
+
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
       IndexSearcher searcher = null;
       try {
         searcher = acquire();
         int realLimit = opts.start() + opts.limit();
         TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<InternalGroup> result = new ArrayList<>(docs.scoreDocs.length);
+        List<T> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searcher.doc(sd.doc, IndexUtils.groupFields(opts));
-          Optional<InternalGroup> internalGroup = toInternalGroup(doc);
-          internalGroup.ifPresent(result::add);
+          T mapperResult = mapper.apply(doc);
+          if (mapperResult != null) {
+            result.add(mapperResult);
+          }
         }
-        final List<InternalGroup> r = Collections.unmodifiableList(result);
-        return new ResultSet<InternalGroup>() {
+        final List<T> r = Collections.unmodifiableList(result);
+        return new ResultSet<T>() {
           @Override
-          public Iterator<InternalGroup> iterator() {
+          public Iterator<T> iterator() {
             return r.iterator();
           }
 
           @Override
-          public List<InternalGroup> toList() {
+          public List<T> toList() {
             return r;
           }
 
@@ -195,10 +207,10 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
     }
   }
 
-  private Optional<InternalGroup> toInternalGroup(Document doc) {
+  private InternalGroup toInternalGroup(Document doc) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
-    return groupCache.get().get(uuid);
+    return groupCache.get().get(uuid).orElse(null);
   }
 }

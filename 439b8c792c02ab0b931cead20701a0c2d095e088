@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bedc20dc_15d4b216",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-14T07:06:54Z",
+      "side": 1,
+      "message": "This is true for all buttons and not only for submit button. Yes, submit button is special, because in case you *do* have submit ACL, but a change is not sbmittable for other reasons, we do rende disabled button with tooltip to indicate what going on. Still, show disabled button instead of hidden the button entirely is way to invasive change to me. I see it also problematic, tht the behavioral change is only applied to submit button.\n\nFor example, when this change is bumitted, Abandon button will still be silently hidden, in case user doesnÄt have the right ACL:\n\n  @Override\n  public UiAction.Description getDescription(ChangeResource rsrc) {\n    Change change \u003d rsrc.getChange();\n    return new UiAction.Description()\n        .setLabel(\"Abandon\")\n        .setTitle(\"Abandon the change\")\n        .setVisible(\n            and(\n                change.getStatus().isOpen(),\n                rsrc.permissions().database(dbProvider).testCond(ChangePermission.ABANDON)));\n  }",
+      "revId": "439b8c792c02ab0b931cead20701a0c2d095e088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

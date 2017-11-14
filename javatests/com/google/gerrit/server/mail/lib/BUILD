@@ -1,36 +1,13 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-CUSTOM_TRUTH_SUBJECTS = glob([
-    "**/*Subject.java",
-])
-
-java_library(
-    name = "custom-truth-subjects",
-    testonly = 1,
-    srcs = CUSTOM_TRUTH_SUBJECTS,
-    deps = [
-        "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/truth",
-        "//lib:truth",
-    ],
-)
-
 junit_tests(
-    name = "server_tests",
-    size = "large",
+    name = "maillib_tests",
+    size = "small",
     srcs = glob(
         ["**/*.java"],
-        exclude = CUSTOM_TRUTH_SUBJECTS,
     ),
-    resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
-    runtime_deps = [
-        "//lib/bouncycastle:bcprov",
-    ],
     deps = [
-        ":custom-truth-subjects",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",

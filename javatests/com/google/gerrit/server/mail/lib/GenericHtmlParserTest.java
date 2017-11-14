@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
+
 
 /** Test parser for a generic Html email client response */
 public class GenericHtmlParserTest extends HtmlParserTest {

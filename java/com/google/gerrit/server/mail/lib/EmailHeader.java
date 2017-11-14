@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.send;
+package com.google.gerrit.server.mail.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.server.mail.Address;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -184,7 +183,7 @@ public abstract class EmailHeader {
       list.add(addr);
     }
 
-    void remove(java.lang.String email) {
+    public void remove(java.lang.String email) {
       for (Iterator<Address> i = list.iterator(); i.hasNext(); ) {
         if (i.next().getEmail().equals(email)) {
           i.remove();

@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
 
 import com.google.gerrit.reviewdb.client.Comment;
 import java.util.Objects;
 
 /** A comment parsed from inbound email */
 public class MailComment {
-  enum CommentType {
+  public enum CommentType {
     CHANGE_MESSAGE,
     FILE_COMMENT,
     INLINE_COMMENT
@@ -37,6 +37,22 @@ public class MailComment {
     this.fileName = fileName;
     this.inReplyTo = inReplyTo;
     this.type = type;
+  }
+
+  public CommentType getType() {
+    return type;
+  }
+
+  public Comment getInReplyTo() {
+    return inReplyTo;
+  }
+
+  public String getFileName() {
+    return fileName;
+  }
+
+  public String getMessage() {
+    return message;
   }
 
   /**

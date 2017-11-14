@@ -12,24 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive.data;
+package com.google.gerrit.server.mail.lib.data;
 
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.server.mail.lib.Address;
+import com.google.gerrit.server.mail.lib.MailMessage;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import org.junit.Ignore;
 
-/** Tests parsing a quoted printable encoded subject */
+/** Tests parsing a Base64 encoded subject. */
 @Ignore
-public class QuotedPrintableHeaderMessage extends RawMailMessage {
+public class Base64HeaderMessage extends RawMailMessage {
   private static String textContent = "Some Text";
   private static String raw =
       ""
           + "Date: Tue, 25 Oct 2016 02:11:35 -0700\n"
           + "Message-ID: <001a114da7ae26e2eb053fe0c29c@google.com>\n"
-          + "Subject: =?UTF-8?Q?=C3=A2me vulgaire?=\n"
+          + "Subject: =?UTF-8?B?8J+YmyB0ZXN0?=\n"
           + "From: \"Jonathan Nieder (Gerrit)\" <noreply-gerritcodereview-"
           + "CtTy0igsBrnvL7dKoWEIEg@google.com>\n"
           + "To: ekempin <ekempin@google.com>\n"
@@ -49,7 +49,6 @@ public class QuotedPrintableHeaderMessage extends RawMailMessage {
 
   @Override
   public MailMessage expectedMailMessage() {
-    System.out.println("\uD83D\uDE1B test");
     MailMessage.Builder expect = MailMessage.builder();
     expect
         .id("<001a114da7ae26e2eb053fe0c29c@google.com>")
@@ -59,7 +58,7 @@ public class QuotedPrintableHeaderMessage extends RawMailMessage {
                 "noreply-gerritcodereview-CtTy0igsBrnvL7dKoWEIEg@google.com"))
         .addTo(new Address("ekempin", "ekempin@google.com"))
         .textContent(textContent)
-        .subject("âme vulgaire")
+        .subject("\uD83D\uDE1B test")
         .dateReceived(
             LocalDateTime.of(2016, Month.OCTOBER, 25, 9, 11, 35)
                 .atOffset(ZoneOffset.UTC)

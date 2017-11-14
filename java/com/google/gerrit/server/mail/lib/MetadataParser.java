@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
 
-import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
+import static com.google.gerrit.server.mail.lib.MetadataName.toFooterWithDelimiter;
+import static com.google.gerrit.server.mail.lib.MetadataName.toHeaderWithDelimiter;
 
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.server.mail.MailUtil;
-import com.google.gerrit.server.mail.MetadataName;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
@@ -29,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /** Parse metadata from inbound email */
 public class MetadataParser {
-  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
+  private static final Logger log = LoggerFactory.getLogger(MetadataParser.class);
 
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();
@@ -47,7 +45,8 @@ public class MetadataParser {
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
         String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length()).trim();
         try {
-          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+          metadata.timestamp =
+              Timestamp.from(MailProcessingUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
           log.error("Mail: Error while parsing timestamp from header of message " + m.id(), e);
         }
@@ -93,7 +92,8 @@ public class MetadataParser {
       } else if (metadata.timestamp == null && line.contains(MetadataName.TIMESTAMP)) {
         String ts = extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
         try {
-          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+          metadata.timestamp =
+              Timestamp.from(MailProcessingUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
           log.error("Mail: Error while parsing timestamp from footer of message " + m.id(), e);
         }

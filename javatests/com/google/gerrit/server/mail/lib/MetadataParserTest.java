@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.mail.MetadataName.toFooterWithDelimiter;
-import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
+import static com.google.gerrit.server.mail.lib.MetadataName.toFooterWithDelimiter;
+import static com.google.gerrit.server.mail.lib.MetadataName.toHeaderWithDelimiter;
 
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.MetadataName;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.lib;
 
 public final class MetadataName {
   public static final String CHANGE_NUMBER = "Gerrit-Change-Number";

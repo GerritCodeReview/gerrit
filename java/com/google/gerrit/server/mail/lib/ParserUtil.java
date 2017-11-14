@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Comment;

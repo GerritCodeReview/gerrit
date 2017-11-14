@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive;
+package com.google.gerrit.server.mail.lib;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.server.mail.receive.data.AttachmentMessage;
-import com.google.gerrit.server.mail.receive.data.Base64HeaderMessage;
-import com.google.gerrit.server.mail.receive.data.HtmlMimeMessage;
-import com.google.gerrit.server.mail.receive.data.NonUTF8Message;
-import com.google.gerrit.server.mail.receive.data.QuotedPrintableHeaderMessage;
-import com.google.gerrit.server.mail.receive.data.RawMailMessage;
-import com.google.gerrit.server.mail.receive.data.SimpleTextMessage;
+import com.google.gerrit.server.mail.lib.data.AttachmentMessage;
+import com.google.gerrit.server.mail.lib.data.Base64HeaderMessage;
+import com.google.gerrit.server.mail.lib.data.HtmlMimeMessage;
+import com.google.gerrit.server.mail.lib.data.NonUTF8Message;
+import com.google.gerrit.server.mail.lib.data.QuotedPrintableHeaderMessage;
+import com.google.gerrit.server.mail.lib.data.RawMailMessage;
+import com.google.gerrit.server.mail.lib.data.SimpleTextMessage;
 import com.google.gerrit.testing.GerritBaseTests;
 import org.junit.Test;
 

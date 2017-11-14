@@ -11,10 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.google.gerrit.server.mail.receive.data;
+package com.google.gerrit.server.mail.lib.data;
 
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.server.mail.lib.Address;
+import com.google.gerrit.server.mail.lib.MailMessage;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;

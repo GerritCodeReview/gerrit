@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail.receive.data;
+package com.google.gerrit.server.mail.lib;
 
-import com.google.gerrit.server.mail.receive.MailMessage;
-import org.junit.Ignore;
+/** An {@link Exception} indicating that an email could not be parsed. */
+public class MailParsingException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-/** Base class for all email parsing tests. */
-@Ignore
-public abstract class RawMailMessage {
-  // Raw content to feed the parser
-  public abstract String raw();
+  public MailParsingException(String msg) {
+    super(msg);
+  }
 
-  public abstract int[] rawChars();
-  // Parsed representation for asserting the expected parser output
-  public abstract MailMessage expectedMailMessage();
+  public MailParsingException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
 }

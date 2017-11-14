@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.lib;
 
-import com.google.gerrit.server.mail.send.EmailHeader;
+import com.google.gerrit.common.Nullable;
 
 public class Address {
   public static Address parse(String in) {
@@ -50,8 +50,8 @@ public class Address {
     }
   }
 
-  final String name;
-  final String email;
+  @Nullable private final String name;
+  private final String email;
 
   public Address(String email) {
     this(null, email);
@@ -62,6 +62,7 @@ public class Address {
     this.email = email;
   }
 
+  @Nullable
   public String getName() {
     return name;
   }

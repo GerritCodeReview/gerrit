@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.server.mail.lib;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
@@ -24,57 +24,57 @@ public class AddressTest extends GerritBaseTests {
   @Test
   public void parse_NameEmail1() {
     final Address a = Address.parse("A U Thor <author@example.com>");
-    assertThat(a.name).isEqualTo("A U Thor");
-    assertThat(a.email).isEqualTo("author@example.com");
+    assertThat(a.getName()).isEqualTo("A U Thor");
+    assertThat(a.getEmail()).isEqualTo("author@example.com");
   }
 
   @Test
   public void parse_NameEmail2() {
     final Address a = Address.parse("A <a@b>");
-    assertThat(a.name).isEqualTo("A");
-    assertThat(a.email).isEqualTo("a@b");
+    assertThat(a.getName()).isEqualTo("A");
+    assertThat(a.getEmail()).isEqualTo("a@b");
   }
 
   @Test
   public void parse_NameEmail3() {
     final Address a = Address.parse("<a@b>");
-    assertThat(a.name).isNull();
-    assertThat(a.email).isEqualTo("a@b");
+    assertThat(a.getName()).isNull();
+    assertThat(a.getEmail()).isEqualTo("a@b");
   }
 
   @Test
   public void parse_NameEmail4() {
     final Address a = Address.parse("A U Thor<author@example.com>");
-    assertThat(a.name).isEqualTo("A U Thor");
-    assertThat(a.email).isEqualTo("author@example.com");
+    assertThat(a.getName()).isEqualTo("A U Thor");
+    assertThat(a.getEmail()).isEqualTo("author@example.com");
   }
 
   @Test
   public void parse_NameEmail5() {
     final Address a = Address.parse("A U Thor  <author@example.com>");
-    assertThat(a.name).isEqualTo("A U Thor");
-    assertThat(a.email).isEqualTo("author@example.com");
+    assertThat(a.getName()).isEqualTo("A U Thor");
+    assertThat(a.getEmail()).isEqualTo("author@example.com");
   }
 
   @Test
   public void parse_Email1() {
     final Address a = Address.parse("author@example.com");
-    assertThat(a.name).isNull();
-    assertThat(a.email).isEqualTo("author@example.com");
+    assertThat(a.getName()).isNull();
+    assertThat(a.getEmail()).isEqualTo("author@example.com");
   }
 
   @Test
   public void parse_Email2() {
     final Address a = Address.parse("a@b");
-    assertThat(a.name).isNull();
-    assertThat(a.email).isEqualTo("a@b");
+    assertThat(a.getName()).isNull();
+    assertThat(a.getEmail()).isEqualTo("a@b");
   }
 
   @Test
   public void parse_NewTLD() {
     Address a = Address.parse("A U Thor <author@example.systems>");
-    assertThat(a.name).isEqualTo("A U Thor");
-    assertThat(a.email).isEqualTo("author@example.systems");
+    assertThat(a.getName()).isEqualTo("A U Thor");
+    assertThat(a.getEmail()).isEqualTo("author@example.systems");
   }
 
   @Test

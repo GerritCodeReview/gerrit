@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
+import com.google.gerrit.server.mail.lib.Address;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

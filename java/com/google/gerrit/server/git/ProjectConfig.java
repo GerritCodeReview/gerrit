@@ -51,7 +51,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.lib.Address;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gerrit.server.project.RefPattern;
 import java.io.IOException;

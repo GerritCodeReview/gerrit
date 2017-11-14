@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.mail.lib.Address;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.net.InetSocketAddress;

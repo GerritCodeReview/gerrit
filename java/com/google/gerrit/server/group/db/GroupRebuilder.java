@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -56,6 +57,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -112,7 +114,7 @@ public class GroupRebuilder {
     this.getGroupNameFunc = getGroupNameFunc;
   }
 
-  public void rebuild(Repository allUsersRepo, GroupBundle bundle)
+  public void rebuild(Repository allUsersRepo, GroupBundle bundle, @Nullable BatchRefUpdate bru)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, bundle.uuid());
     AccountGroup group = bundle.group();
@@ -136,7 +138,7 @@ public class GroupRebuilder {
     Map<Key, Collection<Event>> events = toEvents(bundle).asMap();
     PersonIdent nowServerIdent = getServerIdent(events);
 
-    MetaDataUpdate md = metaDataUpdateFactory.create(allUsers, allUsersRepo, null);
+    MetaDataUpdate md = metaDataUpdateFactory.create(allUsers, allUsersRepo, bru);
 
     // Creation is done by the server (unlike later audit events).
     PersonIdent created = new PersonIdent(nowServerIdent, group.getCreatedOn());

@@ -197,18 +197,18 @@ public class GroupNameNotes extends VersionedMetaData {
 
   // Use the same approach as ExternalId.Key.sha1().
   @SuppressWarnings("deprecation")
-  private static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
+  static ObjectId getNoteKey(AccountGroup.NameKey groupName) {
     return ObjectId.fromRaw(Hashing.sha1().hashString(groupName.get(), UTF_8).asBytes());
   }
 
-  private static String getAsNoteData(AccountGroup.UUID uuid, AccountGroup.NameKey groupName) {
+  static String getAsNoteData(AccountGroup.UUID uuid, AccountGroup.NameKey groupName) {
     Config config = new Config();
     config.setString(SECTION_NAME, null, UUID_PARAM, uuid.get());
     config.setString(SECTION_NAME, null, NAME_PARAM, groupName.get());
     return config.toText();
   }
 
-  private static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
+  static GroupReference getGroupReference(ObjectReader reader, ObjectId noteDataBlobId)
       throws IOException, ConfigInvalidException {
     byte[] noteData = reader.open(noteDataBlobId, OBJ_BLOB).getCachedBytes();
     return getFromNoteData(noteData);

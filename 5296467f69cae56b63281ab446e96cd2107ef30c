@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b1eaf7d_ab800e33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-14T23:06:33Z",
+      "side": 1,
+      "message": "Probably doesn\u0027t matter, since it\u0027s the same promise, but the way you\u0027ve changed the declaration from a const to a let so you could reassign makes me expect this line to come after the possible reassignment.",
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d769023_6a448936",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2018,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-14T23:06:33Z",
+      "side": 1,
+      "message": "This is (harmlessly) redundant.",
+      "range": {
+        "startLine": 2018,
+        "startChar": 12,
+        "endLine": 2018,
+        "endChar": 25
+      },
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00eeb416_94c7ed0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-14T23:06:33Z",
+      "side": 1,
+      "message": "T",
+      "range": {
+        "startLine": 2026,
+        "startChar": 13,
+        "endLine": 2026,
+        "endChar": 14
+      },
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3d6353_aca6c45a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-11-14T23:06:33Z",
+      "side": 1,
+      "message": "Could you add a test for PUT that overwrites an existing comment?",
+      "revId": "5296467f69cae56b63281ab446e96cd2107ef30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

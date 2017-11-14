@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "43d89b2b_a969305d",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-14T18:21:14Z",
+      "side": 1,
+      "message": "Should I explore building with bazel standalone, instead?\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-build-plugins.html#_bazel_standalone_driven\n\nI stayed away from that process mostly because it wasn\u0027t documented at all. I realize that adding a dependency here is suboptimal, but I didn\u0027t know what else was possible. If you think this approach is bad for the health of the project, I\u0027m totally willing to explore other avenues.",
+      "parentUuid": "516bc753_057ca404",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

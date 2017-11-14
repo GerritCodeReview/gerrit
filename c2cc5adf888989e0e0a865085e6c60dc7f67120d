@@ -16,6 +16,24 @@
       "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd4a2f6_6d5e2da4",
+        "filename": "java/com/google/gerrit/server/config/ConfigResource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-14T17:35:53Z",
+      "side": 1,
+      "message": "what\u0027s the problem? I think this file is no longer part of the change.",
+      "parentUuid": "19bd8cef_73bd0875",
+      "revId": "c2cc5adf888989e0e0a865085e6c60dc7f67120d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510648255 +0100\nnonce AMT3iFhTUY6Kt65g36BvBs3SkCE6VZ4wa8HMJIqAbqsUPpNTFlDWkKLTPLmRGqcXthLh0ykgfcwW\n\n0000000000000000000000000000000000000000 f8629395084750d746701b2b28a5a3d3d5878dd6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaCqm/AAoJEFG1/Zeg0O9R0qUH/Ani2C3EX1nWzBVbhD6y3GZ9\nybEL+fCCousqdCU7W9rEjgeiNGPknv7T11l5KbFpTwDZC+4bfobuWEcnPaguGuTR\nM6I8D9Sg+IIK6cIiVARs85XOc7+NmMPFYFKNjHYRwDcoal4prE04v9XIy2MxUgX/\nD0DhiWHWv6St21HVbOKkuv8l2Iga9uVsMa3C0F9aw53c3m1YM52r1CtJTOJyV/CR\no9F5xI0Vj6eFBhNPdJu3jkx9azteI3g4bnOYz5Ji5fjbRZPeZkoGKqJBkBIkvT3v\n+imXGM7IzRKF1BTIr12I7lfbgNetpDW0yXv4uVgzF2cM9s1eI1A8sjqQFRtIqh4\u003d\n\u003dzs/V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "066784ef_c5dd5cf9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-14T08:37:44Z",
+      "side": 1,
+      "message": "This needs to be formated.",
+      "range": {
+        "startLine": 482,
+        "startChar": 11,
+        "endLine": 484,
+        "endChar": 46
+      },
+      "revId": "d9abb81d33fcf178231bcfd0e6e46dd01991b49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

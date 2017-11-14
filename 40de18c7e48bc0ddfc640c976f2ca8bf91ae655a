@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "48128236_7f524d7a",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T18:46:20Z",
+      "side": 1,
+      "message": "You wont need to use standalone though it will probaly be a good idea to support it :).",
+      "parentUuid": "43d89b2b_a969305d",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

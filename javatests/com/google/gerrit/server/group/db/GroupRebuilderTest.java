@@ -17,11 +17,12 @@ package com.google.gerrit.server.group.db;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPNAMES;
 import static com.google.gerrit.server.group.db.GroupBundle.builder;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -33,9 +34,10 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.group.db.testing.GroupTestUtil;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.sql.Timestamp;
@@ -45,11 +47,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
     repo = new InMemoryRepository(new DfsRepositoryDescription(AllUsersNameProvider.DEFAULT));
     rebuilder =
         new GroupRebuilder(
-            () -> new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ),
+            GroupRebuilderTest::newPersonIdent,
             new AllUsersName(AllUsersNameProvider.DEFAULT),
             (project, repo, batch) ->
                 new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo, batch),
@@ -94,12 +95,13 @@ public class GroupRebuilderTest extends GerritBaseTests {
     AccountGroup g = newGroup("a");
     GroupBundle b = builder().group(g).build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertCommit(log.get(0), "Create group", SERVER_NAME, SERVER_EMAIL);
+    assertThat(logGroupNames()).isEmpty();
   }
 
   @Test
@@ -110,7 +112,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
     g.setVisibleToAll(true);
     GroupBundle b = builder().group(g).build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -128,7 +130,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .byId(byId(g, "x"), byId(g, "y"))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -157,7 +159,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .memberAudit(addMember(g, 1, 8, t2), addAndRemoveMember(g, 2, 8, t1, 9, t3))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -183,7 +185,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
                 addMember(g, 2, 8, TimeUtil.nowTs()))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -207,7 +209,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .memberAudit(addMember(g, 1, 8, TimeUtil.nowTs()))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -232,7 +234,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .byIdAudit(addById(g, "x", 8, t2), addAndRemoveById(g, "y", 8, t1, 9, t3))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -253,7 +255,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .byIdAudit(addById(g, "x", 8, TimeUtil.nowTs()))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -283,7 +285,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
                 addAndRemoveById(g, "z", user, ts, user, ts))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -330,7 +332,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
                 addById(g, "x", user1, ts), addById(g, "y", user2, ts), addById(g, "z", user1, ts))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -365,7 +367,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
             .byIdAudit(addById(g, "x", 8, future))
             .build();
 
-    rebuilder.rebuild(repo, b);
+    rebuilder.rebuild(repo, b, null);
 
     assertThat(reload(g)).isEqualTo(b.toInternalGroup());
     ImmutableList<CommitInfo> log = log(g);
@@ -380,17 +382,46 @@ public class GroupRebuilderTest extends GerritBaseTests {
     assertThat(TimeUtil.nowTs()).isLessThan(future);
   }
 
+  @Test
+  public void combineWithBatchGroupNameNotes() throws Exception {
+    AccountGroup g1 = newGroup("a");
+    AccountGroup g2 = newGroup("b");
+
+    GroupBundle b1 = builder().group(g1).build();
+    GroupBundle b2 = builder().group(g2).build();
+
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+
+    rebuilder.rebuild(repo, b1, bru);
+    rebuilder.rebuild(repo, b2, bru);
+    try (ObjectInserter inserter = repo.newObjectInserter()) {
+      ImmutableList<GroupReference> refs =
+          ImmutableList.of(GroupReference.forGroup(g1), GroupReference.forGroup(g2));
+      GroupNameNotes.updateGroupNames(repo, inserter, bru, refs, newPersonIdent());
+      inserter.flush();
+    }
+
+    assertThat(log(g1)).isEmpty();
+    assertThat(log(g2)).isEmpty();
+    assertThat(logGroupNames()).isEmpty();
+
+    RefUpdateUtil.executeChecked(bru, repo);
+
+    assertThat(log(g1)).hasSize(1);
+    assertThat(log(g2)).hasSize(1);
+    assertThat(logGroupNames()).hasSize(1);
+    assertThat(reload(g1)).isEqualTo(b1.toInternalGroup());
+    assertThat(reload(g2)).isEqualTo(b2.toInternalGroup());
+
+    assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
+  }
+
   private InternalGroup reload(AccountGroup g) throws Exception {
     return removeRefState(GroupConfig.loadForGroup(repo, g.getGroupUUID()).getLoadedGroup().get());
   }
 
   private AccountGroup newGroup(String name) {
-    int id = idCounter.incrementAndGet();
-    return new AccountGroup(
-        new AccountGroup.NameKey(name),
-        new AccountGroup.Id(id),
-        new AccountGroup.UUID(name + "-" + id),
-        TimeUtil.nowTs());
+    return GroupTestUtil.newGroup(name, idCounter.incrementAndGet());
   }
 
   private AccountGroupMember member(AccountGroup g, int accountId) {
@@ -444,17 +475,11 @@ public class GroupRebuilderTest extends GerritBaseTests {
   }
 
   private ImmutableList<CommitInfo> log(AccountGroup g) throws Exception {
-    ImmutableList<CommitInfo> result = ImmutableList.of();
-    try (RevWalk rw = new RevWalk(repo)) {
-      Ref ref = repo.exactRef(RefNames.refsGroups(g.getGroupUUID()));
-      if (ref != null) {
-        rw.sort(RevSort.REVERSE);
-        rw.setRetainBody(true);
-        rw.markStart(rw.parseCommit(ref.getObjectId()));
-        result = Streams.stream(rw).map(CommitUtil::toCommitInfo).collect(toImmutableList());
-      }
-    }
-    return result;
+    return GroupTestUtil.log(repo, RefNames.refsGroups(g.getGroupUUID()));
+  }
+
+  private ImmutableList<CommitInfo> logGroupNames() throws Exception {
+    return GroupTestUtil.log(repo, REFS_GROUPNAMES);
   }
 
   private static void assertServerCommit(CommitInfo commitInfo, String expectedMessage) {
@@ -476,5 +501,9 @@ public class GroupRebuilderTest extends GerritBaseTests {
 
   private static InternalGroup removeRefState(InternalGroup group) throws Exception {
     return group.toBuilder().setRefState(null).build();
+  }
+
+  private static PersonIdent newPersonIdent() {
+    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.nowTs(), TZ);
   }
 }

@@ -8,5 +8,6 @@ java_library(
         "//java/com/google/gerrit/extensions/client/testing:client-test-util",
         "//java/com/google/gerrit/truth",
         "//lib:truth",
+        "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

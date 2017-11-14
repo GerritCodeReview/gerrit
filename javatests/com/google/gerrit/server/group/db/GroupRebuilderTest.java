@@ -42,6 +42,7 @@ import java.sql.Timestamp;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -348,6 +349,35 @@ public class GroupRebuilderTest extends GerritBaseTests {
     assertCommit(
         log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
     assertCommit(log.get(4), "Update group\n\nAdd-group: Group y", "Account 9", "9@server-id");
+  }
+
+  @Test
+  public void fixupCommitPostDatesAllAuditEventsEvenIfAuditEventsAreInTheFuture() throws Exception {
+    AccountGroup g = newGroup("a");
+    IntStream.range(0, 20).forEach(i -> TimeUtil.nowTs());
+    Timestamp future = TimeUtil.nowTs();
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+
+    GroupBundle b =
+        builder()
+            .group(g)
+            .byId(byId(g, "x"), byId(g, "y"), byId(g, "z"))
+            .byIdAudit(addById(g, "x", 8, future))
+            .build();
+
+    rebuilder.rebuild(repo, b);
+
+    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    ImmutableList<CommitInfo> log = log(g);
+    assertThat(log).hasSize(3);
+    assertServerCommit(log.get(0), "Create group");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group x", "Account 8", "8@server-id");
+    assertServerCommit(log.get(2), "Update group\n\nAdd-group: Group y\nAdd-group: Group z");
+
+    assertThat(log.stream().map(c -> c.committer.date).collect(toImmutableList()))
+        .named("%s", log)
+        .isOrdered();
+    assertThat(TimeUtil.nowTs()).isLessThan(future);
   }
 
   private InternalGroup reload(AccountGroup g) throws Exception {

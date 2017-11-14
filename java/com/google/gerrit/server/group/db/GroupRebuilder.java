@@ -15,14 +15,17 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -46,10 +49,12 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -128,10 +133,12 @@ public class GroupRebuilder {
     }
     groupConfig.setGroupUpdate(updateBuilder.build(), getAccountNameEmailFunc, getGroupNameFunc);
 
+    Map<Key, Collection<Event>> events = toEvents(bundle).asMap();
+    PersonIdent nowServerIdent = getServerIdent(events);
+
     MetaDataUpdate md = metaDataUpdateFactory.create(allUsers, allUsersRepo, null);
 
     // Creation is done by the server (unlike later audit events).
-    PersonIdent nowServerIdent = serverIdent.get();
     PersonIdent created = new PersonIdent(nowServerIdent, group.getCreatedOn());
     md.getCommitBuilder().setAuthor(created);
     md.getCommitBuilder().setCommitter(created);
@@ -140,7 +147,6 @@ public class GroupRebuilder {
     try (BatchMetaDataUpdate batch = groupConfig.openUpdate(md)) {
       batch.write(groupConfig, md.getCommitBuilder());
 
-      Map<Key, Collection<Event>> events = toEvents(bundle, nowServerIdent).asMap();
       for (Map.Entry<Key, Collection<Event>> e : events.entrySet()) {
         InternalGroupUpdate.Builder ub = InternalGroupUpdate.builder();
         e.getValue().forEach(event -> event.update().accept(ub));
@@ -161,7 +167,7 @@ public class GroupRebuilder {
     }
   }
 
-  private ListMultimap<Key, Event> toEvents(GroupBundle bundle, PersonIdent nowServerIdent) {
+  private ListMultimap<Key, Event> toEvents(GroupBundle bundle) {
     ListMultimap<Key, Event> result =
         MultimapBuilder.treeKeys(Key.COMPARATOR).arrayListValues(1).build();
     Event e;
@@ -196,11 +202,29 @@ public class GroupRebuilder {
       }
     }
 
-    Timestamp now = new Timestamp(nowServerIdent.getWhen().getTime());
-    e = serverEvent(Type.FIXUP, now, setCurrentMembership(bundle));
+    // Due to clock skew, audit events may be in the future relative to this machine. Ensure the
+    // fixup event happens after any other events, both for the purposes of sorting Keys correctly
+    // and to avoid non-monotonic timestamps in the commit history.
+    Timestamp maxTs =
+        Stream.concat(result.keySet().stream().map(Key::when), Stream.of(TimeUtil.nowTs()))
+            .max(Comparator.naturalOrder())
+            .get();
+    Timestamp fixupTs = new Timestamp(maxTs.getTime() + 1);
+    e = serverEvent(Type.FIXUP, fixupTs, setCurrentMembership(bundle));
     result.put(e.key(), e);
 
     return result;
+  }
+
+  private PersonIdent getServerIdent(Map<Key, Collection<Event>> events) {
+    Key lastKey = ((NavigableSet<Key>) events.keySet()).last();
+    checkState(lastKey.type() == Type.FIXUP);
+    PersonIdent ident = serverIdent.get();
+    return new PersonIdent(
+        ident.getName(),
+        ident.getEmailAddress(),
+        Iterables.getOnlyElement(events.get(lastKey)).when(),
+        ident.getTimeZone());
   }
 
   private static Consumer<InternalGroupUpdate.Builder> addMember(Account.Id toAdd) {

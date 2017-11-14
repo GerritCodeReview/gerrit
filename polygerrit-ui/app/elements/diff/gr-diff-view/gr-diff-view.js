@@ -648,7 +648,7 @@
         dropdownContent.push({
           text: this.computeDisplayPath(path),
           mobileText: this.computeTruncatedPath(path),
-          value: this.computeDisplayPath(path),
+          value: path,
         });
       }
       return dropdownContent;

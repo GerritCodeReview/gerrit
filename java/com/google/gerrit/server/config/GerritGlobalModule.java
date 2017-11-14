@@ -301,7 +301,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.change.Module());
-    install(new com.google.gerrit.server.config.Module());
     install(new com.google.gerrit.server.group.Module());
     install(new com.google.gerrit.server.project.Module());
 

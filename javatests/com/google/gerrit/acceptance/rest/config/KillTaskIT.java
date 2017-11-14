@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.config.ListTasks.TaskInfo;
+import com.google.gerrit.server.config.rest.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Optional;

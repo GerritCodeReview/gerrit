@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;

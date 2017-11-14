@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 
@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GeneralPreferencesLoader;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;

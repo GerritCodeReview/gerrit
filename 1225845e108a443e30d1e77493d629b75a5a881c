@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5e6259ab_5e868392",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-14T23:06:17Z",
+      "side": 1,
+      "message": "I think usernames cannot be changed once you have it set.",
+      "parentUuid": "a4ac0c3e_f9fb814d",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "1225845e108a443e30d1e77493d629b75a5a881c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbeeaddc_fd4d7a1b",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.js",
         "patchSetId": 3

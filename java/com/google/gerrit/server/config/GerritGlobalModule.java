@@ -173,6 +173,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.restapi.config.ConfigRestModule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -305,7 +306,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.change.Module());
-    install(new com.google.gerrit.server.config.Module());
+    install(new ConfigRestModule());
     install(new com.google.gerrit.server.group.Module(groupsMigration));
     install(new com.google.gerrit.server.project.Module());
 

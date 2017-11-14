@@ -30,6 +30,11 @@
     SEND_DIFF_DRAFT: 'sendDiffDraft',
   };
 
+  const CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE =
+      'Saving draft resulted in HTTP 200 (OK) but expected HTTP 201 (Created)';
+  const HEADER_REPORTING_BLACKLIST = /^set-cookie$/i;
+
+
   Polymer({
     is: 'gr-rest-api-interface',
 
@@ -1557,6 +1562,7 @@
     },
 
     _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
+      const isCreate = !draft.id && method === 'PUT';
       let endpoint = '/drafts';
       if (draft.id) {
         endpoint += '/' + draft.id;
@@ -1573,6 +1579,11 @@
       const promise = this.getChangeURLAndSend(changeNum, method, patchNum,
           endpoint, body);
       this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
+
+      if (isCreate) {
+        return this._failForCreate200(promise);
+      }
+
       return promise;
     },
 
@@ -1915,6 +1926,35 @@
       return this._getChangeURLAndFetch(changeNum,
           `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
           opt_base ? {base: 't'} : undefined);
+    },
+
+    /**
+     * Modify the given create draft request promise so that it fails and throws
+     * an error if the response bears HTTP status 200 instead of HTTP 201.
+     * @see Issue 7763
+     * @param {Promise} promise The original promise.
+     * @return {Promise} The modified promise.
+     */
+    _failForCreate200(promise) {
+      return promise.then(result => {
+        if (result.status === 200) {
+          // Read the response headers into an object representation.
+          const headers = Array.from(result.headers.entries())
+              .reduce((obj, [key, val]) => {
+                if (!HEADER_REPORTING_BLACKLIST.test(key)) {
+                  obj[key] = val;
+                }
+                return obj;
+              }, {});
+          const err = new Error([
+            CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
+            JSON.stringify(headers),
+          ].join('\n'));
+          // Throw the error so that it is caught by gr-reporting.
+          throw err;
+        }
+        return result;
+      });
     },
   });
 })();

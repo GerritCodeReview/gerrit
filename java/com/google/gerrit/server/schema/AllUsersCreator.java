@@ -112,6 +112,12 @@ public class AllUsersCreator {
         grant(config, defaults, Permission.CREATE, admin);
       }
 
+      // Grant read permissions on the group branches to all users.
+      // This allows group owners to see the group refs. VisibleRefFilter ensures that read
+      // permissions for non-group-owners are ignored.
+      AccessSection groups = config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
+      grant(config, groups, Permission.READ, false, true, registered);
+
       config.commit(md);
     }
   }

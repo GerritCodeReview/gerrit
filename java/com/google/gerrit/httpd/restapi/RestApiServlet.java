@@ -15,6 +15,7 @@
 // WARNING: NoteDbUpdateManager cares about the package name RestApiServlet lives in.
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
@@ -1210,6 +1211,7 @@ public class RestApiServlet extends HttpServlet {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
     configureCaching(req, res, null, null, c);
+    checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
     return replyText(req, res, msg);
   }

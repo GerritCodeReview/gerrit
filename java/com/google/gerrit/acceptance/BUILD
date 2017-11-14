@@ -106,6 +106,7 @@ java_library2(
     ],
     visibility = ["//visibility:public"],
     deps = PROVIDED + [
+        "//java/com/google/gerrit/server/schema",
         # We want these deps to be exported_deps
         "//lib/greenmail:greenmail",
         "//lib:gwtorm",

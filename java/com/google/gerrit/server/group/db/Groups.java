@@ -55,6 +55,9 @@ import org.slf4j.LoggerFactory;
  * directly. There are a few exceptions though: schema classes, wrapper classes, and classes
  * executed during init. The latter ones should use {@code GroupsOnInit} instead.
  *
+ * <p>Most callers should not need to read groups directly from the database; they should use the
+ * {@link com.google.gerrit.server.account.GroupCache GroupCache} instead.
+ *
  * <p>If not explicitly stated, all methods of this class refer to <em>internal</em> groups.
  */
 @Singleton

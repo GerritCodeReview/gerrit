@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c516c4c4_746312fa",
+        "filename": "java/com/google/gerrit/index/query/FieldBundle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-14T15:11:07Z",
+      "side": 1,
+      "message": "This is impossible, Multimap#get never returns null.",
+      "revId": "a2aadb0eabe6518deef03510784b4a646426b14a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

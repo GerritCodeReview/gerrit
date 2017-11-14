@@ -40,6 +40,8 @@ public abstract class SubmitRuleOptions {
   @Nullable
   public abstract String rule();
 
+  public abstract Builder toBuilder();
+
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
@@ -49,9 +51,5 @@ public abstract class SubmitRuleOptions {
     public abstract SubmitRuleOptions.Builder rule(@Nullable String rule);
 
     public abstract SubmitRuleOptions build();
-  }
-
-  public Builder toBuilder() {
-    return builder().allowClosed(allowClosed()).skipFilters(skipFilters()).rule(rule());
   }
 }

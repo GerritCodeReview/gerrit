@@ -17,8 +17,8 @@ package com.google.gerrit.server.mail;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class ListMailFilter implements MailFilter {
       return true;
     }
 
-    boolean match = mailPattern.matcher(message.from().email).find();
+    boolean match = mailPattern.matcher(message.from().getEmail()).find();
     if (mode == ListFilterMode.WHITELIST && !match || mode == ListFilterMode.BLACKLIST && match) {
       logger.atInfo().log("Mail message from %s rejected by list filter", message.from());
       return false;

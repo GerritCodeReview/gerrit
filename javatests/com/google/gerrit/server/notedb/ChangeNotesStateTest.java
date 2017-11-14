@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -47,7 +48,6 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeCo
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotesState.ChangeColumns;
 import com.google.gerrit.server.notedb.ChangeNotesState.Serializer;
 import com.google.gwtorm.client.KeyUtil;

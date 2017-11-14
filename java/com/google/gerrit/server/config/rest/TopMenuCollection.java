@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class CapabilitiesCollection implements ChildCollection<ConfigResource, CapabilityResource> {
-  private final DynamicMap<RestView<CapabilityResource>> views;
-  private final ListCapabilities list;
+class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
+  private final DynamicMap<RestView<TopMenuResource>> views;
+  private final ListTopMenus list;
 
   @Inject
-  CapabilitiesCollection(DynamicMap<RestView<CapabilityResource>> views, ListCapabilities list) {
+  TopMenuCollection(DynamicMap<RestView<TopMenuResource>> views, ListTopMenus list) {
     this.views = views;
     this.list = list;
   }
@@ -39,13 +40,13 @@ public class CapabilitiesCollection implements ChildCollection<ConfigResource, C
   }
 
   @Override
-  public CapabilityResource parse(ConfigResource parent, IdString id)
+  public TopMenuResource parse(ConfigResource parent, IdString id)
       throws ResourceNotFoundException {
     throw new ResourceNotFoundException(id);
   }
 
   @Override
-  public DynamicMap<RestView<CapabilityResource>> views() {
+  public DynamicMap<RestView<TopMenuResource>> views() {
     return views;
   }
 }

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.config.rest;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 

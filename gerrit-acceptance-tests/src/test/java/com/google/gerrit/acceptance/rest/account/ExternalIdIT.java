@@ -276,6 +276,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranch() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
@@ -299,6 +301,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithoutAccountId() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
@@ -315,6 +319,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithKeyThatDoesntMatchTheNoteId()
       throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
@@ -330,6 +336,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithInvalidConfig() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
@@ -345,6 +353,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void pushToExternalIdsBranchRejectsExternalIdWithEmptyNote() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);
@@ -383,6 +393,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private void testPushToExternalIdsBranchRejectsInvalidExternalId(ExternalId invalidExtId)
       throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":" + RefNames.REFS_EXTERNAL_IDS);
     allUsersRepo.reset(RefNames.REFS_EXTERNAL_IDS);

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "219507db_e3d0d728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T22:18:50Z",
+      "side": 1,
+      "message": "Clarify that only low level / basic mail library is isolated in its own rule, while sending ans receving mail machinery rit/server? +1 for mail/lib package name.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d19d7eb_12d3d3a1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T22:18:50Z",
+      "side": 1,
+      "message": "You are not consistent with how you format one line dependency. Above you added it as one liner. In: [1] you used three liner. Can we be consistent?\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/141174/3/javatests/com/google/gerrit/acceptance/server/notedb/BUILD@10",
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3588f276_3f7e3dfa",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T22:18:50Z",
+      "side": 1,
+      "message": "Haven\u0027t we agreed on adding all possible acceptance tests dependency to \u0027//java/com/google/gerrit/acceptance:lib\u0027 instead of polluting acceptance tests rules? You wrote this comment: [1] as answer to my suggestion: [2].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/140535/11/javatests/com/google/gerrit/acceptance/tests.bzl@12\n* [2] https://gerrit-review.googlesource.com/#/c/gerrit/+/140535/10/javatests/com/google/gerrit/acceptance/tests.bzl@13",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

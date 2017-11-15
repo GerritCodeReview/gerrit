@@ -134,6 +134,7 @@ public class ProjectCacheImpl implements ProjectCache {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
+      log.warn("Cannot read project " + projectName, e);
       return null;
     }
   }
@@ -232,6 +233,7 @@ public class ProjectCacheImpl implements ProjectCache {
     try {
       src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));
     } catch (ExecutionException e) {
+      log.warn("Cannot look up projects for prefix " + pfx, e);
       return Collections.emptyList();
     }
     return new Iterable<Project.NameKey>() {

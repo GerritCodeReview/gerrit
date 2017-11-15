@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2576050_3ba1e3fd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-15T22:32:51Z",
+      "side": 1,
+      "message": "I\u0027m unclear why we can\u0027t keep using account._username?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 24
+      },
+      "revId": "2ff912742cf6eb13087da8257a41411a12f1c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f7e621_eeff21c0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-15T22:32:51Z",
+      "side": 1,
+      "message": "Assuming keep using _username, this can get added as an observer on the _username property.",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "2ff912742cf6eb13087da8257a41411a12f1c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ee0926_3a49cf38",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-15T22:32:51Z",
+      "side": 1,
+      "message": "I would add an assertion after this that the username is not mutable.",
+      "range": {
+        "startLine": 188,
+        "startChar": 7,
+        "endLine": 188,
+        "endChar": 49
+      },
+      "revId": "2ff912742cf6eb13087da8257a41411a12f1c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

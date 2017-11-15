@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6ebf1a8a_08b4fdd4",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T13:37:31Z",
+      "side": 1,
+      "message": "I think what we want to check here is that all groups that are mentioned in the refs/meta/group-names notes branch have a group ref in NoteDb and that the name in both branches matches.",
+      "parentUuid": "a539680c_4e9a3f0d",
+      "range": {
+        "startLine": 123,
+        "startChar": 31,
+        "endLine": 123,
+        "endChar": 58
+      },
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "782ba95d_60998dad",
         "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
         "patchSetId": 3

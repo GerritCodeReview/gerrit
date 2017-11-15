@@ -246,19 +246,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
-  public void byOwner() throws Exception {
-    GroupInfo ownerGroup = createGroup(name("owner-group"));
-    GroupInfo group = createGroupWithOwner(name("group"), ownerGroup);
-    createGroup(name("group2"));
-
-    assertQuery("owner:" + group.id);
-
-    // ownerGroup owns itself
-    assertQuery("owner:" + ownerGroup.id, group, ownerGroup);
-    assertQuery("owner:" + ownerGroup.name, group, ownerGroup);
-  }
-
-  @Test
   public void byIsVisibleToAll() throws Exception {
     assertQuery("is:visibletoall");
 

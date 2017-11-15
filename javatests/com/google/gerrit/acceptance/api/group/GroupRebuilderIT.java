@@ -90,7 +90,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     InternalGroup reviewDbGroup = groups.getGroup(db, new AccountGroup.UUID(createdGroup.id)).get();
     deleteGroupRefs(reviewDbGroup);
 
-    assertThat(rebuild(reviewDbGroup)).isEqualTo(roundToSecond(reviewDbGroup));
+    assertThat(removeRefState(rebuild(reviewDbGroup))).isEqualTo(roundToSecond(reviewDbGroup));
   }
 
   @Test
@@ -109,7 +109,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     deleteGroupRefs(reviewDbGroup);
 
     InternalGroup noteDbGroup = rebuild(reviewDbGroup);
-    assertThat(noteDbGroup).isEqualTo(roundToSecond(reviewDbGroup));
+    assertThat(removeRefState(noteDbGroup)).isEqualTo(roundToSecond(reviewDbGroup));
 
     ImmutableList<CommitInfo> log = log(group1);
     assertThat(log).hasSize(4);
@@ -145,6 +145,10 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
     assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
     assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
+  }
+
+  private static InternalGroup removeRefState(InternalGroup group) throws Exception {
+    return group.toBuilder().setRefState(null).build();
   }
 
   private void deleteGroupRefs(InternalGroup group) throws Exception {

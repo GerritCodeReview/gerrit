@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510753385 +0100\nnonce AMT3iFjnB+NgGtyalKnK6XZqduF0xU1Fq+SCedNC+JODo8DM7SpIdzFUoPG3qlP+UDdoOERxTIE7\n\n0000000000000000000000000000000000000000 d2f353464c5e176be8f5435eb180ef3703d44768 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDERpAAoJEFG1/Zeg0O9RnU0H/2//S1ysCyEQdi+KwSHo7hJM\nM2D7CIdsPL0rIshf7UluA/iJzv9nHbhIAMScfgsVo+2bcfYNuy1ncPGR21bbQ0G0\nzsJoOgVKMSFkJjvLbtt/9lXINAoLIzjovAMiQHV1/O8jbgsAGvidCPpIUsGXswjh\nT3yoZj+qy4Tqilt5CEWrWXoJpJAsrCubfuEj+CJj/4KHjvoctm7y582zsvbbA6Nq\ncIsHJZWYRDWYq9fEqfxCSpFEioRfh8Cv6f0IdrU1OV9kwNaY3n/UIFfiYRIblrwn\nbUoRKsowkZUKJge9QlSL7QtzfiIvDtQLbOXzOrdPqbzo44mnSr6k6VVUo4l0AZk\u003d\n\u003dVPHY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef717cc_722db507",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T16:08:15Z",
+      "side": 1,
+      "message": "It would be nice if we had a common method to share this code with the code in assertPermission to cut down on dupes",
+      "range": {
+        "startLine": 1337,
+        "startChar": 0,
+        "endLine": 1350,
+        "endChar": 45
+      },
+      "revId": "7491aae0ee6384c07bff65c2481e64b544b8d6c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "097c0744_eb77ee53",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T10:24:56Z",
+      "side": 1,
+      "message": "nit: Don\u0027t import inner classes (at least not Status)",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 21,
+        "endChar": 98
+      },
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8669fcbf_e5d736d7",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T10:24:56Z",
+      "side": 1,
+      "message": "Do we need a cycle check for owners as well?",
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee9ddd39_ef7f6bf7",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T10:24:56Z",
+      "side": 1,
+      "message": "owner",
+      "range": {
+        "startLine": 81,
+        "startChar": 69,
+        "endLine": 81,
+        "endChar": 77
+      },
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c140dcef_d553f016",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T10:24:56Z",
+      "side": 1,
+      "message": "This means that the group is present in ReviewDb, but not in NoteDb, right? If so, maybe rephrase the message to make that more clear.",
+      "range": {
+        "startLine": 123,
+        "startChar": 31,
+        "endLine": 123,
+        "endChar": 58
+      },
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "782ba95d_60998dad",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T10:24:56Z",
+      "side": 1,
+      "message": "For names that is easier, because you just have to get the content of refs/group-names",
+      "revId": "eade1b59d10bdf6d000ec47bb46e9e633558ecee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

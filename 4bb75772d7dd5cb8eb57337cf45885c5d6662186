@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5a1fc54_1f270de5",
+        "filename": "java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-15T12:35:27Z",
+      "side": 1,
+      "message": "wrong import order",
+      "revId": "4bb75772d7dd5cb8eb57337cf45885c5d6662186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

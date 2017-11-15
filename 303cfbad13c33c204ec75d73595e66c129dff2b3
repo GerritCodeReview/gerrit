@@ -22,6 +22,30 @@
       "revId": "303cfbad13c33c204ec75d73595e66c129dff2b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a42fc0_20de4b31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-11-15T16:44:58Z",
+      "side": 1,
+      "message": "Yay. ps2 tries to address this SECONDARY_EMAILS exposure.",
+      "parentUuid": "5faa7465_435d0f85",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "303cfbad13c33c204ec75d73595e66c129dff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

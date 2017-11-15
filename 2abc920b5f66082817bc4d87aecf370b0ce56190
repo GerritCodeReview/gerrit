@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510743776 +0100\nnonce AMT3iFiXyagkn+y64+ElLsO6DkubO79SG6FbNvHV8OsAgMRL9X6LZYHCbWIoR4VWuBibiZgsD2Zq\n\n0000000000000000000000000000000000000000 38f9096d33920ae73c1caf2a214e52da4e968430 refs/for/stable-2.15\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDB7gAAoJEFG1/Zeg0O9RRDwIAIpecCLT0g2qEc/le6qYD3tl\n3+gYLdXgVoa67VBl0pYIa8SEVFU7dPMSrImpldpZ2QZ/2YtY6b/ckHYysXLJFJ2f\n4H9ZyAcZBZnDiqQRXNEM91Zmm9L8t8EYGqMNeSEEtRnEMgOFsdyhGl+Weo8Yr9o5\njDtNATmiz4ut4nk+3DppyWNpEEDaU73v1sKoUviBlObOMWAIgytly20noPJ748lk\n47x/F9xFGavz0kqC7mx1lXsYpQvilAM2QN58h5wI4DHuaurQ7QYULAsZbCgsy0S3\nFwM5BTLjLcb5bAB2FA1j8WmHvQCaVpr20CWgK5xBCiQ/7JS5ZOY0ac4AGc0kqyA\u003d\n\u003dJW7/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcfa5680_75d23740",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-15T11:24:21Z",
+      "side": 1,
+      "message": "why do these tests need to be sandboxed?",
+      "range": {
+        "startLine": 495,
+        "startChar": 3,
+        "endLine": 495,
+        "endChar": 12
+      },
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

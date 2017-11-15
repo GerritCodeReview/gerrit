@@ -35,7 +35,14 @@
 
     _updateValue() {
       if (this.bindValue) {
+        // Set for chrome/safari so it happens instantly
         this.nativeSelect.value = this.bindValue;
+        // Async needed for firefox to populate value. It was trying to do it
+        // before options from a dom-repeat were rendered previously.
+        // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7735
+        this.async(() => {
+          this.nativeSelect.value = this.bindValue;
+        }, 1);
       }
     },
 

@@ -15,7 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.common.EmailInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,9 +31,22 @@ import java.util.List;
 
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
+
+  @Inject
+  GetEmails(Provider<CurrentUser> self, PermissionBackend permissionBackend) {
+    this.self = self;
+    this.permissionBackend = permissionBackend;
+  }
 
   @Override
-  public List<EmailInfo> apply(AccountResource rsrc) {
+  public List<EmailInfo> apply(AccountResource rsrc)
+      throws AuthException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+    }
+
     List<EmailInfo> emails = new ArrayList<>();
     for (String email : rsrc.getUser().getEmailAddresses()) {
       if (email != null) {

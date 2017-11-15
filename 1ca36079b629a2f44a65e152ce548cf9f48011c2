@@ -22,6 +22,30 @@
       "revId": "1ca36079b629a2f44a65e152ce548cf9f48011c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a19008_6b0eddc2",
+        "filename": "java/com/google/gerrit/server/query/group/GroupQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T14:39:58Z",
+      "side": 0,
+      "message": "That was an oversight because that change used to also remove \u0027owner\u0027 from the index. I\u0027ll set it back in place.",
+      "parentUuid": "f28fa549_1efee207",
+      "range": {
+        "startLine": 112,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 3
+      },
+      "revId": "1ca36079b629a2f44a65e152ce548cf9f48011c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

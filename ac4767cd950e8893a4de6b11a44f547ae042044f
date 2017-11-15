@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "78971859_1acc8bc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T11:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7fd5671_bc51020a",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "ac4767cd950e8893a4de6b11a44f547ae042044f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6da6693_9540f118",
         "filename": "java/gerrit/PRED_commit_edits_2.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-11-15T07:56:29Z",
       "side": 1,
       "message": "Maybe add a comment here to say why this cast is needed, otherwise somebody may find it unneeded and remove it again.",
+      "revId": "ac4767cd950e8893a4de6b11a44f547ae042044f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49732292_544e8ece",
+        "filename": "java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T11:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6da6693_9540f118",
       "revId": "ac4767cd950e8893a4de6b11a44f547ae042044f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../diff/gr-patch-range-select/gr-patch-range-select.html">
 <link rel="import" href="../../edit/gr-edit-controls/gr-edit-controls.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
+<link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -100,6 +101,9 @@ limitations under the License.
       gr-button.selected iron-icon {
         color: var(--color-link);
       }
+      gr-linked-chip {
+        --link-color: black;
+      }
       .expanded #collapseBtn,
       .openFile .fileViewActions {
         align-items: center;
@@ -164,14 +168,29 @@ limitations under the License.
           </span>
           <span class="container descriptionContainer hideOnEdit">
             <span class="separator"></span>
-            <gr-editable-label
-                id="descriptionLabel"
-                class="descriptionLabel"
-                label-text="Add patchset description"
-                value="[[_computePatchSetDescription(change, patchNum)]]"
-                placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-                read-only="[[_descriptionReadOnly]]"
-                on-changed="_handleDescriptionChanged"></gr-editable-label>
+            <template
+                is="dom-if"
+                if="[[_patchsetDescription]]">
+              <gr-linked-chip
+                  id="descriptionChip"
+                  text="[[_patchsetDescription]]"
+                  limit="40"
+                  removable="[[!_descriptionReadOnly]]"
+                  on-remove="_handleDescriptionRemoved"></gr-linked-chip>
+            </template>
+            <template
+                is="dom-if"
+                if="[[!_patchsetDescription]]">
+              <gr-editable-label
+                  id="descriptionLabel"
+                  uppercase
+                  class="descriptionLabel"
+                  label-text="Add patchset description"
+                  value="[[_patchsetDescription]]"
+                  placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
+                  read-only="[[_descriptionReadOnly]]"
+                  on-changed="_handleDescriptionChanged"></gr-editable-label>
+            </template>
           </span>
         </div>
         <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">

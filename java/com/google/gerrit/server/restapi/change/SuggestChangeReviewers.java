@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.ReviewersUtil.VisibilityControl;
 import com.google.gwtorm.server.OrmException;
@@ -66,7 +67,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

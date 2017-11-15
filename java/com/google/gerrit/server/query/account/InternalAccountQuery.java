@@ -83,7 +83,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   }
 
   public List<AccountState> byDefault(String query) throws OrmException {
-    return query(AccountPredicates.defaultPredicate(query));
+    return query(AccountPredicates.defaultPredicate(schema(), true, query));
   }
 
   public List<AccountState> byExternalId(String scheme, String id) throws OrmException {
@@ -91,7 +91,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   }
 
   public List<AccountState> byExternalId(ExternalId.Key externalId) throws OrmException {
-    return query(AccountPredicates.externalId(externalId.toString()));
+    return query(AccountPredicates.externalIdIncludingSecondaryEmails(externalId.toString()));
   }
 
   public AccountState oneByExternalId(String externalId) throws OrmException {

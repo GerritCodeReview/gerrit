@@ -63,7 +63,9 @@ for each account.
 
 [[all-emails]]
 --
-* `ALL_EMAILS`: Includes all registered emails.
+* `ALL_EMAILS`: Includes all registered emails. Requires the caller
+to have the link:access-control.html#capability_modifyAccount[Modify
+Account] global capability.
 --
 
 [[suggest-account]]
@@ -78,6 +80,10 @@ link:#all-emails[all emails] are always returned.
 ----
   GET /accounts/?suggest&q=John HTTP/1.0
 ----
+
+Secondary emails are only included if the calling user has the
+link:access-control.html#capability_modifyAccount[Modify Account]
+capability.
 
 .Response
 ----
@@ -2159,7 +2165,10 @@ ALL_EMAILS] for account queries.
 |`secondary_emails`|optional|
 A list of the secondary email addresses of the user. +
 Only set for account queries when the link:#all-emails[ALL_EMAILS]
-option is set.
+option or the link:#suggest-account[suggest] parameter is set. +
+Secondary emails are only included if the calling user has the
+link:access-control.html#capability_modifyAccount[Modify Account], and
+hence is allowed to see secondary emails of other users.
 |`username`        |optional|The username of the user. +
 Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[

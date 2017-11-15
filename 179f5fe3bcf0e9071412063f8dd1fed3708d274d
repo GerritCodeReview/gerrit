@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510749497 -0500\nnonce AMT3iFhIFblJC91MwLbCNlNZlP+T/Do3ScnZd4Jpp/MSccvqB/yrQgb55mSY2rbdd+Af9+EiJ7Vn\n\n0000000000000000000000000000000000000000 179f5fe3bcf0e9071412063f8dd1fed3708d274d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloMNTkVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMJS4QALybMK8ApizCOVG+Bhqevqi61SqA\n8JGK6lvikwXkNuNMFAD5bYmyrkAqO7mVZ70EAH3ULEiClEkR6/FAcasXc2jkeVjL\nqbQh5C3TLFCv2Tm9Mvfo5/SbEletwcUVB+L3DDaVW1/gsUksiT/3eXdbAaxEh7/F\nPAY5szXTEwcNn2iAiGBDP8Elwuzk/B05ghfSClVwCBBVfzWgyJstuVaggqHWhiA1\nVFY1r0vYo/UDdAWHD+/g7idKPZoOBA4qc3kYQVycg/H6lydCEbVNk7IHuGB92Xp4\nkH+gy2DTJlIe0eUcgDtVU526X7D8eEG0veYqV8EmOlJLzlUzZ3O/LIvZY+1NDIqY\nfjPUkFls3QzPB2ZyXMbmQFOfmHVbUhSWeu2C/+S0wp93RgvnhpV9NRwdQNeEALPH\n3e6u/iiZ1SP171iwMqF6IhTmbLJWOjvdgwUJ+aM7wGZHZ4E6c2DwUKPqNGmm5w+J\n36GVZ5AlZspIQSq8KOMoLp7hXX4xJUwbGugcyqHlcWosV/20/vgqZbBFhBGWhqD+\nZlPhwy34+DiMv1QF49uF1PzgnCF3Fpp8ROvmftZSu9GpKiCZozdQzlSY/CZWNrKg\nVezSxCjdn680zfbFaL0zaVW2s6wpBNhwZX6VjXuQ7D9/qRgB1JdsZrGb/ccbupWx\nUa32FWTOcETaqwwP\n\u003dkCfF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d459eb1_cc0e0363",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "Should we check in this method that the names and UUIDs of the passed GroupReferences are unique?",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 37
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d6648d_45651c5e",
+        "filename": "java/com/google/gerrit/server/group/db/testing/GroupTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "Asking because of curiosity: Why do we need to explicitly set this to true? Doesn\u0027t a newly created RevWalk have this set as \u0027true\u0027 by default?",
+      "range": {
+        "startLine": 68,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1213eb7_fa011d40",
+        "filename": "java/com/google/gerrit/server/group/db/testing/GroupTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "optional: Directly use \u0027return\u0027 here and explicitly return an empty list below.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 16
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ebf615_7e1b21c2",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupNameNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "Could we please have a test which passes an empty list of GroupReferences to updateGroupNames() after previously filling the NoteMap?",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47e1af1_0e407a83",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupNameNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "optional: For readability, this would better be placed right below the comment in line 92.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2806b456_0fa6257e",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupNameNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T15:11:47Z",
+      "side": 1,
+      "message": "Could we use GroupReference here? (I intend to get rid of AccountGroup at some point in the future.)",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 22
+      },
+      "revId": "179f5fe3bcf0e9071412063f8dd1fed3708d274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

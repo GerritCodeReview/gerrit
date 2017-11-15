@@ -230,7 +230,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void createGroup() throws Exception {
     String newGroupName = name("newGroup");
     GroupInfo g = gApi.groups().create(newGroupName).get();
-    assertGroupInfo(getFromCache(newGroupName), g);
+    assertGroupInfo(group(newGroupName), g);
   }
 
   @Test
@@ -290,7 +290,7 @@ public class GroupsIT extends AbstractDaemonTest {
     in.name = name("newGroup");
     in.description = "Test description";
     in.visibleToAll = true;
-    in.ownerId = getFromCache("Administrators").getGroupUUID().get();
+    in.ownerId = adminGroupUuid().get();
     GroupInfo g = gApi.groups().create(in).detail();
     assertThat(g.description).isEqualTo(in.description);
     assertThat(g.options.visibleToAll).isEqualTo(in.visibleToAll);
@@ -316,7 +316,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getGroup() throws Exception {
-    InternalGroup adminGroup = getFromCache("Administrators");
+    InternalGroup adminGroup = adminGroup();
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
     testGetGroup(adminGroup.getId().get(), adminGroup);
@@ -423,7 +423,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String newName = name("Name2");
     gApi.groups().id(group.id).name(newName);
 
-    assertThat(getFromCache(name)).isNull();
+    assertGroupDoesNotExist(name);
     exception.expect(ResourceNotFoundException.class);
     gApi.groups().id(name).get();
   }
@@ -481,7 +481,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void groupOwner() throws Exception {
     String name = name("group");
     GroupInfo info = gApi.groups().create(name).get();
-    String adminUUID = getFromCache("Administrators").getGroupUUID().get();
+    String adminUUID = adminGroupUuid().get();
     String registeredUUID = SystemGroupBackend.REGISTERED_USERS.get();
 
     // get owner
@@ -654,8 +654,7 @@ public class GroupsIT extends AbstractDaemonTest {
         Arrays.asList(createGroup("test-child1", parent), createGroup("test-child2", parent));
 
     // By UUID
-    List<GroupInfo> owned =
-        gApi.groups().list().withOwnedBy(getFromCache(parent).getGroupUUID().get()).get();
+    List<GroupInfo> owned = gApi.groups().list().withOwnedBy(groupUuid(parent).get()).get();
     assertThat(owned.stream().map(g -> g.name).collect(toList()))
         .containsExactlyElementsIn(children);
 
@@ -681,7 +680,7 @@ public class GroupsIT extends AbstractDaemonTest {
     in.name = newGroupName;
     in.description = "a hidden group";
     in.visibleToAll = false;
-    in.ownerId = getFromCache("Administrators").getGroupUUID().get();
+    in.ownerId = adminGroupUuid().get();
     gApi.groups().create(in);
 
     setApiUser(user);
@@ -751,7 +750,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
-    InternalGroup adminGroup = getFromCache("Administrators");
+    InternalGroup adminGroup = adminGroup();
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
     assertThat(groups).hasSize(1);
     assertThat(groups).containsKey("Administrators");
@@ -928,12 +927,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assume().that(groupsInNoteDb()).isTrue();
 
     grant(allUsers, RefNames.REFS_GROUPS + "*", Permission.DELETE, true, REGISTERED_USERS);
-
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    assertThat(adminGroup).isNotNull();
-    String groupRef = RefNames.refsGroups(adminGroup.getGroupUUID());
-
+    String groupRef = RefNames.refsGroups(adminGroupUuid());
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     PushResult r = deleteRef(allUsersRepo, groupRef);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(groupRef);
@@ -1094,10 +1088,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertNoIncludes(String group) throws Exception {
     assertThat(gApi.groups().id(group).includedGroups()).isEmpty();
-  }
-
-  private InternalGroup getFromCache(String name) throws Exception {
-    return groupCache.get(new AccountGroup.NameKey(name)).orElse(null);
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

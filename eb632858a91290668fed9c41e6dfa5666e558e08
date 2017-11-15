@@ -118,6 +118,30 @@
       "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96550a93_a1c68335",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-15T04:09:00Z",
+      "side": 1,
+      "message": "One word: microtasks.",
+      "parentUuid": "d1c8ce7a_331cea22",
+      "range": {
+        "startLine": 633,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 32
+      },
+      "revId": "eb632858a91290668fed9c41e6dfa5666e558e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.accounts;
+package com.google.gerrit.server.account;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;

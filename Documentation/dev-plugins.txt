@@ -2249,7 +2249,7 @@ Plugins can hook into the
 link:rest-api-accounts.html#create-account[account creation] REST API and
 inject additional external identifiers for an account that represents a user
 in some external user store. For that, an implementation of the extension
-point `com.google.gerrit.server.api.accounts.AccountExternalIdCreator`
+point `com.google.gerrit.server.account.AccountExternalIdCreator`
 must be registered.
 
 [source,java]

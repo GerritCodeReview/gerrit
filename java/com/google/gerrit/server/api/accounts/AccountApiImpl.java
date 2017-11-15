@@ -62,6 +62,7 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
+import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;

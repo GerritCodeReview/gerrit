@@ -47,9 +47,10 @@ limitations under the License.
     // Click the up/down button (according to direction) for the index'th row.
     // The index of the first row is 0, corresponding to the array.
     function move(element, index, direction) {
-      const selector =
-          'tr:nth-child(' + (index + 1) + ') .move' + direction + 'Button';
-      const button = element.$$('tbody').querySelector(selector);
+      const selector = 'tr:nth-child(' + (index + 1) + ') .move' +
+          direction + 'Button';
+      const button =
+          element.$$('tbody').querySelector(selector).$$('paper-button');
       MockInteractions.tap(button);
     }
 
@@ -141,15 +142,15 @@ limitations under the License.
           ['first name', 'second name', 'third name']);
 
       // Tap the delete button for the middle item.
-      MockInteractions.tap(
-          element.$$('tbody').querySelector('tr:nth-child(2) .remove-button'));
+      MockInteractions.tap(element.$$('tbody')
+          .querySelector('tr:nth-child(2) .remove-button').$$('paper-button'));
 
       assertMenuNamesEqual(element, ['first name', 'third name']);
 
       // Delete remaining items.
       for (let i = 0; i < 2; i++) {
-        MockInteractions.tap(
-            element.$$('tbody').querySelector('tr:first-child .remove-button'));
+        MockInteractions.tap(element.$$('tbody')
+            .querySelector('tr:first-child .remove-button').$$('paper-button'));
       }
       assertMenuNamesEqual(element, []);
 

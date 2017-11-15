@@ -74,6 +74,8 @@ java_library(
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
+        "//lib/log:gelf",
+        "//lib/log:json-simple",
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-core-and-backward-codecs",
         "//lib/lucene:lucene-queryparser",
@@ -106,6 +108,7 @@ TESTUTIL_DEPS = [
     "//lib/log:api",
     "//lib/log:impl_log4j",
     "//lib/log:log4j",
+    "//lib/log:gelf",
 ]
 
 TESTUTIL = glob([

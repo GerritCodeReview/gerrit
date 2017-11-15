@@ -24,6 +24,8 @@ BASE_JETTY_DEPS = [
     "//lib/joda:joda-time",
     "//lib/log:api",
     "//lib/log:log4j",
+    "//lib/log:gelf",
+    "//lib/log:json-simple",
 ]
 
 DEPS = BASE_JETTY_DEPS + [

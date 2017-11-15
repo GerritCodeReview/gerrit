@@ -36,6 +36,7 @@ EXPORTS = [
     "//lib/joda:joda-time",
     "//lib/log:api",
     "//lib/log:log4j",
+    "//lib/log:gelf",
     "//lib/mina:sshd",
     "//lib/ow2:ow2-asm",
     "//lib/ow2:ow2-asm-analysis",

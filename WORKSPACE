@@ -263,6 +263,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "gelf",
+    artifact = "biz.paluch.logging:logstash-gelf:1.11.1",
+    sha1 = "12e1eb59c90028b8b4fbbe945228e1a0654bbfd6",
+)
+
+maven_jar(
     name = "jsonevent_layout",
     artifact = "net.logstash.log4j:jsonevent-layout:1.7",
     sha1 = "507713504f0ddb75ba512f62763519c43cf46fde",

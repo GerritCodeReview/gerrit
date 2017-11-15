@@ -71,6 +71,47 @@
       "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b0c1b8c_35599e11",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T16:22:16Z",
+      "side": 1,
+      "message": "We could also sandbox hideMetaRefs instead which would be a small win for runtime as it only requires setting up the sandbox for a single method instead of two methods.",
+      "parentUuid": "19feefda_659b4c41",
+      "range": {
+        "startLine": 495,
+        "startChar": 3,
+        "endLine": 495,
+        "endChar": 12
+      },
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a025aa2d_8bd30bf1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T16:22:16Z",
+      "side": 1,
+      "message": "I was confused at first if this refers to refs/meta/{config,group-names} or refs/changes/xx/xxxx/meta. Can you rename the method to be more explicit about that?",
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

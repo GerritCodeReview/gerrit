@@ -87,10 +87,12 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   @Test
   public void basicGroupProperties() throws Exception {
     GroupInfo createdGroup = gApi.groups().create(name("group")).get();
-    InternalGroup reviewDbGroup = groups.getGroup(db, new AccountGroup.UUID(createdGroup.id)).get();
-    deleteGroupRefs(reviewDbGroup);
-
-    assertThat(removeRefState(rebuild(reviewDbGroup))).isEqualTo(roundToSecond(reviewDbGroup));
+    try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
+      InternalGroup reviewDbGroup =
+          groups.getGroup(db, new AccountGroup.UUID(createdGroup.id)).get();
+      deleteGroupRefs(reviewDbGroup);
+      assertThat(removeRefState(rebuild(reviewDbGroup))).isEqualTo(roundToSecond(reviewDbGroup));
+    }
   }
 
   @Test
@@ -105,46 +107,48 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
     gApi.groups().id(group1.id).addGroups(group2.id);
 
-    InternalGroup reviewDbGroup = groups.getGroup(db, new AccountGroup.UUID(group1.id)).get();
-    deleteGroupRefs(reviewDbGroup);
+    try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
+      InternalGroup reviewDbGroup = groups.getGroup(db, new AccountGroup.UUID(group1.id)).get();
+      deleteGroupRefs(reviewDbGroup);
 
-    InternalGroup noteDbGroup = rebuild(reviewDbGroup);
-    assertThat(removeRefState(noteDbGroup)).isEqualTo(roundToSecond(reviewDbGroup));
+      InternalGroup noteDbGroup = rebuild(reviewDbGroup);
+      assertThat(removeRefState(noteDbGroup)).isEqualTo(roundToSecond(reviewDbGroup));
 
-    ImmutableList<CommitInfo> log = log(group1);
-    assertThat(log).hasSize(4);
+      ImmutableList<CommitInfo> log = log(group1);
+      assertThat(log).hasSize(4);
 
-    assertThat(log.get(0)).message().isEqualTo("Create group");
-    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
-    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
-    assertThat(log.get(0)).author().date().isEqualTo(noteDbGroup.getCreatedOn());
-    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.get().getTimeZoneOffset());
-    assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
+      assertThat(log.get(0)).message().isEqualTo("Create group");
+      assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
+      assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(log.get(0)).author().date().isEqualTo(noteDbGroup.getCreatedOn());
+      assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.get().getTimeZoneOffset());
+      assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
-    assertThat(log.get(1))
-        .message()
-        .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
-    assertThat(log.get(1)).author().name().isEqualTo(admin.fullName);
-    assertThat(log.get(1)).author().email().isEqualTo(admin.id + "@" + serverId);
-    assertThat(log.get(1)).committer().hasSameDateAs(log.get(1).author);
+      assertThat(log.get(1))
+          .message()
+          .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
+      assertThat(log.get(1)).author().name().isEqualTo(admin.fullName);
+      assertThat(log.get(1)).author().email().isEqualTo(admin.id + "@" + serverId);
+      assertThat(log.get(1)).committer().hasSameDateAs(log.get(1).author);
 
-    assertThat(log.get(2))
-        .message()
-        .isEqualTo(
-            "Update group\n"
-                + "\n"
-                + ("Add: User <" + user.id + "@" + serverId + ">\n")
-                + ("Add: User2 <" + user2.id + "@" + serverId + ">"));
-    assertThat(log.get(2)).author().name().isEqualTo(admin.fullName);
-    assertThat(log.get(2)).author().email().isEqualTo(admin.id + "@" + serverId);
-    assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
+      assertThat(log.get(2))
+          .message()
+          .isEqualTo(
+              "Update group\n"
+                  + "\n"
+                  + ("Add: User <" + user.id + "@" + serverId + ">\n")
+                  + ("Add: User2 <" + user2.id + "@" + serverId + ">"));
+      assertThat(log.get(2)).author().name().isEqualTo(admin.fullName);
+      assertThat(log.get(2)).author().email().isEqualTo(admin.id + "@" + serverId);
+      assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
 
-    assertThat(log.get(3))
-        .message()
-        .isEqualTo("Update group\n\nAdd-group: " + group2.name + " <" + group2.id + ">");
-    assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
-    assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
-    assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
+      assertThat(log.get(3))
+          .message()
+          .isEqualTo("Update group\n\nAdd-group: " + group2.name + " <" + group2.id + ">");
+      assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
+      assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
+      assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
+    }
   }
 
   private static InternalGroup removeRefState(InternalGroup group) throws Exception {
@@ -208,5 +212,20 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
     assertThat(commitDates).named("commit timestamps for %s", result).isOrdered();
     return result.build();
+  }
+
+  private class BlockReviewDbUpdatesForGroups implements AutoCloseable {
+    BlockReviewDbUpdatesForGroups() {
+      blockReviewDbUpdates(true);
+    }
+
+    @Override
+    public void close() throws Exception {
+      blockReviewDbUpdates(false);
+    }
+
+    private void blockReviewDbUpdates(boolean block) {
+      cfg.setBoolean("user", null, "readGroupsFromNoteDb", block);
+    }
   }
 }

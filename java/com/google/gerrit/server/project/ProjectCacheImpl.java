@@ -37,8 +37,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
@@ -229,57 +227,15 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Iterable<Project.NameKey> byName(String pfx) {
-    final Iterable<Project.NameKey> src;
+    Project.NameKey start = new Project.NameKey(pfx);
+    Project.NameKey end = new Project.NameKey(pfx + Character.MAX_VALUE);
     try {
-      src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));
+      // Right endpoint is exclusive, but U+FFFF is a non-character so no project ends with it.
+      return list.get(ListKey.ALL).subSet(start, end);
     } catch (ExecutionException e) {
       log.warn("Cannot look up projects for prefix " + pfx, e);
       return Collections.emptyList();
     }
-    return new Iterable<Project.NameKey>() {
-      @Override
-      public Iterator<Project.NameKey> iterator() {
-        return new Iterator<Project.NameKey>() {
-          private Iterator<Project.NameKey> itr = src.iterator();
-          private Project.NameKey next;
-
-          @Override
-          public boolean hasNext() {
-            if (next != null) {
-              return true;
-            }
-
-            if (!itr.hasNext()) {
-              return false;
-            }
-
-            Project.NameKey r = itr.next();
-            if (r.get().startsWith(pfx)) {
-              next = r;
-              return true;
-            }
-            itr = Collections.<Project.NameKey>emptyList().iterator();
-            return false;
-          }
-
-          @Override
-          public Project.NameKey next() {
-            if (!hasNext()) {
-              throw new NoSuchElementException();
-            }
-
-            Project.NameKey r = next;
-            next = null;
-            return r;
-          }
-
-          @Override
-          public void remove() {
-            throw new UnsupportedOperationException();
-          }
-        };
-      }
-    };
   }
 
   static class Loader extends CacheLoader<String, ProjectState> {

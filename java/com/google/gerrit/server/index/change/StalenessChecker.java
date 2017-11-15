@@ -158,21 +158,7 @@ public class StalenessChecker {
   }
 
   private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {
-    return parseStates(cd.getRefStates());
-  }
-
-  public static SetMultimap<Project.NameKey, RefState> parseStates(Iterable<byte[]> states) {
-    RefState.check(states != null, null);
-    SetMultimap<Project.NameKey, RefState> result =
-        MultimapBuilder.hashKeys().hashSetValues().build();
-    for (byte[] b : states) {
-      RefState.check(b != null, null);
-      String s = new String(b, UTF_8);
-      List<String> parts = Splitter.on(':').splitToList(s);
-      RefState.check(parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
-      result.put(new Project.NameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
-    }
-    return result;
+    return RefState.parseStates(cd.getRefStates());
   }
 
   private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(ChangeData cd) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexedQuery;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
@@ -22,9 +23,21 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
+import java.util.HashSet;
+import java.util.Set;
 
 public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
     implements DataSource<AccountState> {
+
+  public static QueryOptions createOptions(
+      IndexConfig config, int start, int limit, Set<String> fields) {
+    // Always include Account.Id since it is needed to load the account from NoteDb.
+    if (!fields.contains(AccountField.ID.getName())) {
+      fields = new HashSet<>(fields);
+      fields.add(AccountField.ID.getName());
+    }
+    return QueryOptions.create(config, start, limit, fields);
+  }
 
   public IndexedAccountQuery(
       Index<Account.Id, AccountState> index, Predicate<AccountState> pred, QueryOptions opts)

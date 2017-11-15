@@ -19,9 +19,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Splitter;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -29,6 +33,20 @@ import org.eclipse.jgit.lib.Repository;
 
 @AutoValue
 public abstract class RefState {
+  public static SetMultimap<Project.NameKey, RefState> parseStates(Iterable<byte[]> states) {
+    RefState.check(states != null, null);
+    SetMultimap<Project.NameKey, RefState> result =
+        MultimapBuilder.hashKeys().hashSetValues().build();
+    for (byte[] b : states) {
+      RefState.check(b != null, null);
+      String s = new String(b, UTF_8);
+      List<String> parts = Splitter.on(':').splitToList(s);
+      RefState.check(parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
+      result.put(new Project.NameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
+    }
+    return result;
+  }
+
   public static RefState create(String ref, String sha) {
     return new AutoValue_RefState(ref, ObjectId.fromString(sha));
   }

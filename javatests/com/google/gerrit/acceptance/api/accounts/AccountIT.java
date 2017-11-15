@@ -35,6 +35,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -85,6 +86,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.WatchConfig;
@@ -94,6 +96,8 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
@@ -103,6 +107,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +119,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -122,8 +128,12 @@ import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -153,6 +163,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
+  @Inject private ExternalIdsUpdate.ServerNoReindex externalIdsUpdateNoReindexFactory;
+
   @Inject private DynamicSet<AccountIndexedListener> accountIndexedListeners;
 
   @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
@@ -162,6 +174,14 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject protected Emails emails;
+
+  @Inject private StalenessChecker stalenessChecker;
+
+  @Inject private AccountIndexer accountIndexer;
+
+  @Inject
+  @Named("accounts")
+  private LoadingCache<Account.Id, Optional<AccountState>> accountsCache;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -1777,6 +1797,76 @@ public class AccountIT extends AbstractDaemonTest {
     String group = createGroup("group");
     String newUser = createAccount("user1", group);
     assertGroups(newUser, ImmutableList.of(group));
+  }
+
+  @Test
+  public void stalenessChecker() throws Exception {
+    // Newly created account is not stale.
+    AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();
+    Account.Id accountId = new Account.Id(accountInfo._accountId);
+    assertThat(stalenessChecker.isStale(accountId)).isFalse();
+
+    // Manually updating the user ref makes the index document stale.
+    String userRef = RefNames.refsUsers(accountId);
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
+
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(commit.getTree());
+      cb.setCommitter(ident);
+      cb.setAuthor(ident);
+      cb.setMessage(commit.getFullMessage());
+      ObjectId emptyCommit = oi.insert(cb);
+      oi.flush();
+
+      RefUpdate updateRef = repo.updateRef(userRef);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(emptyCommit);
+      assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    assertStaleAccountAndReindex(accountId);
+
+    // Manually inserting/updating/deleting an external ID of the user makes the index document
+    // stale.
+    ExternalIdsUpdate externalIdsUpdateNoReindex = externalIdsUpdateNoReindexFactory.create();
+    ExternalId.Key key = ExternalId.Key.create("foo", "foo");
+    externalIdsUpdateNoReindex.insert(ExternalId.create(key, accountId));
+    assertStaleAccountAndReindex(accountId);
+
+    externalIdsUpdateNoReindex.upsert(
+        ExternalId.createWithEmail(key, accountId, "foo@example.com"));
+    assertStaleAccountAndReindex(accountId);
+
+    externalIdsUpdateNoReindex.delete(accountId, key);
+    assertStaleAccountAndReindex(accountId);
+
+    // Manually delete account
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectInserter oi = repo.newObjectInserter();
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
+      RefUpdate updateRef = repo.updateRef(userRef);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(ObjectId.zeroId());
+      updateRef.setForceUpdate(true);
+      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    assertStaleAccountAndReindex(accountId);
+  }
+
+  private void assertStaleAccountAndReindex(Account.Id accountId) throws IOException {
+    // Evict account from cache to be sure that we use the index state for staleness checks. This
+    // has to happen directly on the accounts cache because AccountCacheImpl triggers a reindex for
+    // the account.
+    accountsCache.invalidate(accountId);
+    assertThat(stalenessChecker.isStale(accountId)).isTrue();
+
+    // Reindex fixes staleness
+    accountIndexer.index(accountId);
+    assertThat(stalenessChecker.isStale(accountId)).isFalse();
   }
 
   private void assertGroups(String user, List<String> expected) throws Exception {

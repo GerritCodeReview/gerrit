@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "214aff87_ef4e3046",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-15T19:29:12Z",
+      "side": 1,
+      "message": "As I commented on ps1, maybe you should extract the code processing the account to a method to reduce nesting and increase readability?\n\npublic void run() {\n  log.info(\"Running account deactivations\");\n  try {\n    int numberOfAccountsDeactivated \u003d 0;\n    for (AccountState acc : accountQueryProvider.get().query(AccountPredicates.isActive())) {\n      if(processAccount(acc)) {\n        numberOfAccountsDeactivated++;\n      }\n    }\n    log.info(\n      \"Deactivations complete, {} account(s) were deactivated\", numberOfAccountsDeactivated);\n  } catch (Exception e) {\n      log.error(\"Failed to complete deactivation of accounts: \" + e.getMessage(), e);\n    }\n  }\n}\n\nprivate boolean processAccount(AccountState account) {\n  log.debug(\"processing account \" + account.getUserName());\n  try {\n    if (account.getUserName() !\u003d null \u0026\u0026 !realm.isActive(account.getUserName())) {\n      sif.deactivate(account.getAccount().getId());\n      log.info(\"deactivated account \" + acc.getUserName());\n      return true;\n    }\n  } catch (Exception e) {\n    log.error(\n        \"Error deactivating account: {} ({}) {}\",\n        acc.getUserName(),\n        acc.getAccount().getId(),\n        e.getMessage(),\n        e);\n  }\n  return false;\n}",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "328e86d0f6be6a8da82e28ccbb2797f416744ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

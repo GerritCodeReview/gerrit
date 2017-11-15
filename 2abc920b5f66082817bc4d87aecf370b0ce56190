@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "e08c9781_3b44b156",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T16:28:40Z",
+      "side": 1,
+      "message": "Fine with me, but should be done in a separate change and not while cherry-picking.",
+      "parentUuid": "3b0c1b8c_35599e11",
+      "range": {
+        "startLine": 495,
+        "startChar": 3,
+        "endLine": 495,
+        "endChar": 12
+      },
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a025aa2d_8bd30bf1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 1
@@ -112,6 +136,24 @@
       "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5195578e_aaaa8c8d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T16:28:40Z",
+      "side": 1,
+      "message": "This is a cherry-pick from master where it was already merged. I wouldn\u0027t like to make any modifications while cherry-picking. If we want to change something, it should rather be done as a separate change. \n\nI agree that this should probably be renamed to hideMetadata().",
+      "parentUuid": "a025aa2d_8bd30bf1",
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

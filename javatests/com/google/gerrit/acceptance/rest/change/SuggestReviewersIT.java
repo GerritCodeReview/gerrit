@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -413,6 +414,60 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     gApi.accounts().id(foo2.username).setActive(false);
     assertThat(gApi.accounts().id(foo2.username).getActive()).isFalse();
     assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
+  public void suggestBySecondaryEmailWithModifyAccount() throws Exception {
+    String secondaryEmail = "foo.secondary@example.com";
+    TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
+
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(createChange().getChangeId(), secondaryEmail, 4);
+    assertReviewers(reviewers, ImmutableList.of(foo), ImmutableList.of());
+
+    reviewers = suggestReviewers(createChange().getChangeId(), "secondary", 4);
+    assertReviewers(reviewers, ImmutableList.of(foo), ImmutableList.of());
+  }
+
+  @Test
+  public void cannotSuggestBySecondaryEmailWithoutModifyAccount() throws Exception {
+    String secondaryEmail = "foo.secondary@example.com";
+    createAccountWithSecondaryEmail("foo", secondaryEmail);
+
+    setApiUser(user);
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(createChange().getChangeId(), secondaryEmail, 4);
+    assertThat(reviewers).isEmpty();
+
+    reviewers = suggestReviewers(createChange().getChangeId(), "secondary2", 4);
+    assertThat(reviewers).isEmpty();
+  }
+
+  @Test
+  public void secondaryEmailsInSuggestions() throws Exception {
+    String secondaryEmail = "foo.secondary@example.com";
+    TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
+
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(createChange().getChangeId(), "foo", 4);
+    assertReviewers(reviewers, ImmutableList.of(foo), ImmutableList.of());
+    assertThat(Iterables.getOnlyElement(reviewers).account.secondaryEmails)
+        .containsExactly(secondaryEmail);
+
+    setApiUser(user);
+    reviewers = suggestReviewers(createChange().getChangeId(), "foo", 4);
+    assertReviewers(reviewers, ImmutableList.of(foo), ImmutableList.of());
+    assertThat(Iterables.getOnlyElement(reviewers).account.secondaryEmails).isNull();
+  }
+
+  private TestAccount createAccountWithSecondaryEmail(String name, String secondaryEmail)
+      throws Exception {
+    TestAccount foo = accountCreator.create(name(name), "foo.primary@example.com", "Foo");
+    EmailInput input = new EmailInput();
+    input.email = secondaryEmail;
+    input.noConfirmation = true;
+    gApi.accounts().id(foo.id.get()).addEmail(input);
+    return foo;
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query)

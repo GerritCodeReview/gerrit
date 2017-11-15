@@ -620,14 +620,24 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getEmailsOfOtherAccount() throws Exception {
+  public void cannotGetEmailsOfOtherAccountWithoutModifyAccount() throws Exception {
     String email = "preferred2@example.com";
-    String secondaryEmail = "secondary2@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("modify account not permitted");
+    gApi.accounts().id(foo.id.get()).getEmails();
+  }
+
+  @Test
+  public void getEmailsOfOtherAccount() throws Exception {
+    String email = "preferred3@example.com";
+    String secondaryEmail = "secondary3@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id.hashCode()).addEmail(input);
 
-    setApiUser(user);
     assertThat(
             gApi.accounts()
                 .id(foo.id.get())

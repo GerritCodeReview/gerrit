@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "37010677_fc8f1b37",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-15T13:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ac6ea52_10c50af9",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1e7d751_7f424e55",
         "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
         "patchSetId": 1

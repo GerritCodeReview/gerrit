@@ -23,6 +23,8 @@ BASE_JETTY_DEPS = [
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/joda:joda-time",
     "//lib/log:api",
+    "//lib/log:gelf",
+    "//lib/log:json-simple",
     "//lib/log:log4j",
 ]
 

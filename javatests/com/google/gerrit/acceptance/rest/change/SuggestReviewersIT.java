@@ -56,9 +56,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    group1 = group("users1");
-    group2 = group("users2");
-    group3 = group("users3");
+    group1 = newGroup("users1");
+    group2 = newGroup("users2");
+    group3 = newGroup("users3");
 
     user1 = user("user1", "First1 Last1", group1);
     user2 = user("user2", "First2 Last2", group2);
@@ -235,8 +235,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "addreviewer.maxAllowed", value = "2")
   @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1")
   public void suggestReviewersGroupSizeConsiderations() throws Exception {
-    InternalGroup largeGroup = group("large");
-    InternalGroup mediumGroup = group("medium");
+    InternalGroup largeGroup = newGroup("large");
+    InternalGroup mediumGroup = newGroup("medium");
 
     // Both groups have Administrator as a member. Add two users to large
     // group to push it past maxAllowed, and one to medium group to push it
@@ -425,9 +425,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n).get();
   }
 
-  private InternalGroup group(String name) throws Exception {
+  private InternalGroup newGroup(String name) throws Exception {
     GroupInfo group = createGroupFactory.create(name(name)).apply(TopLevelResource.INSTANCE, null);
-    return groupCache.get(new AccountGroup.UUID(group.id)).orElse(null);
+    return group(new AccountGroup.UUID(group.id));
   }
 
   private TestAccount user(String name, String fullName, String emailName, InternalGroup... groups)

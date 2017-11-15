@@ -921,9 +921,7 @@ public abstract class AbstractDaemonTest {
 
   protected void grant(Project.NameKey project, String ref, String permission, boolean force)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    grant(project, ref, permission, force, adminGroup.getGroupUUID());
+    grant(project, ref, permission, force, adminGroupUuid());
   }
 
   protected void grant(
@@ -1125,8 +1123,7 @@ public abstract class AbstractDaemonTest {
       String g = createGroup("cla-test-group");
       GroupApi groupApi = gApi.groups().id(g);
       groupApi.description("CLA test group");
-      InternalGroup caGroup =
-          groupCache.get(new AccountGroup.UUID(groupApi.detail().id)).orElse(null);
+      InternalGroup caGroup = group(new AccountGroup.UUID(groupApi.detail().id));
       GroupReference groupRef = new GroupReference(caGroup.getGroupUUID(), caGroup.getName());
       PermissionRule rule = new PermissionRule(groupRef);
       rule.setAction(PermissionRule.Action.ALLOW);
@@ -1357,15 +1354,48 @@ public abstract class AbstractDaemonTest {
     assertThat(rule.getMax()).isEqualTo(expectedMax);
   }
 
+  protected InternalGroup group(AccountGroup.UUID groupUuid) {
+    InternalGroup group = groupCache.get(groupUuid).orElse(null);
+    assertThat(group).named(groupUuid.get()).isNotNull();
+    return group;
+  }
+
+  protected GroupReference groupRef(AccountGroup.UUID groupUuid) {
+    GroupDescription.Basic groupDescription = groupBackend.get(groupUuid);
+    return new GroupReference(groupDescription.getGroupUUID(), groupDescription.getName());
+  }
+
+  protected InternalGroup group(String groupName) {
+    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    assertThat(group).named(groupName).isNotNull();
+    return group;
+  }
+
   protected GroupReference groupRef(String groupName) {
     InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
     assertThat(group).isNotNull();
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
 
-  protected GroupReference groupRef(AccountGroup.UUID groupUuid) {
-    GroupDescription.Basic groupDescription = groupBackend.get(groupUuid);
-    return new GroupReference(groupDescription.getGroupUUID(), groupDescription.getName());
+  protected AccountGroup.UUID groupUuid(String groupName) {
+    return group(groupName).getGroupUUID();
+  }
+
+  protected InternalGroup adminGroup() {
+    return group("Administrators");
+  }
+
+  protected GroupReference adminGroupRef() {
+    return groupRef("Administrators");
+  }
+
+  protected AccountGroup.UUID adminGroupUuid() {
+    return groupUuid("Administrators");
+  }
+
+  protected void assertGroupDoesNotExist(String groupName) {
+    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    assertThat(group).named(groupName).isNull();
   }
 
   protected void assertNotifyTo(TestAccount expected) {

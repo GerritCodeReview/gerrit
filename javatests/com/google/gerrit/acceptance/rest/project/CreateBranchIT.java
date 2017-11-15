@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -107,12 +106,9 @@ public class CreateBranchIT extends AbstractDaemonTest {
   public void createGroupBranch_Conflict() throws Exception {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    assertThat(adminGroup).isNotNull();
     assertCreateFails(
         new Branch.NameKey(allUsers, RefNames.refsGroups(new AccountGroup.UUID("foo"))),
-        RefNames.refsGroups(adminGroup.getGroupUUID()),
+        RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
         "Not allowed to create group branch.");
   }

@@ -15,25 +15,20 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Test;
 
 public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    InternalGroup group = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    assertWithMessage("Precondition: The group 'Administrators' was loaded by the group cache")
-        .that(group)
-        .isNotNull();
+    // access the admin group once so that it is loaded into the group cache
+    adminGroup();
 
     RestResponse r = adminRestSession.get("/config/server/caches/groups_byname");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);

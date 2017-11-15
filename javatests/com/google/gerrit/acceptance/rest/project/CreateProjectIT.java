@@ -326,10 +326,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     }
   }
 
-  private AccountGroup.UUID groupUuid(String groupName) {
-    return groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null).getGroupUUID();
-  }
-
   private void assertHead(String projectName, String expectedRef) throws Exception {
     try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
       assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);

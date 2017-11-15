@@ -29,10 +29,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.group.InternalGroup;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -145,13 +143,9 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);
 
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    assertThat(adminGroup).isNotNull();
-
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete group branch.");
-    branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroup.getGroupUUID()))).delete();
+    branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
   }
 
   private void blockForcePush() throws Exception {

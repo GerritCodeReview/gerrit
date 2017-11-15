@@ -48,6 +48,10 @@
         readOnly: true,
         value: 225,
       },
+      _patchsetDescription: {
+        type: String,
+        value: '',
+      },
       _descriptionReadOnly: {
         type: Boolean,
         computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
@@ -65,6 +69,10 @@
 
     behaviors: [
       Gerrit.PatchSetBehavior,
+    ],
+
+    observers: [
+      '_computePatchSetDescription(change, patchNum)',
     ],
 
     _expandAllDiffs() {
@@ -111,8 +119,12 @@
 
     _computePatchSetDescription(change, patchNum) {
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-      return (rev && rev.description) ?
+      this._patchsetDescription = (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    },
+
+    _handleDescriptionRemoved(e) {
+      return this._updateDescription('', e);
     },
 
     /**
@@ -131,15 +143,31 @@
 
     _handleDescriptionChanged(e) {
       const desc = e.detail.trim();
+      this._updateDescription(desc, e);
+    },
+
+    /**
+     * Update the patchset description with the rest API.
+     * @param {string} desc
+     * @param {?(Event|Node)} e
+     * @return {!Promise}
+     */
+    _updateDescription(desc, e) {
+      const target = Polymer.dom(e).rootTarget;
+      if (target) { target.disabled = true; }
       const rev = this.getRevisionByPatchNum(this.change.revisions,
           this.patchNum);
       const sha = this._getPatchsetHash(this.change.revisions, rev);
-      this.$.restAPI.setDescription(this.changeNum,
-          this.patchNum, desc)
+      return this.$.restAPI.setDescription(this.changeNum, this.patchNum, desc)
           .then(res => {
             if (res.ok) {
+              if (target) { target.disabled = false; }
               this.set(['_change', 'revisions', sha, 'description'], desc);
+              this._patchsetDescription = desc;
             }
+          }).catch(err => {
+            if (target) { target.disabled = false; }
+            return;
           });
     },
 

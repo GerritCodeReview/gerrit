@@ -2807,6 +2807,7 @@ public class ReceiveCommits {
 
       ListMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, ChangeNotes> byKey = null;
+      Map<Change.Id, ChangeNotes> byId = null;
       List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
       int existingPatchSets = 0;
@@ -2816,17 +2817,23 @@ public class ReceiveCommits {
         rw.parseBody(c);
 
         for (Ref ref : byCommit.get(c.copy())) {
+          if (byId == null) {
+            byId = openChangesByIdByBranch(branch);
+          }
           existingPatchSets++;
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-          bu.addOp(
-              psId.getParentKey(),
-              mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
-          continue COMMIT;
+          ChangeNotes cn = byId.get(psId.getParentKey());
+          if (cn != null && cn.getChange().getDest().get().equals(refName)) {
+            bu.addOp(
+                psId.getParentKey(),
+                mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+            continue COMMIT;
+          }
         }
 
         for (String changeId : c.getFooterLines(CHANGE_ID)) {
           if (byKey == null) {
-            byKey = openChangesByBranch(branch);
+            byKey = openChangesByKeyByBranch(branch);
           }
 
           ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2875,7 +2882,7 @@ public class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByBranch(Branch.NameKey branch)
+  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch)
       throws OrmException {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
@@ -2883,6 +2890,15 @@ public class ReceiveCommits {
     }
     return r;
   }
+
+  private Map<Change.Id, ChangeNotes> openChangesByIdByBranch(Branch.NameKey branch)
+	      throws OrmException {
+	    Map<Change.Id, ChangeNotes> r = new HashMap<>();
+	    for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
+	      r.put(cd.change().getId(), cd.notes());
+	    }
+	    return r;
+	  }
 
   private void reject(ReceiveCommand cmd, String why) {
     cmd.setResult(REJECTED_OTHER_REASON, why);

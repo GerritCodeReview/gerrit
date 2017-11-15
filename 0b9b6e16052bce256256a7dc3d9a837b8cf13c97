@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f18a690_faa0a3bf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-15T22:30:15Z",
+      "side": 1,
+      "message": "These can be simplified into two CSS blocks.",
+      "revId": "0b9b6e16052bce256256a7dc3d9a837b8cf13c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

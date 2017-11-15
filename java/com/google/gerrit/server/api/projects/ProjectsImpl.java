@@ -129,6 +129,8 @@ class ProjectsImpl implements Projects {
     }
     lp.setFilterType(type);
 
+    lp.setAll(request.isAll());
+
     return lp.apply();
   }
 

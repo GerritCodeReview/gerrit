@@ -217,6 +217,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThatNameList(gApi.projects().list().withType(FilterType.ALL).get())
         .containsExactly(allProjects, allUsers, project)
         .inOrder();
+
+    // "All" boolean option causes hidden projects to be included
+    assertThatNameList(gApi.projects().list().withAll().get())
+        .containsExactly(allProjects, allUsers, project, hidden)
+        .inOrder();
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

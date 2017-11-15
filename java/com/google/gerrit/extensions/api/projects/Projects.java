@@ -92,6 +92,7 @@ public interface Projects {
     private int limit;
     private int start;
     private boolean showTree;
+    private boolean all;
     private FilterType type = FilterType.ALL;
 
     public List<ProjectInfo> get() throws RestApiException {
@@ -152,6 +153,11 @@ public interface Projects {
       return this;
     }
 
+    public ListRequest withAll() {
+      this.all = true;
+      return this;
+    }
+
     public boolean getDescription() {
       return description;
     }
@@ -186,6 +192,10 @@ public interface Projects {
 
     public FilterType getFilterType() {
       return type;
+    }
+
+    public boolean isAll() {
+      return all;
     }
   }
 

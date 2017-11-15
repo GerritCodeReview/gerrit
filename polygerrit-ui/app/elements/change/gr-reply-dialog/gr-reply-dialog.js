@@ -244,9 +244,7 @@
           });
 
       this._focusOn(opt_focusTarget);
-      if (!this.draft || !this.draft.length) {
-        this.draft = this._loadStoredDraft();
-      }
+      this.draft = this._loadStoredDraft();
       if (this.$.restAPI.hasPendingDiffDrafts()) {
         this._savingComments = true;
         this.$.restAPI.awaitPendingDiffDrafts().then(() => {

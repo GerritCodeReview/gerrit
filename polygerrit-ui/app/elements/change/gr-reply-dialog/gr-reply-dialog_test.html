@@ -415,8 +415,18 @@ limitations under the License.
       assert.equal(element.draft, storedDraft);
     });
 
+    test('gets draft from storage even when text is already present', () => {
+      const storedDraft = 'hello world';
+      getDraftCommentStub.returns({message: storedDraft});
+      element.draft = 'foo bar';
+      element.open();
+      assert.isTrue(getDraftCommentStub.called);
+      assert.equal(element.draft, storedDraft);
+    });
+
     test('blank if no stored draft', () => {
       getDraftCommentStub.returns(null);
+      element.draft = 'foo bar';
       element.open();
       assert.isTrue(getDraftCommentStub.called);
       assert.equal(element.draft, '');

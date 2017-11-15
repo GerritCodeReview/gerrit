@@ -33,7 +33,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
@@ -53,7 +52,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -124,9 +122,7 @@ public class ReviewersUtil {
       GroupMembers groupMembers,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
-    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
-    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountLoader = accountLoaderFactory.create(fillOptions);
+    this.accountLoader = accountLoaderFactory.create(AccountLoader.DETAILED_OPTIONS);
     this.accountQueryBuilder = accountQueryBuilder;
     this.queryProvider = queryProvider;
     this.groupBackend = groupBackend;

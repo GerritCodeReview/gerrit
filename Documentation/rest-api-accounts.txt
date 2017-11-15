@@ -63,7 +63,8 @@ for each account.
 
 [[all-emails]]
 --
-* `ALL_EMAILS`: Includes all registered emails.
+* `ALL_EMAILS`: Includes all registered emails. Requires the caller
+to have the MODIFY_ACCOUNT global capability.
 --
 
 [[suggest-account]]

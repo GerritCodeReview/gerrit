@@ -381,8 +381,12 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public List<EmailInfo> getEmails() {
-    return getEmails.apply(account);
+  public List<EmailInfo> getEmails() throws RestApiException {
+    try {
+      return getEmails.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get emails", e);
+    }
   }
 
   @Override

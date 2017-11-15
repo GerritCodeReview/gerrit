@@ -638,7 +638,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   /** Boiler plate code to check two byte arrays for equality */
-  private class ByteArrayWrapper {
+  private static class ByteArrayWrapper {
     private byte[] arr;
 
     private ByteArrayWrapper(byte[] arr) {
@@ -651,6 +651,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         return false;
       }
       return Arrays.equals(arr, ((ByteArrayWrapper) other).arr);
+    }
+
+    @Override
+    public int hashCode() {
+      return Arrays.hashCode(arr);
     }
   }
 }

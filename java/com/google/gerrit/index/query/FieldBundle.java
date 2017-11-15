@@ -55,8 +55,7 @@ public class FieldBundle {
     Iterable<Object> result = fields.get(fieldDef.getName());
     if (fieldDef.isRepeatable()) {
       return (T) result;
-    } else {
-      return (T) Iterables.getOnlyElement(result);
     }
+    return (T) Iterables.getOnlyElement(result);
   }
 }

@@ -79,8 +79,20 @@ public class AclUtil {
       int min,
       int max,
       GroupReference... groupList) {
+    grant(config, section, type, min, max, false, groupList);
+  }
+
+  public static void grant(
+      ProjectConfig config,
+      AccessSection section,
+      LabelType type,
+      int min,
+      int max,
+      boolean exclusive,
+      GroupReference... groupList) {
     String name = Permission.LABEL + type.getName();
     Permission p = section.getPermission(name, true);
+    p.setExclusiveGroup(exclusive);
     for (GroupReference group : groupList) {
       if (group != null) {
         PermissionRule r = rule(config, group);

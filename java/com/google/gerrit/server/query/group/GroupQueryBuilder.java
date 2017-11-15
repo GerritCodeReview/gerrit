@@ -110,6 +110,12 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
   }
 
   @Operator
+  public Predicate<InternalGroup> owner(String owner) throws QueryParseException {
+    AccountGroup.UUID groupUuid = parseGroup(owner);
+    return GroupPredicates.owner(groupUuid);
+  }
+
+  @Operator
   public Predicate<InternalGroup> is(String value) throws QueryParseException {
     if ("visibletoall".equalsIgnoreCase(value)) {
       return GroupPredicates.isVisibleToAll();
@@ -126,6 +132,11 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup> {
     preds.add(inname(query));
     if (!Strings.isNullOrEmpty(query)) {
       preds.add(description(query));
+    }
+    try {
+      preds.add(owner(query));
+    } catch (QueryParseException e) {
+      // Skip.
     }
     return Predicate.or(preds);
   }

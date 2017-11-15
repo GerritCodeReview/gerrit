@@ -1275,4 +1275,10 @@ public abstract class AbstractDaemonTest {
     projectsToWatch.add(pwi);
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
   }
+
+  protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+  }
 }

@@ -39,12 +39,14 @@ import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -80,6 +82,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
@@ -220,6 +223,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected FakeEmailSender sender;
   @Inject protected GerritApi gApi;
   @Inject protected GitRepositoryManager repoManager;
+  @Inject protected GroupBackend groupBackend;
   @Inject protected GroupCache groupCache;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
@@ -1288,6 +1292,80 @@ public abstract class AbstractDaemonTest {
       assertThat(strs.stream().map(s -> Integer.valueOf(s.trim())).collect(toList()))
           .containsExactlyElementsIn(Arrays.asList(expected));
     }
+  }
+
+  protected void assertPermission(
+      Project.NameKey project,
+      GroupReference groupReference,
+      String ref,
+      boolean exclusive,
+      String... permissionNames)
+      throws IOException {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccessSection accessSection = cfg.getAccessSection(ref);
+    assertThat(accessSection).isNotNull();
+    for (String permissionName : permissionNames) {
+      Permission permission = accessSection.getPermission(permissionName);
+      assertPermission(permission, permissionName, exclusive, null);
+      assertPermissionRule(
+          permission.getRule(groupReference), groupReference, Action.ALLOW, false, 0, 0);
+    }
+  }
+
+  protected void assertLabelPermission(
+      Project.NameKey project,
+      GroupReference groupReference,
+      String ref,
+      boolean exclusive,
+      String labelName,
+      int min,
+      int max)
+      throws IOException {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccessSection accessSection = cfg.getAccessSection(ref);
+    assertThat(accessSection).isNotNull();
+
+    String permissionName = Permission.LABEL + labelName;
+    Permission permission = accessSection.getPermission(permissionName);
+    assertPermission(permission, permissionName, exclusive, labelName);
+    assertPermissionRule(
+        permission.getRule(groupReference), groupReference, Action.ALLOW, false, min, max);
+  }
+
+  private void assertPermission(
+      Permission permission,
+      String expectedName,
+      boolean expectedExclusive,
+      @Nullable String expectedLabelName) {
+    assertThat(permission).isNotNull();
+    assertThat(permission.getName()).isEqualTo(expectedName);
+    assertThat(permission.getExclusiveGroup()).isEqualTo(expectedExclusive);
+    assertThat(permission.getLabel()).isEqualTo(expectedLabelName);
+  }
+
+  private void assertPermissionRule(
+      PermissionRule rule,
+      GroupReference expectedGroupReference,
+      Action expectedAction,
+      boolean expectedForce,
+      int expectedMin,
+      int expectedMax) {
+    assertThat(rule.getGroup()).isEqualTo(expectedGroupReference);
+    assertThat(rule.getAction()).isEqualTo(expectedAction);
+    assertThat(rule.getForce()).isEqualTo(expectedForce);
+    assertThat(rule.getMin()).isEqualTo(expectedMin);
+    assertThat(rule.getMax()).isEqualTo(expectedMax);
+  }
+
+  protected GroupReference groupRef(String groupName) {
+    InternalGroup group = groupCache.get(new AccountGroup.NameKey(groupName)).orElse(null);
+    assertThat(group).isNotNull();
+    return new GroupReference(group.getGroupUUID(), group.getName());
+  }
+
+  protected GroupReference groupRef(AccountGroup.UUID groupUuid) {
+    GroupDescription.Basic groupDescription = groupBackend.get(groupUuid);
+    return new GroupReference(groupDescription.getGroupUUID(), groupDescription.getName());
   }
 
   protected void assertNotifyTo(TestAccount expected) {

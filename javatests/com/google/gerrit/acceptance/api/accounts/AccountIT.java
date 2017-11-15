@@ -1800,6 +1800,32 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void defaultPermissionsOnUserBranches() throws Exception {
+    String userRef = RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}";
+    assertPermission(
+        allUsers,
+        groupRef(REGISTERED_USERS),
+        userRef,
+        true,
+        Permission.READ,
+        Permission.PUSH,
+        Permission.SUBMIT);
+
+    // TODO(ekempin): This permission should also be exclusive
+    assertLabelPermission(
+        allUsers, groupRef(REGISTERED_USERS), userRef, false, "Code-Review", -2, 2);
+
+    assertPermission(
+        allUsers,
+        groupRef("Administrators"),
+        RefNames.REFS_USERS_DEFAULT,
+        true,
+        Permission.READ,
+        Permission.PUSH,
+        Permission.CREATE);
+  }
+
+  @Test
   public void stalenessChecker() throws Exception {
     // Newly created account is not stale.
     AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();

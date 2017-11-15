@@ -40,13 +40,9 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -69,9 +65,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
@@ -131,7 +125,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Inject private Groups groups;
   @Inject private GroupIncludeCache groupIncludeCache;
-  @Inject private GroupBackend groupBackend;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private GroupIndexer groupIndexer;
 
@@ -1033,7 +1026,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void defaultPermissionsOnGroupBranches() throws Exception {
     assertPermission(
-        allUsers, RefNames.REFS_GROUPS + "*", Permission.READ, groupRef(REGISTERED_USERS));
+        allUsers, groupRef(REGISTERED_USERS), RefNames.REFS_GROUPS + "*", true, Permission.READ);
   }
 
   @Test
@@ -1068,32 +1061,6 @@ public class GroupsIT extends AbstractDaemonTest {
     Throwable t = Throwables.getRootCause(e);
     assertThat(t).isInstanceOf(OrmException.class);
     assertThat(t.getMessage()).isEqualTo("Updates to groups in ReviewDb are blocked");
-  }
-
-  private GroupReference groupRef(AccountGroup.UUID groupUuid) {
-    GroupDescription.Basic groupDescription = groupBackend.get(groupUuid);
-    return new GroupReference(groupDescription.getGroupUUID(), groupDescription.getName());
-  }
-
-  private void assertPermission(
-      Project.NameKey project, String ref, String permission, GroupReference groupReference)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccessSection accessSection = cfg.getAccessSection(ref);
-    assertThat(accessSection).isNotNull();
-    Permission readPermission = accessSection.getPermission(permission);
-    assertThat(readPermission).isNotNull();
-    assertThat(readPermission.getName()).isEqualTo(permission);
-    assertThat(readPermission.getExclusiveGroup()).isTrue();
-    assertThat(readPermission.getLabel()).isNull();
-
-    PermissionRule rule = readPermission.getRule(groupReference);
-    assertThat(rule).isNotNull();
-    assertThat(rule.getGroup()).isEqualTo(groupReference);
-    assertThat(rule.getAction()).isEqualTo(Action.ALLOW);
-    assertThat(rule.getForce()).isFalse();
-    assertThat(rule.getMin()).isEqualTo(0);
-    assertThat(rule.getMax()).isEqualTo(0);
   }
 
   @Test

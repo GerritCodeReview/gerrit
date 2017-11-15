@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faa7465_435d0f85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T16:31:57Z",
+      "side": 1,
+      "message": "This is not sufficient to hide secondary emails. GetDetail also returns them.\nFillOptions.SECONDARY_EMAILS is also used for reviewer suggestion.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "303cfbad13c33c204ec75d73595e66c129dff2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -72,6 +72,8 @@ java_library(
         "//lib/joda:joda-time",
         "//lib/jsoup",
         "//lib/log:api",
+        "//lib/log:gelf",
+        "//lib/log:json-simple",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",
@@ -104,7 +106,9 @@ TESTUTIL_DEPS = [
     "//lib/jgit/org.eclipse.jgit.junit:junit",
     "//lib/joda:joda-time",
     "//lib/log:api",
+    "//lib/log:gelf",
     "//lib/log:impl_log4j",
+    "//lib/log:json-simple",
     "//lib/log:log4j",
 ]
 

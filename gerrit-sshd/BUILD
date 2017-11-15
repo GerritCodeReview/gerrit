@@ -32,6 +32,8 @@ java_library(
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
+        "//lib/log:gelf",
+        "//lib/log:json-simple",
         "//lib/log:log4j",
         "//lib/mina:core",
         "//lib/mina:sshd",

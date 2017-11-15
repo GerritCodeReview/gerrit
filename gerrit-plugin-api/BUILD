@@ -35,6 +35,8 @@ EXPORTS = [
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/joda:joda-time",
     "//lib/log:api",
+    "//lib/log:gelf",
+    "//lib/log:json-simple",
     "//lib/log:log4j",
     "//lib/mina:sshd",
     "//lib/ow2:ow2-asm",

@@ -137,6 +137,7 @@ public interface Accounts {
     private String query;
     private int limit;
     private int start;
+    private boolean suggest;
     private EnumSet<ListAccountsOption> options = EnumSet.noneOf(ListAccountsOption.class);
 
     /** Execute query and return a list of accounts. */
@@ -166,6 +167,11 @@ public interface Accounts {
       return this;
     }
 
+    public QueryRequest withSuggest(boolean suggest) {
+      this.suggest = suggest;
+      return this;
+    }
+
     public QueryRequest withOption(ListAccountsOption options) {
       this.options.add(options);
       return this;
@@ -191,6 +197,10 @@ public interface Accounts {
 
     public int getStart() {
       return start;
+    }
+
+    public boolean getSuggest() {
+      return suggest;
     }
 
     public EnumSet<ListAccountsOption> getOptions() {

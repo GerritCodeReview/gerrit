@@ -23,6 +23,7 @@ java_library(
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/diff",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/sshd",

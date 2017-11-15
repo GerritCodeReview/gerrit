@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
@@ -48,7 +48,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class PatchListEntry {
   private static final byte[] EMPTY_HEADER = {};
 
-  static PatchListEntry empty(String fileName) {
+  public static PatchListEntry empty(String fileName) {
     return new PatchListEntry(
         ChangeType.MODIFIED,
         PatchType.UNIFIED,
@@ -77,7 +77,7 @@ public class PatchListEntry {
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
-  PatchListEntry(
+  public PatchListEntry(
       FileHeader hdr, List<Edit> editList, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
@@ -153,7 +153,7 @@ public class PatchListEntry {
     this.sizeDelta = sizeDelta;
   }
 
-  int weigh() {
+  public int weigh() {
     int size = 16 + 6 * 8 + 2 * 4 + 20 + 16 + 8 + 4 + 20;
     size += stringSize(oldName);
     size += stringSize(newName);
@@ -324,15 +324,15 @@ public class PatchListEntry {
   private static ChangeType toChangeType(FileHeader hdr) {
     switch (hdr.getChangeType()) {
       case ADD:
-        return Patch.ChangeType.ADDED;
+        return ChangeType.ADDED;
       case MODIFY:
-        return Patch.ChangeType.MODIFIED;
+        return ChangeType.MODIFIED;
       case DELETE:
-        return Patch.ChangeType.DELETED;
+        return ChangeType.DELETED;
       case RENAME:
-        return Patch.ChangeType.RENAMED;
+        return ChangeType.RENAMED;
       case COPY:
-        return Patch.ChangeType.COPIED;
+        return ChangeType.COPIED;
       default:
         throw new IllegalArgumentException("Unsupported type " + hdr.getChangeType());
     }
@@ -343,11 +343,11 @@ public class PatchListEntry {
 
     switch (hdr.getPatchType()) {
       case UNIFIED:
-        pt = Patch.PatchType.UNIFIED;
+        pt = PatchType.UNIFIED;
         break;
       case GIT_BINARY:
       case BINARY:
-        pt = Patch.PatchType.BINARY;
+        pt = PatchType.BINARY;
         break;
       default:
         throw new IllegalArgumentException("Unsupported type " + hdr.getPatchType());

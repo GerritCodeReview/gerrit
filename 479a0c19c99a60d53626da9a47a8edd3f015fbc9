@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98fb5901_576563df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-15T19:12:48Z",
+      "side": 1,
+      "message": "this line must within the try as well",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 78
+      },
+      "revId": "479a0c19c99a60d53626da9a47a8edd3f015fbc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6ab06b_92aac6b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-15T19:12:48Z",
+      "side": 1,
+      "message": "Move this to a private method (processAccount) to reduce nesting?",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 113,
+        "endChar": 9
+      },
+      "revId": "479a0c19c99a60d53626da9a47a8edd3f015fbc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

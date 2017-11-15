@@ -100,7 +100,7 @@ public class AllUsersCreator {
       grant(config, users, Permission.READ, false, true, registered);
       grant(config, users, Permission.PUSH, false, true, registered);
       grant(config, users, Permission.SUBMIT, false, true, registered);
-      grant(config, users, cr, -2, 2, registered);
+      grant(config, users, cr, -2, 2, true, registered);
 
       if (admin != null) {
         AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);

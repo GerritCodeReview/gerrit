@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ae05597_92e86697",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-15T00:39:00Z",
+      "side": 1,
+      "message": "I question why this needs to check for shift. Why not only alt, control and meta?\n\nThis check was added in I221bfcfc42, which was specifically to address control/command.",
+      "range": {
+        "startLine": 340,
+        "startChar": 11,
+        "endLine": 340,
+        "endChar": 34
+      },
+      "revId": "6288f90ca5ea4907022d2c07e0cce49420a28d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

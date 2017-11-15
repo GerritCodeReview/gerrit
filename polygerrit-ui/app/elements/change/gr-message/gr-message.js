@@ -79,11 +79,10 @@
         type: String,
         observer: '_projectNameChanged',
       },
-      _commentLinks: Object,
       /**
        * @type {{ commentlinks: Array }}
        */
-      projectConfig: Object,
+      _projectConfig: Object,
       // Computed property needed to trigger Polymer value observing.
       _expanded: {
         type: Object,
@@ -239,7 +238,7 @@
 
     _projectNameChanged(name) {
       this.$.restAPI.getProjectConfig(name).then(config => {
-        this._commentLinks = config.commentlinks;
+        this._projectConfig = config;
       });
     },
   });

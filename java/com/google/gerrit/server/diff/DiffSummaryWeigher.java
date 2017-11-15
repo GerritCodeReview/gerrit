@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.diff;
 
 import com.google.common.cache.Weigher;
-import com.google.gerrit.server.diff.DiffSummary;
-import com.google.gerrit.server.diff.DiffSummaryKey;
 
 /** Computes memory usage for {@link DiffSummary} in bytes of memory used. */
 public class DiffSummaryWeigher implements Weigher<DiffSummaryKey, DiffSummary> {

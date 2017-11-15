@@ -569,6 +569,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesOmitNoteDbNotesBranches() throws Exception {
+    allow(allUsersName, RefNames.REFS + "*", Permission.READ, REGISTERED_USERS);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getRefs(git)).containsNoneOf(RefNames.REFS_EXTERNAL_IDS, RefNames.REFS_GROUPNAMES);
+    }
+  }
+
+  @Test
   public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 

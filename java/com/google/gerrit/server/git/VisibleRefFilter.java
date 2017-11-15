@@ -194,8 +194,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         if (viewMetadata) {
           result.put(name, ref);
         }
-      } else if (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS)) {
-        // The notes branch with the external IDs of all users must not be exposed to normal users.
+      } else if (projectState.isAllUsers()
+          && (name.equals(RefNames.REFS_EXTERNAL_IDS) || name.equals(RefNames.REFS_GROUPNAMES))) {
+        // The notes branches with the external IDs / group names must not be exposed to normal
+        // users.
         if (viewMetadata) {
           result.put(name, ref);
         }

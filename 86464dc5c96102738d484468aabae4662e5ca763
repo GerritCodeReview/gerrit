@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b28de02e_b1826807",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T12:12:37Z",
+      "side": 1,
+      "message": "Already tested by cannotCreateGroupBranch()",
+      "range": {
+        "startLine": 825,
+        "startChar": 4,
+        "endLine": 825,
+        "endChar": 77
+      },
+      "revId": "86464dc5c96102738d484468aabae4662e5ca763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fe6ae77_99f2b9ea",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T12:12:37Z",
+      "side": 1,
+      "message": "We should rather use a valid group ref name created by RefNames.refsGroups(...)\nI guess this was copied from a test that was added before that method existed.",
+      "range": {
+        "startLine": 827,
+        "startChar": 18,
+        "endLine": 827,
+        "endChar": 52
+      },
+      "revId": "86464dc5c96102738d484468aabae4662e5ca763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316fc76e_0481d1df",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T12:12:37Z",
+      "side": 1,
+      "message": "This create permission seems to be unneeded.",
+      "revId": "86464dc5c96102738d484468aabae4662e5ca763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cbfad5b_0967d779",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T12:12:37Z",
+      "side": 1,
+      "message": "Make GroupConfig.GROUP_CONFIG_FILE public and use it instead?",
+      "range": {
+        "startLine": 886,
+        "startChar": 67,
+        "endLine": 886,
+        "endChar": 81
+      },
+      "revId": "86464dc5c96102738d484468aabae4662e5ca763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

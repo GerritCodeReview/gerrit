@@ -77,7 +77,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
     assertInvalidState("project1:refs/heads/foo:");
 
     assertThat(
-            StalenessChecker.parseStates(
+            RefState.parseStates(
                 byteArrays(
                     P1 + ":refs/heads/foo:" + SHA1,
                     P1 + ":refs/heads/bar:" + SHA2,
@@ -91,7 +91,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
 
   private static void assertInvalidState(String state) {
     try {
-      StalenessChecker.parseStates(byteArrays(state));
+      RefState.parseStates(byteArrays(state));
       assert_().fail("expected IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       // Expected.

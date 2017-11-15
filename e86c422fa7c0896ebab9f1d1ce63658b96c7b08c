@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b153b8d4_b973cd74",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-15T18:54:00Z",
+      "side": 1,
+      "message": "We don\u0027t need this cast as \u0027size\u0027 is long which will force \u0027aContent.length\u0027 to be casted.",
+      "range": {
+        "startLine": 520,
+        "startChar": 28,
+        "endLine": 520,
+        "endChar": 34
+      },
+      "revId": "e86c422fa7c0896ebab9f1d1ce63658b96c7b08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

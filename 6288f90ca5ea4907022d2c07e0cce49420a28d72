@@ -46,6 +46,30 @@
       "revId": "6288f90ca5ea4907022d2c07e0cce49420a28d72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93757037_dca5cd32",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-15T19:29:48Z",
+      "side": 1,
+      "message": "Maybe just something to keep an eye out. If shift\u0027s inclusion in modifierPressed is questionable and we frequently make an exception for it, maybe it\u0027d simplify things to remove it next time this happens.\n\nalso /shrug",
+      "parentUuid": "410b0cd7_24522f6f",
+      "range": {
+        "startLine": 340,
+        "startChar": 11,
+        "endLine": 340,
+        "endChar": 34
+      },
+      "revId": "6288f90ca5ea4907022d2c07e0cce49420a28d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

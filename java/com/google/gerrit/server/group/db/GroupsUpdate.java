@@ -48,7 +48,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.group.InternalGroup.Builder;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -66,7 +65,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A database accessor for write calls related to groups.
@@ -580,9 +578,7 @@ public class GroupsUpdate {
       }
     }
 
-    try (RevWalk revWalk = new RevWalk(allUsersRepo)) {
-      RefUpdateUtil.executeChecked(batchRefUpdate, revWalk);
-    }
+    RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser != null ? currentUser.getAccount() : null);
   }

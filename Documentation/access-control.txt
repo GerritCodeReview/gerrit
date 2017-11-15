@@ -1299,7 +1299,8 @@ Implies the following capabilities:
 
 Allow to link:cmd-set-account.html[modify accounts over the ssh prompt].
 This capability allows the granted group members to modify any user account
-setting.
+setting. In addition this capability is required to view secondary emails
+of other accounts.
 
 [[capability_priority]]
 === Priority

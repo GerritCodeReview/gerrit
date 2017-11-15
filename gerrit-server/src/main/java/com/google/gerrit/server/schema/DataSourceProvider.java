@@ -138,6 +138,9 @@ public class DataSourceProvider implements Provider<DataSource>, LifecycleListen
               MILLISECONDS.convert(30, SECONDS),
               MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
+      long evictIdleTimeMs = 1000L * 60;
+      ds.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
+      ds.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
       ds.setValidationQuery(dst.getValidationQuery());
       ds.setValidationQueryTimeout(5);
       exportPoolMetrics(ds);

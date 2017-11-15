@@ -21,18 +21,23 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -53,11 +58,12 @@ import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,6 +81,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsersName;
 
   private AccountGroup.UUID admins;
+  private AccountGroup.UUID nonInteractiveUsers;
 
   private ChangeData c1;
   private ChangeData c2;
@@ -88,19 +95,32 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admins = groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID();
+    nonInteractiveUsers =
+        groupCache
+            .get(new AccountGroup.NameKey("Non-Interactive Users"))
+            .orElse(null)
+            .getGroupUUID();
     setUpPermissions();
     setUpChanges();
   }
 
   private void setUpPermissions() throws Exception {
-    // Remove read permissions for all users besides admin. This method is
-    // idempotent, so is safe to call on every test setup.
+    // Remove read permissions for all users besides admin. This method is idempotent, so is safe
+    // to call on every test setup.
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
     for (AccessSection sec : pc.getAccessSections()) {
       sec.removePermission(Permission.READ);
     }
     Util.allow(pc, Permission.READ, admins, "refs/*");
     saveProjectConfig(allProjects, pc);
+
+    // Remove all read permissions on All-Users. This method is idempotent, so is safe to call on
+    // every test setup.
+    pc = projectCache.checkedGet(allUsers).getConfig();
+    for (AccessSection sec : pc.getAccessSections()) {
+      sec.removePermission(Permission.READ);
+    }
+    saveProjectConfig(allUsers, pc);
   }
 
   private static String changeRefPrefix(Change.Id id) {
@@ -452,22 +472,113 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void advertisedReferencesDontShowUserBranchWithoutRead() throws Exception {
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getUserRefs(git)).isEmpty();
+    }
+  }
+
+  @Test
+  public void advertisedReferencesOmitUserBranchesOfOtherUsers() throws Exception {
+    allow(allUsersName, RefNames.REFS_USERS + "*", Permission.READ, REGISTERED_USERS);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getUserRefs(git))
+          .containsExactly(RefNames.REFS_USERS_SELF, RefNames.refsUsers(user.id));
+    }
+  }
+
+  @Test
+  public void advertisedReferencesIncludeAllUserBranchesWithAccessDatabase() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    try {
+      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+      try (Git git = userTestRepository.git()) {
+        assertThat(getUserRefs(git))
+            .containsExactly(
+                RefNames.REFS_USERS_SELF,
+                RefNames.refsUsers(user.id),
+                RefNames.refsUsers(admin.id));
+      }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    }
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesDontShowGroupBranchToOwnerWithoutRead() throws Exception {
+    createSelfOwnedGroup("Foos", user);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git)).isEmpty();
+    }
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesOmitGroupBranchesOfNonOwnedGroups() throws Exception {
+    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
+    AccountGroup.UUID users = createGroup("Users", admins, user);
+    AccountGroup.UUID foos = createGroup("Foos", users);
+    AccountGroup.UUID bars = createSelfOwnedGroup("Bars", user);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git))
+          .containsExactly(RefNames.refsGroups(foos), RefNames.refsGroups(bars));
+    }
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    AccountGroup.UUID users = createGroup("Users", admins);
+    TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+    try (Git git = userTestRepository.git()) {
+      assertThat(getGroupRefs(git))
+          .containsExactly(
+              RefNames.refsGroups(admins),
+              RefNames.refsGroups(nonInteractiveUsers),
+              RefNames.refsGroups(users));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  public void advertisedReferencesIncludeAllGroupBranchesForAdmins() throws Exception {
+    allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    try {
+      AccountGroup.UUID users = createGroup("Users", admins);
+      TestRepository<?> userTestRepository = cloneProject(allUsers, user);
+      try (Git git = userTestRepository.git()) {
+        assertThat(getGroupRefs(git))
+            .containsExactly(
+                RefNames.refsGroups(admins),
+                RefNames.refsGroups(nonInteractiveUsers),
+                RefNames.refsGroups(users));
+      }
+    } finally {
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
+    }
+  }
+
+  @Test
   public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      LsRemoteCommand lsRemoteCommand = git.lsRemote();
       String change3RefName = c3.currentPatchSet().getRefName();
-
-      List<String> initialRefNames =
-          lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
-      assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
+      assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
       gApi.changes().id(c3.getId().get()).setPrivate(true, null);
-
-      List<String> refNames = lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
-      assertThat(refNames).doesNotContain(change3RefName);
+      assertThat(getRefs(git)).doesNotContain(change3RefName);
     }
   }
 
@@ -477,17 +588,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     TestRepository<?> userTestRepository = cloneProject(project, user);
     try (Git git = userTestRepository.git()) {
-      LsRemoteCommand lsRemoteCommand = git.lsRemote();
       String change3RefName = c3.currentPatchSet().getRefName();
-
-      List<String> initialRefNames =
-          lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
-      assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
+      assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
       gApi.changes().id(c3.getId().get()).setPrivate(true, null);
-
-      List<String> refNames = lsRemoteCommand.call().stream().map(Ref::getName).collect(toList());
-      assertThat(refNames).contains(change3RefName);
+      assertThat(getRefs(git)).contains(change3RefName);
     }
   }
 
@@ -553,11 +658,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               RefNames.refsUsers(admin.id),
               RefNames.refsUsers(user.id),
               RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
-              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS);
+              RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
+              RefNames.REFS_EXTERNAL_IDS,
+              RefNames.REFS_CONFIG);
 
       List<String> expectedMetaRefs =
-          new ArrayList<>(
-              ImmutableList.of(RefNames.REFS_EXTERNAL_IDS, mr.getPatchSetId().toRefName()));
+          new ArrayList<>(ImmutableList.of(mr.getPatchSetId().toRefName()));
       if (NoteDbMode.get() != NoteDbMode.OFF) {
         expectedMetaRefs.add(changeRefPrefix(mr.getChange().getId()) + "meta");
       }
@@ -565,7 +671,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       List<String> expectedAllRefs = new ArrayList<>(expectedNonMetaRefs);
       expectedAllRefs.addAll(expectedMetaRefs);
 
-      setApiUser(user);
       try (Repository repo = repoManager.openRepository(allUsers)) {
         Map<String, Ref> all = repo.getAllRefs();
 
@@ -585,6 +690,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     try (Git git = testRepository.git()) {
       return git.lsRemote().call().stream().map(Ref::getName).collect(toList());
     }
+  }
+
+  private List<String> getRefs(Git git) throws Exception {
+    return getRefs(git, Predicates.alwaysTrue());
+  }
+
+  private List<String> getUserRefs(Git git) throws Exception {
+    return getRefs(git, RefNames::isRefsUsers);
+  }
+
+  private List<String> getGroupRefs(Git git) throws Exception {
+    return getRefs(git, RefNames::isRefsGroups);
+  }
+
+  private List<String> getRefs(Git git, Predicate<String> predicate) throws Exception {
+    return git.lsRemote().call().stream().map(Ref::getName).filter(predicate).collect(toList());
   }
 
   /**
@@ -643,5 +764,21 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PatchSet ps = cd.patchSet(psId);
     assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
     return ObjectId.fromString(ps.getRevision().get());
+  }
+
+  private AccountGroup.UUID createSelfOwnedGroup(String name, TestAccount... members)
+      throws RestApiException {
+    return createGroup(name, null, members);
+  }
+
+  private AccountGroup.UUID createGroup(
+      String name, @Nullable AccountGroup.UUID ownerGroup, TestAccount... members)
+      throws RestApiException {
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name(name);
+    groupInput.ownerId = ownerGroup != null ? ownerGroup.get() : null;
+    groupInput.members =
+        Arrays.stream(members).map(m -> String.valueOf(m.id.get())).collect(toList());
+    return new AccountGroup.UUID(gApi.groups().create(groupInput).get().id);
   }
 }

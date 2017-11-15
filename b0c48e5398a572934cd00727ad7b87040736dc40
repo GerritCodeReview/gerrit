@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510706723 -0500\nnonce AMT3iFj6d4yyy0BtporPuJbK6xeIN199o9yFDi6B2b7pXrMb6blTp2D26wKBzKl8ZNoMnYu2wLJU\n\n0000000000000000000000000000000000000000 b0c48e5398a572934cd00727ad7b87040736dc40 refs/for/master%topic\u003dbatch-group-name-notes,r\u003daliceks,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloLjiMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMxGIQALqc2K2uPKLACQrCGdC0LF4KIzuY\npi7rjzt2hQlDy5bC/N9xnj2FSJ34ijtVwfYb5/Emnv6mXxW8kz8rAkQ/T6wtpM4q\nLHRlM4JN++pzS4hKfDTsPHm7Ei6ZjEqBgOGAo58C0RHc/SNI0eXRASL3Vj2ysZBU\nBiwrSIDoJg6nQUFSXDYXnpEbMq+Fs3MWv8bKe0SWdEGtZZRxRcdmJhDAFtVkzFk6\nZ2nBKJnZKiDgUsj4xKQx7uxkaSjbeAB3vx0TFrJm05DIRdxbH473f4JeTbm6fLGj\nVmZ3V/G1tBVFMICaKNwzE8j4ZTKFdwT9k61uWZGSnteK2xDUXlZ4PmDuwM6PZk4m\nRb2lJRykuxrgEab9hoc376LbSYedUXbElKH4hIP5Cq7I/r6CEHXN4ZD83f8lLk2A\n/8Ubigwvzy5nw7JmktVpS/CZd/X9JJ7PZMCFgUqGRIFeloDjYII41t7hYvl4cl3l\nASz0iWphyelcZM/utyaKlxeckywZMd3J2n9v5Gt2i2MJ1fFtdW3NFYm9y5OhtA5c\nslPv/oSMu3A6/xbTlM5eZh7mGJAmsglioKIskfdNXXBtSUOSL9eQ9Ppu9wZujYDO\n0ZEAifz2f4rl6HvEn57bVgz0WXch+4JQ2Uzk3shnvSRyXocp/vcw5Rk93YCRj1wU\nJfv0qMUyFZ5nUQ39\n\u003dMgZM\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b266f197_7c5b638d",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "I originally planned to have this method part of GroupNameNotes so that we modify the NoteMap of group names only in one place. Of course, having it in a separate class is also an option. We should just be careful that GroupNameNotes and BatchGroupNameNotes don\u0027t deviate in the future.",
+      "range": {
+        "startLine": 46,
+        "startChar": 21,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac6ea52_10c50af9",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "If we used a data type here which is indifferent to the group object (AccountGroup/InternalGroup), we could use this class also for repairing the NoteMap of group names. For instance, we could use GroupReference or GroupDescription.Internal (GroupDescription.Basic would also suffice).",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1e7d751_7f424e55",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "I see two issues here:\n* A NoteMap with several entries pointing to the same UUID is handled differently depending on the order in which the groups are processed. For instance, assume that we have two groups (name1, UUID1) and (name2, UUID2). In the NoteMap, we have the entries (name1 -\u003e UUID1) and (name2 -\u003e UUID1). Let\u0027s say UUID1 is processed first in the loop. This will result in a deletion of the entry (name2 -\u003e UUID1) and adding (name2 -\u003e UUID2) in a later iteration. If UUID2 is processed first, we immediately get a ConfigInvalidException. If we changed the code below to not throw a CFE but update the entry with the correct value (as I suggested), we would delete that updated entry as soon as the iteration gets to UUID1 as \u0027existing\u0027 is read before the start of the loop over the groups.\n* Only entries which point to UUIDs of existing groups are considered. If we expect that the NoteMap can be corrupt, we should take into account all ways for it to be corrupt. Hence, we should also care about entries which point to UUIDs of non-existent groups (no matter how those entries got in there).",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 46
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ccef8b8_a2cfdb97",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to check oldCommit for null here (for readability)?",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 92,
+        "endChar": 21
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac41254_ae34123d",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "Can\u0027t this be newTreeId?",
+      "range": {
+        "startLine": 95,
+        "startChar": 19,
+        "endLine": 95,
+        "endChar": 46
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bbd3f43_179469b3",
+        "filename": "java/com/google/gerrit/server/group/db/BatchGroupNameNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-15T10:59:09Z",
+      "side": 1,
+      "message": "Considering that any stray entries are simply deleted in lines 80-84, it\u0027s a bit inconsistent to throw an exception here. Can\u0027t we simply update the note to the correct content? (That approach would also help for my plans of using this class for a repairer.)",
+      "range": {
+        "startLine": 133,
+        "startChar": 6,
+        "endLine": 133,
+        "endChar": 39
+      },
+      "revId": "b0c48e5398a572934cd00727ad7b87040736dc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

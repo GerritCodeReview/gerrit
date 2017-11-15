@@ -40,6 +40,9 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.account.AccountPredicates;
@@ -106,13 +109,15 @@ public class ReviewersUtil {
   // give the ranking algorithm a good set of candidates it can work with
   private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
-  private final AccountLoader accountLoader;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ReviewersUtil(
@@ -122,16 +127,18 @@ public class ReviewersUtil {
       GroupBackend groupBackend,
       GroupMembers groupMembers,
       ReviewerRecommender reviewerRecommender,
-      Metrics metrics) {
-    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
-    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountLoader = accountLoaderFactory.create(fillOptions);
+      Metrics metrics,
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend) {
+    this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
     this.queryProvider = queryProvider;
     this.groupBackend = groupBackend;
     this.groupMembers = groupMembers;
     this.reviewerRecommender = reviewerRecommender;
     this.metrics = metrics;
+    this.self = self;
+    this.permissionBackend = permissionBackend;
   }
 
   public interface VisibilityControl {
@@ -144,7 +151,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, OrmException, ConfigInvalidException {
+      throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
     String query = suggestReviewers.getQuery();
     int limit = suggestReviewers.getLimit();
 
@@ -218,7 +225,14 @@ public class ReviewersUtil {
   }
 
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
+    Set<FillOptions> fillOptions =
+        permissionBackend.user(self).test(GlobalPermission.MODIFY_ACCOUNT)
+            ? EnumSet.of(FillOptions.SECONDARY_EMAILS)
+            : EnumSet.noneOf(FillOptions.class);
+    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+    AccountLoader accountLoader = accountLoaderFactory.create(fillOptions);
+
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
       List<SuggestedReviewerInfo> reviewer =
           accountIds

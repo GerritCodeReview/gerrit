@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c48fd33_bc7695bd",
+        "filename": "java/com/google/gerrit/server/query/group/GroupQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T15:28:05Z",
+      "side": 1,
+      "message": "Also remove this",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "59bbdaacab59e5d2c32c21a211a315f67e5c91fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

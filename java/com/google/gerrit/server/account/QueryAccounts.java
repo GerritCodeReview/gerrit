@@ -21,19 +21,25 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -46,6 +52,8 @@ import org.kohsuke.args4j.Option;
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder queryBuilder;
   private final AccountQueryProcessor queryProcessor;
@@ -114,10 +122,14 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
   @Inject
   QueryAccounts(
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       AccountQueryProcessor queryProcessor,
       @GerritServerConfig Config cfg) {
+    this.self = self;
+    this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
@@ -140,7 +152,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
   @Override
   public List<AccountInfo> apply(TopLevelResource rsrc)
-      throws OrmException, BadRequestException, MethodNotAllowedException {
+      throws OrmException, RestApiException, PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }
@@ -154,13 +166,17 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     }
     if (options.contains(ListAccountsOption.ALL_EMAILS)) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
       fillOptions.add(FillOptions.EMAIL);
       fillOptions.add(FillOptions.SECONDARY_EMAILS);
     }
     if (suggest) {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
       fillOptions.add(FillOptions.EMAIL);
-      fillOptions.add(FillOptions.SECONDARY_EMAILS);
+
+      if (permissionBackend.user(self).test(GlobalPermission.MODIFY_ACCOUNT)) {
+        fillOptions.add(FillOptions.SECONDARY_EMAILS);
+      }
     }
     accountLoader = accountLoaderFactory.create(fillOptions);
 

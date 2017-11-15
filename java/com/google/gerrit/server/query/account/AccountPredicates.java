@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.account;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -35,14 +36,26 @@ public class AccountPredicates {
     return Predicate.and(p, isActive());
   }
 
-  public static Predicate<AccountState> defaultPredicate(String query) {
+  public static Predicate<AccountState> defaultPredicate(
+      Schema<AccountState> schema, boolean canSeeSecondaryEmails, String query) {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
     if (id != null) {
       preds.add(id(new Account.Id(id)));
     }
-    preds.add(equalsName(query));
+    if (canSeeSecondaryEmails) {
+      preds.add(equalsNameIcludingSecondaryEmails(query));
+    } else {
+      if (schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
+        preds.add(equalsName(query));
+      } else {
+        preds.add(AccountPredicates.fullName(query));
+        if (schema.hasField(AccountField.PREFERRED_EMAIL)) {
+          preds.add(AccountPredicates.preferredEmail(query));
+        }
+      }
+    }
     preds.add(username(query));
     // Adapt the capacity of the "predicates" list when adding more default
     // predicates.
@@ -54,7 +67,7 @@ public class AccountPredicates {
         AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
-  public static Predicate<AccountState> email(String email) {
+  public static Predicate<AccountState> emailIncludingSecondaryEmails(String email) {
     return new AccountPredicate(
         AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
@@ -71,12 +84,19 @@ public class AccountPredicates {
         AccountField.PREFERRED_EMAIL_EXACT, AccountQueryBuilder.FIELD_PREFERRED_EMAIL_EXACT, email);
   }
 
-  public static Predicate<AccountState> equalsName(String name) {
+  public static Predicate<AccountState> equalsNameIcludingSecondaryEmails(String name) {
     return new AccountPredicate(
         AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
-  public static Predicate<AccountState> externalId(String externalId) {
+  public static Predicate<AccountState> equalsName(String name) {
+    return new AccountPredicate(
+        AccountField.NAME_PART_NO_SECONDARY_EMAIL,
+        AccountQueryBuilder.FIELD_NAME,
+        name.toLowerCase());
+  }
+
+  public static Predicate<AccountState> externalIdIncludingSecondaryEmails(String externalId) {
     return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
   }
 

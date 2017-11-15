@@ -26,10 +26,14 @@ import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -120,7 +124,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected Injector injector;
   protected ReviewDb db;
   protected AccountInfo currentUserInfo;
-  protected CurrentUser user;
+  protected CurrentUser admin;
 
   protected abstract Injector createInjector();
 
@@ -144,10 +148,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     db = schemaFactory.open();
     schemaCreator.create(db);
 
-    Account.Id userId = createAccount("user", "User", "user@example.com", true);
-    user = userFactory.create(userId);
-    requestContext.setContext(newRequestContext(userId));
-    currentUserInfo = gApi.accounts().id(userId.get()).get();
+    Account.Id adminId = createAccount("admin", "Administrator", "admin@example.com", true);
+    admin = userFactory.create(adminId);
+    requestContext.setContext(newRequestContext(adminId));
+    currentUserInfo = gApi.accounts().id(adminId.get()).get();
   }
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
@@ -237,6 +241,52 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void bySecondaryEmail() throws Exception {
+    String prefix = name("secondary");
+    String domain = name("test.com");
+    String secondaryEmail = prefix + "@" + domain;
+    AccountInfo user1 = newAccountWithEmail("user1", name("user1@example.com"));
+    addEmails(user1, secondaryEmail);
+
+    AccountInfo user2 = newAccountWithEmail("user2", name("user2@example.com"));
+    addEmails(user2, name("other@" + domain));
+
+    assertQuery(secondaryEmail, user1);
+    assertQuery("email:" + secondaryEmail, user1);
+    assertQuery("email:" + prefix, user1);
+    assertQuery(domain, user1, user2);
+  }
+
+  @Test
+  public void byEmailWithoutModifyAccountCapability() throws Exception {
+    String preferredEmail = name("primary@test.com");
+    String secondaryEmail = name("secondary@test.com");
+    AccountInfo user1 = newAccountWithEmail("user1", preferredEmail);
+    addEmails(user1, secondaryEmail);
+
+    AccountInfo user2 = newAccount("user");
+    requestContext.setContext(newRequestContext(new Account.Id(user2._accountId)));
+
+    if (getSchemaVersion() < 5) {
+      assertMissingField(AccountField.PREFERRED_EMAIL);
+      assertFailingQuery("email:foo", "'email' operator is not supported by account index version");
+      return;
+    }
+
+    // This at least needs the PREFERRED_EMAIL field which is available from schema version 5.
+    if (getSchemaVersion() >= 5) {
+      assertQuery(preferredEmail, user1);
+    } else {
+      assertQuery(preferredEmail);
+    }
+
+    assertQuery(secondaryEmail);
+
+    assertQuery("email:" + preferredEmail, user1);
+    assertQuery("email:" + secondaryEmail);
+  }
+
+  @Test
   public void byUsername() throws Exception {
     AccountInfo user1 = newAccount("myuser");
 
@@ -294,6 +344,49 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(quote(user2.name), user2);
     assertQuery("name:" + quote(user2.name), user2);
+  }
+
+  @Test
+  public void byNameWithoutModifyAccountCapability() throws Exception {
+    AccountInfo user1 = newAccountWithFullName("jdoe", "John Doe");
+    AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
+
+    AccountInfo user3 = newAccount("user");
+    requestContext.setContext(newRequestContext(new Account.Id(user3._accountId)));
+
+    assertQuery("notexisting");
+    assertQuery("Not Existing");
+
+    // by full name works with any index version
+    assertQuery(quote(user1.name), user1);
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery(quote(user2.name), user2);
+    assertQuery("name:" + quote(user2.name), user2);
+
+    // by self/me works with any index version
+    assertQuery("self", user3);
+    assertQuery("me", user3);
+
+    if (getSchemaVersion() < 8) {
+      assertMissingField(AccountField.NAME_PART_NO_SECONDARY_EMAIL);
+
+      // prefix queries only work if the NAME_PART_NO_SECONDARY_EMAIL field is available
+      assertQuery("john");
+      return;
+    }
+
+    assertQuery("John", user1);
+    assertQuery("john", user1);
+    assertQuery("Doe", user1);
+    assertQuery("doe", user1);
+    assertQuery("DOE", user1);
+    assertQuery("Jo Do", user1);
+    assertQuery("jo do", user1);
+    assertQuery("name:John", user1);
+    assertQuery("name:john", user1);
+    assertQuery("name:Doe", user1);
+    assertQuery("name:doe", user1);
+    assertQuery("name:DOE", user1);
   }
 
   @Test
@@ -374,6 +467,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     List<AccountInfo> result = assertQuery(user1.username, user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
+    result = assertQuery(newQuery(user1.username).withSuggest(true), user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
+        .inOrder();
+
     result = assertQuery(newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
     assertThat(result.get(0).secondaryEmails).isNull();
 
@@ -390,6 +488,21 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(result.get(0).secondaryEmails)
         .containsExactlyElementsIn(Arrays.asList(secondaryEmails))
         .inOrder();
+  }
+
+  @Test
+  public void withSecondaryEmailsWithoutModifyAccountCapability() throws Exception {
+    AccountInfo user = newAccount("myuser", "My User", "abc@example.com", true);
+    String[] secondaryEmails = new String[] {"dfg@example.com", "hij@example.com"};
+    addEmails(user, secondaryEmails);
+
+    requestContext.setContext(newRequestContext(new Account.Id(user._accountId)));
+
+    List<AccountInfo> result = newQuery(user.username).withSuggest(true).get();
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    exception.expect(AuthException.class);
+    newQuery(user.username).withOption(ListAccountsOption.ALL_EMAILS).get();
   }
 
   @Test
@@ -431,7 +544,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void rawDocument() throws Exception {
-    AccountInfo userInfo = gApi.accounts().id(user.getAccountId().get()).get();
+    AccountInfo userInfo = gApi.accounts().id(admin.getAccountId().get()).get();
 
     Optional<FieldBundle> rawFields =
         indexes
@@ -633,6 +746,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return accounts.stream().map(a -> a._accountId).collect(toList());
   }
 
+  protected void assertMissingField(FieldDef<AccountState, ?> field) {
+    assertThat(getSchema().hasField(field))
+        .named("schema %s has field %s", getSchemaVersion(), field.getName())
+        .isFalse();
+  }
+
+  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
+  }
+
+  protected int getSchemaVersion() {
+    return getSchema().getVersion();
+  }
+
+  protected Schema<AccountState> getSchema() {
+    return indexes.getSearchIndex().getSchema();
+  }
+
   /** Boiler plate code to check two byte arrays for equality */
   private static class ByteArrayWrapper {
     private byte[] arr;
@@ -653,9 +789,5 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     public int hashCode() {
       return Arrays.hashCode(arr);
     }
-  }
-
-  protected int getSchemaVersion() {
-    return indexes.getSearchIndex().getSchema().getVersion();
   }
 }

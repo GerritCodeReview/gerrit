@@ -454,15 +454,6 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebuildReviewDbRequiresNoteDbPrimary() throws Exception {
-    Change.Id id = createChange().getChange().getId();
-
-    exception.expect(OrmException.class);
-    exception.expectMessage("primary storage of " + id + " is REVIEW_DB");
-    rebuilderWrapper.rebuildReviewDb(db, project, id);
-  }
-
-  @Test
   public void migrateBackToReviewDbPrimary() throws Exception {
     Change c = createChange().getChange().change();
     Change.Id id = c.getId();

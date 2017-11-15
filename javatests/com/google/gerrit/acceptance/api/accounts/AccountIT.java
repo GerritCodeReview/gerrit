@@ -1791,9 +1791,8 @@ public class AccountIT extends AbstractDaemonTest {
         Permission.PUSH,
         Permission.SUBMIT);
 
-    // TODO(ekempin): This permission should also be exclusive
     assertLabelPermission(
-        allUsers, groupRef(REGISTERED_USERS), userRef, false, "Code-Review", -2, 2);
+        allUsers, groupRef(REGISTERED_USERS), userRef, true, "Code-Review", -2, 2);
 
     assertPermission(
         allUsers,

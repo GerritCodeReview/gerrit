@@ -18,6 +18,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -26,12 +28,21 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Parses a query string meant to be applied to account objects. */
 public class AccountQueryBuilder extends QueryBuilder<AccountState> {
+  private static final Logger log = LoggerFactory.getLogger(AccountQueryBuilder.class);
+
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
@@ -46,10 +57,17 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   public static class Arguments {
     private final Provider<CurrentUser> self;
+    private final AccountIndexCollection indexes;
+    private final PermissionBackend permissionBackend;
 
     @Inject
-    public Arguments(Provider<CurrentUser> self) {
+    public Arguments(
+        Provider<CurrentUser> self,
+        AccountIndexCollection indexes,
+        PermissionBackend permissionBackend) {
       this.self = self;
+      this.indexes = indexes;
+      this.permissionBackend = permissionBackend;
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -71,6 +89,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
         throw new QueryParseException(NotSignedInException.MESSAGE, e);
       }
     }
+
+    Schema<AccountState> schema() {
+      Index<?, AccountState> index = indexes != null ? indexes.getSearchIndex() : null;
+      return index != null ? index.getSchema() : null;
+    }
   }
 
   private final Arguments args;
@@ -82,8 +105,17 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> email(String email) {
-    return AccountPredicates.email(email);
+  public Predicate<AccountState> email(String email)
+      throws PermissionBackendException, QueryParseException {
+    if (canSeeSecondaryEmails()) {
+      return AccountPredicates.emailIncludingSecondaryEmails(email);
+    }
+
+    if (args.schema().hasField(AccountField.PREFERRED_EMAIL)) {
+      return AccountPredicates.preferredEmail(email);
+    }
+
+    throw new QueryParseException("'email' operator is not supported by account index version");
   }
 
   @Operator
@@ -107,8 +139,17 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> name(String name) {
-    return AccountPredicates.equalsName(name);
+  public Predicate<AccountState> name(String name)
+      throws PermissionBackendException, QueryParseException {
+    if (canSeeSecondaryEmails()) {
+      return AccountPredicates.equalsNameIcludingSecondaryEmails(name);
+    }
+
+    if (args.schema().hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
+      return AccountPredicates.equalsName(name);
+    }
+
+    return AccountPredicates.fullName(name);
   }
 
   @Operator
@@ -124,7 +165,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
-    Predicate<AccountState> defaultPredicate = AccountPredicates.defaultPredicate(query);
+    Predicate<AccountState> defaultPredicate =
+        AccountPredicates.defaultPredicate(args.schema(), checkedCanSeeSecondaryEmails(), query);
     if ("self".equalsIgnoreCase(query) || "me".equalsIgnoreCase(query)) {
       try {
         return Predicate.or(defaultPredicate, AccountPredicates.id(self()));
@@ -137,5 +179,21 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   private Account.Id self() throws QueryParseException {
     return args.getIdentifiedUser().getAccountId();
+  }
+
+  private boolean canSeeSecondaryEmails() throws PermissionBackendException, QueryParseException {
+    return args.permissionBackend.user(args.getUser()).test(GlobalPermission.MODIFY_ACCOUNT);
+  }
+
+  private boolean checkedCanSeeSecondaryEmails() {
+    try {
+      return canSeeSecondaryEmails();
+    } catch (PermissionBackendException e) {
+      log.error("Permission check failed", e);
+      return false;
+    } catch (QueryParseException e) {
+      // User is not signed in.
+      return false;
+    }
   }
 }

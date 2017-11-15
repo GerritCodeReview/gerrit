@@ -27,6 +27,7 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.ReviewersUtil.VisibilityControl;
@@ -71,7 +72,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
+      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -86,7 +88,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
   private VisibilityControl getVisibility(ChangeResource rsrc) {
     // Use the destination reference, not the change, as drafts may deny
     // anyone who is not already a reviewer.
-    // TODO(hiesel) Replace this with a check on the change resource once support for drafts was removed
+    // TODO(hiesel) Replace this with a check on the change resource once support for drafts was
+    // removed
     PermissionBackend.ForRef perm = permissionBackend.user(self).ref(rsrc.getChange().getDest());
     return new VisibilityControl() {
       @Override

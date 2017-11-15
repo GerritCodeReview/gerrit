@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -65,7 +64,7 @@ public class StalenessChecker {
     this.config = config;
   }
 
-  public boolean isStale(AccountGroup.UUID id) throws IOException, OrmException {
+  public boolean isStale(AccountGroup.UUID id) throws IOException {
     if (!config.getBoolean("user", "readGroupsFromNoteDb", false)) {
       return false; // This class only treats staleness for groups in NoteDb.
     }

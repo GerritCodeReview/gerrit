@@ -16,6 +16,24 @@
       "revId": "4c25d7d52bbb2bde10353eaed8f1f0e19d4704cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68a70c9_293e9e3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 2024,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-15T00:25:57Z",
+      "side": 1,
+      "message": "That\u0027s a pretty good point.\n\nAt this stage it\u0027s just generic JS data, no longer specific to the fetch API.\n\nConverted to case insensitive check (and added to test).",
+      "parentUuid": "c28c02b0_7b1ed4d8",
+      "revId": "4c25d7d52bbb2bde10353eaed8f1f0e19d4704cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,12 +36,10 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.HashMap;
 import java.util.Map;
@@ -396,14 +394,11 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addNonGlobalCapabilityToGlobalCapabilities() throws Exception {
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
 
     PermissionInfo permissionInfo = newPermissionInfo();
-    permissionInfo.rules.put(adminGroup.getGroupUUID().get(), null);
+    permissionInfo.rules.put(adminGroupUuid().get(), null);
     accessSectionInfo.permissions.put(Permission.PUSH, permissionInfo);
 
     accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
@@ -426,14 +421,11 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void removeGlobalCapabilityAsAdmin() throws Exception {
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
 
     PermissionInfo permissionInfo = newPermissionInfo();
-    permissionInfo.rules.put(adminGroup.getGroupUUID().get(), null);
+    permissionInfo.rules.put(adminGroupUuid().get(), null);
     accessSectionInfo.permissions.put(GlobalCapability.ACCESS_DATABASE, permissionInfo);
 
     // Add and validate first as removing existing privileges such as

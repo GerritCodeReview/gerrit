@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -46,8 +45,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     normalProject = createProject("normal");
     secretProject = createProject("secret");
     secretRefProject = createProject("secretRef");
-    privilegedGroup =
-        groupCache.get(new AccountGroup.NameKey(createGroup("privilegedGroup"))).orElse(null);
+    privilegedGroup = group(createGroup("privilegedGroup"));
 
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden");
     gApi.groups().id(privilegedGroup.getGroupUUID().get()).addMembers(privilegedUser.username);

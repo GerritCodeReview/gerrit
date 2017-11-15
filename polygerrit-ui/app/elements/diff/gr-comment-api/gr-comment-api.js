@@ -76,6 +76,10 @@
 
   ChangeComments.prototype._patchNumEquals =
       Gerrit.PatchSetBehavior.patchNumEquals;
+  ChangeComments.prototype._isMergeParent =
+      Gerrit.PatchSetBehavior.isMergeParent;
+  ChangeComments.prototype._getParentIndex =
+      Gerrit.PatchSetBehavior.getParentIndex;
 
   /**
    * Get an object mapping file paths to a boolean representing whether that
@@ -300,12 +304,11 @@
   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
     // If the base of the patch range is a parent of a merge, and the comment
-    // appears on a specific parent. Then only show the comment if the parent
+    // appears on a specific parent then only show the comment if the parent
     // index of the comment matches that of the range.
     if (comment.parent && comment.side === PARENT) {
-      return Gerrit.PatchSetBehavior.isMergeParent(range.basePatchNum) &&
-          comment.parent ===
-              Gerrit.PatchSetBehavior.getParentIndex(range.basePatchNum);
+      return this._isMergeParent(range.basePatchNum) &&
+          comment.parent === this._getParentIndex(range.basePatchNum);
     }
 
     // If the base of the range is the parent of the patch:

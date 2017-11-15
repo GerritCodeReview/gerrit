@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "14fe41b7_9c97bc1c",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryWeigher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T13:58:58Z",
+      "side": 1,
+      "message": "Looks like this should be moved too.",
+      "revId": "0d157b35613c37907a65e3f99c5d94b8d6dffd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d036b1_02176008",
         "filename": "java/com/google/gerrit/server/patch/IntraLineWeigher.java",
         "patchSetId": 11
@@ -16,6 +33,29 @@
       "revId": "0d157b35613c37907a65e3f99c5d94b8d6dffd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e6e7549_ceec220c",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineWeigher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T13:58:58Z",
+      "side": 1,
+      "message": "This modification should be reverted. I missed that ;-(",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "0d157b35613c37907a65e3f99c5d94b8d6dffd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

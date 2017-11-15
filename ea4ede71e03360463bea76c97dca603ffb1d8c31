@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9974a793_d8a90e40",
+        "filename": "java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-15T23:39:12Z",
+      "side": 0,
+      "message": "This was added in I23c72630f54250e7ac0a7ff26d4b28e8a6af0df3 to support showing secondary email addresses in UI suggestions.  Does removing it break something?",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 52
+      },
+      "revId": "ea4ede71e03360463bea76c97dca603ffb1d8c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

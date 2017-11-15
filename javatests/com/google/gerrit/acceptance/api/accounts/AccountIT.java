@@ -1779,6 +1779,32 @@ public class AccountIT extends AbstractDaemonTest {
     assertGroups(newUser, ImmutableList.of(group));
   }
 
+  @Test
+  public void defaultPermissionsOnUserBranches() throws Exception {
+    String userRef = RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}";
+    assertPermission(
+        allUsers,
+        groupRef(REGISTERED_USERS),
+        userRef,
+        true,
+        Permission.READ,
+        Permission.PUSH,
+        Permission.SUBMIT);
+
+    // TODO(ekempin): This permission should also be exclusive
+    assertLabelPermission(
+        allUsers, groupRef(REGISTERED_USERS), userRef, false, "Code-Review", -2, 2);
+
+    assertPermission(
+        allUsers,
+        groupRef("Administrators"),
+        RefNames.REFS_USERS_DEFAULT,
+        true,
+        Permission.READ,
+        Permission.PUSH,
+        Permission.CREATE);
+  }
+
   private void assertGroups(String user, List<String> expected) throws Exception {
     List<String> actual =
         gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());

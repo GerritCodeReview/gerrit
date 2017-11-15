@@ -22,6 +22,30 @@
       "revId": "328e86d0f6be6a8da82e28ccbb2797f416744ead",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26430ad7_63fe855b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountDeactivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1043775
+      },
+      "writtenOn": "2017-11-15T20:47:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "214aff87_ef4e3046",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "328e86d0f6be6a8da82e28ccbb2797f416744ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

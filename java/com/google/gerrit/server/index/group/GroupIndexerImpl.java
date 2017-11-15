@@ -108,7 +108,7 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   private void autoReindexIfStale(AccountGroup.UUID uuid) {
     if (autoReindexIfStale) {
-      // Don't retry indefinitely; if this fails the change will be stale.
+      // Don't retry indefinitely; if this fails the group will be stale.
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError = reindexIfStale(uuid);
     }
@@ -120,8 +120,8 @@ public class GroupIndexerImpl implements GroupIndexer {
    * <p>Always run on the batch executor, even if this indexer instance is configured to use a
    * different executor.
    *
-   * @param uuid the unique identified of the group.
-   * @return future for reindexing the group; returns true if the change was stale.
+   * @param uuid the unique identifier of the group.
+   * @return future for reindexing the group; returns true if the group was stale.
    */
   @SuppressWarnings("deprecation")
   public com.google.common.util.concurrent.CheckedFuture<Boolean, IOException> reindexIfStale(

@@ -22,6 +22,30 @@
       "revId": "6288f90ca5ea4907022d2c07e0cce49420a28d72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "410b0cd7_24522f6f",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-15T19:08:30Z",
+      "side": 1,
+      "message": "/shrug\n\nI think maybe that was overly generic as an approach, but I\u0027m a bit afraid of fixing it in broad strokes. What do you think?",
+      "parentUuid": "8ae05597_92e86697",
+      "range": {
+        "startLine": 340,
+        "startChar": 11,
+        "endLine": 340,
+        "endChar": 34
+      },
+      "revId": "6288f90ca5ea4907022d2c07e0cce49420a28d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

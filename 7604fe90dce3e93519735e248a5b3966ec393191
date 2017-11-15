@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "b4935289_f6817e17",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-15T23:22:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be formatted consistently by buildifier?",
+      "parentUuid": "1d19d7eb_12d3d3a1",
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3588f276_3f7e3dfa",
         "filename": "javatests/com/google/gerrit/acceptance/server/project/BUILD",
         "patchSetId": 6

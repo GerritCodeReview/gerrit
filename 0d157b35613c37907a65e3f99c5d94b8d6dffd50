@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d036b1_02176008",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineWeigher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-15T13:38:55Z",
+      "side": 1,
+      "message": "Why was this not moved when PatchListWeigher was?",
+      "revId": "0d157b35613c37907a65e3f99c5d94b8d6dffd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

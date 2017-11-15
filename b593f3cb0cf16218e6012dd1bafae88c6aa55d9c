@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510736502 +0100\nnonce AMT3iFhxo38VKY9F9lokTELrhNlBF2H7ZQoZglhOBtnyFsjVUl7zU8IuDGbEtRXDJGjW5gDK6RdM\n\n0000000000000000000000000000000000000000 b593f3cb0cf16218e6012dd1bafae88c6aa55d9c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDAJ3AAoJEFG1/Zeg0O9R1K8IAIh7EW8Njg1LRAfDBGoaIzfo\nNfU0kYNwXPbEKs/GLyyVGoTwhc89Ebnh3BCb5DJFGeRscAHfbZEtUAiGqOcymAal\nvyllktQ1R46eujdqxKlOQnbuKAqrnDTldvQ6wimRxIKyfAtQ844enivi6G4nBQW7\n0crc7p2KvsatGApF/OVWjkM42nPJQ196+Mb2HH2jn8EqsIqVsmnyHiPX+p9CMdCo\nrhaDcjFHGIXVxPjM+Gqp1UyFQzMgXbc3sMjYfEMiBLEc5X+mZ0ixbfE+uVH4WSew\nsjBGJMxLmEk5xe5bj2dpd4VxKZPnHGGTAh3b8DIygO34I7ea9XGHhOBaS0o+dlk\u003d\n\u003dK9om\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "86df2ee1_acf4b178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T16:12:42Z",
+      "side": 1,
+      "message": "Out of curiously, wouldn\u0027t that be the same as Schema_162 but replace the user permission with an exclusive one?",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "b593f3cb0cf16218e6012dd1bafae88c6aa55d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

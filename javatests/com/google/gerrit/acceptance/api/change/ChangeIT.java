@@ -1228,11 +1228,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // create hidden project that is only visible to administrators
     Project.NameKey p = createProject("p");
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(
-        cfg,
-        Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
-        "refs/*");
+    Util.allow(cfg, Permission.READ, adminGroupUuid(), "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
 
@@ -1305,11 +1301,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // create hidden project that is only visible to administrators
     Project.NameKey p = createProject("p");
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(
-        cfg,
-        Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
-        "refs/*");
+    Util.allow(cfg, Permission.READ, adminGroupUuid(), "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
 
@@ -1352,11 +1344,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // create hidden project that is only visible to administrators
     Project.NameKey p = createProject("p");
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(
-        cfg,
-        Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null).getGroupUUID(),
-        "refs/*");
+    Util.allow(cfg, Permission.READ, adminGroupUuid(), "refs/*");
     Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
 

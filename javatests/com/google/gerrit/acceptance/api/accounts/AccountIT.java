@@ -79,7 +79,6 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -93,7 +92,6 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gerrit.server.project.RefPattern;
@@ -1067,11 +1065,9 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
     accountIndexedCounter.clear();
 
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
-    grantLabel("Code-Review", -2, 2, allUsers, userRef, false, adminGroup.getGroupUUID(), false);
-    grant(allUsers, userRef, Permission.SUBMIT, false, adminGroup.getGroupUUID());
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
+    grantLabel("Code-Review", -2, 2, allUsers, userRef, false, adminGroupUuid(), false);
+    grant(allUsers, userRef, Permission.SUBMIT, false, adminGroupUuid());
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1272,9 +1268,7 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
     accountIndexedCounter.clear();
 
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, foo);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1335,9 +1329,7 @@ public class AccountIT extends AbstractDaemonTest {
     String userRef = RefNames.refsUsers(foo.id);
     accountIndexedCounter.clear();
 
-    InternalGroup adminGroup =
-        groupCache.get(new AccountGroup.NameKey("Administrators")).orElse(null);
-    grant(allUsers, userRef, Permission.PUSH, false, adminGroup.getGroupUUID());
+    grant(allUsers, userRef, Permission.PUSH, false, adminGroupUuid());
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     fetch(allUsersRepo, userRef + ":userRef");
@@ -1797,7 +1789,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     assertPermission(
         allUsers,
-        groupRef("Administrators"),
+        adminGroupRef(),
         RefNames.REFS_USERS_DEFAULT,
         true,
         Permission.READ,

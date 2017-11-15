@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "6b32465f_c6461b31",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-15T09:02:15Z",
+      "side": 1,
+      "message": "Ok!",
+      "parentUuid": "c58303f0_7bc5ba2f",
+      "range": {
+        "startLine": 37,
+        "startChar": 37,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "398f7188a58489708e8db844434d14fb7da8b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5985cad_183f7ee1",
         "filename": "java/com/google/gerrit/server/mail/lib/MailUtil.java",
         "patchSetId": 2

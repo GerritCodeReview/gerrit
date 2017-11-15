@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d930fa_3321829d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-15T21:45:45Z",
+      "side": 1,
+      "message": "You are not consistent with how you format one line dependency. Above you added it as three liner. In: [1] you used one liner. Can we be consistent?\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/141213/6/javatests/com/google/gerrit/acceptance/api/accounts/BUILD@10",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "2f29a1b9969515182bba66bd3c41acbbed34be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

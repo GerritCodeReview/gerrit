@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e4d7f33_ceca5307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-15T19:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e5529ae_33559753",
+      "revId": "dddbe2c974dc429016d68488480f30d1e6ec37dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c70aa99_7b843c08",
         "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
         "patchSetId": 5
@@ -50,6 +68,24 @@
       "revId": "dddbe2c974dc429016d68488480f30d1e6ec37dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b14ff0b6_f7138fa9",
+        "filename": "java/com/google/gerrit/server/group/GroupsConsistencyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-15T19:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "606afc2f_3988b20c",
+      "revId": "dddbe2c974dc429016d68488480f30d1e6ec37dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

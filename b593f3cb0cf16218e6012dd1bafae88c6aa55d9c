@@ -23,6 +23,30 @@
       "revId": "b593f3cb0cf16218e6012dd1bafae88c6aa55d9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683048f2_74eed7e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-15T16:16:01Z",
+      "side": 1,
+      "message": "Yes, only it would also need to check if the default permissions are still in place or whether they were (intentionally) modified by an admin.",
+      "parentUuid": "86df2ee1_acf4b178",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "b593f3cb0cf16218e6012dd1bafae88c6aa55d9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -66,6 +67,7 @@ import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
@@ -832,47 +834,78 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
-    pushToGroupBranch(allUsers, "Not allowed to create group branch.", "group update not allowed");
+    String groupRef =
+        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("fo")).get().id));
+    assertPushToGroupBranch(allUsers, groupRef, !groupsInNoteDb(), "group update not allowed");
   }
 
   @Test
-  public void pushToGroupBranchForNonAllUsersRepo() throws Exception {
-    pushToGroupBranch(project, null, null);
+  public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
+    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
+    // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, false, "group update not allowed");
   }
 
-  private void pushToGroupBranch(
-      Project.NameKey project, String expectedErrorOnCreate, String expectedErrorOnUpdate)
+  @Test
+  public void pushToGroupsBranchForNonAllUsersRepo() throws Exception {
+    assertCreateGroupBranch(project, null);
+    String groupRef =
+        RefNames.refsGroups(new AccountGroup.UUID(gApi.groups().create(name("fo")).get().id));
+    assertPushToGroupBranch(project, groupRef, true, null);
+  }
+
+  @Test
+  public void pushToGroupNamesBranchForNonAllUsersRepo() throws Exception {
+    assertPushToGroupBranch(project, RefNames.REFS_GROUPNAMES, true, null);
+  }
+
+  private void assertPushToGroupBranch(
+      Project.NameKey project, String groupRefName, boolean createRef, String expectedErrorOnUpdate)
       throws Exception {
     grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS_GROUPNAMES, Permission.PUSH, false, REGISTERED_USERS);
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
 
-    // create new branch
+    if (createRef) {
+      createGroupBranch(project, groupRefName);
+    }
+
+    // update existing branch
+    fetch(repo, groupRefName + ":groupRef");
+    repo.reset("groupRef");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                admin.getIdent(),
+                repo,
+                "Update group config",
+                GroupConfig.GROUP_CONFIG_FILE,
+                "some content")
+            .to(groupRefName);
+    if (expectedErrorOnUpdate != null) {
+      r.assertErrorStatus(expectedErrorOnUpdate);
+    } else {
+      r.assertOkStatus();
+    }
+  }
+
+  private void assertCreateGroupBranch(Project.NameKey project, String expectedErrorOnCreate)
+      throws Exception {
+    grant(project, RefNames.REFS_GROUPS + "*", Permission.CREATE, false, REGISTERED_USERS);
+    grant(project, RefNames.REFS_GROUPS + "*", Permission.PUSH, false, REGISTERED_USERS);
+    TestRepository<InMemoryRepository> repo = cloneProject(project);
     PushOneCommit.Result r =
         pushFactory
             .create(
                 db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
             .setParents(ImmutableList.of())
-            .to(RefNames.REFS_GROUPS + name("foo"));
+            .to(RefNames.REFS_GROUPS + name("bar"));
     if (expectedErrorOnCreate != null) {
       r.assertErrorStatus(expectedErrorOnCreate);
-    } else {
-      r.assertOkStatus();
-    }
-
-    // update existing branch
-    String groupRefName = RefNames.REFS_GROUPS + name("bar");
-    createGroupBranch(project, groupRefName);
-    fetch(repo, groupRefName + ":groupRef");
-    repo.reset("groupRef");
-    r =
-        pushFactory
-            .create(
-                db, admin.getIdent(), repo, "Update group config", "group.config", "some content")
-            .to(groupRefName);
-    if (expectedErrorOnUpdate != null) {
-      r.assertErrorStatus(expectedErrorOnUpdate);
     } else {
       r.assertOkStatus();
     }

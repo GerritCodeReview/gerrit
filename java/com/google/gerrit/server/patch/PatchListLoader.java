@@ -517,7 +517,7 @@ public class PatchListLoader implements Callable<PatchList> {
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
     long size = bContent.length;
-    long sizeDelta = bContent.length - aContent.length;
+    long sizeDelta = size - (long) aContent.length;
     RawText aRawText = new RawText(aContent);
     RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);

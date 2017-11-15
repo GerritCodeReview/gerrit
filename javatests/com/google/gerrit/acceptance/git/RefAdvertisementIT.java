@@ -639,6 +639,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
   public void hideMetaRefs() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
@@ -657,9 +658,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               RefNames.REFS_USERS_SELF,
               RefNames.refsUsers(admin.id),
               RefNames.refsUsers(user.id),
+              RefNames.REFS_EXTERNAL_IDS,
+              RefNames.REFS_GROUPNAMES,
+              RefNames.refsGroups(admins),
+              RefNames.refsGroups(nonInteractiveUsers),
               RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
               RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
-              RefNames.REFS_EXTERNAL_IDS,
               RefNames.REFS_CONFIG);
 
       List<String> expectedMetaRefs =

@@ -319,8 +319,10 @@ public class MergeValidators {
         IdentifiedUser caller)
         throws MergeValidationException {
       // Groups are stored inside 'refs/groups/' refs inside the 'All-Users' repository.
+      // Group names are stored inside 'refs/meta/group-names' inside the 'All-Users' repository.
       if (!allUsersName.equals(destProject.getNameKey())
-          || !destBranch.get().startsWith(RefNames.REFS_GROUPS)) {
+          || (!destBranch.get().startsWith(RefNames.REFS_GROUPS)
+              && !destBranch.get().equals(RefNames.REFS_GROUPNAMES))) {
         return;
       }
 

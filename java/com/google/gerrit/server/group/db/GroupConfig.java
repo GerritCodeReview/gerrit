@@ -47,7 +47,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 
 // TODO(aliceks): Add Javadoc descriptions to this file.
 public class GroupConfig extends VersionedMetaData {
-  private static final String GROUP_CONFIG_FILE = "group.config";
+  public static final String GROUP_CONFIG_FILE = "group.config";
   private static final String MEMBERS_FILE = "members";
   private static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");

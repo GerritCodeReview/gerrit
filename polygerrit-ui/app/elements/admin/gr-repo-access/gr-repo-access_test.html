@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-repo-access</title>
+
+<script src="../../../bower_components/page/page.js"></script>
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-repo-access.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-repo-access></gr-repo-access>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-repo-access tests', () => {
+    let element;
+    let sandbox;
+
+    const accessRes = {
+      local: {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                234: {action: 'ALLOW'},
+                123: {action: 'DENY'},
+              },
+            },
+            read: {
+              rules: {
+                234: {action: 'ALLOW'},
+              },
+            },
+          },
+        },
+      },
+    };
+    const accessRes2 = {
+      local: {
+        GLOBAL_CAPABILITIES: {
+          permissions: {
+            accessDatabase: {
+              rules: {
+                group1: {
+                  action: 'ALLOW',
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+    const repoRes = {
+      labels: {
+        'Code-Review': {},
+      },
+    };
+    const repoAccessInput = {
+      add: {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                123: {action: 'DENY'},
+              },
+            },
+          },
+        },
+      },
+      remove: {
+        'refs/*': {
+          permissions: {
+            owner: {
+              rules: {
+                123: null,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('_repoChanged called when repo name changes', () => {
+      sandbox.stub(element, '_repoChanged');
+      element.repo = 'New Repo';
+      assert.isTrue(element._repoChanged.called);
+    });
+
+    test('_repoChanged', done => {
+      const capabilitiesRes = {
+        accessDatabase: {
+          id: 'accessDatabase',
+          name: 'Access Database',
+        },
+        createAccount: {
+          id: 'createAccount',
+          name: 'Create Account',
+        },
+      };
+
+      const accessStub = sandbox.stub(element.$.restAPI,
+          'getRepoAccessRights');
+
+
+      accessStub.withArgs('New Repo').returns(Promise.resolve(accessRes));
+      accessStub.withArgs('Another New Repo')
+          .returns(Promise.resolve(accessRes2));
+      const capabilitiesStub = sandbox.stub(element.$.restAPI,
+          'getCapabilities');
+      capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
+      const repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
+          Promise.resolve(repoRes));
+      const adminStub = sandbox.stub(element.$.restAPI, 'getIsAdmin').returns(
+          Promise.resolve(true));
+
+      element._repoChanged('New Repo').then(() => {
+        assert.isTrue(accessStub.called);
+        assert.isTrue(capabilitiesStub.called);
+        assert.isTrue(repoStub.called);
+        assert.isTrue(adminStub.called);
+        assert.isNotOk(element._inheritsFrom);
+        assert.deepEqual(element._local, accessRes.local);
+        assert.deepEqual(element._sections,
+            element.toSortedArray(accessRes.local));
+        assert.deepEqual(element._labels, repoRes.labels);
+        return element._repoChanged('Another New Repo');
+      })
+          .then(() => {
+            assert.deepEqual(element._sections,
+                element.toSortedArray(accessRes2.local));
+            done();
+          });
+    });
+
+    test('_repoChanged when repo changes to undefined returns', done => {
+      const capabilitiesRes = {
+        accessDatabase: {
+          id: 'accessDatabase',
+          name: 'Access Database',
+        },
+      };
+      const accessRes = {
+        local: {
+          GLOBAL_CAPABILITIES: {
+            permissions: {
+              accessDatabase: {
+                rules: {
+                  123: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      const repoRes = {
+        labels: {
+          'Code-Review': {},
+        },
+      };
+      const accessStub = sandbox.stub(element.$.restAPI,
+          'getRepoAccessRights').returns(Promise.resolve(accessRes));
+      const capabilitiesStub = sandbox.stub(element.$.restAPI,
+          'getCapabilities').returns(Promise.resolve(capabilitiesRes));
+      const repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
+          Promise.resolve(repoRes));
+
+      element._repoChanged().then(() => {
+        assert.isFalse(accessStub.called);
+        assert.isFalse(capabilitiesStub.called);
+        assert.isFalse(repoStub.called);
+        done();
+      });
+    });
+
+    test('_computeParentHref', () => {
+      const repoName = 'test-repo';
+      assert.equal(element._computeParentHref(repoName),
+          '/admin/repos/test-repo,access');
+    });
+
+    test('_computeAdminClass', () => {
+      let isAdmin = true;
+      assert.equal(element._computeAdminClass(isAdmin), 'admin');
+      isAdmin = false;
+      assert.equal(element._computeAdminClass(isAdmin), '');
+    });
+
+    test('inherit section', () => {
+      sandbox.stub(element, '_computeParentHref');
+      assert.isNotOk(Polymer.dom(element.root).querySelector('#inheritsFrom'));
+      assert.isFalse(element._computeParentHref.called);
+      element._inheritsFrom = {
+        name: 'another-repo',
+      };
+      flushAsynchronousOperations();
+      assert.isOk(Polymer.dom(element.root).querySelector('#inheritsFrom'));
+      assert.isTrue(element._computeParentHref.called);
+    });
+
+    suite('with defined sections', () => {
+      setup(() => {
+        element._sections = element.toSortedArray(accessRes.local);
+        flushAsynchronousOperations();
+      });
+
+      test('_getAllRules', () => {
+        assert.equal(element._getAllRules().length, 3);
+      });
+
+      test('_getSections, _getPermissionsForSection, _getRulesForPermission',
+          () => {
+            const sections = element._getSections();
+            assert.equal(sections.length, 1);
+            const permissions = element._getPermissionsForSection(sections[0]);
+            assert.equal(permissions.length, 2);
+            assert.equal(element._getRulesForPermission(permissions[0]).length,
+                2);
+          });
+
+      test('button visibility for non admin', () => {
+        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
+        assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
+      });
+
+      test('button visibility for admin', () => {
+        element._isAdmin = true;
+
+        // Edit button is visible and Save button is hidden.
+        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
+        assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
+        assert.equal(element.$.editBtn.innerText, 'EDIT');
+
+        MockInteractions.tap(element.$.editBtn);
+
+        // Edit button changes to Cancel button, and Save button is visible but
+        // disabled.
+        assert.equal(element.$.editBtn.innerText, 'CANCEL');
+        assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
+        assert.isTrue(element.$.saveBtn.disabled);
+
+        // Save button should be enabled after access is modified
+        element.fire('access-modified');
+        assert.isFalse(element.$.saveBtn.disabled);
+      });
+
+      test('_handleAccessModified called with event fired', () => {
+        sandbox.spy(element, '_handleAccessModified');
+        element.fire('access-modified');
+        assert.isTrue(element._handleAccessModified.called);
+      });
+
+      test('_permissionInRemove', () => {
+        let toRemove = {};
+        assert.isFalse(element._permissionInRemove(toRemove, 'refs/*',
+            'owner'));
+        toRemove = {
+          'refs/*': {
+            permissions: {
+              owner: {},
+            },
+          },
+        };
+        assert.isTrue(element._permissionInRemove(toRemove, 'refs/*', 'owner'));
+      });
+
+      test('_generatePermissionObject', () => {
+        const addRemoveObj = {add: {}, remove: {}};
+
+        const expectedResult = {
+          add: {'refs/*': {
+            permissions: {owner: {rules: {}}}},
+          },
+          remove: {'refs/*': {
+            permissions: {owner: {rules: {}}}},
+          },
+        };
+        assert.deepEqual(element._generatePermissionObject(
+            addRemoveObj, 'refs/*', 'owner'), expectedResult);
+      });
+
+      test('_computeAddAndRemove', () => {
+        // With nothing modified
+        assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+        const rules = element._getAllRules();
+        rules[0]._modified = true;
+        assert.deepEqual(element._computeAddAndRemove(), repoAccessInput);
+      });
+
+      test('_handleSaveForReview', done => {
+        sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
+            .returns(Promise.resolve(accessRes));
+        sandbox.stub(element.$.restAPI, 'getRepo')
+            .returns(Promise.resolve({}));
+        sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        const saveForReviewStub = sandbox.stub(element.$.restAPI,
+            'setProjectAccessRightsForReview')
+            .returns(Promise.resolve({_number: 1}));
+
+        element.repo = 'test-repo';
+        sandbox.stub(element, '_computeAddAndRemove')
+            .returns(repoAccessInput);
+
+        element._handleSaveForReview().then(() => {
+          assert.isTrue(saveForReviewStub.called);
+          assert.isTrue(Gerrit.Nav.navigateToChange
+              .lastCall.calledWithExactly({_number: 1}));
+          done();
+        });
+      });
+    });
+  });
+</script>

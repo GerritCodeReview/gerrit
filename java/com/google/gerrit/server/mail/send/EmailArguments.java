@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.lib.diff.PatchListCache;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;

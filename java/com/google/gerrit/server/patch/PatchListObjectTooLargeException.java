@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.server.diff.PatchListNotAvailableException;
+import com.google.gerrit.lib.diff.PatchListNotAvailableException;
 
 /**
  * Exception thrown when the PatchList could not be computed because previous attempts failed with

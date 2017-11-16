@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.diff.IntraLineDiff;
-import com.google.gerrit.server.diff.Text;
+import com.google.gerrit.lib.diff.IntraLineDiff;
+import com.google.gerrit.lib.diff.Text;
 import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;

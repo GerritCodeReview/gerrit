@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.rules;
 
+import com.google.gerrit.lib.diff.PatchListCache;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.Weigher;
-import com.google.gerrit.server.diff.IntraLineDiff;
-import com.google.gerrit.server.diff.IntraLineDiffKey;
+import com.google.gerrit.lib.diff.IntraLineDiff;
+import com.google.gerrit.lib.diff.IntraLineDiffKey;
 
 /** Approximates memory usage for IntralineDiff in bytes of memory used. */
 public class IntraLineWeigher implements Weigher<IntraLineDiffKey, IntraLineDiff> {

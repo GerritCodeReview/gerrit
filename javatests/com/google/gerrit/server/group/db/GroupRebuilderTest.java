@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
@@ -41,8 +40,6 @@ import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -54,12 +51,13 @@ public class GroupRebuilderTest extends AbstractGroupTest {
   private AtomicInteger idCounter;
   private Repository repo;
   private GroupRebuilder rebuilder;
+  private GroupBundle.Factory bundleFactory;
 
   @Before
   public void setUp() throws Exception {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     idCounter = new AtomicInteger();
-    repo = new InMemoryRepository(new DfsRepositoryDescription(AllUsersNameProvider.DEFAULT));
+    repo = repoManager.createRepository(allUsersName);
     rebuilder =
         new GroupRebuilder(
             GroupRebuilderTest::newPersonIdent,
@@ -72,6 +70,8 @@ public class GroupRebuilderTest extends AbstractGroupTest {
             AbstractGroupTest::newPersonIdent,
             AbstractGroupTest::getAccountNameEmail,
             AbstractGroupTest::getGroupName);
+    bundleFactory =
+        new GroupBundle.Factory(new AuditLogReader(SERVER_ID, repoManager, allUsersName));
   }
 
   @After
@@ -86,7 +86,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertCommit(log.get(0), "Create group", SERVER_NAME, SERVER_EMAIL);
@@ -103,7 +103,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(1);
     assertServerCommit(log.get(0), "Create group");
@@ -121,7 +121,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(2);
     assertServerCommit(log.get(0), "Create group");
@@ -150,7 +150,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -176,7 +176,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -200,7 +200,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -225,7 +225,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
@@ -246,7 +246,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -276,7 +276,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
     assertServerCommit(log.get(0), "Create group");
@@ -323,7 +323,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(5);
     assertServerCommit(log.get(0), "Create group");
@@ -358,7 +358,7 @@ public class GroupRebuilderTest extends AbstractGroupTest {
 
     rebuilder.rebuild(repo, b, null);
 
-    assertThat(reload(g)).isEqualTo(b.toInternalGroup());
+    assertThat(reload(g)).isEqualTo(b);
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
@@ -399,14 +399,14 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     assertThat(log(g1)).hasSize(1);
     assertThat(log(g2)).hasSize(1);
     assertThat(logGroupNames()).hasSize(1);
-    assertThat(reload(g1)).isEqualTo(b1.toInternalGroup());
-    assertThat(reload(g2)).isEqualTo(b2.toInternalGroup());
+    assertThat(reload(g1)).isEqualTo(b1);
+    assertThat(reload(g2)).isEqualTo(b2);
 
     assertThat(GroupTestUtil.readNameToUuidMap(repo)).containsExactly("a", "a-1", "b", "b-2");
   }
 
-  private InternalGroup reload(AccountGroup g) throws Exception {
-    return removeRefState(GroupConfig.loadForGroup(repo, g.getGroupUUID()).getLoadedGroup().get());
+  private GroupBundle reload(AccountGroup g) throws Exception {
+    return bundleFactory.fromNoteDb(repo, g.getGroupUUID());
   }
 
   private AccountGroup newGroup(String name) {

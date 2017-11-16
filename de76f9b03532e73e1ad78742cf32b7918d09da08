@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ace61b3_e4a8ed7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-16T01:21:05Z",
+      "side": 1,
+      "message": "No good reason, except that I used the same structure as topic, but that has much less space. I can remove the limit completely or add a better length. Removed entirely for now.",
+      "parentUuid": "c4fec0d5_c14786a0",
+      "range": {
+        "startLine": 177,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe629d15_2d060858",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b31c7453_afd5293d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-16T01:21:05Z",
+      "side": 1,
+      "message": "Ack, deleting",
+      "parentUuid": "fe629d15_2d060858",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "329e6426_d0a81e6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-16T01:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85cfbb16_467fa77b",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f041b1_7be57209",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5fbe1b_59fe8ac3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-16T01:21:05Z",
+      "side": 1,
+      "message": "Oh actually, this is probably just a bad name (that is --color-link). This is to override the blue to black, since it\u0027s not supposed to be a link (it is technically, but without an href)\n\nchanged to --linked-chip-text-color",
+      "parentUuid": "56f041b1_7be57209",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 7
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

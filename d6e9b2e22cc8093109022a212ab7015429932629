@@ -319,6 +319,23 @@
       "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b4bd815_c4582e48",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupRebuilderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T15:05:10Z",
+      "side": 1,
+      "message": "These are now hiding fields from the base class.\n\nThis causes warnings in Eclipse; please fix those warnings.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b74d1d72_c23c4ddf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T05:48:37Z",
+      "side": 1,
+      "message": "\u003e +1 for mail/lib package name.\n\nOn second thought, this could be de-coupled from gerrit/server package already in this change, in top level lib directory. As I suggested in this comment: [1], lib is low-level data blocks of gerrit, with your previously isolated diff code blocks, and this change we would get:\n\n  j/c/g/g/lib/diff\n  j/c/g/g/lib/mail\n  [...]\n\nIOW instead of j/c/g/g/server/mail/lib this should be j/c/g/g/lib/mail.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/140535/4/java/com/google/gerrit/server/diff/BUILD@10",
+      "parentUuid": "219507db_e3d0d728",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

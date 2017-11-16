@@ -203,6 +203,24 @@
     },
     {
       "key": {
+        "uuid": "7f6877b9_cc6e16fe",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-16T21:44:41Z",
+      "side": 1,
+      "message": "Very helpful! Thanks.\n\nI think, for now, I\u0027m going to try to get the plugin building at all (using script tags to load the dependencies), and integrate it as a \u0027custom plugin\u0027.\n\nOne thing I\u0027m not too sure about -- what is the difference between a \u0027core\u0027 and a \u0027custom\u0027 plugin? They seem to be treated the same way by the build process.",
+      "parentUuid": "bbbf21e8_26776569",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

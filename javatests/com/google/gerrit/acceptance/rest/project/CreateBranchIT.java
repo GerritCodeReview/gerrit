@@ -103,7 +103,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void createGroupBranch_Conflict() throws Exception {
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.CREATE, REGISTERED_USERS);
     allow(allUsers, RefNames.REFS_GROUPS + "*", Permission.PUSH, REGISTERED_USERS);

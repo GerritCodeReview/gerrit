@@ -508,7 +508,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesDontShowGroupBranchToOwnerWithoutRead() throws Exception {
     createSelfOwnedGroup("Foos", user);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
@@ -519,7 +519,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesOmitGroupBranchesOfNonOwnedGroups() throws Exception {
     allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
     AccountGroup.UUID users = createGroup("Users", admins, user);
@@ -534,7 +534,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   @Sandboxed
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesIncludeAllGroupBranchesWithAccessDatabase() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     AccountGroup.UUID users = createGroup("Users", admins);
@@ -549,7 +549,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesIncludeAllGroupBranchesForAdmins() throws Exception {
     allow(allUsersName, RefNames.REFS_GROUPS + "*", Permission.READ, REGISTERED_USERS);
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ADMINISTRATE_SERVER);
@@ -569,7 +569,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void advertisedReferencesOmitNoteDbNotesBranches() throws Exception {
     allow(allUsersName, RefNames.REFS + "*", Permission.READ, REGISTERED_USERS);
     TestRepository<?> userTestRepository = cloneProject(allUsers, user);
@@ -649,7 +649,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
+  @GerritConfig(name = "noteDb.groups.write", value = "true")
   public void hideMetadata() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {

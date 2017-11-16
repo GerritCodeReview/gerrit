@@ -22,6 +22,10 @@ import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.READ;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
@@ -110,8 +114,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbConfig() {
     Config config = new Config();
-    config.setBoolean("user", null, "writeGroupsToNoteDb", true);
-    config.setBoolean("user", null, "readGroupsFromNoteDb", true);
+    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, true);
+    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true);
     return config;
   }
 
@@ -774,7 +778,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getAuditLog() throws Exception {
-    assume().that(cfg.getBoolean("user", null, "readGroupsFromNoteDb", false)).isFalse();
+    assume().that(cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false)).isFalse();
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);
@@ -1236,7 +1240,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private boolean groupsInNoteDb() {
-    return cfg.getBoolean("user", "writeGroupsToNoteDb", false)
-        && cfg.getBoolean("user", "readGroupsFromNoteDb", false);
+    return cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false)
+        && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
   }
 }

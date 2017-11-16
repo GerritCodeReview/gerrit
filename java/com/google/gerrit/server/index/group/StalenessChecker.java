@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.index.group;
 
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.READ;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.FieldBundle;
@@ -65,7 +69,7 @@ public class StalenessChecker {
   }
 
   public boolean isStale(AccountGroup.UUID uuid) throws IOException {
-    if (!config.getBoolean("user", "readGroupsFromNoteDb", false)) {
+    if (!config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false)) {
       return false; // This class only treats staleness for groups in NoteDb.
     }
 

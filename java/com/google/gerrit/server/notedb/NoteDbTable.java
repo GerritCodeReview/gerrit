@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 public enum NoteDbTable {
   ACCOUNTS,
+  GROUPS,
   CHANGES;
 
   public String key() {

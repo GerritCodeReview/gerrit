@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -133,7 +137,7 @@ public class SchemaCreator {
     // have been addressed.
     // Don't flip this flag in a production setting! We only added it to spread the implementation
     // of groups in NoteDb among several changes which are gradually merged.
-    writeGroupsToNoteDb = config.getBoolean("user", null, "writeGroupsToNoteDb", false);
+    writeGroupsToNoteDb = config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
 
     this.config = config;
     this.allProjectsName = apName;

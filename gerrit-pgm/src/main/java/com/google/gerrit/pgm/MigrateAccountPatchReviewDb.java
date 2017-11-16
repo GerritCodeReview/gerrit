@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.sha1;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -87,8 +89,8 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
         PreparedStatement targetStmt =
             targetCon.prepareStatement(
                 "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
+                    + "(account_id, change_id, patch_set_id, file_name_sha1, file_name) VALUES "
+                    + "(?, ?, ?, ?, ?)")) {
       targetCon.setAutoCommit(false);
       long offset = 0;
       List<Row> rows = selectRows(sourceStmt, offset);
@@ -146,7 +148,8 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
       stmt.setLong(1, r.accountId());
       stmt.setLong(2, r.changeId());
       stmt.setLong(3, r.patchSetId());
-      stmt.setString(4, r.fileName());
+      stmt.setString(4, sha1(r.fileName()));
+      stmt.setString(5, r.fileName());
       stmt.addBatch();
     }
     stmt.executeBatch();

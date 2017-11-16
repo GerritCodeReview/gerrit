@@ -120,10 +120,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
     PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
-    if (checkProjectPermission(forProject, ProjectPermission.READ)) {
-      return refs;
-    } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
-      return fastHideRefsMetaConfig(refs);
+    if (!projectState.isAllUsers()) {
+      if (checkProjectPermission(forProject, ProjectPermission.READ)) {
+        return refs;
+      } else if (checkProjectPermission(forProject, ProjectPermission.READ_NO_CONFIG)) {
+        return fastHideRefsMetaConfig(refs);
+      }
     }
 
     Account.Id userId;
@@ -183,6 +185,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         // symbolic we want the control around the final target. If its
         // not symbolic then getLeaf() is a no-op returning ref itself.
         result.put(name, ref);
+      } else if (isRefsUsersSelf(ref)) {
+        // viewMetadata allows to see all account refs, hence refs/users/self should be included as
+        // well
+        if (viewMetadata) {
+          result.put(name, ref);
+        }
       }
     }
 
@@ -320,13 +328,15 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private boolean isMetadata(String name) {
-    return name.startsWith(REFS_CHANGES)
-        || RefNames.isRefsEdit(name)
-        || (projectState.isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS));
+    return name.startsWith(REFS_CHANGES) || RefNames.isRefsEdit(name);
   }
 
   private static boolean isTag(Ref ref) {
     return ref.getLeaf().getName().startsWith(Constants.R_TAGS);
+  }
+
+  private static boolean isRefsUsersSelf(Ref ref) {
+    return ref.getName().startsWith(REFS_USERS_SELF);
   }
 
   private boolean canReadRef(String ref) {

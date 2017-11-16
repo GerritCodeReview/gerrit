@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "660182f7_30fc0de0",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-16T19:52:44Z",
+      "side": 1,
+      "message": "What defines a \"core plugin\"? Can \"core plugins\" be optionally excluded by site admins?\n\nI think that, if that\u0027s the case, this editor plugin is perfect as a core plugin.",
+      "parentUuid": "3c8e1157_12f05f91",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

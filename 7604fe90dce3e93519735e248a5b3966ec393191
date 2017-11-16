@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c766dc87_396f8e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T14:15:59Z",
+      "side": 1,
+      "message": "Or, thinking about it further, we could have both high-level library in top-level namespace j/c/g/g/mail and low-level library j/c/g/g/lib/mail, with the dependency graph direction: j/c/g/g/mail \u003d\u003e j/c/g/g/lib/mail, obviously, where\n\n* future j/c/g/g/mail is the the same as current j/c/g/g/server/mail\n* future j/c/g/g/lib/mail is you j/c/g/g/server/mail/lib standalone library from this change",
+      "parentUuid": "280a7785_ced5bb10",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

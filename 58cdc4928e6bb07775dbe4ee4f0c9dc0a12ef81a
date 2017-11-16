@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510589447 -0500\nnonce AMT3iFiZyzIS58yki5PaFDFb+ilHIG5o2nccaELye4mzxWBl+if1bk6fTEsyReQqnQkIDFvrx3gW\n\n0000000000000000000000000000000000000000 58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloJxAcVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMtEUP/12OC2N26EtdJQoGPpHJAEO+BDJa\nANiEss9RQ/2CTc2qSWL2tWiMVKOXA+0VMpXSTwWo8T2sCZg7C+MlJFXzN4WKQUhH\nHETDj3B99rzsEk8NP8/IYyCQvaL7MIYeTXRTiompuz6vJ3vQ9irj7E2gHKLV8j30\nqs783TrVvvYizPihsTncvCINZVxgLmO7E1/Kc3fvjULFD/AUXMt0cQfkLgYsAzG3\n8qdetYuysLFFHABqHa0ZCB+0/7v82tUHwW3TKeyJW1AHkDvuC0HUqf6ndfZ5OGd1\nTnJSNePcB/3E6wc/2XgMYG+Ikp0BNPH75iFkKj7WZ+x8TO20OdS9GL1d1cUVDAlO\n/GaNYhtHPsjcjBOob5FarfC57bTKQekM1zYGkFTaUD7brgb8fsYDS35YWKumBWJd\npO3VCF0tZOuvBxpGfS8KkIkXtW/TnvrhW4L1fKTC2YC/iHXDEIr30fqndQt2/K4Z\nGOHN0vDRHbDOHMkxBi78Oaodlc/hwyDOy4jwZe3orrsajK/pLThfaGSlewT/socd\n+0JUVuqgl7uljbq1bjFHj/ghucdw7E+wjJUZybC+eDc6F3uQvpf+Qo2RLqVC17Ns\nM8iGE/tZUCICHOHKkWfTG3EJ2micyUSqsIxv1bH6XvZ55kCWMOzYCbe2Nyc0EF1g\nMKDfmd9mHAFZ0o3o\n\u003dTyIv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff31f1d_5b53fa23",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-16T16:06:10Z",
+      "side": 1,
+      "message": "This could result in a NPE in some case when the parent commit hasn\u0027t been parsed.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

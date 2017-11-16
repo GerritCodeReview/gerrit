@@ -73,10 +73,13 @@ public final class IndexUtils {
   }
 
   public static Set<String> accountFields(QueryOptions opts) {
-    Set<String> fs = opts.fields();
-    return fs.contains(AccountField.ID.getName())
-        ? fs
-        : Sets.union(fs, ImmutableSet.of(AccountField.ID.getName()));
+    return accountFields(opts.fields());
+  }
+
+  public static Set<String> accountFields(Set<String> fields) {
+    return fields.contains(AccountField.ID.getName())
+        ? fields
+        : Sets.union(fields, ImmutableSet.of(AccountField.ID.getName()));
   }
 
   public static Set<String> changeFields(QueryOptions opts) {

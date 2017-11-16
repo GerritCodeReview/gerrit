@@ -35,7 +35,7 @@ limitations under the License.
       assert.equal(get(revisions, '3'), undefined);
     });
 
-    test('fetchIsLatestKnown on latest', done => {
+    test('fetchChangeUpdates on latest', done => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -47,14 +47,14 @@ limitations under the License.
           return Promise.resolve(knownChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
+      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isTrue(result.isLatest);
             done();
           });
     });
 
-    test('fetchIsLatestKnown not on latest', done => {
+    test('fetchChangeUpdates not on latest', done => {
       const knownChange = {
         revisions: {
           sha1: {description: 'patch 1', _number: 1},
@@ -73,7 +73,7 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
+      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isFalse(result.isLatest);
             done();

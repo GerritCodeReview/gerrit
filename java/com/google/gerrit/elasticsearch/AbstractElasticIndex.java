@@ -23,15 +23,21 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
@@ -41,24 +47,38 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.protobuf.ProtobufCodec;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.http.JestHttpClient;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Delete;
+import io.searchbox.core.Search;
+import io.searchbox.core.search.sort.Sort;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Function;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
+  private static final Logger log = LoggerFactory.getLogger(AbstractElasticIndex.class);
+
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
     JsonArray field = doc.getAsJsonArray(fieldName);
@@ -158,7 +178,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected io.searchbox.core.Index insert(String type, V v) throws IOException {
     String id = getId(v);
-    String doc = toDoc(v);
+    String doc = toDocument(v);
     return new io.searchbox.core.Index.Builder(doc).index(indexName).type(type).id(id).build();
   }
 
@@ -166,7 +186,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return !(element instanceof String) || !((String) element).isEmpty();
   }
 
-  private String toDoc(V v) throws IOException {
+  private String toDocument(V v) throws IOException {
     XContentBuilder builder = jsonBuilder().startObject();
     for (Values<V> values : schema.buildFields(v)) {
       String name = values.getField().getName();
@@ -183,6 +203,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
     return builder.endObject().string();
   }
+
+  protected abstract V fromDocument(JsonObject doc, Set<String> fields);
 
   protected FieldBundle toFieldBundle(JsonObject doc) {
     Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
@@ -214,5 +236,96 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       }
     }
     return new FieldBundle(rawFields);
+  }
+
+  protected class ElasticQuerySource implements DataSource<V> {
+    private final QueryOptions opts;
+    private final Search search;
+
+    ElasticQuerySource(Predicate<V> p, QueryOptions opts, String type, Sort sort)
+        throws QueryParseException {
+      this(p, opts, ImmutableList.of(type), ImmutableList.of(sort));
+    }
+
+    ElasticQuerySource(
+        Predicate<V> p, QueryOptions opts, Collection<String> types, Collection<Sort> sorts)
+        throws QueryParseException {
+      this.opts = opts;
+      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder()
+              .query(qb)
+              .from(opts.start())
+              .size(opts.limit())
+              .fields(Lists.newArrayList(opts.fields()));
+
+      search =
+          new Search.Builder(searchSource.toString())
+              .addType(types)
+              .addSort(sorts)
+              .addIndex(indexName)
+              .build();
+    }
+
+    @Override
+    public int getCardinality() {
+      return 10;
+    }
+
+    @Override
+    public ResultSet<V> read() throws OrmException {
+      return readImpl((doc) -> AbstractElasticIndex.this.fromDocument(doc, opts.fields()));
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(AbstractElasticIndex.this::toFieldBundle);
+    }
+
+    @Override
+    public String toString() {
+      return search.toString();
+    }
+
+    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
+      try {
+        List<T> results = Collections.emptyList();
+        JestResult result = client.execute(search);
+        if (result.isSucceeded()) {
+          JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
+          if (obj.get("hits") != null) {
+            JsonArray json = obj.getAsJsonArray("hits");
+            results = Lists.newArrayListWithCapacity(json.size());
+            for (int i = 0; i < json.size(); i++) {
+              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
+              if (mapperResult != null) {
+                results.add(mapperResult);
+              }
+            }
+          }
+        } else {
+          log.error(result.getErrorMessage());
+        }
+        final List<T> r = Collections.unmodifiableList(results);
+        return new ResultSet<T>() {
+          @Override
+          public Iterator<T> iterator() {
+            return r.iterator();
+          }
+
+          @Override
+          public List<T> toList() {
+            return r;
+          }
+
+          @Override
+          public void close() {
+            // Do nothing.
+          }
+        };
+      } catch (IOException e) {
+        throw new OrmException(e);
+      }
+    }
   }
 }

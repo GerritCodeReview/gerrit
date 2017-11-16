@@ -14,23 +14,18 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -52,7 +47,7 @@ public class StalenessChecker {
   private final GitRepositoryManager repoManager;
   private final IndexConfig indexConfig;
   private final AllUsersName allUsers;
-  private final Config config;
+  private final GroupsMigration groupsMigration;
 
   @Inject
   StalenessChecker(
@@ -60,16 +55,16 @@ public class StalenessChecker {
       GitRepositoryManager repoManager,
       IndexConfig indexConfig,
       AllUsersName allUsers,
-      @GerritServerConfig Config config) {
+      GroupsMigration groupsMigration) {
     this.indexes = indexes;
     this.repoManager = repoManager;
     this.indexConfig = indexConfig;
     this.allUsers = allUsers;
-    this.config = config;
+    this.groupsMigration = groupsMigration;
   }
 
   public boolean isStale(AccountGroup.UUID uuid) throws IOException {
-    if (!config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false)) {
+    if (!groupsMigration.readFromNoteDb()) {
       return false; // This class only treats staleness for groups in NoteDb.
     }
 

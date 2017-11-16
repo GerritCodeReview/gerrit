@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
@@ -42,6 +43,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -54,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
+@Sandboxed // This test creates a new user which doesn't go well with other tests.
 public class ChangeReviewersIT extends AbstractDaemonTest {
   @Test
   public void addGroupAsReviewer() throws Exception {
@@ -720,6 +723,46 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(addReviewer);
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).rcpt()).containsExactly(userToNotify.emailAddress);
+  }
+
+  @Test
+  public void removeReviewerWithVoteWithoutPermissionFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Code-Review", 1));
+    setApiUser(newUser);
+    exception.expect(AuthException.class);
+    exception.expectMessage("remove reviewer not permitted");
+    gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
+  }
+
+  @Test
+  public void removeReviewerWithoutVoteWithoutPermissionFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email);
+    setApiUser(newUser);
+    exception.expect(AuthException.class);
+    exception.expectMessage("remove reviewer not permitted");
+    gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
+  }
+
+  @Test
+  public void removeCCWithoutPermissionFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = user.email;
+    input.state = ReviewerState.CC;
+    gApi.changes().id(r.getChangeId()).addReviewer(input);
+    setApiUser(newUser);
+    exception.expect(AuthException.class);
+    exception.expectMessage("remove reviewer not permitted");
+    gApi.changes().id(r.getChangeId()).reviewer(user.email).remove();
   }
 
   private AddReviewerResult addReviewer(String changeId, String reviewer) throws Exception {

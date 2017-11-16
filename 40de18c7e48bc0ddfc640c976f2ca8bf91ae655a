@@ -221,6 +221,24 @@
     },
     {
       "key": {
+        "uuid": "2dfcbfc6_3aee2cd1",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T22:02:04Z",
+      "side": 1,
+      "message": "\u003e One thing I\u0027m not too sure about -- what is the difference between\n \u003e a \u0027core\u0027 and a \u0027custom\u0027 plugin? They seem to be treated the same\n \u003e way by the build process.\n\nYes, exactly, besides that, the custom plugins set is empty. So, that gerrit user would have to do two things to add a custom plugin to their custom gerrit WAR distribution:\n\n* 1. Clone the custom plugin to plugins directory\n* 2. Add cutsom plugin name to the plugins.bzl file in: [1]\n\nSomething like:\n\n  CUSTOM_PLUGINS \u003d [\n    \"gerrit-oath-provider\"\n  ]\n\nLet\u0027s assume some company forked gerrit and added my gerrit-oauth-provider plugin as custom plugin: [2] with two steps described above. Now, when `bazel build release` is issued, gerrit.war would contain all core plugins + gerrit-oauth-provider.jar. When `java -jar gerrit.war init -d \u003csite_path\u003e` is executed, site admin would have a chance to install the gerrit-oauth-provider.jar during gerrit initialization (it would be copied to \u003csite_path\u003e/plugins directory + init plugin step would be executed, annd secret key for OAuth2 provider could be entered during gerri set-up process). Alternative way would be to download the plugin from some external locations and install and initialize it later.\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/tools/bzl/plugins.bzl#L11\n* [2] https://github.com/davido/gerrit-oauth-provider",
+      "parentUuid": "7f6877b9_cc6e16fe",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

@@ -176,6 +176,30 @@
       "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "250ce940_cec8715a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-16T14:01:54Z",
+      "side": 1,
+      "message": "name(\"foo\") was used elsewhere in the test method that you copied this from, hence I removed an \"o :)",
+      "parentUuid": "9bec10f7_d020a7ef",
+      "range": {
+        "startLine": 849,
+        "startChar": 61,
+        "endLine": 849,
+        "endChar": 63
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

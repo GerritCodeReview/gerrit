@@ -57,7 +57,7 @@
       if (input.startsWith('refs/heads/')) {
         input = input.substring('refs/heads/'.length);
       }
-      return this.$.restAPI.getProjectBranches(
+      return this.$.restAPI.getRepoBranches(
           input, this.project, SUGGESTIONS_LIMIT).then(response => {
             const branches = [];
             let branch;

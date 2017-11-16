@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.api.GerritApiModule;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
@@ -44,7 +45,6 @@ import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
-import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;

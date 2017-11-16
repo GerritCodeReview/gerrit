@@ -12,6 +12,7 @@ java_library(
         "//lib/powermock:powermock-module-junit4-common",
     ],
     deps = [
+        "//java/com/google/gerrit/api",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
@@ -23,7 +24,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server:module",
-        "//java/com/google/gerrit/server/api",
         "//java/com/google/gerrit/server/cache/h2",
         "//lib:gwtorm",
         "//lib:h2",

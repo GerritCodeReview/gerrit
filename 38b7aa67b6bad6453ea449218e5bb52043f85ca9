@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58e80f01_282f827c",
+        "filename": ".gitmodules",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-16T22:15:44Z",
+      "side": 1,
+      "message": "Above this do\n\n[submodule \"plugins/codemirror-editor\"]\n\tpath \u003d plugins/codemirror-editor\n\turl \u003d ../plugins/codemirror-editor\n\tbranch \u003d .",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "38b7aa67b6bad6453ea449218e5bb52043f85ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

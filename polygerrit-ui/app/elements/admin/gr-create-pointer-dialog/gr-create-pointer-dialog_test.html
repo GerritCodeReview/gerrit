@@ -49,7 +49,7 @@ limitations under the License.
     });
 
     test('branch created', () => {
-      sandbox.stub(element.$.restAPI, 'createProjectBranch', () => {
+      sandbox.stub(element.$.restAPI, 'createRepoBranch', () => {
         return Promise.resolve({});
       });
 
@@ -69,7 +69,7 @@ limitations under the License.
     });
 
     test('tag created', () => {
-      sandbox.stub(element.$.restAPI, 'createProjectTag', () => {
+      sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
         return Promise.resolve({});
       });
 
@@ -89,7 +89,7 @@ limitations under the License.
     });
 
     test('tag created with annotations', () => {
-      sandbox.stub(element.$.restAPI, 'createProjectTag', () => {
+      sandbox.stub(element.$.restAPI, 'createRepoTag', () => {
         return Promise.resolve({});
       });
 

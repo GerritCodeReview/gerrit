@@ -40,7 +40,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
-        getProjectBranches(input) {
+        getRepoBranches(input) {
           if (input.startsWith('test')) {
             return Promise.resolve([
               {
@@ -55,8 +55,8 @@ limitations under the License.
         },
       });
       element = fixture('basic');
-      element.projectName = 'test-project';
-      element._projectConfig = {
+      element.repoName = 'test-repo';
+      element._repoConfig = {
         private_by_default: {},
       };
     });
@@ -66,7 +66,7 @@ limitations under the License.
     });
 
     test('new change created with private', () => {
-      element._projectConfig = {
+      element._repoConfig = {
         private_by_default: {
           inherited_value: true,
         },
@@ -77,7 +77,6 @@ limitations under the License.
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
         work_in_progress: false,
-        project: element.projectName,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -85,7 +84,6 @@ limitations under the License.
             return Promise.resolve({});
           });
 
-      element.project = element.projectName;
       element.branch = 'test-branch';
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
@@ -105,7 +103,6 @@ limitations under the License.
         branch: 'test-branch',
         topic: 'test-topic',
         subject: 'first change created with polygerrit ui',
-        project: element.projectName,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -113,7 +110,6 @@ limitations under the License.
             return Promise.resolve({});
           });
 
-      element.project = element.projectName;
       element.branch = 'test-branch';
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
@@ -129,15 +125,15 @@ limitations under the License.
       });
     });
 
-    test('_getProjectBranchesSuggestions empty', done => {
-      element._getProjectBranchesSuggestions('nonexistent').then(branches => {
+    test('_getRepoBranchesSuggestions empty', done => {
+      element._getRepoBranchesSuggestions('nonexistent').then(branches => {
         assert.equal(branches.length, 0);
         done();
       });
     });
 
-    test('_getProjectBranchesSuggestions non-empty', done => {
-      element._getProjectBranchesSuggestions('test-branch').then(branches => {
+    test('_getRepoBranchesSuggestions non-empty', done => {
+      element._getRepoBranchesSuggestions('test-branch').then(branches => {
         assert.equal(branches.length, 1);
         assert.equal(branches[0].name, 'test-branch');
         done();

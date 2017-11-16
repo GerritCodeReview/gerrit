@@ -196,7 +196,7 @@
   };
 
   Plugin.prototype.project = function() {
-    return new GrProjectApi(this);
+    return new GrRepoApi(this);
   };
 
   /**

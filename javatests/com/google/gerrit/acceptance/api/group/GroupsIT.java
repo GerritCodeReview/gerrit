@@ -24,6 +24,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -56,6 +57,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
@@ -73,6 +75,7 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -996,6 +999,40 @@ public class GroupsIT extends AbstractDaemonTest {
   public void defaultPermissionsOnGroupBranches() throws Exception {
     assertPermission(
         allUsers, RefNames.REFS_GROUPS + "*", Permission.READ, groupRef(REGISTERED_USERS));
+  }
+
+  @Test
+  @Sandboxed
+  public void blockReviewDbUpdatesOnGroupCreation() throws Exception {
+    assume().that(groupsInNoteDb()).isFalse();
+    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
+    try {
+      gApi.groups().create(name("foo"));
+      fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
+    } catch (RestApiException e) {
+      assertWriteGroupToReviewDbBlockedException(e);
+    }
+  }
+
+  @Test
+  @Sandboxed
+  public void blockReviewDbUpdatesOnGroupUpdate() throws Exception {
+    assume().that(groupsInNoteDb()).isFalse();
+    String group1 = gApi.groups().create(name("foo")).get().id;
+    String group2 = gApi.groups().create(name("bar")).get().id;
+    cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", true);
+    try {
+      gApi.groups().id(group1).addGroups(group2);
+      fail("Expected RestApiException: Updates to groups in ReviewDb are blocked");
+    } catch (RestApiException e) {
+      assertWriteGroupToReviewDbBlockedException(e);
+    }
+  }
+
+  private void assertWriteGroupToReviewDbBlockedException(Exception e) throws Exception {
+    Throwable t = Throwables.getRootCause(e);
+    assertThat(t).isInstanceOf(OrmException.class);
+    assertThat(t.getMessage()).isEqualTo("Updates to groups in ReviewDb are blocked");
   }
 
   private GroupReference groupRef(AccountGroup.UUID groupUuid) {

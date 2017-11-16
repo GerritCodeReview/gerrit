@@ -566,7 +566,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void hideMetaRefs() throws Exception {
+  public void hideMetadata() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
       // create change

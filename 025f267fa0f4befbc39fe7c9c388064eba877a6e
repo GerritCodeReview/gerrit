@@ -22,6 +22,30 @@
       "revId": "025f267fa0f4befbc39fe7c9c388064eba877a6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fff3fcaf_fa06e244",
+        "filename": "java/com/google/gerrit/server/diff/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T07:46:13Z",
+      "side": 1,
+      "message": "Done in: [1]. Needless to say, it\u0027s sad, that it is done in two steps now and wasn\u0027t done in one single step.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/142170",
+      "parentUuid": "7601c97d_7634c1a7",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "025f267fa0f4befbc39fe7c9c388064eba877a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

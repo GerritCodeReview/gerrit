@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -76,7 +77,9 @@ public abstract class VersionedMetaData {
     }
   }
 
-  protected RevCommit revision;
+  /** The revision at which the data was loaded. Is null for data is being created. */
+  @Nullable protected RevCommit revision;
+
   protected RevWalk rw;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
@@ -133,7 +136,8 @@ public abstract class VersionedMetaData {
    * @throws IOException
    * @throws ConfigInvalidException
    */
-  public void load(Repository db, ObjectId id) throws IOException, ConfigInvalidException {
+  public void load(Repository db, @Nullable ObjectId id)
+      throws IOException, ConfigInvalidException {
     try (RevWalk walk = new RevWalk(db)) {
       load(walk, id);
     }

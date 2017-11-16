@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.diff;
+package com.google.gerrit.server.patch;
 
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
@@ -53,7 +53,7 @@ public class DiffSummaryKey implements Serializable {
     this.whitespace = whitespace;
   }
 
-  public PatchListKey toPatchListKey() {
+  PatchListKey toPatchListKey() {
     return new PatchListKey(
         oldId, parentNum, newId, whitespace, PatchListKey.Algorithm.OPTIMIZED_DIFF);
   }

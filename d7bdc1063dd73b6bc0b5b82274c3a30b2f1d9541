@@ -69,6 +69,30 @@
       "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f33d94_a4ce6895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-16T20:47:56Z",
+      "side": 1,
+      "message": "We need to find a solution that works for all database supported by Gerrit but I do not like the idea of simply reverting this to 256 and bringing back this limitation.",
+      "parentUuid": "0c516b4d_1b23b95f",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

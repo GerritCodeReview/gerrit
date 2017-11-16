@@ -71,6 +71,20 @@ public class RefNamesTest {
   }
 
   @Test
+  public void refForDeletedGroupIsSharded() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("ABCDEFG");
+    String groupRef = RefNames.refsDeletedGroups(groupUuid);
+    assertThat(groupRef).isEqualTo("refs/deleted-groups/AB/ABCDEFG");
+  }
+
+  @Test
+  public void refForDeletedGroupWithUuidLessThanTwoCharsIsRejected() throws Exception {
+    AccountGroup.UUID groupUuid = new AccountGroup.UUID("A");
+    expectedException.expect(IllegalArgumentException.class);
+    RefNames.refsDeletedGroups(groupUuid);
+  }
+
+  @Test
   public void refsUsers() throws Exception {
     assertThat(RefNames.refsUsers(accountId)).isEqualTo("refs/users/23/1011123");
   }

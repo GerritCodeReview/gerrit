@@ -778,7 +778,10 @@ public class CommitValidators {
     }
   }
 
-  /** Rejects updates to group branches (refs/groups/* and refs/meta/group-names). */
+  /**
+   * Rejects updates to group branches (refs/groups/*, refs/deleted-groups/* and
+   * refs/meta/group-names).
+   */
   public static class GroupCommitValidator implements CommitValidationListener {
     private final AllUsersName allUsers;
 
@@ -790,7 +793,10 @@ public class CommitValidators {
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
       // Groups are stored inside 'refs/groups/' refs inside the 'All-Users' repository.
-      // Group names are stored inside 'refs/meta/group-names' refs inside the 'All-Users' repository.
+      // 'refs/deleted-groups/' is foreseen as an attic for deleted groups (it's reserved but not
+      // used yet).
+      // Group names are stored inside 'refs/meta/group-names' refs inside the 'All-Users'
+      // repository.
       if (!allUsers.equals(receiveEvent.project.getNameKey())) {
         return Collections.emptyList();
       }
@@ -802,6 +808,7 @@ public class CommitValidators {
       }
 
       if (receiveEvent.command.getRefName().startsWith(RefNames.REFS_GROUPS)
+          || receiveEvent.command.getRefName().startsWith(RefNames.REFS_DELETED_GROUPS)
           || receiveEvent.command.getRefName().equals(RefNames.REFS_GROUPNAMES)) {
         throw new CommitValidationException("group update not allowed");
       }

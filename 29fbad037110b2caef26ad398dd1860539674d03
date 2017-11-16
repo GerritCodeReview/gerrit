@@ -22,6 +22,30 @@
       "revId": "29fbad037110b2caef26ad398dd1860539674d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5dba21_066c57da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2819,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-11-16T07:37:15Z",
+      "side": 1,
+      "message": "Most definitely, good catch.",
+      "parentUuid": "742ceb1e_68449ef8",
+      "range": {
+        "startLine": 2819,
+        "startChar": 10,
+        "endLine": 2819,
+        "endChar": 30
+      },
+      "revId": "29fbad037110b2caef26ad398dd1860539674d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

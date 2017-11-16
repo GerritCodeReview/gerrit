@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510838670 +0100\nnonce AMT3iFjyN0HZQkPDXx+KIeD1ijsIZK5LRhHXjhD3xNVEpZ8Pqs0J7Fgtc3FISs9MVMQumfSWrC0C\n\n0000000000000000000000000000000000000000 510c9a4385042f6d270e72453bad4ad86a99979b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDZGOAAoJEFG1/Zeg0O9RzQcH/3zj8Rcu5mfe9eS4roD5osBb\n7ulOiApZS+r5u4Ta0dZVj9YnhryMp9QEcXqR6Y5hAFSBTclFUv3T7K41qfBXAbPI\nsWn3ChI67bkcBZDczR5EA0l5ppEo8W0SQo0p0HiofFY8SBguxy6xRbcBjbAqe55/\nterKrTZ1SLC735uoVUuBpNymloEcQ3zsYru2zVMy9+SzD3UaNk0RUSTdtTp5CbJi\nrBa1ovlzZ2+5E9k1StxMGGYeH629D8zyHjV0H5kokHml/MXV9BI9vm1XvfnDE3uV\nKPymR+TGyIairkx5mClxfMXL5AcI0Zu/yObEhflwEk0+hDsrqMHDFzOvd5AiaRU\u003d\n\u003d7OWL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "14d6f580_a63e7876",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:34:02Z",
+      "side": 1,
+      "message": "optional: make a list of all group branches in a single place and refer to it.  Otherwise in future when more are added, we have to find and update all such comments.",
+      "range": {
+        "startLine": 782,
+        "startChar": 39,
+        "endLine": 783,
+        "endChar": 28
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "240b0e31_988df9c2",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:34:02Z",
+      "side": 1,
+      "message": "Is it worth creating a method like RefNames.isGroupRef(String ref)?",
+      "range": {
+        "startLine": 810,
+        "startChar": 6,
+        "endLine": 812,
+        "endChar": 82
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9d522a9_14ac201f",
+        "filename": "java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:34:02Z",
+      "side": 1,
+      "message": "Should this also be checking REFS_GROUPNAMES?",
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f463d4_29902392",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:34:02Z",
+      "side": 1,
+      "message": "\"fo\"?\n\nI see this is used elsewhere too.  Is it intentional, or a typo of \"foo\"?",
+      "range": {
+        "startLine": 849,
+        "startChar": 61,
+        "endLine": 849,
+        "endChar": 63
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

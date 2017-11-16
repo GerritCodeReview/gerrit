@@ -1,0 +1,59 @@
+= UpdateAccountPatchReviewDb
+
+== NAME
+UpdateAccountPatchReviewDb - Updates schema of the current AccountPatchReviewDb
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war UpdateAccountPatchReviewDb
+  -d <SITE_PATH>
+  [--chunkSize]
+  [--force]
+--
+
+== DESCRIPTION
+Updates schema of the current AccountPatchReviewDb.
+
+This command is only needed to update schema of already existing AccountPatchReviewDb.
+If Gerrit is updgraded from a version which doesn't yet utilize external AccountPatchReviewDb
+then this command is not needed.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Location of the `gerrit.config` file, and all other per-site
+	configuration data, supporting libraries and log files.
+
+--chunkSize::
+	Number of rows to process in one transaction
+	Defaults to 100000.
+
+-f::
+--force::
+	Force update even when current schema is already updated
+
+== CONTEXT
+This command can only be run on a server which has direct
+connectivity to the database.
+
+== EXAMPLES
+To update current AccountPatchReviewDb, as specified by
+link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
+in gerrit.config:
+
+----
+	$ java -jar gerrit.war UpdateAccountPatchReviewDb -d site_path
+----
+
+== SEE ALSO
+
+* Configuration parameter link:config-gerrit.html#accountPatchReviewDb.url[accountPatchReviewDb.url]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

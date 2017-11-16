@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -31,6 +33,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -187,9 +191,10 @@ public abstract class JdbcAccountPatchReviewStore
             + "account_id INTEGER DEFAULT 0 NOT NULL, "
             + "change_id INTEGER DEFAULT 0 NOT NULL, "
             + "patch_set_id INTEGER DEFAULT 0 NOT NULL, "
-            + "file_name VARCHAR(4096) DEFAULT '' NOT NULL, "
+            + "file_name_sha1 VARCHAR(40) DEFAULT '' NOT NULL, "
+            + "file_name VARCHAR(256) DEFAULT '' NOT NULL, "
             + "CONSTRAINT primary_key_account_patch_reviews "
-            + "PRIMARY KEY (change_id, patch_set_id, account_id, file_name)"
+            + "PRIMARY KEY (change_id, patch_set_id, account_id, file_name_sha1)"
             + ")");
   }
 
@@ -212,12 +217,13 @@ public abstract class JdbcAccountPatchReviewStore
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
+                    + "(account_id, change_id, patch_set_id, file_name_sha1, file_name) VALUES "
+                    + "(?, ?, ?, ?, ?)")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
-      stmt.setString(4, path);
+      stmt.setString(4, sha1(path));
+      stmt.setString(5, path);
       stmt.executeUpdate();
       return true;
     } catch (SQLException e) {
@@ -240,13 +246,14 @@ public abstract class JdbcAccountPatchReviewStore
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
+                    + "(account_id, change_id, patch_set_id, file_name_sha1, file_name) VALUES "
+                    + "(?, ?, ?, ?, ?)")) {
       for (String path : paths) {
         stmt.setInt(1, accountId.get());
         stmt.setInt(2, psId.getParentKey().get());
         stmt.setInt(3, psId.get());
-        stmt.setString(4, path);
+        stmt.setString(4, sha1(path));
+        stmt.setString(5, path);
         stmt.addBatch();
       }
       stmt.executeBatch();
@@ -267,11 +274,11 @@ public abstract class JdbcAccountPatchReviewStore
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
                     + "WHERE account_id = ? AND change_id = ? AND "
-                    + "patch_set_id = ? AND file_name = ?")) {
+                    + "patch_set_id = ? AND file_name_sha1 = ?")) {
       stmt.setInt(1, accountId.get());
       stmt.setInt(2, psId.getParentKey().get());
       stmt.setInt(3, psId.get());
-      stmt.setString(4, path);
+      stmt.setString(4, sha1(path));
       stmt.executeUpdate();
     } catch (SQLException e) {
       throw convertError("delete", e);
@@ -351,5 +358,15 @@ public abstract class JdbcAccountPatchReviewStore
       return i != null ? i : -1;
     }
     return 0;
+  }
+
+  public static String sha1(String s) {
+    try {
+      return BaseEncoding.base16()
+          .lowerCase()
+          .encode(MessageDigest.getInstance("SHA-1").digest(s.getBytes(UTF_8)));
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

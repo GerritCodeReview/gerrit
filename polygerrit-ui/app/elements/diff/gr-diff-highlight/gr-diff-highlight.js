@@ -251,6 +251,33 @@
       };
     },
 
+    /**
+     * The only line in which add a comment tooltip is cut off is the first
+     * line. Even if there is a collapsed section, The first visible line is
+     * in the position where the second line would have been, if not for the
+     * collapsed section, so don't need to worry about this case for
+     * positioning the tooltip.
+     */
+    _positionActionBox(actionBox, startLine, range) {
+      if (startLine > 1) {
+        actionBox.placeAbove(range);
+        return;
+      }
+      actionBox.positionBelow = true;
+      actionBox.placeBelow(range);
+    },
+
+    _determinePlacementFunction(actionBox, startLine) {
+      // The only line in which add a comment tooltip is cut off is the first
+      // line. Even if there is a collapsed section, The first visible line is
+      // in the position where the second line would have been, if not for the
+      // collapsed section, so don't need to worry about this case for
+      // positioning the tooltip.
+      if (startLine > 1) { return actionBox.placeAbove.bind(actionBox); }
+      actionBox.positionBelow = true;
+      return actionBox.placeBelow.bind(actionBox);
+    },
+
     _handleSelection() {
       const normalizedRange = this._getNormalizedRange();
       if (!normalizedRange) {
@@ -275,6 +302,8 @@
       // TODO (viktard): Drop empty first and last lines from selection.
 
       const actionBox = document.createElement('gr-selection-action-box');
+      const placementFunction = this._determinePlacementFunction(actionBox,
+          start.line);
       const root = Polymer.dom(this.root);
       root.insertBefore(actionBox, root.firstElementChild);
       actionBox.range = {
@@ -285,17 +314,17 @@
       };
       actionBox.side = start.side;
       if (start.line === end.line) {
-        actionBox.placeAbove(domRange);
+        placementFunction(domRange);
       } else if (start.node instanceof Text) {
         if (start.column) {
-          actionBox.placeAbove(start.node.splitText(start.column));
+          placementFunction(start.node.splitText(start.column));
         }
         start.node.parentElement.normalize(); // Undo splitText from above.
       } else if (start.node.classList.contains('content') &&
                  start.node.firstChild) {
-        actionBox.placeAbove(start.node.firstChild);
+        placementFunction(start.node.firstChild);
       } else {
-        actionBox.placeAbove(start.node);
+        placementFunction(start.node);
       }
     },
 

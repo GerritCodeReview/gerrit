@@ -38,6 +38,27 @@ limitations under the License.
       <table id="diffTable">
 
         <tbody class="section both">
+           <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="1"></td>
+            <td class="content both"><div class="contentText">[1] Nam cum ad me in Cumanum salutandi causa uterque venisset,</div></td>
+            <td class="right lineNum" data-value="1"></td>
+            <td class="content both"><div class="contentText">[1] Nam cum ad me in Cumanum salutandi causa uterque</div></td>
+          </tr>
+        </tbody>
+
+        <tbody class="section delta">
+          <tr class="diff-row side-by-side" left-type="remove" right-type="add">
+            <td class="left lineNum" data-value="2"></td>
+            <!-- Next tag is formatted to eliminate zero-length text nodes. -->
+            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">	</span>quod <hl>Epicurum</hl></div></td>
+            <td class="right lineNum" data-value="2"></td>
+            <!-- Next tag is formatted to eliminate zero-length text nodes. -->
+            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">	</span> audiam,  sit, quod</div></td>
+          </tr>
+        </tbody>
+
+
+        <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
             <td class="left lineNum" data-value="138"></td>
             <td class="content both"><div class="contentText">[14] Nam cum ad me in Cumanum salutandi causa uterque venisset,</div></td>
@@ -253,6 +274,7 @@ limitations under the License.
         contentStubs = [];
         stub('gr-selection-action-box', {
           placeAbove: sandbox.stub(),
+          placeBelow: sandbox.stub(),
         });
         diff = element.querySelector('#diffTable');
         builder = {
@@ -270,9 +292,37 @@ limitations under the License.
         window.getSelection().removeAllRanges();
       });
 
+      test('single first line', () => {
+        const content = stubContent(1, 'right');
+        sandbox.spy(element, '_determinePlacementFunction');
+        emulateSelection(content.firstChild, 5, content.firstChild, 12);
+        const actionBox = element.$$('gr-selection-action-box');
+
+        assert.equal(
+            element._determinePlacementFunction.lastCall.returnValue.toString(),
+            actionBox.placeBelow.bind(actionBox).toString());
+        assert.isTrue(actionBox.positionBelow);
+      });
+
+      test('multiline starting on first line', () => {
+        const startContent = stubContent(1, 'right');
+        const endContent = stubContent(2, 'right');
+        sandbox.spy(element, '_determinePlacementFunction');
+        emulateSelection(
+            startContent.firstChild, 10, endContent.lastChild, 7);
+        const actionBox = element.$$('gr-selection-action-box');
+
+        assert.equal(
+            element._determinePlacementFunction.lastCall.returnValue.toString(),
+            actionBox.placeBelow.bind(actionBox).toString());
+        assert.isTrue(actionBox.positionBelow);
+      });
+
       test('single line', () => {
         const content = stubContent(138, 'left');
+        sandbox.spy(element, '_determinePlacementFunction');
         emulateSelection(content.firstChild, 5, content.firstChild, 12);
+        const actionBox = element.$$('gr-selection-action-box');
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
           startLine: 138,
@@ -281,14 +331,21 @@ limitations under the License.
           endChar: 12,
         });
         assert.equal(getActionSide(), 'left');
+        assert.equal(
+            element._determinePlacementFunction.lastCall.returnValue.toString(),
+            actionBox.placeAbove.bind(actionBox).toString());
+        assert.notOk(actionBox.positionBelow);
       });
 
       test('multiline', () => {
         const startContent = stubContent(119, 'right');
         const endContent = stubContent(120, 'right');
+        sandbox.spy(element, '_determinePlacementFunction');
         emulateSelection(
             startContent.firstChild, 10, endContent.lastChild, 7);
         assert.isTrue(element.isRangeSelected());
+        const actionBox = element.$$('gr-selection-action-box');
+
         assert.deepEqual(getActionRange(), {
           startLine: 119,
           startChar: 10,
@@ -296,6 +353,10 @@ limitations under the License.
           endChar: 36,
         });
         assert.equal(getActionSide(), 'right');
+        assert.equal(
+            element._determinePlacementFunction.lastCall.returnValue.toString(),
+            actionBox.placeAbove.bind(actionBox).toString());
+        assert.notOk(actionBox.positionBelow);
       });
 
       test('multiple ranges aka firefox implementation', () => {

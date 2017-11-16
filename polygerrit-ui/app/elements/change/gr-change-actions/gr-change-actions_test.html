@@ -241,7 +241,7 @@ limitations under the License.
     test('submit change', done => {
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchIsLatestKnown',
+      sandbox.stub(element, 'fetchChangeUpdates',
           () => { return Promise.resolve({isLatest: true}); });
       element.change = {
         revisions: {
@@ -1264,7 +1264,7 @@ limitations under the License.
         let sendStub;
 
         setup(() => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
+          sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           sendStub = sandbox.stub(element.$.restAPI, 'getChangeURLAndSend')
               .returns(Promise.resolve({}));
@@ -1293,7 +1293,7 @@ limitations under the License.
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
+          sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
           const sendStub = sandbox.stub(element.$.restAPI,
               'getChangeURLAndSend');
@@ -1307,7 +1307,7 @@ limitations under the License.
         });
 
         test('send fails', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown')
+          sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sandbox.stub(element.$.restAPI,
               'getChangeURLAndSend',

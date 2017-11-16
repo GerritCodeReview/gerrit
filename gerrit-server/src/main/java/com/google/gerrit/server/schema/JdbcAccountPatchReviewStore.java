@@ -187,7 +187,7 @@ public abstract class JdbcAccountPatchReviewStore
             + "account_id INTEGER DEFAULT 0 NOT NULL, "
             + "change_id INTEGER DEFAULT 0 NOT NULL, "
             + "patch_set_id INTEGER DEFAULT 0 NOT NULL, "
-            + "file_name VARCHAR(4096) DEFAULT '' NOT NULL, "
+            + "file_name VARCHAR(256) DEFAULT '' NOT NULL, "
             + "CONSTRAINT primary_key_account_patch_reviews "
             + "PRIMARY KEY (change_id, patch_set_id, account_id, file_name)"
             + ")");

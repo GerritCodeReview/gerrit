@@ -34,6 +34,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
+import com.google.gerrit.testing.GroupNoteDbMode;
 import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
@@ -391,6 +392,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
 
     NoteDbMode.newNotesMigrationFromEnv().setConfigValues(cfg);
+    GroupNoteDbMode.get().getGroupsMigration().setConfigValuesIfNotSetYet(cfg);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

@@ -1,4 +1,5 @@
 CORE_PLUGINS = [
+    "codemirror-editor",
     "commit-message-length-validator",
     "download-commands",
     "hooks",

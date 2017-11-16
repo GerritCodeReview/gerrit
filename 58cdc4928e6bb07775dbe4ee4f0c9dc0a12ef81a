@@ -23,6 +23,30 @@
       "revId": "58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f437145e_9c1a81c9",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-16T16:10:02Z",
+      "side": 1,
+      "message": "This change itself is a no-op. I notice the NPE when we I reuse this by passing in a parsed tip commit.",
+      "parentUuid": "3ff31f1d_5b53fa23",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

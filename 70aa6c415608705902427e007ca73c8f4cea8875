@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1269b3ea_4118eecf",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-16T10:02:15Z",
+      "side": 1,
+      "message": "This isn\u0027t needed.",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "70aa6c415608705902427e007ca73c8f4cea8875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b318b59d_01673d9a",
+        "filename": "java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-11-16T10:02:15Z",
+      "side": 1,
+      "message": "They should not be changed?",
+      "range": {
+        "startLine": 119,
+        "startChar": 46,
+        "endLine": 119,
+        "endChar": 74
+      },
+      "revId": "70aa6c415608705902427e007ca73c8f4cea8875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

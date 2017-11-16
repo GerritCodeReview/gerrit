@@ -34,6 +34,24 @@
       "revId": "7e3ea658f2c3241f1dfc5d5ff2688cdfc3375f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36532b1c_ef2178eb",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-16T13:27:53Z",
+      "side": 1,
+      "message": "Yeah. I think it is still not optimal, but better than before.",
+      "parentUuid": "2332e2e6_f8d7fb26",
+      "revId": "7e3ea658f2c3241f1dfc5d5ff2688cdfc3375f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

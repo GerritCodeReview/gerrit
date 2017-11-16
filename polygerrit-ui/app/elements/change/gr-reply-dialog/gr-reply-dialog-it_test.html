@@ -86,7 +86,8 @@ limitations under the License.
         ],
       };
       element.serverConfig = {note_db_enabled: true};
-      sandbox.stub(element, 'fetchIsLatestKnown', () => Promise.resolve(true));
+      sandbox.stub(element, 'fetchIsLatestKnown')
+          .returns(Promise.resolve({isLatest: true}));
     };
 
     setup(() => {

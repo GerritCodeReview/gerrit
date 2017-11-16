@@ -1242,8 +1242,8 @@
 
       this._updateCheckTimerHandle = this.async(() => {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
-            .then(latest => {
-              if (latest) {
+            .then(result => {
+              if (result.isLatest) {
                 this._startUpdateCheckTimer();
               } else {
                 this._cancelUpdateCheckTimer();

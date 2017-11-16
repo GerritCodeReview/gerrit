@@ -212,7 +212,7 @@ limitations under the License.
      * Check whether there is no newer patch than the latest patch that was
      * available when this change was loaded.
      *
-     * @return {Promise<boolean>} A promise that yields true if the latest patch
+     * @return {Promise<!Object>} A promise that yields true if the latest patch
      *     has been loaded, and false if a newer patch has been uploaded in the
      *     meantime. The promise is rejected on network error.
      */
@@ -226,7 +226,7 @@ limitations under the License.
             }
             const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
                 Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
-            return actualLatest <= knownLatest;
+            return {isLatest: actualLatest <= knownLatest};
           });
     },
 

@@ -140,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "6bd45153_0958925f",
+        "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T15:16:06Z",
+      "side": 1,
+      "message": "Ah right, AuditLogReader needs a repoManager.\n\nI think we can also store the allUsersRepo, but of course we will still need this member.",
+      "parentUuid": "cdaddb0f_3a022f28",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "04b2e360_0f0610e2",
         "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
         "patchSetId": 5

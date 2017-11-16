@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50fad169_31e78630",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:24:26Z",
+      "side": 1,
+      "message": "\"fromDocument\" to be consistent with the naming in AbstractLuceneIndex",
+      "range": {
+        "startLine": 207,
+        "startChar": 23,
+        "endLine": 207,
+        "endChar": 30
+      },
+      "revId": "7e0ed1fdb7c895d18f58f9f69f1b743a5dc48d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

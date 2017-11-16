@@ -28,6 +28,11 @@ import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * A bundle of all entities rooted at a single {@link AccountGroup} entity.
@@ -58,17 +63,63 @@ public abstract class GroupBundle {
     checkColumns(AccountGroupMemberAudit.class, 1, 2, 3, 4);
   }
 
-  public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
-    AccountGroup group = db.accountGroups().get(id);
-    if (group == null) {
-      throw new OrmException("Group " + id + " not found");
+  @Singleton
+  public static class Factory {
+    private final AuditLogReader auditLogReader;
+
+    @Inject
+    Factory(AuditLogReader auditLogReader) {
+      this.auditLogReader = auditLogReader;
     }
-    return create(
-        group,
-        db.accountGroupMembers().byGroup(id),
-        db.accountGroupMembersAudit().byGroup(id),
-        db.accountGroupById().byGroup(id),
-        db.accountGroupByIdAud().byGroup(id));
+
+    public GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
+      AccountGroup group = db.accountGroups().get(id);
+      if (group == null) {
+        throw new OrmException("Group " + id + " not found");
+      }
+      return create(
+          group,
+          db.accountGroupMembers().byGroup(id),
+          db.accountGroupMembersAudit().byGroup(id),
+          db.accountGroupById().byGroup(id),
+          db.accountGroupByIdAud().byGroup(id));
+    }
+
+    public GroupBundle fromNoteDb(Repository repo, AccountGroup.UUID uuid)
+        throws ConfigInvalidException, IOException {
+      GroupConfig groupConfig = GroupConfig.loadForGroup(repo, uuid);
+      InternalGroup internalGroup = groupConfig.getLoadedGroup().get();
+      AccountGroup.Id groupId = internalGroup.getId();
+
+      AccountGroup accountGroup =
+          new AccountGroup(
+              internalGroup.getNameKey(),
+              internalGroup.getId(),
+              internalGroup.getGroupUUID(),
+              internalGroup.getCreatedOn());
+      accountGroup.setDescription(internalGroup.getDescription());
+      accountGroup.setOwnerGroupUUID(internalGroup.getOwnerGroupUUID());
+      accountGroup.setVisibleToAll(internalGroup.isVisibleToAll());
+
+      return create(
+          accountGroup,
+          internalGroup
+              .getMembers()
+              .stream()
+              .map(
+                  accountId ->
+                      new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId)))
+              .collect(toImmutableSet()),
+          auditLogReader.getMembersAudit(uuid),
+          internalGroup
+              .getSubgroups()
+              .stream()
+              .map(
+                  subgroupUuid ->
+                      new AccountGroupById(new AccountGroupById.Key(groupId, subgroupUuid)))
+              .collect(toImmutableSet()),
+          auditLogReader.getSubgroupsAudit(uuid));
+    }
   }
 
   public static GroupBundle create(

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1510846688 -0500\nnonce AMT3iFh9QCspMOnOMfYEDSTBGJP5iEhzakt4ekPgkTgN5ek5TF8wBtZbNIoCcCsgA/RwFW0DxzQp\n\n0000000000000000000000000000000000000000 c873e8fc7327493bf82f07f33fcf383596f9dde3 refs/for/master%r\u003dhanwen@google.com,r\u003dekempin@google.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCAAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAloNsOAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMApAP/2dnTaFYpKey1AoD+e1+P4W7ai7s\n1xcD5Nkc0lKdNBpII7N3+wjl2NS/TlYrKzROqQTXC7k0ltv8Q0npG6NJmOYWxZBT\nlXM1BV8ybw4gucegL8YkqNj6CCPHnfwIy8sd44HFS07dWc9b9B1iraB85wSNXXgT\nzfbzglSWiUx/ik427TyoajwFxTewTjxDXxlkUu6MbXzNvJ760r2Fl5CBqJ/ofGfH\nCwrGpqnhyEYzXNlS4qkNOzKK1v0tvzi0gJR/uO+1xS0bXsRgLm6NS+BKyW6NAvaZ\nm86yjmlc0X0irqdO2bldZh4lKa2JbFBew+CKyfr/KKh4qYITFAilqllqYK8ruKCh\nQu6KVdVK/aNfPmW3m21WLltUMu4qAzadrtE1L3H9WmLfQ0UdzN4up9MCgQrmszwE\n/eEYEQJQjhP6gMjJOnj5ykAH16JX0g1i/vNMtGuTWweoH7v3J4CXRucutGntg5ht\nIXfn+oKjsJNmc5ExHUJuKXBywFfw3g8XBzmViX74XJgqJDyrDuh12Bb1rz5Bpp82\nWeDb7Ff1F9fyDNK0PmVuPsggRsm7aNqWlQkU5DyLawK/lUPzypdjD6bPPea/vqvv\na4ef6VuU3QWIvnuoGdK8hEMLR8Og6yC/IVXQiMKntJkwAsZKsXZ6QsO0Mua101Tn\nCp4ZrtlsE4w1cDnL\n\u003doFyY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2669f895_62a60863",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T15:40:55Z",
+      "side": 1,
+      "message": "FYI, this is why I wanted to add the checkColumns checks in this file: if we add a new column to AccountGroup, it means this code needs to be updated.\n\nNot that I think that is at all likely, but nor was adding the checks difficult :)",
+      "revId": "c873e8fc7327493bf82f07f33fcf383596f9dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

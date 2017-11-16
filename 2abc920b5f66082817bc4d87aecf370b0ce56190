@@ -154,6 +154,24 @@
       "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ef95620_37e009e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-16T09:10:21Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/142210",
+      "parentUuid": "5195578e_aaaa8c8d",
+      "revId": "2abc920b5f66082817bc4d87aecf370b0ce56190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3083c062_bf564a94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-16T09:06:02Z",
+      "side": 1,
+      "message": "we discussed this before, no? It turns out my idea of \"keep reorganizations under server/\" doesn\u0027t really solve the problem of importing it into google (we still have to update internal references in our private .java files), so we can try to find a more definitive location.\n\nHow about using util/mail? We already have {cli,http,ssl} there, and I\u0027d hate to have both util and lib.",
+      "parentUuid": "b74d1d72_c23c4ddf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

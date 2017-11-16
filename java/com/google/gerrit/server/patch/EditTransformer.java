@@ -25,7 +25,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
-import com.google.gerrit.server.diff.PatchListEntry;
+import com.google.gerrit.lib.diff.PatchListEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -17,11 +17,11 @@ package com.google.gerrit.server.notedb.rebuild;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.gerrit.lib.diff.PatchListCache;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.diff.PatchListCache;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;

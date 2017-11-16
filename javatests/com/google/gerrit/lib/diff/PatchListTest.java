@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.diff;
+package com.google.gerrit.lib.diff;
 
 import static com.google.common.truth.Truth.assertThat;
-
+import com.google.gerrit.lib.diff.PatchList;
 import com.google.gerrit.reviewdb.client.Patch;
 import java.util.Arrays;
 import java.util.Comparator;

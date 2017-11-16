@@ -5,8 +5,8 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/lib/diff",
         "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/server/diff",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
         "//lib:truth-java8-extension",

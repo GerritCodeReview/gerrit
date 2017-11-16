@@ -1,0 +1,237 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51fd0e08_5f442979",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Do not sleep in tests. Use TestTimeUtil.resetClockWithClockStep; see GroupRebuilderIT for an example.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02fb70ae_44ad4e94",
+        "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Thanks, it\u0027s now become obvious that there are enough commonalities here for a base class to be useful :)",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdaddb0f_3a022f28",
+        "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Do any tests need any repos *besides* All-Users? If not, you can just store a single repo.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b2e360_0f0610e2",
+        "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "The other advantage to storing the All-Users repo in an instance field in AbstractGroupTest is then you can omit this Repository argument to getTipTimestamp and assertTipCommit",
+      "range": {
+        "startLine": 65,
+        "startChar": 38,
+        "endLine": 65,
+        "endChar": 53
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "166ca429_fb4d7fd2",
+        "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "No need to log if you\u0027re just interested in the tip commit. You already have code to look just the tip up directly, in getTipTimestamp.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05123602_c71399b7",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Won\u0027t all group tests need an All-Users repo? Could this just go in the base class?",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde66070_e46d35ca",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "I think with JUnit 4 it\u0027s generally recommended to not call super.setUp, and instead depend on JUnit to execute the superclass @Before methods prior to the subclass @Before methods. The only issue is they can\u0027t have the same name. So maybe rename the one in AbstractGroupTest to abstractGroupTestSetUp() or something?",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e189f61c_4cb25a61",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "What are these methods actually testing? If you\u0027re just testing that createGroup works as expected, then shouldn\u0027t there be some assertions?",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d131f3_1b92d1bd",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Here and below you probably want to add .inOrder(), since the order of commits in NoteDb is well-defined.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b1ad97_0a32fc97",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Debug print?",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "408d20aa_d294fa8a",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "createMetaDataUpdate?",
+      "range": {
+        "startLine": 352,
+        "startChar": 3,
+        "endLine": 355,
+        "endChar": 52
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dcdc565_8f521775",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Optional: you could make ids an Account.Id... to save some boilerplate at the call sites. I don\u0027t feel strongly, if you prefer the readability of having only 2 arguments.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9ef8d17_0fc15089",
+        "filename": "javatests/com/google/gerrit/server/group/db/AuditLogReaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T13:08:37Z",
+      "side": 1,
+      "message": "Could this go in the base class?",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

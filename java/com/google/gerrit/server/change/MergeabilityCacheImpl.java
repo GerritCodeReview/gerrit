@@ -16,8 +16,8 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
+import static com.google.gerrit.lib.ioutil.BasicSerialization.readString;
+import static com.google.gerrit.lib.ioutil.BasicSerialization.writeString;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 

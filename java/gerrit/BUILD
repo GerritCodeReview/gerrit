@@ -5,9 +5,9 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/lib/diff",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/diff",
         "//lib:gwtorm",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",

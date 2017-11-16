@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.lib.diff.DiffSummary;
+import com.google.gerrit.lib.diff.DiffSummaryKey;
+import com.google.gerrit.lib.diff.PatchList;
+import com.google.gerrit.lib.diff.PatchListCache;
+import com.google.gerrit.lib.diff.PatchListEntry;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.diff.DiffSummary;
-import com.google.gerrit.server.diff.DiffSummaryKey;
-import com.google.gerrit.server.diff.PatchList;
-import com.google.gerrit.server.diff.PatchListCache;
-import com.google.gerrit.server.diff.PatchListEntry;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;

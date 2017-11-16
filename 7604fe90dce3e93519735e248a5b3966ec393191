@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "280a7785_ced5bb10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T10:14:21Z",
+      "side": 1,
+      "message": "How about to do the opposite and move util stuff to lib (not  this change)?\n\nTo give you here more context, my idea is to kill gerrit/server package entirely. This package is gerrit\u0027s heritage as GWT based project and this is not true any more. Note that during re-arranging of directory structure, I left alone GWT client stuff, so that we don\u0027t have j/c/g/g/client under java directory any more. Consequently, having gerrit/server is just wrong and should be fixed. That\u0027s because every single package under j/c/g/g is server now.\n\nIn this context, what we will do is:\n\n* 1. [Midterm] Dissolve gerrit/server package and just move high-level directories to j/c/g/g/, e.g.: j/c/g/g/permission\n* 2. [Now] Move low level directories, like mail and friends to j/c/g/g/lib to avoid pollution of j/c/g/g/ namespace, like j/c/g/g/mail and friends",
+      "parentUuid": "3083c062_bf564a94",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

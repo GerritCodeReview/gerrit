@@ -1017,7 +1017,7 @@ public class GroupsIT extends AbstractDaemonTest {
     // Evict group from cache to be sure that we use the index state for staleness checks. This has
     // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for
     // the group.
-    groupsByUUIDCache.invalidate(groupUuid);
+    groupsByUUIDCache.invalidate(groupInfo.id);
     assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
 
     // Reindex fixes staleness

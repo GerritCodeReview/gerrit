@@ -17,10 +17,10 @@
   // Note: noBaseUrl: true is set on entries where the URL is not yet supported
   // by router abstraction.
   const ADMIN_LINKS = [{
-    name: 'Projects',
+    name: 'Repos',
     noBaseUrl: true,
-    url: '/admin/projects',
-    view: 'gr-project-list',
+    url: '/admin/repos',
+    view: 'gr-repo-list',
     viewableToAll: true,
     children: [],
   }, {
@@ -50,7 +50,7 @@
       path: String,
       adminView: String,
 
-      _projectName: String,
+      _repoName: String,
       _groupId: {
         type: Number,
         observer: '_computeGroupName',
@@ -73,12 +73,12 @@
       _showGroupAuditLog: Boolean,
       _showGroupList: Boolean,
       _showGroupMembers: Boolean,
-      _showProjectCommands: Boolean,
-      _showProjectMain: Boolean,
-      _showProjectList: Boolean,
-      _showProjectDetailList: Boolean,
+      _showRepoAccess: Boolean,
+      _showRepoCommands: Boolean,
+      _showRepoDetailList: Boolean,
+      _showRepoMain: Boolean,
+      _showRepoList: Boolean,
       _showPluginList: Boolean,
-      _showProjectAccess: Boolean,
     },
 
     behaviors: [
@@ -114,43 +114,43 @@
         const linkCopy = Object.assign({}, link);
         linkCopy.children = linkCopy.children ?
             linkCopy.children.filter(filterFn) : [];
-        if (linkCopy.name === 'Projects' && this._projectName) {
+        if (linkCopy.name === 'Repos' && this._repoName) {
           linkCopy.subsection = {
-            name: this._projectName,
-            view: 'gr-project',
+            name: this._repoName,
+            view: 'gr-repo',
             noBaseUrl: true,
-            url: `/admin/projects/${this.encodeURL(this._projectName, true)}`,
+            url: `/admin/repos/${this.encodeURL(this._repoName, true)}`,
             children: [{
               name: 'Access',
               detailType: 'access',
-              view: 'gr-project-access',
+              view: 'gr-repo-access',
               noBaseUrl: true,
-              url: `/admin/projects/` +
-                  `${this.encodeURL(this._projectName, true)},access`,
+              url: `/admin/repos/` +
+                  `${this.encodeURL(this._repoName, true)},access`,
             },
             {
               name: 'Commands',
               detailType: 'commands',
-              view: 'gr-project-commands',
+              view: 'gr-repo-commands',
               noBaseUrl: true,
-              url: `/admin/projects/` +
-                  `${this.encodeURL(this._projectName, true)},commands`,
+              url: `/admin/repos/` +
+                  `${this.encodeURL(this._repoName, true)},commands`,
             },
             {
               name: 'Branches',
               detailType: 'branches',
-              view: 'gr-project-detail-list',
+              view: 'gr-repo-detail-list',
               noBaseUrl: true,
-              url: `/admin/projects/` +
-                  `${this.encodeURL(this._projectName, true)},branches`,
+              url: `/admin/repos/` +
+                  `${this.encodeURL(this._repoName, true)},branches`,
             },
             {
               name: 'Tags',
               detailType: 'tags',
-              view: 'gr-project-detail-list',
+              view: 'gr-repo-detail-list',
               noBaseUrl: true,
-              url: `/admin/projects/` +
-                  `${this.encodeURL(this._projectName, true)},tags`,
+              url: `/admin/repos/` +
+                  `${this.encodeURL(this._repoName, true)},tags`,
             }],
           };
         }
@@ -207,21 +207,21 @@
       this.set('_showGroupList', isAdminView &&
           params.adminView === 'gr-admin-group-list');
 
-      this.set('_showProjectCommands', isAdminView &&
-          params.adminView === 'gr-project-commands');
-      this.set('_showProjectMain', isAdminView &&
-          params.adminView === 'gr-project');
-      this.set('_showProjectList', isAdminView &&
-          params.adminView === 'gr-project-list');
-      this.set('_showProjectDetailList', isAdminView &&
-          params.adminView === 'gr-project-detail-list');
+      this.set('_showRepoAccess', isAdminView &&
+          params.adminView === 'gr-repo-access');
+      this.set('_showRepoCommands', isAdminView &&
+          params.adminView === 'gr-repo-commands');
+      this.set('_showRepoDetailList', isAdminView &&
+          params.adminView === 'gr-repo-detail-list');
+      this.set('_showRepoMain', isAdminView &&
+          params.adminView === 'gr-repo');
+      this.set('_showRepoList', isAdminView &&
+          params.adminView === 'gr-repo-list');
       this.set('_showPluginList', isAdminView &&
           params.adminView === 'gr-plugin-list');
-      this.set('_showProjectAccess', isAdminView &&
-          params.adminView === 'gr-project-access');
 
-      if (params.project !== this._projectName) {
-        this._projectName = params.project || '';
+      if (params.repo !== this._repoName) {
+        this._repoName = params.repo || '';
         // Reloads the admin menu.
         this.reload();
       }

@@ -21,16 +21,16 @@
     is: 'gr-create-change-dialog',
 
     properties: {
-      projectName: String,
+      repoName: String,
       branch: String,
       /** @type {?} */
-      _projectConfig: Object,
+      _repoConfig: Object,
       subject: String,
       topic: String,
       _query: {
         type: Function,
         value() {
-          return this._getProjectBranchesSuggestions.bind(this);
+          return this._getRepoBranchesSuggestions.bind(this);
         },
       },
       canCreate: {
@@ -46,8 +46,8 @@
     ],
 
     attached() {
-      this.$.restAPI.getProjectConfig(this.projectName).then(config => {
-        this._projectConfig = config;
+      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
+        this._repoConfig = config;
       });
     },
 
@@ -62,7 +62,7 @@
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
       const isWip = this.$.wipChangeCheckBox.checked;
-      return this.$.restAPI.createChange(this.projectName, this.branch,
+      return this.$.restAPI.createChange(this.repoName, this.branch,
           this.subject, this.topic, isPrivate, isWip)
           .then(changeCreated => {
             if (!changeCreated) {
@@ -72,12 +72,12 @@
           });
     },
 
-    _getProjectBranchesSuggestions(input) {
+    _getRepoBranchesSuggestions(input) {
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getProjectBranches(
-          input, this.projectName, SUGGESTIONS_LIMIT).then(response => {
+      return this.$.restAPI.getRepoBranches(
+          input, this.repoName, SUGGESTIONS_LIMIT).then(response => {
             const branches = [];
             let branch;
             for (const key in response) {

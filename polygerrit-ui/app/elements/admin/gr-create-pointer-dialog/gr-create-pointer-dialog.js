@@ -24,7 +24,7 @@
 
     properties: {
       detailType: String,
-      projectName: String,
+      repoName: String,
       hasNewItemName: {
         type: Boolean,
         notify: true,
@@ -51,18 +51,18 @@
 
     _computeItemUrl(project) {
       if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.getBaseUrl() + '/admin/projects/' +
-            this.encodeURL(this.projectName, true) + ',branches';
+        return this.getBaseUrl() + '/admin/repos/' +
+            this.encodeURL(this.repoName, true) + ',branches';
       } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.getBaseUrl() + '/admin/projects/' +
-            this.encodeURL(this.projectName, true) + ',tags';
+        return this.getBaseUrl() + '/admin/repos/' +
+            this.encodeURL(this.repoName, true) + ',tags';
       }
     },
 
     handleCreateItem() {
       const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
       if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.$.restAPI.createProjectBranch(this.projectName,
+        return this.$.restAPI.createRepoBranch(this.repoName,
             this._itemName, {revision: USE_HEAD})
             .then(itemRegistered => {
               if (itemRegistered.status === 201) {
@@ -70,7 +70,7 @@
               }
             });
       } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.$.restAPI.createProjectTag(this.projectName,
+        return this.$.restAPI.createRepoTag(this.repoName,
             this._itemName,
             {revision: USE_HEAD, message: this._itemAnnotation || null})
             .then(itemRegistered => {

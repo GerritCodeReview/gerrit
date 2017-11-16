@@ -27,7 +27,7 @@
       usernameMutable: {
         type: Boolean,
         notify: true,
-        computed: '_computeUsernameMutable(_serverConfig)',
+        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
       },
       nameMutable: {
         type: Boolean,
@@ -64,11 +64,14 @@
       /** @type {?} */
       _account: Object,
       _serverConfig: Object,
+      _username: {
+        type: String,
+        observer: '_usernameChanged',
+      },
     },
 
     observers: [
       '_nameChanged(_account.name)',
-      '_usernameChanged(_account.username)',
       '_statusChanged(_account.status)',
     ],
 
@@ -82,7 +85,11 @@
       }));
 
       promises.push(this.$.restAPI.getAccount().then(account => {
+        // Provide predefined value for username to trigger computation of
+        // username mutability.
+        account.username = account.username || '';
         this._account = account;
+        this._username = account.username;
       }));
 
       return Promise.all(promises).then(() => {
@@ -117,7 +124,7 @@
 
     _maybeSetUsername() {
       return this._hasUsernameChange && this.usernameMutable ?
-          this.$.restAPI.setAccountUsername(this._account.username) :
+          this.$.restAPI.setAccountUsername(this._username) :
           Promise.resolve();
     },
 
@@ -131,8 +138,10 @@
       return nameChanged || usernameChanged || statusChanged;
     },
 
-    _computeUsernameMutable(config) {
-      return config.auth.editable_account_fields.includes('USER_NAME');
+    _computeUsernameMutable(config, username) {
+      // Username may not be changed once it is set.
+      return config.auth.editable_account_fields.includes('USER_NAME') &&
+          !username;
     },
 
     _computeNameMutable(config) {

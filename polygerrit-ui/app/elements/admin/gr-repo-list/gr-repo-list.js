@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-project-list',
+    is: 'gr-repo-list',
 
     properties: {
       /**
@@ -33,25 +33,25 @@
       _path: {
         type: String,
         readOnly: true,
-        value: '/admin/projects',
+        value: '/admin/repos',
       },
-      _hasNewProjectName: Boolean,
+      _hasNewRepoName: Boolean,
       _createNewCapability: {
         type: Boolean,
         value: false,
       },
-      _projects: Array,
+      _repos: Array,
 
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
        * */
-      _shownProjects: {
+      _shownRepos: {
         type: Array,
-        computed: 'computeShownItems(_projects)',
+        computed: 'computeShownItems(_repos)',
       },
 
-      _projectsPerPage: {
+      _reposPerPage: {
         type: Number,
         value: 25,
       },
@@ -68,8 +68,8 @@
     ],
 
     attached() {
-      this._getCreateProjectCapability();
-      this.fire('title-change', {title: 'Projects'});
+      this._getCreateRepoCapability();
+      this.fire('title-change', {title: 'Repos'});
       this._maybeOpenCreateOverlay(this.params);
     },
 
@@ -78,7 +78,7 @@
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getProjects(this._filter, this._projectsPerPage,
+      return this._getRepos(this._filter, this._reposPerPage,
           this._offset);
     },
 
@@ -96,7 +96,7 @@
       return this.getUrl(this._path + '/', name);
     },
 
-    _getCreateProjectCapability() {
+    _getCreateRepoCapability() {
       return this.$.restAPI.getAccount().then(account => {
         if (!account) { return; }
         return this.$.restAPI.getAccountCapabilities(['createProject'])
@@ -108,25 +108,23 @@
       });
     },
 
-    _getProjects(filter, projectsPerPage, offset) {
+    _getRepos(filter, reposPerPage, offset) {
       this._projects = [];
-      return this.$.restAPI.getProjects(filter, projectsPerPage, offset)
-          .then(projects => {
-            if (!projects) {
-              return;
-            }
-            this._projects = Object.keys(projects)
+      return this.$.restAPI.getProjects(filter, reposPerPage, offset)
+          .then(repos => {
+            if (!repos) { return; }
+            this._repos = Object.keys(repos)
              .map(key => {
-               const project = projects[key];
-               project.name = key;
-               return project;
+               const repo = repos[key];
+               repo.name = key;
+               return repo;
              });
             this._loading = false;
           });
     },
 
-    _handleCreateProject() {
-      this.$.createNewModal.handleCreateProject();
+    _handleCreateRepo() {
+      this.$.createNewModal.handleCreateRepo();
     },
 
     _handleCloseCreate() {
@@ -141,11 +139,9 @@
       return item.state === 'READ_ONLY' ? 'Y' : '';
     },
 
-    _computeWeblink(project) {
-      if (!project.web_links) {
-        return '';
-      }
-      const webLinks = project.web_links;
+    _computeWeblink(repo) {
+      if (!repo.web_links) { return ''; }
+      const webLinks = repo.web_links;
       return webLinks.length ? webLinks : null;
     },
   });

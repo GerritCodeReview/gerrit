@@ -15,22 +15,22 @@
   'use strict';
 
   Polymer({
-    is: 'gr-create-project-dialog',
+    is: 'gr-create-repo-dialog',
 
     properties: {
       params: Object,
-      hasNewProjectName: {
+      hasNewRepoName: {
         type: Boolean,
         notify: true,
         value: false,
       },
 
       /** @type {?} */
-      _projectConfig: {
+      _repoConfig: {
         type: Object,
         value: () => { return {}; },
       },
-      _projectCreated: {
+      _repoCreated: {
         type: Boolean,
         value: false,
       },
@@ -38,13 +38,13 @@
       _query: {
         type: Function,
         value() {
-          return this._getProjectSuggestions.bind(this);
+          return this._getRepoSuggestions.bind(this);
         },
       },
     },
 
     observers: [
-      '_updateProjectName(_projectConfig.name)',
+      '_updateRepoName(_repoConfig.name)',
     ],
 
     behaviors: [
@@ -52,37 +52,37 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    _computeProjectUrl(projectName) {
-      return this.getBaseUrl() + '/admin/projects/' +
-          this.encodeURL(projectName, true);
+    _computeRepoUrl(repoName) {
+      return this.getBaseUrl() + '/admin/repos/' +
+          this.encodeURL(repoName, true);
     },
 
-    _updateProjectName(name) {
-      this.hasNewProjectName = !!name;
+    _updateRepoName(name) {
+      this.hasNewRepoName = !!name;
     },
 
-    handleCreateProject() {
-      return this.$.restAPI.createProject(this._projectConfig)
-          .then(projectRegistered => {
-            if (projectRegistered.status === 201) {
-              this._projectCreated = true;
-              page.show(this._computeProjectUrl(this._projectConfig.name));
+    handleCreateRepo() {
+      return this.$.restAPI.createRepo(this._repoConfig)
+          .then(repoRegistered => {
+            if (repoRegistered.status === 201) {
+              this._repoCreated = true;
+              page.show(this._computeRepoUrl(this._repoConfig.name));
             }
           });
     },
 
-    _getProjectSuggestions(input) {
+    _getRepoSuggestions(input) {
       return this.$.restAPI.getSuggestedProjects(input)
           .then(response => {
-            const projects = [];
+            const repos = [];
             for (const key in response) {
               if (!response.hasOwnProperty(key)) { continue; }
-              projects.push({
+              repos.push({
                 name: key,
                 value: response[key],
               });
             }
-            return projects;
+            return repos;
           });
     },
   });

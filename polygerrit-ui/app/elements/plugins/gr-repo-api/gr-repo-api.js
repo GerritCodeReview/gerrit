@@ -15,37 +15,37 @@
   'use strict';
 
   // Prevent redefinition.
-  if (window.GrProjectApi) { return; }
+  if (window.GrRepoApi) { return; }
 
-  function GrProjectApi(plugin) {
+  function GrRepoApi(plugin) {
     this._hook = null;
     this.plugin = plugin;
   }
 
-  GrProjectApi.prototype._createHook = function(title) {
-    this._hook = this.plugin.hook('project-command').onAttached(element => {
+  GrRepoApi.prototype._createHook = function(title) {
+    this._hook = this.plugin.hook('repo-command').onAttached(element => {
       const pluginCommand =
-            document.createElement('gr-plugin-project-command');
+            document.createElement('gr-plugin-repo-command');
       pluginCommand.title = title;
       element.appendChild(pluginCommand);
     });
   };
 
-  GrProjectApi.prototype.createCommand = function(title, callback) {
+  GrRepoApi.prototype.createCommand = function(title, callback) {
     if (this._hook) {
       console.warn('Already set up.');
       return this._hook;
     }
     this._createHook(title);
     this._hook.onAttached(element => {
-      if (callback(element.projectName, element.config) === false) {
+      if (callback(element.repoName, element.config) === false) {
         element.hidden = true;
       }
     });
     return this;
   };
 
-  GrProjectApi.prototype.onTap = function(callback) {
+  GrRepoApi.prototype.onTap = function(callback) {
     if (!this._hook) {
       console.warn('Call createCommand first.');
       return this;
@@ -56,5 +56,5 @@
     return this;
   };
 
-  window.GrProjectApi = GrProjectApi;
+  window.GrRepoApi = GrRepoApi;
 })(window);

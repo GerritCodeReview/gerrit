@@ -16,19 +16,19 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-project-detail-list</title>
+<title>gr-repo-detail-list</title>
 
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-project-detail-list.html">
+<link rel="import" href="gr-repo-detail-list.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-project-detail-list></gr-project-detail-list>
+    <gr-repo-detail-list></gr-repo-detail-list>
   </template>
 </test-fixture>
 
@@ -83,7 +83,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('list of project branches', () => {
+    suite('list of repo branches', () => {
       setup(done => {
         branches = [{
           ref: 'HEAD',
@@ -91,13 +91,13 @@ limitations under the License.
         }].concat(_.times(25, branchGenerator));
 
         stub('gr-rest-api-interface', {
-          getProjectBranches(num, project, offset) {
+          getRepoBranches(num, project, offset) {
             return Promise.resolve(branches);
           },
         });
 
         const params = {
-          project: 'test',
+          repo: 'test',
           detailType: 'branches',
         };
 
@@ -133,7 +133,7 @@ limitations under the License.
 
       test('Edit HEAD button not admin', done => {
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.restAPI, 'getProjectAccess').returns(
+        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: false},
             }));
@@ -157,7 +157,7 @@ limitations under the License.
               .querySelector('.revisionWithEditing');
 
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.restAPI, 'getProjectAccess').returns(
+        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: true},
             }));
@@ -206,7 +206,7 @@ limitations under the License.
 
           // Change the ref to something else
           element._revisedRef = 'newRef';
-          element._project = 'test';
+          element._repo = 'test';
           assert.isFalse(saveBtn.disabled);
 
           // Save button calls handleSave. since this is stubbed, the edit
@@ -234,13 +234,13 @@ limitations under the License.
       test('_handleSaveRevision with invalid rev', done => {
         const event = {model: {set: sandbox.stub()}};
         element._isEditing = true;
-        sandbox.stub(element.$.restAPI, 'setProjectHead').returns(
+        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 400,
             })
         );
 
-        element._setProjectHead('test', 'newRef', event).then(() => {
+        element._setRepoHead('test', 'newRef', event).then(() => {
           assert.isTrue(element._isEditing);
           assert.isFalse(event.model.set.called);
           done();
@@ -250,13 +250,13 @@ limitations under the License.
       test('_handleSaveRevision with valid rev', done => {
         const event = {model: {set: sandbox.stub()}};
         element._isEditing = true;
-        sandbox.stub(element.$.restAPI, 'setProjectHead').returns(
+        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 200,
             })
         );
 
-        element._setProjectHead('test', 'newRef', event).then(() => {
+        element._setRepoHead('test', 'newRef', event).then(() => {
           assert.isFalse(element._isEditing);
           assert.isTrue(event.model.set.called);
           done();
@@ -274,37 +274,37 @@ limitations under the License.
         branches = _.times(25, branchGenerator);
 
         stub('gr-rest-api-interface', {
-          getProjectBranches(num, project, offset) {
+          getRepoBranches(num, repo, offset) {
             return Promise.resolve(branches);
           },
         });
 
         const params = {
-          project: 'test',
+          repo: 'test',
           detailType: 'branches',
         };
 
         element._paramsChanged(params).then(() => { flush(done); });
       });
 
-      test('_shownProjectsBranches', () => {
+      test('_shownItems', () => {
         assert.equal(element._shownItems.length, 25);
       });
     });
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getProjectBranches', () => {
+        sandbox.stub(element.$.restAPI, 'getRepoBranches', () => {
           return Promise.resolve(branches);
         });
         const params = {
           detailType: 'branches',
-          project: 'test',
+          repo: 'test',
           filter: 'test',
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.isTrue(element.$.restAPI.getProjectBranches.lastCall
+          assert.isTrue(element.$.restAPI.getRepoBranches.lastCall
               .calledWithExactly('test', 'test', 25, 25));
           done();
         });
@@ -329,18 +329,18 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('list of project tags', () => {
+    suite('list of repo tags', () => {
       setup(done => {
         tags = _.times(26, tagGenerator);
 
         stub('gr-rest-api-interface', {
-          getProjectTags(num, project, offset) {
+          getRepoTags(num, repo, offset) {
             return Promise.resolve(tags);
           },
         });
 
         const params = {
-          project: 'test',
+          repo: 'test',
           detailType: 'tags',
         };
 
@@ -409,13 +409,13 @@ limitations under the License.
         tags = _.times(25, tagGenerator);
 
         stub('gr-rest-api-interface', {
-          getProjectTags(num, project, offset) {
+          getRepoTags(num, project, offset) {
             return Promise.resolve(tags);
           },
         });
 
         const params = {
-          project: 'test',
+          repo: 'test',
           detailType: 'tags',
         };
 
@@ -429,17 +429,17 @@ limitations under the License.
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getProjectTags', () => {
+        sandbox.stub(element.$.restAPI, 'getRepoTags', () => {
           return Promise.resolve(tags);
         });
         const params = {
-          project: 'test',
+          repo: 'test',
           detailType: 'tags',
           filter: 'test',
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.isTrue(element.$.restAPI.getProjectTags.lastCall
+          assert.isTrue(element.$.restAPI.getRepoTags.lastCall
               .calledWithExactly('test', 'test', 25, 25));
           done();
         });

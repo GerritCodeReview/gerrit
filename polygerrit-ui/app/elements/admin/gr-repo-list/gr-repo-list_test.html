@@ -16,25 +16,25 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-project-list</title>
+<title>gr-repo-list</title>
 
 <script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-project-list.html">
+<link rel="import" href="gr-repo-list.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-project-list></gr-project-list>
+    <gr-repo-list></gr-repo-list>
   </template>
 </test-fixture>
 
 <script>
   let counter;
-  const projectGenerator = () => {
+  const repoGenerator = () => {
     return {
       id: `test${++counter}`,
       state: 'ACTIVE',
@@ -47,9 +47,9 @@ limitations under the License.
     };
   };
 
-  suite('gr-project-list tests', () => {
+  suite('gr-repo-list tests', () => {
     let element;
-    let projects;
+    let repos;
     let sandbox;
     let value;
 
@@ -63,26 +63,26 @@ limitations under the License.
       sandbox.restore();
     });
 
-    suite('list with projects', () => {
+    suite('list with repos', () => {
       setup(done => {
-        projects = _.times(26, projectGenerator);
+        repos = _.times(26, repoGenerator);
         stub('gr-rest-api-interface', {
-          getProjects(num, offset) {
-            return Promise.resolve(projects);
+          getRepos(num, offset) {
+            return Promise.resolve(repos);
           },
         });
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
-      test('test for test project in the list', done => {
+      test('test for test repo in the list', done => {
         flush(() => {
-          assert.equal(element._projects[1].id, 'test2');
+          assert.equal(element._repos[1].id, 'test2');
           done();
         });
       });
 
-      test('_shownProjects', () => {
-        assert.equal(element._shownProjects.length, 25);
+      test('_shownRepos', () => {
+        assert.equal(element._shownRepos.length, 25);
       });
 
       test('_maybeOpenCreateOverlay', () => {
@@ -98,35 +98,35 @@ limitations under the License.
       });
     });
 
-    suite('list with less then 25 projects', () => {
+    suite('list with less then 25 repos', () => {
       setup(done => {
-        projects = _.times(25, projectGenerator);
+        repos = _.times(25, repoGenerator);
 
         stub('gr-rest-api-interface', {
-          getProjects(num, offset) {
-            return Promise.resolve(projects);
+          getRepos(num, offset) {
+            return Promise.resolve(repos);
           },
         });
 
         element._paramsChanged(value).then(() => { flush(done); });
       });
 
-      test('_shownProjects', () => {
-        assert.equal(element._shownProjects.length, 25);
+      test('_shownRepos', () => {
+        assert.equal(element._shownRepos.length, 25);
       });
     });
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(element.$.restAPI, 'getProjects', () => {
-          return Promise.resolve(projects);
+        sandbox.stub(element.$.restAPI, 'getRepos', () => {
+          return Promise.resolve(repos);
         });
         const value = {
           filter: 'test',
           offset: 25,
         };
         element._paramsChanged(value).then(() => {
-          assert.isTrue(element.$.restAPI.getProjects.lastCall
+          assert.isTrue(element.$.restAPI.getRepos.lastCall
               .calledWithExactly('test', 25, 25));
           done();
         });
@@ -140,7 +140,7 @@ limitations under the License.
         assert.equal(getComputedStyle(element.$.loading).display, 'block');
 
         element._loading = false;
-        element._projects = _.times(25, projectGenerator);
+        element._repos = _.times(25, repoGenerator);
 
         flushAsynchronousOperations();
         assert.equal(element.computeLoadingClass(element._loading), '');
@@ -161,8 +161,8 @@ limitations under the License.
         assert.isTrue(openStub.called);
       });
 
-      test('_handleCreateProject called when confirm fired', () => {
-        sandbox.stub(element, '_handleCreateProject');
+      test('_handleCreateRepo called when confirm fired', () => {
+        sandbox.stub(element, '_handleCreateRepo');
         element.$.createDialog.fire('confirm');
         assert.isTrue(element._handleCreateProject.called);
       });

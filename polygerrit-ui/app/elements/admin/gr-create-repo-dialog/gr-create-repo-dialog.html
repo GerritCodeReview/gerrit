@@ -26,7 +26,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
-<dom-module id="gr-create-project-dialog">
+<dom-module id="gr-create-repo-dialog">
   <template>
     <style include="shared-styles"></style>
     <style include="gr-form-styles">
@@ -52,18 +52,18 @@ limitations under the License.
     <div class="gr-form-styles">
       <div id="form">
         <section>
-          <span class="title">Project name</span>
+          <span class="title">Repo name</span>
           <input is="iron-input"
-              id="projectNameInput"
+              id="repoNameInput"
               autocomplete="on"
-              bind-value="{{_projectConfig.name}}">
+              bind-value="{{_repoConfig.name}}">
         </section>
         <section>
           <span class="title">Rights inherit from</span>
           <span class="value">
             <gr-autocomplete
                 id="rightsInheritFromInput"
-                text="{{_projectConfig.parent}}"
+                text="{{_repoConfig.parent}}"
                 query="[[_query]]"
                 placeholder="Optional, defaults to 'All-Projects'">
             </gr-autocomplete>
@@ -74,7 +74,7 @@ limitations under the License.
           <span class="value">
             <gr-select
                 id="initalCommit"
-                bind-value="{{_projectConfig.create_empty_commit}}">
+                bind-value="{{_repoConfig.create_empty_commit}}">
               <select>
                 <option value="false">False</option>
                 <option value="true">True</option>
@@ -83,12 +83,12 @@ limitations under the License.
           </span>
         </section>
         <section>
-          <span class="title">Only serve as parent for other projects</span>
+          <span class="title">Only serve as parent for other repos</span>
           <span class="value">
             <gr-select
-                id="parentProject"
+                id="parentRepo"
                 is="gr-select"
-                bind-value="{{_projectConfig.permissions_only}}">
+                bind-value="{{_repoConfig.permissions_only}}">
               <select>
                 <option value="false">False</option>
                 <option value="true">True</option>
@@ -100,5 +100,5 @@ limitations under the License.
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-create-project-dialog.js"></script>
+  <script src="gr-create-repo-dialog.js"></script>
 </dom-module>

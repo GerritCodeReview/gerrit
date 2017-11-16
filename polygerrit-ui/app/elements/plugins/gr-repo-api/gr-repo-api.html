@@ -13,22 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../admin/gr-project-command/gr-project-command.html">
 
-<dom-module id="gr-plugin-project-command">
-  <template>
-    <gr-project-command title="[[title]]">
-    </gr-project-command>
-  </template>
-  <script>
-    Polymer({
-      is: 'gr-plugin-project-command',
-      properties: {
-        title: String,
-        projectName: String,
-        config: Object,
-      },
-    });
-  </script>
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="gr-plugin-repo-command.html">
+
+<dom-module id="gr-repo-api">
+  <script src="gr-repo-api.js"></script>
 </dom-module>

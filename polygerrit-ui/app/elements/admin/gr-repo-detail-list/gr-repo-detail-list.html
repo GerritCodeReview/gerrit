@@ -30,7 +30,7 @@ limitations under the License.
 <link rel="import" href="../gr-create-pointer-dialog/gr-create-pointer-dialog.html">
 <link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
 
-<dom-module id="gr-project-detail-list">
+<dom-module id="gr-repo-detail-list">
   <template>
     <style include="gr-form-styles"></style>
     <style include="shared-styles">
@@ -81,7 +81,7 @@ limitations under the License.
         loading="[[_loading]]"
         offset="[[_offset]]"
         on-create-clicked="_handleCreateClicked"
-        path="[[_getPath(_project, detailType)]]">
+        path="[[_getPath(_repo, detailType)]]">
       <table id="list" class="genericList gr-form-styles">
         <tr class="headerRow">
           <th class="name topHeader">Name</th>
@@ -196,11 +196,11 @@ limitations under the License.
               detail-type="[[_computeItemName(detailType)]]"
               has-new-item-name="{{_hasNewItemName}}"
               item-detail="[[detailType]]"
-              project-name="[[_project]]"></gr-create-pointer-dialog>
+              repo-name="[[_repo]]"></gr-create-pointer-dialog>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-project-detail-list.js"></script>
+  <script src="gr-repo-detail-list.js"></script>
 </dom-module>

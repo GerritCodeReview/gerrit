@@ -17,32 +17,32 @@
   const GC_MESSAGE = 'Garbage collection completed successfully.';
 
   Polymer({
-    is: 'gr-project-commands',
+    is: 'gr-repo-commands',
 
     properties: {
       params: Object,
-      project: String,
+      repo: String,
       _loading: {
         type: Boolean,
         value: true,
       },
       /** @type {?} */
-      _projectConfig: Object,
+      _repoConfig: Object,
       _canCreate: Boolean,
     },
 
     attached() {
-      this._loadProject();
+      this._loadRepo();
 
-      this.fire('title-change', {title: 'Project Commands'});
+      this.fire('title-change', {title: 'Repo Commands'});
     },
 
-    _loadProject() {
-      if (!this.project) { return Promise.resolve(); }
+    _loadRepo() {
+      if (!this.repo) { return Promise.resolve(); }
 
-      return this.$.restAPI.getProjectConfig(this.project).then(
+      return this.$.restAPI.getRepoConfig(this.repo).then(
           config => {
-            this._projectConfig = config;
+            this._repoConfig = config;
             this._loading = false;
           });
     },
@@ -56,7 +56,7 @@
     },
 
     _handleRunningGC() {
-      return this.$.restAPI.runProjectGC(this.project).then(response => {
+      return this.$.restAPI.runRepoGC(this.repo).then(response => {
         if (response.status === 200) {
           this.dispatchEvent(new CustomEvent('show-alert',
               {detail: {message: GC_MESSAGE}, bubbles: true}));

@@ -16,23 +16,23 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-create-project-dialog</title>
+<title>gr-create-repo-dialog</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-create-project-dialog.html">
+<link rel="import" href="gr-create-repo-dialog.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-create-project-dialog></gr-create-project-dialog>
+    <gr-create-repo-dialog></gr-create-repo-dialog>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-create-project-dialog tests', () => {
+  suite('gr-create-repo-dialog tests', () => {
     let element;
     let sandbox;
 
@@ -50,38 +50,38 @@ limitations under the License.
 
     test('project created', done => {
       const configInputObj = {
-        name: 'test-project',
+        name: 'test-repo',
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
-          'createProject', () => {
+          'createRepo', () => {
             return Promise.resolve({});
           });
 
-      assert.isFalse(element.hasNewProjectName);
+      assert.isFalse(element.hasNewRepoName);
 
-      element._projectConfig = {
-        name: 'test-project',
+      element._RepoConfig = {
+        name: 'test-repo',
         create_empty_commit: true,
         parent: 'All-Project',
         permissions_only: false,
       };
 
-      element.$.projectNameInput.bindValue = configInputObj.name;
+      element.$.repoNameInput.bindValue = configInputObj.name;
       element.$.rightsInheritFromInput.bindValue = configInputObj.parent;
       element.$.initalCommit.bindValue =
           configInputObj.create_empty_commit;
       element.$.parentProject.bindValue =
           configInputObj.permissions_only;
 
-      assert.isTrue(element.hasNewProjectName);
+      assert.isTrue(element.hasNewRepoName);
 
-      assert.deepEqual(element._projectConfig, configInputObj);
+      assert.deepEqual(element._repoConfig, configInputObj);
 
-      element.handleCreateProject().then(() => {
+      element.handleCreateRepo().then(() => {
         assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
         done();
       });

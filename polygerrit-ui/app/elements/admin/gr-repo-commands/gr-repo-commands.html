@@ -25,9 +25,9 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-create-change-dialog/gr-create-change-dialog.html">
-<link rel="import" href="../gr-project-command/gr-project-command.html">
+<link rel="import" href="../gr-repo-command/gr-project-command.html">
 
-<dom-module id="gr-project-commands">
+<dom-module id="gr-repo-commands">
   <template>
     <style include="shared-styles">
       main {
@@ -45,26 +45,26 @@ limitations under the License.
     </style>
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
-      <h1 id="Title">Project Commands</h1>
+      <h1 id="Title">Repo Commands</h1>
       <div id="loading" class$="[[_computeLoadingClass(_loading)]]">Loading...</div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
         <h2 id="options">Command</h2>
         <div id="form">
-          <gr-project-command
+          <gr-repo-command
               title="Create Change"
               on-command-tap="_createNewChange">
-          </gr-project-command>
+          </gr-repo-command>
 
-          <gr-project-command
+          <gr-repo-command
               title="Run GC"
-              hidden$="[[!_projectConfig.actions.gc.enabled]]"
+              hidden$="[[!_repoConfig.actions.gc.enabled]]"
               on-command-tap="_handleRunningGC">
-          </gr-project-command>
+          </gr-repo-command>
 
-          <gr-endpoint-decorator name="project-command">
-            <gr-endpoint-param name="config" value="[[_projectConfig]]">
+          <gr-endpoint-decorator name="repo-command">
+            <gr-endpoint-param name="config" value="[[_RepoConfig]]">
             </gr-endpoint-param>
-            <gr-endpoint-param name="projectName" value="[[project]]">
+            <gr-endpoint-param name="repoName" value="[[repo]]">
             </gr-endpoint-param>
           </gr-endpoint-decorator>
         </div>
@@ -84,11 +84,11 @@ limitations under the License.
           <gr-create-change-dialog
               id="createNewChangeModal"
               can-create="{{_canCreate}}"
-              project-name="[[project]]"></gr-create-change-dialog>
+              repo-name="[[repo]]"></gr-create-change-dialog>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-project-commands.js"></script>
+  <script src="gr-repo-commands.js"></script>
 </dom-module>

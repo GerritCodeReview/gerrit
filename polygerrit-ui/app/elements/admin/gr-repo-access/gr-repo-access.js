@@ -15,12 +15,12 @@
   'use strict';
 
   Polymer({
-    is: 'gr-project-access',
+    is: 'gr-repo-access',
 
     properties: {
-      project: {
+      repo: {
         type: String,
-        observer: '_projectChanged',
+        observer: '_repoChanged',
       },
       // The current path
       path: String,
@@ -49,15 +49,15 @@
     ],
 
     /**
-     * @param {string} project
+     * @param {string} repo
      * @return {!Promise}
      */
-    _projectChanged(project) {
-      if (!project) { return Promise.resolve(); }
+    _repoChanged(repo) {
+      if (!repo) { return Promise.resolve(); }
       const promises = [];
       // Always reset sections when a project changes.
       this._sections = [];
-      promises.push(this.$.restAPI.getProjectAccessRights(project).then(res => {
+      promises.push(this.$.restAPI.getRepoAccessRights(repo).then(res => {
         this._inheritsFrom = res.inherits_from;
         this._local = res.local;
         this._groups = res.groups;
@@ -68,7 +68,7 @@
         return res;
       }));
 
-      promises.push(this.$.restAPI.getProject(project).then(res => {
+      promises.push(this.$.restAPI.getRepo(project).then(res => {
         return res.labels;
       }));
 
@@ -87,9 +87,9 @@
       return isAdmin ? 'admin' : '';
     },
 
-    _computeParentHref(projectName) {
+    _computeParentHref(repoName) {
       return this.getBaseUrl() +
-          `/admin/projects/${this.encodeURL(projectName, true)},access`;
+          `/admin/repos/${this.encodeURL(repoName, true)},access`;
     },
   });
 })();

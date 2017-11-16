@@ -23,26 +23,26 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-create-project-dialog/gr-create-project-dialog.html">
+<link rel="import" href="../gr-create-repo-dialog/gr-create-repo-dialog.html">
 
 
-<dom-module id="gr-project-list">
+<dom-module id="gr-repo-list">
   <template>
     <style include="shared-styles"></style>
     <style include="gr-table-styles"></style>
     <gr-list-view
         create-new=[[_createNewCapability]]
         filter="[[_filter]]"
-        items-per-page="[[_projectsPerPage]]"
-        items="[[_projects]]"
+        items-per-page="[[_reposPerPage]]"
+        items="[[_repos]]"
         loading="[[_loading]]"
         offset="[[_offset]]"
         on-create-clicked="_handleCreateClicked"
         path="[[_path]]">
       <table id="list" class="genericList">
         <tr class="headerRow">
-          <th class="name topHeader">Project Name</th>
-          <th class="description topHeader">Project Description</th>
+          <th class="name topHeader">Repo Name</th>
+          <th class="description topHeader">Repo Description</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="readOnly topHeader">Read only</th>
         </tr>
@@ -50,10 +50,10 @@ limitations under the License.
           <td>Loading...</td>
         </tr>
         <tbody class$="[[computeLoadingClass(_loading)]]">
-          <template is="dom-repeat" items="[[_shownProjects]]">
+          <template is="dom-repeat" items="[[_shownRepos]]">
             <tr class="table">
               <td class="name">
-                <a href$="[[_computeProjectUrl(item.name)]]">[[item.name]]</a>
+                <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
               </td>
               <td class="description">[[item.description]]</td>
               <td class="repositoryBrowser">
@@ -77,22 +77,22 @@ limitations under the License.
       <gr-confirm-dialog
           id="createDialog"
           class="confirmDialog"
-          disabled="[[!_hasNewProjectName]]"
+          disabled="[[!_hasNewRepoName]]"
           confirm-label="Create"
-          on-confirm="_handleCreateProject"
+          on-confirm="_handleCreateRepo"
           on-cancel="_handleCloseCreate">
         <div class="header" slot="header">
           Create Project
         </div>
         <div class="main" slot="main">
-          <gr-create-project-dialog
-              has-new-project-name="{{_hasNewProjectName}}"
+          <gr-create-repo-dialog
+              has-new-repo-name="{{_hasNewRepoName}}"
               params="[[params]]"
-              id="createNewModal"></gr-create-project-dialog>
+              id="createNewModal"></gr-create-repo-dialog>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-project-list.js"></script>
+  <script src="gr-repo-list.js"></script>
 </dom-module>

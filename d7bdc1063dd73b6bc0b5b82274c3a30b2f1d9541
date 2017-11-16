@@ -93,6 +93,30 @@
       "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd365bc_d5158c6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-11-16T23:06:46Z",
+      "side": 1,
+      "message": "\u003e We need to find a solution that works for all database supported by Gerrit but I do not like the idea of simply reverting this to 256 and bringing back this limitation.\n\nMy main concern is to make it working on mysql, not to reduce the size to 256 :-)\n\nThinking about a possible solution I have the following idea: we can add another column\nfile_name_sha1 which is a hash of the file_name and use file_name_sha1 as a primary key\ncomponent instead of the file_name. The file_name column is still stored but is not part\nof the primary key. I think this can work.",
+      "parentUuid": "27f33d94_a4ce6895",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

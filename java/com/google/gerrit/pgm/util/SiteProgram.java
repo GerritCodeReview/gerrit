@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -183,6 +184,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new NotesMigration.Module());
+    modules.add(new GroupsMigration.Module());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

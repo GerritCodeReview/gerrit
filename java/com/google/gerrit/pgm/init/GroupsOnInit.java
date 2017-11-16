@@ -15,10 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -46,6 +42,7 @@ import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -76,20 +73,14 @@ public class GroupsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
-  private final boolean readFromNoteDb;
-  private final boolean writeGroupsToNoteDb;
+  private final GroupsMigration groupsMigration;
 
   @Inject
   public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
-    readFromNoteDb = flags.cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
-    // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
-    // have been addressed.
-    // Don't flip this flag in a production setting! We only added it to spread the implementation
-    // of groups in NoteDb among several changes which are gradually merged.
-    writeGroupsToNoteDb = flags.cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
+    this.groupsMigration = new GroupsMigration(flags.cfg);
   }
 
   /**
@@ -105,7 +96,7 @@ public class GroupsOnInit {
    */
   public InternalGroup getExistingGroup(ReviewDb db, GroupReference groupReference)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       return getExistingGroupFromNoteDb(groupReference);
     }
 
@@ -155,7 +146,7 @@ public class GroupsOnInit {
    */
   public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
       throws OrmException, IOException, ConfigInvalidException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       File allUsersRepoPath = getPathToAllUsersRepository();
       if (allUsersRepoPath != null) {
         try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
@@ -185,7 +176,7 @@ public class GroupsOnInit {
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account account)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
     addGroupMemberInReviewDb(db, groupUuid, account.getId());
-    if (!writeGroupsToNoteDb) {
+    if (!groupsMigration.writeToNoteDb()) {
       return;
     }
     addGroupMemberInNoteDb(groupUuid, account);

@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -78,6 +79,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
     install(new NotesMigration.Module());
+    install(new GroupsMigration.Module());
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);

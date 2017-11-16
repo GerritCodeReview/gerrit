@@ -15,9 +15,6 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -33,9 +30,9 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -46,7 +43,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -64,16 +60,16 @@ import org.eclipse.jgit.lib.Repository;
  */
 @Singleton
 public class Groups {
-  private final boolean readFromNoteDb;
+  private final GroupsMigration groupsMigration;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
 
   @Inject
   public Groups(
-      @GerritServerConfig Config config,
+      GroupsMigration groupsMigration,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName) {
-    readFromNoteDb = config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+    this.groupsMigration = groupsMigration;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
   }
@@ -108,7 +104,7 @@ public class Groups {
    */
   public Optional<InternalGroup> getGroup(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException, IOException, ConfigInvalidException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
         return getGroupFromNoteDb(allUsersRepo, groupUuid);
       }
@@ -185,7 +181,7 @@ public class Groups {
    */
   public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
       throws OrmException, IOException, ConfigInvalidException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
         return GroupNameNotes.loadAllGroupReferences(allUsersRepo).stream();
       }
@@ -281,7 +277,7 @@ public class Groups {
    */
   public Stream<AccountGroup.UUID> getExternalGroups(ReviewDb db)
       throws OrmException, IOException, ConfigInvalidException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
         return getExternalGroupsFromNoteDb(allUsersRepo);
       }
@@ -318,7 +314,7 @@ public class Groups {
    */
   public List<AccountGroupMemberAudit> getMembersAudit(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       // TODO(dborowitz): Implement.
       throw new OrmException("Audit logs not yet implemented in NoteDb");
     }
@@ -339,7 +335,7 @@ public class Groups {
    */
   public List<AccountGroupByIdAud> getSubgroupsAudit(ReviewDb db, AccountGroup.UUID groupUuid)
       throws OrmException {
-    if (readFromNoteDb) {
+    if (groupsMigration.readFromNoteDb()) {
       // TODO(dborowitz): Implement.
       throw new OrmException("Audit logs not yet implemented in NoteDb");
     }

@@ -14,10 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -49,6 +45,7 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -76,7 +73,7 @@ public class SchemaCreator {
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
-  private final boolean writeGroupsToNoteDb;
+  private final GroupsMigration groupsMigration;
 
   private final Config config;
   private final MetricMaker metricMaker;
@@ -93,6 +90,7 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
+      GroupsMigration gm,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
       NotesMigration migration,
@@ -106,6 +104,7 @@ public class SchemaCreator {
         au,
         dst,
         ic,
+        gm,
         config,
         metricMaker,
         migration,
@@ -121,6 +120,7 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
+      GroupsMigration gm,
       Config config,
       MetricMaker metricMaker,
       NotesMigration migration,
@@ -133,11 +133,7 @@ public class SchemaCreator {
     serverUser = au;
     dataSourceType = dst;
     indexCollection = ic;
-    // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
-    // have been addressed.
-    // Don't flip this flag in a production setting! We only added it to spread the implementation
-    // of groups in NoteDb among several changes which are gradually merged.
-    writeGroupsToNoteDb = config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
+    groupsMigration = gm;
 
     this.config = config;
     this.allProjectsName = apName;
@@ -217,7 +213,7 @@ public class SchemaCreator {
       throws OrmException, ConfigInvalidException, IOException {
     InternalGroup groupInReviewDb = createGroupInReviewDb(db, groupCreation, groupUpdate);
 
-    if (!writeGroupsToNoteDb) {
+    if (!groupsMigration.writeToNoteDb()) {
       index(groupInReviewDb);
       return;
     }

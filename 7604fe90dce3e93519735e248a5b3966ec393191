@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "0bbdc1a0_449a8ebc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T05:50:30Z",
+      "side": 1,
+      "message": "This is buildifier bug to accept both forms.",
+      "parentUuid": "b4935289_f6817e17",
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3588f276_3f7e3dfa",
         "filename": "javatests/com/google/gerrit/acceptance/server/project/BUILD",
         "patchSetId": 6

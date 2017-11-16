@@ -120,7 +120,7 @@ limitations under the License.
 
       test('A toggles overlay when logged in', done => {
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown')
+        sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates')
             .returns(Promise.resolve({isLatest: true}));
         element._change = {labels: {}};
         const openSpy = sandbox.spy(element, '_openReplyDialog');
@@ -967,7 +967,7 @@ limitations under the License.
     suite('reply dialog tests', () => {
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
-        sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
+        sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates',
             () => { return Promise.resolve({isLatest: true}); });
         element._change = {labels: {}};
       });
@@ -1018,7 +1018,7 @@ limitations under the License.
 
     suite('commit message expand/collapse', () => {
       setup(() => {
-        sandbox.stub(element, 'fetchIsLatestKnown',
+        sandbox.stub(element, 'fetchChangeUpdates',
             () => { return Promise.resolve({isLatest: false}); });
       });
 
@@ -1169,29 +1169,58 @@ limitations under the License.
         });
 
         test('_startUpdateCheckTimer negative delay', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown');
+          sandbox.stub(element, 'fetchChangeUpdates');
 
           element._serverConfig = {change: {update_delay: -1}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
-          assert.isFalse(element.fetchIsLatestKnown.called);
+          assert.isFalse(element.fetchChangeUpdates.called);
         });
 
         test('_startUpdateCheckTimer up-to-date', () => {
-          sandbox.stub(element, 'fetchIsLatestKnown',
+          sandbox.stub(element, 'fetchChangeUpdates',
               () => { return Promise.resolve({isLatest: true}); });
 
           element._serverConfig = {change: {update_delay: 12345}};
 
           assert.isTrue(element._startUpdateCheckTimer.called);
-          assert.isTrue(element.fetchIsLatestKnown.called);
+          assert.isTrue(element.fetchChangeUpdates.called);
           assert.equal(element.async.lastCall.args[1], 12345 * 1000);
         });
 
         test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-          sandbox.stub(element, 'fetchIsLatestKnown',
+          sandbox.stub(element, 'fetchChangeUpdates',
               () => { return Promise.resolve({isLatest: false}); });
-          element.addEventListener('show-alert', () => {
+          element.addEventListener('show-alert', e => {
+            assert.equal(e.detail.message,
+                'A newer patch set has been uploaded');
+            done();
+          });
+          element._serverConfig = {change: {update_delay: 12345}};
+        });
+
+        test('_startUpdateCheckTimer new status shows an alert', done => {
+          sandbox.stub(element, 'fetchChangeUpdates')
+              .returns(Promise.resolve({
+                isLatest: true,
+                newStatus: element.ChangeStatus.MERGED,
+              }));
+          element.addEventListener('show-alert', e => {
+            assert.equal(e.detail.message, 'This change has been merged');
+            done();
+          });
+          element._serverConfig = {change: {update_delay: 12345}};
+        });
+
+        test('_startUpdateCheckTimer new messages shows an alert', done => {
+          sandbox.stub(element, 'fetchChangeUpdates')
+              .returns(Promise.resolve({
+                isLatest: true,
+                newMessages: true,
+              }));
+          element.addEventListener('show-alert', e => {
+            assert.equal(e.detail.message,
+                'There are new messages on this change');
             done();
           });
           element._serverConfig = {change: {update_delay: 12345}};

@@ -14,8 +14,16 @@
 
 package com.google.gerrit.reviewdb.server;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
+import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 /** Static utilities for ReviewDb types. */
 public class ReviewDbUtil {
@@ -46,6 +54,23 @@ public class ReviewDbUtil {
       return ((DisallowReadFromChangesReviewDbWrapper) db).unsafeGetDelegate();
     }
     return db;
+  }
+
+  public static void checkColumns(Class<?> clazz, Integer... expected) {
+    Set<Integer> ids = new TreeSet<>();
+    for (Field f : clazz.getDeclaredFields()) {
+      Column col = f.getAnnotation(Column.class);
+      if (col != null) {
+        ids.add(col.id());
+      }
+    }
+    Set<Integer> expectedIds = Sets.newTreeSet(Arrays.asList(expected));
+    checkState(
+        ids.equals(expectedIds),
+        "Unexpected column set for %s: %s != %s",
+        clazz.getSimpleName(),
+        ids,
+        expectedIds);
   }
 
   private ReviewDbUtil() {}

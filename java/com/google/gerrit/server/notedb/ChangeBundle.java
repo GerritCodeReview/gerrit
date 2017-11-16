@@ -17,8 +17,8 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.TimeUtil.roundToSecond;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
@@ -71,7 +71,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * A bundle of all entities rooted at a single {@link Change} entity.
@@ -210,23 +209,6 @@ public class ChangeBundle {
     return ComparisonChain.start()
         .compare(a.getParentKey().get(), b.getParentKey().get())
         .compare(a.get(), b.get());
-  }
-
-  private static void checkColumns(Class<?> clazz, Integer... expected) {
-    Set<Integer> ids = new TreeSet<>();
-    for (Field f : clazz.getDeclaredFields()) {
-      Column col = f.getAnnotation(Column.class);
-      if (col != null) {
-        ids.add(col.id());
-      }
-    }
-    Set<Integer> expectedIds = Sets.newTreeSet(Arrays.asList(expected));
-    checkState(
-        ids.equals(expectedIds),
-        "Unexpected column set for %s: %s != %s",
-        clazz.getSimpleName(),
-        ids,
-        expectedIds);
   }
 
   static {

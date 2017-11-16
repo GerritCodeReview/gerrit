@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -37,6 +38,27 @@ import com.google.gwtorm.server.OrmException;
  */
 @AutoValue
 public abstract class GroupBundle {
+  static {
+    // Initialization-time checks that the column set hasn't changed since the
+    // last time this file was updated.
+    checkColumns(AccountGroup.NameKey.class, 1);
+    checkColumns(AccountGroup.UUID.class, 1);
+    checkColumns(AccountGroup.Id.class, 1);
+    checkColumns(AccountGroup.class, 1, 2, 4, 7, 9, 10, 11);
+
+    checkColumns(AccountGroupById.Key.class, 1, 2);
+    checkColumns(AccountGroupById.class, 1);
+
+    checkColumns(AccountGroupByIdAud.Key.class, 1, 2, 3);
+    checkColumns(AccountGroupByIdAud.class, 1, 2, 3, 4);
+
+    checkColumns(AccountGroupMember.Key.class, 1, 2);
+    checkColumns(AccountGroupMember.class, 1);
+
+    checkColumns(AccountGroupMemberAudit.Key.class, 1, 2, 3);
+    checkColumns(AccountGroupMemberAudit.class, 1, 2, 3, 4);
+  }
+
   public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id id) throws OrmException {
     AccountGroup group = db.accountGroups().get(id);
     if (group == null) {

@@ -225,7 +225,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
 
     private void blockReviewDbUpdates(boolean block) {
-      cfg.setBoolean("user", null, "readGroupsFromNoteDb", block);
+      cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", block);
     }
   }
 }

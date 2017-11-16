@@ -240,6 +240,7 @@ public class GroupNameNotes extends VersionedMetaData {
     }
 
     commit.setTreeId(noteMap.writeTree(inserter));
+    commit.setMessage(getCommitMessage());
 
     return true;
   }
@@ -293,5 +294,19 @@ public class GroupNameNotes extends VersionedMetaData {
     }
 
     return new GroupReference(new AccountGroup.UUID(uuid), name);
+  }
+
+  private String getCommitMessage() {
+    if (oldGroupName.isPresent() && newGroupName.isPresent()) {
+      return String.format(
+          "Rename group from '%s' to '%s'", oldGroupName.get(), newGroupName.get());
+    }
+    if (newGroupName.isPresent()) {
+      return String.format("Create group '%s'", newGroupName.get());
+    }
+    if (oldGroupName.isPresent()) {
+      return String.format("Delete group '%s'", oldGroupName.get());
+    }
+    return "No-op";
   }
 }

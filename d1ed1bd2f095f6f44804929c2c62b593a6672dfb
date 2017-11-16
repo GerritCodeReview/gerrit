@@ -22,6 +22,52 @@
       "revId": "d1ed1bd2f095f6f44804929c2c62b593a6672dfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf97c30_280d4b28",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-16T21:51:03Z",
+      "side": 1,
+      "message": "\u0027receive the following\u0027",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "d1ed1bd2f095f6f44804929c2c62b593a6672dfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "075c181b_6b740322",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-16T21:51:03Z",
+      "side": 1,
+      "message": "\u0027the following\u0027",
+      "range": {
+        "startLine": 49,
+        "startChar": 34,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "d1ed1bd2f095f6f44804929c2c62b593a6672dfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

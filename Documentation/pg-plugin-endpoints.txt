@@ -1,7 +1,5 @@
 = Gerrit Code Review - PolyGerrit Plugin Styling
 
-== Plugin endpoints
-
 Plugin should be html-based and imported following PolyGerrit's
 link:pg-plugin-dev.html#loading[dev guide].
 
@@ -20,6 +18,23 @@ Gerrit.install(plugin => {
 });
 ```
 
+== Default parameters
+All endpoints receive the following params, set as attributes to custom components
+that are instantiated at the endpoint:
+
+* `plugin`
++
+the current plugin instance, the one that is used by `Gerrit.install()`.
+
+* `content`
++
+decorated DOM Element, is only set for registrations that decorate existing
+components.
+
+== Plugin endpoints
+
+Following endpoints are available to plugins
+
 === change-view-integration
 Extension point is located between `Files` and `Messages` section on the change
 view page, and it may take full page's width. Primary purpose is to enable
@@ -30,3 +45,10 @@ Extension point is located on the bottom of the change view left panel, under
 `Label Status` and `Links` sections. It's width is equal to the left panel's and
 primary purpose is to enable plugins to add sections of metadata to the left
 panel.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]

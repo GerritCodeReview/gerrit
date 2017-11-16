@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "afba42bc_2283ff63",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T14:48:12Z",
+      "side": 1,
+      "message": "Good point. Actually the default RevWalk ordring is RevSort.NONE. I believe the current implementation makes that equivalent to COMMIT_TIME_DESC, but it is explicitly not guaranteed. It should definitely use COMMIT_TIME_DESC.",
+      "parentUuid": "b777e54d_664267e3",
+      "range": {
+        "startLine": 335,
+        "startChar": 72,
+        "endLine": 335,
+        "endChar": 82
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51fd0e08_5f442979",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5

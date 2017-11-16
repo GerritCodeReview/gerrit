@@ -1,0 +1,42 @@
+<dom-module id="sample-repo-command">
+  <script>
+    Gerrit.install(plugin => {
+      // High-level API
+      plugin.project()
+          .createCommand('Bork', (repoName, projectConfig) => {
+            if (repoName !== 'All-Projects') {
+              return false;
+            }
+          }).onTap(() => {
+            alert('Bork, bork!');
+          });
+
+      // Low-level API
+      plugin.registerCustomComponent(
+          'repo-command', 'repo-command-low');
+    });
+  </script>
+</dom-module>
+
+<!-- Low-level custom component for repo command. -->
+<dom-module id="repo-command-low">
+  <template>
+    <gr-repo-command
+        title="Low-level bork"
+        on-command-tap="_handleCommandTap">
+    </gr-repo-command>
+  </template>
+  <script>
+    Polymer({
+      is: 'repo-command-low',
+      attached() {
+        console.log(this.repoName);
+        console.log(this.config);
+        this.hidden = this.repoName !== 'All-Projects';
+      },
+      _handleCommandTap() {
+        alert('(softly) bork, bork.');
+      },
+    });
+  </script>
+</dom-module>

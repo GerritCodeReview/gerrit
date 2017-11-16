@@ -14,21 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 
-<dom-module id="gr-create-change-dialog">
+<dom-module id="gr-create-repo-dialog">
   <template>
     <style include="shared-styles"></style>
     <style include="gr-form-styles">
@@ -36,11 +34,10 @@ limitations under the License.
         display: inline-block;
       }
       input {
-        width: 25em;
+        width: 20em;
       }
       gr-autocomplete {
         border: none;
-        float: right;
         --gr-autocomplete: {
           border: 1px solid #d1d2d3;
           border-radius: 2px;
@@ -51,57 +48,57 @@ limitations under the License.
         }
       }
     </style>
+
     <div class="gr-form-styles">
       <div id="form">
         <section>
-          <span class="title">Select branch for new change</span>
+          <span class="title">Repo name</span>
+          <input is="iron-input"
+              id="repoNameInput"
+              autocomplete="on"
+              bind-value="{{_repoConfig.name}}">
+        </section>
+        <section>
+          <span class="title">Rights inherit from</span>
           <span class="value">
             <gr-autocomplete
-                id="branchInput"
-                text="{{branch}}"
+                id="rightsInheritFromInput"
+                text="{{_repoConfig.parent}}"
                 query="[[_query]]"
-                placeholder="Destination branch">
+                placeholder="Optional, defaults to 'All-Projects'">
             </gr-autocomplete>
           </span>
         </section>
         <section>
-          <span class="title">Enter topic for new change (optional)</span>
-          <input
-              is="iron-input"
-              id="tagNameInput"
-              bind-value="{{topic}}">
+          <span class="title">Create initial empty commit</span>
+          <span class="value">
+            <gr-select
+                id="initalCommit"
+                bind-value="{{_repoConfig.create_empty_commit}}">
+              <select>
+                <option value="false">False</option>
+                <option value="true">True</option>
+              </select>
+            </gr-select>
+          </span>
         </section>
         <section>
-          <span class="title">Description</span>
-          <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              autocomplete="on"
-              rows="4"
-              max-rows="15"
-              bind-value="{{subject}}"
-              placeholder="Insert the description of the change.">
-          </iron-autogrow-textarea>
-        </section>
-        <section>
-          <span class="title">Options</span>
-          <section>
-            <label for="privateChangeCheckBox">Private Change</label>
-            <input
-                type="checkbox"
-                id="privateChangeCheckBox"
-                checked$="[[_repoConfig.private_by_default.inherited_value]]">
-          </section>
-          <section>
-            <label for="wipChangeCheckBox">WIP Change</label>
-            <input
-                type="checkbox"
-                id="wipChangeCheckBox">
-          </section>
+          <span class="title">Only serve as parent for other repos</span>
+          <span class="value">
+            <gr-select
+                id="parentRepo"
+                is="gr-select"
+                bind-value="{{_repoConfig.permissions_only}}">
+              <select>
+                <option value="false">False</option>
+                <option value="true">True</option>
+              </select>
+            </gr-select>
+          </span>
         </section>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
-  <script src="gr-create-change-dialog.js"></script>
+  <script src="gr-create-repo-dialog.js"></script>
 </dom-module>

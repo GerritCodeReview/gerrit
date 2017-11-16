@@ -39,7 +39,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
-        getProjectBranches(input) {
+        getRepoBranches(input) {
           if (input.startsWith('test')) {
             return Promise.resolve([
               {

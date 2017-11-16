@@ -138,7 +138,7 @@ limitations under the License.
         '_handlePluginListFilterRoute',
         '_handlePluginListOffsetRoute',
         '_handlePluginListRoute',
-        '_handleProjectCommandsRoute',
+        '_handleRepoCommandsRoute',
         '_handleSettingsLegacyRoute',
         '_handleSettingsRoute',
       ];
@@ -156,12 +156,13 @@ limitations under the License.
         '_handleLegacyLinenum',
         '_handleImproperlyEncodedPlusRoute',
         '_handlePassThroughRoute',
-        '_handleProjectAccessRoute',
         '_handleProjectDashboardRoute',
-        '_handleProjectListFilterOffsetRoute',
-        '_handleProjectListFilterRoute',
-        '_handleProjectListOffsetRoute',
-        '_handleProjectRoute',
+        '_handleProjectsOldRoute',
+        '_handleRepoAccessRoute',
+        '_handleRepoListFilterOffsetRoute',
+        '_handleRepoListFilterRoute',
+        '_handleRepoListOffsetRoute',
+        '_handleRepoRoute',
         '_handleQueryLegacySuffixRoute',
         '_handleQueryRoute',
         '_handleRegisterRoute',
@@ -917,33 +918,33 @@ limitations under the License.
         });
       });
 
-      suite('project routes', () => {
-        test('_handleProjectRoute', () => {
+      suite('repo routes', () => {
+        test('_handleRepoRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectRoute', {
+          assertDataToParams(data, '_handleRepoRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project',
-            project: 4321,
+            adminView: 'gr-repo',
+            repo: 4321,
           });
         });
 
-        test('_handleProjectCommandsRoute', () => {
+        test('_handleRepoCommandsRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectCommandsRoute', {
+          assertDataToParams(data, '_handleRepoCommandsRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project-commands',
+            adminView: 'gr-repo-commands',
             detailType: 'commands',
-            project: 4321,
+            repo: 4321,
           });
         });
 
-        test('_handleProjectAccessRoute', () => {
+        test('_handleRepoAccessRoute', () => {
           const data = {params: {0: 4321}};
-          assertDataToParams(data, '_handleProjectAccessRoute', {
+          assertDataToParams(data, '_handleRepoAccessRoute', {
             view: Gerrit.Nav.View.ADMIN,
-            adminView: 'gr-project-access',
+            adminView: 'gr-repo-access',
             detailType: 'access',
-            project: 4321,
+            repo: 4321,
           });
         });
 
@@ -952,9 +953,9 @@ limitations under the License.
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'branches',
-              project: 4321,
+              repo: 4321,
               offset: 0,
               filter: null,
             });
@@ -962,33 +963,33 @@ limitations under the License.
             data.params[2] = 42;
             assertDataToParams(data, '_handleBranchListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'branches',
-              project: 4321,
+              repo: 4321,
               offset: 42,
               filter: null,
             });
           });
 
           test('_handleBranchListFilterOffsetRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'branches',
-              project: 4321,
+              repo: 4321,
               offset: 42,
               filter: 'foo',
             });
           });
 
           test('_handleBranchListFilterRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo'}};
+            const data = {params: {repo: 4321, filter: 'foo'}};
             assertDataToParams(data, '_handleBranchListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'branches',
-              project: 4321,
+              repo: 4321,
               filter: 'foo',
             });
           });
@@ -999,99 +1000,99 @@ limitations under the License.
             const data = {params: {0: 4321}};
             assertDataToParams(data, '_handleTagListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'tags',
-              project: 4321,
+              repo: 4321,
               offset: 0,
               filter: null,
             });
           });
 
           test('_handleTagListFilterOffsetRoute', () => {
-            const data = {params: {project: 4321, filter: 'foo', offset: 42}};
+            const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
             assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'tags',
-              project: 4321,
+              repo: 4321,
               offset: 42,
               filter: 'foo',
             });
           });
 
           test('_handleTagListFilterRoute', () => {
-            const data = {params: {project: 4321}};
+            const data = {params: {repo: 4321}};
             assertDataToParams(data, '_handleTagListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'tags',
-              project: 4321,
+              repo: 4321,
               filter: null,
             });
 
             data.params.filter = 'foo';
             assertDataToParams(data, '_handleTagListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-detail-list',
+              adminView: 'gr-repo-detail-list',
               detailType: 'tags',
-              project: 4321,
+              repo: 4321,
               filter: 'foo',
             });
           });
         });
 
-        suite('project list routes', () => {
-          test('_handleProjectListOffsetRoute', () => {
+        suite('repo list routes', () => {
+          test('_handleRepoListOffsetRoute', () => {
             const data = {params: {}};
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 0,
               filter: null,
               openCreateModal: false,
             });
 
             data.params[1] = 42;
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: null,
               openCreateModal: false,
             });
 
             data.hash = 'create';
-            assertDataToParams(data, '_handleProjectListOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: null,
               openCreateModal: true,
             });
           });
 
-          test('_handleProjectListFilterOffsetRoute', () => {
+          test('_handleRepoListFilterOffsetRoute', () => {
             const data = {params: {filter: 'foo', offset: 42}};
-            assertDataToParams(data, '_handleProjectListFilterOffsetRoute', {
+            assertDataToParams(data, '_handleRepoListFilterOffsetRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               offset: 42,
               filter: 'foo',
             });
           });
 
-          test('_handleProjectListFilterRoute', () => {
+          test('_handleRepoListFilterRoute', () => {
             const data = {params: {}};
-            assertDataToParams(data, '_handleProjectListFilterRoute', {
+            assertDataToParams(data, '_handleRepoListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               filter: null,
             });
 
             data.params.filter = 'foo';
-            assertDataToParams(data, '_handleProjectListFilterRoute', {
+            assertDataToParams(data, '_handleRepoListFilterRoute', {
               view: Gerrit.Nav.View.ADMIN,
-              adminView: 'gr-project-list',
+              adminView: 'gr-repo-list',
               filter: 'foo',
             });
           });

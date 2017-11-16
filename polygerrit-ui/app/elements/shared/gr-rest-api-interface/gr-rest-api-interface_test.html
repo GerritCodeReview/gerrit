@@ -799,9 +799,9 @@ limitations under the License.
           {reason: 'removal reason'}));
     });
 
-    test('createProject encodes name', () => {
+    test('createRepo encodes name', () => {
       const sendStub = sandbox.stub(element, 'send');
-      element.createProject({name: 'x/y'});
+      element.createRepo({name: 'x/y'});
       assert.equal(sendStub.lastCall.args[1], '/projects/x%2Fy');
     });
 
@@ -814,31 +814,31 @@ limitations under the License.
       });
     });
 
-    test('getProjects', () => {
+    test('getRepos', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getProjects('test', 25);
+      element.getRepos('test', 25);
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=0&m=test'));
 
-      element.getProjects(null, 25);
+      element.getRepos(null, 25);
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=0'));
 
-      element.getProjects('test', 25, 25);
+      element.getRepos('test', 25, 25);
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
     });
 
-    test('getProjects filter', () => {
+    test('getRepos filter', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getProjects('test/test/test', 25);
+      element.getRepos('test/test/test', 25);
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest'));
     });
 
-    test('getProjects filter regex', () => {
+    test('getRepos filter regex', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
-      element.getProjects('^test.*', 25);
+      element.getRepos('^test.*', 25);
       assert.isTrue(element._fetchSharedCacheURL.lastCall
           .calledWithExactly('/projects/?d&n=26&S=0&r=%5Etest.*'));
     });

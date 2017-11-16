@@ -55,31 +55,33 @@
     // Matches /admin/create-project
     LEGACY_CREATE_GROUP: /^\/admin\/create-group\/?$/,
 
-    // Matches /admin/projects/<project>
-    PROJECT: /^\/admin\/projects\/([^,]+)$/,
+    PROJECT_OLD: /^\/admin\/(projects)\/?(.+)?$/,
 
-    // Matches /admin/projects/<project>,commands.
-    PROJECT_COMMANDS: /^\/admin\/projects\/(.+),commands$/,
+    // Matches /admin/repos/<repo>
+    REPO: /^\/admin\/repos\/([^,]+)$/,
 
-    // Matches /admin/projects/<project>,access.
-    PROJECT_ACCESS: /^\/admin\/projects\/(.+),access$/,
+    // Matches /admin/repos/<repo>,commands.
+    REPO_COMMANDS: /^\/admin\/repos\/(.+),commands$/,
 
-    // Matches /admin/projects[,<offset>][/].
-    PROJECT_LIST_OFFSET: /^\/admin\/projects(,(\d+))?(\/)?$/,
-    PROJECT_LIST_FILTER: '/admin/projects/q/filter::filter',
-    PROJECT_LIST_FILTER_OFFSET: '/admin/projects/q/filter::filter,:offset',
+    // Matches /admin/repos/<repos>,access.
+    REPO_ACCESS: /^\/admin\/repos\/(.+),access$/,
 
-    // Matches /admin/projects/<project>,branches[,<offset>].
-    BRANCH_LIST_OFFSET: /^\/admin\/projects\/(.+),branches(,(.+))?$/,
-    BRANCH_LIST_FILTER: '/admin/projects/:project,branches/q/filter::filter',
+    // Matches /admin/repos[,<offset>][/].
+    REPO_LIST_OFFSET: /^\/admin\/repos(,(\d+))?(\/)?$/,
+    REPO_LIST_FILTER: '/admin/repos/q/filter::filter',
+    REPO_LIST_FILTER_OFFSET: '/admin/repos/q/filter::filter,:offset',
+
+    // Matches /admin/repos/<repo>,branches[,<offset>].
+    BRANCH_LIST_OFFSET: /^\/admin\/repos\/(.+),branches(,(.+))?$/,
+    BRANCH_LIST_FILTER: '/admin/repos/:repo,branches/q/filter::filter',
     BRANCH_LIST_FILTER_OFFSET:
-        '/admin/projects/:project,branches/q/filter::filter,:offset',
+        '/admin/repos/:repo,branches/q/filter::filter,:offset',
 
-    // Matches /admin/projects/<project>,tags[,<offset>].
-    TAG_LIST_OFFSET: /^\/admin\/projects\/(.+),tags(,(.+))?$/,
-    TAG_LIST_FILTER: '/admin/projects/:project,tags/q/filter::filter',
+    // Matches /admin/repos/<repo>,tags[,<offset>].
+    TAG_LIST_OFFSET: /^\/admin\/repos\/(.+),tags(,(.+))?$/,
+    TAG_LIST_FILTER: '/admin/repos/:repo,tags/q/filter::filter',
     TAG_LIST_FILTER_OFFSET:
-        '/admin/projects/:project,tags/q/filter::filter,:offset',
+        '/admin/repos/:repo,tags/q/filter::filter,:offset',
 
     PLUGINS: /^\/plugins\/(.+)$/,
 
@@ -576,11 +578,14 @@
 
       this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
 
-      this._mapRoute(RoutePattern.PROJECT_COMMANDS,
-          '_handleProjectCommandsRoute', true);
+      this._mapRoute(RoutePattern.PROJECT_OLD,
+          '_handleProjectsOldRoute');
 
-      this._mapRoute(RoutePattern.PROJECT_ACCESS,
-          '_handleProjectAccessRoute');
+      this._mapRoute(RoutePattern.REPO_COMMANDS,
+          '_handleRepoCommandsRoute', true);
+
+      this._mapRoute(RoutePattern.REPO_ACCESS,
+          '_handleRepoAccessRoute');
 
       this._mapRoute(RoutePattern.BRANCH_LIST_OFFSET,
           '_handleBranchListOffsetRoute');
@@ -606,16 +611,16 @@
       this._mapRoute(RoutePattern.LEGACY_CREATE_PROJECT,
           '_handleCreateProjectRoute', true);
 
-      this._mapRoute(RoutePattern.PROJECT_LIST_OFFSET,
-          '_handleProjectListOffsetRoute');
+      this._mapRoute(RoutePattern.REPO_LIST_OFFSET,
+          '_handleRepoListOffsetRoute');
 
-      this._mapRoute(RoutePattern.PROJECT_LIST_FILTER_OFFSET,
-          '_handleProjectListFilterOffsetRoute');
+      this._mapRoute(RoutePattern.REPO_LIST_FILTER_OFFSET,
+          '_handleRepoListFilterOffsetRoute');
 
-      this._mapRoute(RoutePattern.PROJECT_LIST_FILTER,
-          '_handleProjectListFilterRoute');
+      this._mapRoute(RoutePattern.REPO_LIST_FILTER,
+          '_handleRepoListFilterRoute');
 
-      this._mapRoute(RoutePattern.PROJECT, '_handleProjectRoute');
+      this._mapRoute(RoutePattern.REPO, '_handleRepoRoute');
 
       this._mapRoute(RoutePattern.PLUGINS, '_handlePassThroughRoute');
 
@@ -881,30 +886,38 @@
       });
     },
 
-    _handleProjectCommandsRoute(data) {
+    _handleProjectsOldRoute(data) {
+      if (data.params[1]) {
+        this._redirect('/admin/repos/' + encodeURIComponent(data.params[1]));
+      } else {
+        this._redirect('/admin/repos');
+      }
+    },
+
+    _handleRepoCommandsRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-commands',
+        adminView: 'gr-repo-commands',
         detailType: 'commands',
-        project: data.params[0],
+        repo: data.params[0],
       });
     },
 
-    _handleProjectAccessRoute(data) {
+    _handleRepoAccessRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-access',
+        adminView: 'gr-repo-access',
         detailType: 'access',
-        project: data.params[0],
+        repo: data.params[0],
       });
     },
 
     _handleBranchListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'branches',
-        project: data.params[0],
+        repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
       });
@@ -913,9 +926,9 @@
     _handleBranchListFilterOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'branches',
-        project: data.params.project,
+        repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
       });
@@ -924,9 +937,9 @@
     _handleBranchListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'branches',
-        project: data.params.project,
+        repo: data.params.repo,
         filter: data.params.filter || null,
       });
     },
@@ -934,9 +947,9 @@
     _handleTagListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'tags',
-        project: data.params[0],
+        repo: data.params[0],
         offset: data.params[2] || 0,
         filter: null,
       });
@@ -945,9 +958,9 @@
     _handleTagListFilterOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'tags',
-        project: data.params.project,
+        repo: data.params.repo,
         offset: data.params.offset,
         filter: data.params.filter,
       });
@@ -956,36 +969,36 @@
     _handleTagListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-detail-list',
+        adminView: 'gr-repo-detail-list',
         detailType: 'tags',
-        project: data.params.project,
+        repo: data.params.repo,
         filter: data.params.filter || null,
       });
     },
 
-    _handleProjectListOffsetRoute(data) {
+    _handleRepoListOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-list',
+        adminView: 'gr-repo-list',
         offset: data.params[1] || 0,
         filter: null,
         openCreateModal: data.hash === 'create',
       });
     },
 
-    _handleProjectListFilterOffsetRoute(data) {
+    _handleRepoListFilterOffsetRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-list',
+        adminView: 'gr-repo-list',
         offset: data.params.offset,
         filter: data.params.filter,
       });
     },
 
-    _handleProjectListFilterRoute(data) {
+    _handleRepoListFilterRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        adminView: 'gr-project-list',
+        adminView: 'gr-repo-list',
         filter: data.params.filter || null,
       });
     },
@@ -1002,11 +1015,11 @@
       this._redirect('/admin/groups#create');
     },
 
-    _handleProjectRoute(data) {
+    _handleRepoRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
-        project: data.params[0],
-        adminView: 'gr-project',
+        repo: data.params[0],
+        adminView: 'gr-repo',
       });
     },
 

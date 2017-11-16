@@ -234,32 +234,40 @@
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
-    getProject(project) {
+    getRepo(repo) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project));
+          '/projects/' + encodeURIComponent(repo));
     },
 
-    getProjectConfig(project) {
+    getProjectConfig(repo) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project) + '/config');
+          '/projects/' + encodeURIComponent(repo) + '/config');
     },
 
-    getProjectAccess(project) {
+    getRepoAccess(repo) {
+      // TODO: Rename rest api from project to repo
+      // once backend supports it.
       return this._fetchSharedCacheURL(
-          '/access/?project=' + encodeURIComponent(project));
+          '/access/?project=' + encodeURIComponent(repo));
     },
 
-    saveProjectConfig(project, config, opt_errFn, opt_ctx) {
-      const encodeName = encodeURIComponent(project);
+    saveRepoConfig(repo, config, opt_errFn, opt_ctx) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
+      const encodeName = encodeURIComponent(repo);
       return this.send('PUT', `/projects/${encodeName}/config`, config,
           opt_errFn, opt_ctx);
     },
 
-    runProjectGC(project, opt_errFn, opt_ctx) {
-      if (!project) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
+    runRepoGC(repo, opt_errFn, opt_ctx) {
+      if (!repo) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
+      const encodeName = encodeURIComponent(repo);
       return this.send('POST', `/projects/${encodeName}/gc`, '',
           opt_errFn, opt_ctx);
     },
@@ -269,8 +277,10 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
-    createProject(config, opt_errFn, opt_ctx) {
+    createRepo(config, opt_errFn, opt_ctx) {
       if (!config.name) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       const encodeName = encodeURIComponent(config.name);
       return this.send('PUT', `/projects/${encodeName}`, config, opt_errFn,
           opt_ctx);
@@ -294,16 +304,16 @@
     },
 
     /**
-     * @param {string} project
+     * @param {string} repo
      * @param {string} ref
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
-    deleteProjectBranches(project, ref, opt_errFn, opt_ctx) {
-      if (!project || !ref) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
+    deleteRepoBranches(repo, ref, opt_errFn, opt_ctx) {
+      if (!repo || !ref) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
+      const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
       return this.send('DELETE',
           `/projects/${encodeName}/branches/${encodeRef}`, '',
@@ -311,16 +321,16 @@
     },
 
     /**
-     * @param {string} project
+     * @param {string} repo
      * @param {string} ref
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
-    deleteProjectTags(project, ref, opt_errFn, opt_ctx) {
-      if (!project || !ref) {
-        return '';
-      }
-      const encodeName = encodeURIComponent(project);
+    deleteRepoTags(repo, ref, opt_errFn, opt_ctx) {
+      if (!repo || !ref) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
+      const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
       return this.send('DELETE',
           `/projects/${encodeName}/tags/${encodeRef}`, '',
@@ -334,8 +344,10 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
-    createProjectBranch(name, branch, revision, opt_errFn, opt_ctx) {
+    createRepoBranch(name, branch, revision, opt_errFn, opt_ctx) {
       if (!name || !branch || !revision) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       const encodeName = encodeURIComponent(name);
       const encodeBranch = encodeURIComponent(branch);
       return this.send('PUT',
@@ -350,8 +362,10 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {?=} opt_ctx
      */
-    createProjectTag(name, tag, revision, opt_errFn, opt_ctx) {
+    createRepoTag(name, tag, revision, opt_errFn, opt_ctx) {
       if (!name || !tag || !revision) { return ''; }
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       const encodeName = encodeURIComponent(name);
       const encodeTag = encodeURIComponent(tag);
       return this.send('PUT', `/projects/${encodeName}/tags/${encodeTag}`,
@@ -1060,54 +1074,62 @@
 
     /**
      * @param {string} filter
-     * @param {number} projectsPerPage
+     * @param {number} reposPerPage
      * @param {number=} opt_offset
      * @return {!Promise<?Object>}
      */
-    getProjects(filter, projectsPerPage, opt_offset) {
+    getRepos(filter, reposPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this._fetchSharedCacheURL(
-          `/projects/?d&n=${projectsPerPage + 1}&S=${offset}` +
+          `/projects/?d&n=${reposPerPage + 1}&S=${offset}` +
           this._computeFilter(filter)
       );
     },
 
-    setProjectHead(project, ref) {
+    setRepoHead(repo, ref) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this.send(
-          'PUT', `/projects/${encodeURIComponent(project)}/HEAD`, {ref});
+          'PUT', `/projects/${encodeURIComponent(repo)}/HEAD`, {ref});
     },
 
     /**
      * @param {string} filter
-     * @param {string} project
-     * @param {number} projectsBranchesPerPage
+     * @param {string} repo
+     * @param {number} reposBranchesPerPage
      * @param {number=} opt_offset
      * @return {!Promise<?Object>}
      */
-    getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
+    getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this.fetchJSON(
-          `/projects/${encodeURIComponent(project)}/branches` +
-          `?n=${projectsBranchesPerPage + 1}&S=${offset}` +
+          `/projects/${encodeURIComponent(repo)}/branches` +
+          `?n=${reposBranchesPerPage + 1}&S=${offset}` +
           this._computeFilter(filter)
       );
     },
 
     /**
      * @param {string} filter
-     * @param {string} project
-     * @param {number} projectsTagsPerPage
+     * @param {string} repo
+     * @param {number} reposTagsPerPage
      * @param {number=} opt_offset
      * @return {!Promise<?Object>}
      */
-    getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
+    getRepoTags(filter, repo, reposTagsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this.fetchJSON(
-          `/projects/${encodeURIComponent(project)}/tags` +
-          `?n=${projectsTagsPerPage + 1}&S=${offset}` +
+          `/projects/${encodeURIComponent(repo)}/tags` +
+          `?n=${reposTagsPerPage + 1}&S=${offset}` +
           this._computeFilter(filter)
       );
     },
@@ -1127,15 +1149,19 @@
       );
     },
 
-    getProjectAccessRights(projectName) {
+    getRepoAccessRights(repoName) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(projectName)}/access`);
+          `/projects/${encodeURIComponent(repoName)}/access`);
     },
 
-    setProjectAccessRights(projectName, projectInfo) {
+    setRepoAccessRights(repoName, repoInfo) {
+      // TODO: Rename rest api from /projects/ to /repos/
+      // once backend supports it.
       return this.send(
-          'POST', `/projects/${encodeURIComponent(projectName)}/access`,
-          projectInfo);
+          'POST', `/projects/${encodeURIComponent(repoName)}/access`,
+          repoInfo);
     },
 
     /**

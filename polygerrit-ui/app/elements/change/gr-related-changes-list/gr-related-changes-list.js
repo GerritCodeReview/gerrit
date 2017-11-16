@@ -76,6 +76,12 @@
     clear() {
       this.loading = true;
       this.hidden = true;
+
+      this._relatedResponse = {changes: []};
+      this._submittedTogether = [];
+      this._conflicts = [];
+      this._cherryPicks = [];
+      this._sameTopic = [];
     },
 
     reload() {

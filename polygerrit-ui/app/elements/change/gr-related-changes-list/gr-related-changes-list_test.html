@@ -337,12 +337,37 @@ limitations under the License.
           true);
     });
 
-    test('clear hides', () => {
+    test('clear and empties', () => {
+      const changes = [{
+        project: 'foo/bar',
+        change_id: 'Ideadbeef',
+        commit: {
+          commit: 'deadbeef',
+          parents: [{commit: 'abc123'}],
+          author: {},
+          subject: 'do that thing',
+        },
+        _change_number: 12345,
+        _revision_number: 1,
+        _current_revision_number: 1,
+        status: 'NEW',
+      }];
+      element._relatedResponse = {changes};
+      element._submittedTogether = changes;
+      element._conflicts = changes;
+      element._cherryPicks = changes;
+      element._sameTopic = changes;
+
       element.loading = false;
       element.hidden = false;
       element.clear();
       assert.isTrue(element.loading);
       assert.isTrue(element.hidden);
+      assert.equal(element._relatedResponse.changes.length, 0);
+      assert.equal(element._submittedTogether.length, 0);
+      assert.equal(element._conflicts.length, 0);
+      assert.equal(element._cherryPicks.length, 0);
+      assert.equal(element._sameTopic.length, 0);
     });
 
     test('update fires', () => {

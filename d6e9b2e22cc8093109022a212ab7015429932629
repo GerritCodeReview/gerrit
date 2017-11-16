@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e15df0e6_37a326ee",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T14:51:37Z",
+      "side": 1,
+      "message": "This is no longer applicable after a rebase.",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b777e54d_664267e3",
         "filename": "java/com/google/gerrit/server/group/db/Groups.java",
         "patchSetId": 5

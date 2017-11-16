@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -43,8 +44,14 @@ public class GroupsMigration {
     // NoteDb have been addressed.
     // Don't flip these flags in a production setting! We only added them to spread the
     // implementation of groups in NoteDb among several changes which are gradually merged.
-    this.writeToNoteDb = cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
-    this.readFromNoteDb = cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+    this(
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false),
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false));
+  }
+
+  public GroupsMigration(boolean writeToNoteDb, boolean readFromNoteDb) {
+    this.writeToNoteDb = writeToNoteDb;
+    this.readFromNoteDb = readFromNoteDb;
   }
 
   public boolean writeToNoteDb() {
@@ -53,5 +60,13 @@ public class GroupsMigration {
 
   public boolean readFromNoteDb() {
     return readFromNoteDb;
+  }
+
+  public void setConfigValuesIfNotSetYet(Config cfg) {
+    Set<String> subsections = cfg.getSubsections(SECTION_NOTE_DB);
+    if (!subsections.contains(GROUPS.key())) {
+      cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, writeToNoteDb());
+      cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, readFromNoteDb());
+    }
   }
 }

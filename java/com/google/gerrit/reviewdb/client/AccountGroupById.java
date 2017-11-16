@@ -88,4 +88,9 @@ public final class AccountGroupById {
   public int hashCode() {
     return key.hashCode();
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "{key=" + key + "}";
+  }
 }

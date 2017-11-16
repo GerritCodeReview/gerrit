@@ -15,26 +15,21 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.CommitUtil;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.ServerInitiated;
 import com.google.gerrit.server.group.db.GroupBundle;
-import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupRebuilder;
-import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -44,7 +39,6 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -71,8 +65,8 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
 
   @Inject @GerritServerId private String serverId;
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdate;
+  @Inject private GroupBundle.Factory bundleFactory;
   @Inject private GroupRebuilder rebuilder;
-  @Inject private Groups groups;
 
   @Before
   public void setTimeForTesting() {
@@ -88,10 +82,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   public void basicGroupProperties() throws Exception {
     GroupInfo createdGroup = gApi.groups().create(name("group")).get();
     try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
-      InternalGroup reviewDbGroup =
-          groups.getGroup(db, new AccountGroup.UUID(createdGroup.id)).get();
-      deleteGroupRefs(reviewDbGroup);
-      assertThat(removeRefState(rebuild(reviewDbGroup))).isEqualTo(roundToSecond(reviewDbGroup));
+      GroupBundle reviewDbBundle =
+          bundleFactory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
+      deleteGroupRefs(reviewDbBundle);
+
+      assertThat(rebuild(reviewDbBundle)).isEqualTo(reviewDbBundle.roundToSecond());
     }
   }
 
@@ -108,11 +103,12 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     gApi.groups().id(group1.id).addGroups(group2.id);
 
     try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
-      InternalGroup reviewDbGroup = groups.getGroup(db, new AccountGroup.UUID(group1.id)).get();
-      deleteGroupRefs(reviewDbGroup);
+      GroupBundle reviewDbBundle =
+          bundleFactory.fromReviewDb(db, new AccountGroup.Id(group1.groupId));
+      deleteGroupRefs(reviewDbBundle);
 
-      InternalGroup noteDbGroup = rebuild(reviewDbGroup);
-      assertThat(removeRefState(noteDbGroup)).isEqualTo(roundToSecond(reviewDbGroup));
+      GroupBundle noteDbBundle = rebuild(reviewDbBundle);
+      assertThat(noteDbBundle).isEqualTo(reviewDbBundle.roundToSecond());
 
       ImmutableList<CommitInfo> log = log(group1);
       assertThat(log).hasSize(4);
@@ -120,7 +116,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       assertThat(log.get(0)).message().isEqualTo("Create group");
       assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
       assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
-      assertThat(log.get(0)).author().date().isEqualTo(noteDbGroup.getCreatedOn());
+      assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
       assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.get().getTimeZoneOffset());
       assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
@@ -151,13 +147,9 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private static InternalGroup removeRefState(InternalGroup group) throws Exception {
-    return group.toBuilder().setRefState(null).build();
-  }
-
-  private void deleteGroupRefs(InternalGroup group) throws Exception {
+  private void deleteGroupRefs(GroupBundle bundle) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      String refName = RefNames.refsGroups(group.getGroupUUID());
+      String refName = RefNames.refsGroups(bundle.uuid());
       RefUpdate ru = repo.updateRef(refName);
       ru.setForceUpdate(true);
       Ref oldRef = repo.exactRef(refName);
@@ -170,28 +162,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private InternalGroup rebuild(InternalGroup group) throws Exception {
+  private GroupBundle rebuild(GroupBundle reviewDbBundle) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      rebuilder.rebuild(repo, GroupBundle.fromReviewDb(db, group.getId()), null);
-      GroupConfig groupConfig = GroupConfig.loadForGroup(repo, group.getGroupUUID());
-      Optional<InternalGroup> result = groupConfig.getLoadedGroup();
-      assertThat(result).isPresent();
-      return result.get();
+      rebuilder.rebuild(repo, reviewDbBundle, null);
+      return bundleFactory.fromNoteDb(repo, reviewDbBundle.uuid());
     }
-  }
-
-  private InternalGroup roundToSecond(InternalGroup g) {
-    return InternalGroup.builder()
-        .setId(g.getId())
-        .setNameKey(g.getNameKey())
-        .setDescription(g.getDescription())
-        .setOwnerGroupUUID(g.getOwnerGroupUUID())
-        .setVisibleToAll(g.isVisibleToAll())
-        .setGroupUUID(g.getGroupUUID())
-        .setCreatedOn(TimeUtil.roundToSecond(g.getCreatedOn()))
-        .setMembers(g.getMembers())
-        .setSubgroups(g.getSubgroups())
-        .build();
   }
 
   private ImmutableList<CommitInfo> log(GroupInfo g) throws Exception {

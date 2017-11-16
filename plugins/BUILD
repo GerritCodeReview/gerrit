@@ -7,7 +7,7 @@ load(
 
 genrule2(
     name = "core",
-    srcs = ["//plugins/%s:%s.jar" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
+    srcs = ["//plugins/%s:%s" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
     outs = ["core.zip"],
     cmd = "mkdir -p $$TMP/WEB-INF/plugins;" +
           "for s in $(SRCS) ; do " +

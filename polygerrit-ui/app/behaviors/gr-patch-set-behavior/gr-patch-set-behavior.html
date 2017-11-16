@@ -226,7 +226,11 @@ limitations under the License.
             }
             const actualLatest = Gerrit.PatchSetBehavior.computeLatestPatchNum(
                 Gerrit.PatchSetBehavior.computeAllPatchSets(detail));
-            return {isLatest: actualLatest <= knownLatest};
+            return {
+              isLatest: actualLatest <= knownLatest,
+              newStatus: change.status !== detail.status ? detail.status : null,
+              newMessages: change.messages.length < detail.messages.length,
+            };
           });
     },
 

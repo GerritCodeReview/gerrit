@@ -41,6 +41,14 @@
 
   const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
+  const ReloadToastMessage = {
+    NEWER_REVISION: 'A newer patch set has been uploaded',
+    RESTORED: 'This chnage has been restored',
+    ABANDONED: 'This chnage has been abandoned',
+    MERGED: 'This chnage has been merged',
+    NEW_MESSAGE: 'There are new messages on this change',
+  };
+
   Polymer({
     is: 'gr-change-view',
 
@@ -1243,21 +1251,35 @@
       this._updateCheckTimerHandle = this.async(() => {
         this.fetchIsLatestKnown(this._change, this.$.restAPI)
             .then(result => {
-              if (result.isLatest) {
-                this._startUpdateCheckTimer();
-              } else {
-                this._cancelUpdateCheckTimer();
-                this.fire('show-alert', {
-                  message: 'A newer patch set has been uploaded.',
-                  // Persist this alert.
-                  dismissOnNavigation: true,
-                  action: 'Reload',
-                  callback: function() {
-                    // Load the current change without any patch range.
-                    Gerrit.Nav.navigateToChange(this._change);
-                  }.bind(this),
-                });
+              let toastMessage = null;
+              if (!result.isLatest) {
+                toastMessage = ReloadToastMessage.NEWER_REVISION;
+              } else if (result.newStatus === this.ChangeStatus.MERGED) {
+                toastMessage = ReloadToastMessage.MERGED;
+              } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
+                toastMessage = ReloadToastMessage.ABANDONED;
+              } else if (result.newStatus === this.ChangeStatus.NEW) {
+                toastMessage = ReloadToastMessage.RESTORED;
+              } else if (result.newMessages) {
+                toastMessage = ReloadToastMessage.NEW_MESSAGE;
               }
+
+              if (!toastMessage) {
+                this._startUpdateCheckTimer();
+                return;
+              }
+
+              this._cancelUpdateCheckTimer();
+              this.fire('show-alert', {
+                message: toastMessage,
+                // Persist this alert.
+                dismissOnNavigation: true,
+                action: 'Reload',
+                callback: function() {
+                  // Load the current change without any patch range.
+                  Gerrit.Nav.navigateToChange(this._change);
+                }.bind(this),
+              });
             });
       }, this._serverConfig.change.update_delay * 1000);
     },

@@ -31,13 +31,21 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -48,6 +56,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -62,9 +71,13 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ReferenceManager;
 import org.apache.lucene.search.ReferenceManager.RefreshListener;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherFactory;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
@@ -300,6 +313,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return result;
   }
 
+  protected abstract V fromDocument(Document doc);
+
   void add(Document doc, Values<V> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
@@ -444,5 +459,77 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @Override
   public Schema<V> getSchema() {
     return schema;
+  }
+
+  protected class LuceneQuerySource implements DataSource<V> {
+    private final QueryOptions opts;
+    private final Query query;
+    private final Sort sort;
+
+    LuceneQuerySource(QueryOptions opts, Query query, Sort sort) {
+      this.opts = opts;
+      this.query = query;
+      this.sort = sort;
+    }
+
+    @Override
+    public int getCardinality() {
+      return 10;
+    }
+
+    @Override
+    public ResultSet<V> read() throws OrmException {
+      return readImpl((doc) -> fromDocument(doc));
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() throws OrmException {
+      return readImpl(AbstractLuceneIndex.this::toFieldBundle);
+    }
+
+    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
+      IndexSearcher searcher = null;
+      try {
+        searcher = acquire();
+        int realLimit = opts.start() + opts.limit();
+        TopFieldDocs docs = searcher.search(query, realLimit, sort);
+        List<T> result = new ArrayList<>(docs.scoreDocs.length);
+        for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
+          ScoreDoc sd = docs.scoreDocs[i];
+          Document doc = searcher.doc(sd.doc, opts.fields());
+          T mapperResult = mapper.apply(doc);
+          if (mapperResult != null) {
+            result.add(mapperResult);
+          }
+        }
+        final List<T> r = Collections.unmodifiableList(result);
+        return new ResultSet<T>() {
+          @Override
+          public Iterator<T> iterator() {
+            return r.iterator();
+          }
+
+          @Override
+          public List<T> toList() {
+            return r;
+          }
+
+          @Override
+          public void close() {
+            // Do nothing.
+          }
+        };
+      } catch (IOException e) {
+        throw new OrmException(e);
+      } finally {
+        if (searcher != null) {
+          try {
+            release(searcher);
+          } catch (IOException e) {
+            log.warn("cannot release Lucene searcher", e);
+          }
+        }
+      }
+    }
   }
 }

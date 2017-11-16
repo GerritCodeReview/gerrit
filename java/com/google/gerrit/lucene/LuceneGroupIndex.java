@@ -19,7 +19,6 @@ import static com.google.gerrit.server.index.group.GroupField.UUID;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -29,38 +28,24 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
-  private static final Logger log = LoggerFactory.getLogger(LuceneGroupIndex.class);
 
   private static final String GROUPS = "groups";
 
@@ -129,85 +114,14 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   @Override
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
-    return new QuerySource(
-        opts,
+    return new LuceneQuerySource(
+        opts.filterFields(IndexUtils::groupFields),
         queryBuilder.toQuery(p),
         new Sort(new SortField(UUID_SORT_FIELD, SortField.Type.STRING, false)));
   }
 
-  private class QuerySource implements DataSource<InternalGroup> {
-    private final QueryOptions opts;
-    private final Query query;
-    private final Sort sort;
-
-    private QuerySource(QueryOptions opts, Query query, Sort sort) {
-      this.opts = opts;
-      this.query = query;
-      this.sort = sort;
-    }
-
-    @Override
-    public int getCardinality() {
-      return 10;
-    }
-
-    @Override
-    public ResultSet<InternalGroup> read() throws OrmException {
-      return readImpl(LuceneGroupIndex.this::toInternalGroup);
-    }
-
-    @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
-      return readImpl(LuceneGroupIndex.this::toFieldBundle);
-    }
-
-    private <T> ResultSet<T> readImpl(Function<Document, T> mapper) throws OrmException {
-      IndexSearcher searcher = null;
-      try {
-        searcher = acquire();
-        int realLimit = opts.start() + opts.limit();
-        TopFieldDocs docs = searcher.search(query, realLimit, sort);
-        List<T> result = new ArrayList<>(docs.scoreDocs.length);
-        for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
-          ScoreDoc sd = docs.scoreDocs[i];
-          Document doc = searcher.doc(sd.doc, IndexUtils.groupFields(opts));
-          T mapperResult = mapper.apply(doc);
-          if (mapperResult != null) {
-            result.add(mapperResult);
-          }
-        }
-        final List<T> r = Collections.unmodifiableList(result);
-        return new ResultSet<T>() {
-          @Override
-          public Iterator<T> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<T> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
-      } catch (IOException e) {
-        throw new OrmException(e);
-      } finally {
-        if (searcher != null) {
-          try {
-            release(searcher);
-          } catch (IOException e) {
-            log.warn("cannot release Lucene searcher", e);
-          }
-        }
-      }
-    }
-  }
-
-  private InternalGroup toInternalGroup(Document doc) {
+  @Override
+  protected InternalGroup fromDocument(Document doc) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).

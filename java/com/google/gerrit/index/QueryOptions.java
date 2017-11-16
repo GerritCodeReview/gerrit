@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import java.util.Set;
+import java.util.function.Function;
 
 @AutoValue
 public abstract class QueryOptions {
@@ -52,5 +53,9 @@ public abstract class QueryOptions {
 
   public QueryOptions withStart(int newStart) {
     return create(config(), newStart, limit(), fields());
+  }
+
+  public QueryOptions filterFields(Function<QueryOptions, Set<String>> filter) {
+    return create(config(), start(), limit(), filter.apply(this));
   }
 }

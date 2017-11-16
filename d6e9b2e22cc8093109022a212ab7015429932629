@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b91ad438_c41d65d9",
+        "filename": "java/com/google/gerrit/server/group/db/AuditLogReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-16T14:43:46Z",
+      "side": 1,
+      "message": "opt: I can\u0027t help but think that this would be simpler follow if you just had a function\n\n  List\u003cParsedCommit\u003e parseCommits(UUID id)\n\nand then two functions\n\n  List\u003cAccountGroupMemberAudit\u003e getMemberAuditLog(List\u003cParsedCommit\u003e commits) {\n     ListMultimap\u003cMemberKey, AccountGroupMemberAudit\u003e audits \u003d\n        MultimapBuilder.hashKeys().linkedListValues().build();\n     ..\n   }\n  \n  List\u003cAccountGroupByIdAdit\u003e getSubgroupAuditLog(List\u003cParsedCommit\u003e commits)",
+      "range": {
+        "startLine": 167,
+        "startChar": 25,
+        "endLine": 167,
+        "endChar": 34
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b777e54d_664267e3",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-11-16T14:43:46Z",
+      "side": 1,
+      "message": "you\u0027re sorting by topo order in the notedb flavor; wouldn\u0027t it be more consistent to use COMMIT_TIME_DESC there?",
+      "range": {
+        "startLine": 335,
+        "startChar": 72,
+        "endLine": 335,
+        "endChar": 82
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51fd0e08_5f442979",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5

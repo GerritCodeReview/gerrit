@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.sha1;
+
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -58,8 +60,8 @@ public class Schema_127 extends SchemaVersion {
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
+                    + "(account_id, change_id, patch_set_id, file_name_sha1, file_name) VALUES "
+                    + "(?, ?, ?, ?, ?)")) {
       int batchCount = 0;
 
       try (Statement s = newStatement(db);
@@ -68,7 +70,8 @@ public class Schema_127 extends SchemaVersion {
           stmt.setInt(1, rs.getInt("account_id"));
           stmt.setInt(2, rs.getInt("change_id"));
           stmt.setInt(3, rs.getInt("patch_set_id"));
-          stmt.setString(4, rs.getString("file_name"));
+          stmt.setString(4, sha1(rs.getString("file_name")));
+          stmt.setString(5, rs.getString("file_name"));
           stmt.addBatch();
           batchCount++;
           if (batchCount >= MAX_BATCH_SIZE) {

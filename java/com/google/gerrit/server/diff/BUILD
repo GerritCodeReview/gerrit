@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/server/ioutil",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
+        "//lib:gwtorm",
         "//lib:juniversalchardet",
         "//lib/auto:auto-value",
         "//lib/jgit/org.eclipse.jgit:jgit",

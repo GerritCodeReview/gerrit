@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf2045c1_6d923648",
+        "filename": "java/com/google/gerrit/sshd/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T09:01:28Z",
+      "side": 1,
+      "message": "Swap the order.",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "f3956ae81b4d819b4781d3e1c818ed534471feaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

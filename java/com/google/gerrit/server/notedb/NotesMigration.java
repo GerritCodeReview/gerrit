@@ -54,12 +54,12 @@ import org.eclipse.jgit.lib.Config;
  */
 public abstract class NotesMigration {
   public static final String SECTION_NOTE_DB = "noteDb";
+  public static final String READ = "read";
+  public static final String WRITE = "write";
 
   private static final String DISABLE_REVIEW_DB = "disableReviewDb";
   private static final String PRIMARY_STORAGE = "primaryStorage";
-  private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
-  private static final String WRITE = "write";
 
   public static class Module extends AbstractModule {
     @Override

@@ -15,6 +15,10 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.READ;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -80,12 +84,12 @@ public class GroupsOnInit {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
-    readFromNoteDb = flags.cfg.getBoolean("user", null, "readGroupsFromNoteDb", false);
+    readFromNoteDb = flags.cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
     // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
     // have been addressed.
     // Don't flip this flag in a production setting! We only added it to spread the implementation
     // of groups in NoteDb among several changes which are gradually merged.
-    writeGroupsToNoteDb = flags.cfg.getBoolean("user", null, "writeGroupsToNoteDb", false);
+    writeGroupsToNoteDb = flags.cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
   }
 
   /**

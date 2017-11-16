@@ -17,6 +17,9 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.READ;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -64,8 +67,8 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   public static Config defaultConfig() {
     Config config = new Config();
     // This test is explicitly testing the migration from ReviewDb to NoteDb, and handles reading
-    // from NoteDb manually. It should work regardless of the value of writeGroupsToNoteDb, however.
-    config.setBoolean("user", null, "readGroupsFromNoteDb", false);
+    // from NoteDb manually. It should work regardless of the value of noteDb.groups.write, however.
+    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
     return config;
   }
 

@@ -15,6 +15,9 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.READ;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -70,7 +73,7 @@ public class Groups {
       @GerritServerConfig Config config,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName) {
-    readFromNoteDb = config.getBoolean("user", null, "readGroupsFromNoteDb", false);
+    readFromNoteDb = config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
   }

@@ -14,14 +14,11 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
-import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -32,31 +29,18 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
@@ -70,8 +54,6 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
   static final String GROUPS = "groups";
   static final String GROUPS_PREFIX = GROUPS + "_";
-
-  private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
@@ -109,7 +91,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   @Override
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
-    return new QuerySource(p, opts);
+    Sort sort = new Sort(GroupField.UUID.getName(), Sort.Sorting.ASC);
+    sort.setIgnoreUnmapped();
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), GROUPS, sort);
   }
 
   @Override
@@ -128,104 +112,18 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     return group.getGroupUUID().get();
   }
 
-  private class QuerySource implements DataSource<InternalGroup> {
-    private final Search search;
-    private final Set<String> fields;
-
-    QuerySource(Predicate<InternalGroup> p, QueryOptions opts) throws QueryParseException {
-      QueryBuilder qb = queryBuilder.toQueryBuilder(p);
-      fields = IndexUtils.groupFields(opts);
-      SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
-              .query(qb)
-              .from(opts.start())
-              .size(opts.limit())
-              .fields(Lists.newArrayList(fields));
-
-      Sort sort = new Sort(GroupField.UUID.getName(), Sorting.ASC);
-      sort.setIgnoreUnmapped();
-
-      search =
-          new Search.Builder(searchSource.toString())
-              .addType(GROUPS)
-              .addIndex(indexName)
-              .addSort(ImmutableList.of(sort))
-              .build();
+  @Override
+  protected InternalGroup fromDocument(JsonObject json, Set<String> fields) {
+    JsonElement source = json.get("_source");
+    if (source == null) {
+      source = json.getAsJsonObject().get("fields");
     }
 
-    @Override
-    public int getCardinality() {
-      return 10;
-    }
-
-    @Override
-    public ResultSet<InternalGroup> read() throws OrmException {
-      return readImpl(this::toInternalGroup);
-    }
-
-    @Override
-    public ResultSet<FieldBundle> readRaw() throws OrmException {
-      return readImpl(ElasticGroupIndex.this::toFieldBundle);
-    }
-
-    @Override
-    public String toString() {
-      return search.toString();
-    }
-
-    private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) throws OrmException {
-      try {
-        List<T> results = Collections.emptyList();
-        JestResult result = client.execute(search);
-        if (result.isSucceeded()) {
-          JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
-          if (obj.get("hits") != null) {
-            JsonArray json = obj.getAsJsonArray("hits");
-            results = Lists.newArrayListWithCapacity(json.size());
-            for (int i = 0; i < json.size(); i++) {
-              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
-              if (mapperResult != null) {
-                results.add(mapperResult);
-              }
-            }
-          }
-        } else {
-          log.error(result.getErrorMessage());
-        }
-        final List<T> r = Collections.unmodifiableList(results);
-        return new ResultSet<T>() {
-          @Override
-          public Iterator<T> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<T> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-    }
-
-    private InternalGroup toInternalGroup(JsonObject json) {
-      JsonElement source = json.get("_source");
-      if (source == null) {
-        source = json.getAsJsonObject().get("fields");
-      }
-
-      AccountGroup.UUID uuid =
-          new AccountGroup.UUID(
-              source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
-      // Use the GroupCache rather than depending on any stored fields in the
-      // document (of which there shouldn't be any).
-      return groupCache.get().get(uuid).orElse(null);
-    }
+    AccountGroup.UUID uuid =
+        new AccountGroup.UUID(
+            source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
+    // Use the GroupCache rather than depending on any stored fields in the
+    // document (of which there shouldn't be any).
+    return groupCache.get().get(uuid).orElse(null);
   }
 }

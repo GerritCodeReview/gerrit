@@ -200,6 +200,30 @@
       "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db01279_7d4200b0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-16T14:05:07Z",
+      "side": 1,
+      "message": "... also name(\"bar\") was used elsewhere in the method.",
+      "parentUuid": "250ce940_cec8715a",
+      "range": {
+        "startLine": 849,
+        "startChar": 61,
+        "endLine": 849,
+        "endChar": 63
+      },
+      "revId": "510c9a4385042f6d270e72453bad4ad86a99979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

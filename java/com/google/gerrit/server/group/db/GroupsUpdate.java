@@ -16,9 +16,6 @@ package com.google.gerrit.server.group.db;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.group.db.Groups.getExistingGroupFromReviewDb;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -51,6 +48,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -107,8 +105,8 @@ public class GroupsUpdate {
   @Nullable private final IdentifiedUser currentUser;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
+  private final GroupsMigration groupsMigration;
   private final GitReferenceUpdated gitRefUpdated;
-  private final boolean writeGroupsToNoteDb;
   private final boolean reviewDbUpdatesAreBlocked;
 
   @Inject
@@ -124,6 +122,7 @@ public class GroupsUpdate {
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
+      GroupsMigration groupsMigration,
       @GerritServerConfig Config config,
       GitReferenceUpdated gitRefUpdated,
       @Assisted @Nullable IdentifiedUser currentUser) {
@@ -136,18 +135,13 @@ public class GroupsUpdate {
     this.anonymousCowardName = anonymousCowardName;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.serverId = serverId;
+    this.groupsMigration = groupsMigration;
     this.gitRefUpdated = gitRefUpdated;
     this.currentUser = currentUser;
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(
             metaDataUpdateInternalFactory, currentUser, serverIdent, serverId, anonymousCowardName);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
-    // TODO(aliceks): Remove this flag when all other necessary TODOs for writing groups to NoteDb
-    // have been addressed.
-    // Don't flip this flag in a production setting! We only added it to spread the implementation
-    // of groups in NoteDb among several changes which are gradually merged.
-    writeGroupsToNoteDb = config.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
-
     reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
 
@@ -212,7 +206,7 @@ public class GroupsUpdate {
       throws OrmException, IOException, ConfigInvalidException {
     InternalGroup createdGroupInReviewDb = createGroupInReviewDb(db, groupCreation, groupUpdate);
 
-    if (!writeGroupsToNoteDb) {
+    if (!groupsMigration.writeToNoteDb()) {
       updateCachesOnGroupCreation(createdGroupInReviewDb);
       return createdGroupInReviewDb;
     }
@@ -249,7 +243,7 @@ public class GroupsUpdate {
     AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
     UpdateResult reviewDbUpdateResult = updateGroupInReviewDb(db, group, groupUpdate);
 
-    if (!writeGroupsToNoteDb) {
+    if (!groupsMigration.writeToNoteDb()) {
       return reviewDbUpdateResult;
     }
 

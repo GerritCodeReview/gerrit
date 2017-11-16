@@ -22,6 +22,30 @@
       "revId": "e1d26e51f79d5968e99d369c93159d9997378550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42268eb_44980959",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-11-16T01:08:56Z",
+      "side": 1,
+      "message": "Thanks, Done.\n\nNot sure if I should move class outside of id now? I forgot why it is there but I think it’s there for a reason. Not sure if I can specify mutiple values for class here if it’s not like class$\u003d“”",
+      "parentUuid": "9a156291_2a95f8a8",
+      "range": {
+        "startLine": 161,
+        "startChar": 23,
+        "endLine": 161,
+        "endChar": 38
+      },
+      "revId": "e1d26e51f79d5968e99d369c93159d9997378550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

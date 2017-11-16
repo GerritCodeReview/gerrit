@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3829dcf_94709241",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T23:44:28Z",
+      "side": 1,
+      "message": "Nit, follow with a period.",
+      "range": {
+        "startLine": 13,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0081e5a7_d271c6e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T23:44:28Z",
+      "side": 1,
+      "message": "It seems odd to me to use a \"curried\" function like this. What if this were just one function that takes all three args?\n\n/**\n * The only line in which add a comment tooltip [..]\n */\n_positionActionBox(actionBox, startLine, range) {\n  if (startLine \u003e 1) {\n    actionBox.placeAbove(range);\n    return;\n  }\n  actionBox.positionBelow \u003d true;\n  actionBox.placeBelow(range);\n}",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 263,
+        "endChar": 6
+      },
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "141893d9_4a6d0132",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T23:44:28Z",
+      "side": 1,
+      "message": "Nit: remove blank line.",
+      "revId": "87d18ba52cda51d9fd3a3d5ceb21e9961ef14f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -650,7 +650,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "user.writeGroupsToNoteDb", value = "true")
-  public void hideMetaRefs() throws Exception {
+  public void hideMetadata() throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
       // create change

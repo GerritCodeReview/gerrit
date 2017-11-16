@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "bbbf21e8_26776569",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-11-16T20:32:34Z",
+      "side": 1,
+      "message": "Core plugins are submodules, with plugin java source code. Those core plugins are defined here, and gerrit build process aware of them and the core plugin final artifacts (JAR files) are provided in gerrit.war. You can use `java -jar gerrit.war ls` to list te content of gerrit and the core plugins are shown.\n\nUntil now, we only define core java plugins. Example: replication plugin.\n\nWenn site admin first time initialize gerrit.war, by running:\n\n  $ java -jar gerrit.war init -d \u003csite_path\u003e\n\nshe is asked whether or not core plugins should be installed. So far, all core plugins don\u0027t have any external dependency. There is one excepton, though: replication plugin.\n\nHowever, the dependency, that is needed for replication plugin to work properly (commons-io.jar) is *not* shipped within gerrit.war but included as shaded JAR in the replication plugin itself.\n\nBut, because all core plugins are built during normal gerrit build process, and because, in Bazel, all external dependency must be specified in analysis phase, it must be specified in gerrit own WORKSPACE file: [2], so that the plugin can specify this transitive dependency in its own build process that is done here: [3].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/tools/bzl/plugins.bzl#L1-L8\n* [2] https://github.com/GerritCodeReview/gerrit/blob/master/WORKSPACE#L878-L882\n* [3] https://github.com/GerritCodeReview/plugins_replication/blob/master/BUILD#L17",
+      "parentUuid": "660182f7_30fc0de0",
+      "revId": "40de18c7e48bc0ddfc640c976f2ca8bf91ae655a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78bc3262_ca22f529",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 2

@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
@@ -101,13 +100,13 @@ public abstract class GroupBundle {
 
   public abstract AccountGroup group();
 
-  public abstract ImmutableList<AccountGroupMember> members();
+  public abstract ImmutableSet<AccountGroupMember> members();
 
-  public abstract ImmutableList<AccountGroupMemberAudit> memberAudit();
+  public abstract ImmutableSet<AccountGroupMemberAudit> memberAudit();
 
-  public abstract ImmutableList<AccountGroupById> byId();
+  public abstract ImmutableSet<AccountGroupById> byId();
 
-  public abstract ImmutableList<AccountGroupByIdAud> byIdAudit();
+  public abstract ImmutableSet<AccountGroupByIdAud> byIdAudit();
 
   public abstract Builder toBuilder();
 
@@ -119,8 +118,8 @@ public abstract class GroupBundle {
     return toBuilder()
         .group(newGroup)
         .memberAudit(
-            memberAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableList()))
-        .byIdAudit(byIdAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableList()))
+            memberAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableSet()))
+        .byIdAudit(byIdAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableSet()))
         .build();
   }
 

@@ -113,6 +113,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.GroupNoteDbMode;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TempFileUtil;
@@ -321,6 +322,7 @@ public abstract class AbstractDaemonTest {
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
 
+    GroupNoteDbMode.get().getGroupsMigration().setConfigValues(baseConfig);
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {

@@ -43,8 +43,14 @@ public class GroupsMigration {
     // NoteDb have been addressed.
     // Don't flip these flags in a production setting! We only added them to spread the
     // implementation of groups in NoteDb among several changes which are gradually merged.
-    this.writeToNoteDb = cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
-    this.readFromNoteDb = cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
+    this(
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false),
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false));
+  }
+
+  public GroupsMigration(boolean writeToNoteDb, boolean readFromNoteDb) {
+    this.writeToNoteDb = writeToNoteDb;
+    this.readFromNoteDb = readFromNoteDb;
   }
 
   public boolean writeToNoteDb() {
@@ -53,5 +59,10 @@ public class GroupsMigration {
 
   public boolean readFromNoteDb() {
     return readFromNoteDb;
+  }
+
+  public void setConfigValues(Config cfg) {
+    cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, writeToNoteDb());
+    cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, readFromNoteDb());
   }
 }

@@ -20,10 +20,6 @@ def define_bower_components():
     license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
-    name = "codemirror-minified",
-    license = "//lib:LICENSE-codemirror-minified",
-  )
-  bower_component(
     name = "es6-promise",
     license = "//lib:LICENSE-es6-promise",
     seed = True,

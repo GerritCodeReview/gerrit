@@ -1,3 +1,8 @@
+[submodule "plugins/codemirror-editor"]
+	path = plugins/codemirror-editor
+	url = ../plugins/codemirror-editor
+	branch = .
+	
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
 	url = ../plugins/commit-message-length-validator

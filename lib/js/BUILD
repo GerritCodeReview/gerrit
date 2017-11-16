@@ -35,3 +35,8 @@ filegroup(
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
 )
+
+bower_component(
+    name = "codemirror-minified",
+    license = "//lib:LICENSE-codemirror-minified",
+)

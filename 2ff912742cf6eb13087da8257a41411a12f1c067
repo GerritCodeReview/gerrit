@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3962566_5b588052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T00:16:38Z",
+      "side": 1,
+      "message": "Maybe, \"if it\u0027s allowed\"?\n\nSince this change uses the `editable_account_fields` thing maybe there are other reasons for when the username can or cannot be modified.",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "2ff912742cf6eb13087da8257a41411a12f1c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2576050_3ba1e3fd",
         "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.js",
         "patchSetId": 1

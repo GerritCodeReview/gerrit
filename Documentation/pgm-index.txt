@@ -44,6 +44,9 @@ link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
 	Migrates AccountPatchReviewDb from one database backend to another.
 
+link:pgm-UpdateAccountPatchReviewDb.html[UpdateAccountPatchReviewDb]::
+	Updates schema of the current AccountPatchReviewDb.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -14,45 +14,29 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.auto.value.AutoValue;
+import static com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.sha1;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
-import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.config.ThreadSettingsConfig;
-import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
-import com.google.inject.Injector;
-import com.google.inject.Key;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 /** Migrates AccountPatchReviewDb from one to another */
-public class MigrateAccountPatchReviewDb extends SiteProgram {
+public class MigrateAccountPatchReviewDb extends BaseAccountPathReviewDbMigration {
 
   @Option(name = "--sourceUrl", usage = "Url of source database")
   private String sourceUrl;
 
-  @Option(
-    name = "--chunkSize",
-    usage = "chunk size of fetching from source and push to target on each time"
-  )
-  private static long chunkSize = 100000;
-
   @Override
-  public int run() throws Exception {
-    Injector dbInjector = createDbInjector(DataSourceProvider.Context.SINGLE_USER);
-    SitePaths sitePaths = new SitePaths(getSitePath());
-    ThreadSettingsConfig threadSettingsConfig = dbInjector.getInstance(ThreadSettingsConfig.class);
+  protected int migrate() throws Exception {
     Config fakeCfg = new Config();
     if (!Strings.isNullOrEmpty(sourceUrl)) {
       fakeCfg.setString("accountPatchReviewDb", null, "url", sourceUrl);
@@ -61,7 +45,6 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
         JdbcAccountPatchReviewStore.createAccountPatchReviewStore(
             fakeCfg, sitePaths, threadSettingsConfig);
 
-    Config cfg = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String targetUrl = cfg.getString("accountPatchReviewDb", null, "url");
     if (targetUrl == null) {
       System.err.println("accountPatchReviewDb.url is null in gerrit.config");
@@ -89,8 +72,8 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
         PreparedStatement targetStmt =
             targetCon.prepareStatement(
                 "INSERT INTO account_patch_reviews "
-                    + "(account_id, change_id, patch_set_id, file_name) VALUES "
-                    + "(?, ?, ?, ?)")) {
+                    + "(account_id, change_id, patch_set_id, file_name_sha1, file_name) VALUES "
+                    + "(?, ?, ?, ?, ?)")) {
       targetCon.setAutoCommit(false);
       long offset = 0;
       Stopwatch sw = Stopwatch.createStarted();
@@ -107,17 +90,6 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     return 0;
   }
 
-  @AutoValue
-  abstract static class Row {
-    abstract int accountId();
-
-    abstract int changeId();
-
-    abstract int patchSetId();
-
-    abstract String fileName();
-  }
-
   private static boolean isTargetTableEmpty(JdbcAccountPatchReviewStore store) throws SQLException {
     try (Connection con = store.getConnection();
         Statement s = con.createStatement();
@@ -129,30 +101,14 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
     }
   }
 
-  private static List<Row> selectRows(PreparedStatement stmt, long offset) throws SQLException {
-    List<Row> results = new ArrayList<>();
-    stmt.setLong(1, chunkSize);
-    stmt.setLong(2, offset);
-    try (ResultSet rs = stmt.executeQuery()) {
-      while (rs.next()) {
-        results.add(
-            new AutoValue_MigrateAccountPatchReviewDb_Row(
-                rs.getInt("account_id"),
-                rs.getInt("change_id"),
-                rs.getInt("patch_set_id"),
-                rs.getString("file_name")));
-      }
-    }
-    return results;
-  }
-
   private static void insertRows(Connection con, PreparedStatement stmt, List<Row> rows)
       throws SQLException {
     for (Row r : rows) {
       stmt.setLong(1, r.accountId());
       stmt.setLong(2, r.changeId());
       stmt.setLong(3, r.patchSetId());
-      stmt.setString(4, r.fileName());
+      stmt.setString(4, sha1(r.fileName()));
+      stmt.setString(5, r.fileName());
       stmt.addBatch();
     }
     stmt.executeBatch();

@@ -17,34 +17,24 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-tooltip/gr-tooltip.html">
 
 <dom-module id="gr-selection-action-box">
   <template>
     <style include="shared-styles">
-      :host {
-        --gr-arrow-size: .65em;
-
-        background-color: rgba(22, 22, 22, .9);
-        border-radius: 3px;
-        color: #fff;
-        cursor: pointer;
-        font-family: var(--font-family);
-        padding: .5em .75em;
-        position: absolute;
-        white-space: nowrap;
-      }
-      .arrow {
-        border: var(--gr-arrow-size) solid transparent;
-        border-top: var(--gr-arrow-size) solid rgba(22, 22, 22, 0.9);
-        height: 0;
-        left: calc(50% - var(--gr-arrow-size));
-        margin-top: .5em;
-        position: absolute;
-        width: 0;
-      }
-    </style>
-    Press <strong>c</strong> to comment.
-    <div class="arrow"></div>
+        :host {
+          cursor: pointer;
+          font-family: var(--font-family);
+          position: absolute;
+          white-space: nowrap;
+        }
+        #tooltip {
+          --tooltip-background-color: rgba(22, 22, 22, .9);
+        }
+      </style>
+    <gr-tooltip id="tooltip"
+        text="press c to comment"
+        position-below="[[positionBelow]]"></gr-tooltip>
   </template>
   <script src="gr-selection-action-box.js"></script>
 </dom-module>

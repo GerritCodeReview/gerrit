@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac66cc5e_4cee96b3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-16T09:02:00Z",
+      "side": 1,
+      "message": "Use  GroupConfig.GROUP_CONFIG_FILE here too.",
+      "range": {
+        "startLine": 904,
+        "startChar": 67,
+        "endLine": 904,
+        "endChar": 81
+      },
+      "revId": "24f9ad113485cf92a4f70c349555ae39e14526e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -237,7 +237,7 @@
     },
 
     _projectNameChanged(name) {
-      this.$.restAPI.getProjectConfig(name).then(config => {
+      this.$.restAPI.getRepoConfig(name).then(config => {
         this._projectConfig = config;
       });
     },

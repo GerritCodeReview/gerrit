@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fe0e4c9_7a128b73",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T19:03:43Z",
+      "side": 1,
+      "message": "Delete this method.",
+      "revId": "cff1c570d04a3e88e9f451587cbac9c0e2d10490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78bf33f_e4691724",
+        "filename": "java/com/google/gerrit/server/group/db/testing/GroupTestUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T19:03:43Z",
+      "side": 1,
+      "message": "You added a RevWalk method to toCommitInfo; why not pass it here?",
+      "revId": "cff1c570d04a3e88e9f451587cbac9c0e2d10490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3211eb82_46499ee0",
+        "filename": "java/com/google/gerrit/server/group/db/testing/GroupTestUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T19:03:43Z",
+      "side": 1,
+      "message": "Never swallow an exception like this. If this is an impossible condition, throw ISE instead.",
+      "revId": "cff1c570d04a3e88e9f451587cbac9c0e2d10490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

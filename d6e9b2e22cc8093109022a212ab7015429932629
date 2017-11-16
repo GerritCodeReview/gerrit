@@ -158,6 +158,30 @@
     },
     {
       "key": {
+        "uuid": "cbbe7aea_b846be0c",
+        "filename": "java/com/google/gerrit/server/group/db/Groups.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T19:03:43Z",
+      "side": 1,
+      "message": "I think Han-Wen is saying that because the ReviewDb sorting is by audit event time, then maybe we should also sort NoteDb by audit event time (commit time).",
+      "parentUuid": "4c61f3b6_d2f813ec",
+      "range": {
+        "startLine": 335,
+        "startChar": 72,
+        "endLine": 335,
+        "endChar": 82
+      },
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51fd0e08_5f442979",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 5

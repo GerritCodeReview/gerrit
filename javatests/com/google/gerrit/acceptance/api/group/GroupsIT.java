@@ -69,6 +69,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
@@ -115,10 +116,11 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private GroupBackend groupBackend;
   @Inject private StalenessChecker stalenessChecker;
+  @Inject private GroupIndexer groupIndexer;
 
   @Inject
   @Named("groups_byuuid")
-  LoadingCache<String, Optional<InternalGroup>> groupsByUUIDCache;
+  private LoadingCache<String, Optional<InternalGroup>> groupsByUUIDCache;
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -1052,14 +1054,30 @@ public class GroupsIT extends AbstractDaemonTest {
       updateRef.setNewObjectId(emptyCommit);
       assertThat(updateRef.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
     }
+    assertStaleGroupAndReindex(groupUuid);
+
+    // Manually delete group
+    try (Repository repo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(repo.exactRef(groupRef).getObjectId());
+      RefUpdate updateRef = repo.updateRef(groupRef);
+      updateRef.setExpectedOldObjectId(commit.toObjectId());
+      updateRef.setNewObjectId(ObjectId.zeroId());
+      updateRef.setForceUpdate(true);
+      assertThat(updateRef.delete()).isEqualTo(RefUpdate.Result.FORCED);
+    }
+    assertStaleGroupAndReindex(groupUuid);
+  }
+
+  private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
     // Evict group from cache to be sure that we use the index state for staleness checks. This has
     // to happen directly on the groupsByUUID cache because GroupsCacheImpl triggers a reindex for
     // the group.
-    groupsByUUIDCache.invalidate(groupInfo.id);
+    groupsByUUIDCache.invalidate(groupUuid.get());
     assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
 
     // Reindex fixes staleness
-    gApi.groups().id(groupInfo.id).index();
+    groupIndexer.index(groupUuid);
     assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
   }
 

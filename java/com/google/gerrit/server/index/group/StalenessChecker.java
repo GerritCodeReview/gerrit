@@ -64,7 +64,7 @@ public class StalenessChecker {
     this.config = config;
   }
 
-  public boolean isStale(AccountGroup.UUID id) throws IOException {
+  public boolean isStale(AccountGroup.UUID uuid) throws IOException {
     if (!config.getBoolean("user", "readGroupsFromNoteDb", false)) {
       return false; // This class only treats staleness for groups in NoteDb.
     }
@@ -78,14 +78,19 @@ public class StalenessChecker {
     }
 
     Optional<FieldBundle> result =
-        i.getRaw(id, IndexedGroupQuery.createOptions(indexConfig, 0, 1, FIELDS));
+        i.getRaw(uuid, IndexedGroupQuery.createOptions(indexConfig, 0, 1, FIELDS));
     if (!result.isPresent()) {
-      // No document in the index
-      return true;
+      // The document is missing in the index.
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
+
+        // Stale if the group actually exists.
+        return ref != null;
+      }
     }
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      Ref ref = repo.exactRef(RefNames.refsGroups(id));
+      Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
       ObjectId head = ref == null ? ObjectId.zeroId() : ref.getObjectId();
       return !head.equals(ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0));
     }

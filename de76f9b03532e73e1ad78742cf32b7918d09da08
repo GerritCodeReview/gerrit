@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4fec0d5_c14786a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T01:02:28Z",
+      "side": 1,
+      "message": "Why use a limit? And why 40?\n\nDisclaimer: I ask partly because it cuts off one of my own longer descriptions.",
+      "range": {
+        "startLine": 177,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 28
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe629d15_2d060858",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T01:02:28Z",
+      "side": 1,
+      "message": "Is this method used?",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85cfbb16_467fa77b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T01:02:28Z",
+      "side": 1,
+      "message": "The ternary is kind of redundant: consider ..\n\n return !!(rev \u0026\u0026 rev.description);",
+      "range": {
+        "startLine": 128,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 53
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f041b1_7be57209",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T01:02:28Z",
+      "side": 1,
+      "message": "Nit; indent one more space.\n\nI\u0027m a little surprised this is needed: topic and hashtag chip links are already blue.",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 7
+      },
+      "revId": "de76f9b03532e73e1ad78742cf32b7918d09da08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

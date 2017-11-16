@@ -229,7 +229,7 @@ Note: TODO
 - none
 
 .Returns:
-- Instance of link:pg-plugin-project-api.html[GrProjectApi].
+- Instance of link:pg-plugin-repo-api.html[GrRepoApi].
 
 === put
 `plugin.put(url, payload, opt_callback)`

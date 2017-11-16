@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d323f76_37d08c5b",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 0,
+      "message": "Thanks for adding some Javadoc descriptions but please don\u0027t remove this and the other TODOs completely yet. We need more Javadoc descriptions and I also intend to include more details in them.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 56
+      },
+      "revId": "c03e8080a61108d903995e9c5e35ba1bf11076d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

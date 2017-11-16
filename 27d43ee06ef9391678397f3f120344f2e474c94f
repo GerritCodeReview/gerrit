@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "73d2b7ab_c78097b5",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Why was this method introduced? It\u0027s used only in this class. By the way, for the consistency checker, you probably don\u0027t want to use this method at all. It automatically removes duplicate UUIDs. GroupTestUtil#readNameToUuidMap is the variant which doesn\u0027t remove duplicates.",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 68
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c764c32_079b814b",
         "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
         "patchSetId": 11
@@ -18,6 +41,443 @@
         "startChar": 42,
         "endLine": 53,
         "endChar": 49
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cec6fce_353de86d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Throwing a ConfigInvalidException here can easily result in forgetting to catch that exception in one of the other methods below. It would be good if we could avoid this exception here.",
+      "range": {
+        "startLine": 78,
+        "startChar": 40,
+        "endLine": 78,
+        "endChar": 62
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaf6dbff_b8924bfa",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Can\u0027t the two methods below simply make that call inside of them?",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 45
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914a6490_c8b0461e",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "I don\u0027t know how long it takes to load all groups in the previous method but theoretically, group creation and updates can happen between the previous call and this method. Could we maybe read the ref for refs/meta/group-names directly after creating the snapshot of refs/groups/?",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 20
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c76fffe_8652ec37",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "It would be helpful to know which of the names is in the group.config file and which is part of the notes.",
+      "range": {
+        "startLine": 110,
+        "startChar": 54,
+        "endLine": 110,
+        "endChar": 65
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b65e7a3_f895b359",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Those two entries should be swapped to be consistent with the ones of \u0027before\u0027.",
+      "range": {
+        "startLine": 136,
+        "startChar": 68,
+        "endLine": 136,
+        "endChar": 97
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be8ec03_6000a6ab",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "That\u0027s a bit dangerous. Accounts#get(Collection) doesn\u0027t make any guarantees regarding the order of the returned list. Could you please implement it differently?",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894ec53e_c62d2fe1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "The BiMap will ensure that no duplicates may exist and raise an IllegalArgumentException if duplicates do occur. Shouldn\u0027t we report such a case as one of the \u0027problems\u0027?",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 11
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f912f91_f2dce827",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "In Java, we try to avoid output arguments. Could we have this parameter as return value instead?",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 45
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa4926c_d0b032a4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "We typically create the RevWalk first and then call getObjectReader() on it. Is there a reason we need to do it differently here?",
+      "range": {
+        "startLine": 185,
+        "startChar": 9,
+        "endLine": 186,
+        "endChar": 41
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca22d81_77c1e9c4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Can\u0027t \u0027rd\u0027 be used here?",
+      "range": {
+        "startLine": 187,
+        "startChar": 32,
+        "endLine": 187,
+        "endChar": 68
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fed87878_73e13165",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "This is more readable when written as:\n\n for (Note note : nm) {",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 36
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c000c7_feb4ec66",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "We should use\n\n !ObjectId.equals(nameKey, key)\n\nhere to only compare the objects regarding their ObjectId. This would also remove the need to define the variable \u0027key\u0027.",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f73a39_d950cc4d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "See my above comment about output arguments.",
+      "range": {
+        "startLine": 216,
+        "startChar": 6,
+        "endLine": 216,
+        "endChar": 50
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "806342fc_cf3f3d76",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Would it make sense to also check whether the UUID of this group is the one parsed from the ref?",
+      "range": {
+        "startLine": 225,
+        "startChar": 25,
+        "endLine": 225,
+        "endChar": 51
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29dec17c_b2ac57fa",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "This comment is misleading. Within this method, non-existent subgroups are ignored.",
+      "range": {
+        "startLine": 233,
+        "startChar": 86,
+        "endLine": 234,
+        "endChar": 27
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "552b4fde_5983f5c7",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "We could use a LinkedHashSet to have a predictable iteration order.",
+      "range": {
+        "startLine": 240,
+        "startChar": 34,
+        "endLine": 240,
+        "endChar": 41
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c927e0b_b00c2436",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to check this before adding further elements to \u0027todo\u0027?",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 26
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54c715c0_d6d9ca2c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "Unnecessary check.",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 9
+      },
+      "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "352169cc_97b1d55c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsConsistencyChecker.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-11-16T17:31:59Z",
+      "side": 1,
+      "message": "This check should be done with equals(). Ideally using:\n\n Objects.equals(g, root)",
+      "range": {
+        "startLine": 260,
+        "startChar": 12,
+        "endLine": 260,
+        "endChar": 21
       },
       "revId": "27d43ee06ef9391678397f3f120344f2e474c94f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

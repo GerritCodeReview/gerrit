@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1510824264 +0100\nnonce AMT3iFg1hOw7gx1XNETGM17jc4/ZV4GT+a4nXeP93RPj3+huzOj4gt0ZCen9l4o0rAgMoDvVpquY\n\n0000000000000000000000000000000000000000 cd53d38e71e5e21c261d41aa782e8e5d44a4bdee refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaDVlIAAoJEFG1/Zeg0O9RytYH/Ao8Yb1f6jcT3C0Zm4Syp/K3\ntzx+ok3s4sJOyOXMQGBuinYFTZv6/4X8I2KQcLEiVIKXNArGghodsKdLBEF9Gvpg\nUeuJib0bTjYIcKb7npPBuW1LETHnildobjQ2DKcHx9yKOPLrEGxM/JgJPABFZMUO\ngxNq2XQwLTIWZUhqkQaarBhX8j053mtcH16Jsu8Fz311tsAwekGTj+0ZNTfk7t+J\nre8+zQhbwyifPVpufijetDA76c9e4Y/Ro4l2Mho46CrGagz9pMywW+iMP5bWl6Nm\n8W67reNlm0W3vjUfO9QqcC/RsEjqAmzSiDQrWNsc0NlojQOj+S1lg5+5pLqnvYo\u003d\n\u003db0Zl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "adae8f8b_61f544e3",
+        "filename": "java/com/google/gerrit/server/index/account/IndexedAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-11-16T09:37:39Z",
+      "side": 1,
+      "message": "Optional: Reuse IndexUtils#accountFields in the caller and remove this",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "cd53d38e71e5e21c261d41aa782e8e5d44a4bdee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

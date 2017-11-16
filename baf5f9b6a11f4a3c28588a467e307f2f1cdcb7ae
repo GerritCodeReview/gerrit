@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f5a68531_2f649c42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-16T07:06:39Z",
+      "side": 1,
+      "message": "Do we also need to change the email query predicate? It currently finds accounts by preferred and secondary email. This means I could just query for all accounts with a certain email domain. \nFortunately we already have a field for the preferred email in the account index, so we can just use the preferred email field for the email query operator.",
+      "revId": "baf5f9b6a11f4a3c28588a467e307f2f1cdcb7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d21ab1f1_35479cd2",
         "filename": "java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 2

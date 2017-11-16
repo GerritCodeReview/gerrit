@@ -16,6 +16,24 @@
       "revId": "7e3ea658f2c3241f1dfc5d5ff2688cdfc3375f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2332e2e6_f8d7fb26",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-11-16T13:22:20Z",
+      "side": 1,
+      "message": "Sorry, never mind.  I see now that the internals of this class refer to parts of the outer class.",
+      "parentUuid": "90175e65_940b3fb8",
+      "revId": "7e3ea658f2c3241f1dfc5d5ff2688cdfc3375f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

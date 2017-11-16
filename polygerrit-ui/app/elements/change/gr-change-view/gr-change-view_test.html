@@ -121,7 +121,7 @@ limitations under the License.
       test('A toggles overlay when logged in', done => {
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown')
-            .returns(Promise.resolve(true));
+            .returns(Promise.resolve({isLatest: true}));
         element._change = {labels: {}};
         const openSpy = sandbox.spy(element, '_openReplyDialog');
 
@@ -968,7 +968,7 @@ limitations under the License.
       setup(() => {
         sandbox.stub(element.$.replyDialog, '_draftChanged');
         sandbox.stub(element.$.replyDialog, 'fetchIsLatestKnown',
-            () => { return Promise.resolve(true); });
+            () => { return Promise.resolve({isLatest: true}); });
         element._change = {labels: {}};
       });
 
@@ -1019,7 +1019,7 @@ limitations under the License.
     suite('commit message expand/collapse', () => {
       setup(() => {
         sandbox.stub(element, 'fetchIsLatestKnown',
-            () => { return Promise.resolve(false); });
+            () => { return Promise.resolve({isLatest: false}); });
       });
 
       test('commitCollapseToggle hidden for short commit message', () => {
@@ -1179,7 +1179,7 @@ limitations under the License.
 
         test('_startUpdateCheckTimer up-to-date', () => {
           sandbox.stub(element, 'fetchIsLatestKnown',
-              () => { return Promise.resolve(true); });
+              () => { return Promise.resolve({isLatest: true}); });
 
           element._serverConfig = {change: {update_delay: 12345}};
 
@@ -1190,7 +1190,7 @@ limitations under the License.
 
         test('_startUpdateCheckTimer out-of-date shows an alert', done => {
           sandbox.stub(element, 'fetchIsLatestKnown',
-              () => { return Promise.resolve(false); });
+              () => { return Promise.resolve({isLatest: false}); });
           element.addEventListener('show-alert', () => {
             done();
           });

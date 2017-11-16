@@ -1063,8 +1063,8 @@
       };
 
       return this.fetchIsLatestKnown(this.change, this.$.restAPI)
-          .then(isLatest => {
-            if (!isLatest) {
+          .then(result => {
+            if (!result.isLatest) {
               this.fire('show-alert', {
                 message: 'Cannot set label: a newer patch has been ' +
                     'uploaded to this change.',

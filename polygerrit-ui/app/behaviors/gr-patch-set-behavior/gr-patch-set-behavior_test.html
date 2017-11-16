@@ -48,8 +48,8 @@ limitations under the License.
         },
       };
       Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
-          .then(isLatest => {
-            assert.isTrue(isLatest);
+          .then(result => {
+            assert.isTrue(result.isLatest);
             done();
           });
     });
@@ -74,8 +74,8 @@ limitations under the License.
         },
       };
       Gerrit.PatchSetBehavior.fetchIsLatestKnown(knownChange, mockRestApi)
-          .then(isLatest => {
-            assert.isFalse(isLatest);
+          .then(result => {
+            assert.isFalse(result.isLatest);
             done();
           });
     });

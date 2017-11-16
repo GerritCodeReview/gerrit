@@ -105,4 +105,9 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     }
     super.add(doc, values);
   }
+
+  @Override
+  protected ChangeData fromDocument(Document doc) {
+    throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
+  }
 }

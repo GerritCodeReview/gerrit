@@ -47,20 +47,26 @@ public class RemoveReviewerControl {
     this.projectControlFactory = projectControlFactory;
   }
 
-  /** @throws AuthException if this user is not allowed to remove this approval. */
+  /**
+   * Checks if removing the given reviewer and patch set approval is OK.
+   *
+   * @throws AuthException if this user is not allowed to remove this approval.
+   */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
       throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
-    if (canRemoveReviewerWithoutPermissionCheck(
-        notes.getChange(), currentUser, approval.getAccountId(), approval.getValue())) {
-      return;
-    }
+    checkRemoveReviewer(notes, currentUser, approval.getAccountId(), approval.getValue());
+  }
 
-    permissionBackend
-        .user(currentUser)
-        .change(notes)
-        .database(dbProvider)
-        .check(ChangePermission.REMOVE_REVIEWER);
+  /**
+   * Checks if removing the given reviewer is OK. Does not check if removing any approvals the
+   * reviewer might have given is OK.
+   *
+   * @throws AuthException if this user is not allowed to remove this approval.
+   */
+  public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
+      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
+    checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
 
   /** @return true if the user is allowed to remove this reviewer. */
@@ -75,6 +81,20 @@ public class RemoveReviewerControl {
         .change(cd)
         .database(dbProvider)
         .test(ChangePermission.REMOVE_REVIEWER);
+  }
+
+  private void checkRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int val)
+      throws PermissionBackendException, AuthException, NoSuchProjectException, IOException {
+    if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, val)) {
+      return;
+    }
+
+    permissionBackend
+        .user(currentUser)
+        .change(notes)
+        .database(dbProvider)
+        .check(ChangePermission.REMOVE_REVIEWER);
   }
 
   private boolean canRemoveReviewerWithoutPermissionCheck(

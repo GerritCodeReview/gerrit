@@ -122,6 +122,9 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       throws AuthException, ResourceNotFoundException, OrmException, PermissionBackendException,
           IOException, NoSuchProjectException {
     Account.Id reviewerId = reviewer.getId();
+    // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
+    removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
+
     if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
       throw new ResourceNotFoundException();
     }
@@ -142,6 +145,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     List<PatchSetApproval> del = new ArrayList<>();
     boolean votesRemoved = false;
     for (PatchSetApproval a : approvals(ctx, reviewerId)) {
+      // Check if removing this vote is OK
       removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
       del.add(a);
       if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {

@@ -98,6 +98,7 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
             || (oldName != null && fileRegex.matcher(oldName).find())) {
           // This cast still seems to be needed on JDK 8 as workaround for:
           // https://bugs.openjdk.java.net/browse/JDK-8039214
+          @SuppressWarnings("cast")
           List<Edit> edits = (List<Edit>) entry.getEdits();
 
           if (edits.isEmpty()) {

@@ -46,7 +46,6 @@ public class GroupPredicates {
     return new GroupPredicate(GroupField.NAME, GroupQueryBuilder.FIELD_NAME, name);
   }
 
-  @SuppressWarnings("deprecation")
   public static Predicate<InternalGroup> owner(AccountGroup.UUID ownerUuid) {
     return new GroupPredicate(
         GroupField.OWNER_UUID, GroupQueryBuilder.FIELD_OWNER, ownerUuid.get());

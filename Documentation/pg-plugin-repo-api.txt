@@ -1,0 +1,36 @@
+= Gerrit Code Review - Repo admin customization API
+
+This API is provided by link:pg-plugin-dev.html#plugin-repo[plugin.repo()]
+and provides customization to admin page.
+
+== createCommand
+`repoApi.createCommand(title, checkVisibleCallback)`
+
+Create a repo command in the admin panel.
+
+.Params
+- *title* String title.
+- *checkVisibleCallback* function to configure command visibility.
+
+.Returns
+- GrRepoApi for chaining.
+
+`checkVisibleCallback(repoName, repoConfig)`
+
+.Params
+- *repoName* String project name.
+- *repoConfig* Object REST API response for repo config.
+
+.Returns
+- `false` to hide the command for the specific project.
+
+== onTap
+`repoApi.onTap(tapCalback)`
+
+Add a command tap callback.
+
+.Params
+- *tapCallback* function that's excuted on command tap.
+
+.Returns
+- Nothing

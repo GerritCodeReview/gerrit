@@ -47,6 +47,30 @@
       "revId": "58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab92d8e_cb6afb12",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-16T16:12:43Z",
+      "side": 1,
+      "message": "Sure, you need to make sure the body is parsed, that\u0027s just part of the contract of RevCommit.",
+      "parentUuid": "f437145e_9c1a81c9",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "58cdc4928e6bb07775dbe4ee4f0c9dc0a12ef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

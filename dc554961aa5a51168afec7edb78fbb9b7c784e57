@@ -22,6 +22,30 @@
       "revId": "dc554961aa5a51168afec7edb78fbb9b7c784e57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e4ac1b7_7039a2de",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-16T21:52:42Z",
+      "side": 1,
+      "message": "That\u0027s a good point. If it\u0027s okay I\u0027ll update it in the dependent change (since it\u0027s still technically accurate in this one).",
+      "parentUuid": "91469c94_b2398558",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 219,
+        "endChar": 22
+      },
+      "revId": "dc554961aa5a51168afec7edb78fbb9b7c784e57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,7 +20,7 @@
   };
 
   Polymer({
-    is: 'gr-project-detail-list',
+    is: 'gr-repo-detail-list',
 
     properties: {
       /**
@@ -52,7 +52,7 @@
        * Offset of currently visible query results.
        */
       _offset: Number,
-      _project: Object,
+      _repo: Object,
       _items: Array,
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
@@ -82,21 +82,21 @@
       Gerrit.URLEncodingBehavior,
     ],
 
-    _determineIfOwner(project) {
-      return this.$.restAPI.getProjectAccess(project)
+    _determineIfOwner(repo) {
+      return this.$.restAPI.getRepoAccess(repo)
           .then(access =>
-                this._isOwner = access && access[project].is_owner);
+                this._isOwner = access && access[repo].is_owner);
     },
 
     _paramsChanged(params) {
-      if (!params || !params.project) { return; }
+      if (!params || !params.repo) { return; }
 
-      this._project = params.project;
+      this._repo = params.repo;
 
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
-          this._determineIfOwner(this._project);
+          this._determineIfOwner(this._repo);
         }
       });
 
@@ -105,24 +105,24 @@
       this._filter = this.getFilterValue(params);
       this._offset = this.getOffsetValue(params);
 
-      return this._getItems(this._filter, this._project,
+      return this._getItems(this._filter, this._repo,
           this._itemsPerPage, this._offset, this.detailType);
     },
 
-    _getItems(filter, project, itemsPerPage, offset, detailType) {
+    _getItems(filter, repo, itemsPerPage, offset, detailType) {
       this._loading = true;
       this._items = [];
       Polymer.dom.flush();
       if (detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.getProjectBranches(
-            filter, project, itemsPerPage, offset) .then(items => {
+        return this.$.restAPI.getRepoBranches(
+            filter, repo, itemsPerPage, offset) .then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;
             });
       } else if (detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.getProjectTags(
-            filter, project, itemsPerPage, offset) .then(items => {
+        return this.$.restAPI.getRepoTags(
+            filter, repo, itemsPerPage, offset) .then(items => {
               if (!items) { return; }
               this._items = items;
               this._loading = false;
@@ -130,14 +130,14 @@
       }
     },
 
-    _getPath(project) {
-      return `/admin/projects/${this.encodeURL(project, false)},` +
+    _getPath(repo) {
+      return `/admin/repos/${this.encodeURL(repo, false)},` +
           `${this.detailType}`;
     },
 
-    _computeWeblink(project) {
-      if (!project.web_links) { return ''; }
-      const webLinks = project.web_links;
+    _computeWeblink(repo) {
+      if (!repo.web_links) { return ''; }
+      const webLinks = repo.web_links;
       return webLinks.length ? webLinks : null;
     },
 
@@ -172,11 +172,11 @@
     },
 
     _handleSaveRevision(e) {
-      this._setProjectHead(this._project, this._revisedRef, e);
+      this._setRepoHead(this._repo, this._revisedRef, e);
     },
 
-    _setProjectHead(project, ref, e) {
-      return this.$.restAPI.setProjectHead(project, ref).then(res => {
+    _setRepoHead(repo, ref, e) {
+      return this.$.restAPI.setRepoHead(repo, ref).then(res => {
         if (res.status < 400) {
           this._isEditing = false;
           e.model.set('item.revision', ref);
@@ -195,22 +195,22 @@
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.deleteProjectBranches(this._project,
+        return this.$.restAPI.deleteRepoBranches(this._repo,
             this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
-                    this._filter, this._project, this._itemsPerPage,
+                    this._filter, this._repo, this._itemsPerPage,
                     this._offset, this.detailType);
               }
             });
       } else if (this.detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.deleteProjectTags(this._project,
+        return this.$.restAPI.deleteRepoTags(this._repo,
             this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
-                    this._filter, this._project, this._itemsPerPage,
+                    this._filter, this._repo, this._itemsPerPage,
                     this._offset, this.detailType);
               }
             });

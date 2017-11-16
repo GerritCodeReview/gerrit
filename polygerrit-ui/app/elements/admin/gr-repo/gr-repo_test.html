@@ -16,26 +16,26 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-project</title>
+<title>gr-repo</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-project.html">
+<link rel="import" href="gr-repo.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-project></gr-project>
+    <gr-repo></gr-repo>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-project tests', () => {
+  suite('gr-repo tests', () => {
     let element;
     let sandbox;
-    const PROJECT = 'test-project';
+    const REPO = 'test-repo';
     const SCHEMES = {http: {}, repo: {}, ssh: {}};
 
     function getFormFields() {
@@ -50,7 +50,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() {
+        getRepoConfig() {
           return Promise.resolve({
             description: 'Access inherited by all other projects.',
             use_contributor_agreements: {
@@ -104,7 +104,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('loading displays before project config is loaded', () => {
+    test('loading displays before repo config is loaded', () => {
       assert.isTrue(element.$.loading.classList.contains('loading'));
       assert.isFalse(getComputedStyle(element.$.loading).display === 'none');
       assert.isTrue(element.$.loadedContent.classList.contains('loading'));
@@ -132,30 +132,30 @@ limitations under the License.
     });
 
     test('form defaults to read only when not logged in', done => {
-      element.project = PROJECT;
-      element._loadProject().then(() => {
+      element.repo = REPO;
+      element._loadRepo().then(() => {
         assert.isTrue(element._readOnly);
         done();
       });
     });
 
     test('form defaults to read only when logged in and not admin', done => {
-      element.project = PROJECT;
+      element.repo = REPO;
       sandbox.stub(element, '_getLoggedIn', () => {
         return Promise.resolve(true);
       });
-      sandbox.stub(element.$.restAPI, 'getProjectAccess', () => {
-        return Promise.resolve({'test-project': {}});
+      sandbox.stub(element.$.restAPI, 'getRepoAccess', () => {
+        return Promise.resolve({'test-repo': {}});
       });
-      element._loadProject().then(() => {
+      element._loadRepo().then(() => {
         assert.isTrue(element._readOnly);
         done();
       });
     });
 
     test('all form elements are disabled when not admin', done => {
-      element.project = PROJECT;
-      element._loadProject().then(() => {
+      element.repo = REPO;
+      element._loadRepo().then(() => {
         flushAsynchronousOperations();
         const formFields = getFormFields();
         for (const field of formFields) {
@@ -200,17 +200,17 @@ limitations under the License.
 
     suite('admin', () => {
       setup(() => {
-        element.project = PROJECT;
+        element.repo = REPO;
         sandbox.stub(element, '_getLoggedIn', () => {
           return Promise.resolve(true);
         });
-        sandbox.stub(element.$.restAPI, 'getProjectAccess', () => {
-          return Promise.resolve({'test-project': {is_owner: true}});
+        sandbox.stub(element.$.restAPI, 'getRepoAccess', () => {
+          return Promise.resolve({'test-repo': {is_owner: true}});
         });
       });
 
       test('all form elements are enabled', done => {
-        element._loadProject().then(() => {
+        element._loadRepo().then(() => {
           flushAsynchronousOperations();
           const formFields = getFormFields();
           for (const field of formFields) {
@@ -222,8 +222,8 @@ limitations under the License.
       });
 
       test('state gets set correctly', done => {
-        element._loadProject().then(() => {
-          assert.equal(element._projectConfig.state, 'ACTIVE');
+        element._loadRepo().then(() => {
+          assert.equal(element._RepoConfig.state, 'ACTIVE');
           done();
         });
       });
@@ -255,14 +255,14 @@ limitations under the License.
           enable_reviewer_by_email: 'TRUE',
         };
 
-        const saveStub = sandbox.stub(element.$.restAPI, 'saveProjectConfig'
+        const saveStub = sandbox.stub(element.$.restAPI, 'saveRepoConfig'
             , () => {
               return Promise.resolve({});
             });
 
         const button = Polymer.dom(element.root).querySelector('gr-button');
 
-        element._loadProject().then(() => {
+        element._loadRepo().then(() => {
           assert.isTrue(button.hasAttribute('disabled'));
           assert.isFalse(element.$.Title.classList.contains('edited'));
           element.$.descriptionInput.bindValue = configInputObj.description;
@@ -293,10 +293,10 @@ limitations under the License.
           assert.isTrue(element.$.configurations.classList.contains('edited'));
 
           const formattedObj =
-              element._formatProjectConfigForSave(element._projectConfig);
+              element._formatRepoConfigForSave(element._repoConfig);
           assert.deepEqual(formattedObj, configInputObj);
 
-          element._handleSaveProjectConfig().then(() => {
+          element._handleSaveRepoConfig().then(() => {
             assert.isTrue(button.hasAttribute('disabled'));
             assert.isFalse(element.$.Title.classList.contains('edited'));
             assert.isTrue(saveStub.lastCall.calledWithExactly(PROJECT,

@@ -15,7 +15,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-project-command',
+    is: 'gr-repo-command',
 
     properties: {
       title: String,

@@ -48,11 +48,11 @@
   };
 
   Polymer({
-    is: 'gr-project',
+    is: 'gr-repo',
 
     properties: {
       params: Object,
-      project: String,
+      repo: String,
 
       _configChanged: {
         type: Boolean,
@@ -68,7 +68,7 @@
         observer: '_loggedInChanged',
       },
       /** @type {?} */
-      _projectConfig: Object,
+      _repoConfig: Object,
       _readOnly: {
         type: Boolean,
         value: true,
@@ -104,34 +104,34 @@
     },
 
     observers: [
-      '_handleConfigChanged(_projectConfig.*)',
+      '_handleConfigChanged(_repoConfig.*)',
     ],
 
     attached() {
-      this._loadProject();
+      this._loadRepo();
 
-      this.fire('title-change', {title: this.project});
+      this.fire('title-change', {title: this.repo});
     },
 
-    _loadProject() {
-      if (!this.project) { return Promise.resolve(); }
+    _loadRepo() {
+      if (!this.repo) { return Promise.resolve(); }
 
       const promises = [];
       promises.push(this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
-          this.$.restAPI.getProjectAccess(this.project).then(access => {
+          this.$.restAPI.getRepoAccess(this.repo).then(access => {
             // If the user is not an owner, is_owner is not a property.
-            this._readOnly = !access[this.project].is_owner;
+            this._readOnly = !access[this.repo].is_owner;
           });
         }
       }));
 
-      promises.push(this.$.restAPI.getProjectConfig(this.project).then(
+      promises.push(this.$.restAPI.getRepoConfig(this.project).then(
           config => {
-            this._projectConfig = config;
-            if (!this._projectConfig.state) {
-              this._projectConfig.state = STATES.active.value;
+            this._repoConfig = config;
+            if (!this._repoConfig.state) {
+              this._repoConfig.state = STATES.active.value;
             }
             this._loading = false;
           }));
@@ -191,7 +191,7 @@
       return this.$.restAPI.getLoggedIn();
     },
 
-    _formatProjectConfigForSave(p) {
+    _formatRepoConfigForSave(p) {
       const configInputObj = {};
       for (const key in p) {
         if (p.hasOwnProperty(key)) {
@@ -205,9 +205,9 @@
       return configInputObj;
     },
 
-    _handleSaveProjectConfig() {
-      return this.$.restAPI.saveProjectConfig(this.project,
-          this._formatProjectConfigForSave(this._projectConfig)).then(() => {
+    _handleSaveRepoConfig() {
+      return this.$.restAPI.saveRepoConfig(this.project,
+          this._formatRepoConfigForSave(this._repoConfig)).then(() => {
             this._configChanged = false;
           });
     },

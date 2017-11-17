@@ -300,7 +300,26 @@ limitations under the License.
                 </span>
               </section>
             </fieldset>
-            <!-- TODO @beckysiegel add plugin config widgets -->
+            <template is="dom-repeat" items="[[_pluginConfig]]">
+              <h3 id="Options">[[item.name]]</h3>
+              <fieldset id="pluginConfig">
+                <section>
+                  <span class="title">[[item.enabled.display_name]]</span>
+                  <span class="value">
+                    <gr-select
+                        id="projectPluginValue"
+                        bind-value="{{item.enabled.value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelectPlugin(item.enabled)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                      </select>
+                    </gr-select>
+                  </span>
+                </section>
+              </fieldset>
+            </template>
             <gr-button
                 on-tap="_handleSaveProjectConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -21,6 +22,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.UserConfig;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Provides {@link PersonIdent} annotated with {@link GerritPersonIdent}. */
 @Singleton
@@ -40,6 +42,9 @@ public class GerritPersonIdentProvider implements Provider<PersonIdent> {
 
   @Override
   public PersonIdent get() {
-    return new PersonIdent(name, email);
+    // Identical to new PersonIdent(name, email), except uses the current millis timestamp from
+    // TimeUtil instead of JGit's SystemReader.
+    long when = TimeUtil.nowMs();
+    return new PersonIdent(name, email, when, SystemReader.getInstance().getTimezone(when));
   }
 }

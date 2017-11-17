@@ -32,6 +32,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -41,13 +43,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** NoteDb reader for group audit log. */
 @Singleton
 class AuditLogReader {
-  private static final Logger log = LoggerFactory.getLogger(AuditLogReader.class);
+  private static final Logger log = LogManager.getLogger(AuditLogReader.class);
 
   private final String serverId;
 

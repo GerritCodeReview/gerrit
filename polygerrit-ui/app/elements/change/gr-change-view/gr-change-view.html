@@ -472,6 +472,10 @@ limitations under the License.
             on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
       </section>
       <gr-endpoint-decorator name="change-view-integration">
+        <gr-endpoint-param name="change" value="[[_change]]">
+        </gr-endpoint-param>
+        <gr-endpoint-param name="revision" value="[[_currentRevision]]">
+        </gr-endpoint-param>
       </gr-endpoint-decorator>
       <gr-messages-list id="messageList"
           class="hideOnMobileOverlay"

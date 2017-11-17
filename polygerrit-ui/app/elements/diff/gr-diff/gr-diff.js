@@ -137,6 +137,11 @@
         notify: true,
         computed: '_computeIsBlameLoaded(_blame)',
       },
+
+      _parentIndex: {
+        type: Number,
+        computed: '_computeParentIndex(patchRange.*)',
+      },
     },
 
     behaviors: [
@@ -415,12 +420,27 @@
       return threadEl;
     },
 
-    /** @return {number} */
+    /**
+     * The value to be used for the patch number of new comments created at the
+     * given line and content elements.
+     *
+     * In two cases of creating a comment on the left side, the patch number to
+     * be used should actually be right side of the patch range:
+     * - When the patch range is against the parent comment of a normal change.
+     *   Such comments declare themmselves to be on the left using side=PARENT.
+     * - If the patch range is against the indexed parent of a merge change.
+     *   Such comments declare themselves to be on the given parent by
+     *   specifying the parent index via parent=i.
+     *
+     * @return {number}
+     */
     _getPatchNumByLineAndContent(lineEl, contentEl) {
       let patchNum = this.patchRange.patchNum;
+
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) &&
-          this.patchRange.basePatchNum !== 'PARENT') {
+          this.patchRange.basePatchNum !== 'PARENT' &&
+          !this.isMergeParent(this.patchRange.basePatchNum)) {
         patchNum = this.patchRange.basePatchNum;
       }
       return patchNum;
@@ -428,13 +448,13 @@
 
     /** @return {boolean} */
     _getIsParentCommentByLineAndContent(lineEl, contentEl) {
-      let isOnParent = false;
       if ((lineEl.classList.contains(DiffSide.LEFT) ||
           contentEl.classList.contains('remove')) &&
-          this.patchRange.basePatchNum === 'PARENT') {
-        isOnParent = true;
+          (this.patchRange.basePatchNum === 'PARENT' ||
+          this.isMergeParent(this.patchRange.basePatchNum))) {
+        return true;
       }
-      return isOnParent;
+      return false;
     },
 
     /** @return {string} */
@@ -716,6 +736,16 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    /**
+     * @return {number|null}
+     */
+    _computeParentIndex(patchRangeRecord) {
+      if (!this.isMergeParent(patchRangeRecord.base.basePatchNum)) {
+        return null;
+      }
+      return this.getParentIndex(patchRangeRecord.base.basePatchNum);
     },
   });
 })();

@@ -48,7 +48,10 @@
         type: Boolean,
         value: false,
       },
-
+      parentIndex: {
+        type: Number,
+        value: null,
+      },
       _showActions: Boolean,
       _lastComment: Object,
       _orderedComments: Array,
@@ -300,6 +303,9 @@
           end_line: opt_range.endLine,
           end_character: opt_range.endChar,
         };
+      }
+      if (this.parentIndex) {
+        d.parent = this.parentIndex;
       }
       return d;
     },

@@ -237,7 +237,7 @@
 
     open(opt_focusTarget) {
       this.knownLatestState = LatestPatchState.CHECKING;
-      this.fetchIsLatestKnown(this.change, this.$.restAPI)
+      this.fetchChangeUpdates(this.change, this.$.restAPI)
           .then(result => {
             this.knownLatestState = result.isLatest ?
                 LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;

@@ -1062,7 +1062,7 @@
         this._handleResponseError(response);
       };
 
-      return this.fetchIsLatestKnown(this.change, this.$.restAPI)
+      return this.fetchChangeUpdates(this.change, this.$.restAPI)
           .then(result => {
             if (!result.isLatest) {
               this.fire('show-alert', {

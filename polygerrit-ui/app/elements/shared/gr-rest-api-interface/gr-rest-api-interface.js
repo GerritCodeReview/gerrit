@@ -845,6 +845,7 @@
           this.ListChangesOption.CHANGE_ACTIONS,
           this.ListChangesOption.CURRENT_ACTIONS,
           this.ListChangesOption.DOWNLOAD_COMMANDS,
+          this.ListChangesOption.MESSAGES,
           this.ListChangesOption.SUBMITTABLE,
           this.ListChangesOption.WEB_LINKS
       );

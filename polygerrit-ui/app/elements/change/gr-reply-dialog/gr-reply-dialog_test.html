@@ -103,7 +103,7 @@ limitations under the License.
       eraseDraftCommentStub = sandbox.stub(element.$.storage,
           'eraseDraftComment');
 
-      sandbox.stub(element, 'fetchIsLatestKnown')
+      sandbox.stub(element, 'fetchChangeUpdates')
           .returns(Promise.resolve({isLatest: true}));
 
       // Allow the elements created by dom-repeat to be stamped.

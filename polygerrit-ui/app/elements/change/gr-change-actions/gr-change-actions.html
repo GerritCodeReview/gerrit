@@ -102,11 +102,6 @@ limitations under the License.
                 on-tap="_handleActionTap">[[action.label]]</gr-button>
           </template>
         </section>
-        <gr-button
-            class="reply"
-            secondary
-            disabled="[[replyDisabled]]"
-            on-tap="_handleReplyTap">[[replyButtonLabel]]</gr-button>
         <section id="secondaryActions"
             hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]">
           <template

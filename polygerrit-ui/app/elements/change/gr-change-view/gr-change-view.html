@@ -87,6 +87,9 @@ limitations under the License.
       .header-title .headerSubject {
         font-family: var(--font-family-bold);
       }
+      .replyContainer {
+        margin-bottom: 1em;
+      }
       gr-change-star {
         margin-right: .25em;
         vertical-align: -.425em;
@@ -343,8 +346,7 @@ limitations under the License.
               edit-loaded="[[_editLoaded]]"
               edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
               on-reload-change="_handleReloadChange"
-              on-download-tap="_handleOpenDownloadDialog"
-              on-reply-tap="_handleReplyTap"></gr-change-actions>
+              on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
         </div><!-- end commit actions -->
       </div><!-- end header -->
       <section class="changeInfo">
@@ -365,6 +367,13 @@ limitations under the License.
           <hr class="mobile">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
+              <div class="replyContainer">
+                  <gr-button
+                      class="reply"
+                      secondary
+                      disabled="[[_replyDisabled]]"
+                      on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              </div>
               <div
                   id="commitMessage"
                   class$="commitMessage [[_computeCommitClass(_commitCollapsed, _latestCommitMessage)]]">

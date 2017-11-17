@@ -28,7 +28,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import org.apache.logging.log4j.core.util.Loader;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -84,7 +84,7 @@ public class SetLoggingLevelCommand extends SshCommand {
 
     String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
     if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
+      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION, null));
     } else {
       PropertyConfigurator.configure(new URL(path));
     }

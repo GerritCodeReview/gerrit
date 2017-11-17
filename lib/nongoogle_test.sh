@@ -19,7 +19,10 @@ elasticsearch-rest-client
 httpasyncclient
 httpcore-nio
 j2objc
+jackson-annotations
 jackson-core
+jackson-databind
+jackson-dataformat-smile
 jna
 jruby
 mina-core

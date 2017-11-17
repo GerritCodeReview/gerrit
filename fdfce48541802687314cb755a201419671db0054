@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "035288d0_42a746fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T00:43:14Z",
+      "side": 1,
+      "message": "nit: fetchIsLatestKnown",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a7d337_44543bf3",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T00:43:14Z",
+      "side": 1,
+      "message": "Will a change always have messages? It looks like change detail returns a changeInfo object, which claims messages are optional, though I\u0027m not sure if that\u0027s accurate (or if it\u0027ll always be an empty array)\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info",
+      "range": {
+        "startLine": 232,
+        "startChar": 27,
+        "endLine": 232,
+        "endChar": 42
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8672e421_cac962cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T00:43:14Z",
+      "side": 1,
+      "message": "Should we add tests for each of the 5 possible toasts?",
+      "range": {
+        "startLine": 1202,
+        "startChar": 14,
+        "endLine": 1202,
+        "endChar": 47
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

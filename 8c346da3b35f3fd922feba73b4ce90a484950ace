@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1066a153_e0ecdd14",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:43:54Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be changed. We should care more about clicking the gr-button (and it handles the rest). It looks like the tests still pass as expected.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "8c346da3b35f3fd922feba73b4ce90a484950ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaafdf9a_36f9e7e6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:43:54Z",
+      "side": 1,
+      "message": "I don\u0027t think these should be changed. clicking on the button directly should still result in the same outcome (and it looks like the tests still pass as expected)",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "8c346da3b35f3fd922feba73b4ce90a484950ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

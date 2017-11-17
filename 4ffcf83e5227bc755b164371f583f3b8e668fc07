@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1faf8d_7e917aab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-17T20:23:22Z",
+      "side": 1,
+      "message": "It\u0027s unclear to me whether this is safe -- my goal was to hoist it out of the inner loop. But it assumes that if |prefs| changes, the GrDiffBuilder is recreated. Is that so?  (I\u0027ve only figured out how to run polygerrit locally, but in a mode where I can\u0027t log in to set the prefs)",
+      "revId": "4ffcf83e5227bc755b164371f583f3b8e668fc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

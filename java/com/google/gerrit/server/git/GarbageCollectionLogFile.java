@@ -20,14 +20,17 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
+import java.io.Serializable;
 import java.nio.file.Path;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
   private static final String LOG_NAME = "gc_log";
+  private static final String PATTERN_LAYOUT = "[%d] %-5p %x: %m%n";
 
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths, @GerritServerConfig Config config) {
@@ -41,8 +44,11 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    getLogger(GarbageCollection.class).removeAllAppenders();
-    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
+    LoggerConfig gcLogger = new LoggerConfig(getLogger(GarbageCollection.class), null, false);
+    gcLogger.removeAppender(getLogger(GarbageCollection.class));
+
+    LoggerConfig gcLogger2 = new LoggerConfig(getLogger(GarbageCollectionRunner.class), null, false);
+    gcLogger2.removeAppender(getLogger(GarbageCollectionRunner.class));
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
@@ -55,10 +61,11 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   }
 
   private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {
-    gcLogger.removeAllAppenders();
+    gcLogger.removeAppender(GarbageCollection.LOG_NAME);
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern(PATTERN_LAYOUT).build();
     gcLogger.addAppender(
-        SystemLog.createAppender(
-            logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
-    gcLogger.setAdditivity(false);
+        SystemLog.createAppender(logdir, LOG_NAME, layout, rotate), null, null);
+    gcLogger.setAdditive(false);
   }
 }

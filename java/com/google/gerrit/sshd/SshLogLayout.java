@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
+import org.apache.logging.log4j.core.LogEvent;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.util.QuotedString;
@@ -46,11 +47,11 @@ public final class SshLogLayout extends Layout {
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public String format(LogEvent event) {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -131,7 +132,4 @@ public final class SshLogLayout extends Layout {
   public boolean ignoresThrowable() {
     return true;
   }
-
-  @Override
-  public void activateOptions() {}
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "577a203b_7d32a349",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:50:49Z",
+      "side": 1,
+      "message": "Actually, you know what, after thinking a little longer, I agree with this, sorry about the confusion.",
+      "parentUuid": "1066a153_e0ecdd14",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "8c346da3b35f3fd922feba73b4ce90a484950ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaafdf9a_36f9e7e6",
         "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "8c346da3b35f3fd922feba73b4ce90a484950ace",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce8caf0f_299a7c80",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:50:49Z",
+      "side": 1,
+      "message": "and here.",
+      "parentUuid": "eaafdf9a_36f9e7e6",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "8c346da3b35f3fd922feba73b4ce90a484950ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -189,6 +189,30 @@
       "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "654d1ce9_de25254e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-11-17T08:48:29Z",
+      "side": 1,
+      "message": "\u003e I should not comment late in the evening... here is my comment without the mistakes:\n\u003e \n\u003e Are you planning to hash the file name and do the queries using the file_name_sha1 column?\n\nYes. SHA1 is computed before executing a query.\n\n\u003e \n\u003e I am asking because if you keep doing the query using the file_name then queries will be slow because they won\u0027t be able to leverage the implicit index created on primary key.\n\u003e \n\u003e Then you will need to create an index on (change_id, patch_set_id, account_id, file_name) to keep decent queries performance if this limitation of 767 bytes only apply to primary key and not to indices.\n\nAs I see we only have queries on the whole file path. Therefore, file_name_sha1 can be used\ninstead. The additional index may be necessary *iff* we introduce querying by path prefix.",
+      "parentUuid": "7ce83982_6752310b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

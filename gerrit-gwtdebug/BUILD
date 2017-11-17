@@ -11,6 +11,8 @@ java_library(
         "//lib/jetty:servlet",
         "//lib/jetty:servlets",
         "//lib/log:api",
-        "//lib/log:log4j",
+        "//lib/log:log4j-api",
+        "//lib/log:log4j-core",
+        "//lib/log:log4j1.2-api",
     ],
 )

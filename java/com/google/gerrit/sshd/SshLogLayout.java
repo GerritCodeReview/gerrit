@@ -20,6 +20,7 @@ import java.util.TimeZone;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.util.QuotedString;
+import org.apache.logging.log4j.status.StatusData;
 
 public final class SshLogLayout extends Layout {
 
@@ -50,7 +51,7 @@ public final class SshLogLayout extends Layout {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    formatDate(StatusData.getTimestamp(), buf);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -131,7 +132,4 @@ public final class SshLogLayout extends Layout {
   public boolean ignoresThrowable() {
     return true;
   }
-
-  @Override
-  public void activateOptions() {}
 }

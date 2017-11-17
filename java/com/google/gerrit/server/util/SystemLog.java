@@ -14,26 +14,26 @@
 
 package com.google.gerrit.server.util;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.Strings;
-import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.LoggingEvent;
+import java.util.zip.Deflater;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.appender.rolling.CronTriggeringPolicy;
+import org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.NullConfiguration;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,8 @@ import org.slf4j.LoggerFactory;
 public class SystemLog {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
-  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOG4J_CONFIGURATION = "log4j.configurationFile";
+  private static final String CRON_EXPRESSION = "0 0 0 * * ?";
 
   private final SitePaths site;
   private final int asyncLoggingBufferSize;
@@ -59,16 +60,34 @@ public class SystemLog {
   }
 
   public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
+    final LoggerContext ctx = LoggerContext.getContext(false);
+    final Configuration config = ctx.getConfiguration();
+    Appender dst =
+        RollingFileAppender.createAppender(
+            resolve(logdir).resolve(name).toString(),
+            resolve(logdir).resolve(name).toString() + ".%d{yyyy-MM-dd}.gz",
+            "true",
+            name,
+            null,
+            null,
+            "true",
+            CronTriggeringPolicy.createPolicy(new NullConfiguration(), "true", CRON_EXPRESSION),
+            DefaultRolloverStrategy.createStrategy(
+                "7",
+                "1",
+                "max",
+                String.valueOf(Deflater.DEFAULT_COMPRESSION),
+                null,
+                false,
+                new NullConfiguration()),
+            layout,
+            (Filter) null,
+            null,
+            null,
+            (String) null,
+            config);
+    dst.start();
+
     return dst;
   }
 
@@ -77,24 +96,44 @@ public class SystemLog {
   }
 
   private AsyncAppender createAsyncAppender(String name, Layout layout, boolean rotate) {
-    AsyncAppender async = new AsyncAppender();
-    async.setName(name);
-    async.setBlocking(true);
-    async.setBufferSize(asyncLoggingBufferSize);
-    async.setLocationInfo(false);
+    LoggerContext context = LoggerContext.getContext(false);
 
     if (shouldConfigure()) {
-      async.addAppender(createAppender(site.logs_dir, name, layout, rotate));
+      final Configuration logger = context.getConfiguration();
+      logger.addAppender(createAppender(site.logs_dir, name, layout, rotate));
     } else {
-      Appender appender = LogManager.getLogger(name).getAppender(name);
+      Appender appender = context.getConfiguration().getAppender(name);
       if (appender != null) {
-        async.addAppender(appender);
+        Logger logger = context.getLogger(name);
+        logger.addAppender(appender);
       } else {
         log.warn(
             "No appender with the name: " + name + " was found. " + name + " logging is disabled");
       }
     }
-    async.activateOptions();
+    final Configuration config = context.getConfiguration();
+    final AppenderRef ref = AppenderRef.createAppenderRef(name, null, null);
+    final AppenderRef[] refs = new AppenderRef[] {ref};
+
+    AsyncAppender async;
+    try {
+      async =
+          AsyncAppender.newBuilder()
+              .setName(name)
+              .setBlocking(true)
+              .setBufferSize(asyncLoggingBufferSize)
+              .setIncludeLocation(false)
+              .setConfiguration(config)
+              .setAppenderRefs(refs)
+              .setErrorRef(name)
+              .build();
+      async.start();
+    } catch (Exception ex) {
+      async = null;
+    }
+
+    context.updateLoggers();
+
     return async;
   }
 
@@ -104,34 +143,5 @@ public class SystemLog {
     } catch (IOException e) {
       return p.toAbsolutePath().normalize();
     }
-  }
-
-  private static final class DieErrorHandler implements ErrorHandler {
-    @Override
-    public void error(String message, Exception e, int errorCode, LoggingEvent event) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message, Exception e, int errorCode) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message) {
-      throw new Die("Cannot open log file: " + message);
-    }
-
-    @Override
-    public void activateOptions() {}
-
-    @Override
-    public void setAppender(Appender appender) {}
-
-    @Override
-    public void setBackupAppender(Appender appender) {}
-
-    @Override
-    public void setLogger(Logger logger) {}
   }
 }

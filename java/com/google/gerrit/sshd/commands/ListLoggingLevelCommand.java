@@ -27,6 +27,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.kohsuke.args4j.Argument;
 
+// TODO: Update to log4j2
+
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
   name = "ls-level",

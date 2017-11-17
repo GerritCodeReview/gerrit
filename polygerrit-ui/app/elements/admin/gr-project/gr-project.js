@@ -183,6 +183,32 @@
       ];
     },
 
+    _formatBooleanSelectPlugin(item) {
+      if (!item) { return; }
+      let inheritLabel = 'Inherit';
+      if (!(item.inherited_value === undefined)) {
+        inheritLabel = `Inherit (${item.inherited_value})`;
+      }
+      return [
+        {
+          label: inheritLabel,
+          value: 'inherit',
+        },
+        {
+          label: 'True',
+          value: 'true',
+        },
+        {
+          label: 'False',
+          value: 'false',
+        },
+        {
+          label: 'Enforced',
+          value: 'enforced',
+        },
+      ];
+    },
+
     _isLoading() {
       return this._loading || this._loading === undefined;
     },

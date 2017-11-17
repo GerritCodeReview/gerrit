@@ -64,7 +64,9 @@ Apache2.0
 * httpcomponents:httpclient
 * httpcomponents:httpcore
 * httpcomponents:httpcore-nio
+* jackson:jackson-annotations
 * jackson:jackson-core
+* jackson:jackson-databind
 * jetty:http
 * jetty:io
 * jetty:jmx

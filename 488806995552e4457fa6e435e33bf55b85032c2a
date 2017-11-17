@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "720bab93_e487968d",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-17T19:53:17Z",
+      "side": 1,
+      "message": "That\u0027s not the existing behavior.\nCurrently, it takes one of supported weblinks which is normally gitiles.",
+      "parentUuid": "313bcaa2_4ae0a643",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "488806995552e4457fa6e435e33bf55b85032c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81ef41a8_750a3c0a",
         "filename": "polygerrit-ui/app/elements/core/gr-weblinks/gr-weblinks.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "488806995552e4457fa6e435e33bf55b85032c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ec7439_b15cdcb9",
+        "filename": "polygerrit-ui/app/elements/core/gr-weblinks/gr-weblinks.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-17T19:53:17Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\nThis shouldn\u0027t happen because the default behavior kicks in in the next file, but ok.",
+      "parentUuid": "81ef41a8_750a3c0a",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "488806995552e4457fa6e435e33bf55b85032c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

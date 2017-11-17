@@ -24,15 +24,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +37,7 @@ import org.slf4j.LoggerFactory;
 public class SystemLog {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
-  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOG4J_CONFIGURATION = "log4j.configurationFile";
 
   private final SitePaths site;
   private final Config config;
@@ -56,17 +53,13 @@ public class SystemLog {
   }
 
   public static Appender createAppender(Path logdir, String name, Layout layout) {
-    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
-    return dst;
+    final RollingFileAppender dst = RollingFileAppender.newBuilder();
+    dst.withName(name);
+    dst.withLayout(layout);
+    dst.withFileName(resolve(logdir).resolve(name).toString());
+    dst.withImmediateFlush(true);
+    dst.withAppend(true);
+    return dst.build();
   }
 
   public AsyncAppender createAsyncAppender(String name, Layout layout) {
@@ -97,34 +90,5 @@ public class SystemLog {
     } catch (IOException e) {
       return p.toAbsolutePath().normalize();
     }
-  }
-
-  private static final class DieErrorHandler implements ErrorHandler {
-    @Override
-    public void error(String message, Exception e, int errorCode, LoggingEvent event) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message, Exception e, int errorCode) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message) {
-      throw new Die("Cannot open log file: " + message);
-    }
-
-    @Override
-    public void activateOptions() {}
-
-    @Override
-    public void setAppender(Appender appender) {}
-
-    @Override
-    public void setBackupAppender(Appender appender) {}
-
-    @Override
-    public void setLogger(Logger logger) {}
   }
 }

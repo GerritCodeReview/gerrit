@@ -20,10 +20,17 @@ import com.google.gerrit.httpd.restapi.LogRedactUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.impl.Log4jLogEvent;
+import org.apache.logging.log4j.message.SimpleMessage;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
@@ -31,7 +38,7 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
-  private static final Logger log = Logger.getLogger(HttpLog.class);
+  private static final Logger log = LogManager.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
 
   interface HttpLogFactory {
@@ -53,7 +60,8 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Inject
   HttpLog(SystemLog systemLog) {
-    async = systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout());
+    Layout<? extends Serializable> layout = new HttpLogLayout();
+    async = systemLog.createAsyncAppender(LOG_NAME, layout);
   }
 
   @Override
@@ -61,24 +69,14 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   protected void doStop() throws Exception {
-    async.close();
+    if (async != null) {
+      async.stop();
+    }
   }
 
   @Override
   public void log(Request req, Response rsp) {
-    final LoggingEvent event =
-        new LoggingEvent( //
-            Logger.class.getName(), // fqnOfCategoryClass
-            log, // logger
-            TimeUtil.nowMs(), // when
-            Level.INFO, // level
-            "", // message text
-            "HTTPD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
+    Map<String, String> map = new HashMap<>();
 
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
@@ -86,31 +84,48 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     }
     String user = (String) req.getAttribute(GetUserFilter.USER_ATTR_KEY);
     if (user != null) {
-      event.setProperty(P_USER, user);
+      map.put(P_USER, user);
     }
 
-    set(event, P_HOST, req.getRemoteAddr());
-    set(event, P_METHOD, req.getMethod());
-    set(event, P_RESOURCE, uri);
-    set(event, P_PROTOCOL, req.getProtocol());
-    set(event, P_STATUS, rsp.getStatus());
-    set(event, P_CONTENT_LENGTH, rsp.getContentCount());
-    set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
-    set(event, P_REFERER, req.getHeader("Referer"));
-    set(event, P_USER_AGENT, req.getHeader("User-Agent"));
+    map.putAll(set(P_HOST, req.getRemoteAddr()));
+    map.putAll(set(P_METHOD, req.getMethod()));
+    map.putAll(set(P_RESOURCE, uri));
+    map.putAll(set(P_PROTOCOL, req.getProtocol()));
+    map.putAll(set(P_STATUS, rsp.getStatus()));
+    map.putAll(set(P_CONTENT_LENGTH, rsp.getContentCount()));
+    map.putAll(set(P_LATENCY, System.currentTimeMillis() - req.getTimeStamp()));
+    map.putAll(set(P_REFERER, req.getHeader("Referer")));
+    map.putAll(set(P_USER_AGENT, req.getHeader("User-Agent")));
 
-    async.append(event);
+    final LogEvent event =
+        Log4jLogEvent.newBuilder()
+            .setLoggerName(log.toString())
+            .setLoggerFqcn(Logger.class.getName())
+            .setLevel(Level.INFO)
+            .setMessage(new SimpleMessage(""))
+            .setThreadName("HTTPD")
+            .setTimeMillis(TimeUtil.nowMs())
+            .setContextMap(map)
+            .build();
+
+    if (async != null) {
+      async.append(event);
+    }
   }
 
-  private static void set(LoggingEvent event, String key, String val) {
+  private HashMap<String,String> set(String key, String val) {
+    Map<String, String> map = new HashMap<>();
     if (val != null && !val.isEmpty()) {
-      event.setProperty(key, val);
+      map.put(key, val);
     }
+    return map;
   }
 
-  private static void set(LoggingEvent event, String key, long val) {
+  private HashMap<String,String> set(String key, long val) {
+    Map<String, String> map = new HashMap<>();
     if (0 < val) {
-      event.setProperty(key, String.valueOf(val));
+      map.put(key, String.valueOf(val));
     }
+    return map;
   }
 }

@@ -19,9 +19,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.nio.file.Path;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
 

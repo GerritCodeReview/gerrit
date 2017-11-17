@@ -22,6 +22,30 @@
       "revId": "c3a20a43964ee03300fea636d8fa7b2ff19c336d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea02108_d24a2756",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20c3942d_bceb776f",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "c3a20a43964ee03300fea636d8fa7b2ff19c336d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

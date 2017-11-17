@@ -17,6 +17,12 @@ package com.google.gerrit.reviewdb.server;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -677,6 +683,593 @@ public class ReviewDbWrapper implements ReviewDb {
     @Override
     public ResultSet<PatchLineComment> all() throws OrmException {
       return delegate.all();
+    }
+  }
+
+  public static class AccountGroupAccessWrapper implements AccountGroupAccess {
+    protected final AccountGroupAccess delegate;
+
+    protected AccountGroupAccessWrapper(AccountGroupAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroup> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroup.Id primaryKey(AccountGroup entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroup.Id, AccountGroup> toMap(Iterable<AccountGroup> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroup, OrmException> getAsync(
+        AccountGroup.Id key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroup> get(Iterable<AccountGroup.Id> keys) throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroup> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroup> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroup> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroup.Id> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroup> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroup.Id key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroup atomicUpdate(AccountGroup.Id key, AtomicUpdate<AccountGroup> update)
+        throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroup get(AccountGroup.Id id) throws OrmException {
+      return delegate.get(id);
+    }
+
+    @Override
+    public ResultSet<AccountGroup> byUUID(AccountGroup.UUID uuid) throws OrmException {
+      return delegate.byUUID(uuid);
+    }
+
+    @Override
+    public ResultSet<AccountGroup> all() throws OrmException {
+      return delegate.all();
+    }
+  }
+
+  public static class AccountGroupNameAccessWrapper implements AccountGroupNameAccess {
+    protected final AccountGroupNameAccess delegate;
+
+    protected AccountGroupNameAccessWrapper(AccountGroupNameAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroupName> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroup.NameKey primaryKey(AccountGroupName entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroup.NameKey, AccountGroupName> toMap(Iterable<AccountGroupName> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroupName, OrmException> getAsync(
+        AccountGroup.NameKey key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupName> get(Iterable<AccountGroup.NameKey> keys)
+        throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroupName> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroupName> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroupName> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroup.NameKey> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroupName> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroup.NameKey key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroupName atomicUpdate(
+        AccountGroup.NameKey key, AtomicUpdate<AccountGroupName> update) throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroupName get(AccountGroup.NameKey name) throws OrmException {
+      return delegate.get(name);
+    }
+
+    @Override
+    public ResultSet<AccountGroupName> all() throws OrmException {
+      return delegate.all();
+    }
+  }
+
+  public static class AccountGroupMemberAccessWrapper implements AccountGroupMemberAccess {
+    protected final AccountGroupMemberAccess delegate;
+
+    protected AccountGroupMemberAccessWrapper(AccountGroupMemberAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroupMember> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroupMember.Key primaryKey(AccountGroupMember entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroupMember.Key, AccountGroupMember> toMap(Iterable<AccountGroupMember> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroupMember, OrmException>
+        getAsync(AccountGroupMember.Key key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMember> get(Iterable<AccountGroupMember.Key> keys)
+        throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroupMember> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroupMember> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroupMember> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroupMember.Key> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroupMember> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroupMember.Key key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroupMember atomicUpdate(
+        AccountGroupMember.Key key, AtomicUpdate<AccountGroupMember> update) throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroupMember get(AccountGroupMember.Key key) throws OrmException {
+      return delegate.get(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMember> byAccount(Account.Id id) throws OrmException {
+      return delegate.byAccount(id);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMember> byGroup(AccountGroup.Id id) throws OrmException {
+      return delegate.byGroup(id);
+    }
+  }
+
+  public static class AccountGroupMemberAuditAccessWrapper
+      implements AccountGroupMemberAuditAccess {
+    protected final AccountGroupMemberAuditAccess delegate;
+
+    protected AccountGroupMemberAuditAccessWrapper(AccountGroupMemberAuditAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroupMemberAudit> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroupMemberAudit.Key primaryKey(AccountGroupMemberAudit entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroupMemberAudit.Key, AccountGroupMemberAudit> toMap(
+        Iterable<AccountGroupMemberAudit> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroupMemberAudit, OrmException>
+        getAsync(AccountGroupMemberAudit.Key key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMemberAudit> get(Iterable<AccountGroupMemberAudit.Key> keys)
+        throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroupMemberAudit> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroupMemberAudit> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroupMemberAudit> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroupMemberAudit.Key> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroupMemberAudit> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroupMemberAudit.Key key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroupMemberAudit atomicUpdate(
+        AccountGroupMemberAudit.Key key, AtomicUpdate<AccountGroupMemberAudit> update)
+        throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroupMemberAudit get(AccountGroupMemberAudit.Key key) throws OrmException {
+      return delegate.get(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMemberAudit> byGroupAccount(
+        AccountGroup.Id groupId, Account.Id accountId) throws OrmException {
+      return delegate.byGroupAccount(groupId, accountId);
+    }
+
+    @Override
+    public ResultSet<AccountGroupMemberAudit> byGroup(AccountGroup.Id groupId) throws OrmException {
+      return delegate.byGroup(groupId);
+    }
+  }
+
+  public static class AccountGroupByIdAccessWrapper implements AccountGroupByIdAccess {
+    protected final AccountGroupByIdAccess delegate;
+
+    protected AccountGroupByIdAccessWrapper(AccountGroupByIdAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroupById> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroupById.Key primaryKey(AccountGroupById entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroupById.Key, AccountGroupById> toMap(Iterable<AccountGroupById> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroupById, OrmException> getAsync(
+        AccountGroupById.Key key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupById> get(Iterable<AccountGroupById.Key> keys)
+        throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroupById> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroupById> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroupById> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroupById.Key> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroupById> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroupById.Key key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroupById atomicUpdate(
+        AccountGroupById.Key key, AtomicUpdate<AccountGroupById> update) throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroupById get(AccountGroupById.Key key) throws OrmException {
+      return delegate.get(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupById> byIncludeUUID(AccountGroup.UUID uuid) throws OrmException {
+      return delegate.byIncludeUUID(uuid);
+    }
+
+    @Override
+    public ResultSet<AccountGroupById> byGroup(AccountGroup.Id id) throws OrmException {
+      return delegate.byGroup(id);
+    }
+
+    @Override
+    public ResultSet<AccountGroupById> all() throws OrmException {
+      return delegate.all();
+    }
+  }
+
+  public static class AccountGroupByIdAudAccessWrapper implements AccountGroupByIdAudAccess {
+    protected final AccountGroupByIdAudAccess delegate;
+
+    protected AccountGroupByIdAudAccessWrapper(AccountGroupByIdAudAccess delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public String getRelationName() {
+      return delegate.getRelationName();
+    }
+
+    @Override
+    public int getRelationID() {
+      return delegate.getRelationID();
+    }
+
+    @Override
+    public ResultSet<AccountGroupByIdAud> iterateAllEntities() throws OrmException {
+      return delegate.iterateAllEntities();
+    }
+
+    @Override
+    public AccountGroupByIdAud.Key primaryKey(AccountGroupByIdAud entity) {
+      return delegate.primaryKey(entity);
+    }
+
+    @Override
+    public Map<AccountGroupByIdAud.Key, AccountGroupByIdAud> toMap(
+        Iterable<AccountGroupByIdAud> c) {
+      return delegate.toMap(c);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public com.google.common.util.concurrent.CheckedFuture<AccountGroupByIdAud, OrmException>
+        getAsync(AccountGroupByIdAud.Key key) {
+      return delegate.getAsync(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupByIdAud> get(Iterable<AccountGroupByIdAud.Key> keys)
+        throws OrmException {
+      return delegate.get(keys);
+    }
+
+    @Override
+    public void insert(Iterable<AccountGroupByIdAud> instances) throws OrmException {
+      delegate.insert(instances);
+    }
+
+    @Override
+    public void update(Iterable<AccountGroupByIdAud> instances) throws OrmException {
+      delegate.update(instances);
+    }
+
+    @Override
+    public void upsert(Iterable<AccountGroupByIdAud> instances) throws OrmException {
+      delegate.upsert(instances);
+    }
+
+    @Override
+    public void deleteKeys(Iterable<AccountGroupByIdAud.Key> keys) throws OrmException {
+      delegate.deleteKeys(keys);
+    }
+
+    @Override
+    public void delete(Iterable<AccountGroupByIdAud> instances) throws OrmException {
+      delegate.delete(instances);
+    }
+
+    @Override
+    public void beginTransaction(AccountGroupByIdAud.Key key) throws OrmException {
+      delegate.beginTransaction(key);
+    }
+
+    @Override
+    public AccountGroupByIdAud atomicUpdate(
+        AccountGroupByIdAud.Key key, AtomicUpdate<AccountGroupByIdAud> update) throws OrmException {
+      return delegate.atomicUpdate(key, update);
+    }
+
+    @Override
+    public AccountGroupByIdAud get(AccountGroupByIdAud.Key key) throws OrmException {
+      return delegate.get(key);
+    }
+
+    @Override
+    public ResultSet<AccountGroupByIdAud> byGroupInclude(
+        AccountGroup.Id groupId, AccountGroup.UUID incGroupUUID) throws OrmException {
+      return delegate.byGroupInclude(groupId, incGroupUUID);
+    }
+
+    @Override
+    public ResultSet<AccountGroupByIdAud> byGroup(AccountGroup.Id groupId) throws OrmException {
+      return delegate.byGroup(groupId);
     }
   }
 }

@@ -27,7 +27,10 @@ public enum GroupNoteDbMode {
   /** Writing new groups to NoteDb is enabled. */
   WRITE(new GroupsMigration(true, false)),
 
-  /** Reading/writing groups from/to NoteDb is enabled. */
+  /**
+   * Reading/writing groups from/to NoteDb is enabled. Trying to read groups from ReviewDb throws an
+   * exception.
+   */
   READ_WRITE(new GroupsMigration(true, true));
 
   private static final String ENV_VAR = "GERRIT_NOTEDB_GROUPS";

@@ -18,6 +18,10 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.sql.Timestamp;
 import java.util.function.LongSupplier;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Static utility methods for dealing with dates and times. */
 @GwtIncompatible("Unemulated Java 8 functionalities")
@@ -43,11 +47,60 @@ public class TimeUtil {
   @VisibleForTesting
   public static void setCurrentMillisSupplier(LongSupplier customCurrentMillisSupplier) {
     currentMillisSupplier = customCurrentMillisSupplier;
+
+    SystemReader oldSystemReader = SystemReader.getInstance();
+    if (!(oldSystemReader instanceof GerritSystemReader)) {
+      SystemReader.setInstance(new GerritSystemReader(oldSystemReader));
+    }
   }
 
   @VisibleForTesting
   public static void resetCurrentMillisSupplier() {
     currentMillisSupplier = SYSTEM_CURRENT_MILLIS_SUPPLIER;
+    SystemReader.setInstance(null);
+  }
+
+  private static class GerritSystemReader extends SystemReader {
+    SystemReader delegate;
+
+    GerritSystemReader(SystemReader delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public String getHostname() {
+      return delegate.getHostname();
+    }
+
+    @Override
+    public String getenv(String variable) {
+      return delegate.getenv(variable);
+    }
+
+    @Override
+    public String getProperty(String key) {
+      return delegate.getProperty(key);
+    }
+
+    @Override
+    public FileBasedConfig openUserConfig(Config parent, FS fs) {
+      return delegate.openUserConfig(parent, fs);
+    }
+
+    @Override
+    public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+      return delegate.openSystemConfig(parent, fs);
+    }
+
+    @Override
+    public long getCurrentTime() {
+      return currentMillisSupplier.getAsLong();
+    }
+
+    @Override
+    public int getTimezone(long when) {
+      return delegate.getTimezone(when);
+    }
   }
 
   private TimeUtil() {}

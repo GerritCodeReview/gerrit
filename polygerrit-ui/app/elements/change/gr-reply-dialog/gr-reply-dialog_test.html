@@ -516,7 +516,7 @@ limitations under the License.
     });
 
     test('_focusOn', () => {
-      sandbox.stub(element, '_chooseFocusTarget');
+      sandbox.spy(element, '_chooseFocusTarget');
       element.serverConfig = {note_db_enabled: true};
       flushAsynchronousOperations();
       const textareaStub = sandbox.stub(element.$.textarea, 'async');
@@ -525,31 +525,31 @@ limitations under the License.
       const ccStub = sandbox.stub(element.$$('#ccs').focusStart, 'async');
       element._focusOn();
       assert.equal(element._chooseFocusTarget.callCount, 1);
-      assert.deepEqual(textareaStub.callCount, 0);
+      assert.deepEqual(textareaStub.callCount, 1);
       assert.deepEqual(reviewerEntryStub.callCount, 0);
       assert.deepEqual(ccStub.callCount, 0);
 
       element._focusOn(element.FocusTarget.ANY);
       assert.equal(element._chooseFocusTarget.callCount, 2);
-      assert.deepEqual(textareaStub.callCount, 0);
+      assert.deepEqual(textareaStub.callCount, 2);
       assert.deepEqual(reviewerEntryStub.callCount, 0);
       assert.deepEqual(ccStub.callCount, 0);
 
       element._focusOn(element.FocusTarget.BODY);
       assert.equal(element._chooseFocusTarget.callCount, 2);
-      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(textareaStub.callCount, 3);
       assert.deepEqual(reviewerEntryStub.callCount, 0);
       assert.deepEqual(ccStub.callCount, 0);
 
       element._focusOn(element.FocusTarget.REVIEWERS);
       assert.equal(element._chooseFocusTarget.callCount, 2);
-      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(textareaStub.callCount, 3);
       assert.deepEqual(reviewerEntryStub.callCount, 1);
       assert.deepEqual(ccStub.callCount, 0);
 
       element._focusOn(element.FocusTarget.CCS);
       assert.equal(element._chooseFocusTarget.callCount, 2);
-      assert.deepEqual(textareaStub.callCount, 1);
+      assert.deepEqual(textareaStub.callCount, 3);
       assert.deepEqual(reviewerEntryStub.callCount, 1);
       assert.deepEqual(ccStub.callCount, 1);
     });

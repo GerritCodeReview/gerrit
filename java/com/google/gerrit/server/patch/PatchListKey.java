@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.diff;
+package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;

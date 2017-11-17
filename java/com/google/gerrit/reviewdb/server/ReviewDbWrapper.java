@@ -149,11 +149,6 @@ public class ReviewDbWrapper implements ReviewDb {
     return delegate.nextChangeId();
   }
 
-  @Override
-  public boolean changesTablesEnabled() {
-    return delegate.changesTablesEnabled();
-  }
-
   public static class ChangeAccessWrapper implements ChangeAccess {
     protected final ChangeAccess delegate;
 

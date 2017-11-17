@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "313bcaa2_4ae0a643",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-11-17T19:49:33Z",
+      "side": 1,
+      "message": "should this be plural and return the full array?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 15
+      },
+      "revId": "488806995552e4457fa6e435e33bf55b85032c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ef41a8_750a3c0a",
+        "filename": "polygerrit-ui/app/elements/core/gr-weblinks/gr-weblinks.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1032503
+      },
+      "writtenOn": "2017-11-17T19:49:33Z",
+      "side": 1,
+      "message": "Should this throw?",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "488806995552e4457fa6e435e33bf55b85032c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

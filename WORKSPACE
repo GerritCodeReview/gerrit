@@ -242,10 +242,24 @@ maven_jar(
     sha1 = "56003dcd0a31deea6391b9e2ef2f2dc90b205a92",
 )
 
+LOG4J_VERS = "2.10.0"
+
 maven_jar(
-    name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    name = "log4j-api",
+    artifact = "org.apache.logging.log4j:log4j-api:" + LOG4J_VERS,
+    sha1 = "fec5797a55b786184a537abd39c3fa1449d752d6",
+)
+
+maven_jar(
+    name = "log4j-core",
+    artifact = "org.apache.logging.log4j:log4j-core:" + LOG4J_VERS,
+    sha1 = "c90b597163cd28ab6d9687edd53db601b6ea75a1",
+)
+
+maven_jar(
+    name = "log4j1.2-api",
+    artifact = "org.apache.logging.log4j:log4j-1.2-api:" + LOG4J_VERS,
+    sha1 = "62e26af2612d1bd03aba1c7c087447f14033b7ba",
 )
 
 maven_jar(

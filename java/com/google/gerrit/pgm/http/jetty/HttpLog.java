@@ -25,11 +25,19 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Iterator;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import java.util.Map;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.impl.Log4jLogEvent;
+import org.apache.logging.log4j.message.SimpleMessage;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
@@ -37,7 +45,7 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
-  private static final Logger log = Logger.getLogger(HttpLog.class);
+  private static final Logger log = LogManager.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
   private static final ImmutableSet<String> REDACT_PARAM = ImmutableSet.of(XD_AUTHORIZATION);
 
@@ -59,7 +67,8 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Inject
   HttpLog(SystemLog systemLog) {
-    async = systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout());
+    Layout<? extends Serializable> layout = new HttpLogLayout(Charset.forName("UTF-8"));
+    async = systemLog.createAsyncAppender(LOG_NAME, layout);
   }
 
   @Override
@@ -67,41 +76,43 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   protected void doStop() throws Exception {
-    async.close();
+    if (async != null) {
+      async.stop();
+    }
   }
 
   @Override
   public void log(Request req, Response rsp) {
-    final LoggingEvent event =
-        new LoggingEvent( //
-            Logger.class.getName(), // fqnOfCategoryClass
-            log, // logger
-            TimeUtil.nowMs(), // when
-            Level.INFO, // level
-            "", // message text
-            "HTTPD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
+
+    Map<String, String> map = new HashMap<>();
 
     String uri = req.getRequestURI();
     uri = redactQueryString(uri, req.getQueryString());
 
     String user = (String) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
     if (user != null) {
-      event.setProperty(P_USER, user);
+      map.put(P_USER, user);
     }
 
-    set(event, P_HOST, req.getRemoteAddr());
-    set(event, P_METHOD, req.getMethod());
-    set(event, P_RESOURCE, uri);
-    set(event, P_PROTOCOL, req.getProtocol());
-    set(event, P_STATUS, rsp.getStatus());
-    set(event, P_CONTENT_LENGTH, rsp.getContentCount());
-    set(event, P_REFERER, req.getHeader("Referer"));
-    set(event, P_USER_AGENT, req.getHeader("User-Agent"));
+    set(map, P_HOST, req.getRemoteAddr());
+    set(map, P_METHOD, req.getMethod());
+    set(map, P_RESOURCE, uri);
+    set(map, P_PROTOCOL, req.getProtocol());
+    set(map, P_STATUS, rsp.getStatus());
+    set(map, P_CONTENT_LENGTH, rsp.getContentCount());
+    set(map, P_REFERER, req.getHeader("Referer"));
+    set(map, P_USER_AGENT, req.getHeader("User-Agent"));
+
+    final LogEvent event =
+        Log4jLogEvent.newBuilder()
+            .setLoggerName(log.toString())
+            .setLoggerFqcn(Logger.class.getName())
+            .setLevel(Level.INFO)
+            .setMessage(new SimpleMessage(""))
+            .setThreadName("HTTPD")
+            .setTimeMillis(TimeUtil.nowMs())
+            .setContextMap(map)
+            .build();
 
     async.append(event);
   }
@@ -131,15 +142,15 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     return b.toString();
   }
 
-  private static void set(LoggingEvent event, String key, String val) {
+  private static void set(Map<String, String> map, String key, String val) {
     if (val != null && !val.isEmpty()) {
-      event.setProperty(key, val);
+      map.put(key, val);
     }
   }
 
-  private static void set(LoggingEvent event, String key, long val) {
+  private static void set(Map<String, String> map, String key, long val) {
     if (0 < val) {
-      event.setProperty(key, String.valueOf(val));
+      map.put(key, String.valueOf(val));
     }
   }
 }

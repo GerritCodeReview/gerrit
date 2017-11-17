@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.util;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -24,16 +22,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +38,7 @@ import org.slf4j.LoggerFactory;
 public class SystemLog {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
-  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOG4J_CONFIGURATION = "log4j.configurationFile";
 
   private final SitePaths site;
   private final int asyncLoggingBufferSize;
@@ -59,16 +56,26 @@ public class SystemLog {
   }
 
   public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
+    Appender dst =
+        RollingFileAppender.newBuilder()
+            .withAdvertise(Boolean.parseBoolean(null))
+            .withAdvertiseUri(null)
+            .withAppend(true)
+            .withBufferedIo(null)
+            .withBufferSize(null)
+            .setConfiguration(new DefaultConfiguration())
+            .withFileName(resolve(logdir).resolve(name).toString())
+            .withFilePattern(null)
+            .withFilter(null)
+            .withIgnoreExceptions(true)
+            .withImmediateFlush(true)
+            .withLayout(layout)
+            .withCreateOnDemand(false)
+            .withLocking(false)
+            .withName(name)
+            .withPolicy(null)
+            .withStrategy(null)
+            .build();
     return dst;
   }
 
@@ -121,15 +128,6 @@ public class SystemLog {
     public void error(String message) {
       throw new Die("Cannot open log file: " + message);
     }
-
-    @Override
-    public void activateOptions() {}
-
-    @Override
-    public void setAppender(Appender appender) {}
-
-    @Override
-    public void setBackupAppender(Appender appender) {}
 
     @Override
     public void setLogger(Logger logger) {}

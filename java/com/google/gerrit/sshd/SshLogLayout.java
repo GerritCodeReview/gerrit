@@ -14,14 +14,18 @@
 
 package com.google.gerrit.sshd;
 
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.eclipse.jgit.util.QuotedString;
 
-public final class SshLogLayout extends Layout {
+@Plugin(name = "SshLogLayout", category = "Core", elementType = "layout", printObject = true)
+public final class SshLogLayout extends AbstractStringLayout {
 
   private static final String P_SESSION = "session";
   private static final String P_USER_NAME = "userName";
@@ -37,7 +41,9 @@ public final class SshLogLayout extends Layout {
   private final SimpleDateFormat tzFormat;
   private char[] timeZone;
 
-  public SshLogLayout() {
+  public SshLogLayout(Charset charset) {
+    super(charset);
+
     final TimeZone tz = TimeZone.getDefault();
     calendar = Calendar.getInstance(tz);
 
@@ -45,25 +51,32 @@ public final class SshLogLayout extends Layout {
     tzFormat.setTimeZone(tz);
   }
 
+  /**
+   * Formats a {@link org.apache.logging.log4j.core.LogEvent} in conformance with the BSD Log record
+   * format.
+   *
+   * @param event The LogEvent
+   * @return the event formatted as a String.
+   */
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(final LogEvent event) {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
-    req(P_SESSION, buf, event);
-    req(P_USER_NAME, buf, event);
-    req(P_ACCOUNT_ID, buf, event);
+    req(P_SESSION, buf);
+    req(P_USER_NAME, buf);
+    req(P_ACCOUNT_ID, buf);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    buf.append(event.getMessage().getFormattedMessage());
 
-    opt(P_WAIT, buf, event);
-    opt(P_EXEC, buf, event);
-    opt(P_STATUS, buf, event);
-    opt(P_AGENT, buf, event);
+    opt(P_WAIT, buf);
+    opt(P_EXEC, buf);
+    opt(P_STATUS, buf);
+    opt(P_AGENT, buf);
 
     buf.append('\n');
     return buf.toString();
@@ -104,11 +117,11 @@ public final class SshLogLayout extends Layout {
     return String.format("%02d", input);
   }
 
-  private void req(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void req(String key, StringBuffer buf) {
+    String val = ThreadContext.get(key);
     buf.append(' ');
     if (val != null) {
-      String s = val.toString();
+      String s = val;
       if (0 <= s.indexOf(' ')) {
         buf.append(QuotedString.BOURNE.quote(s));
       } else {
@@ -119,19 +132,11 @@ public final class SshLogLayout extends Layout {
     }
   }
 
-  private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void opt(String key, StringBuffer buf) {
+    String val = ThreadContext.get(key);
     if (val != null) {
       buf.append(' ');
       buf.append(val);
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

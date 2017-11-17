@@ -243,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "2e0ed27e_5dd25f8e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T16:38:52Z",
+      "side": 1,
+      "message": "Ok, well, we need to fix that. It is definitely not ok to sleep in tests.",
+      "parentUuid": "2d44e6d9_8e0988e2",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02fb70ae_44ad4e94",
         "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
         "patchSetId": 5

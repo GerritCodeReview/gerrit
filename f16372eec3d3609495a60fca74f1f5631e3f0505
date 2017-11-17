@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08b87698_f2ae601c",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T13:00:38Z",
+      "side": 1,
+      "message": "I think the key here is that there might not be a vote, so maybe I would replace this with \"(even if there is no vote processed by the loop below)\" or something",
+      "range": {
+        "startLine": 125,
+        "startChar": 39,
+        "endLine": 125,
+        "endChar": 66
+      },
+      "revId": "f16372eec3d3609495a60fca74f1f5631e3f0505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38dd0bde_96ce0b3d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T13:00:38Z",
+      "side": 1,
+      "message": "Curious why not?",
+      "revId": "f16372eec3d3609495a60fca74f1f5631e3f0505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a03cb47_099c9e95",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T13:00:38Z",
+      "side": 1,
+      "message": "What about test cases when the reviewer does have the Remove Reviewer permission? (Are those already covered elsewhere in the file?)",
+      "revId": "f16372eec3d3609495a60fca74f1f5631e3f0505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,6 +21,8 @@ java_library(
         "//lib/jetty:servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-        "//lib/log:log4j",
+        "//lib/log:log4j-api",
+        "//lib/log:log4j-core",
+        "//lib/log:log4j1.2-api",
     ],
 )

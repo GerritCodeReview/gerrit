@@ -24,14 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
@@ -59,16 +58,25 @@ public class SystemLog {
   }
 
   public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
+    Appender dst = RollingFileAppender.newBuilder()
+            .withAdvertise(Boolean.parseBoolean(null))
+            .withAdvertiseUri(null)
+            .withAppend(true)
+            .withBufferedIo(null)
+            .withBufferSize(null)
+            .setConfiguration(this)
+            .withFileName(resolve(logdir).resolve(name).toString())
+            .withFilePattern(null)
+            .withFilter(null)
+            .withIgnoreExceptions(true)
+            .withImmediateFlush(true)
+            .withLayout(layout)
+            .withCreateOnDemand(false)
+            .withLocking(false)
+            .withName(name)
+            .withPolicy(null)
+            .withStrategy(null)
+            .build();
     return dst;
   }
 

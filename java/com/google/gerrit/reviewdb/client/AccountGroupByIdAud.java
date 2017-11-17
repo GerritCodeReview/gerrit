@@ -142,4 +142,19 @@ public final class AccountGroupByIdAud {
   public int hashCode() {
     return Objects.hash(key, addedBy, removedBy, removedOn);
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName()
+        + "{"
+        + "key="
+        + key
+        + ", addedBy="
+        + addedBy
+        + ", removedBy="
+        + removedBy
+        + ", removedOn="
+        + removedOn
+        + "}";
+  }
 }

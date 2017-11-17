@@ -286,4 +286,25 @@ public final class AccountGroup {
     return Objects.hash(
         name, groupId, description, visibleToAll, groupUUID, ownerGroupUUID, createdOn);
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName()
+        + "{"
+        + "name="
+        + name
+        + ", groupId="
+        + groupId
+        + ", description="
+        + description
+        + ", visibleToAll="
+        + visibleToAll
+        + ", groupUUID="
+        + groupUUID
+        + ", ownerGroupUUID="
+        + ownerGroupUUID
+        + ", createdOn="
+        + createdOn
+        + "}";
+  }
 }

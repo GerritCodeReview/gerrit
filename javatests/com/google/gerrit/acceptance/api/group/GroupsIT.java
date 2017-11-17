@@ -778,7 +778,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getAuditLog() throws Exception {
-    assume().that(cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false)).isFalse();
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);
@@ -806,10 +805,30 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(auditEvents).hasSize(5);
     assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
 
+    /**
+     * Make sure the new commit is created in a different second. This is added for NoteDb since the
+     * resolution of Timestamp is 1s there. Adding here is enough because the sort used in {@code
+     * GetAuditLog} is stable and we process {@code AccountGroupMemberAudit} before {@code
+     * AccountGroupByIdAud}.
+     */
+    Thread.sleep(1000);
+
+    // Add a removed member back again.
+    g.addMembers(user.username);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(6);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id, user.id);
+
+    // Add a removed group back again.
+    g.addGroups(otherGroup);
+    auditEvents = g.auditLog();
+    assertThat(auditEvents).hasSize(7);
+    assertAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id, otherGroup);
+
     Timestamp lastDate = null;
     for (GroupAuditEventInfo auditEvent : auditEvents) {
       if (lastDate != null) {
-        assertThat(lastDate).isGreaterThan(auditEvent.date);
+        assertThat(lastDate).isAtLeast(auditEvent.date);
       }
       lastDate = auditEvent.date;
     }

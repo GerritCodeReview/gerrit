@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.READ;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
@@ -118,6 +119,13 @@ public class GroupsIT extends AbstractDaemonTest {
     Config config = new Config();
     config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, true);
     config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true);
+    return config;
+  }
+
+  @ConfigSuite.Config
+  public static Config disableReviewDb() {
+    Config config = noteDbConfig();
+    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, true);
     return config;
   }
 

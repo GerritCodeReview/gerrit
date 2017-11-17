@@ -38,18 +38,38 @@ import java.util.Map;
 public class ReviewDbWrapper implements ReviewDb {
   protected final ReviewDb delegate;
 
+  private boolean inTransaction;
+
   protected ReviewDbWrapper(ReviewDb delegate) {
     this.delegate = checkNotNull(delegate);
   }
 
+  public boolean inTransaction() {
+    return inTransaction;
+  }
+
+  public void beginTransaction() {
+    inTransaction = true;
+  }
+
   @Override
   public void commit() throws OrmException {
-    delegate.commit();
+    if (!inTransaction) {
+      // This reads a little weird, we're not in a transaction, so why are we calling commit?
+      // Because we want to let the underlying ReviewDb do its normal thing in this case (which may
+      // be throwing an exception, or not, depending on implementation).
+      delegate.commit();
+    }
   }
 
   @Override
   public void rollback() throws OrmException {
-    delegate.rollback();
+    if (inTransaction) {
+      inTransaction = false;
+    } else {
+      // See comment in commit(): we want to let the underlying ReviewDb do its thing.
+      delegate.rollback();
+    }
   }
 
   @Override

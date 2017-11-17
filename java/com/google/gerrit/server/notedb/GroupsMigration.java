@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
+import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.READ;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
@@ -37,6 +38,7 @@ public class GroupsMigration {
 
   private final boolean writeToNoteDb;
   private final boolean readFromNoteDb;
+  private final boolean disableGroupReviewDb;
 
   @Inject
   public GroupsMigration(@GerritServerConfig Config cfg) {
@@ -46,12 +48,15 @@ public class GroupsMigration {
     // implementation of groups in NoteDb among several changes which are gradually merged.
     this(
         cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false),
-        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false));
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false),
+        cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, false));
   }
 
-  public GroupsMigration(boolean writeToNoteDb, boolean readFromNoteDb) {
+  public GroupsMigration(
+      boolean writeToNoteDb, boolean readFromNoteDb, boolean disableGroupReviewDb) {
     this.writeToNoteDb = writeToNoteDb;
     this.readFromNoteDb = readFromNoteDb;
+    this.disableGroupReviewDb = disableGroupReviewDb;
   }
 
   public boolean writeToNoteDb() {
@@ -62,11 +67,16 @@ public class GroupsMigration {
     return readFromNoteDb;
   }
 
+  public boolean disableGroupReviewDb() {
+    return disableGroupReviewDb;
+  }
+
   public void setConfigValuesIfNotSetYet(Config cfg) {
     Set<String> subsections = cfg.getSubsections(SECTION_NOTE_DB);
     if (!subsections.contains(GROUPS.key())) {
       cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, writeToNoteDb());
       cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, readFromNoteDb());
+      cfg.setBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, disableGroupReviewDb());
     }
   }
 }

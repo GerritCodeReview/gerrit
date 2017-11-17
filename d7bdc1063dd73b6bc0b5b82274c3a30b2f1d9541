@@ -117,6 +117,30 @@
       "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbaa80a1_c351d4c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-17T01:53:26Z",
+      "side": 1,
+      "message": "As you planning to replace the file_name column by the file_name_sha1 and hash the file name before doing a query?\n\nI am asking because if you keep doing the query using the file_name then queries will be slow because they won\u0027t be able to leverage the implicit index created on primary key.\n\nThen you will need to create an index on (change_id, patch_set_id, account_id, file_name_sha1) to keep decent queries performance if this limitation of 767 bytes only apply to primary key and not to indices.",
+      "parentUuid": "1bd365bc_d5158c6a",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

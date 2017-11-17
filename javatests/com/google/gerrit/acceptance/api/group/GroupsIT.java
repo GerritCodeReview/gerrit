@@ -79,6 +79,7 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -93,6 +94,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -107,6 +109,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -128,6 +132,16 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject
   @Named("groups_byuuid")
   private LoadingCache<String, Optional<InternalGroup>> groupsByUUIDCache;
+
+  @Before
+  public void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+  }
 
   @Test
   public void systemGroupCanBeRetrievedFromIndex() throws Exception {
@@ -804,14 +818,6 @@ public class GroupsIT extends AbstractDaemonTest {
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(5);
     assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
-
-    /**
-     * Make sure the new commit is created in a different second. This is added for NoteDb since the
-     * resolution of Timestamp is 1s there. Adding here is enough because the sort used in {@code
-     * GetAuditLog} is stable and we process {@code AccountGroupMemberAudit} before {@code
-     * AccountGroupByIdAud}.
-     */
-    Thread.sleep(1000);
 
     // Add a removed member back again.
     g.addMembers(user.username);

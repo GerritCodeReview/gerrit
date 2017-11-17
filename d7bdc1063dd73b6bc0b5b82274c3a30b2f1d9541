@@ -141,6 +141,30 @@
       "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df5f3bd0_e9a18c84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-11-17T01:55:18Z",
+      "side": 1,
+      "message": "\u003e As you planning to replace the file_name column by the file_name_sha1 and hash the file name before doing a query?\nAre you planning...",
+      "parentUuid": "cbaa80a1_c351d4c5",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "d7bdc1063dd73b6bc0b5b82274c3a30b2f1d9541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

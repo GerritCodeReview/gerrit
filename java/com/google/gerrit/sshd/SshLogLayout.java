@@ -17,11 +17,16 @@ package com.google.gerrit.sshd;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.pattern.ConverterKeys;
+import org.apache.logging.log4j.core.pattern.LogEventPatternConverter;
 import org.eclipse.jgit.util.QuotedString;
 
-public final class SshLogLayout extends Layout {
+@Plugin(name = "SshLogLayout", category = "Converter")
+@ConverterKeys({"markername"})
+public class SshLogLayout extends LogEventPatternConverter {
 
   private static final String P_SESSION = "session";
   private static final String P_USER_NAME = "userName";
@@ -37,7 +42,9 @@ public final class SshLogLayout extends Layout {
   private final SimpleDateFormat tzFormat;
   private char[] timeZone;
 
-  public SshLogLayout() {
+  public SshLogLayout(String name, String style) {
+    super(name, style);
+
     final TimeZone tz = TimeZone.getDefault();
     calendar = Calendar.getInstance(tz);
 
@@ -46,11 +53,11 @@ public final class SshLogLayout extends Layout {
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public void format(LogEvent event, StringBuilder toAppendTo) {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    // formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -58,7 +65,7 @@ public final class SshLogLayout extends Layout {
     req(P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    //buf.append(event.getMessage());
 
     opt(P_WAIT, buf, event);
     opt(P_EXEC, buf, event);
@@ -66,7 +73,7 @@ public final class SshLogLayout extends Layout {
     opt(P_AGENT, buf, event);
 
     buf.append('\n');
-    return buf.toString();
+    buf.toString();
   }
 
   private void formatDate(long now, StringBuffer sbuf) {
@@ -104,11 +111,13 @@ public final class SshLogLayout extends Layout {
     return String.format("%02d", input);
   }
 
-  private void req(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void req(String key, StringBuffer buf, LogEvent event) {
+    String val = ThreadContext.get(key);
+    //Object val = vals;
     buf.append(' ');
     if (val != null) {
-      String s = val.toString();
+      //String s = val.toString();
+      String s = val;
       if (0 <= s.indexOf(' ')) {
         buf.append(QuotedString.BOURNE.quote(s));
       } else {
@@ -119,19 +128,12 @@ public final class SshLogLayout extends Layout {
     }
   }
 
-  private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void opt(String key, StringBuffer buf, LogEvent event) {
+    String val = ThreadContext.get(key);
+    //Object val = vals;
     if (val != null) {
       buf.append(' ');
       buf.append(val);
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

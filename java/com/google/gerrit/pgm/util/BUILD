@@ -22,6 +22,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
+        "//lib/log:json-smart",
         "//lib/log:log4j",
     ],
 )

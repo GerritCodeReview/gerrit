@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -204,7 +205,9 @@ public class GroupsUpdate {
   public InternalGroup createGroup(
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, ConfigInvalidException {
-    InternalGroup createdGroupInReviewDb = createGroupInReviewDb(db, groupCreation, groupUpdate);
+    // TODO Don't read groups from ReviewDb if reading groups from NoteDb is configured
+    InternalGroup createdGroupInReviewDb =
+        createGroupInReviewDb(ReviewDbUtil.unwrapDb(db), groupCreation, groupUpdate);
 
     if (!groupsMigration.writeToNoteDb()) {
       updateCachesOnGroupCreation(createdGroupInReviewDb);
@@ -240,8 +243,10 @@ public class GroupsUpdate {
   public UpdateResult updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    AccountGroup group = getExistingGroupFromReviewDb(db, groupUuid);
-    UpdateResult reviewDbUpdateResult = updateGroupInReviewDb(db, group, groupUpdate);
+    // TODO Don't read groups from ReviewDb if reading groups from NoteDb is configured
+    AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
+    UpdateResult reviewDbUpdateResult =
+        updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
 
     if (!groupsMigration.writeToNoteDb()) {
       return reviewDbUpdateResult;

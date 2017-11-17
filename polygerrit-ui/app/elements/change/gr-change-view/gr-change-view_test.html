@@ -842,7 +842,8 @@ limitations under the License.
 
     test('_openReplyDialog called with `ANY` when coming from tap event', () => {
       const openStub = sandbox.stub(element, '_openReplyDialog');
-      element.$.actions.fire('reply-tap');
+      element._serverConfig = {};
+      MockInteractions.tap(element.$.replyBtn);
       assert(openStub.lastCall.calledWithExactly(
           element.$.replyDialog.FocusTarget.ANY),
           '_openReplyDialog should have been passed ANY');

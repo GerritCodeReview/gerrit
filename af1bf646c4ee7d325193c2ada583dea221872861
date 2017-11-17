@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4178b379_1102982f",
+        "filename": "java/com/google/gerrit/reviewdb/server/DisallowReadFromGroupsReviewDbWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "929f1a64_d6c167e6",
+      "range": {
+        "startLine": 87,
+        "startChar": 56,
+        "endLine": 87,
+        "endChar": 75
+      },
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df10a559_6fc7d669",
         "filename": "java/com/google/gerrit/reviewdb/server/DisallowReadFromGroupsReviewDbWrapper.java",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "a94b4742_6e1ce05b",
+        "filename": "java/com/google/gerrit/reviewdb/server/DisallowReadFromGroupsReviewDbWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "Just missed to throw the exception here too.\n\nDone",
+      "parentUuid": "df10a559_6fc7d669",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d339a686_db0670c3",
         "filename": "java/com/google/gerrit/reviewdb/server/ReviewDbUtil.java",
         "patchSetId": 2
@@ -54,6 +96,24 @@
       "writtenOn": "2017-11-17T15:08:52Z",
       "side": 1,
       "message": "Optional: Maybe wrap this in a while loop so it\u0027s not dependent on the order in which they\u0027re wrapped.",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89f27443_f12fcbc0",
+        "filename": "java/com/google/gerrit/reviewdb/server/ReviewDbUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "The order should not mapper by doing the recursive call, does it?",
+      "parentUuid": "d339a686_db0670c3",
       "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f06a0606_9b604476",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8037615b_13a4c7da",
+      "range": {
+        "startLine": 208,
+        "startChar": 7,
+        "endLine": 208,
+        "endChar": 11
+      },
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8dd43a7_32029d07",
         "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
         "patchSetId": 2
@@ -100,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "aef91cf7_2688468a",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8dd43a7_32029d07",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d5f8672_f7338fbb",
         "filename": "java/com/google/gerrit/server/schema/NotesMigrationSchemaFactory.java",
         "patchSetId": 2
@@ -114,6 +216,24 @@
       "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "494e0dc8_dc49d087",
+        "filename": "java/com/google/gerrit/server/schema/NotesMigrationSchemaFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-11-17T15:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d5f8672_f7338fbb",
+      "revId": "af1bf646c4ee7d325193c2ada583dea221872861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

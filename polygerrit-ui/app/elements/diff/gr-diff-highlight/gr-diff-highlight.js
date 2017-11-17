@@ -251,6 +251,22 @@
       };
     },
 
+    /**
+     * The only line in which add a comment tooltip is cut off is the first
+     * line. Even if there is a collapsed section, The first visible line is
+     * in the position where the second line would have been, if not for the
+     * collapsed section, so don't need to worry about this case for
+     * positioning the tooltip.
+     */
+    _positionActionBox(actionBox, startLine, range) {
+      if (startLine > 1) {
+        actionBox.placeAbove(range);
+        return;
+      }
+      actionBox.positionBelow = true;
+      actionBox.placeBelow(range);
+    },
+
     _handleSelection() {
       const normalizedRange = this._getNormalizedRange();
       if (!normalizedRange) {
@@ -285,17 +301,18 @@
       };
       actionBox.side = start.side;
       if (start.line === end.line) {
-        actionBox.placeAbove(domRange);
+        this._positionActionBox(actionBox, start.line, domRange);
       } else if (start.node instanceof Text) {
         if (start.column) {
-          actionBox.placeAbove(start.node.splitText(start.column));
+          this._positionActionBox(actionBox, start.line,
+              start.node.splitText(start.column));
         }
         start.node.parentElement.normalize(); // Undo splitText from above.
       } else if (start.node.classList.contains('content') &&
-                 start.node.firstChild) {
-        actionBox.placeAbove(start.node.firstChild);
+          start.node.firstChild) {
+        this._positionActionBox(actionBox, start.line, start.node.firstChild);
       } else {
-        actionBox.placeAbove(start.node);
+        this._positionActionBox(actionBox, start.line, start.node);
       }
     },
 

@@ -6,6 +6,13 @@ java_library(
 )
 
 java_library(
+    name = "ext",
+    data = ["//lib:LICENSE-slf4j"],
+    visibility = ["//visibility:public"],
+    exports = ["@log_ext//jar"],
+)
+
+java_library(
     name = "nop",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
@@ -18,7 +25,11 @@ java_library(
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
     exports = ["@impl_log4j//jar"],
-    runtime_deps = [":log4j"],
+    runtime_deps = [
+        ":api",
+        ":ext",
+        ":log4j",
+    ],
 )
 
 java_library(
@@ -32,7 +43,13 @@ java_library(
     name = "log4j",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@log4j//jar"],
+    exports = [
+        "@disruptor//jar",
+        "@log4j-api//jar",
+        "@log4j-core//jar",
+        "@log4j-web//jar",
+        "@log4j1.2-api//jar",
+    ],
 )
 
 java_library(

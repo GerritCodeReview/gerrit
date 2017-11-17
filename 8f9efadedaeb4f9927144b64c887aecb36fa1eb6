@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b05e88ef_643f820c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T18:57:42Z",
+      "side": -1,
+      "message": "Unfortunately, the merge of the cherry-pick of this file into stable-2.12 overwrote these intervening changes.",
+      "revId": "8f9efadedaeb4f9927144b64c887aecb36fa1eb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

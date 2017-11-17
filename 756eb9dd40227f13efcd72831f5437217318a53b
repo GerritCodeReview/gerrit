@@ -93,6 +93,30 @@
       "revId": "756eb9dd40227f13efcd72831f5437217318a53b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7297258f_c9a0bbec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-11-17T23:45:17Z",
+      "side": 1,
+      "message": "Thank you, and +1 on the integration tests.",
+      "parentUuid": "17d696db_af265d0a",
+      "range": {
+        "startLine": 475,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 72
+      },
+      "revId": "756eb9dd40227f13efcd72831f5437217318a53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

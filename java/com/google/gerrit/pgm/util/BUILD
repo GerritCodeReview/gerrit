@@ -22,9 +22,10 @@ java_library(
         "//lib:gwtorm",
         "//lib/commons:dbcp",
         "//lib/guice",
+        "//lib/jackson:jackson-annotations",
+        "//lib/jackson:jackson-databind",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-        "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
     ],
 )

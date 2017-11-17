@@ -28,8 +28,16 @@ guice-servlet
 hamcrest
 impl-log4j
 j2objc
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+jackson-annotations
+jackson-core
+jackson-databind
+jackson-dataformat-smile
+jna
+=======
 jcl-over-slf4j
 jimfs
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 jruby
 log-api
 log-ext

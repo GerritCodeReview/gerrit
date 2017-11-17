@@ -20,11 +20,15 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+=======
 import java.util.Collections;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -41,11 +45,19 @@ public class ListLoggingLevelCommand extends SshCommand {
   protected void run() {
     enableGracefulStop();
     Map<String, String> logs = new TreeMap<>();
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    for (final Logger loggerConfig : ctx.getLoggers()) {
+      if (name == null || loggerConfig.getName().contains(name)) {
+        logs.put(loggerConfig.getName(), loggerConfig.getLevel().toString());
+=======
     for (Logger logger : getCurrentLoggers()) {
       if (name == null || logger.getName().contains(name)) {
         logs.put(logger.getName(), logger.getEffectiveLevel().toString());
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
       }
     }
+
     for (Map.Entry<String, String> e : logs.entrySet()) {
       stdout.println(e.getKey() + ": " + e.getValue());
     }

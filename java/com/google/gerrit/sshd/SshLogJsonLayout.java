@@ -29,21 +29,25 @@ import static com.google.gerrit.sshd.SshLog.P_WAIT;
 import com.google.common.base.Splitter;
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+import org.apache.logging.log4j.core.LogEvent;
+=======
 import java.util.List;
 import org.apache.log4j.spi.LoggingEvent;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
 public class SshLogJsonLayout extends JsonLayout {
   private static final Splitter SPLITTER = Splitter.on(" ");
 
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+  public JsonLogEntry toJsonLogEntry(LogEvent event) {
     return new SshJsonLogEntry(event);
   }
 
   @SuppressWarnings("unused")
   private class SshJsonLogEntry extends JsonLogEntry {
     public String timestamp;
-    public String session;
+    /*public String session;
     public String thread;
     public String user;
     public String accountId;
@@ -65,11 +69,11 @@ public class SshLogJsonLayout extends JsonLayout {
     public String bitmapIndexMisses;
     public String deltasTotal;
     public String objectsTotal;
-    public String bytesTotal;
+    public String bytesTotal;*/
 
-    public SshJsonLogEntry(LoggingEvent event) {
-      this.timestamp = timestampFormatter.format(event.getTimeStamp());
-      this.session = getMdcString(event, P_SESSION);
+    public SshJsonLogEntry(LogEvent event) {
+      this.timestamp = timestampFormatter.format(event.getTimeMillis());
+      /*this.session = getMdcString(event, P_SESSION);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER_NAME);
       this.accountId = getMdcString(event, P_ACCOUNT_ID);
@@ -84,6 +88,21 @@ public class SshLogJsonLayout extends JsonLayout {
 
       String metricString = getMdcString(event, P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+        String[] ssh_metrics = metricString.split(" ");
+        this.timeNegotiating = ssh_metrics[0];
+        this.timeSearchReuse = ssh_metrics[1];
+        this.timeSearchSizes = ssh_metrics[2];
+        this.timeCounting = ssh_metrics[3];
+        this.timeCompressing = ssh_metrics[4];
+        this.timeWriting = ssh_metrics[5];
+        this.timeTotal = ssh_metrics[6];
+        this.bitmapIndexMisses = ssh_metrics[7];
+        this.deltasTotal = ssh_metrics[8];
+        this.objectsTotal = ssh_metrics[9];
+        this.bytesTotal = ssh_metrics[10];
+      }*/
+=======
         List<String> ssh_metrics = SPLITTER.splitToList(metricString);
         this.timeNegotiating = ssh_metrics.get(0);
         this.timeSearchReuse = ssh_metrics.get(1);
@@ -97,6 +116,7 @@ public class SshLogJsonLayout extends JsonLayout {
         this.objectsTotal = ssh_metrics.get(9);
         this.bytesTotal = ssh_metrics.get(10);
       }
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     }
   }
 }

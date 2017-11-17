@@ -148,6 +148,17 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+        name = "jackson-annotations",
+        artifact = "com.fasterxml.jackson.core:jackson-annotations:2.10.3",
+        sha1 = "0f63b3b1da563767d04d2e4d3fc1ae0cdeffebe7",
+    )
+
+    maven_jar(
+        name = "jackson-core",
+        artifact = "com.fasterxml.jackson.core:jackson-core:2.10.3",
+        sha1 = "f7ee7b55c7d292ac72fbaa7648c089f069c938d2",
+=======
         name = "flogger-log4j-backend",
         artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
         sha1 = "7486b1c0138647cd7714eccb8ce37b5f2ae20a76",
@@ -196,6 +207,19 @@ def declare_nongoogle_deps():
         name = "soy",
         artifact = "com.google.template:soy:2021-02-01",
         sha1 = "8e833744832ba88059205a1e30e0898f925d8cb5",
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
+    )
+
+    maven_jar(
+        name = "jackson-databind",
+        artifact = "com.fasterxml.jackson.core:jackson-databind:2.10.3",
+        sha1 = "aae92628b5447fa25af79871ca98668da6edd439",
+    )
+
+    maven_jar(
+        name = "jackson-dataformat-smile",
+        artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.9.8",
+        sha1 = "ff397547ff168e77279a1cd549e2ca4923c991aa",
     )
 
     # Test-only dependencies below.

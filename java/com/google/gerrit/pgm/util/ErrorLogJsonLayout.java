@@ -21,13 +21,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.spi.LoggingEvent;
-import org.apache.log4j.spi.ThrowableInformation;
+import org.apache.logging.log4j.core.LogEvent;
 
 /** Layout for formatting error log events in the JSON format. */
 public class ErrorLogJsonLayout extends JsonLayout {
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+  public JsonLogEntry toJsonLogEntry(LogEvent event) {
     return new ErrorJsonLogEntry(event);
   }
 
@@ -42,33 +41,33 @@ public class ErrorLogJsonLayout extends JsonLayout {
     /** Logged message. */
     public final String message;
     /** File containing the code creating the log entry. */
-    public final String file;
+    //public final String file;
     /** Line number of code creating the log entry. */
-    public final String lineNumber;
+    //public final String lineNumber;
 
     /** Class from which the log entry was created. */
-    @SerializedName("class")
-    public final String clazz;
+    //@SerializedName("class")
+    //public final String clazz;
 
     /** Method from which the log entry was created. */
-    public final String method;
+    //public final String method;
     /** Name of the logger creating the log entry. */
-    public final String loggerName;
+    //public final String loggerName;
 
     /** Mapped diagnostic context. */
-    @SuppressWarnings("rawtypes")
-    public final Map mdc;
+    //@SuppressWarnings("rawtypes")
+    //public final Map mdc;
 
     /** Nested diagnostic context. */
-    public final String ndc;
+    //public final String ndc;
     /** Logging level/severity. */
-    public final String level;
+    //public final String level;
     /** Thread executing the code creating the log entry. */
-    public final String threadName;
+    //public final String threadName;
 
     /** Version of log format. */
-    @SerializedName("@version")
-    public final int version = 2;
+    //@SerializedName("@version")
+    //public final int version = 2;
 
     /**
      * Map containing information of a logged exception. It contains the following key-value pairs:
@@ -77,6 +76,24 @@ public class ErrorLogJsonLayout extends JsonLayout {
      */
     public Map<String, String> exception;
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    public ErrorJsonLogEntry(LogEvent event) {
+      this.timestamp = timestampFormatter.format(event.getTimeMillis());
+      this.sourceHost = getSourceHost(enableReverseDnsLookup);
+      this.message = event.getMessage().getFormattedMessage();
+      //this.file = event.getLocationInformation().getFileName();
+      //this.lineNumber = event.getLocationInformation().getLineNumber();
+      //this.clazz = event.getLocationInformation().getClassName();
+      //this.method = event.getLocationInformation().getMethodName();
+      //this.loggerName = event.getLoggerName();
+      //this.mdc = event.getProperties();
+      //this.ndc = event.getNDC();
+      //this.level = event.getLevel().toString();
+      //this.threadName = event.getThreadName();
+      //if (event.getThrowableInformation() != null) {
+      //  this.exception = getException(event.getThrowableInformation());
+      //}
+=======
     public ErrorJsonLogEntry(LoggingEvent event) {
       this.timestamp = timestampFormatter.format(event.getTimeStamp());
       this.sourceHost = getSourceHost();
@@ -93,6 +110,7 @@ public class ErrorLogJsonLayout extends JsonLayout {
       if (event.getThrowableInformation() != null) {
         this.exception = getException(event.getThrowableInformation());
       }
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     }
 
     private String getSourceHost() {
@@ -101,26 +119,6 @@ public class ErrorLogJsonLayout extends JsonLayout {
       } catch (UnknownHostException e) {
         return "unknown-host";
       }
-    }
-
-    private Map<String, String> getException(ThrowableInformation throwable) {
-      HashMap<String, String> exceptionInformation = new HashMap<>();
-
-      String throwableName = throwable.getThrowable().getClass().getCanonicalName();
-      if (throwableName != null) {
-        exceptionInformation.put("exception_class", throwableName);
-      }
-
-      String throwableMessage = throwable.getThrowable().getMessage();
-      if (throwableMessage != null) {
-        exceptionInformation.put("exception_message", throwableMessage);
-      }
-
-      String[] stackTrace = throwable.getThrowableStrRep();
-      if (stackTrace != null) {
-        exceptionInformation.put("stacktrace", String.join("\n", stackTrace));
-      }
-      return exceptionInformation;
     }
   }
 }

@@ -16,9 +16,15 @@ package com.google.gerrit.server.util;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+=======
 import org.apache.log4j.Layout;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
 public abstract class PluginLogFile implements LifecycleListener {
 
@@ -37,6 +43,15 @@ public abstract class PluginLogFile implements LifecycleListener {
 
   @Override
   public void start() {
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    Appender asyncAppender = systemLog.createAsyncAppender(logName, layout, true, true);
+    LoggerConfig logger = new LoggerConfig(logName, null, false);
+    logger.removeAppender(logName);
+    if (asyncAppender != null) {
+      logger.addAppender(asyncAppender, null, null);
+      logger.setAdditive(false);
+    }
+=======
     Logger logger = LogManager.getLogger(logName);
     if (logger.getAppender(logName) == null) {
       synchronized (systemLog) {
@@ -46,6 +61,7 @@ public abstract class PluginLogFile implements LifecycleListener {
       }
     }
     logger.setAdditivity(false);
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   }
 
   @Override
@@ -56,7 +72,10 @@ public abstract class PluginLogFile implements LifecycleListener {
     // unload the old one so because loggers are static, the unload of the old
     // plugin would remove the appenders just created by the new plugin.
     if (serverInfo.getState() == ServerInformation.State.SHUTDOWN) {
-      LogManager.getLogger(logName).removeAllAppenders();
+      LoggerConfig logger = new LoggerConfig(logName, null, false);
+      for (Appender appender : logger.getAppenders().values()) {
+        logger.removeAppender(appender.toString());
+      }
     }
   }
 }

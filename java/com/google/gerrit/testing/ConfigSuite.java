@@ -115,6 +115,19 @@ import org.junit.runners.model.Statement;
  * field annotated with {@code @ConfigSuite.Name}.
  */
 public class ConfigSuite extends Suite {
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+  private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+  private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
+
+  static {
+    System.setProperty(
+        FLOGGER_BACKEND_PROPERTY,
+        "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance");
+    System.setProperty(FLOGGER_LOGGING_CONTEXT, LoggingContext.class.getName() + "#getInstance");
+  }
+
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   public static final String DEFAULT = "default";
 
   @Target({METHOD})

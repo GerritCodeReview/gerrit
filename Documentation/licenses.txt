@@ -66,6 +66,13 @@ Apache2.0
 * guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+* httpcomponents:httpcore-nio
+* jackson:jackson-annotations
+* jackson:jackson-core
+* jackson:jackson-databind
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 * jetty:http
 * jetty:io
 * jetty:jmx

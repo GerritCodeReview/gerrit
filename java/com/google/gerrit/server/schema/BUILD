@@ -26,5 +26,12 @@ java_library(
         "//lib/commons:dbcp",
         "//lib/flogger:api",
         "//lib/guice",
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+        "//lib/jackson:jackson-annotations",
+        "//lib/jackson:jackson-databind",
+        "//lib/log:api",
+        "//lib/log:log4j",
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     ],
 )

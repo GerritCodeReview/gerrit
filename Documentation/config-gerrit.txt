@@ -1898,7 +1898,7 @@ For example, it is possible to overwrite Gerrit's default log4j
 configuration:
 +
 ----
-  javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+  javaOptions = -Dlog4j.configurationFile=file:///home/gerrit/site/etc/log4j2.properties
 ----
 +
 Gerrit built-in loggers are then ignored: error logger (`error_log` file),
@@ -4116,6 +4116,14 @@ By default unset.
 
 [[log]]
 === Section log
+
+[[log.jsonCompact]]log.jsonCompact::
++
+If set to true, it prettify's the out, if set to false it compacts everything to one line per event.
++
+This will only work if you have set log.jsonLogging to true.
++
+Defaults to false.
 
 [[log.jsonLogging]]log.jsonLogging::
 +

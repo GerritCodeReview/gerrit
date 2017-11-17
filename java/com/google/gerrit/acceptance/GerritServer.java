@@ -470,7 +470,7 @@ public class GerritServer implements AutoCloseable {
     Config cfg = desc.buildConfig(baseConfig);
     daemon.setReplica(ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(cfg));
     mergeTestConfig(cfg);
-    // Set the log4j configuration to an invalid one to prevent system logs
+    // Set the log4j2 configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
     System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
     cfg.setBoolean("httpd", null, "requestLog", false);

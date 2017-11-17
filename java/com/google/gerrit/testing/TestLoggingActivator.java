@@ -14,14 +14,36 @@
 
 package com.google.gerrit.testing;
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+import static org.apache.logging.log4j.LogManager.getLogger;
+
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+import java.io.Serializable;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.filter.ThresholdFilter;
+import org.apache.logging.log4j.core.layout.PatternLayout;
+=======
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
 public class TestLoggingActivator {
+  private static final String PATTERN_LAYOUT = "[%d] [%t] %-5p %c %x: %m%n";
+
   private static final ImmutableMap<String, Level> LOG_LEVELS =
       ImmutableMap.<String, Level>builder()
           .put("com.google.gerrit", getGerritLogLevel())
@@ -89,14 +111,49 @@ public class TestLoggingActivator {
   }
 
   public static void configureLogging() {
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    context.reconfigure();
+=======
     LogManager.getLogManager().reset();
     FloggerInitializer.initBackend();
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern(PATTERN_LAYOUT).build();
+    final ConsoleAppender dst =
+        ConsoleAppender.newBuilder()
+            .withLayout(layout)
+            .withName("Console")
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .setFilter(ThresholdFilter.createFilter(Level.DEBUG, null, null))
+            .build();
+    dst.start();
+=======
     ConsoleHandler dst = new ConsoleHandler();
     dst.setLevel(Level.FINEST);
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration config = ctx.getConfiguration();
+=======
     Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(dst);
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    LoggerConfig root = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME);
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender.toString());
+    }
+
+    root.addAppender(dst, null, null);
+
+    LOG_LEVELS.entrySet().stream().forEach(e -> getLoggerKey(e.getKey()).setLevel(e.getValue()));
+
+    ctx.updateLoggers();
+=======
     LOG_LEVELS.entrySet().stream()
         .forEach(
             e -> {
@@ -104,7 +161,15 @@ public class TestLoggingActivator {
               logger.setLevel(e.getValue());
               logger.addHandler(dst);
             });
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   }
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+  private static Logger getLoggerKey(String key) {
+    return (Logger) getLogger(key);
+  }
+
+=======
   private TestLoggingActivator() {}
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 }

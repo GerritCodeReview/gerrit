@@ -25,6 +25,9 @@ java_library(
         "//lib:jgit",
         "//lib/flogger:api",
         "//lib/guice",
+        "//lib/jackson:jackson-annotations",
+        "//lib/jackson:jackson-databind",
+        "//lib/log:api",
         "//lib/log:log4j",
     ],
 )

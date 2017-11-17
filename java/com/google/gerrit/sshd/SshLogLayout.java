@@ -27,23 +27,84 @@ import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
 import com.google.gerrit.util.logging.LogTimestampFormatter;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Node;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginBuilderFactory;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.eclipse.jgit.util.QuotedString;
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+@Plugin(
+    name = "SshLogLayout",
+    category = Node.CATEGORY,
+    elementType = Layout.ELEMENT_TYPE,
+    printObject = true)
+public final class SshLogLayout extends AbstractStringLayout {
+  protected final LogTimestampFormatter timestampFormatter;
+=======
 public final class SshLogLayout extends Layout {
   private final LogTimestampFormatter timestampFormatter;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
+  public static class Builder<B extends Builder<B>> extends AbstractStringLayout.Builder<B>
+      implements org.apache.logging.log4j.core.util.Builder<SshLogLayout> {
+
+    public Builder() {
+      super();
+      setCharset(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public SshLogLayout build() {
+      return new SshLogLayout(getConfiguration());
+    }
+  }
+
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
   public SshLogLayout() {
+    this(null);
+  }
+
+  private SshLogLayout(final Configuration config) {
+    super(config, StandardCharsets.UTF_8, null, null);
+
     timestampFormatter = new LogTimestampFormatter();
   }
 
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
+  public static SshLogLayout createLayout() {
+    return new SshLogLayout(null);
+  }
+
+  @PluginBuilderFactory
+  public static <B extends Builder<B>> B newBuilder() {
+    return new Builder<B>().asBuilder();
+  }
+
+  /**
+   * Formats a {@link org.apache.logging.log4j.core.LogEvent} in conformance with the BSD Log record
+   * format.
+   *
+   * @param event The LogEvent
+   * @return the event formatted as a String.
+   */
   @Override
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+  public String toSerializable(LogEvent event) {
+    final StringBuffer buf = new StringBuffer(128);
+=======
   public String format(LoggingEvent event) {
     final StringBuilder buf = new StringBuilder(128);
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
     buf.append('[');
-    buf.append(timestampFormatter.format(event.getTimeStamp()));
+    buf.append(timestampFormatter.format(event.getTimeMillis()));
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -57,7 +118,7 @@ public final class SshLogLayout extends Layout {
     req(P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    buf.append(event.getMessage().getFormattedMessage());
 
     String msg = (String) event.getMessage();
     if (!(msg.startsWith("LOGIN") || msg.equals("LOGOUT"))) {
@@ -75,8 +136,13 @@ public final class SshLogLayout extends Layout {
     return buf.toString();
   }
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+  private void req(String key, StringBuffer buf, LogEvent event) {
+    Object val = event.getContextData().getValue(key);
+=======
   private void req(String key, StringBuilder buf, LoggingEvent event) {
     Object val = event.getMDC(key);
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     buf.append(' ');
     if (val != null) {
       String s = val.toString();
@@ -90,6 +156,15 @@ public final class SshLogLayout extends Layout {
     }
   }
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+  private void opt(String key, StringBuffer buf, LogEvent event) {
+    Object val = event.getContextData().getValue(key);
+    if (val != null) {
+      buf.append(' ');
+      buf.append(val);
+    }
+  }
+=======
   @Override
   public boolean ignoresThrowable() {
     return true;
@@ -97,4 +172,5 @@ public final class SshLogLayout extends Layout {
 
   @Override
   public void activateOptions() {}
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 }

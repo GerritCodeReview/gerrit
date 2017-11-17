@@ -36,15 +36,22 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.impl.Log4jLogEvent;
+import org.apache.logging.log4j.message.SimpleMessage;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class SshLog implements LifecycleListener, GerritConfigListener {
-  private static final Logger log = Logger.getLogger(SshLog.class);
+  private static final Logger log = LogManager.getLogger(SshLog.class);
 
   private static final String JSON_SUFFIX = ".json";
 
@@ -96,16 +103,18 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   public boolean enableLogging() {
     synchronized (lock) {
       if (async == null) {
-        async = new AsyncAppender();
+        //async = new AsyncAppender();
+
+        Layout<? extends Serializable> layout = new SshLogLayout();
 
         if (text) {
-          async.addAppender(systemLog.createAsyncAppender(LOG_NAME, new SshLogLayout()));
+          async = systemLog.createAsyncAppender(LOG_NAME, layout);
         }
 
-        if (json) {
+        /*if (json) {
           async.addAppender(
-              systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, new SshLogJsonLayout()));
-        }
+              systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, layout));
+        }*/
         return true;
       }
       return false;
@@ -116,7 +125,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   public boolean disableLogging() {
     synchronized (lock) {
       if (async != null) {
-        async.close();
+        async.stop();
         async = null;
         return true;
       }
@@ -133,7 +142,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   void onLogin() {
-    LoggingEvent entry = log("LOGIN FROM " + session.get().getRemoteAddressAsString());
+    LogEvent entry = log("LOGIN FROM " + session.get().getRemoteAddressAsString());
     if (async != null) {
       async.append(entry);
     }
@@ -141,27 +150,27 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   void onAuthFail(SshSession sd) {
-    final LoggingEvent event =
-        new LoggingEvent( //
-            Logger.class.getName(), // fqnOfCategoryClass
-            log, // logger
-            TimeUtil.nowMs(), // when
-            Level.INFO, // level
-            "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
-            "SSHD", // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
+    Map<String, String> map = new HashMap<>();
 
-    event.setProperty(P_SESSION, id(sd.getSessionId()));
-    event.setProperty(P_USER_NAME, sd.getUsername());
+    map.put(P_SESSION, id(sd.getSessionId()));
+    map.put(P_USER_NAME, sd.getUsername());
 
     final String error = sd.getAuthenticationError();
     if (error != null) {
-      event.setProperty(P_STATUS, error);
+      map.put(P_STATUS, error);
     }
+
+    final LogEvent event =
+        Log4jLogEvent.newBuilder()
+            .setLoggerName(log.toString())
+            .setLoggerFqcn(Logger.class.getName())
+            .setLevel(Level.INFO)
+            .setMessage(new SimpleMessage("AUTH FAILURE FROM " + sd.getRemoteAddressAsString()))
+            .setThreadName("SSHD")
+            .setTimeMillis(TimeUtil.nowMs())
+            .setContextMap(map)
+            .build();
+
     if (async != null) {
       async.append(event);
     }
@@ -178,12 +187,18 @@ class SshLog implements LifecycleListener, GerritConfigListener {
 
     String cmd = extractWhat(dcmd);
 
+<<<<<<< PATCH SET (e78401 Migrate to log4j2)
+    Map<String, String> map = new HashMap<>();
+    map.put(P_WAIT, (ctx.started - ctx.created) + "ms");
+    map.put(P_EXEC, (ctx.finished - ctx.started) + "ms");
+=======
     final LoggingEvent event = log(cmd);
     event.setProperty(P_WAIT, ctx.getWait() + "ms");
     event.setProperty(P_EXEC, ctx.getExec() + "ms");
     event.setProperty(P_TOTAL_CPU, ctx.getTotalCpu() + "ms");
     event.setProperty(P_USER_CPU, ctx.getUserCpu() + "ms");
     event.setProperty(P_MEMORY, String.valueOf(ctx.getAllocatedMemory()));
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
     final String status;
     switch (exitValue) {
@@ -203,15 +218,17 @@ class SshLog implements LifecycleListener, GerritConfigListener {
         status = String.valueOf(exitValue);
         break;
     }
-    event.setProperty(P_STATUS, status);
+    map.put(P_STATUS, status);
     String peerAgent = sshSession.getPeerAgent();
     if (peerAgent != null) {
-      event.setProperty(P_AGENT, peerAgent);
+      map.put(P_AGENT, peerAgent);
     }
 
     if (message != null) {
-      event.setProperty(P_MESSAGE, message);
+      map.put(P_MESSAGE, message);
     }
+
+    final LogEvent event = log(cmd, map);
 
     if (async != null) {
       async.append(event);
@@ -265,32 +282,23 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   void onLogout() {
-    LoggingEvent entry = log("LOGOUT");
+    LogEvent entry = log("LOGOUT");
     if (async != null) {
       async.append(entry);
     }
     audit(context.get(), "0", "LOGOUT");
   }
 
-  private LoggingEvent log(String msg) {
+  private LogEvent log(String msg) {
+    Map<String, String> map = new HashMap<>();
+    return log(msg, map);
+  }
+
+  private LogEvent log(String msg, Map<String, String> map) {
     final SshSession sd = session.get();
     final CurrentUser user = sd.getUser();
 
-    final LoggingEvent event =
-        new LoggingEvent( //
-            Logger.class.getName(), // fqnOfCategoryClass
-            log, // logger
-            TimeUtil.nowMs(), // when
-            Level.INFO, // level
-            msg, // message text
-            Thread.currentThread().getName(), // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
-
-    event.setProperty(P_SESSION, id(sd.getSessionId()));
+    map.put(P_SESSION, id(sd.getSessionId()));
 
     String userName = "-";
     String accountId = "-";
@@ -304,8 +312,19 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       userName = PeerDaemonUser.USER_NAME;
     }
 
-    event.setProperty(P_USER_NAME, userName);
-    event.setProperty(P_ACCOUNT_ID, accountId);
+    map.put(P_USER_NAME, userName);
+    map.put(P_ACCOUNT_ID, accountId);
+
+    final LogEvent event =
+        Log4jLogEvent.newBuilder()
+            .setLoggerName(log.toString())
+            .setLoggerFqcn(Logger.class.getName())
+            .setLevel(Level.INFO)
+            .setMessage(new SimpleMessage(msg))
+            .setThreadName("SSHD")
+            .setTimeMillis(TimeUtil.nowMs())
+            .setContextMap(map)
+            .build();
 
     return event;
   }

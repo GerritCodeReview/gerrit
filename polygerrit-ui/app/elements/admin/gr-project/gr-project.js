@@ -69,6 +69,8 @@
       },
       /** @type {?} */
       _projectConfig: Object,
+      /** @type {?} */
+      _pluginConfig: Object,
       _readOnly: {
         type: Boolean,
         value: true,
@@ -133,6 +135,14 @@
             if (!this._projectConfig.state) {
               this._projectConfig.state = STATES.active.value;
             }
+            if (config && config.plugin_config) {
+              this._pluginConfig = Object.keys(config.plugin_config)
+               .map(key => {
+                 const project = config.plugin_config[key];
+                 project.name = key;
+                 return project;
+               });
+            }
             this._loading = false;
           }));
 
@@ -183,6 +193,32 @@
       ];
     },
 
+    _formatBooleanSelectPlugin(item) {
+      if (!item) { return; }
+      let inheritLabel = 'Inherit';
+      if (!(item.inherited_value === undefined)) {
+        inheritLabel = `Inherit (${item.inherited_value})`;
+      }
+      return [
+        {
+          label: inheritLabel,
+          value: 'inherit',
+        },
+        {
+          label: 'True',
+          value: 'true',
+        },
+        {
+          label: 'False',
+          value: 'false',
+        },
+        {
+          label: 'Enforced',
+          value: 'enforced',
+        },
+      ];
+    },
+
     _isLoading() {
       return this._loading || this._loading === undefined;
     },
@@ -207,7 +243,7 @@
 
     _handleSaveProjectConfig() {
       return this.$.restAPI.saveProjectConfig(this.project,
-          this._formatProjectConfigForSave(this._projectConfig)).then(() => {
+          this._formatProjectConfigForSave(this._projectConfig || this._pluginConfig)).then(() => {
             this._configChanged = false;
           });
     },

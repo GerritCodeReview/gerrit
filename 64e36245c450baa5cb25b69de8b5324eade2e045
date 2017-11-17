@@ -23,6 +23,30 @@
       "revId": "64e36245c450baa5cb25b69de8b5324eade2e045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4768a19_5a344090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T18:58:29Z",
+      "side": 1,
+      "message": "Yep, that was a bad merge:\n\nhttps://gerrit-review.googlesource.com/#/c/gerrit/+/79410/-1..3/gerrit-server/src/test/java/com/google/gerrit/testutil/TestTimeUtil.java@a71",
+      "parentUuid": "50998e3d_3af8467f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "64e36245c450baa5cb25b69de8b5324eade2e045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

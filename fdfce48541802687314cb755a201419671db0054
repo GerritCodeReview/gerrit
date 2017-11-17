@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8f07947_c165b40e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-17T18:08:27Z",
+      "side": 1,
+      "message": "Oops! Done.",
+      "parentUuid": "035288d0_42a746fc",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8a7d337_44543bf3",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "81068952_bfaaa5f2",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-17T18:08:27Z",
+      "side": 1,
+      "message": "Good catch. With the options used in getChangeDetail it seems they\u0027re always returned, but they\u0027re also not explicitly requested. I\u0027ve added messages to the request.",
+      "parentUuid": "e8a7d337_44543bf3",
+      "range": {
+        "startLine": 232,
+        "startChar": 27,
+        "endLine": 232,
+        "endChar": 42
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8672e421_cac962cf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 6
@@ -59,6 +107,30 @@
       "writtenOn": "2017-11-17T00:43:14Z",
       "side": 1,
       "message": "Should we add tests for each of the 5 possible toasts?",
+      "range": {
+        "startLine": 1202,
+        "startChar": 14,
+        "endLine": 1202,
+        "endChar": 47
+      },
+      "revId": "fdfce48541802687314cb755a201419671db0054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d768e9b7_2de21ec0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-11-17T18:08:27Z",
+      "side": 1,
+      "message": "Do you mean all possible status combinations? They all work pretty much the same. This feels to me like it\u0027s covered.",
+      "parentUuid": "8672e421_cac962cf",
       "range": {
         "startLine": 1202,
         "startChar": 14,

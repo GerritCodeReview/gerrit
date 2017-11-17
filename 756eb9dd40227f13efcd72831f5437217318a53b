@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a23817a_3f3a2e45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-17T23:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f28c5b8b_efa20612",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "756eb9dd40227f13efcd72831f5437217318a53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "311b5095_0c32709e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "756eb9dd40227f13efcd72831f5437217318a53b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17d696db_af265d0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-11-17T23:40:34Z",
+      "side": 1,
+      "message": "Ideally, those should be integration tests, but I guess I should add some to make sure this doesn\u0027t break for now.\nDone.",
+      "parentUuid": "311b5095_0c32709e",
+      "range": {
+        "startLine": 475,
+        "startChar": 8,
+        "endLine": 477,
+        "endChar": 72
+      },
+      "revId": "756eb9dd40227f13efcd72831f5437217318a53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

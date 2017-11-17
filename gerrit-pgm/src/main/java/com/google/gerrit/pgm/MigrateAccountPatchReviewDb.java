@@ -95,8 +95,10 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
       while (!rows.isEmpty()) {
         insertRows(targetCon, targetStmt, rows);
         offset += rows.size();
+        System.out.printf("%8d rows migrated\n", offset);
         rows = selectRows(sourceStmt, offset);
       }
+      System.out.println("Done");
     }
     return 0;
   }

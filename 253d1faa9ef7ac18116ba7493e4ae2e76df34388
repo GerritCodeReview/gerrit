@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db41995c_12b00b48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-11-17T20:34:37Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we\u0027re doing this change. Is there a bug? What is this fixing?",
+      "revId": "253d1faa9ef7ac18116ba7493e4ae2e76df34388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

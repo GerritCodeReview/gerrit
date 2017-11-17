@@ -17,6 +17,11 @@ package com.google.gerrit.sshd;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.pattern.ConverterKeys;
+import org.apache.logging.log4j.core.pattern.LogEventPatternConverter;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.util.QuotedString;
@@ -50,7 +55,7 @@ public final class SshLogLayout extends Layout {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    // formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -58,7 +63,7 @@ public final class SshLogLayout extends Layout {
     req(P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    //buf.append(event.getMessage());
 
     opt(P_WAIT, buf, event);
     opt(P_EXEC, buf, event);
@@ -105,10 +110,12 @@ public final class SshLogLayout extends Layout {
   }
 
   private void req(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+    String val = ThreadContext.get(key);
+    //Object val = vals;
     buf.append(' ');
     if (val != null) {
-      String s = val.toString();
+      //String s = val.toString();
+      String s = val;
       if (0 <= s.indexOf(' ')) {
         buf.append(QuotedString.BOURNE.quote(s));
       } else {
@@ -120,7 +127,8 @@ public final class SshLogLayout extends Layout {
   }
 
   private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+    String val = ThreadContext.get(key);
+    //Object val = vals;
     if (val != null) {
       buf.append(' ');
       buf.append(val);
@@ -131,7 +139,4 @@ public final class SshLogLayout extends Layout {
   public boolean ignoresThrowable() {
     return true;
   }
-
-  @Override
-  public void activateOptions() {}
 }

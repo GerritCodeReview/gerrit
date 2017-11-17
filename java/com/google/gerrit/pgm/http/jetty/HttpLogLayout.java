@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.ThreadContext;
 
 public final class HttpLogLayout extends Layout {
   private final SimpleDateFormat dateFormat;
@@ -48,20 +49,24 @@ public final class HttpLogLayout extends Layout {
 
     buf.append(' ');
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    // formatDate(event.getTimeStamp(), buf);
     buf.append(']');
 
     buf.append(' ');
     buf.append('"');
-    buf.append(event.getMDC(HttpLog.P_METHOD));
+    String val = ThreadContext.get(HttpLog.P_METHOD);
+    buf.append(val);
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_RESOURCE));
+    String val2 = ThreadContext.get(HttpLog.P_RESOURCE);
+    buf.append(val2);
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_PROTOCOL));
+    String val3 = ThreadContext.get(HttpLog.P_PROTOCOL);
+    buf.append(val3);
     buf.append('"');
 
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_STATUS));
+    String val4 = ThreadContext.get(HttpLog.P_STATUS);
+    buf.append(val4);
 
     buf.append(' ');
     opt(buf, event, HttpLog.P_CONTENT_LENGTH);
@@ -77,7 +82,7 @@ public final class HttpLogLayout extends Layout {
   }
 
   private void opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
+    String val = ThreadContext.get(key);
     if (val == null) {
       buf.append('-');
     } else {
@@ -86,7 +91,7 @@ public final class HttpLogLayout extends Layout {
   }
 
   private void dq_opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
+    String val = ThreadContext.get(key);
     if (val == null) {
       buf.append('-');
     } else {
@@ -113,7 +118,4 @@ public final class HttpLogLayout extends Layout {
   public boolean ignoresThrowable() {
     return true;
   }
-
-  @Override
-  public void activateOptions() {}
 }

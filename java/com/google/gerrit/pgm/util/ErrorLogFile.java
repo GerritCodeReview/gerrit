@@ -19,13 +19,16 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import net.logstash.log4j.JSONEventLayoutV1;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.apache.log4j.Layout;
 import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
@@ -35,17 +38,30 @@ public class ErrorLogFile {
   public static void errorOnlyConsole() {
     LogManager.resetConfiguration();
 
-    final PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder()
+            .withPattern("%-5p %c %x: %m%n")
+            .withPatternSelector(null)
+            .withConfiguration(null)
+            .withRegexReplacement(null)
+            .withCharset(null)
+            .withAlwaysWriteExceptions(false)
+            .withNoConsoleNoAnsi(false)
+            .withHeader(null)
+            .withFooter(null)
+            .build();
+    final ConsoleAppender dst =
+        ConsoleAppender.newBuilder()
+            .withLayout(layout)
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .build();
+    dst.start();
 
-    final ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-    dst.activateOptions();
-
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getRootLogger();
+    for (final Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
     root.addAppender(dst);
   }
 
@@ -68,17 +84,31 @@ public class ErrorLogFile {
   }
 
   private static void initLogSystem(Path logdir, Config config) {
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getRootLogger();
+    for (final Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
     boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
-      root.addAppender(
-          SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+      Layout<? extends Serializable> layout =
+          PatternLayout.newBuilder()
+              .withPattern("[%d] [%t] %-5p %c %x: %m%n")
+              .withPatternSelector(null)
+              .withConfiguration(null)
+              .withRegexReplacement(null)
+              .withCharset(null)
+              .withAlwaysWriteExceptions(false)
+              .withNoConsoleNoAnsi(false)
+              .withHeader(null)
+              .withFooter(null)
+              .build();
+
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, layout, rotate));
     }
 
     if (json) {

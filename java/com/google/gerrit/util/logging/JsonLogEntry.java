@@ -14,10 +14,10 @@
 
 package com.google.gerrit.util.logging;
 
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.LogEvent;
 
 public abstract class JsonLogEntry {
-  public String getMdcString(LoggingEvent event, String key) {
-    return (String) event.getMDC(key);
+  public String getMdcString(final LogEvent event, String key) {
+    return event.getContextData().getValue(key);
   }
 }

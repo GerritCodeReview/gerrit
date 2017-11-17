@@ -17,22 +17,74 @@ package com.google.gerrit.util.logging;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Node;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginBuilderFactory;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 
-public abstract class JsonLayout extends Layout {
+@Plugin(
+    name = "JsonLayout",
+    category = Node.CATEGORY,
+    elementType = Layout.ELEMENT_TYPE,
+    printObject = true)
+public abstract class JsonLayout extends AbstractStringLayout {
+
   private final Gson gson;
   protected final LogTimestampFormatter timestampFormatter;
 
+  /*public static class Builder<B extends Builder<B>> extends AbstractStringLayout.Builder<B>
+      implements org.apache.logging.log4j.core.util.Builder<JsonLayout> {
+
+    public Builder() {
+      super();
+      setCharset(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public JsonLayout build() {
+      return new JsonLayout(getConfiguration());
+    }
+  }*/
+
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
   public JsonLayout() {
+    this(null);
+  }
+
+  private JsonLayout(final Configuration config) {
+    super(config, StandardCharsets.UTF_8, null, null);
+
     timestampFormatter = new LogTimestampFormatter();
     gson = newGson();
   }
 
-  public abstract JsonLogEntry toJsonLogEntry(LoggingEvent event);
+  /** @deprecated Use {@link #newBuilder()} instead */
+  /*@Deprecated
+  public static JsonLayout createLayout() {
+    return new JsonLayout(null);
+  }
 
+  @PluginBuilderFactory
+  public static <B extends Builder<B>> B newBuilder() {
+    return new Builder<B>().asBuilder();
+  }*/
+
+  public abstract JsonLogEntry toJsonLogEntry(final LogEvent event);
+
+  /**
+   * Formats a {@link org.apache.logging.log4j.core.LogEvent} in conformance with the BSD Log record
+   * format.
+   *
+   * @param event The LogEvent
+   * @return the event formatted as a String.
+   */
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(final LogEvent event) {
     return gson.toJson(toJsonLogEntry(event)) + "\n";
   }
 
@@ -42,13 +94,5 @@ public abstract class JsonLayout extends Layout {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .disableHtmlEscaping();
     return gb.create();
-  }
-
-  @Override
-  public void activateOptions() {}
-
-  @Override
-  public boolean ignoresThrowable() {
-    return false;
   }
 }

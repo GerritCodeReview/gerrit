@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.server.diff.PatchListNotAvailableException;
-
 /**
  * Exception thrown when the PatchList could not be computed because previous attempts failed with
  * {@code LargeObjectException}. This is not thrown on the first computation.

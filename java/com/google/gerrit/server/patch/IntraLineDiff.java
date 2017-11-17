@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.diff;
+package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
@@ -58,12 +58,12 @@ public class IntraLineDiff implements Serializable {
   private transient Status status;
   private transient ImmutableList<Edit> edits;
 
-  public IntraLineDiff(Status status) {
+  IntraLineDiff(Status status) {
     this.status = status;
     this.edits = ImmutableList.of();
   }
 
-  public IntraLineDiff(List<Edit> edits) {
+  IntraLineDiff(List<Edit> edits) {
     this.status = Status.EDIT_LIST;
     this.edits = ImmutableList.copyOf(edits);
   }

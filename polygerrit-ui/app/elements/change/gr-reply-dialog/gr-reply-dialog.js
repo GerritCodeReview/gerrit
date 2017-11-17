@@ -511,7 +511,8 @@
       // Safeguard- always want to focus on something.
       if (!section || section === FocusTarget.ANY) {
         section = this._chooseFocusTarget();
-      } else if (section === FocusTarget.BODY) {
+      }
+      if (section === FocusTarget.BODY) {
         const textarea = this.$.textarea;
         textarea.async(textarea.getNativeTextarea()
             .focus.bind(textarea.getNativeTextarea()));

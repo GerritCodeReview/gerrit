@@ -84,8 +84,6 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -325,7 +323,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
     // NoteDb allows only second precision.
-    Timestamp testStartTime = Timestamp.from(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+    Timestamp testStartTime = TimeUtil.roundToSecond(TimeUtil.nowTs());
     String newGroupName = name("newGroup");
     GroupInfo group = gApi.groups().create(newGroupName).get();
 

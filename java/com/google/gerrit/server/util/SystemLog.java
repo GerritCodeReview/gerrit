@@ -24,15 +24,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.Appender;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.DailyRollingFileAppender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.helpers.OnlyOnceErrorHandler;
+import org.apache.logging.log4j.spi.ErrorHandler;
+import org.apache.logging.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class SystemLog {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
 
-  public static final String LOG4J_CONFIGURATION = "log4j.configuration";
+  public static final String LOG4J_CONFIGURATION = "log4j.configurationFile";
 
   private final SitePaths site;
   private final Config config;

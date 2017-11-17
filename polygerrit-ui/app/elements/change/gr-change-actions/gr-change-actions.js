@@ -160,12 +160,6 @@
      * @event reload-change
      */
 
-     /**
-     * Fired when the reply button is tapped.
-     *
-     * @event reply-tap
-     */
-
     /**
      * Fired when an action is tapped.
      *
@@ -214,8 +208,6 @@
         type: Object,
         value() { return {}; },
       },
-      replyButtonLabel: String,
-      replyDisabled: Boolean,
 
       _loading: {
         type: Boolean,
@@ -727,11 +719,6 @@
           this.commitMessage, this.change.current_revision);
       this.$.confirmRevertDialog.message = this._modifyRevertMsg();
       this._showActionDialog(this.$.confirmRevertDialog);
-    },
-
-    _handleReplyTap(e) {
-      e.preventDefault();
-      this.dispatchEvent(new CustomEvent('reply-tap'));
     },
 
     _handleActionTap(e) {

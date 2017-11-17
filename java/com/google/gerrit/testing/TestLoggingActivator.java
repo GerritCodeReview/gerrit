@@ -14,17 +14,26 @@
 
 package com.google.gerrit.testing;
 
-import static org.apache.log4j.Logger.getLogger;
+import static org.apache.logging.log4j.LogManager.getLogger;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import java.io.Serializable;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.filter.ThresholdFilter;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 public class TestLoggingActivator {
+  private static final String PATTERN_LAYOUT = "[%d] [%t] %-5p %c %x: %m%n";
+
   private static final ImmutableMap<String, Level> LOG_LEVELS =
       ImmutableMap.<String, Level>builder()
           .put("com.google.gerrit", getGerritLogLevel())
@@ -82,21 +91,37 @@ public class TestLoggingActivator {
   }
 
   public static void configureLogging() {
-    LogManager.resetConfiguration();
+    final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    context.reconfigure();
 
-    PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern(PATTERN_LAYOUT).build();
+    final ConsoleAppender dst =
+        ConsoleAppender.newBuilder()
+            .withLayout(layout)
+            .withName("Console")
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .setFilter(ThresholdFilter.createFilter(Level.DEBUG, null, null))
+            .build();
+    dst.start();
 
-    ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.DEBUG);
-    dst.activateOptions();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration config = ctx.getConfiguration();
 
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
-    root.addAppender(dst);
+    LoggerConfig root = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME);
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender.toString());
+    }
 
-    LOG_LEVELS.entrySet().stream().forEach(e -> getLogger(e.getKey()).setLevel(e.getValue()));
+    root.addAppender(dst, null, null);
+
+    LOG_LEVELS.entrySet().stream().forEach(e -> getLoggerKey(e.getKey()).setLevel(e.getValue()));
+
+    ctx.updateLoggers();
   }
+
+  private static Logger getLoggerKey(String key) {
+    return (Logger) getLogger(key);
+  }
+
 }

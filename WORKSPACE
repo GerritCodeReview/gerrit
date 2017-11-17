@@ -222,9 +222,9 @@ maven_jar(
 )
 
 maven_jar(
-    name = "flogger-log4j-backend",
-    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "5e2794b75c88223f263f1c1a9d7ea51e2dc45732",
+    name = "flogger-log4j2-backend",
+    artifact = "com.google.flogger:flogger-log4j2-backend:" + FLOGGER_VERS,
+    sha1 = "045635c3ec081b67c7a5d48098477c1233abb458",
 )
 
 maven_jar(
@@ -305,27 +305,47 @@ maven_jar(
 )
 
 maven_jar(
-    name = "impl-log4j",
-    artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-    sha1 = "12f5c685b71c3027fd28bcf90528ec4ec74bf818",
-)
-
-maven_jar(
     name = "jcl-over-slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
     sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",
 )
 
+LOG4J_VERS = "2.11.2"
+
 maven_jar(
-    name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    name = "impl-log4j",
+    artifact = "org.apache.logging.log4j:log4j-slf4j-impl:" + LOG4J_VERS,
+    sha1 = "4d44e4edc4a7fb39f09b95b09f560a15976fa1ba",
 )
 
 maven_jar(
-    name = "json-smart",
-    artifact = "net.minidev:json-smart:1.1.1",
-    sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
+    name = "log4j-api",
+    artifact = "org.apache.logging.log4j:log4j-api:" + LOG4J_VERS,
+    sha1 = "f5e9a2ffca496057d6891a3de65128efc636e26e",
+)
+
+maven_jar(
+    name = "log4j-core",
+    artifact = "org.apache.logging.log4j:log4j-core:" + LOG4J_VERS,
+    sha1 = "6c2fb3f5b7cd27504726aef1b674b542a0c9cf53",
+)
+
+maven_jar(
+    name = "log4j-web",
+    artifact = "org.apache.logging.log4j:log4j-web:" + LOG4J_VERS,
+    sha1 = "d11ebc03fdf773d32143e0f7ea0fc131c21311e7",
+)
+
+maven_jar(
+    name = "log4j1.2-api",
+    artifact = "org.apache.logging.log4j:log4j-1.2-api:" + LOG4J_VERS,
+    sha1 = "afb9ef0baba766725c3733e6a2626877dba72715",
+)
+
+maven_jar(
+    name = "disruptor",
+    artifact = "com.lmax:disruptor:3.3.7",
+    sha1 = "8549fdcbda5d64db98871e64a4cd0045611686d1",
 )
 
 maven_jar(

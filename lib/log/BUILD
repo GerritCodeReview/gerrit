@@ -1,13 +1,11 @@
+package(default_visibility = ["//visibility:public"])
+
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
-    visibility = [
-        "//javatests/com/google/gerrit/elasticsearch:__pkg__",
-        "//lib:__pkg__",
-        "//plugins:__pkg__",
-    ],
+    visibility = ["//visibility:public"],
     exports = ["@log-api//jar"],
 )
 
@@ -23,7 +21,11 @@ java_library(
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
     exports = ["@impl-log4j//jar"],
-    runtime_deps = [":log4j"],
+    runtime_deps = [
+        ":api",
+        ":ext",
+        ":log4j"
+    ],
 )
 
 java_library(
@@ -37,12 +39,11 @@ java_library(
     name = "log4j",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@log4j//jar"],
-)
-
-java_library(
-    name = "json-smart",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@json-smart//jar"],
+    exports = [
+        "@disruptor//jar",
+        "@log4j-api//jar",
+        "@log4j-core//jar",
+        "@log4j-web//jar",
+        "@log4j1.2-api//jar",
+    ],
 )

@@ -1,4 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
 load("@rules_java//java:defs.bzl", "java_library")
+
+java_library(
+    name = "jackson-annotations",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@jackson-annotations//jar"],
+)
 
 java_library(
     name = "jackson-core",
@@ -10,3 +18,10 @@ java_library(
     ],
     exports = ["@jackson-core//jar"],
 )
+
+java_library(
+    name = "jackson-databind",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@jackson-databind//jar"],
+)
+

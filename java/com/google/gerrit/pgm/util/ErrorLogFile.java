@@ -14,18 +14,26 @@
 
 package com.google.gerrit.pgm.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.util.logging.LogTimestampFormatter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.filter.ThresholdFilter;
+import org.apache.logging.log4j.core.layout.JsonLayout;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
@@ -33,20 +41,26 @@ public class ErrorLogFile {
   static final String JSON_SUFFIX = ".json";
 
   public static void errorOnlyConsole() {
-    LogManager.resetConfiguration();
+    final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    context.reconfigure();
 
-    PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern("%-5p %c %x: %m%n").build();
+    final ConsoleAppender dst =
+        ConsoleAppender.newBuilder()
+            .withLayout(layout)
+            .withName("Console")
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .setFilter(ThresholdFilter.createFilter(Level.ERROR, null, null))
+            .build();
+    dst.start();
 
-    ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-    dst.activateOptions();
-
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
-    root.addAppender(dst);
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration config = ctx.getConfiguration();
+    LoggerConfig root = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME);
+    root.removeAppender(LOG_NAME);
+    root.addAppender(dst, null, null);
+    ctx.updateLoggers();
   }
 
   public static LifecycleListener start(Path sitePath, Config config) throws IOException {
@@ -68,32 +82,41 @@ public class ErrorLogFile {
   }
 
   private static void initLogSystem(Path logdir, Config config) {
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration configs = ctx.getConfiguration();
+    LoggerConfig root = configs.getLoggerConfig(LogManager.ROOT_LOGGER_NAME);
+    root.removeAppender(LOG_NAME);
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
     boolean rotate = config.getBoolean("log", "rotate", true);
+    boolean jsonCompact = config.getBoolean("log", "jsonCompact", false);
 
     if (text) {
-      root.addAppender(
-          SystemLog.createAppender(
-              logdir,
-              LOG_NAME,
-              new PatternLayout(
-                  "[%d{" + LogTimestampFormatter.TIMESTAMP_FORMAT + "}] [%t] %-5p %c %x: %m%n"),
-              rotate));
+      Layout<? extends Serializable> layout =
+          PatternLayout.newBuilder().withPattern("[%d{" + LogTimestampFormatter.TIMESTAMP_FORMAT + "}] [%t] %-5p %c %x: %m%n").build();
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, layout, rotate), null, null);
     }
 
     if (json) {
       Boolean enableReverseDnsLookup =
           config.getBoolean("gerrit", null, "enableReverseDnsLookup", false);
+
+      final JsonLayout layout =
+          JsonLayout.newBuilder()
+              .setLocationInfo(true)
+              .setProperties(true)
+              .setPropertiesAsList(false)
+              .setComplete(false)
+              .setCompact(jsonCompact)
+              .setEventEol(true)
+              .setCharset(UTF_8)
+              .setIncludeStacktrace(true)
+              .build();
       root.addAppender(
-          SystemLog.createAppender(
-              logdir,
-              LOG_NAME + JSON_SUFFIX,
-              new ErrorLogJsonLayout(enableReverseDnsLookup),
-              rotate));
+          SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, layout, rotate), null, null);
     }
+
+    ctx.updateLoggers();
   }
 }

@@ -337,7 +337,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void createdOnFieldIsPopulatedForNewGroup() throws Exception {
     // NoteDb allows only second precision.
-    Timestamp testStartTime = TimeUtil.roundToSecond(TimeUtil.nowTs());
+    Timestamp testStartTime = TimeUtil.truncateToSecond(TimeUtil.nowTs());
     String newGroupName = name("newGroup");
     GroupInfo group = gApi.groups().create(newGroupName).get();
 

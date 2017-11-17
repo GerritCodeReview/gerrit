@@ -40,7 +40,7 @@ public class TimeUtil {
     return new Timestamp(nowMs());
   }
 
-  public static Timestamp roundToSecond(Timestamp t) {
+  public static Timestamp truncateToSecond(Timestamp t) {
     return new Timestamp((t.getTime() / 1000) * 1000);
   }
 

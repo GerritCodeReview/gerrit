@@ -161,43 +161,44 @@ public abstract class GroupBundle {
 
   public abstract Builder toBuilder();
 
-  public GroupBundle roundToSecond() {
+  public GroupBundle truncateToSecond() {
     AccountGroup newGroup = new AccountGroup(group());
     if (newGroup.getCreatedOn() != null) {
-      newGroup.setCreatedOn(TimeUtil.roundToSecond(newGroup.getCreatedOn()));
+      newGroup.setCreatedOn(TimeUtil.truncateToSecond(newGroup.getCreatedOn()));
     }
     return toBuilder()
         .group(newGroup)
         .memberAudit(
-            memberAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableSet()))
-        .byIdAudit(byIdAudit().stream().map(GroupBundle::roundToSecond).collect(toImmutableSet()))
+            memberAudit().stream().map(GroupBundle::truncateToSecond).collect(toImmutableSet()))
+        .byIdAudit(
+            byIdAudit().stream().map(GroupBundle::truncateToSecond).collect(toImmutableSet()))
         .build();
   }
 
-  private static AccountGroupMemberAudit roundToSecond(AccountGroupMemberAudit a) {
+  private static AccountGroupMemberAudit truncateToSecond(AccountGroupMemberAudit a) {
     AccountGroupMemberAudit result =
         new AccountGroupMemberAudit(
             new AccountGroupMemberAudit.Key(
                 a.getKey().getParentKey(),
                 a.getKey().getGroupId(),
-                TimeUtil.roundToSecond(a.getKey().getAddedOn())),
+                TimeUtil.truncateToSecond(a.getKey().getAddedOn())),
             a.getAddedBy());
     if (a.getRemovedOn() != null) {
-      result.removed(a.getRemovedBy(), TimeUtil.roundToSecond(a.getRemovedOn()));
+      result.removed(a.getRemovedBy(), TimeUtil.truncateToSecond(a.getRemovedOn()));
     }
     return result;
   }
 
-  private static AccountGroupByIdAud roundToSecond(AccountGroupByIdAud a) {
+  private static AccountGroupByIdAud truncateToSecond(AccountGroupByIdAud a) {
     AccountGroupByIdAud result =
         new AccountGroupByIdAud(
             new AccountGroupByIdAud.Key(
                 a.getKey().getParentKey(),
                 a.getKey().getIncludeUUID(),
-                TimeUtil.roundToSecond(a.getKey().getAddedOn())),
+                TimeUtil.truncateToSecond(a.getKey().getAddedOn())),
             a.getAddedBy());
     if (a.getRemovedOn() != null) {
-      result.removed(a.getRemovedBy(), TimeUtil.roundToSecond(a.getRemovedOn()));
+      result.removed(a.getRemovedBy(), TimeUtil.truncateToSecond(a.getRemovedOn()));
     }
     return result;
   }

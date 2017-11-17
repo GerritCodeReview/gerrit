@@ -17,7 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.common.TimeUtil.roundToSecond;
+import static com.google.gerrit.common.TimeUtil.truncateToSecond;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.checkColumns;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
@@ -940,7 +940,7 @@ public class ChangeBundle {
     // seconds apart, the timestamp in NoteDb may actually be several seconds
     // *earlier* than the timestamp in ReviewDb that it was converted from.
     checkArgument(
-        tsFromNoteDb.equals(roundToSecond(tsFromNoteDb)),
+        tsFromNoteDb.equals(truncateToSecond(tsFromNoteDb)),
         "%s from NoteDb has non-rounded %s timestamp: %s",
         desc,
         field,

@@ -22,16 +22,23 @@ import com.google.gerrit.server.notedb.GroupsMigration;
 
 public enum GroupNoteDbMode {
   /** NoteDb is disabled, groups are only in ReviewDb */
-  OFF(new GroupsMigration(false, false)),
+  OFF(new GroupsMigration(false, false, false)),
 
   /** Writing new groups to NoteDb is enabled. */
-  WRITE(new GroupsMigration(true, false)),
+  WRITE(new GroupsMigration(true, false, false)),
 
   /**
    * Reading/writing groups from/to NoteDb is enabled. Trying to read groups from ReviewDb throws an
    * exception.
    */
-  READ_WRITE(new GroupsMigration(true, true));
+  READ_WRITE(new GroupsMigration(true, true, false)),
+
+  /**
+   * All group tables in ReviewDb are entirely disabled. Trying to read groups from ReviewDb throws
+   * an exception. Reading groups through an unwrapped ReviewDb instance writing groups to ReviewDb
+   * is a No-Op.
+   */
+  ON(new GroupsMigration(true, true, true));
 
   private static final String ENV_VAR = "GERRIT_NOTEDB_GROUPS";
   private static final String SYS_PROP = "gerrit.notedb.groups";

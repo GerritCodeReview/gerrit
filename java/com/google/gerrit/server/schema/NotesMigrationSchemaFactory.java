@@ -76,6 +76,11 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
     }
 
     if (groupsMigration.readFromNoteDb()) {
+      if (groupsMigration.disableGroupReviewDb()) {
+        // Disable writes to group tables in ReviewDb.
+        db = new NoGroupsReviewDbWrapper(db);
+      }
+
       // If reading groups from NoteDb is configured, groups should not be read from ReviewDb.
       // Make sure that any attempt to read a group from ReviewDb anyway fails with an exception.
       db = new DisallowReadFromGroupsReviewDbWrapper(db);

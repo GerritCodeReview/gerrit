@@ -205,13 +205,15 @@ public class GroupsUpdate {
   public InternalGroup createGroup(
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, ConfigInvalidException {
-    // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
-    InternalGroup createdGroupInReviewDb =
-        createGroupInReviewDb(ReviewDbUtil.unwrapDb(db), groupCreation, groupUpdate);
+    if (!groupsMigration.disableGroupReviewDb()) {
+      // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
+      InternalGroup createdGroupInReviewDb =
+          createGroupInReviewDb(ReviewDbUtil.unwrapDb(db), groupCreation, groupUpdate);
 
-    if (!groupsMigration.writeToNoteDb()) {
-      updateCachesOnGroupCreation(createdGroupInReviewDb);
-      return createdGroupInReviewDb;
+      if (!groupsMigration.writeToNoteDb()) {
+        updateCachesOnGroupCreation(createdGroupInReviewDb);
+        return createdGroupInReviewDb;
+      }
     }
 
     // TODO(aliceks): Add retry mechanism.
@@ -243,13 +245,15 @@ public class GroupsUpdate {
   public UpdateResult updateGroupInDb(
       ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
-    AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
-    UpdateResult reviewDbUpdateResult =
-        updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
+    UpdateResult reviewDbUpdateResult = null;
+    if (!groupsMigration.disableGroupReviewDb()) {
+      // TODO(ekempin): Don't read groups from ReviewDb if reading groups from NoteDb is configured
+      AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
+      reviewDbUpdateResult = updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
 
-    if (!groupsMigration.writeToNoteDb()) {
-      return reviewDbUpdateResult;
+      if (!groupsMigration.writeToNoteDb()) {
+        return reviewDbUpdateResult;
+      }
     }
 
     // TODO(aliceks): Add retry mechanism.

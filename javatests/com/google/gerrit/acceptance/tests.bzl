@@ -9,10 +9,7 @@ def acceptance_tests(
   junit_tests(
     name = group,
     deps = deps + [
-        # j/c/g/gerrit/acceptance:lib exports all dependencies that
-        # acceptance tests need. Additional dependencies should go
-        # there.
-        '//java/com/google/gerrit/acceptance:lib',
+      '//java/com/google/gerrit/acceptance:lib',
     ],
     tags = labels + [
       'acceptance',

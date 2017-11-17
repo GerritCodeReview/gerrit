@@ -12,26 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.diff;
+package com.google.gerrit.server.patch;
 
 import org.eclipse.jgit.diff.Sequence;
 
-public class CharText extends Sequence {
+class CharText extends Sequence {
   private final String content;
 
-  public CharText(Text text, int s, int e) {
+  CharText(Text text, int s, int e) {
     content = text.getString(s, e, false /* keep LF */);
   }
 
-  public char charAt(int idx) {
+  char charAt(int idx) {
     return content.charAt(idx);
   }
 
-  public boolean isLineStart(int b) {
+  boolean isLineStart(int b) {
     return b == 0 || charAt(b - 1) == '\n';
   }
 
-  public boolean contains(int b, int e, char c) {
+  boolean contains(int b, int e, char c) {
     for (; b < e; b++) {
       if (charAt(b) == c) {
         return true;

@@ -261,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "b02901a1_bd8c20c3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-11-17T16:54:20Z",
+      "side": 1,
+      "message": "I have a fix for this which will be a separate change.",
+      "parentUuid": "2e0ed27e_5dd25f8e",
+      "revId": "d6e9b2e22cc8093109022a212ab7015429932629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02fb70ae_44ad4e94",
         "filename": "javatests/com/google/gerrit/server/group/db/AbstractGroupTest.java",
         "patchSetId": 5

@@ -95,6 +95,7 @@ limitations under the License.
           baseImage: Object,
           revisionImage: Object,
           projectName: String,
+          parentIndex: Number,
           _builder: Object,
           _groups: Array,
           _layers: Array,
@@ -251,18 +252,25 @@ limitations under the License.
         },
 
         _getDiffBuilder(diff, comments, prefs) {
+          let builder = null;
           if (this.isImageDiff) {
-            return new GrDiffBuilderImage(diff, comments, prefs,
+            builder = new GrDiffBuilderImage(diff, comments, prefs,
                 this.projectName, this.diffElement, this.baseImage,
                 this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-            return new GrDiffBuilderSideBySide(diff, comments, prefs,
+            builder = new GrDiffBuilderSideBySide(diff, comments, prefs,
                 this.projectName, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
-            return new GrDiffBuilderUnified(diff, comments, prefs,
+            builder = new GrDiffBuilderUnified(diff, comments, prefs,
                 this.projectName, this.diffElement, this._layers);
           }
-          throw Error('Unsupported diff view mode: ' + this.viewMode);
+          if (!builder) {
+            throw Error('Unsupported diff view mode: ' + this.viewMode);
+          }
+          if (this.parentIndex) {
+            builder.setParentIndex(this.parentIndex);
+          }
+          return builder;
         },
 
         _clearDiffContent() {

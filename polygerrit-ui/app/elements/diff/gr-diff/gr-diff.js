@@ -137,6 +137,11 @@
         notify: true,
         computed: '_computeIsBlameLoaded(_blame)',
       },
+
+      _parentIndex: {
+        type: Number,
+        computed: '_computeParentIndex(patchRange.*)',
+      },
     },
 
     behaviors: [
@@ -716,6 +721,16 @@
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
+    },
+
+    /**
+     * @return {number|null}
+     */
+    _computeParentIndex(patchRangeRecord) {
+      if (!this.isMergeParent(patchRangeRecord.base.basePatchNum)) {
+        return null;
+      }
+      return this.getParentIndex(patchRangeRecord.base.basePatchNum);
     },
   });
 })();

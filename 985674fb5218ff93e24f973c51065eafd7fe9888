@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bf5e6eb_a9519732",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1054782
+      },
+      "writtenOn": "2017-11-17T22:30:42Z",
+      "side": 1,
+      "message": "The wrapping changed here to become more aware of surrogates: `p\"\u003e👍\u003c/span` is ten code points.\n\nIt looks like what happened is that _addNewlines didn\u0027t process surrogate pairs correctly -- the cases where surrogates were handled correctly was limited to those cases where the line was under the column limit to begin with, due to the old call to _getTextLength() before calling _addNewlines().",
+      "revId": "985674fb5218ff93e24f973c51065eafd7fe9888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

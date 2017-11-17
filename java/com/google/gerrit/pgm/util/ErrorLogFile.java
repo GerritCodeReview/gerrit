@@ -19,13 +19,14 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import net.logstash.log4j.JSONEventLayoutV1;
-import org.apache.log4j.ConsoleAppender;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
@@ -35,9 +36,19 @@ public class ErrorLogFile {
   public static void errorOnlyConsole() {
     LogManager.resetConfiguration();
 
-    final PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
-
+    Layout<? extends Serializable> layout = PatternLayout.newBuilder()
+            .withPattern("%-5p %c %x: %m%n")
+            .withPatternSelector(null)
+            .withConfiguration(null)
+            .withRegexReplacement(null)
+            .withCharset(null)
+            .withAlwaysWriteExceptions(null)
+            .withNoConsoleNoAnsi(null)
+            .withHeader(null)
+            .withFooter(null)
+            .build();
+    //final ConsoleAppender dst = ConsoleAppender.newBuilder().withLayout(layout)
+    //  .setTarget("System.err").build();
     final ConsoleAppender dst = new ConsoleAppender();
     dst.setLayout(layout);
     dst.setTarget("System.err");

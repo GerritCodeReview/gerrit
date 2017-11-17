@@ -47,6 +47,7 @@
     this._outputEl = outputEl;
     this.groups = [];
     this._blameInfo = null;
+    this._parentIndex = undefined;
 
     this.layers = layers || [];
 
@@ -353,6 +354,7 @@
     threadGroupEl.isOnParent = isOnParent;
     threadGroupEl.projectName = this._projectName;
     threadGroupEl.range = range;
+    threadGroupEl.parentIndex = this._parentIndex;
     return threadGroupEl;
   };
 
@@ -584,6 +586,10 @@
         }
       }
     }
+  };
+
+  GrDiffBuilder.prototype.setParentIndex = function(index) {
+    this._parentIndex = index;
   };
 
   /**

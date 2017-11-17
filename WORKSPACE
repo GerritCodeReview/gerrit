@@ -199,20 +199,23 @@ FLOGGER_VERS = "0.4"
 
 maven_jar(
     name = "flogger",
-    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "9c8863dcc913b56291c0c88e6d4ca9715b43df98",
+    artifact = "com.google.flogger:flogger:LOCAL-SNAPSHOT",
+    #sha1 = "9c8863dcc913b56291c0c88e6d4ca9715b43df98",
+    repository = MAVEN_LOCAL,
 )
 
 maven_jar(
-    name = "flogger-log4j-backend",
-    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "17aa5e31daa1354187e14b6978597d630391c028",
+    name = "flogger-log4j2-backend",
+    artifact = "com.google.flogger:flogger-log4j2-backend:LOCAL-SNAPSHOT",
+    #sha1 = "17aa5e31daa1354187e14b6978597d630391c028",
+    repository = MAVEN_LOCAL,
 )
 
 maven_jar(
     name = "flogger-system-backend",
-    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-    sha1 = "287b569d76abcd82f9de87fe41829fbc7ebd8ac9",
+    artifact = "com.google.flogger:flogger-system-backend:LOCAL-SNAPSHOT",
+    #sha1 = "287b569d76abcd82f9de87fe41829fbc7ebd8ac9",
+    repository = MAVEN_LOCAL,
 )
 
 maven_jar(
@@ -268,33 +271,47 @@ maven_jar(
 )
 
 maven_jar(
-    name = "impl-log4j",
-    artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
-    sha1 = "12f5c685b71c3027fd28bcf90528ec4ec74bf818",
-)
-
-maven_jar(
     name = "jcl-over-slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
     sha1 = "33fbc2d93de829fa5e263c5ce97f5eab8f57d53e",
 )
 
+LOG4J_VERS = "2.11.2"
+
 maven_jar(
-    name = "log4j",
-    artifact = "log4j:log4j:1.2.17",
-    sha1 = "5af35056b4d257e4b64b9e8069c0746e8b08629f",
+    name = "impl_log4j",
+    artifact = "org.apache.logging.log4j:log4j-slf4j-impl:" + LOG4J_VERS,
+    sha1 = "4d44e4edc4a7fb39f09b95b09f560a15976fa1ba",
 )
 
 maven_jar(
-    name = "jsonevent-layout",
-    artifact = "net.logstash.log4j:jsonevent-layout:1.7",
-    sha1 = "507713504f0ddb75ba512f62763519c43cf46fde",
+    name = "log4j-api",
+    artifact = "org.apache.logging.log4j:log4j-api:" + LOG4J_VERS,
+    sha1 = "f5e9a2ffca496057d6891a3de65128efc636e26e",
 )
 
 maven_jar(
-    name = "json-smart",
-    artifact = "net.minidev:json-smart:1.1.1",
-    sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
+    name = "log4j-core",
+    artifact = "org.apache.logging.log4j:log4j-core:" + LOG4J_VERS,
+    sha1 = "6c2fb3f5b7cd27504726aef1b674b542a0c9cf53",
+)
+
+maven_jar(
+    name = "log4j-web",
+    artifact = "org.apache.logging.log4j:log4j-web:" + LOG4J_VERS,
+    sha1 = "d11ebc03fdf773d32143e0f7ea0fc131c21311e7",
+)
+
+maven_jar(
+    name = "log4j1.2-api",
+    artifact = "org.apache.logging.log4j:log4j-1.2-api:" + LOG4J_VERS,
+    sha1 = "afb9ef0baba766725c3733e6a2626877dba72715",
+)
+
+maven_jar(
+    name = "disruptor",
+    artifact = "com.lmax:disruptor:3.3.7",
+    sha1 = "8549fdcbda5d64db98871e64a4cd0045611686d1",
 )
 
 maven_jar(
@@ -1067,9 +1084,27 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jackson_annotations",
+    artifact = "com.fasterxml.jackson.core:jackson-annotations:2.9.8",
+    sha1 = "ba7f0e6f8f1b28d251eeff2a5604bed34c53ff35",
+)
+
+maven_jar(
     name = "jackson-core",
     artifact = "com.fasterxml.jackson.core:jackson-core:2.9.8",
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
+)
+
+maven_jar(
+    name = "jackson_databind",
+    artifact = "com.fasterxml.jackson.core:jackson-databind:2.9.8",
+    sha1 = "11283f21cc480aa86c4df7a0a3243ec508372ed2",
+)
+
+maven_jar(
+    name = "jackson_dataformat_smile",
+    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.9.8",
+    sha1 = "dbb47a052ac2b249ae004ce32e1e0c8bd8ee526c",
 )
 
 TESTCONTAINERS_VERSION = "1.11.4"

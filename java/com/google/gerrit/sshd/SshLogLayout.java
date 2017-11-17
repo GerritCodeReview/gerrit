@@ -14,14 +14,25 @@
 
 package com.google.gerrit.sshd;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Node;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginBuilderFactory;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.eclipse.jgit.util.QuotedString;
 
-public final class SshLogLayout extends Layout {
+@Plugin(
+    name = "SshLogLayout",
+    category = Node.CATEGORY,
+    elementType = Layout.ELEMENT_TYPE,
+    printObject = true)
+public final class SshLogLayout extends AbstractStringLayout {
 
   private static final String P_SESSION = "session";
   private static final String P_USER_NAME = "userName";
@@ -37,7 +48,29 @@ public final class SshLogLayout extends Layout {
   private final SimpleDateFormat tzFormat;
   private char[] timeZone;
 
+  public static class Builder<B extends Builder<B>> extends AbstractStringLayout.Builder<B>
+      implements org.apache.logging.log4j.core.util.Builder<SshLogLayout> {
+
+    public Builder() {
+      super();
+      setCharset(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public SshLogLayout build() {
+      return new SshLogLayout(getConfiguration());
+    }
+  }
+
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
   public SshLogLayout() {
+    this(null);
+  }
+
+  private SshLogLayout(final Configuration config) {
+    super(config, StandardCharsets.UTF_8, null, null);
+
     final TimeZone tz = TimeZone.getDefault();
     calendar = Calendar.getInstance(tz);
 
@@ -45,12 +78,30 @@ public final class SshLogLayout extends Layout {
     tzFormat.setTimeZone(tz);
   }
 
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
+  public static SshLogLayout createLayout() {
+    return new SshLogLayout(null);
+  }
+
+  @PluginBuilderFactory
+  public static <B extends Builder<B>> B newBuilder() {
+    return new Builder<B>().asBuilder();
+  }
+
+  /**
+   * Formats a {@link org.apache.logging.log4j.core.LogEvent} in conformance with the BSD Log record
+   * format.
+   *
+   * @param event The LogEvent
+   * @return the event formatted as a String.
+   */
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(LogEvent event) {
     final StringBuffer buf = new StringBuffer(128);
 
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
     req(P_SESSION, buf, event);
@@ -58,7 +109,7 @@ public final class SshLogLayout extends Layout {
     req(P_ACCOUNT_ID, buf, event);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    buf.append(event.getMessage().getFormattedMessage());
 
     opt(P_WAIT, buf, event);
     opt(P_EXEC, buf, event);
@@ -104,8 +155,8 @@ public final class SshLogLayout extends Layout {
     return String.format("%02d", input);
   }
 
-  private void req(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void req(String key, StringBuffer buf, LogEvent event) {
+    Object val = event.getContextData().getValue(key);
     buf.append(' ');
     if (val != null) {
       String s = val.toString();
@@ -119,19 +170,11 @@ public final class SshLogLayout extends Layout {
     }
   }
 
-  private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void opt(String key, StringBuffer buf, LogEvent event) {
+    Object val = event.getContextData().getValue(key);
     if (val != null) {
       buf.append(' ');
       buf.append(val);
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

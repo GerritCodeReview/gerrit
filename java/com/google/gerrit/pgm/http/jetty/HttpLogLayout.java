@@ -14,18 +14,52 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Node;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginBuilderFactory;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 
-public final class HttpLogLayout extends Layout {
+@Plugin(
+    name = "HttpLogLayout",
+    category = Node.CATEGORY,
+    elementType = Layout.ELEMENT_TYPE,
+    printObject = true)
+public final class HttpLogLayout extends AbstractStringLayout {
+
   private final SimpleDateFormat dateFormat;
   private long lastTimeMillis;
   private String lastTimeString;
 
+  public static class Builder<B extends Builder<B>> extends AbstractStringLayout.Builder<B>
+      implements org.apache.logging.log4j.core.util.Builder<HttpLogLayout> {
+
+    public Builder() {
+      super();
+      setCharset(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public HttpLogLayout build() {
+      return new HttpLogLayout(getConfiguration());
+    }
+  }
+
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
   public HttpLogLayout() {
+    this(null);
+  }
+
+  private HttpLogLayout(final Configuration config) {
+    super(config, StandardCharsets.UTF_8, null, null);
+
     final TimeZone tz = TimeZone.getDefault();
     dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
     dateFormat.setTimeZone(tz);
@@ -34,69 +68,71 @@ public final class HttpLogLayout extends Layout {
     lastTimeString = dateFormat.format(new Date(lastTimeMillis));
   }
 
+  /** @deprecated Use {@link #newBuilder()} instead */
+  @Deprecated
+  public static HttpLogLayout createLayout() {
+    return new HttpLogLayout(null);
+  }
+
+  @PluginBuilderFactory
+  public static <B extends Builder<B>> B newBuilder() {
+    return new Builder<B>().asBuilder();
+  }
+
+  /**
+   * Formats a {@link org.apache.logging.log4j.core.LogEvent} in conformance with the BSD Log record
+   * format.
+   *
+   * @param event The LogEvent
+   * @return the event formatted as a String.
+   */
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(final LogEvent event) {
     final StringBuilder buf = new StringBuilder(128);
 
-    opt(buf, event, HttpLog.P_HOST);
+    opt(buf, HttpLog.P_HOST, event);
 
     buf.append(' ');
     buf.append('-'); // identd on client system (never requested)
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_USER);
+    opt(buf, HttpLog.P_USER, event);
 
     buf.append(' ');
     buf.append('[');
-    formatDate(event.getTimeStamp(), buf);
+    formatDate(event.getTimeMillis(), buf);
     buf.append(']');
 
     buf.append(' ');
     buf.append('"');
-    buf.append(event.getMDC(HttpLog.P_METHOD));
+    String val = event.getContextData().getValue(HttpLog.P_METHOD);
+    buf.append(val);
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_RESOURCE));
+    String val2 = event.getContextData().getValue(HttpLog.P_RESOURCE);
+    buf.append(val2);
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_PROTOCOL));
+    String val3 = event.getContextData().getValue(HttpLog.P_PROTOCOL);
+    buf.append(val3);
     buf.append('"');
 
     buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_STATUS));
+    String val4 = event.getContextData().getValue(HttpLog.P_STATUS);
+    buf.append(val4);
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_CONTENT_LENGTH);
+    opt(buf, HttpLog.P_CONTENT_LENGTH, event);
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_LATENCY);
+    dq_opt(buf, HttpLog.P_LATENCY, event);
 
     buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_REFERER);
+    dq_opt(buf, HttpLog.P_REFERER, event);
 
     buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_USER_AGENT);
+    dq_opt(buf, HttpLog.P_USER_AGENT, event);
 
     buf.append('\n');
     return buf.toString();
-  }
-
-  private void opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
-    if (val == null) {
-      buf.append('-');
-    } else {
-      buf.append(val);
-    }
-  }
-
-  private void dq_opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
-    if (val == null) {
-      buf.append('-');
-    } else {
-      buf.append('"');
-      buf.append(val);
-      buf.append('"');
-    }
   }
 
   private void formatDate(long now, StringBuilder sbuf) {
@@ -112,11 +148,23 @@ public final class HttpLogLayout extends Layout {
     }
   }
 
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
+  private void opt(StringBuilder buf, String key, LogEvent event) {
+    String val = event.getContextData().getValue(key);
+    if (val == null) {
+      buf.append('-');
+    } else {
+      buf.append(val);
+    }
   }
 
-  @Override
-  public void activateOptions() {}
+  private void dq_opt(StringBuilder buf, String key, LogEvent event) {
+    String val = event.getContextData().getValue(key);
+    if (val == null) {
+      buf.append('-');
+    } else {
+      buf.append('"');
+      buf.append(val);
+      buf.append('"');
+    }
+  }
 }

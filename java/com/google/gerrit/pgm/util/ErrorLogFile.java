@@ -14,38 +14,54 @@
 
 package com.google.gerrit.pgm.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
-import net.logstash.log4j.JSONEventLayoutV1;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import java.util.TimeZone;
+import org.apache.commons.lang.time.FastDateFormat;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.layout.JsonLayout;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
   static final String JSON_SUFFIX = ".json";
+  static final String PATTERN_LAYOUT = "[%d] [%t] %-5p %c %x: %m%n";
+
+  private static final FastDateFormat ISO_DATETIME_TIME_ZONE_FORMAT_WITH_MILLIS =
+      FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", TimeZone.getTimeZone("UTC"));
 
   public static void errorOnlyConsole() {
-    LogManager.resetConfiguration();
+    final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    context.reconfigure();
 
-    final PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    Layout<? extends Serializable> layout =
+        PatternLayout.newBuilder().withPattern("%-5p %c %x: %m%n").build();
+    final ConsoleAppender dst =
+        ConsoleAppender.newBuilder()
+            .withLayout(layout)
+            .withName("Console")
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .build();
+    dst.start();
 
-    final ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-    dst.activateOptions();
-
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getRootLogger();
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
     root.addAppender(dst);
   }
 
@@ -68,23 +84,41 @@ public class ErrorLogFile {
   }
 
   private static void initLogSystem(Path logdir, Config config) {
-    final Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Logger root = ctx.getRootLogger();
+    for (Appender appender : root.getAppenders().values()) {
+      root.removeAppender(appender);
+    }
 
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
     boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
-      root.addAppender(
-          SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+      Layout<? extends Serializable> layout =
+          PatternLayout.newBuilder().withPattern(PATTERN_LAYOUT).build();
+
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, layout, rotate));
     }
 
     if (json) {
-      root.addAppender(
-          SystemLog.createAppender(
-              logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
+      final JsonLayout layout =
+          JsonLayout.newBuilder()
+              .setLocationInfo(true)
+              .setProperties(true)
+              .setPropertiesAsList(false)
+              .setComplete(false)
+              .setCompact(false)
+              .setEventEol(true)
+              .setCharset(UTF_8)
+              .setIncludeStacktrace(true)
+              .build();
+
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, layout, rotate));
     }
+  }
+
+  public static String dateFormat(long timestamp) {
+    return ISO_DATETIME_TIME_ZONE_FORMAT_WITH_MILLIS.format(timestamp);
   }
 }

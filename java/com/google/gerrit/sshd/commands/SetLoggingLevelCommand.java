@@ -16,19 +16,20 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Enumeration;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -38,9 +39,6 @@ import org.kohsuke.args4j.Argument;
   runsAt = MASTER_OR_SLAVE
 )
 public class SetLoggingLevelCommand extends SshCommand {
-  private static final String LOG_CONFIGURATION = "log4j.properties";
-  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
-
   private enum LevelOption {
     ALL,
     TRACE,
@@ -65,12 +63,22 @@ public class SetLoggingLevelCommand extends SshCommand {
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
-          logger.hasMoreElements();
-          ) {
-        Logger log = logger.nextElement();
-        if (name == null || log.getName().contains(name)) {
-          log.setLevel(Level.toLevel(level.name()));
+      Logger logger = LogManager.getLogger();
+      if (name == null) {
+        setAllLogLevel(Level.toLevel(level.name()));
+      } else {
+        if (name.endsWith(".")) {
+          if (logger.getName().contains(name.replaceAll("\\.$", ""))) {
+            setLogLevel(name, Level.toLevel(level.name()));
+          }
+        } else if (name.endsWith(".*")) {
+          if (logger.getName().contains(name.replaceAll("\\.\\*$", ""))) {
+            setLogLevel(name, Level.toLevel(level.name()));
+          }
+        } else {
+          if (logger.getName().contains(name)) {
+            setLogLevel(name, Level.toLevel(level.name()));
+          }
         }
       }
     }
@@ -78,15 +86,28 @@ public class SetLoggingLevelCommand extends SshCommand {
 
   @SuppressWarnings("unchecked")
   private static void reset() throws MalformedURLException {
-    for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
-      logger.nextElement().setLevel(null);
-    }
+    final LoggerContext context = (LoggerContext) LogManager.getContext(false);
+    context.reconfigure();
+  }
 
-    String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
-    if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
+  private static void setLogLevel(String name, Level level) {
+    if (name.endsWith(".")) {
+      Configurator.setAllLevels(name.replaceAll("\\.$", ""), level);
+    } else if (name.endsWith(".*")) {
+      Configurator.setAllLevels(name.replaceAll("\\.\\*$", ""), level);
     } else {
-      PropertyConfigurator.configure(new URL(path));
+      Map<String, Level> map = new HashMap<>();
+      map.put(name, level);
+      Configurator.setLevel(map);
     }
+  }
+
+  private static void setAllLogLevel(Level level) {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    Configuration config = ctx.getConfiguration();
+    for (LoggerConfig loggerConfig : config.getLoggers().values()) {
+      loggerConfig.setLevel(level);
+    }
+    ctx.updateLoggers();
   }
 }

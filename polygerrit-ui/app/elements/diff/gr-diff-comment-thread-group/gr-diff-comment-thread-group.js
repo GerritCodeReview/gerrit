@@ -30,6 +30,10 @@
         type: Boolean,
         value: false,
       },
+      parentIndex: {
+        type: Number,
+        value: null,
+      },
       _threads: {
         type: Array,
         value() { return []; },
